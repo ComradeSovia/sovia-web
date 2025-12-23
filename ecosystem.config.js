@@ -2,9 +2,8 @@ module.exports = {
   apps: [
     {
       name: "sovia-web",
-      script: "npm",
-      args: "run start",
-      env_file: ".env.production",
+      script: "bash",
+      args: '-lc "set -a && source .env.production && pnpm start"',
     },
   ],
 };
