@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SoundCard } from "@/components/sound-card";
 import { filterMusic } from "../../helper/filter-music";
 import type { MusicWork } from "@/definitions/data-type/music";
 
 const PAGE_SIZE = 50;
+const DEBOUNCE_DELAY = 300; // ms
 
 export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
   const router = useRouter();
@@ -14,6 +15,14 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
   const query = searchParams.get("q") ?? "";
   const page = Math.max(1, Number(searchParams.get("page") ?? 1));
+
+  // Local input state for debounce
+  const [inputValue, setInputValue] = useState(query);
+
+  // Sync input when URL changes (back/forward navigation)
+  useEffect(() => {
+    setInputValue(query);
+  }, [query]);
 
   const filtered = useMemo(() => {
     return filterMusic(musicWorks, query).filter((m) => m.u2bId);
@@ -26,19 +35,28 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
     page * PAGE_SIZE
   );
 
-  function updateParams(next: { q?: string; page?: number }) {
+  // Debounced URL update
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (inputValue) {
+        params.set("q", inputValue);
+        params.set("page", "1");
+      } else {
+        params.delete("q");
+        params.set("page", "1");
+      }
+
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }, DEBOUNCE_DELAY);
+
+    return () => clearTimeout(timer);
+  }, [inputValue, router, searchParams]);
+
+  function updatePage(nextPage: number) {
     const params = new URLSearchParams(searchParams.toString());
-
-    if (next.q !== undefined) {
-      if (next.q) params.set("q", next.q);
-      else params.delete("q");
-      params.set("page", "1"); // reset page on search
-    }
-
-    if (next.page !== undefined) {
-      params.set("page", String(next.page));
-    }
-
+    params.set("page", String(nextPage));
     router.replace(`?${params.toString()}`, { scroll: false });
   }
 
@@ -50,9 +68,9 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
         <input
           className="mx-auto w-full max-w-xl rounded-xl border border-yellow-300/40 bg-red-950/60 px-4 py-3 text-yellow-100 placeholder-yellow-200/50 focus:outline-none focus:border-yellow-300 focus:ring-2 focus:ring-yellow-300/40"
           placeholder="Search title, series..."
-          value={query}
+          value={inputValue}
           onChange={(e) => {
-            updateParams({ q: e.target.value });
+            setInputValue(e.target.value);
           }}
         />
       </div>
@@ -68,7 +86,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
           <button
             className="btn-outline"
             disabled={page <= 1}
-            onClick={() => updateParams({ page: page - 1 })}
+            onClick={() => updatePage(page - 1)}
             type="button"
           >
             Prev
@@ -81,7 +99,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
           <button
             className="btn-outline"
             disabled={page >= totalPages}
-            onClick={() => updateParams({ page: page + 1 })}
+            onClick={() => updatePage(page + 1)}
             type="button"
           >
             Next
