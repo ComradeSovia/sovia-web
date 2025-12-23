@@ -19,11 +19,10 @@ export function SoundCard({ work }: { work: MusicWork }) {
         {work.series && <div className="meta">{work.series}</div>}
       </div>
 
-      <div className="flex gap-3 pt-2">
+      <div className="flex gap-3 pt-2 flex-wrap">
         <Link href={`/sound/${work.path}`} className="btn-outline">
           Details
         </Link>
-
         <a
           href={`https://www.youtube.com/watch?v=${work.u2bId}`}
           target="_blank"

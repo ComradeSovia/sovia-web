@@ -20,9 +20,7 @@ body {
 body {
   background-color: rgb(var(--red-900));
   color: rgb(var(--amber-100));
-  font-feature-settings:
-    "kern" 1,
-    "liga" 1;
+  font-feature-settings: "kern" 1, "liga" 1;
   text-rendering: optimizeLegibility;
 }
 
@@ -90,9 +88,10 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.75rem;
   border-radius: 0.75rem;
   background-color: color-mix(in srgb, rgb(var(--yellow-300)) 90%, transparent);
-  padding: 0.75rem 1.5rem;
+  padding: 0.35rem 0.5rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   color: rgb(var(--red-900));
@@ -108,9 +107,10 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.75rem;
   border-radius: 0.75rem;
   border: 1px solid color-mix(in srgb, rgb(var(--yellow-300)) 60%, transparent);
-  padding: 0.75rem 1.5rem;
+  padding: 0.35rem 0.5rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   color: rgb(var(--amber-100));
