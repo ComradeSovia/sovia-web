@@ -5,6 +5,8 @@ import { U2BThumbnail } from "@/components/u2b-thumbnail";
 import { loadAllMusicWorks } from "@/lib/load-music";
 import { loadMusicDescription, loadMusicLyrics } from "@/lib/load-music-md";
 
+export const dynamic = "force-dynamic";
+
 export default async function SoundDetailPage({
   params,
 }: {
