@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/* =========================
+   Global base settings (Tailwind v4, linter-safe)
+   ========================= */
+:root {
+  /* Color tokens extracted from Tailwind theme to CSS variables */
+  --red-900: 127 29 29;
+  --red-950: 69 10 10;
+  --amber-100: 254 243 199;
+  --yellow-200: 254 240 138;
+  --yellow-300: 253 224 71;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: rgb(var(--red-900));
+  color: rgb(var(--amber-100));
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* =========================
+   Text selection highlight
+   ========================= */
+::selection {
+  background: color-mix(in srgb, rgb(var(--yellow-300)) 85%, transparent);
+  color: rgb(var(--red-900));
+}
+
+/* =========================
+   Headings poster style
+   ========================= */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgb(var(--yellow-200));
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.875rem, 4vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+}
+
+/* =========================
+   Body text
+   ========================= */
+p {
+  line-height: 1.75;
+  color: color-mix(in srgb, rgb(var(--amber-100)) 90%, transparent);
+}
+
+strong {
+  color: rgb(var(--yellow-200));
+  font-weight: 600;
+}
+
+/* =========================
+   Links
+   ========================= */
+a {
+  transition: color 150ms ease;
+}
+
+a:hover {
+  color: rgb(var(--yellow-200));
+}
+
+/* =========================
+   Buttons propaganda style
+   ========================= */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background-color: color-mix(in srgb, rgb(var(--yellow-300)) 90%, transparent);
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgb(var(--red-900));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: background-color 150ms ease;
+}
+
+.btn-primary:hover {
+  background-color: rgb(var(--yellow-300));
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, rgb(var(--yellow-300)) 60%, transparent);
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgb(var(--amber-100));
+  transition: background-color 150ms ease;
+}
+
+.btn-outline:hover {
+  background-color: color-mix(in srgb, rgb(var(--yellow-300)) 15%, transparent);
+}
+
+/* =========================
+   Decorative divider
+   ========================= */
+.hr {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, rgb(var(--yellow-300)) 60%, transparent),
+    transparent
+  );
+}
+
+/* =========================
+   Manifesto / slogan block
+   ========================= */
+.manifesto {
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, rgb(var(--yellow-300)) 30%, transparent);
+  background-color: color-mix(in srgb, rgb(var(--red-950)) 40%, transparent);
+  padding: 1.5rem;
+  font-size: 1.125rem;
+  letter-spacing: 0.05em;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================
+   Cards for projects / plans
+   ========================= */
+.card {
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, rgb(var(--yellow-300)) 20%, transparent);
+  background-color: color-mix(in srgb, rgb(var(--red-950)) 35%, transparent);
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: border-color 150ms ease;
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, rgb(var(--yellow-300)) 40%, transparent);
+}
+
+/* =========================
+   Small meta text industrial feel
+   ========================= */
+.meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, rgb(var(--yellow-200)) 70%, transparent);
+}
+
+/* =========================
+   Scrollbar styling
+   ========================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #450a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, rgb(var(--yellow-300)) 50%, transparent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, rgb(var(--yellow-300)) 80%, transparent);
+}
