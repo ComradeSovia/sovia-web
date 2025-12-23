@@ -14,9 +14,6 @@ export function U2BThumbnail({ u2bId, alt }: Props) {
       height={270}
       unoptimized
       className="aspect-video w-full rounded-xl object-cover"
-      onError={(e) => {
-        (e.target as HTMLImageElement).style.display = "none";
-      }}
     />
   );
 }
