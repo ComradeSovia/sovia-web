@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { SoundCard } from "@/components/sound-card";
-import { filterMusic } from "../../helper/filter-music";
 import type { MusicWork } from "@/definitions/data-type/music";
+import { filterMusic } from "../../helper/filter-music";
 
 const PAGE_SIZE = 50;
 const DEBOUNCE_DELAY = 300; // ms
@@ -30,10 +30,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
-  const pageItems = filtered.slice(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE
-  );
+  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   // Debounced URL update
   useEffect(() => {

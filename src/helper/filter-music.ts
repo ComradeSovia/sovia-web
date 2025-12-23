@@ -12,8 +12,8 @@ export function filterMusic(list: MusicWork[], query: string): MusicWork[] {
         .some((field) =>
           String(field ?? "")
             .toLowerCase()
-            .includes(t.toLowerCase())
-        )
-    )
+            .includes(t.toLowerCase()),
+        ),
+    ),
   );
 }
