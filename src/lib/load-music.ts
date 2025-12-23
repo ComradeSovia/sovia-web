@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { MusicWork } from "@/definitions/data-type/music";
 import { DATA_MUSIC_META } from "@/config/data";
+import type { MusicWork } from "@/definitions/data-type/music";
 
 const MUSIC_DIR = path.join(process.cwd(), DATA_MUSIC_META);
 
@@ -23,9 +23,9 @@ type ThumbnailCacheEntry = {
 };
 
 let lastDirCheck = 0;
-let fileMetaCache = new Map<string, FileMeta>();
-let workCache = new Map<string, CachedWork>();
-let thumbnailCache = new Map<string, ThumbnailCacheEntry>();
+const fileMetaCache = new Map<string, FileMeta>();
+const workCache = new Map<string, CachedWork>();
+const thumbnailCache = new Map<string, ThumbnailCacheEntry>();
 
 const DIR_CHECK_INTERVAL = 5 * 60 * 1000; // 5 min
 const THUMB_OK_TTL = 60 * 60 * 1000; // 1 hour
@@ -52,7 +52,7 @@ async function checkYouTubeThumbnail(videoId: string): Promise<boolean> {
       method: "HEAD",
       headers: { "User-Agent": "Mozilla/5.0" },
       next: { revalidate: 0 },
-    }
+    },
   );
 
   const exists = res.ok;

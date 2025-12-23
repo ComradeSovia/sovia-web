@@ -1,12 +1,9 @@
 import { notFound } from "next/navigation";
-import { loadAllMusicWorks } from "@/lib/load-music";
-import {
-  loadMusicDescription,
-  loadMusicLyrics,
-} from "@/lib/load-music-md";
-import { U2BThumbnail } from "@/components/u2b-thumbnail";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
+import { U2BThumbnail } from "@/components/u2b-thumbnail";
+import { loadAllMusicWorks } from "@/lib/load-music";
+import { loadMusicDescription, loadMusicLyrics } from "@/lib/load-music-md";
 
 export default async function SoundDetailPage({
   params,
@@ -35,9 +32,7 @@ export default async function SoundDetailPage({
         {work.series && <div className="meta">{work.series}</div>}
 
         <p>
-          {work.original
-            ? `Adapted from ${work.original}`
-            : "Original work"}
+          {work.original ? `Adapted from ${work.original}` : "Original work"}
         </p>
 
         <a
@@ -53,7 +48,9 @@ export default async function SoundDetailPage({
       {description && (
         <section className="space-y-4">
           <h2>Description</h2>
-          <ReactMarkdown remarkPlugins={[remarkBreaks]}>{description}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+            {description}
+          </ReactMarkdown>
         </section>
       )}
 

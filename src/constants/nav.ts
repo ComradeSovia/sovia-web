@@ -3,8 +3,8 @@ import { Routes } from "./routes";
 
 export const NAV_ITEMS = [
   Routes.Center,
-  Routes.Notice,
+  // Routes.Notice,
   Routes.Sound,
-  Routes.Gallery,
-  Routes.Report,
+  // Routes.Gallery,
+  // Routes.Report,
 ] satisfies RouteItem[];

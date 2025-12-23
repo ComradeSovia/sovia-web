@@ -20,10 +20,7 @@ export function SoundCard({ work }: { work: MusicWork }) {
       </div>
 
       <div className="flex gap-3 pt-2">
-        <Link
-          href={`/sound/${work.path}`}
-          className="btn-outline"
-        >
+        <Link href={`/sound/${work.path}`} className="btn-outline">
           Details
         </Link>
 
