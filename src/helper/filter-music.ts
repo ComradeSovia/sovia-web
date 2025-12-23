@@ -6,10 +6,14 @@ export function filterMusic(list: MusicWork[], query: string): MusicWork[] {
   const terms = query.toLowerCase().split(/\s+/);
 
   return list.filter((m) =>
-    terms.every((t) =>
+    terms.every((t = "") =>
       [m.title, m.original, m.series, m.vid, m.u2bId]
         .filter(Boolean)
-        .some((field) => field?.toLowerCase().includes(t))
+        .some((field) =>
+          String(field ?? "")
+            .toLowerCase()
+            .includes(t.toLowerCase())
+        )
     )
   );
 }
