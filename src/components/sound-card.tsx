@@ -1,11 +1,8 @@
+import Link from "next/link";
 import { U2BThumbnail } from "@/components/u2b-thumbnail";
 import type { MusicWork } from "@/definitions/data-type/music";
 
-export interface SoundCardProps {
-  work: MusicWork;
-}
-
-export function SoundCard({ work }: SoundCardProps) {
+export function SoundCard({ work }: { work: MusicWork }) {
   if (!work.u2bId) return null;
 
   return (
@@ -22,15 +19,21 @@ export function SoundCard({ work }: SoundCardProps) {
         {work.series && <div className="meta">{work.series}</div>}
       </div>
 
-      {/* Action */}
-      <div className="pt-2">
+      <div className="flex gap-3 pt-2">
+        <Link
+          href={`/sound/${work.path}`}
+          className="btn-outline"
+        >
+          Details
+        </Link>
+
         <a
           href={`https://www.youtube.com/watch?v=${work.u2bId}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-outline inline-flex items-center justify-center"
+          className="btn-outline"
         >
-          Watch on YouTube
+          YouTube
         </a>
       </div>
     </div>

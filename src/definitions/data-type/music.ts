@@ -1,4 +1,5 @@
 export interface MusicWork {
+  path: string;
   vid: string;
   title: string;
   original?: string;
