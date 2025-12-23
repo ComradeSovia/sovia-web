@@ -1,5 +1,8 @@
-import { UnderConstruction } from "@/components/under-construction";
+import { loadAllMusicWorks } from "@/lib/load-music";
+import { SoundClient } from "./client";
 
-export default function SoundPage() {
-  return <UnderConstruction title="Sound" />;
+export default async function MusicPage() {
+  const musicWorks = await loadAllMusicWorks();
+
+  return <SoundClient musicWorks={musicWorks} />;
 }
