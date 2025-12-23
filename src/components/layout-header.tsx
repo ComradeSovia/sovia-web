@@ -5,6 +5,8 @@ const REQUEST_BUTTON_LABEL = "REQUEST";
 const REQUEST_BUTTON_HREF = "/request";
 
 export function LayoutHeader() {
+  const requestButton = null
+  /*
   const requestButton = (
     <a
       href={REQUEST_BUTTON_HREF}
@@ -13,6 +15,7 @@ export function LayoutHeader() {
       {REQUEST_BUTTON_LABEL}
     </a>
   );
+  */
 
   return (
     <header className="sticky top-0 z-20 border-b border-yellow-300/20 bg-red-950/60 backdrop-blur">
