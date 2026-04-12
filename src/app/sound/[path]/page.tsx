@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import { U2BThumbnail } from "@/components/u2b-thumbnail";
-import { loadAllMusicWorks } from "@/lib/load-music";
-import { loadMusicDescription, loadMusicLyrics } from "@/lib/load-music-md";
+import { loadMusicWorkWithContent } from "@/lib/load-music";
 
 export const dynamic = "force-dynamic";
 
@@ -14,15 +13,20 @@ export default async function SoundDetailPage({
 }) {
   const { path } = await params;
 
-  const works = await loadAllMusicWorks();
-  const work = works.find((w) => w.path === path);
+  const work = loadMusicWorkWithContent(path);
 
   if (!work || !work.u2bId) {
     notFound();
   }
 
-  const description = loadMusicDescription(work.vid);
-  const lyrics = loadMusicLyrics(work.vid);
+  const descriptionLangs = Object.keys(work.descriptions || {});
+  const lyricsLangs = Object.keys(work.lyrics || {});
+
+  const description =
+    descriptionLangs.length > 0
+      ? work.descriptions?.[descriptionLangs[0]]
+      : null;
+  const lyrics = lyricsLangs.length > 0 ? work.lyrics?.[lyricsLangs[0]] : null;
 
   return (
     <section className="space-y-12 max-w-3xl mx-auto">

@@ -7,7 +7,7 @@ export function filterMusic(list: MusicWork[], query: string): MusicWork[] {
 
   return list.filter((m) =>
     terms.every((t = "") =>
-      [m.title, m.original, m.series, m.vid, m.u2bId]
+      [m.title, m.original, m.series, m.path, m.vid, m.u2bId]
         .filter(Boolean)
         .some((field) =>
           String(field ?? "")

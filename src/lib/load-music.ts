@@ -1,20 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
-import { DATA_MUSIC_META } from "@/config/data";
-import type { MusicWork } from "@/definitions/data-type/music";
+import { DATA_LIST_FILE, DATA_WORKS_DIR } from "@/config/data";
+import type {
+  MusicWork,
+  MusicWorkWithContent,
+} from "@/definitions/data-type/music";
 
-const MUSIC_DIR = path.join(process.cwd(), DATA_MUSIC_META);
+const LIST_FILE_PATH = path.join(process.cwd(), DATA_LIST_FILE);
+const WORKS_DIR_PATH = path.join(process.cwd(), DATA_WORKS_DIR);
 
 /* -------------------------
    Cache structures
 ------------------------- */
 
-type FileMeta = {
-  size: number;
-};
-
-type CachedWork = {
-  work: MusicWork;
+type ListCacheEntry = {
+  works: MusicWork[];
+  mtime: number;
 };
 
 type ThumbnailCacheEntry = {
@@ -22,12 +23,9 @@ type ThumbnailCacheEntry = {
   checkedAt: number;
 };
 
-let lastDirCheck = 0;
-const fileMetaCache = new Map<string, FileMeta>();
-const workCache = new Map<string, CachedWork>();
+let listCache: ListCacheEntry | null = null;
 const thumbnailCache = new Map<string, ThumbnailCacheEntry>();
 
-const DIR_CHECK_INTERVAL = 5 * 60 * 1000; // 5 min
 const THUMB_OK_TTL = 60 * 60 * 1000; // 1 hour
 const THUMB_FAIL_TTL = 5 * 60 * 1000; // 5 min
 
@@ -66,42 +64,65 @@ async function checkYouTubeThumbnail(videoId: string): Promise<boolean> {
 }
 
 /* -------------------------
-   Directory + JSON loader
+   Load list.json with cache
 ------------------------- */
 
-function refreshDirectoryIfNeeded() {
-  const now = Date.now();
-  if (now - lastDirCheck < DIR_CHECK_INTERVAL) {
-    return;
+function loadMusicList(): MusicWork[] {
+  if (!fs.existsSync(LIST_FILE_PATH)) {
+    console.warn(`Music list file not found: ${LIST_FILE_PATH}`);
+    return [];
   }
 
-  lastDirCheck = now;
+  const stat = fs.statSync(LIST_FILE_PATH);
+  const currentMtime = stat.mtimeMs;
 
-  const files = fs.readdirSync(MUSIC_DIR).filter((f) => f.endsWith(".json"));
-  const currentSet = new Set(files);
-
-  // Remove deleted files
-  for (const key of fileMetaCache.keys()) {
-    if (!currentSet.has(key)) {
-      fileMetaCache.delete(key);
-      workCache.delete(key);
-    }
+  // Check cache
+  if (listCache && listCache.mtime === currentMtime) {
+    return listCache.works;
   }
 
-  // Add or update changed files
+  // Load and parse
+  const content = fs.readFileSync(LIST_FILE_PATH, "utf-8");
+  const works = JSON.parse(content) as MusicWork[];
+
+  // Update cache
+  listCache = {
+    works,
+    mtime: currentMtime,
+  };
+
+  return works;
+}
+
+/* -------------------------
+   Load markdown content
+------------------------- */
+
+function loadMarkdownContent(
+  contentKey: string,
+  type: "description" | "lyrics",
+): Record<string, string> {
+  const workDir = path.join(WORKS_DIR_PATH, contentKey);
+
+  if (!fs.existsSync(workDir)) {
+    return {};
+  }
+
+  const files = fs.readdirSync(workDir);
+  const pattern = new RegExp(`^${type}\\.(\\w+)\\.md$`);
+  const result: Record<string, string> = {};
+
   for (const file of files) {
-    const filePath = path.join(MUSIC_DIR, file);
-    const stat = fs.statSync(filePath);
-
-    const prev = fileMetaCache.get(file);
-    if (!prev || prev.size !== stat.size) {
-      const raw = fs.readFileSync(filePath, "utf-8");
-      const work = JSON.parse(raw) as MusicWork;
-
-      fileMetaCache.set(file, { size: stat.size });
-      workCache.set(file, { work });
+    const match = pattern.exec(file);
+    if (match) {
+      const language = match[1];
+      const filePath = path.join(workDir, file);
+      const content = fs.readFileSync(filePath, "utf-8");
+      result[language] = content;
     }
   }
+
+  return result;
 }
 
 /* -------------------------
@@ -109,11 +130,12 @@ function refreshDirectoryIfNeeded() {
 ------------------------- */
 
 export async function loadAllMusicWorks(): Promise<MusicWork[]> {
-  refreshDirectoryIfNeeded();
+  const works = loadMusicList();
 
+  // Filter: only return works with YouTube ID and valid thumbnail
   const result: MusicWork[] = [];
 
-  for (const { work } of workCache.values()) {
+  for (const work of works) {
     if (!work.u2bId) continue;
 
     const ok = await checkYouTubeThumbnail(work.u2bId);
@@ -123,4 +145,33 @@ export async function loadAllMusicWorks(): Promise<MusicWork[]> {
   }
 
   return result;
+}
+
+export function loadMusicWorkWithContent(
+  workPath: string,
+): MusicWorkWithContent | null {
+  const works = loadMusicList();
+  const work = works.find((w) => w.path === workPath);
+
+  if (!work) {
+    return null;
+  }
+
+  const descriptions = loadMarkdownContent(work.vid, "description");
+  const lyrics = loadMarkdownContent(work.vid, "lyrics");
+  const availableLanguages = Array.from(
+    new Set([...Object.keys(descriptions), ...Object.keys(lyrics)]),
+  );
+
+  return {
+    ...work,
+    descriptions,
+    lyrics,
+    availableLanguages,
+  };
+}
+
+export function getAvailableLanguages(workPath: string): string[] {
+  const workWithContent = loadMusicWorkWithContent(workPath);
+  return workWithContent?.availableLanguages || [];
 }
