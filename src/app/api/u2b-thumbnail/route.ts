@@ -3,11 +3,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 import { DATA_CACHE_DIR } from "@/config/data";
 
-const THUMBNAIL_CACHE_DIR = path.join(
-  process.cwd(),
-  DATA_CACHE_DIR,
-  "u2b-thumbnail",
-);
+const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
 
 function getThumbnailCachePath(videoId: string) {
   return path.join(THUMBNAIL_CACHE_DIR, `${videoId}.jpg`);
