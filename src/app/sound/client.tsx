@@ -12,6 +12,7 @@ const DEBOUNCE_DELAY = 300; // ms
 export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const searchParamsString = searchParams.toString();
 
   const query = searchParams.get("q") ?? "";
   const page = Math.max(1, Number(searchParams.get("page") ?? 1));
@@ -35,7 +36,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
   // Debounced URL update
   useEffect(() => {
     const timer = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParamsString);
 
       if (inputValue) {
         params.set("q", inputValue);
@@ -45,11 +46,15 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
         params.set("page", "1");
       }
 
-      router.replace(`?${params.toString()}`, { scroll: false });
+      const nextSearch = params.toString();
+
+      if (nextSearch !== searchParamsString) {
+        router.replace(`?${nextSearch}`, { scroll: false });
+      }
     }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [inputValue, router, searchParams]);
+  }, [inputValue, router, searchParamsString]);
 
   function updatePage(nextPage: number) {
     const params = new URLSearchParams(searchParams.toString());
@@ -74,7 +79,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
       <div className="grid gap-8 md:grid-cols-3">
         {pageItems.map((work) => (
-          <SoundCard key={work.vid} work={work} />
+          <SoundCard key={work.path} work={work} />
         ))}
       </div>
 
