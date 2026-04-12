@@ -27,7 +27,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/sovia-web:prod
+          tags: ghcr.io/comradesovia/sovia-web:prod
 
   deploy:
     runs-on: ubuntu-latest
