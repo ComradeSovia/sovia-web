@@ -6,13 +6,9 @@ import type {
   MusicWorkWithContent,
 } from "@/definitions/data-type/music";
 
-const LIST_FILE_PATH = path.join(process.cwd(), DATA_LIST_FILE);
-const WORKS_DIR_PATH = path.join(process.cwd(), DATA_WORKS_DIR);
-const THUMBNAIL_CACHE_DIR = path.join(
-  process.cwd(),
-  DATA_CACHE_DIR,
-  "u2b-thumbnail",
-);
+const LIST_FILE_PATH = DATA_LIST_FILE;
+const WORKS_DIR_PATH = DATA_WORKS_DIR;
+const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
 
 /* -------------------------
    Cache structures
