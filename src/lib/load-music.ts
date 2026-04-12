@@ -123,19 +123,26 @@ function loadMarkdownContent(
   }
 
   const files = fs.readdirSync(workDir);
-  const pattern = new RegExp(`^${type}\\.(\\w+)\\.md$`);
   const result: Record<string, string> = {};
 
-  for (const file of files) {
-    const match = pattern.exec(file);
-    if (match) {
-      const language = match[1];
-      const filePath = path.join(workDir, file);
-      const content = fs.readFileSync(filePath, "utf-8");
-      result[language] = content;
+  if (type === "lyrics") {
+    const lyricsPath = path.join(workDir, "lyrics.md");
+
+    if (!fs.existsSync(lyricsPath)) {
+      return {};
     }
+
+    result.default = fs.readFileSync(lyricsPath, "utf-8");
+    return result;
   }
 
+  const infoPath = path.join(workDir, "info.md");
+
+  if (!fs.existsSync(infoPath)) {
+    return {};
+  }
+
+  result.default = fs.readFileSync(infoPath, "utf-8");
   return result;
 }
 
