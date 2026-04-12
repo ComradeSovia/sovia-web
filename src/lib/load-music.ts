@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { DATA_LIST_FILE, DATA_WORKS_DIR } from "@/config/data";
+import { DATA_CACHE_DIR, DATA_LIST_FILE, DATA_WORKS_DIR } from "@/config/data";
 import type {
   MusicWork,
   MusicWorkWithContent,
@@ -8,6 +8,11 @@ import type {
 
 const LIST_FILE_PATH = path.join(process.cwd(), DATA_LIST_FILE);
 const WORKS_DIR_PATH = path.join(process.cwd(), DATA_WORKS_DIR);
+const THUMBNAIL_CACHE_DIR = path.join(
+  process.cwd(),
+  DATA_CACHE_DIR,
+  "u2b-thumbnail",
+);
 
 /* -------------------------
    Cache structures
@@ -36,6 +41,15 @@ const THUMB_FAIL_TTL = 5 * 60 * 1000; // 5 min
 async function checkYouTubeThumbnail(videoId: string): Promise<boolean> {
   const cached = thumbnailCache.get(videoId);
   const now = Date.now();
+  const cachePath = path.join(THUMBNAIL_CACHE_DIR, `${videoId}.jpg`);
+
+  if (fs.existsSync(cachePath)) {
+    thumbnailCache.set(videoId, {
+      exists: true,
+      checkedAt: now,
+    });
+    return true;
+  }
 
   if (cached) {
     const ttl = cached.exists ? THUMB_OK_TTL : THUMB_FAIL_TTL;
