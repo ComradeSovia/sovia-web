@@ -122,7 +122,6 @@ function loadMarkdownContent(
     return {};
   }
 
-  const files = fs.readdirSync(workDir);
   const result: Record<string, string> = {};
 
   if (type === "lyrics") {
