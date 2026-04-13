@@ -35,6 +35,10 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
   // Debounced URL update
   useEffect(() => {
+    if (inputValue === query) {
+      return;
+    }
+
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParamsString);
 
@@ -54,7 +58,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
     }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [inputValue, router, searchParamsString]);
+  }, [inputValue, query, router, searchParamsString]);
 
   function updatePage(nextPage: number) {
     const params = new URLSearchParams(searchParams.toString());
