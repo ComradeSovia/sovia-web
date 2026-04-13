@@ -81,7 +81,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
         />
       </div>
 
-      <div className="grid gap-8 md:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2">
         {pageItems.map((work) => (
           <SoundCard key={work.path} work={work} />
         ))}
