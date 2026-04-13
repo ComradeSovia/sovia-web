@@ -10,7 +10,7 @@ export function SoundCard({ work }: { work: MusicWork }) {
       <U2BThumbnail u2bId={work.u2bId} alt={work.title} />
 
       <div className="space-y-1">
-        <h3>{work.title}</h3>
+        <h3 className="text-xs font-semibold">{work.title}</h3>
 
         <p className="text-sm">
           {work.original ? `Adapted from ${work.original}` : "Original work"}
