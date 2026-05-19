@@ -13,36 +13,34 @@ export type CardItem = {
 const CARDS: ReadonlyArray<CardItem> = [
   {
     title: "Music",
-    subTitle: "Reconstructed Works",
+    subTitle: "Lyrics Archive",
     route: Routes.Sound,
     description:
-      "Original and adapted songs shaped by labor, discipline, and collective voice.",
+      "Lyrics for Sovia's remixes, covers, and reconstructed songs, collected for reading and reference.",
   },
   {
-    disabled: true,
-    title: "Gallery",
-    subTitle: "Visual Records",
-    route: Routes.Gallery,
+    title: "Sovia X",
+    subTitle: "Daily Life Images",
+    route: Routes.X,
     description:
-      "Promotional artwork and visual records of everyday life in the surrounding world.",
+      "Daily life pictures, visual notes, and image fragments from Sovia's surrounding world.",
   },
   {
-    disabled: true,
-    title: "Notice",
-    subTitle: "Official Notices",
-    route: Routes.Notice,
+    title: "Spotify",
+    subTitle: "Original Music",
+    route: Routes.Spotify,
     description:
-      "Project updates, releases, and formally issued progress reports.",
+      "A future channel for Sovia's original music, collected as releases become available.",
   },
 ];
 
 export function HomeCards() {
   return (
-    <div className="grid gap-8 md:grid-cols-3">
-      {CARDS.map(({ title, subTitle, route, description, disabled }) => (
+    <div className="grid gap-7 md:grid-cols-3">
+      {CARDS.map(({ title, subTitle, route, description, disabled }, index) => (
         <Card
           key={route.href}
-          title={title}
+          title={`${String(index + 2).padStart(2, "0")} ${title}`}
           subTitle={subTitle}
           route={route}
           disabled={disabled}
