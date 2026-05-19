@@ -28,6 +28,9 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/comradesovia/sovia-web:prod
+          build-args: |
+            NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}
+            SITE_URL=${{ vars.SITE_URL }}
 
   deploy:
     runs-on: ubuntu-latest
