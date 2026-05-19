@@ -6,11 +6,11 @@ export function SoundCard({ work }: { work: MusicWork }) {
   if (!work.u2bId) return null;
 
   return (
-    <div className="card space-y-4">
+    <div className="card flex flex-col gap-4">
       <U2BThumbnail u2bId={work.u2bId} alt={work.title} />
 
       <div className="space-y-1">
-        <h3 className="text-xs font-semibold">{work.title}</h3>
+        <h3 className="text-2xl">{work.title}</h3>
 
         <p className="text-sm">
           {work.original ? `Adapted from ${work.original}` : "Original work"}
@@ -19,9 +19,9 @@ export function SoundCard({ work }: { work: MusicWork }) {
         {work.series && <div className="meta">{work.series}</div>}
       </div>
 
-      <div className="flex gap-3 pt-2 flex-wrap">
+      <div className="flex flex-wrap gap-3 pt-2">
         <Link href={`/sound/${work.path}`} className="btn-outline">
-          Details
+          View Details
         </Link>
         <a
           href={`https://www.youtube.com/watch?v=${work.u2bId}`}
@@ -29,7 +29,7 @@ export function SoundCard({ work }: { work: MusicWork }) {
           rel="noopener noreferrer"
           className="btn-outline"
         >
-          YouTube
+          Watch YouTube
         </a>
       </div>
     </div>

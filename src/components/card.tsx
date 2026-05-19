@@ -26,13 +26,14 @@ export function Card({
   ) : null;
 
   const disabledButtonComponent = route ? (
-    <span className="btn-primary cursor-not-allowed opacity-50">
+    <span className="btn-primary cursor-not-allowed opacity-60">
       (Coming Soon)
     </span>
   ) : null;
 
   return (
-    <div className="card space-y-3 flex flex-col">
+    <div className="card flex min-h-80 flex-col gap-4">
+      <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red-700" />
       {subTitleComponent}
       <h3>{title}</h3>
       <div className="flex-1">{children}</div>

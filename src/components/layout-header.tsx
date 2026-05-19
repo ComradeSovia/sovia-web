@@ -1,11 +1,8 @@
 import { HammerStarMark } from "./hammer-star-mark";
 import { LayoutNav, LayoutNavMobile } from "./layout-nav";
 
-const REQUEST_BUTTON_LABEL = "REQUEST";
-const REQUEST_BUTTON_HREF = "/request";
-
 export function LayoutHeader() {
-  const requestButton = null
+  const requestButton = null;
   /*
   const requestButton = (
     <a
@@ -18,8 +15,8 @@ export function LayoutHeader() {
   */
 
   return (
-    <header className="sticky top-0 z-20 border-b border-yellow-300/20 bg-red-950/60 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <header className="sticky top-0 z-20 border-b-[3px] border-black bg-[#f4ecd6]/90 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
         <HammerStarMark />
 
         <LayoutNav />
@@ -27,8 +24,8 @@ export function LayoutHeader() {
         {requestButton}
       </div>
 
-      <div className="flex border-t border-yellow-300/15 bg-red-950/40 items-center md:hidden">
-        <div className="mx-auto max-w-6xl px-6 py-2 text-xs tracking-[0.35em] text-yellow-200/80">
+      <div className="flex items-center border-t-[3px] border-black bg-red-700 md:hidden">
+        <div className="mx-auto max-w-6xl px-4 py-2 text-xs font-black tracking-[0.16em] text-[#f4ecd6]">
           <LayoutNavMobile />
         </div>
       </div>

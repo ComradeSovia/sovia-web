@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import { LayoutFooter } from "@/components/layout-footer";
 import { LayoutHeader } from "@/components/layout-header";
 import { LayoutMain } from "@/components/layout-main";
 import { RaysBackground } from "@/components/rays-background";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sovia",
@@ -20,8 +17,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className="h-full">
       <body
         className={[
-          inter.className,
-          "min-h-full bg-red-900 text-yellow-100 antialiased",
+          "font-sans",
+          "min-h-full bg-[#f4ecd6] text-black antialiased",
         ].join(" ")}
       >
         <div className="relative min-h-screen overflow-hidden">
