@@ -68,11 +68,11 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
   return (
     <section className="space-y-10">
-      <div className="text-center space-y-4">
+      <div className="grid gap-5 border-[3px] border-black bg-[#f4ecd6] p-5 shadow-[10px_10px_0_#111] md:grid-cols-[1fr_22rem] md:items-end">
         <h1>Sound Works</h1>
 
         <input
-          className="mx-auto w-full max-w-xl rounded-xl border border-yellow-300/40 bg-red-950/60 px-4 py-3 text-yellow-100 placeholder-yellow-200/50 focus:outline-none focus:border-yellow-300 focus:ring-2 focus:ring-yellow-300/40"
+          className="w-full border-[3px] border-black bg-[#f4ecd6] px-4 py-3 font-black uppercase tracking-[0.08em] text-black placeholder-black/45 shadow-[6px_6px_0_#b91c1c] focus:outline-none focus:ring-4 focus:ring-[#f5c400]"
           placeholder="Search title, series..."
           value={inputValue}
           onChange={(e) => {
@@ -88,7 +88,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
       </div>
 
       {totalPages > 1 && (
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <button
             className="btn-outline"
             disabled={page <= 1}

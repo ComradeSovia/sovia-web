@@ -1,9 +1,18 @@
 export function HomeManifesto() {
   return (
-    <div className="manifesto text-center space-y-4">
-      <div className="meta">About Our Department</div>
-      <div className="mx-auto max-w-2xl px-6">
-        <p className="text-justify text-base leading-relaxed tracking-wide">
+    <div className="manifesto grid gap-8 md:grid-cols-[14rem_1fr]">
+      <div className="space-y-4">
+        <div className="inline-block bg-black px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-[#f4ecd6]">
+          About Our Department
+        </div>
+        <div className="bg-black p-5 text-5xl font-black leading-none text-[#f4ecd6]">
+          05
+          <br />
+          THESIS
+        </div>
+      </div>
+      <div>
+        <p className="text-base font-medium leading-relaxed">
           Our Department project uses <strong>music</strong> as a medium for{" "}
           <strong>reinterpretation</strong> and <strong>reconstruction</strong>.
           <br />
