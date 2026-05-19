@@ -104,6 +104,10 @@ function loadMusicList(): MusicWork[] {
   return works;
 }
 
+export function loadMusicIndex(): MusicWork[] {
+  return loadMusicList();
+}
+
 /* -------------------------
    Load markdown content
 ------------------------- */
