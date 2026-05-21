@@ -13,7 +13,7 @@ export function U2BThumbnail({ u2bId, alt }: Props) {
       width={480}
       height={270}
       unoptimized
-      className="aspect-video w-full border-[3px] border-black object-cover"
+      className="aspect-video w-full border-[3px] border-ink object-cover"
     />
   );
 }

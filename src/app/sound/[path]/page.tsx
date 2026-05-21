@@ -151,8 +151,8 @@ export default async function SoundDetailPage({
 
       <U2BThumbnail u2bId={work.u2bId} alt={work.title} />
 
-      <header className="space-y-2">
-        <h1>{work.title}</h1>
+      <header className="space-y-3">
+        <h1 className="text-4xl leading-none sm:text-5xl">{work.title}</h1>
 
         {work.series && <div className="meta">{work.series}</div>}
 
@@ -172,7 +172,7 @@ export default async function SoundDetailPage({
 
       {description && (
         <section className="space-y-4">
-          <h2>Description</h2>
+          <h2 className="text-3xl sm:text-4xl">Description</h2>
           <ReactMarkdown remarkPlugins={[remarkBreaks]}>
             {description}
           </ReactMarkdown>
@@ -181,7 +181,7 @@ export default async function SoundDetailPage({
 
       {lyrics && (
         <section className="space-y-4">
-          <h2>Lyrics</h2>
+          <h2 className="text-3xl sm:text-4xl">Lyrics</h2>
           <ReactMarkdown remarkPlugins={[remarkBreaks]}>{lyrics}</ReactMarkdown>
         </section>
       )}

@@ -2,10 +2,10 @@ export function HomeManifesto() {
   return (
     <div className="manifesto grid gap-8 md:grid-cols-[14rem_1fr]">
       <div className="space-y-4">
-        <div className="inline-block bg-black px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-[#f4ecd6]">
+        <div className="inline-block bg-block px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-relief">
           About Our Department
         </div>
-        <div className="bg-black p-5 text-5xl font-black leading-none text-[#f4ecd6]">
+        <div className="bg-block p-5 text-5xl font-black leading-none text-relief">
           05
           <br />
           THESIS

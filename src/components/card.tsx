@@ -33,7 +33,7 @@ export function Card({
 
   return (
     <div className="card flex min-h-80 flex-col gap-4">
-      <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red-700" />
+      <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red" />
       {subTitleComponent}
       <h3>{title}</h3>
       <div className="flex-1">{children}</div>

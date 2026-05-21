@@ -7,7 +7,7 @@ export function LayoutNav() {
         <a
           key={href}
           href={href}
-          className="-skew-x-12 border-2 border-black bg-[#f4ecd6] px-4 py-2 font-black uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#111] hover:bg-[#f5c400] hover:text-black"
+          className="-skew-x-12 border-2 border-ink bg-paper px-4 py-2 font-black uppercase tracking-[0.12em] text-ink shadow-[4px_4px_0_rgb(var(--shadow))] hover-bg-yellow hover-text-block"
         >
           <span className="inline-block skew-x-12">{label}</span>
         </a>
@@ -23,7 +23,7 @@ export function LayoutNavMobile() {
         <a
           key={href}
           href={href}
-          className="font-black uppercase tracking-[0.12em] text-[#f4ecd6] hover:text-[#f5c400]"
+          className="font-black uppercase tracking-[0.12em] text-relief hover-text-yellow"
         >
           {label}
         </a>

@@ -6,9 +6,45 @@
 :root {
   --ink: 17 17 17;
   --paper: 244 236 214;
+  --block: 17 17 17;
+  --line: 17 17 17;
+  --relief: 244 236 214;
+  --shadow: 17 17 17;
   --red: 185 28 28;
   --deep-red: 69 10 10;
   --yellow: 245 196 0;
+}
+
+:root[data-theme="dark"] {
+  --ink: 232 226 211;
+  --paper: 12 12 11;
+  --block: 3 3 3;
+  --line: 74 70 61;
+  --relief: 232 226 211;
+  --shadow: 0 0 0;
+  --red: 112 35 33;
+  --deep-red: 56 18 17;
+  --yellow: 125 99 34;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: 232 226 211;
+    --paper: 12 12 11;
+    --block: 3 3 3;
+    --line: 74 70 61;
+    --relief: 232 226 211;
+    --shadow: 0 0 0;
+    --red: 112 35 33;
+    --deep-red: 56 18 17;
+    --yellow: 125 99 34;
+    color-scheme: dark;
+  }
 }
 
 html,
@@ -86,6 +122,101 @@ a:hover {
   color: rgb(var(--red));
 }
 
+.bg-paper {
+  background-color: rgb(var(--paper));
+}
+
+.bg-ink {
+  background-color: rgb(var(--ink));
+}
+
+.bg-block {
+  background-color: rgb(var(--block));
+}
+
+.bg-red {
+  background-color: rgb(var(--red));
+}
+
+.bg-yellow {
+  background-color: rgb(var(--yellow));
+}
+
+.text-paper {
+  color: rgb(var(--paper));
+}
+
+.text-relief {
+  color: rgb(var(--relief));
+}
+
+.text-block {
+  color: rgb(var(--block));
+}
+
+.text-ink {
+  color: rgb(var(--ink));
+}
+
+.text-yellow {
+  color: rgb(var(--yellow));
+}
+
+.border-ink {
+  border-color: rgb(var(--line));
+}
+
+.border-red {
+  border-color: rgb(var(--red));
+}
+
+.shadow-ink {
+  box-shadow: 6px 6px 0 rgb(var(--shadow));
+}
+
+.shadow-red {
+  box-shadow: 6px 6px 0 rgb(var(--red));
+}
+
+.hover-bg-yellow:hover {
+  background-color: rgb(var(--yellow));
+}
+
+.hover-text-ink:hover {
+  color: rgb(var(--ink));
+}
+
+.hover-text-block:hover {
+  color: rgb(var(--block));
+}
+
+.hover-text-yellow:hover {
+  color: rgb(var(--yellow));
+}
+
+.hover-bg-block:hover {
+  background-color: rgb(var(--block));
+}
+
+.hover-text-relief:hover {
+  color: rgb(var(--relief));
+}
+
+.theme-grid {
+  background-image:
+    linear-gradient(90deg, rgb(var(--line) / 0.55) 1px, transparent 1px),
+    linear-gradient(0deg, rgb(var(--line) / 0.4) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.theme-hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(var(--line) / 0.75) 0 2px,
+    transparent 2px 18px
+  );
+}
+
 /* =========================
    Buttons propaganda style
    ========================= */
@@ -94,7 +225,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   min-height: 2.8rem;
-  border: 2px solid rgb(var(--ink));
+  border: 2px solid rgb(var(--line));
   border-radius: 0;
   background-color: rgb(var(--red));
   padding: 0.65rem 1rem;
@@ -102,8 +233,8 @@ a:hover {
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgb(var(--paper));
-  box-shadow: 6px 6px 0 rgb(var(--ink));
+  color: rgb(var(--relief));
+  box-shadow: 6px 6px 0 rgb(var(--shadow));
   transition:
     background-color 150ms ease,
     color 150ms ease,
@@ -114,9 +245,9 @@ a:hover {
 
 .btn-primary:hover {
   background-color: rgb(var(--yellow));
-  color: rgb(var(--ink));
+  color: rgb(var(--block));
   transform: translate(3px, 3px);
-  box-shadow: 3px 3px 0 rgb(var(--ink));
+  box-shadow: 3px 3px 0 rgb(var(--shadow));
 }
 
 .btn-outline {
@@ -125,7 +256,7 @@ a:hover {
   justify-content: center;
   min-height: 2.8rem;
   border-radius: 0;
-  border: 2px solid rgb(var(--ink));
+  border: 2px solid rgb(var(--line));
   background-color: rgb(var(--paper));
   padding: 0.65rem 1rem;
   font-size: 0.78rem;
@@ -143,8 +274,8 @@ a:hover {
 }
 
 .btn-outline:hover {
-  background-color: rgb(var(--ink));
-  color: rgb(var(--paper));
+  background-color: rgb(var(--block));
+  color: rgb(var(--relief));
   transform: translate(3px, 3px);
   box-shadow: 3px 3px 0 rgb(var(--red));
 }
@@ -156,7 +287,7 @@ a:hover {
   height: 0.8rem;
   background: repeating-linear-gradient(
     135deg,
-    rgb(var(--ink)) 0 0.6rem,
+    rgb(var(--line)) 0 0.6rem,
     rgb(var(--paper)) 0.6rem 1.2rem,
     rgb(var(--red)) 1.2rem 1.8rem
   );
@@ -168,7 +299,7 @@ a:hover {
 .manifesto {
   position: relative;
   overflow: hidden;
-  border: 3px solid rgb(var(--ink));
+  border: 3px solid rgb(var(--line));
   border-radius: 0;
   background:
     linear-gradient(104deg, rgb(var(--red)) 0 22%, transparent 22%),
@@ -176,7 +307,7 @@ a:hover {
   padding: clamp(1.25rem, 4vw, 3rem);
   font-size: 1.125rem;
   letter-spacing: 0;
-  box-shadow: 12px 12px 0 rgb(var(--ink));
+  box-shadow: 12px 12px 0 rgb(var(--shadow));
 }
 
 /* =========================
@@ -185,11 +316,11 @@ a:hover {
 .card {
   position: relative;
   overflow: hidden;
-  border: 3px solid rgb(var(--ink));
+  border: 3px solid rgb(var(--line));
   border-radius: 0;
   background-color: rgb(var(--paper));
   padding: 1.25rem;
-  box-shadow: 10px 10px 0 rgb(var(--ink));
+  box-shadow: 10px 10px 0 rgb(var(--shadow));
   transition:
     transform 150ms ease,
     box-shadow 150ms ease,

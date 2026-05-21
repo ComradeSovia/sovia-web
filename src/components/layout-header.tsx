@@ -1,5 +1,6 @@
 import { HammerStarMark } from "./hammer-star-mark";
 import { LayoutNav, LayoutNavMobile } from "./layout-nav";
+import { ThemeToggle } from "./theme-toggle";
 
 export function LayoutHeader() {
   const requestButton = null;
@@ -15,17 +16,20 @@ export function LayoutHeader() {
   */
 
   return (
-    <header className="sticky top-0 z-20 border-b-[3px] border-black bg-[#f4ecd6]/90 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b-[3px] border-ink bg-[rgb(var(--paper)/0.9)] backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
         <HammerStarMark />
 
         <LayoutNav />
 
-        {requestButton}
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          {requestButton}
+        </div>
       </div>
 
-      <div className="flex items-center border-t-[3px] border-black bg-red-700 md:hidden">
-        <div className="mx-auto max-w-6xl px-4 py-2 text-xs font-black tracking-[0.16em] text-[#f4ecd6]">
+      <div className="flex items-center border-t-[3px] border-ink bg-red md:hidden">
+        <div className="mx-auto max-w-6xl px-4 py-2 text-xs font-black tracking-[0.16em] text-relief">
           <LayoutNavMobile />
         </div>
       </div>
