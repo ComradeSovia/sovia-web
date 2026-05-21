@@ -68,11 +68,11 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
   return (
     <section className="space-y-10">
-      <div className="grid gap-5 border-[3px] border-black bg-[#f4ecd6] p-5 shadow-[10px_10px_0_#111] md:grid-cols-[1fr_22rem] md:items-end">
-        <h1>Sound Works</h1>
+      <div className="grid gap-5 border-[3px] border-ink bg-paper p-5 shadow-[10px_10px_0_rgb(var(--shadow))] md:grid-cols-[1fr_22rem] md:items-end">
+        <h1 className="text-5xl sm:text-6xl">Sound Works</h1>
 
         <input
-          className="w-full border-[3px] border-black bg-[#f4ecd6] px-4 py-3 font-black uppercase tracking-[0.08em] text-black placeholder-black/45 shadow-[6px_6px_0_#b91c1c] focus:outline-none focus:ring-4 focus:ring-[#f5c400]"
+          className="w-full border-[3px] border-ink bg-paper px-4 py-3 font-black uppercase tracking-[0.08em] text-ink placeholder:text-[rgb(var(--ink)/0.45)] shadow-[6px_6px_0_rgb(var(--red))] focus:outline-none focus:ring-4 focus:ring-[rgb(var(--yellow))]"
           placeholder="Search title, series..."
           value={inputValue}
           onChange={(e) => {

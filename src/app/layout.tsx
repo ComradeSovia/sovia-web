@@ -54,13 +54,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body
-        className={[
-          "font-sans",
-          "min-h-full bg-[#f4ecd6] text-black antialiased",
-        ].join(" ")}
-      >
+    <html lang="en" className="h-full" suppressHydrationWarning>
+      <head>
+        <script src="/theme-init.js" />
+      </head>
+      <body className="min-h-full bg-paper font-sans text-ink antialiased">
         <div className="relative min-h-screen overflow-hidden">
           <RaysBackground />
           <LayoutHeader />

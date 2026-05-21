@@ -5,9 +5,9 @@ const WEB_SITE_TITLE_SUB = "Unit of Soviet Songs Reform";
 
 export function HammerStarMark() {
   return (
-    <a href={Routes.Center.href} className="group text-black hover:text-black">
-      <div className="inline-grid grid-cols-[3.25rem_1fr] items-stretch border-[3px] border-black bg-[#f4ecd6] shadow-[6px_6px_0_#111] transition-transform group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[4px_4px_0_#b91c1c]">
-        <div className="grid place-items-center bg-red-700 text-2xl font-black text-[#f4ecd6]">
+    <a href={Routes.Center.href} className="group text-ink hover-text-ink">
+      <div className="inline-grid grid-cols-[3.25rem_1fr] items-stretch border-[3px] border-ink bg-paper shadow-[6px_6px_0_rgb(var(--shadow))] transition-transform group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[4px_4px_0_rgb(var(--red))]">
+        <div className="grid place-items-center bg-red text-2xl font-black text-relief">
           *
         </div>
         <div className="px-3 py-2 leading-tight">
