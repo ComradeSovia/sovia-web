@@ -36,7 +36,7 @@ export function HomeHero() {
         </div>
 
         <div className="relative z-10 grid min-h-56 grid-rows-[1fr_auto] border-[3px] border-ink bg-block text-relief">
-          <div className="grid place-items-center bg-red p-6 text-[6rem] font-black leading-none">
+          <div className="grid min-h-36 place-items-center bg-red p-6 text-[clamp(4.5rem,14vw,6rem)] font-black leading-none tracking-normal [font-variant-numeric:tabular-nums]">
             01
           </div>
           <div className="space-y-3 border-t-[3px] border-ink bg-block p-5">
