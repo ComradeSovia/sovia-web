@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HomeCards } from "@/components/home-cards";
 import { HomeHero } from "@/components/home-hero";
 import { HomeManifesto } from "@/components/home-manifesto";
+import { ORGANIZATION_SAME_AS } from "@/config/external-links";
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -25,10 +26,7 @@ export default function HomePage() {
         "@type": "Organization",
         name: SITE_NAME,
         url: siteUrl("/"),
-        sameAs: [
-          "https://www.youtube.com/@ComradeSovia",
-          "https://x.com/ComradeSovia",
-        ],
+        sameAs: ORGANIZATION_SAME_AS,
       },
       {
         "@type": "WebSite",
