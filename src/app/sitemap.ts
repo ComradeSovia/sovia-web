@@ -2,7 +2,7 @@ import { SITE_URL } from "@sovia/shared";
 import { loadMusicIndex } from "@sovia/sound";
 import type { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const workRoutes: MetadataRoute.Sitemap = loadMusicIndex()
+  const workRoutes: MetadataRoute.Sitemap = (await loadMusicIndex())
     .filter((work) => work.u2bId)
     .map((work) => ({
       url: `${SITE_URL}/sound/${work.path}`,

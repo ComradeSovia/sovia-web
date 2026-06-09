@@ -42,3 +42,6 @@ next-env.d.ts
 
 # don't commit data
 /data
+
+# example env
+!.env.example

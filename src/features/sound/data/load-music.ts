@@ -1,27 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
-import {
-  DATA_CACHE_DIR,
-  DATA_LIST_FILE,
-  DATA_WORKS_DIR,
-} from "@sovia/shared/config/data";
+import { DATA_CACHE_DIR } from "@sovia/shared/config/data";
 import type { MusicWork, MusicWorkWithContent } from "../model/music";
+import { getMusicWorkByPath, listMusicWorks } from "./music-repository";
 
-const LIST_FILE_PATH = DATA_LIST_FILE;
-const WORKS_DIR_PATH = DATA_WORKS_DIR;
 const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
-
-type ListCacheEntry = {
-  works: MusicWork[];
-  mtime: number;
-};
 
 type ThumbnailCacheEntry = {
   exists: boolean;
   checkedAt: number;
 };
 
-let listCache: ListCacheEntry | null = null;
 const thumbnailCache = new Map<string, ThumbnailCacheEntry>();
 
 const THUMB_OK_TTL = 60 * 60 * 1000; // 1 hour
@@ -70,65 +59,8 @@ async function checkYouTubeThumbnail(videoId: string): Promise<boolean> {
   return exists;
 }
 
-function loadMusicList(): MusicWork[] {
-  if (!fs.existsSync(LIST_FILE_PATH)) {
-    console.warn(`Music list file not found: ${LIST_FILE_PATH}`);
-    return [];
-  }
-
-  const stat = fs.statSync(LIST_FILE_PATH);
-  const currentMtime = stat.mtimeMs;
-
-  if (listCache && listCache.mtime === currentMtime) {
-    return listCache.works;
-  }
-
-  const content = fs.readFileSync(LIST_FILE_PATH, "utf-8");
-  const works = JSON.parse(content) as MusicWork[];
-
-  listCache = {
-    works,
-    mtime: currentMtime,
-  };
-
-  return works;
-}
-
-export function loadMusicIndex(): MusicWork[] {
-  return loadMusicList();
-}
-
-function loadMarkdownContent(
-  contentKey: string,
-  type: "description" | "lyrics",
-): Record<string, string> {
-  const workDir = path.join(WORKS_DIR_PATH, contentKey);
-
-  if (!fs.existsSync(workDir)) {
-    return {};
-  }
-
-  const result: Record<string, string> = {};
-
-  if (type === "lyrics") {
-    const lyricsPath = path.join(workDir, "lyrics.md");
-
-    if (!fs.existsSync(lyricsPath)) {
-      return {};
-    }
-
-    result.default = fs.readFileSync(lyricsPath, "utf-8");
-    return result;
-  }
-
-  const infoPath = path.join(workDir, "info.md");
-
-  if (!fs.existsSync(infoPath)) {
-    return {};
-  }
-
-  result.default = fs.readFileSync(infoPath, "utf-8");
-  return result;
+export async function loadMusicIndex(): Promise<MusicWork[]> {
+  return listMusicWorks();
 }
 
 /* -------------------------
@@ -136,7 +68,7 @@ function loadMarkdownContent(
 ------------------------- */
 
 export async function loadAllMusicWorks(): Promise<MusicWork[]> {
-  const works = loadMusicList();
+  const works = await listMusicWorks();
 
   // Filter: only return works with YouTube ID and valid thumbnail
   const result: MusicWork[] = [];
@@ -153,31 +85,15 @@ export async function loadAllMusicWorks(): Promise<MusicWork[]> {
   return result;
 }
 
-export function loadMusicWorkWithContent(
+export async function loadMusicWorkWithContent(
   workPath: string,
-): MusicWorkWithContent | null {
-  const works = loadMusicList();
-  const work = works.find((w) => w.path === workPath);
-
-  if (!work) {
-    return null;
-  }
-
-  const descriptions = loadMarkdownContent(work.vid, "description");
-  const lyrics = loadMarkdownContent(work.vid, "lyrics");
-  const availableLanguages = Array.from(
-    new Set([...Object.keys(descriptions), ...Object.keys(lyrics)]),
-  );
-
-  return {
-    ...work,
-    descriptions,
-    lyrics,
-    availableLanguages,
-  };
+): Promise<MusicWorkWithContent | null> {
+  return getMusicWorkByPath(workPath);
 }
 
-export function getAvailableLanguages(workPath: string): string[] {
-  const workWithContent = loadMusicWorkWithContent(workPath);
+export async function getAvailableLanguages(
+  workPath: string,
+): Promise<string[]> {
+  const workWithContent = await loadMusicWorkWithContent(workPath);
   return workWithContent?.availableLanguages || [];
 }

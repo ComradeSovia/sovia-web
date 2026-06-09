@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model MusicWork {
+  path        String   @id
+  vid         String
+  title       String
+  original    String?
+  u2bId       String?
+  series      String?
+  description String?
+  lyrics      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("music_works")
+}

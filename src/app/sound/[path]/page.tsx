@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ path: string }>;
 }): Promise<Metadata> {
   const { path } = await params;
-  const work = loadMusicWorkWithContent(path);
+  const work = await loadMusicWorkWithContent(path);
 
   if (!work) {
     return {
@@ -66,7 +66,7 @@ export default async function SoundDetailPage({
 }) {
   const { path } = await params;
 
-  const work = loadMusicWorkWithContent(path);
+  const work = await loadMusicWorkWithContent(path);
 
   if (!work || !work.u2bId) {
     notFound();
