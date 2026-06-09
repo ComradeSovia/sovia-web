@@ -1,4 +1,9 @@
-import { SITE_DESCRIPTION, SITE_NAME, siteUrl } from "@sovia/shared";
+import {
+  ORGANIZATION_SAME_AS,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  siteUrl,
+} from "@sovia/shared";
 import { HomeCards } from "./home-cards";
 import { HomeHero } from "./home-hero";
 import { HomeManifesto } from "./home-manifesto";
@@ -11,10 +16,7 @@ export function HomePage() {
         "@type": "Organization",
         name: SITE_NAME,
         url: siteUrl("/"),
-        sameAs: [
-          "https://www.youtube.com/@ComradeSovia",
-          "https://x.com/ComradeSovia",
-        ],
+        sameAs: ORGANIZATION_SAME_AS,
       },
       {
         "@type": "WebSite",
