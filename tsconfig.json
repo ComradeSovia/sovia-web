@@ -20,6 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@sovia/admin": ["./src/features/admin/index.ts"],
+      "@sovia/admin/*": ["./src/features/admin/*"],
       "@sovia/home": ["./src/features/home/index.ts"],
       "@sovia/home/*": ["./src/features/home/*"],
       "@sovia/layout": ["./src/features/layout/index.ts"],
