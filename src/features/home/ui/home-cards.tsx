@@ -2,51 +2,79 @@ import { Card, type CardProps, Routes } from "@sovia/shared";
 import type { RouteItem } from "@sovia/shared/model/nav";
 
 export type CardItem = {
+  id: string;
   title: CardProps["title"];
   subTitle: CardProps["subTitle"];
-  route: RouteItem;
+  route?: RouteItem;
   description: string;
+  links?: ReadonlyArray<RouteItem>;
   disabled?: boolean;
 };
 
 const CARDS: ReadonlyArray<CardItem> = [
   {
-    title: "Music",
-    subTitle: "Lyrics Archive",
-    route: Routes.Sound,
+    id: "visual-design",
+    title: "Visual Design",
+    subTitle: "Anime & Realistic Styles",
     description:
-      "Lyrics for Sovia's remixes, covers, and reconstructed songs, collected for reading and reference.",
+      "Anime-styled visual work lives on X, while realistic images and polished visual updates live on Instagram.",
+    links: [Routes.X, Routes.Instagram],
   },
   {
-    title: "Sovia X",
-    subTitle: "Daily Life Images",
-    route: Routes.X,
+    id: "distribution",
+    title: "Distribution",
+    subTitle: "Video & Music Channels",
     description:
-      "Daily life pictures, visual notes, and image fragments from Sovia's surrounding world.",
+      "Published videos and music are distributed across regional video platforms and streaming channels.",
+    links: [Routes.Youtube, Routes.VKVideo, Routes.Bilibili, Routes.Spotify],
   },
   {
-    title: "Spotify",
-    subTitle: "Original Music",
-    route: Routes.Spotify,
+    id: "community",
+    title: "Community",
+    subTitle: "Regional & Discussion Spaces",
     description:
-      "A future channel for Sovia's original music, collected as releases become available.",
+      "Places for discussion, sharing, and the Russian-region community around Sovia.",
+    links: [Routes.Reddit, Routes.Discord, Routes.VK],
   },
 ];
 
 export function HomeCards() {
   return (
     <div className="grid gap-7 md:grid-cols-3">
-      {CARDS.map(({ title, subTitle, route, description, disabled }, index) => (
-        <Card
-          key={route.href}
-          title={`${String(index + 2).padStart(2, "0")} ${title}`}
-          subTitle={subTitle}
-          route={route}
-          disabled={disabled}
-        >
-          <p>{description}</p>
-        </Card>
-      ))}
+      {CARDS.map(
+        (
+          { id, title, subTitle, route, description, links, disabled },
+          index,
+        ) => (
+          <Card
+            key={id}
+            title={title}
+            serial={String(index + 2).padStart(2, "0")}
+            subTitle={subTitle}
+            route={route}
+            disabled={disabled}
+          >
+            <div className="space-y-5">
+              <p>{description}</p>
+              {links ? (
+                <div className="grid gap-3">
+                  {links.map((link) => (
+                    <a
+                      className="btn-primary w-full"
+                      href={link.href}
+                      key={link.href}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </Card>
+        ),
+      )}
     </div>
   );
 }

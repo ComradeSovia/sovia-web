@@ -1,4 +1,5 @@
 export { DATA_CACHE_DIR } from "./config/data";
+export { ORGANIZATION_SAME_AS } from "./config/external-links";
 export {
   SITE_DESCRIPTION,
   SITE_KEYWORDS,
