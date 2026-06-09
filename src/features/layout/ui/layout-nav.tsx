@@ -1,4 +1,4 @@
-import { NAV_ITEMS } from "@/constants/nav";
+import { NAV_ITEMS } from "@sovia/shared/constants/nav";
 
 export function LayoutNav() {
   return (

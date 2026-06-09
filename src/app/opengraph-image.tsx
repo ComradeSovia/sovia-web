@@ -1,5 +1,5 @@
+import { SITE_DESCRIPTION, SITE_NAME } from "@sovia/shared";
 import { ImageResponse } from "next/og";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/config/site";
 
 export const size = {
   width: 1200,

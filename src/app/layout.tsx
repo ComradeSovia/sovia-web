@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import type { ReactNode } from "react";
-import { LayoutFooter } from "@/components/layout-footer";
-import { LayoutHeader } from "@/components/layout-header";
-import { LayoutMain } from "@/components/layout-main";
-import { RaysBackground } from "@/components/rays-background";
+import {
+  LayoutFooter,
+  LayoutHeader,
+  LayoutMain,
+  RaysBackground,
+} from "@sovia/layout";
 import {
   SITE_DESCRIPTION,
   SITE_KEYWORDS,
   SITE_NAME,
   SITE_TITLE,
   SITE_URL,
-} from "@/config/site";
+} from "@sovia/shared";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -1,6 +1,5 @@
+import { loadAllMusicWorks, SoundClient } from "@sovia/sound";
 import type { Metadata } from "next";
-import { loadAllMusicWorks } from "@/lib/load-music";
-import { SoundClient } from "./client";
 
 export const dynamic = "force-dynamic";
 

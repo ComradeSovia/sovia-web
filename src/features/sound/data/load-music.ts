@@ -1,18 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
-import { DATA_CACHE_DIR, DATA_LIST_FILE, DATA_WORKS_DIR } from "@/config/data";
-import type {
-  MusicWork,
-  MusicWorkWithContent,
-} from "@/definitions/data-type/music";
+import {
+  DATA_CACHE_DIR,
+  DATA_LIST_FILE,
+  DATA_WORKS_DIR,
+} from "@sovia/shared/config/data";
+import type { MusicWork, MusicWorkWithContent } from "../model/music";
 
 const LIST_FILE_PATH = DATA_LIST_FILE;
 const WORKS_DIR_PATH = DATA_WORKS_DIR;
 const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
-
-/* -------------------------
-   Cache structures
-------------------------- */
 
 type ListCacheEntry = {
   works: MusicWork[];
@@ -73,10 +70,6 @@ async function checkYouTubeThumbnail(videoId: string): Promise<boolean> {
   return exists;
 }
 
-/* -------------------------
-   Load list.json with cache
-------------------------- */
-
 function loadMusicList(): MusicWork[] {
   if (!fs.existsSync(LIST_FILE_PATH)) {
     console.warn(`Music list file not found: ${LIST_FILE_PATH}`);
@@ -86,16 +79,13 @@ function loadMusicList(): MusicWork[] {
   const stat = fs.statSync(LIST_FILE_PATH);
   const currentMtime = stat.mtimeMs;
 
-  // Check cache
   if (listCache && listCache.mtime === currentMtime) {
     return listCache.works;
   }
 
-  // Load and parse
   const content = fs.readFileSync(LIST_FILE_PATH, "utf-8");
   const works = JSON.parse(content) as MusicWork[];
 
-  // Update cache
   listCache = {
     works,
     mtime: currentMtime,
@@ -107,10 +97,6 @@ function loadMusicList(): MusicWork[] {
 export function loadMusicIndex(): MusicWork[] {
   return loadMusicList();
 }
-
-/* -------------------------
-   Load markdown content
-------------------------- */
 
 function loadMarkdownContent(
   contentKey: string,

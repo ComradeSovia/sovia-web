@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { U2BThumbnail } from "@/components/u2b-thumbnail";
-import type { MusicWork } from "@/definitions/data-type/music";
+import type { MusicWork } from "../model/music";
+import { U2BThumbnail } from "./u2b-thumbnail";
 
 export function SoundCard({ work }: { work: MusicWork }) {
   if (!work.u2bId) return null;

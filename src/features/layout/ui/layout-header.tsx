@@ -1,4 +1,4 @@
-import { HammerStarMark } from "./hammer-star-mark";
+import { HammerStarMark } from "@sovia/shared";
 import { LayoutNav, LayoutNavMobile } from "./layout-nav";
 import { ThemeToggle } from "./theme-toggle";
 

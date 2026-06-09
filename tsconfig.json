@@ -19,7 +19,15 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@sovia/home": ["./src/features/home/index.ts"],
+      "@sovia/home/*": ["./src/features/home/*"],
+      "@sovia/layout": ["./src/features/layout/index.ts"],
+      "@sovia/layout/*": ["./src/features/layout/*"],
+      "@sovia/shared": ["./src/shared/index.ts"],
+      "@sovia/shared/*": ["./src/shared/*"],
+      "@sovia/sound": ["./src/features/sound/index.ts"],
+      "@sovia/sound/*": ["./src/features/sound/*"]
     }
   },
   "include": [

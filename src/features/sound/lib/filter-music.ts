@@ -1,4 +1,4 @@
-import type { MusicWork } from "@/definitions/data-type/music";
+import type { MusicWork } from "../model/music";
 
 export function filterMusic(list: MusicWork[], query: string): MusicWork[] {
   if (!query.trim()) return list;

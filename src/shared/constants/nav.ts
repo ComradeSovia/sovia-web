@@ -1,4 +1,4 @@
-import type { RouteItem } from "@/definitions/nav.def";
+import type { RouteItem } from "../model/nav";
 import { Routes } from "./routes";
 
 export const NAV_ITEMS = [
