@@ -1,4 +1,4 @@
-import { Routes } from "@/constants/routes";
+import { Routes } from "../constants/routes";
 
 const WEB_SITE_TITLE = "USSR";
 const WEB_SITE_TITLE_SUB = "Unit of Soviet Songs Reform";

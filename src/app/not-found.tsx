@@ -1,5 +1,5 @@
+import { Routes } from "@sovia/shared";
 import Link from "next/link";
-import { Routes } from "@/constants/routes";
 
 export default function NotFound() {
   return (

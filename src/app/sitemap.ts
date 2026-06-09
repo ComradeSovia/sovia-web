@@ -1,6 +1,6 @@
+import { SITE_URL } from "@sovia/shared";
+import { loadMusicIndex } from "@sovia/sound";
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/config/site";
-import { loadMusicIndex } from "@/lib/load-music";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [

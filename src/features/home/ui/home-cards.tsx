@@ -1,6 +1,5 @@
-import { Routes } from "@/constants/routes";
-import type { RouteItem } from "@/definitions/nav.def";
-import { Card, type CardProps } from "./card";
+import { Card, type CardProps, Routes } from "@sovia/shared";
+import type { RouteItem } from "@sovia/shared/model/nav";
 
 export type CardItem = {
   title: CardProps["title"];

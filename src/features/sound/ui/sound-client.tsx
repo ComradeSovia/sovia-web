@@ -2,9 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { SoundCard } from "@/components/sound-card";
-import type { MusicWork } from "@/definitions/data-type/music";
-import { filterMusic } from "../../helper/filter-music";
+import { filterMusic } from "../lib/filter-music";
+import type { MusicWork } from "../model/music";
+import { SoundCard } from "./sound-card";
 
 const PAGE_SIZE = 50;
 const DEBOUNCE_DELAY = 300; // ms

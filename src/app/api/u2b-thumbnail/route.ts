@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { DATA_CACHE_DIR } from "@sovia/shared";
 import { NextResponse } from "next/server";
-import { DATA_CACHE_DIR } from "@/config/data";
 
 const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
 

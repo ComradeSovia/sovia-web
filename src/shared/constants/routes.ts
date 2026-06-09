@@ -1,4 +1,4 @@
-import type { RouteItem } from "@/definitions/nav.def";
+import type { RouteItem } from "../model/nav";
 
 export const Routes = {
   Center: { label: "Center", href: "/" },

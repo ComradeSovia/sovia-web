@@ -1,4 +1,4 @@
-import { Routes } from "@/constants/routes";
+import { Routes } from "@sovia/shared";
 
 export function HomeHero() {
   return (
