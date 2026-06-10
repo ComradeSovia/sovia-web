@@ -1,4 +1,22 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@sovia/shared/ui/shadcn/alert";
+import { Badge } from "@sovia/shared/ui/shadcn/badge";
+import { Button } from "@sovia/shared/ui/shadcn/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@sovia/shared/ui/shadcn/card";
+import { Input } from "@sovia/shared/ui/shadcn/input";
+import { Label } from "@sovia/shared/ui/shadcn/label";
+import { Textarea } from "@sovia/shared/ui/shadcn/textarea";
+import { AlertCircle, Database, LogOut, Save, Trash2 } from "lucide-react";
+import {
   deleteMusicWorkAction,
   logoutAdmin,
   saveMusicWorkAction,
@@ -13,14 +31,17 @@ import { AdminLogin } from "./login-form";
 export async function AdminPage({ error }: { error?: string }) {
   if (!hasAdminPassword()) {
     return (
-      <section className="space-y-6">
-        <h1 className="text-5xl sm:text-6xl">Admin</h1>
-        <div className="border-[3px] border-ink bg-paper p-5 shadow-[8px_8px_0_rgb(var(--red))]">
-          <p>
-            Set <strong>SOVIA_ADMIN_PASSWORD</strong> or{" "}
-            <strong>ADMIN_PASSWORD</strong> in env to enable the admin panel.
-          </p>
-        </div>
+      <section className="mx-auto max-w-2xl py-12">
+        <Alert className="border-red-500/50 bg-red-950/40">
+          <AlertCircle className="mb-3 h-5 w-5 text-red-300" />
+          <AlertTitle className="text-red-200">
+            admin password missing
+          </AlertTitle>
+          <AlertDescription className="text-red-200/80">
+            Set SOVIA_ADMIN_PASSWORD or ADMIN_PASSWORD in env to enable the
+            admin panel.
+          </AlertDescription>
+        </Alert>
       </section>
     );
   }
@@ -29,74 +50,98 @@ export async function AdminPage({ error }: { error?: string }) {
     return <AdminLogin />;
   }
 
-  const [databaseStatus, works] = await Promise.all([
-    getAdminDatabaseStatus(),
-    listAdminMusicWorks(),
-  ]);
+  const databaseStatus = await getAdminDatabaseStatus();
+  const works = databaseStatus.ok ? await listAdminMusicWorks() : [];
 
   return (
-    <section className="space-y-8">
-      <div className="grid gap-5 border-[3px] border-ink bg-paper p-5 shadow-[10px_10px_0_rgb(var(--shadow))] md:grid-cols-[1fr_auto] md:items-end">
-        <div>
-          <div className="meta mb-3">Content Database</div>
-          <h1 className="text-5xl sm:text-6xl">Admin</h1>
-        </div>
+    <section className="space-y-6">
+      <Card>
+        <CardHeader className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <div className="mb-2 flex items-center gap-2 text-sm text-emerald-500">
+              <Database className="h-4 w-4" />
+              content database
+            </div>
+            <CardTitle className="font-mono text-3xl">
+              admin@comrade-sovia
+            </CardTitle>
+            <CardDescription>
+              postgres overrides / legacy fallback
+            </CardDescription>
+          </div>
 
-        <div className="flex flex-wrap gap-3">
           <form action={logoutAdmin}>
-            <button className="btn-outline" type="submit">
+            <Button type="submit" variant="outline">
+              <LogOut className="mr-2 h-4 w-4" />
               Logout
-            </button>
+            </Button>
           </form>
-        </div>
-      </div>
+        </CardHeader>
+      </Card>
 
       {!databaseStatus.ok && (
-        <div className="border-[3px] border-ink bg-paper p-5 shadow-[8px_8px_0_rgb(var(--red))]">
-          <div className="meta mb-3">Database Error</div>
-          <p>{databaseStatus.message}</p>
-        </div>
+        <Alert className="border-red-500/50 bg-red-950/40">
+          <AlertCircle className="mb-3 h-5 w-5 text-red-300" />
+          <AlertTitle className="text-red-200">database error</AlertTitle>
+          <AlertDescription className="text-red-200/80">
+            {databaseStatus.message}
+          </AlertDescription>
+        </Alert>
       )}
 
       {error === "database" && databaseStatus.ok && (
-        <div className="border-[3px] border-ink bg-paper p-5 shadow-[8px_8px_0_rgb(var(--red))]">
-          <div className="meta mb-3">Database Error</div>
-          <p>The last admin action could not be completed. Try again.</p>
-        </div>
+        <Alert className="border-red-500/50 bg-red-950/40">
+          <AlertCircle className="mb-3 h-5 w-5 text-red-300" />
+          <AlertTitle className="text-red-200">database error</AlertTitle>
+          <AlertDescription className="text-red-200/80">
+            The last admin action could not be completed. Try again.
+          </AlertDescription>
+        </Alert>
       )}
 
       {databaseStatus.ok ? (
-        <div className="border-[3px] border-ink bg-paper p-4">
-          <div className="meta">{databaseStatus.message}</div>
-        </div>
+        <Alert>
+          <AlertTitle>connection ready</AlertTitle>
+          <AlertDescription>{databaseStatus.message}</AlertDescription>
+        </Alert>
       ) : null}
 
       {databaseStatus.ok && (
         <>
-          <details open className="border-[3px] border-ink bg-paper p-5">
-            <summary className="cursor-pointer text-2xl font-black uppercase">
-              New Work
-            </summary>
-            <MusicWorkForm />
-          </details>
+          <Card>
+            <CardHeader>
+              <CardTitle>new work</CardTitle>
+              <CardDescription>
+                create a postgres override record
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <MusicWorkForm />
+            </CardContent>
+          </Card>
 
           <div className="space-y-4">
             {works.map((work) => (
               <details
                 key={work.path}
-                className="border-[3px] border-ink bg-paper p-5 shadow-[6px_6px_0_rgb(var(--shadow))]"
+                className="rounded-lg border border-emerald-500/30 bg-zinc-950/95 p-5 text-emerald-100 shadow-[0_0_40px_rgba(16,185,129,0.12)]"
               >
-                <summary className="cursor-pointer">
-                  <span className="font-black uppercase">{work.title}</span>
-                  <span className="meta ml-3">{work.path}</span>
+                <summary className="cursor-pointer list-none">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="font-semibold text-emerald-200">
+                      {work.title}
+                    </span>
+                    <Badge variant="outline">{work.path}</Badge>
+                  </div>
                 </summary>
                 <div className="mt-5 space-y-5">
                   <MusicWorkForm work={work} />
                   <form action={deleteMusicWorkAction}>
                     <input name="path" type="hidden" value={work.path} />
-                    <button className="btn-outline" type="submit">
+                    <Button type="submit" variant="destructive">
+                      <Trash2 className="mr-2 h-4 w-4" />
                       Delete DB Override
-                    </button>
+                    </Button>
                   </form>
                 </div>
               </details>
@@ -123,7 +168,7 @@ type MusicWorkFormProps = {
 
 function MusicWorkForm({ work }: MusicWorkFormProps) {
   return (
-    <form action={saveMusicWorkAction} className="mt-5 grid gap-4">
+    <form action={saveMusicWorkAction} className="grid gap-4">
       {work && <input name="currentPath" type="hidden" value={work.path} />}
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -143,9 +188,10 @@ function MusicWorkForm({ work }: MusicWorkFormProps) {
       <TextArea label="Lyrics" name="lyrics" value={work?.lyrics} rows={14} />
 
       <div>
-        <button className="btn-primary" type="submit">
+        <Button type="submit">
+          <Save className="mr-2 h-4 w-4" />
           Save
-        </button>
+        </Button>
       </div>
     </form>
   );
@@ -163,15 +209,10 @@ function Field({
   value?: string | null;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-black uppercase tracking-[0.08em]">
-      {label}
-      <input
-        className="border-[3px] border-ink bg-paper px-3 py-2 font-sans normal-case tracking-normal text-ink"
-        defaultValue={value ?? ""}
-        name={name}
-        required={required}
-      />
-    </label>
+    <div className="grid gap-2">
+      <Label>{label}</Label>
+      <Input defaultValue={value ?? ""} name={name} required={required} />
+    </div>
   );
 }
 
@@ -187,14 +228,9 @@ function TextArea({
   value?: string | null;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-black uppercase tracking-[0.08em]">
-      {label}
-      <textarea
-        className="min-h-40 border-[3px] border-ink bg-paper px-3 py-2 font-mono text-sm normal-case tracking-normal text-ink"
-        defaultValue={value ?? ""}
-        name={name}
-        rows={rows}
-      />
-    </label>
+    <div className="grid gap-2">
+      <Label>{label}</Label>
+      <Textarea defaultValue={value ?? ""} name={name} rows={rows} />
+    </div>
   );
 }

@@ -10,6 +10,26 @@ import type {
 import { getFriendlyDatabaseError } from "./database-errors";
 import { getPrismaClient } from "./prisma";
 
+const DATABASE_TIMEOUT_MS = 2500;
+
+async function withDatabaseTimeout<T>(operation: Promise<T>) {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeout = setTimeout(() => {
+      reject(new Error("Database connection timeout"));
+    }, DATABASE_TIMEOUT_MS);
+  });
+
+  try {
+    return await Promise.race([operation, timeoutPromise]);
+  } finally {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+  }
+}
+
 function toWorkRecord(value: MusicWorkRecord): MusicWorkRecord {
   return {
     path: value.path,
@@ -117,17 +137,17 @@ export function ensureMusicDatabase() {
 }
 
 export async function checkMusicDatabaseConnection() {
-  const prisma = getPrismaClient();
-
-  if (!prisma) {
-    return {
-      ok: false,
-      message: getFriendlyDatabaseError(null),
-    };
-  }
-
   try {
-    await prisma.musicWork.count();
+    const prisma = getPrismaClient();
+
+    if (!prisma) {
+      return {
+        ok: false,
+        message: getFriendlyDatabaseError(null),
+      };
+    }
+
+    await withDatabaseTimeout(prisma.musicWork.count());
     return {
       ok: true,
       message: "PostgreSQL connection is ready.",
@@ -148,11 +168,13 @@ export async function countMusicWorks() {
 }
 
 async function listDatabaseMusicWorks() {
-  const prisma = getPrismaClient();
-  if (!prisma) return [];
-
   try {
-    return (await prisma.musicWork.findMany()).map(toWorkRecord);
+    const prisma = getPrismaClient();
+    if (!prisma) return [];
+
+    return (await withDatabaseTimeout(prisma.musicWork.findMany())).map(
+      toWorkRecord,
+    );
   } catch (error) {
     console.warn(getFriendlyDatabaseError(error));
     return [];
@@ -180,16 +202,18 @@ export async function listMusicWorksWithContent() {
 }
 
 export async function getMusicWorkByPath(workPath: string) {
-  const prisma = getPrismaClient();
-
   let row: MusicWorkRecord | null = null;
 
-  if (prisma) {
-    try {
-      row = await prisma.musicWork.findUnique({ where: { path: workPath } });
-    } catch (error) {
-      console.warn(getFriendlyDatabaseError(error));
+  try {
+    const prisma = getPrismaClient();
+
+    if (prisma) {
+      row = await withDatabaseTimeout(
+        prisma.musicWork.findUnique({ where: { path: workPath } }),
+      );
     }
+  } catch (error) {
+    console.warn(getFriendlyDatabaseError(error));
   }
 
   if (row) {

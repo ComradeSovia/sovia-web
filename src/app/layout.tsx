@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import {
-  LayoutFooter,
-  LayoutHeader,
-  LayoutMain,
-  RaysBackground,
-} from "@sovia/layout";
-import {
   SITE_DESCRIPTION,
   SITE_KEYWORDS,
   SITE_NAME,
@@ -61,12 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script src="/theme-init.js" />
       </head>
       <body className="min-h-full bg-paper font-sans text-ink antialiased">
-        <div className="relative min-h-screen overflow-hidden">
-          <RaysBackground />
-          <LayoutHeader />
-          <LayoutMain>{children}</LayoutMain>
-          <LayoutFooter />
-        </div>
+        {children}
       </body>
     </html>
   );

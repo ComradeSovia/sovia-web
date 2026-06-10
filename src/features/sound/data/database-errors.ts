@@ -1,6 +1,8 @@
 export function getFriendlyDatabaseError(error: unknown) {
-  if (!process.env.DATABASE_URL) {
-    return "DATABASE_URL is not configured. Set a PostgreSQL connection string in env before saving database overrides.";
+  const urlError = getDatabaseUrlError();
+
+  if (urlError) {
+    return urlError;
   }
 
   if (error instanceof Error) {
@@ -37,4 +39,28 @@ export function getFriendlyDatabaseError(error: unknown) {
   }
 
   return "The database connection is not available. Check DATABASE_URL and PostgreSQL, then try again.";
+}
+
+export function getDatabaseUrlError() {
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    return "DATABASE_URL is not configured. Set a PostgreSQL connection string in env before saving database overrides.";
+  }
+
+  try {
+    const url = new URL(databaseUrl);
+
+    if (!["postgresql:", "postgres:"].includes(url.protocol)) {
+      return "DATABASE_URL must use a PostgreSQL URL, for example postgresql://user:password@host:5432/database.";
+    }
+
+    if (!url.hostname || !url.pathname || url.pathname === "/") {
+      return "DATABASE_URL looks incomplete. Include the PostgreSQL host and database name.";
+    }
+  } catch {
+    return "DATABASE_URL looks invalid. Check the PostgreSQL connection string format.";
+  }
+
+  return null;
 }
