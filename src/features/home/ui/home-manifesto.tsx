@@ -6,7 +6,7 @@ export function HomeManifesto() {
           About Our Department
         </div>
         <div className="bg-block p-5 text-5xl font-black leading-none text-relief">
-          05
+          00
           <br />
           THESIS
         </div>

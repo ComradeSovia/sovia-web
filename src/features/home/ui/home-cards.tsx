@@ -13,20 +13,28 @@ export type CardItem = {
 
 const CARDS: ReadonlyArray<CardItem> = [
   {
-    id: "visual-design",
-    title: "Visual Design",
-    subTitle: "Anime & Realistic Styles",
+    id: "lyrics-library",
+    title: "Lyrics Library",
+    subTitle: "Impression Lyrics Archive",
     description:
-      "Anime-styled visual work lives on X, while realistic images and polished visual updates live on Instagram.",
-    links: [Routes.X, Routes.Instagram],
+      "Read the lyrics, song notes, and archive entries for Comrade Sovia works.",
+    links: [Routes.LyricsLibrary],
   },
   {
-    id: "distribution",
-    title: "Distribution",
-    subTitle: "Video & Music Channels",
+    id: "music-release",
+    title: "Music Release",
+    subTitle: "Streaming Pages",
     description:
-      "Published videos and music are distributed across regional video platforms and streaming channels.",
-    links: [Routes.Youtube, Routes.VKVideo, Routes.Bilibili, Routes.Spotify],
+      "Official music releases are collected on the streaming artist pages.",
+    links: [Routes.Spotify, Routes.AppleMusic],
+  },
+  {
+    id: "concept-design",
+    title: "Concept Design",
+    subTitle: "Anime & Realism Styles",
+    description:
+      "Anime-styled visual work lives on X, while realistic images and polished visual updates live on IG.",
+    links: [Routes.X, Routes.Instagram],
   },
   {
     id: "community",
@@ -58,17 +66,21 @@ export function HomeCards() {
               <p>{description}</p>
               {links ? (
                 <div className="grid gap-3">
-                  {links.map((link) => (
-                    <a
-                      className="btn-primary w-full"
-                      href={link.href}
-                      key={link.href}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
+                  {links.map((link) => {
+                    const isExternal = link.href.startsWith("http");
+
+                    return (
+                      <a
+                        className="btn-primary w-full"
+                        href={link.href}
+                        key={link.href}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        target={isExternal ? "_blank" : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    );
+                  })}
                 </div>
               ) : null}
             </div>

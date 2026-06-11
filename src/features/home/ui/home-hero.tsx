@@ -26,11 +26,29 @@ export function HomeHero() {
           </div>
 
           <div className="flex flex-wrap gap-5 pt-2">
-            <a href={Routes.Youtube.href} className="btn-primary">
-              Open YouTube
+            <a
+              href={Routes.Youtube.href}
+              className="btn-primary"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {Routes.Youtube.label}
             </a>
-            <a href={Routes.Sound.href} className="btn-outline">
-              Browse Archive
+            <a
+              href={Routes.VKVideo.href}
+              className="btn-outline"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {Routes.VKVideo.label}
+            </a>
+            <a
+              href={Routes.Bilibili.href}
+              className="btn-outline"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {Routes.Bilibili.label}
             </a>
           </div>
         </div>
@@ -41,19 +59,20 @@ export function HomeHero() {
           </div>
           <div className="space-y-3 border-t-[3px] border-ink bg-block p-5">
             <div className="text-xs font-black uppercase tracking-[0.2em] text-yellow">
-              Sound Unit
+              Video Unit
             </div>
             <p className="bg-paper px-3 py-2 text-[13px] font-black uppercase leading-snug tracking-[0.04em] text-ink">
-              Familiar
+              Watch
               <br />
-              melodies
+              videos
               <br />
-              reorganized
+              across
               <br />
-              into
-              <br />a parallel
+              YouTube
               <br />
-              industrial choir.
+              VK
+              <br />
+              Bilibili.
             </p>
           </div>
         </div>
