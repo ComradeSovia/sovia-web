@@ -36,7 +36,7 @@ export function Card({
   return (
     <div className="card flex min-h-80 flex-col gap-4">
       <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red" />
-      <div className="flex items-start justify-between gap-4">
+      <div className="relative z-10 flex items-start justify-between gap-4">
         {subTitleComponent}
         {serial ? (
           <div className="border-ink bg-red text-relief min-w-12 border-3 px-2 py-1 text-center text-2xl font-black leading-none [font-variant-numeric:tabular-nums]">
@@ -44,9 +44,11 @@ export function Card({
           </div>
         ) : null}
       </div>
-      <h3>{title}</h3>
-      <div className="flex-1">{children}</div>
-      {disabled ? disabledButtonComponent : buttonComponent}
+      <h3 className="relative z-10">{title}</h3>
+      <div className="relative z-10 flex-1">{children}</div>
+      <div className="relative z-10">
+        {disabled ? disabledButtonComponent : buttonComponent}
+      </div>
     </div>
   );
 }

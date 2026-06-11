@@ -40,15 +40,15 @@ export function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      <HomeManifesto />
+
+      <div className="hr" />
+
       <HomeHero />
 
       <div className="hr" />
 
       <HomeCards />
-
-      <div className="hr" />
-
-      <HomeManifesto />
     </section>
   );
 }
