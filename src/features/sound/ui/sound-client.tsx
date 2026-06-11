@@ -26,7 +26,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
   }, [query]);
 
   const filtered = useMemo(() => {
-    return filterMusic(musicWorks, query).filter((m) => m.u2bId);
+    return [...filterMusic(musicWorks, query).filter((m) => m.u2bId)].reverse();
   }, [query, musicWorks]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
