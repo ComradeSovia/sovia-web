@@ -8,30 +8,50 @@ export function HomeManifesto() {
         <div className="bg-block p-5 text-5xl font-black leading-none text-relief">
           00
           <br />
-          THESIS
+          About
+          <br />
+          Sovia
         </div>
       </div>
       <div>
         <p className="text-base font-medium leading-relaxed">
-          Our Department project uses <strong>music</strong> as a medium for{" "}
-          <strong>reinterpretation</strong> and <strong>reconstruction</strong>.
+          My name is <strong>Sovia Rabocheva</strong>.
           <br />
-          <strong>Familiar melodies</strong> are reorganized and placed into{" "}
-          <strong>new contexts</strong> across <strong>languages</strong> and{" "}
-          <strong>styles</strong>.<br />
+          <br />I collect <strong>familiar songs</strong> and send them back
+          through the <strong>machinery of another world</strong>.
           <br />
-          The focus extends beyond <strong>sound</strong> itself, toward the
-          relationship between <strong>labor</strong>,{" "}
-          <strong>collectivity</strong>, <strong>order</strong>, and{" "}
-          <strong>emotion</strong>.<br />
-          These works are neither <strong>replicas</strong> nor{" "}
-          <strong>jokes</strong>, but{" "}
-          <strong>structured thought experiments</strong> within a{" "}
-          <strong>parallel reality</strong>.<br />
+          Melodies are <strong>reorganized</strong>.
           <br />
-          If the music feels both <strong>familiar</strong> and{" "}
-          <strong>unfamiliar</strong>, then it is{" "}
-          <strong>functioning as intended</strong>.<br />
+          Languages are <strong>reassigned</strong>.
+          <br />
+          Emotions are <strong>filed</strong>, <strong>stamped</strong>, and
+          sent back to the <strong>people</strong>.
+          <br />
+          <br />
+          This is not <strong>replication</strong>.
+          <br />
+          This is not only <strong>comedy</strong>.
+          <br />
+          This is <strong>reconstruction</strong>.
+          <br />
+          <br />
+          Every song becomes a small report on <strong>labor</strong>,{" "}
+          <strong>order</strong>, <strong>collectivity</strong>, and{" "}
+          <strong>memory</strong>.
+          <br />
+          Every <strong>arrangement</strong> asks the same question:
+          <br />
+          <br />
+          What would this melody become,
+          <br />
+          if it had grown up in a <strong>different reality</strong>?
+          <br />
+          <br />
+          If it sounds <strong>familiar</strong>,
+          <br />
+          but not quite from <strong>this world</strong>,
+          <br />
+          then the <strong>operation was successful</strong>.
         </p>
       </div>
     </div>
