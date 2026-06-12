@@ -5,6 +5,7 @@ export const NAV_ITEMS = [
   Routes.Center,
   // Routes.Notice,
   Routes.Sound,
+  Routes.Test,
   // Routes.Gallery,
   // Routes.Report,
 ] satisfies RouteItem[];

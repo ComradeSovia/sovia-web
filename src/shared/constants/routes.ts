@@ -3,6 +3,7 @@ import type { RouteItem } from "../model/nav";
 export const Routes = {
   Center: { label: "Center", href: "/" },
   Sound: { label: "Songs", href: "/sound" },
+  Test: { label: "Test", href: "/test" },
   LyricsLibrary: { label: "Lyrics Library", href: "/sound" },
   Report: { label: "Report", href: "/report" },
   Gallery: { label: "Gallery", href: "/gallery" },

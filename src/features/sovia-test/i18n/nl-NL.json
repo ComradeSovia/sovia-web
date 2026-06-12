@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "SOVIA-verdelingstest",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Meet je Sovjet-arbeidspersoonlijkheid en ontdek je post.",
+    "intro": "SOVIA is een informeel systeem van het Propagandadepartement. Het bepaalt of een kameraad past bij radiotoren, archief, machinekamer, kantine, verwarmingscomité of andere noodzakelijke post.",
+    "disclaimer": "Dit is geen psychologisch advies, geen loopbaanadvies en geen echte organisatiebeslissing. De eindinterpretatie ligt bij de Tijdelijke Persoonlijkheidsinspectie."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "SOVIA-verdelingstest",
+    "department": "Tijdelijke Persoonlijkheidsinspectie van het Propagandadepartement"
+  },
+  "demographics": {
+    "title": "Optionele archiefgegevens",
+    "intro": "Deze velden zijn optioneel en helpen de Propaganda-afdeling te begrijpen welke kameraad de test maakt.",
+    "ageLabel": "Leeftijd",
+    "genderLabel": "Gender",
+    "ageOptions": {
+      "prefer_not_to_say": "Zeg ik liever niet",
+      "under_18": "Onder 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Zeg ik liever niet",
+      "male": "Man",
+      "female": "Vrouw",
+      "other": "Anders"
+    }
+  },
+  "typesPage": {
+    "title": "Alle SOVIA-posten",
+    "subtitle": "Meet je Sovjet-arbeidspersoonlijkheid en ontdek je post.",
+    "intro": "Hier staan 32 arbeids-persoonlijkheidscodes. Elke post is samengesteld uit structuur, actie, invloed, begrip en relatie.",
+    "startTestLabel": "Start test",
+    "codeLabel": "Arbeidspersoonlijkheidscode",
+    "detailLabel": "Persoonlijkheidsdossier",
+    "detailActionLabel": "Volgende"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Helemaal oneens",
+    "middle": "Neutraal",
+    "max": "Helemaal eens",
+    "leftHint": "Helemaal oneens",
+    "rightHint": "Helemaal eens"
+  },
+  "actions": {
+    "start": "Start test",
+    "types": "Bekijk alle posten",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "continue": "Verder",
+    "submit": "Dien arbeidsverdeling in",
+    "restart": "Opnieuw testen",
+    "copy": "Kopieer resultaat",
+    "copyLink": "Kopieer link"
+  },
+  "status": {
+    "unanswered": "Maak dit eerst af; de archivaris wacht nog.",
+    "ready": "Antwoord geregistreerd. Inspectie kan verder.",
+    "copied": "Resultaat gekopieerd.",
+    "copyFailed": "Kopiëren mislukt. Bewaar handmatig.",
+    "linkSuccess": "Resultaatlink gekopieerd."
+  },
+  "certificate": {
+    "title": "Bewijs van Arbeidsvolksverdeling",
+    "systemLabel": "Testsysteem",
+    "statusLabel": "Dossierstatus",
+    "statusApproved": "Inspectie goedgekeurd",
+    "codeLabel": "Arbeidspersoonlijkheidscode",
+    "titleLabel": "Persoonlijkheidstitel",
+    "unitLabel": "Toegewezen eenheid",
+    "axisLabel": "Vijfsterrenneiging",
+    "assessmentLabel": "Evaluatiegegevens",
+    "resultLinkLabel": "Resultaatlink",
+    "tendencyLabel": "Sterkte neiging",
+    "rawScoreLabel": "Ruwe score",
+    "oppositeLabel": "Tegenpool",
+    "archiveCommentLabel": "Archiefcommentaar",
+    "soviaCommentLabel": "Sovia-commentaar",
+    "authorityLabel": "Goedkeuringsinstantie",
+    "descriptionLabel": "Korte beschrijving",
+    "authority": "Tijdelijke Persoonlijkheidsinspectie van het Propagandadepartement",
+    "codeFormat": "{{code}}"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structuurwijze",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structuur",
+          "description": "Structuur"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Stroom",
+          "description": "Stroom"
+        }
+      }
+    },
+    "action": {
+      "label": "Actiewijze",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Overdrive"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Uithouding",
+          "description": "Uithouding"
+        }
+      }
+    },
+    "influence": {
+      "label": "Invloedswijze",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Stem",
+          "description": "Stem"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Stilte",
+          "description": "Stilte"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Begripswijze",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Onderzoek",
+          "description": "Onderzoek"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Betekenis",
+          "description": "Betekenis"
+        }
+      }
+    },
+    "relation": {
+      "label": "Relatiewijze",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliantie",
+          "description": "Alliantie"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Alleen",
+          "description": "Alleen"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Zonder helder plan schuift de werkplaats richting historische wanorde.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Als de situatie verandert, beweeg ik liever eerst en stempel later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Wanneer het alarm klinkt, word ik juist helderder.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Ik vertrouw stabiele dagelijkse output meer dan nachtmobilisatie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Een goede slogan kan vermoeide kameraden weer laten opkijken.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Sommig werk heeft geen toespraak nodig; als het staat, staat het.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Als iets verkeerd voelt, wil ik mechanisme, geschiedenis en logs zien.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Verhalen, symbolen en emotioneel gewicht verklaren soms meer dan parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Ik check vanzelf of niemand in de brigade achterblijft.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Geef mij een stille kamer en helder doel; ik krijg veel alleen af.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Zonder helder plan schuift de werkplaats richting historische wanorde.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Als de situatie verandert, beweeg ik liever eerst en stempel later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Wanneer het alarm klinkt, word ik juist helderder.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Ik vertrouw stabiele dagelijkse output meer dan nachtmobilisatie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Een goede slogan kan vermoeide kameraden weer laten opkijken.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Sommig werk heeft geen toespraak nodig; als het staat, staat het.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Als iets verkeerd voelt, wil ik mechanisme, geschiedenis en logs zien.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Verhalen, symbolen en emotioneel gewicht verklaren soms meer dan parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Ik check vanzelf of niemand in de brigade achterblijft.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Geef mij een stille kamer en helder doel; ik krijg veel alleen af.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Zonder helder plan schuift de werkplaats richting historische wanorde.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Als de situatie verandert, beweeg ik liever eerst en stempel later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Wanneer het alarm klinkt, word ik juist helderder.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Ik vertrouw stabiele dagelijkse output meer dan nachtmobilisatie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Een goede slogan kan vermoeide kameraden weer laten opkijken.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Sommig werk heeft geen toespraak nodig; als het staat, staat het.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Als iets verkeerd voelt, wil ik mechanisme, geschiedenis en logs zien.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Verhalen, symbolen en emotioneel gewicht verklaren soms meer dan parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Ik check vanzelf of niemand in de brigade achterblijft.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Geef mij een stille kamer en helder doel; ik krijg veel alleen af.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Zonder helder plan schuift de werkplaats richting historische wanorde.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Als de situatie verandert, beweeg ik liever eerst en stempel later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Wanneer het alarm klinkt, word ik juist helderder.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Ik vertrouw stabiele dagelijkse output meer dan nachtmobilisatie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Een goede slogan kan vermoeide kameraden weer laten opkijken.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Sommig werk heeft geen toespraak nodig; als het staat, staat het.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Als iets verkeerd voelt, wil ik mechanisme, geschiedenis en logs zien.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Verhalen, symbolen en emotioneel gewicht verklaren soms meer dan parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Ik check vanzelf of niemand in de brigade achterblijft.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Geef mij een stille kamer en helder doel; ik krijg veel alleen af.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Zonder helder plan schuift de werkplaats richting historische wanorde.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Als de situatie verandert, beweeg ik liever eerst en stempel later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Wanneer het alarm klinkt, word ik juist helderder.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Ik vertrouw stabiele dagelijkse output meer dan nachtmobilisatie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Een goede slogan kan vermoeide kameraden weer laten opkijken.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Sommig werk heeft geen toespraak nodig; als het staat, staat het.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Als iets verkeerd voelt, wil ik mechanisme, geschiedenis en logs zien.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Verhalen, symbolen en emotioneel gewicht verklaren soms meer dan parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Ik check vanzelf of niemand in de brigade achterblijft.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Geef mij een stille kamer en helder doel; ik krijg veel alleen af.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Ideaal Propagandamodel",
+      "description": "Arbeidspersoonlijkheid SOVIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOVIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Het SOVIA-type is het propaganda-ideaal, niet noodzakelijk Sovia zelf.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOVIL": {
+      "title": "Eenzame Propaganda-ingenieur",
+      "description": "Arbeidspersoonlijkheid SOVIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOVIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Archiefafwijking: dit lijkt op een niet-vrijgegeven personage.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOVMA": {
+      "title": "Dossierfunctionaris SOVMA",
+      "description": "Arbeidspersoonlijkheid SOVMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOVMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOVML": {
+      "title": "Dossierfunctionaris SOVML",
+      "description": "Arbeidspersoonlijkheid SOVML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOVML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOQIA": {
+      "title": "Dossierfunctionaris SOQIA",
+      "description": "Arbeidspersoonlijkheid SOQIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOQIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOQIL": {
+      "title": "Dossierfunctionaris SOQIL",
+      "description": "Arbeidspersoonlijkheid SOQIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOQIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOQMA": {
+      "title": "Dossierfunctionaris SOQMA",
+      "description": "Arbeidspersoonlijkheid SOQMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOQMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SOQML": {
+      "title": "Dossierfunctionaris SOQML",
+      "description": "Arbeidspersoonlijkheid SOQML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SOQML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEVIA": {
+      "title": "Dossierfunctionaris SEVIA",
+      "description": "Arbeidspersoonlijkheid SEVIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEVIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEVIL": {
+      "title": "Dossierfunctionaris SEVIL",
+      "description": "Arbeidspersoonlijkheid SEVIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEVIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEVMA": {
+      "title": "Dossierfunctionaris SEVMA",
+      "description": "Arbeidspersoonlijkheid SEVMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEVMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEVML": {
+      "title": "Dossierfunctionaris SEVML",
+      "description": "Arbeidspersoonlijkheid SEVML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEVML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEQIA": {
+      "title": "Dossierfunctionaris SEQIA",
+      "description": "Arbeidspersoonlijkheid SEQIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEQIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEQIL": {
+      "title": "Dossierfunctionaris SEQIL",
+      "description": "Arbeidspersoonlijkheid SEQIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEQIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEQMA": {
+      "title": "Dossierfunctionaris SEQMA",
+      "description": "Arbeidspersoonlijkheid SEQMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEQMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "SEQML": {
+      "title": "Dossierfunctionaris SEQML",
+      "description": "Arbeidspersoonlijkheid SEQML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer SEQML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOVIA": {
+      "title": "Dossierfunctionaris FOVIA",
+      "description": "Arbeidspersoonlijkheid FOVIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOVIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOVIL": {
+      "title": "Dossierfunctionaris FOVIL",
+      "description": "Arbeidspersoonlijkheid FOVIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOVIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOVMA": {
+      "title": "Dossierfunctionaris FOVMA",
+      "description": "Arbeidspersoonlijkheid FOVMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOVMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOVML": {
+      "title": "Dossierfunctionaris FOVML",
+      "description": "Arbeidspersoonlijkheid FOVML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOVML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOQIA": {
+      "title": "Dossierfunctionaris FOQIA",
+      "description": "Arbeidspersoonlijkheid FOQIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOQIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOQIL": {
+      "title": "Dossierfunctionaris FOQIL",
+      "description": "Arbeidspersoonlijkheid FOQIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOQIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOQMA": {
+      "title": "Dossierfunctionaris FOQMA",
+      "description": "Arbeidspersoonlijkheid FOQMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOQMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FOQML": {
+      "title": "Dossierfunctionaris FOQML",
+      "description": "Arbeidspersoonlijkheid FOQML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FOQML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEVIA": {
+      "title": "Dossierfunctionaris FEVIA",
+      "description": "Arbeidspersoonlijkheid FEVIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEVIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEVIL": {
+      "title": "Dossierfunctionaris FEVIL",
+      "description": "Arbeidspersoonlijkheid FEVIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEVIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEVMA": {
+      "title": "Dossierfunctionaris FEVMA",
+      "description": "Arbeidspersoonlijkheid FEVMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEVMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEVML": {
+      "title": "Dossierfunctionaris FEVML",
+      "description": "Arbeidspersoonlijkheid FEVML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEVML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEQIA": {
+      "title": "Dossierfunctionaris FEQIA",
+      "description": "Arbeidspersoonlijkheid FEQIA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEQIA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEQIL": {
+      "title": "Dossierfunctionaris FEQIL",
+      "description": "Arbeidspersoonlijkheid FEQIL: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEQIL van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEQMA": {
+      "title": "Dossierfunctionaris FEQMA",
+      "description": "Arbeidspersoonlijkheid FEQMA: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEQMA van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    },
+    "FEQML": {
+      "title": "Dossierfunctionaris FEQML",
+      "description": "Arbeidspersoonlijkheid FEQML: klein radertje in de planmachine.",
+      "unit": "Verdelingskamer FEQML van Derde Nieuw-Troitsk",
+      "archiveComment": "Geschikt voor vreemde maar noodzakelijke taken die voor de ochtend verdwijnen.",
+      "soviaComment": "Kameraad, je formulier is niet perfect, maar productiegereed."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Je neigingen gehoorzamen niet volledig aan de postentabel.",
+    "unit": "Tijdelijk Algemeen Planningsbureau",
+    "archiveComment": "Observatie vereist, maar voldoende stabiel voor productie.",
+    "soviaComment": "Kameraad, onbekend is niet nutteloos. Eerst gereedschap ophalen."
+  },
+  "copy": {
+    "template": "In de SOVIA-verdelingstest kreeg ik {{code}} · {{title}}. Eenheid: {{unit}}. Test ook: {{url}}",
+    "success": "Resultaat gekopieerd.",
+    "failed": "Kopiëren mislukt. Bewaar handmatig.",
+    "linkSuccess": "Resultaatlink gekopieerd."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "Persoonlijkheidsdossier",
+    "personalityLabel": "Karakterbeschrijving",
+    "workLabel": "Tijdens het werk",
+    "socialLabel": "Sociale omgang"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Type SOVIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOVIL": {
+      "personality": "Type SOVIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOVMA": {
+      "personality": "Type SOVMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOVML": {
+      "personality": "Type SOVML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOQIA": {
+      "personality": "Type SOQIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOQIL": {
+      "personality": "Type SOQIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOQMA": {
+      "personality": "Type SOQMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SOQML": {
+      "personality": "Type SOQML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEVIA": {
+      "personality": "Type SEVIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEVIL": {
+      "personality": "Type SEVIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEVMA": {
+      "personality": "Type SEVMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEVML": {
+      "personality": "Type SEVML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEQIA": {
+      "personality": "Type SEQIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEQIL": {
+      "personality": "Type SEQIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEQMA": {
+      "personality": "Type SEQMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "SEQML": {
+      "personality": "Type SEQML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOVIA": {
+      "personality": "Type FOVIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOVIL": {
+      "personality": "Type FOVIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOVMA": {
+      "personality": "Type FOVMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOVML": {
+      "personality": "Type FOVML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOQIA": {
+      "personality": "Type FOQIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOQIL": {
+      "personality": "Type FOQIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOQMA": {
+      "personality": "Type FOQMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FOQML": {
+      "personality": "Type FOQML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEVIA": {
+      "personality": "Type FEVIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEVIL": {
+      "personality": "Type FEVIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEVMA": {
+      "personality": "Type FEVMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEVML": {
+      "personality": "Type FEVML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEQIA": {
+      "personality": "Type FEQIA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEQIL": {
+      "personality": "Type FEQIL beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEQMA": {
+      "personality": "Type FEQMA beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    },
+    "FEQML": {
+      "personality": "Type FEQML beweegt als een interne memo: droog, licht absurd, maar nuttig voor de werkplaats.",
+      "work": "Op het werk heeft dit type duidelijke richting en wat manoeuvreerruimte nodig. Bij te veel bureaucratie zoekt het een zijdeur.",
+      "social": "Sociaal toont het zorg via kleine daden: lamp aan, bericht verzonden, geen kameraad achtergelaten."
+    }
+  },
+  "channelAd": {
+    "title": "Steun de kanalen van Comrade Sovia",
+    "intro": "Ik bewerk anime- en gamemuziek tot liedjes in Sovjetstijl. Als je mijn werk wilt steunen, kom dan eens langs op mijn kanalen."
+  }
+}

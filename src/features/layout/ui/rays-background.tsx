@@ -1,6 +1,9 @@
 export function RaysBackground() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+    >
       <div className="absolute inset-0 bg-paper" />
       <div className="absolute -left-[18vw] top-0 h-[120vh] w-[48vw] -skew-x-12 bg-red" />
       <div className="absolute right-[-20vw] top-[-14vh] h-[50vh] w-[72vw] -rotate-12 bg-block" />

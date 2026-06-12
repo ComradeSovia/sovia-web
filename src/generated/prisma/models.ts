@@ -9,4 +9,5 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/MusicWork'
+export type * from './models/SoviaTestSubmission'
 export type * from './commonInputTypes'

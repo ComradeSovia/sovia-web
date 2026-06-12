@@ -46,3 +46,8 @@ export { Prisma }
  * 
  */
 export type MusicWork = Prisma.MusicWorkModel
+/**
+ * Model SoviaTestSubmission
+ * 
+ */
+export type SoviaTestSubmission = Prisma.SoviaTestSubmissionModel

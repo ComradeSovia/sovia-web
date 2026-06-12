@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "SOVIA आवंटन परीक्षण",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "अपनी सोवियत श्रम-व्यक्तित्व जाँचें और अपना पद देखें।",
+    "intro": "SOVIA प्रचार विभाग द्वारा बनाया गया एक काल्पनिक, अनौपचारिक श्रम-व्यक्तित्व आवंटन तंत्र है। यह तय करता है कि कोई कॉमरेड रेडियो टावर, अभिलेख कक्ष, मशीन कक्ष, कैंटीन, हीटिंग समिति या किसी अन्य आवश्यक पद के लिए अधिक उपयुक्त है।",
+    "disclaimer": "यह मनोवैज्ञानिक सलाह, करियर सलाह या वास्तविक संगठनात्मक निर्णय नहीं है। अंतिम व्याख्या प्रचार विभाग के अस्थायी व्यक्तित्व समीक्षा अनुभाग की होगी।"
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "SOVIA आवंटन परीक्षण",
+    "department": "प्रचार विभाग की अस्थायी व्यक्तित्व समीक्षा शाखा"
+  },
+  "demographics": {
+    "title": "वैकल्पिक अभिलेख विवरण",
+    "intro": "ये फ़ील्ड वैकल्पिक हैं और प्रचार विभाग को यह समझने में मदद करते हैं कि कौन-सा कॉमरेड यह परीक्षण दे रहा है।",
+    "ageLabel": "आयु",
+    "genderLabel": "लिंग",
+    "ageOptions": {
+      "prefer_not_to_say": "बताना नहीं चाहता/चाहती",
+      "under_18": "18 से कम",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "बताना नहीं चाहता/चाहती",
+      "male": "पुरुष",
+      "female": "महिला",
+      "other": "अन्य"
+    }
+  },
+  "typesPage": {
+    "title": "SOVIA के सभी पद",
+    "subtitle": "SOVIA आवंटन परीक्षण के सभी प्रकार और पद-अभिलेख देखें।",
+    "intro": "यहाँ 32 श्रम-व्यक्तित्व कोड दर्ज हैं। हर पद संरचना, कार्रवाई, प्रभाव, समझ और संबंध की पद्धतियों से बनता है।",
+    "startTestLabel": "परीक्षण शुरू करें",
+    "codeLabel": "व्यक्तित्व कोड",
+    "detailLabel": "पद-अभिलेख",
+    "detailActionLabel": "विवरण देखें"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "0",
+    "middle": "5",
+    "max": "10",
+    "leftHint": "0",
+    "rightHint": "10"
+  },
+  "actions": {
+    "start": "परीक्षण शुरू करें",
+    "types": "सभी पद देखें",
+    "previous": "पिछला प्रश्न",
+    "next": "अगला प्रश्न",
+    "continue": "जारी रखें",
+    "submit": "श्रम आवंटन आवेदन जमा करें",
+    "restart": "फिर से परीक्षण करें",
+    "copy": "परिणाम कॉपी करें",
+    "copyLink": "लिंक कॉपी करें"
+  },
+  "status": {
+    "unanswered": "पहले यह प्रश्न पूरा करें; अभिलेख अधिकारी अभी भी आपके मत की प्रतीक्षा कर रहा है।",
+    "ready": "उत्तर दर्ज हो गया है। समीक्षा आगे बढ़ सकती है।",
+    "copied": "परिणाम कॉपी हो गया।",
+    "copyFailed": "कॉपी विफल रही; अभिलेख हाथ से सुरक्षित करें।",
+    "linkSuccess": "परिणाम लिंक कॉपी हो गया।"
+  },
+  "certificate": {
+    "title": "श्रमिक आवंटन प्रमाणपत्र",
+    "systemLabel": "परीक्षण तंत्र",
+    "statusLabel": "अभिलेख स्थिति",
+    "statusApproved": "स्वीकृत",
+    "codeLabel": "श्रम व्यक्तित्व कोड",
+    "titleLabel": "व्यक्तित्व उपाधि",
+    "unitLabel": "आवंटित इकाई",
+    "axisLabel": "पाँच-नुकीला झुकाव",
+    "assessmentLabel": "मूल्यांकन डेटा",
+    "resultLinkLabel": "परिणाम लिंक",
+    "tendencyLabel": "झुकाव की तीव्रता",
+    "rawScoreLabel": "कच्चा अंक",
+    "oppositeLabel": "विपरीत पक्ष",
+    "archiveCommentLabel": "अभिलेख टिप्पणी",
+    "soviaCommentLabel": "Sovia टिप्पणी",
+    "authorityLabel": "स्वीकृत प्राधिकारी",
+    "descriptionLabel": "संक्षिप्त विवरण",
+    "authority": "प्रचार विभाग का अस्थायी व्यक्तित्व समीक्षा अनुभाग",
+    "codeFormat": "{{code}} प्रकार"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structure",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structure",
+          "description": "Structure"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flow",
+          "description": "Flow"
+        }
+      }
+    },
+    "action": {
+      "label": "Action",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Overdrive"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Endurance",
+          "description": "Endurance"
+        }
+      }
+    },
+    "influence": {
+      "label": "Influence",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Voice",
+          "description": "Voice"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Quiet",
+          "description": "Quiet"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Understanding",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Inquiry",
+          "description": "Inquiry"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Meaning",
+          "description": "Meaning"
+        }
+      }
+    },
+    "relation": {
+      "label": "Relation",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliance",
+          "description": "Alliance"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Lone",
+          "description": "Lone"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "योजना-पत्र न हो तो मुझे लगता है कि सभ्यता धीरे-धीरे पीछे हट रही है।",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "मुझे यह ज़रूरी नहीं लगता कि सबको पता हो मैंने क्या किया; परिणाम टिकाऊ हो, बस काफी है।",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "मुझे एक शांत कमरा और साफ़ लक्ष्य दे दें, मैं बहुत कुछ अकेले पूरा कर सकता हूँ।",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "यदि काम का जिम्मेदार व्यक्ति, समय सीमा और बैकअप योजना न हो, तो मुझे चैन नहीं आता।",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "यदि परिणाम पहले से अच्छा है, तो मुझे हमेशा यह समझाना ज़रूरी नहीं लगता कि वह अच्छा क्यों है।",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "यदि किसी काम में लंबे समय तक ध्यान चाहिए, तो मैं कम बैठकें पसंद करूँगा।",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "मुझे बिखरी सामग्री को नंबर, संस्करण और सूची में बदलना अच्छा लगता है।",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "मैं चीज़ को मजबूत बनाना पसंद करूँगा, उसे बहुत शोर-शराबे से पैक करना नहीं।",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "जब लोग बहुत ज़्यादा हो जाते हैं, तो मैं कोने में जाकर काम अकेले पूरा करना चाहता हूँ।",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "नियम बंधन नहीं हैं; वे सबको बार-बार अनुमान लगाने से बचाने वाले औज़ार हैं।",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "मुझे केंद्र में खड़ा होना बहुत पसंद नहीं, भले ही मुझे जवाब पता हो।",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "मैं चाहता हूँ कि लोग मेरी कार्य-सीमाओं का सम्मान करें और हर समय अंदर न घुसें।",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "यदि व्यवस्था साफ़ हो, तो मैं उसमें अधिक स्थिर होकर काम कर सकता हूँ।",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "कुछ परिणाम जितने कम समझाए जाएँ, उतने ही शक्तिशाली लगते हैं।",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "मेरे लिए सचमुच उपयुक्त पद वह होना चाहिए जहाँ मैं समस्या को अकेले पचा सकूँ।",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "प्रचार विभाग का आदर्श नमूना",
+      "description": "श्रम व्यक्तित्व SOVIA: प्रचार विभाग का आदर्श नमूना। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOVIA आवंटन कक्ष",
+      "archiveComment": "ध्यान दें: SOVIA प्रकार प्रचार विभाग का आदर्श नमूना है; इसका अर्थ यह नहीं कि आप Sovia हैं या Sovia स्वयं SOVIA प्रकार है।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOVIL": {
+      "title": "एकाकी प्रचार अभियंता",
+      "description": "श्रम व्यक्तित्व SOVIL: एकाकी प्रचार अभियंता। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOVIL आवंटन कक्ष",
+      "archiveComment": "अभिलेख विसंगति: यह परिणाम किसी अप्रकाशित पात्र से मिलता-जुलता है। गलियारे में इसकी चर्चा न करें।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOVMA": {
+      "title": "SOVMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SOVMA: SOVMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOVMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOVML": {
+      "title": "SOVML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SOVML: SOVML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOVML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOQIA": {
+      "title": "SOQIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SOQIA: SOQIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOQIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOQIL": {
+      "title": "SOQIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SOQIL: SOQIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOQIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOQMA": {
+      "title": "SOQMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SOQMA: SOQMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOQMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SOQML": {
+      "title": "SOQML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SOQML: SOQML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SOQML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEVIA": {
+      "title": "SEVIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEVIA: SEVIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEVIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEVIL": {
+      "title": "SEVIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEVIL: SEVIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEVIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEVMA": {
+      "title": "SEVMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEVMA: SEVMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEVMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEVML": {
+      "title": "SEVML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEVML: SEVML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEVML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEQIA": {
+      "title": "SEQIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEQIA: SEQIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEQIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEQIL": {
+      "title": "SEQIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEQIL: SEQIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEQIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEQMA": {
+      "title": "SEQMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEQMA: SEQMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEQMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "SEQML": {
+      "title": "SEQML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व SEQML: SEQML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का SEQML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOVIA": {
+      "title": "FOVIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOVIA: FOVIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOVIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOVIL": {
+      "title": "FOVIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOVIL: FOVIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOVIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOVMA": {
+      "title": "FOVMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOVMA: FOVMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOVMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOVML": {
+      "title": "FOVML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOVML: FOVML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOVML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOQIA": {
+      "title": "FOQIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOQIA: FOQIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOQIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOQIL": {
+      "title": "FOQIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOQIL: FOQIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOQIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOQMA": {
+      "title": "FOQMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOQMA: FOQMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOQMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FOQML": {
+      "title": "FOQML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FOQML: FOQML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FOQML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEVIA": {
+      "title": "FEVIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEVIA: FEVIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEVIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEVIL": {
+      "title": "FEVIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEVIL: FEVIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEVIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEVMA": {
+      "title": "FEVMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEVMA: FEVMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEVMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEVML": {
+      "title": "FEVML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEVML: FEVML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEVML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEQIA": {
+      "title": "FEQIA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEQIA: FEQIA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEQIA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEQIL": {
+      "title": "FEQIL फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEQIL: FEQIL फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEQIL आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEQMA": {
+      "title": "FEQMA फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEQMA: FEQMA फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEQMA आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    },
+    "FEQML": {
+      "title": "FEQML फाइल अधिकारी",
+      "description": "श्रम व्यक्तित्व FEQML: FEQML फाइल अधिकारी। अभिलेख उत्पादन योग्य है, यद्यपि समिति को हल्का भ्रम हो सकता है।",
+      "unit": "तीसरे नये ट्रोइत्स्क का FEQML आवंटन कक्ष",
+      "archiveComment": "यह प्रकार अजीब लेकिन आवश्यक कामों के लिए उपयुक्त है, जिन्हें बेहतर होगा कि सुबह से पहले पूरा कर लिया जाए।",
+      "soviaComment": "कॉमरेड, फॉर्म उत्पादन के लिए स्वीकार्य है।"
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "आपकी प्रवृत्तियाँ वर्तमान पद-सूची का पूरी तरह पालन नहीं करतीं। प्रचार विभाग आपको मिश्रित श्रम-व्यक्तित्व के रूप में दर्ज करेगा और दिन की कमी के अनुसार आवंटित करेगा।",
+    "unit": "अस्थायी सामान्य प्रेषण कार्यालय",
+    "archiveComment": "इस व्यक्ति को निरीक्षण की आवश्यकता है, पर उत्पादन में लगाने योग्य बुनियादी स्थिरता मौजूद है।",
+    "soviaComment": "कॉमरेड, अज्ञात होना बेकार होना नहीं है। पहले औज़ार लें, फिर भाग्य लें।"
+  },
+  "copy": {
+    "template": "SOVIA result: {{code}} · {{title}}. Unit: {{unit}}. Try it: {{url}}",
+    "success": "Result copied.",
+    "failed": "Copy failed.",
+    "linkSuccess": "Result link copied."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "व्यक्तित्व अभिलेख",
+    "personalityLabel": "व्यक्तित्व विवरण",
+    "workLabel": "काम की अवस्था",
+    "socialLabel": "सामाजिक संबंध"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "कॉमरेड, SOVIA प्रकार — “प्रचार विभाग का आदर्श नमूना” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOVIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOVIL": {
+      "personality": "कॉमरेड, SOVIL प्रकार — “एकाकी प्रचार अभियंता” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOVIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOVMA": {
+      "personality": "कॉमरेड, SOVMA प्रकार — “SOVMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOVMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOVML": {
+      "personality": "कॉमरेड, SOVML प्रकार — “SOVML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOVML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOQIA": {
+      "personality": "कॉमरेड, SOQIA प्रकार — “SOQIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOQIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOQIL": {
+      "personality": "कॉमरेड, SOQIL प्रकार — “SOQIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOQIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOQMA": {
+      "personality": "कॉमरेड, SOQMA प्रकार — “SOQMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOQMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SOQML": {
+      "personality": "कॉमरेड, SOQML प्रकार — “SOQML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SOQML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEVIA": {
+      "personality": "कॉमरेड, SEVIA प्रकार — “SEVIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEVIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEVIL": {
+      "personality": "कॉमरेड, SEVIL प्रकार — “SEVIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEVIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEVMA": {
+      "personality": "कॉमरेड, SEVMA प्रकार — “SEVMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEVMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEVML": {
+      "personality": "कॉमरेड, SEVML प्रकार — “SEVML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEVML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEQIA": {
+      "personality": "कॉमरेड, SEQIA प्रकार — “SEQIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEQIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEQIL": {
+      "personality": "कॉमरेड, SEQIL प्रकार — “SEQIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEQIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEQMA": {
+      "personality": "कॉमरेड, SEQMA प्रकार — “SEQMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEQMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "SEQML": {
+      "personality": "कॉमरेड, SEQML प्रकार — “SEQML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का SEQML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOVIA": {
+      "personality": "कॉमरेड, FOVIA प्रकार — “FOVIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOVIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOVIL": {
+      "personality": "कॉमरेड, FOVIL प्रकार — “FOVIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOVIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOVMA": {
+      "personality": "कॉमरेड, FOVMA प्रकार — “FOVMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOVMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOVML": {
+      "personality": "कॉमरेड, FOVML प्रकार — “FOVML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOVML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOQIA": {
+      "personality": "कॉमरेड, FOQIA प्रकार — “FOQIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOQIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOQIL": {
+      "personality": "कॉमरेड, FOQIL प्रकार — “FOQIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOQIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOQMA": {
+      "personality": "कॉमरेड, FOQMA प्रकार — “FOQMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOQMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FOQML": {
+      "personality": "कॉमरेड, FOQML प्रकार — “FOQML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FOQML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEVIA": {
+      "personality": "कॉमरेड, FEVIA प्रकार — “FEVIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEVIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEVIL": {
+      "personality": "कॉमरेड, FEVIL प्रकार — “FEVIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEVIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEVMA": {
+      "personality": "कॉमरेड, FEVMA प्रकार — “FEVMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEVMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEVML": {
+      "personality": "कॉमरेड, FEVML प्रकार — “FEVML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEVML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEQIA": {
+      "personality": "कॉमरेड, FEQIA प्रकार — “FEQIA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEQIA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEQIL": {
+      "personality": "कॉमरेड, FEQIL प्रकार — “FEQIL फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEQIL आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEQMA": {
+      "personality": "कॉमरेड, FEQMA प्रकार — “FEQMA फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEQMA आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    },
+    "FEQML": {
+      "personality": "कॉमरेड, FEQML प्रकार — “FEQML फाइल अधिकारी” — किसी आंतरिक ज्ञापन की तरह चलता है: थोड़ा सूखा, बहुत उपयोगी, और लाल मुहर लगाने लायक संदिग्ध।",
+      "work": "काम में इसे “तीसरे नये ट्रोइत्स्क का FEQML आवंटन कक्ष” जैसा पद सूट करता है: साफ़ लक्ष्य, थोड़ा संचालन-क्षेत्र और उतनी ही नौकरशाही जितनी साइड दरवाज़ा बंद न कर दे। बैठकें बढ़ें तो उत्पादन निकास ढूँढने लगता है।",
+      "social": "सामाजिक रूप से यह छोटे व्यावहारिक कामों से परवाह दिखाता है: दीपक जलता रहता है, संदेश पहुँचता है, और कोई कॉमरेड कतार के पीछे नहीं छूटता।"
+    }
+  },
+  "channelAd": {
+    "title": "Comrade Sovia चैनलों का समर्थन करें",
+    "intro": "मैं ऐनिमे और गेम संगीत को सोवियत शैली के गीतों में रूपांतरित करता/करती हूँ। अगर आप मेरे काम का समर्थन करना चाहते हैं, तो मेरे चैनल देखें।"
+  }
+}

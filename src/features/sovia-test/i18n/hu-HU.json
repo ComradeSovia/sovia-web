@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "SOVIA beosztási teszt",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Mérd fel szovjet munkaszemélyiségedet és posztodat.",
+    "intro": "A SOVIA a Propagandaosztály által fejlesztett, fiktív és nem hivatalos munkaszemélyiség-beosztási rendszer. Eldönti, hogy az elvtárs inkább a rádiótoronyba, az irattárba, a gépterembe, a menzára, a fűtési bizottságba vagy más szükséges posztra való-e.",
+    "disclaimer": "Ez nem pszichológiai tanácsadás, nem pályaválasztási tanács és nem valódi szervezeti döntés. A végső értelmezés joga a Propagandaosztály Ideiglenes Személyiségvizsgáló Szekciójáé."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "SOVIA beosztási teszt",
+    "department": "Propagandaosztály Ideiglenes Személyiségvizsgálati Részlege"
+  },
+  "demographics": {
+    "title": "Opcionális archívumi adatok",
+    "intro": "Ezek a mezők opcionálisak, és segítenek a Propagandaosztálynak megérteni, melyik elvtárs tölti ki a tesztet.",
+    "ageLabel": "Életkor",
+    "genderLabel": "Nem",
+    "ageOptions": {
+      "prefer_not_to_say": "Nem szeretném megadni",
+      "under_18": "18 alatt",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Nem szeretném megadni",
+      "male": "Férfi",
+      "female": "Nő",
+      "other": "Egyéb"
+    }
+  },
+  "typesPage": {
+    "title": "A SOVIA összes beosztása",
+    "subtitle": "Tekintsd meg a SOVIA beosztási teszt összes típusát és munkaköri aktáját.",
+    "intro": "Itt 32 munkaszemélyiség-kód található. Minden poszt a struktúra, cselekvés, hatás, megértés és kapcsolat tengelyeiből áll össze.",
+    "startTestLabel": "Teszt indítása",
+    "codeLabel": "Személyiségkód",
+    "detailLabel": "Munkaköri akta",
+    "detailActionLabel": "Részletek"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "0",
+    "middle": "5",
+    "max": "10",
+    "leftHint": "0",
+    "rightHint": "10"
+  },
+  "actions": {
+    "start": "Teszt indítása",
+    "types": "Összes beosztás böngészése",
+    "previous": "Előző kérdés",
+    "next": "Következő kérdés",
+    "continue": "Folytatás",
+    "submit": "Munkabeosztási kérelem benyújtása",
+    "restart": "Újratesztelés",
+    "copy": "Eredmény másolása",
+    "copyLink": "Link másolása"
+  },
+  "status": {
+    "unanswered": "Előbb töltsd ki ezt a pontot; az irattáros még várja az állásfoglalásodat.",
+    "ready": "A válasz rögzítve. A vizsgálat folytatható.",
+    "copied": "Az eredmény másolva.",
+    "copyFailed": "A másolás nem sikerült; mentsd el kézzel az aktát.",
+    "linkSuccess": "Az eredmény hivatkozása másolva."
+  },
+  "certificate": {
+    "title": "Dolgozói beosztási igazolás",
+    "systemLabel": "Teszt-rendszer",
+    "statusLabel": "Akta állapota",
+    "statusApproved": "Jóváhagyva",
+    "codeLabel": "Munkaszemélyiség-kód",
+    "titleLabel": "Személyiségi cím",
+    "unitLabel": "Kijelölt egység",
+    "axisLabel": "Ötágú csillag hajlama",
+    "assessmentLabel": "Értékelési adatok",
+    "resultLinkLabel": "Eredménylink",
+    "tendencyLabel": "Hajlam erőssége",
+    "rawScoreLabel": "Nyers pontszám",
+    "oppositeLabel": "Ellenoldal",
+    "archiveCommentLabel": "Irattári megjegyzés",
+    "soviaCommentLabel": "Sovia megjegyzése",
+    "authorityLabel": "Jóváhagyó szerv",
+    "descriptionLabel": "Rövid leírás",
+    "authority": "A Propagandaosztály Ideiglenes Személyiségvizsgáló Szekciója",
+    "codeFormat": "{{code}} típus"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structure",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structure",
+          "description": "Structure"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flow",
+          "description": "Flow"
+        }
+      }
+    },
+    "action": {
+      "label": "Action",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Overdrive"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Endurance",
+          "description": "Endurance"
+        }
+      }
+    },
+    "influence": {
+      "label": "Influence",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Voice",
+          "description": "Voice"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Quiet",
+          "description": "Quiet"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Understanding",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Inquiry",
+          "description": "Inquiry"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Meaning",
+          "description": "Meaning"
+        }
+      }
+    },
+    "relation": {
+      "label": "Relation",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliance",
+          "description": "Alliance"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Lone",
+          "description": "Lone"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Ha nincs tervlap, úgy érzem, a civilizáció lassan hátrál.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Nem különösebben fontos, hogy mások tudják, mit csináltam; elég, ha az eredmény megáll a lábán.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Adj nekem egy csendes szobát és egy világos célt, és sok mindent egyedül is befejezek.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Ha egy feladatnak nincs felelőse, határideje és tartalék terve, nehezen nyugszom meg.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Ha az eredmény már jó, nem feltétlenül kell elmagyaráznom, miért jó.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Ha egy munka hosszú összpontosítást igényel, inkább kevesebb értekezletet szeretnék.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Szeretem a kaotikus anyagokat számozássá, verziókká és listákká rendezni.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Inkább legyen valami szilárd, mint látványosan becsomagolt.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Ha túl sok az ember, inkább félrevonulok egy sarokba, és egyedül fejezem be a feladatot.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "A szabály nem bilincs, hanem eszköz, hogy ne kelljen mindenkinek újra meg újra találgatnia.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Nem szeretek a középpontban állni, még akkor sem, ha tudom a választ.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Szeretném, ha mások tiszteletben tartanák a munkahatáraimat, és nem rontanának be bármikor.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Ha a rendszer világos, stabilabban tudok benne működni.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Vannak eredmények, amelyek minél kevesebb magyarázatot kapnak, annál erősebbek.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "A hozzám igazán illő posztnak engednie kell, hogy egyedül emésszem meg a problémát.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Propaganda-ideálminta",
+      "description": "SOVIA munkaszemélyiség: Propaganda-ideálminta. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOVIA beosztóterme",
+      "archiveComment": "Figyelem: a SOVIA típus propagandaideál, nem bizonyíték arra, hogy te Sovia vagy, vagy hogy Sovia maga ilyen típus.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOVIL": {
+      "title": "Magányos propagandamérnök",
+      "description": "SOVIL munkaszemélyiség: Magányos propagandamérnök. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOVIL beosztóterme",
+      "archiveComment": "Irattári anomália: az eredmény egy nem nyilvános szereplőre emlékeztet. Ne beszéld meg a folyosón.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOVMA": {
+      "title": "SOVMA aktakezelő",
+      "description": "SOVMA munkaszemélyiség: SOVMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOVMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOVML": {
+      "title": "SOVML aktakezelő",
+      "description": "SOVML munkaszemélyiség: SOVML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOVML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOQIA": {
+      "title": "SOQIA aktakezelő",
+      "description": "SOQIA munkaszemélyiség: SOQIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOQIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOQIL": {
+      "title": "SOQIL aktakezelő",
+      "description": "SOQIL munkaszemélyiség: SOQIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOQIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOQMA": {
+      "title": "SOQMA aktakezelő",
+      "description": "SOQMA munkaszemélyiség: SOQMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOQMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SOQML": {
+      "title": "SOQML aktakezelő",
+      "description": "SOQML munkaszemélyiség: SOQML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SOQML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEVIA": {
+      "title": "SEVIA aktakezelő",
+      "description": "SEVIA munkaszemélyiség: SEVIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEVIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEVIL": {
+      "title": "SEVIL aktakezelő",
+      "description": "SEVIL munkaszemélyiség: SEVIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEVIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEVMA": {
+      "title": "SEVMA aktakezelő",
+      "description": "SEVMA munkaszemélyiség: SEVMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEVMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEVML": {
+      "title": "SEVML aktakezelő",
+      "description": "SEVML munkaszemélyiség: SEVML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEVML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEQIA": {
+      "title": "SEQIA aktakezelő",
+      "description": "SEQIA munkaszemélyiség: SEQIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEQIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEQIL": {
+      "title": "SEQIL aktakezelő",
+      "description": "SEQIL munkaszemélyiség: SEQIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEQIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEQMA": {
+      "title": "SEQMA aktakezelő",
+      "description": "SEQMA munkaszemélyiség: SEQMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEQMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "SEQML": {
+      "title": "SEQML aktakezelő",
+      "description": "SEQML munkaszemélyiség: SEQML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick SEQML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOVIA": {
+      "title": "FOVIA aktakezelő",
+      "description": "FOVIA munkaszemélyiség: FOVIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOVIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOVIL": {
+      "title": "FOVIL aktakezelő",
+      "description": "FOVIL munkaszemélyiség: FOVIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOVIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOVMA": {
+      "title": "FOVMA aktakezelő",
+      "description": "FOVMA munkaszemélyiség: FOVMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOVMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOVML": {
+      "title": "FOVML aktakezelő",
+      "description": "FOVML munkaszemélyiség: FOVML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOVML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOQIA": {
+      "title": "FOQIA aktakezelő",
+      "description": "FOQIA munkaszemélyiség: FOQIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOQIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOQIL": {
+      "title": "FOQIL aktakezelő",
+      "description": "FOQIL munkaszemélyiség: FOQIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOQIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOQMA": {
+      "title": "FOQMA aktakezelő",
+      "description": "FOQMA munkaszemélyiség: FOQMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOQMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FOQML": {
+      "title": "FOQML aktakezelő",
+      "description": "FOQML munkaszemélyiség: FOQML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FOQML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEVIA": {
+      "title": "FEVIA aktakezelő",
+      "description": "FEVIA munkaszemélyiség: FEVIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEVIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEVIL": {
+      "title": "FEVIL aktakezelő",
+      "description": "FEVIL munkaszemélyiség: FEVIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEVIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEVMA": {
+      "title": "FEVMA aktakezelő",
+      "description": "FEVMA munkaszemélyiség: FEVMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEVMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEVML": {
+      "title": "FEVML aktakezelő",
+      "description": "FEVML munkaszemélyiség: FEVML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEVML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEQIA": {
+      "title": "FEQIA aktakezelő",
+      "description": "FEQIA munkaszemélyiség: FEQIA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEQIA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEQIL": {
+      "title": "FEQIL aktakezelő",
+      "description": "FEQIL munkaszemélyiség: FEQIL aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEQIL beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEQMA": {
+      "title": "FEQMA aktakezelő",
+      "description": "FEQMA munkaszemélyiség: FEQMA aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEQMA beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    },
+    "FEQML": {
+      "title": "FEQML aktakezelő",
+      "description": "FEQML munkaszemélyiség: FEQML aktakezelő. Az akta termelésre alkalmas, enyhe bizottsági zavarkeltési kockázattal.",
+      "unit": "A Harmadik Új Troick FEQML beosztóterme",
+      "archiveComment": "Ez a típus furcsa, de szükséges munkákra alkalmas, amelyeket jobb befejezni, mielőtt valaki túl sokat kérdez.",
+      "soviaComment": "Elvtárs, az űrlap termelésre alkalmas."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "A hajlamaid nem engedelmeskednek teljesen a jelenlegi poszttáblázatnak. A Propagandaosztály összetett munkaszemélyiségként jegyez be, és aznapi hiány szerint oszt be.",
+    "unit": "Ideiglenes Általános Diszpécseriroda",
+    "archiveComment": "A személy megfigyelést igényel, de alapvető termelési stabilitása megvan.",
+    "soviaComment": "Elvtárs, az ismeretlen nem haszontalan. Előbb vedd át a szerszámot, aztán a sorsot."
+  },
+  "copy": {
+    "template": "SOVIA result: {{code}} · {{title}}. Unit: {{unit}}. Try it: {{url}}",
+    "success": "Result copied.",
+    "failed": "Copy failed.",
+    "linkSuccess": "Result link copied."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "Személyiségi akta",
+    "personalityLabel": "Személyiség leírása",
+    "workLabel": "Munkamód",
+    "socialLabel": "Emberi kapcsolatok"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Elvtárs, a SOVIA típus, vagyis a(z) „Propaganda-ideálminta” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOVIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOVIL": {
+      "personality": "Elvtárs, a SOVIL típus, vagyis a(z) „Magányos propagandamérnök” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOVIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOVMA": {
+      "personality": "Elvtárs, a SOVMA típus, vagyis a(z) „SOVMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOVMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOVML": {
+      "personality": "Elvtárs, a SOVML típus, vagyis a(z) „SOVML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOVML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOQIA": {
+      "personality": "Elvtárs, a SOQIA típus, vagyis a(z) „SOQIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOQIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOQIL": {
+      "personality": "Elvtárs, a SOQIL típus, vagyis a(z) „SOQIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOQIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOQMA": {
+      "personality": "Elvtárs, a SOQMA típus, vagyis a(z) „SOQMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOQMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SOQML": {
+      "personality": "Elvtárs, a SOQML típus, vagyis a(z) „SOQML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SOQML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEVIA": {
+      "personality": "Elvtárs, a SEVIA típus, vagyis a(z) „SEVIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEVIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEVIL": {
+      "personality": "Elvtárs, a SEVIL típus, vagyis a(z) „SEVIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEVIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEVMA": {
+      "personality": "Elvtárs, a SEVMA típus, vagyis a(z) „SEVMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEVMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEVML": {
+      "personality": "Elvtárs, a SEVML típus, vagyis a(z) „SEVML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEVML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEQIA": {
+      "personality": "Elvtárs, a SEQIA típus, vagyis a(z) „SEQIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEQIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEQIL": {
+      "personality": "Elvtárs, a SEQIL típus, vagyis a(z) „SEQIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEQIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEQMA": {
+      "personality": "Elvtárs, a SEQMA típus, vagyis a(z) „SEQMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEQMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "SEQML": {
+      "personality": "Elvtárs, a SEQML típus, vagyis a(z) „SEQML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick SEQML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOVIA": {
+      "personality": "Elvtárs, a FOVIA típus, vagyis a(z) „FOVIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOVIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOVIL": {
+      "personality": "Elvtárs, a FOVIL típus, vagyis a(z) „FOVIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOVIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOVMA": {
+      "personality": "Elvtárs, a FOVMA típus, vagyis a(z) „FOVMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOVMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOVML": {
+      "personality": "Elvtárs, a FOVML típus, vagyis a(z) „FOVML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOVML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOQIA": {
+      "personality": "Elvtárs, a FOQIA típus, vagyis a(z) „FOQIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOQIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOQIL": {
+      "personality": "Elvtárs, a FOQIL típus, vagyis a(z) „FOQIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOQIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOQMA": {
+      "personality": "Elvtárs, a FOQMA típus, vagyis a(z) „FOQMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOQMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FOQML": {
+      "personality": "Elvtárs, a FOQML típus, vagyis a(z) „FOQML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FOQML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEVIA": {
+      "personality": "Elvtárs, a FEVIA típus, vagyis a(z) „FEVIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEVIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEVIL": {
+      "personality": "Elvtárs, a FEVIL típus, vagyis a(z) „FEVIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEVIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEVMA": {
+      "personality": "Elvtárs, a FEVMA típus, vagyis a(z) „FEVMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEVMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEVML": {
+      "personality": "Elvtárs, a FEVML típus, vagyis a(z) „FEVML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEVML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEQIA": {
+      "personality": "Elvtárs, a FEQIA típus, vagyis a(z) „FEQIA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEQIA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEQIL": {
+      "personality": "Elvtárs, a FEQIL típus, vagyis a(z) „FEQIL aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEQIL beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEQMA": {
+      "personality": "Elvtárs, a FEQMA típus, vagyis a(z) „FEQMA aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEQMA beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    },
+    "FEQML": {
+      "personality": "Elvtárs, a FEQML típus, vagyis a(z) „FEQML aktakezelő” úgy mozog, mint egy belső feljegyzés: kissé száraz, nagyon hasznos, és elég gyanús ahhoz, hogy piros pecsétet kapjon.",
+      "work": "Munkában a(z) „A Harmadik Új Troick FEQML beosztóterme” illik hozzá: világos cél, némi mozgástér és annyi bürokrácia, amennyi még nem zárja el az oldalajtót. Ha túl sok az értekezlet, a termelés kijáratot keres.",
+      "social": "Emberi kapcsolatokban apró gyakorlati tettekkel törődik: égve marad a lámpa, megérkezik az üzenet, és egyetlen elvtárs sem marad elfelejtve a sor végén."
+    }
+  },
+  "channelAd": {
+    "title": "Támogasd Comrade Sovia csatornáit",
+    "intro": "Anime- és videojátékzenéket dolgozok át szovjet stílusú dalokká. Ha szeretnéd támogatni a munkámat, nézd meg a csatornáimat."
+  }
+}

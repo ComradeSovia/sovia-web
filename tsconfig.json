@@ -28,6 +28,8 @@
       "@sovia/layout/*": ["./src/features/layout/*"],
       "@sovia/shared": ["./src/shared/index.ts"],
       "@sovia/shared/*": ["./src/shared/*"],
+      "@sovia/sovia-test": ["./src/features/sovia-test/index.ts"],
+      "@sovia/sovia-test/*": ["./src/features/sovia-test/*"],
       "@sovia/sound": ["./src/features/sound/index.ts"],
       "@sovia/sound/*": ["./src/features/sound/*"]
     }
