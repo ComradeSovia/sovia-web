@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "Bài kiểm tra phân công SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Xem nhân cách lao động kiểu Xô viết của bạn và SOVIA sẽ phân công bạn vào đâu.",
+    "intro": "SOVIA là hệ thống phân công nhân cách lao động không chính thức do Cục Tuyên truyền phát triển. Nó xem một đồng chí hợp với đài phát thanh, phòng lưu trữ, phòng máy, nhà ăn, ủy ban sưởi ấm hay một vị trí cần thiết khác.",
+    "disclaimer": "Đây không phải tư vấn tâm lý, không phải hướng nghiệp, và càng không phải quyết định tổ chức thật. Quyền giải thích cuối cùng thuộc về Ban thẩm tra nhân cách tạm thời của Cục Tuyên truyền."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Hệ thống phân công nhân cách lao động Xô viết",
+    "department": "Ban thẩm tra nhân cách tạm thời"
+  },
+  "demographics": {
+    "title": "Chi tiết hồ sơ tùy chọn",
+    "intro": "Các trường này là tùy chọn và giúp Ban Tuyên truyền hiểu rõ hơn đồng chí đang làm bài kiểm tra.",
+    "ageLabel": "Tuổi",
+    "genderLabel": "Giới tính",
+    "ageOptions": {
+      "prefer_not_to_say": "Không muốn nói",
+      "under_18": "Dưới 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Không muốn nói",
+      "male": "Nam",
+      "female": "Nữ",
+      "other": "Khác"
+    }
+  },
+  "typesPage": {
+    "title": "Tất cả vị trí SOVIA",
+    "subtitle": "Xem toàn bộ kiểu và hồ sơ vị trí trong bài kiểm tra SOVIA.",
+    "intro": "Nơi này lưu 32 mã nhân cách lao động. Mỗi vị trí được tạo từ cấu trúc, hành động, ảnh hưởng, hiểu biết và quan hệ.",
+    "startTestLabel": "Bắt đầu kiểm tra",
+    "codeLabel": "Mã nhân cách",
+    "detailLabel": "Hồ sơ vị trí",
+    "detailActionLabel": "Xem chi tiết"
+  },
+  "progress": {
+    "label": "Tiến độ thẩm tra hồ sơ",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Rất không đồng ý",
+    "middle": "Trung lập",
+    "max": "Rất đồng ý",
+    "leftHint": "Rất không đồng ý",
+    "rightHint": "Rất đồng ý"
+  },
+  "actions": {
+    "start": "Bắt đầu",
+    "types": "Xem tất cả vị trí",
+    "previous": "Câu trước",
+    "next": "Câu tiếp",
+    "continue": "Tiếp tục",
+    "submit": "Nộp đơn phân công lao động",
+    "restart": "Làm lại",
+    "copy": "Sao chép kết quả",
+    "copyLink": "Sao chép liên kết"
+  },
+  "status": {
+    "unanswered": "Hãy trả lời câu hiện tại trước; cán bộ lưu trữ đang chờ lập trường của bạn.",
+    "ready": "Câu trả lời đã được ghi nhận. Có thể tiếp tục thẩm tra.",
+    "copied": "Đã sao chép kết quả.",
+    "copyFailed": "Sao chép thất bại. Hãy tự lưu hồ sơ."
+  },
+  "certificate": {
+    "title": "Giấy chứng nhận phân công nhân dân lao động",
+    "systemLabel": "Hệ thống kiểm tra",
+    "statusLabel": "Trạng thái hồ sơ",
+    "statusApproved": "Đã thông qua thẩm tra",
+    "codeLabel": "Mã nhân cách lao động",
+    "titleLabel": "Danh xưng nhân cách",
+    "unitLabel": "Đơn vị phân công",
+    "axisLabel": "Xu hướng ngôi sao năm cánh",
+    "assessmentLabel": "Dữ liệu đánh giá",
+    "resultLinkLabel": "Liên kết kết quả",
+    "tendencyLabel": "Cường độ xu hướng",
+    "rawScoreLabel": "Điểm gốc",
+    "oppositeLabel": "Mặt đối chiếu",
+    "archiveCommentLabel": "Nhận xét hồ sơ",
+    "soviaCommentLabel": "Nhận xét của Sovia",
+    "authorityLabel": "Cơ quan phê chuẩn",
+    "authority": "Ban thẩm tra nhân cách tạm thời",
+    "codeFormat": "kiểu {{code}}",
+    "descriptionLabel": "Mô tả ngắn"
+  },
+  "axes": {
+    "structure": {
+      "label": "Cách cấu trúc",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "kiểu cấu trúc",
+          "description": "Thích trật tự, kế hoạch, quy tắc và quy trình rõ ràng."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "kiểu linh hoạt",
+          "description": "Dựa vào phán đoán hiện trường, thích ứng và lối đi chưa đóng dấu."
+        }
+      }
+    },
+    "action": {
+      "label": "Cách hành động",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "kiểu xung kích",
+          "description": "Càng áp lực càng bùng lên, hợp nhiệm vụ khẩn cấp."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "kiểu bền bỉ",
+          "description": "Tiến đều, lâu dài, không cần tự đốt cháy."
+        }
+      }
+    },
+    "influence": {
+      "label": "Cách ảnh hưởng",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "kiểu phát thanh",
+          "description": "Giỏi kể chuyện, đóng khung và kéo khí thế."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "kiểu lặng thầm",
+          "description": "Không giải thích quá nhiều, coi trọng việc làm cho xong chắc."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Cách hiểu",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "kiểu truy xét",
+          "description": "Phân tích hệ thống, nguyên nhân, logic và cấu trúc."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "kiểu ý nghĩa",
+          "description": "Đọc cảm xúc, biểu tượng, bầu không khí, quan hệ và câu chuyện."
+        }
+      }
+    },
+    "relation": {
+      "label": "Cách quan hệ",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "kiểu liên minh",
+          "description": "Coi trọng phối hợp, nhịp tập thể và hoàn thành cùng nhau."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "kiểu độc hành",
+          "description": "Ranh giới rõ, làm tốt nhất khi không bị quấy rầy liên tục."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Không có kế hoạch đóng dấu là tôi thấy văn minh đang lùi lại từng chút.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Khi hiện trường đổi hướng, tôi thích hành động trước rồi bổ sung con dấu sau.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Khi chuông báo động vang lên, đầu tôi bỗng sáng một cách đáng ngờ.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Tôi tin vào bền bỉ hơn là tự đốt mình như anh hùng.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Một khẩu hiệu tốt có thể vực dậy cả nhà ăn mệt mỏi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Không phải kết quả tốt nào cũng cần kèn đồng và ba bài diễn văn.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Khi ai đó nói “có gì đó sai”, tôi muốn xem log, nguyên nhân và hồ sơ cũ.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Trước khi quyết định, tôi nghe bầu không khí không thể đưa vào hồ sơ.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Tôi nhanh chóng nhận ra ai im lặng hoặc tụt nhịp trong hàng ngũ.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Cho tôi phòng yên tĩnh, mục tiêu rõ và không ai gõ cửa: sản xuất bắt đầu.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Hỗn loạn chỉ khiến tôi yên tâm khi nó biến thành danh sách, số hiệu và người phụ trách.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Một kế hoạch quá hoàn hảo rất đáng nghi: nó không chừa lối thoát cho thực tế.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Hạn chót tối nay đánh thức lữ đoàn xung kích trong tôi.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Mỗi ngày giao đều một chút thắng ba phép màu ban đêm.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Nếu việc đó quan trọng, nó xứng đáng có tiếng nói rõ ràng và một tấm áp phích.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Tôi thích đặt kết quả chắc lên bàn hơn là mô tả cái bàn.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Tôi tách nguyên nhân, điều kiện và kết quả trước khi cuộc họp bắt đầu hát.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Đôi khi một biểu tượng giải thích nhiều hơn mọi tham số trong phòng máy.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Hoàn thành cùng nhau quan trọng hơn một mình chạy với lá cờ.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Tôi quý tập thể, nhưng tập thể không cần gõ cửa mỗi mười phút.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Quy tắc không phải xiềng xích; đôi khi nó là cái lò sưởi cuối cùng còn chạy.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Hiện trường đôi khi biết nhiều hơn biên bản đang chờ ký.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Trong khẩn cấp, tôi tìm thấy cần gạt nhanh hơn trong lịch làm việc bình thường.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Khi đội quá nóng, tôi giảm nhịp trước khi mọi người thành khói.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Tôi có thể nói một việc bình thường như thể đó là nhiệm vụ đã được phê chuẩn.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Có những thành tựu mạnh hơn khi không bị phát qua loa phóng thanh.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Tôi muốn biết vì sao hệ thống có thể hỏng một cách lịch sử như vậy.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Nếu một quyết định làm người ta đau, hiệu quả của nó không đủ để trở thành quốc ca.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Tôi nhận cả việc vô hình nếu tập thể bắt đầu lạnh.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Vị trí phù hợp phải cho tôi tự tiêu hóa vấn đề trước khi lập ủy ban.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Không có kế hoạch đóng dấu là tôi thấy văn minh đang lùi lại từng chút.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Khi hiện trường đổi hướng, tôi thích hành động trước rồi bổ sung con dấu sau.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Khi chuông báo động vang lên, đầu tôi bỗng sáng một cách đáng ngờ.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Tôi tin vào bền bỉ hơn là tự đốt mình như anh hùng.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Một khẩu hiệu tốt có thể vực dậy cả nhà ăn mệt mỏi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Không phải kết quả tốt nào cũng cần kèn đồng và ba bài diễn văn.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Khi ai đó nói “có gì đó sai”, tôi muốn xem log, nguyên nhân và hồ sơ cũ.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Trước khi quyết định, tôi nghe bầu không khí không thể đưa vào hồ sơ.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Tôi nhanh chóng nhận ra ai im lặng hoặc tụt nhịp trong hàng ngũ.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Cho tôi phòng yên tĩnh, mục tiêu rõ và không ai gõ cửa: sản xuất bắt đầu.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Hỗn loạn chỉ khiến tôi yên tâm khi nó biến thành danh sách, số hiệu và người phụ trách.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Một kế hoạch quá hoàn hảo rất đáng nghi: nó không chừa lối thoát cho thực tế.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Hạn chót tối nay đánh thức lữ đoàn xung kích trong tôi.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Mỗi ngày giao đều một chút thắng ba phép màu ban đêm.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Nếu việc đó quan trọng, nó xứng đáng có tiếng nói rõ ràng và một tấm áp phích.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Tôi thích đặt kết quả chắc lên bàn hơn là mô tả cái bàn.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Tôi tách nguyên nhân, điều kiện và kết quả trước khi cuộc họp bắt đầu hát.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Đôi khi một biểu tượng giải thích nhiều hơn mọi tham số trong phòng máy.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Hoàn thành cùng nhau quan trọng hơn một mình chạy với lá cờ.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Tôi quý tập thể, nhưng tập thể không cần gõ cửa mỗi mười phút.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Mẫu lý tưởng của Cục Tuyên truyền",
+      "description": "có kế hoạch, báo động, phát thanh viên, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Mẫu lý tưởng của Cục Tuyên truyền và các sai lệch có kế hoạch",
+      "archiveComment": "Chú ý: ra kiểu SOVIA không có nghĩa bạn là Sovia, cũng không có nghĩa Sovia là kiểu SOVIA. Bạn chỉ gần với mẫu lý tưởng do Cục Tuyên truyền tưởng tượng.",
+      "soviaComment": "Đồng chí, Mẫu lý tưởng của Cục Tuyên truyền nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOVIL": {
+      "title": "Kỹ sư tuyên truyền độc hành",
+      "description": "có kế hoạch, báo động, phát thanh viên, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Kỹ sư tuyên truyền độc hành và các sai lệch có kế hoạch",
+      "archiveComment": "Bất thường hồ sơ: kết quả này quá giống một nhân vật chưa công khai. Xin đừng bàn chuyện này ngoài hành lang.",
+      "soviaComment": "Đồng chí, Kỹ sư tuyên truyền độc hành nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOVMA": {
+      "title": "Phát thanh viên có kế hoạch báo động",
+      "description": "có kế hoạch, báo động, phát thanh viên, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên có kế hoạch báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SOVMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên có kế hoạch báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOVML": {
+      "title": "Phát thanh viên có kế hoạch báo động",
+      "description": "có kế hoạch, báo động, phát thanh viên, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên có kế hoạch báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SOVML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên có kế hoạch báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOQIA": {
+      "title": "Quản lý lặng thầm có kế hoạch báo động",
+      "description": "có kế hoạch, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SOQIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOQIL": {
+      "title": "Quản lý lặng thầm có kế hoạch báo động",
+      "description": "có kế hoạch, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SOQIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOQMA": {
+      "title": "Quản lý lặng thầm có kế hoạch báo động",
+      "description": "có kế hoạch, báo động, quản lý lặng thầm, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SOQMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SOQML": {
+      "title": "Quản lý lặng thầm có kế hoạch báo động",
+      "description": "có kế hoạch, báo động, quản lý lặng thầm, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SOQML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEVIA": {
+      "title": "Phát thanh viên có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEVIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEVIL": {
+      "title": "Phát thanh viên có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEVIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEVMA": {
+      "title": "Phát thanh viên có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, phát thanh viên, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEVMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEVML": {
+      "title": "Phát thanh viên có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, phát thanh viên, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEVML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEQIA": {
+      "title": "Quản lý lặng thầm có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEQIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEQIL": {
+      "title": "Quản lý lặng thầm có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEQIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEQMA": {
+      "title": "Quản lý lặng thầm có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEQMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "SEQML": {
+      "title": "Quản lý lặng thầm có kế hoạch bền bỉ",
+      "description": "có kế hoạch, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm có kế hoạch bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ SEQML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm có kế hoạch bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOVIA": {
+      "title": "Phát thanh viên linh hoạt báo động",
+      "description": "linh hoạt, báo động, phát thanh viên, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOVIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOVIL": {
+      "title": "Phát thanh viên linh hoạt báo động",
+      "description": "linh hoạt, báo động, phát thanh viên, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOVIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOVMA": {
+      "title": "Phát thanh viên linh hoạt báo động",
+      "description": "linh hoạt, báo động, phát thanh viên, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOVMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOVML": {
+      "title": "Phát thanh viên linh hoạt báo động",
+      "description": "linh hoạt, báo động, phát thanh viên, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOVML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOQIA": {
+      "title": "Quản lý lặng thầm linh hoạt báo động",
+      "description": "linh hoạt, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOQIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOQIL": {
+      "title": "Quản lý lặng thầm linh hoạt báo động",
+      "description": "linh hoạt, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOQIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOQMA": {
+      "title": "Quản lý lặng thầm linh hoạt báo động",
+      "description": "linh hoạt, báo động, quản lý lặng thầm, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOQMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FOQML": {
+      "title": "Quản lý lặng thầm linh hoạt báo động",
+      "description": "linh hoạt, báo động, quản lý lặng thầm, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt báo động và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FOQML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt báo động nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEVIA": {
+      "title": "Phát thanh viên linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEVIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEVIL": {
+      "title": "Phát thanh viên linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEVIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEVMA": {
+      "title": "Phát thanh viên linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, phát thanh viên, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEVMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEVML": {
+      "title": "Phát thanh viên linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, phát thanh viên, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Phát thanh viên linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEVML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Phát thanh viên linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEQIA": {
+      "title": "Quản lý lặng thầm linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEQIA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEQIL": {
+      "title": "Quản lý lặng thầm linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEQIL: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEQMA": {
+      "title": "Quản lý lặng thầm linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, tập thể: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEQMA: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    },
+    "FEQML": {
+      "title": "Quản lý lặng thầm linh hoạt bền bỉ",
+      "description": "linh hoạt, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, độc hành: đủ chính thức để vào hồ sơ, đủ đáng nghi để kiểm tra lần hai.",
+      "unit": "Phòng Quản lý lặng thầm linh hoạt bền bỉ và các sai lệch có kế hoạch",
+      "archiveComment": "Hồ sơ FEQML: phù hợp với nhiệm vụ có con dấu, báo động và sự phi lý được kiểm soát.",
+      "soviaComment": "Đồng chí, Quản lý lặng thầm linh hoạt bền bỉ nghe như vị trí không ai xin nhưng ai cũng cần."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Xu hướng của bạn không hoàn toàn nghe theo bảng vị trí hiện có. Cục Tuyên truyền sẽ ghi bạn là nhân cách lao động tổng hợp.",
+    "unit": "Văn phòng điều phối tổng hợp tạm thời",
+    "archiveComment": "Cần quan sát thêm, nhưng đã đủ ổn định để đưa vào sản xuất.",
+    "soviaComment": "Đồng chí, chưa biết không có nghĩa là vô dụng. Nhận công cụ trước, rồi nhận số phận."
+  },
+  "copy": {
+    "template": "Trong bài kiểm tra phân công SOVIA, tôi là kiểu {{code}} · {{title}}. Đơn vị: {{unit}}. Thử xem: {{url}}",
+    "success": "Đã sao chép kết quả.",
+    "failed": "Sao chép thất bại. Hãy tự lưu hồ sơ.",
+    "linkSuccess": "Đã sao chép liên kết kết quả."
+  },
+  "language": {
+    "label": "Ngôn ngữ"
+  },
+  "details": {
+    "title": "Hồ sơ nhân cách",
+    "personalityLabel": "Mô tả tính cách",
+    "workLabel": "Khi làm việc",
+    "socialLabel": "Quan hệ với đồng chí"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Bạn là kiểu SOVIA: có kế hoạch, báo động, phát thanh viên, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Mẫu lý tưởng của Cục Tuyên truyền. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOVIL": {
+      "personality": "Bạn là kiểu SOVIL: có kế hoạch, báo động, phát thanh viên, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Kỹ sư tuyên truyền độc hành. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOVMA": {
+      "personality": "Bạn là kiểu SOVMA: có kế hoạch, báo động, phát thanh viên, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Phát thanh viên có kế hoạch báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOVML": {
+      "personality": "Bạn là kiểu SOVML: có kế hoạch, báo động, phát thanh viên, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Phát thanh viên có kế hoạch báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOQIA": {
+      "personality": "Bạn là kiểu SOQIA: có kế hoạch, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOQIL": {
+      "personality": "Bạn là kiểu SOQIL: có kế hoạch, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOQMA": {
+      "personality": "Bạn là kiểu SOQMA: có kế hoạch, báo động, quản lý lặng thầm, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SOQML": {
+      "personality": "Bạn là kiểu SOQML: có kế hoạch, báo động, quản lý lặng thầm, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEVIA": {
+      "personality": "Bạn là kiểu SEVIA: có kế hoạch, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Phát thanh viên có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEVIL": {
+      "personality": "Bạn là kiểu SEVIL: có kế hoạch, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Phát thanh viên có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEVMA": {
+      "personality": "Bạn là kiểu SEVMA: có kế hoạch, bền bỉ, phát thanh viên, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Phát thanh viên có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEVML": {
+      "personality": "Bạn là kiểu SEVML: có kế hoạch, bền bỉ, phát thanh viên, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Phát thanh viên có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEQIA": {
+      "personality": "Bạn là kiểu SEQIA: có kế hoạch, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEQIL": {
+      "personality": "Bạn là kiểu SEQIL: có kế hoạch, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEQMA": {
+      "personality": "Bạn là kiểu SEQMA: có kế hoạch, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "SEQML": {
+      "personality": "Bạn là kiểu SEQML: có kế hoạch, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Quản lý lặng thầm có kế hoạch bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOVIA": {
+      "personality": "Bạn là kiểu FOVIA: linh hoạt, báo động, phát thanh viên, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Phát thanh viên linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOVIL": {
+      "personality": "Bạn là kiểu FOVIL: linh hoạt, báo động, phát thanh viên, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Phát thanh viên linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOVMA": {
+      "personality": "Bạn là kiểu FOVMA: linh hoạt, báo động, phát thanh viên, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Phát thanh viên linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOVML": {
+      "personality": "Bạn là kiểu FOVML: linh hoạt, báo động, phát thanh viên, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Phát thanh viên linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOQIA": {
+      "personality": "Bạn là kiểu FOQIA: linh hoạt, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOQIL": {
+      "personality": "Bạn là kiểu FOQIL: linh hoạt, báo động, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOQMA": {
+      "personality": "Bạn là kiểu FOQMA: linh hoạt, báo động, quản lý lặng thầm, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FOQML": {
+      "personality": "Bạn là kiểu FOQML: linh hoạt, báo động, quản lý lặng thầm, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt báo động. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEVIA": {
+      "personality": "Bạn là kiểu FEVIA: linh hoạt, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Phát thanh viên linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEVIL": {
+      "personality": "Bạn là kiểu FEVIL: linh hoạt, bền bỉ, phát thanh viên, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Phát thanh viên linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEVMA": {
+      "personality": "Bạn là kiểu FEVMA: linh hoạt, bền bỉ, phát thanh viên, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Phát thanh viên linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEVML": {
+      "personality": "Bạn là kiểu FEVML: linh hoạt, bền bỉ, phát thanh viên, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Phát thanh viên linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEQIA": {
+      "personality": "Bạn là kiểu FEQIA: linh hoạt, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, tập thể. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEQIL": {
+      "personality": "Bạn là kiểu FEQIL: linh hoạt, bền bỉ, quản lý lặng thầm, kỹ thuật viên hệ thống, độc hành. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEQMA": {
+      "personality": "Bạn là kiểu FEQMA: linh hoạt, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, tập thể. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông hợp tập thể, nhưng trong lòng luôn có một con dấu lưu trữ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    },
+    "FEQML": {
+      "personality": "Bạn là kiểu FEQML: linh hoạt, bền bỉ, quản lý lặng thầm, người giữ ý nghĩa, độc hành. Trong hồ sơ ghi Quản lý lặng thầm linh hoạt bền bỉ. Nghe đủ chính thức để có ba con dấu và một cái nhìn nghi ngờ.",
+      "work": "Khi làm việc, bạn thiên về ứng biến có kỷ luật, việc khẩn hữu ích và nhiệm vụ nghe như cần đóng dấu. Cục Tuyên truyền khuyến nghị giữ công cụ trong tầm tay và không đăng ký cà phê như giấc ngủ.",
+      "social": "Giữa các đồng chí, bạn trông đáng tin, nhưng có chính sách cửa rất rõ. Tập thể quý bạn, dù đôi khi không biết bạn đang giúp, đang kiểm tra hay đang viết biên bản trong đầu."
+    }
+  },
+  "channelAd": {
+    "title": "Ủng hộ các kênh của Comrade Sovia",
+    "intro": "Tôi chuyển soạn nhạc anime và game thành các bài hát phong cách Xô viết. Nếu muốn ủng hộ công việc của tôi, hãy ghé thăm các kênh của tôi."
+  }
+}

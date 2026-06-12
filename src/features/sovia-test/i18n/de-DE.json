@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "SOVIA-Zuteilungstest",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Finde heraus, welche sowjetische Arbeitspersönlichkeit du hast und welchem Posten SOVIA dich zuteilt.",
+    "intro": "SOVIA ist ein inoffizielles System der Propagandaabteilung zur Zuteilung von Arbeitspersönlichkeiten. Es entscheidet, ob ein Genosse eher in den Funkturm, das Archiv, den Maschinenraum, die Kantine, das Heizkomitee oder einen anderen notwendigen Posten gehört.",
+    "disclaimer": "Dies ist keine psychologische Beratung, keine Berufsberatung und kein echter Organisationsbeschluss. Die endgültige Auslegung liegt bei der Vorläufigen Persönlichkeitsprüfung der Propagandaabteilung."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Sowjetisches System zur Zuteilung von Arbeitspersönlichkeiten",
+    "department": "Vorläufige Persönlichkeitsprüfung der Propagandaabteilung"
+  },
+  "demographics": {
+    "title": "Optionale Archivangaben",
+    "intro": "Diese Felder sind freiwillig und helfen der Propagandaabteilung zu verstehen, welcher Genosse den Test ausfüllt.",
+    "ageLabel": "Alter",
+    "genderLabel": "Geschlecht",
+    "ageOptions": {
+      "prefer_not_to_say": "Möchte ich nicht angeben",
+      "under_18": "Unter 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Möchte ich nicht angeben",
+      "male": "Männlich",
+      "female": "Weiblich",
+      "other": "Andere"
+    }
+  },
+  "typesPage": {
+    "title": "Alle SOVIA-Posten",
+    "subtitle": "Alle Typen und Dienstakten des SOVIA-Zuteilungstests.",
+    "intro": "Hier werden 32 Codes der Arbeitspersönlichkeit erfasst. Jeder Posten entsteht aus Struktur, Handlung, Einfluss, Verständnis und Beziehung.",
+    "startTestLabel": "Test starten",
+    "codeLabel": "Persönlichkeitscode",
+    "detailLabel": "Dienstakte",
+    "detailActionLabel": "Details ansehen"
+  },
+  "progress": {
+    "label": "Aktenprüfungsfortschritt",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Stimme gar nicht zu",
+    "middle": "Neutral",
+    "max": "Stimme völlig zu",
+    "leftHint": "Stimme gar nicht zu",
+    "rightHint": "Stimme völlig zu"
+  },
+  "actions": {
+    "start": "Test starten",
+    "types": "Alle Posten ansehen",
+    "previous": "Vorherige Frage",
+    "next": "Nächste Frage",
+    "continue": "Weiter",
+    "submit": "Arbeitszuteilungsantrag einreichen",
+    "restart": "Neu testen",
+    "copy": "Ergebnis kopieren",
+    "copyLink": "Link kopieren"
+  },
+  "status": {
+    "unanswered": "Bitte beantworte zuerst diese Frage; der Archivar wartet auf deine Stellungnahme.",
+    "ready": "Antwort registriert. Die Prüfung kann fortgesetzt werden.",
+    "copied": "Ergebnis kopiert.",
+    "copyFailed": "Kopieren fehlgeschlagen. Bitte die Akte manuell sichern."
+  },
+  "certificate": {
+    "title": "Bescheinigung der arbeitenden Bevölkerung",
+    "systemLabel": "Testsystem",
+    "statusLabel": "Aktenstatus",
+    "statusApproved": "Prüfung bestanden",
+    "codeLabel": "Arbeits-Persönlichkeitscode",
+    "titleLabel": "Persönlichkeitstitel",
+    "unitLabel": "Zugewiesene Einheit",
+    "axisLabel": "Fünfstern-Tendenz",
+    "assessmentLabel": "Bewertungsdaten",
+    "resultLinkLabel": "Ergebnislink",
+    "tendencyLabel": "Tendenzstärke",
+    "rawScoreLabel": "Rohwert",
+    "oppositeLabel": "Gegenpol",
+    "archiveCommentLabel": "Aktenvermerk",
+    "soviaCommentLabel": "Sovia-Kommentar",
+    "authorityLabel": "Genehmigungsstelle",
+    "authority": "Vorläufige Persönlichkeitsprüfung der Propagandaabteilung",
+    "codeFormat": "Typ {{code}}",
+    "descriptionLabel": "Kurzbeschreibung"
+  },
+  "axes": {
+    "structure": {
+      "label": "Strukturweise",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Strukturtyp",
+          "description": "Liebt Ordnung, Pläne, Regeln und klare Abläufe."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flusstyp",
+          "description": "Verlässt sich auf Lagegefühl, Anpassung und offene Wege."
+        }
+      }
+    },
+    "action": {
+      "label": "Handlungsweise",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Stoßtyp",
+          "description": "Wird unter Druck stärker und eignet sich für Alarmarbeit."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Dauertyp",
+          "description": "Arbeitet stabil, langfristig und ohne Selbstverbrennung."
+        }
+      }
+    },
+    "influence": {
+      "label": "Einflussweise",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Funktyp",
+          "description": "Kann erzählen, rahmen, erklären und Stimmung bewegen."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Stilltyp",
+          "description": "Erklärt nicht zu viel und will die Sache selbst sauber erledigen."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Verstehensweise",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Forschungstyp",
+          "description": "Analysiert Systeme, Ursachen, Logik und Struktur."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Bedeutungstyp",
+          "description": "Achtet auf Gefühl, Symbol, Atmosphäre, Beziehungen und Geschichten."
+        }
+      }
+    },
+    "relation": {
+      "label": "Beziehungsweise",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Bündnistyp",
+          "description": "Schätzt Zusammenarbeit, Kollektivrhythmus und gemeinsames Fertigwerden."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Einzeltyp",
+          "description": "Hat klare Grenzen und arbeitet am besten ohne dauernde Störungen."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Ohne abgestempelten Plan wirkt die Zivilisation auf mich sofort drei Stufen weniger entwickelt.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Wenn die Lage sich ändert, bewege ich mich lieber zuerst und stempeln wir später.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Sobald Alarm ertönt, wird mein Gehirn ungewöhnlich klar und leicht militärisch.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Ich vertraue eher auf Dauerbetrieb als auf heldenhafte Selbstverbrennung.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Eine gute Parole kann eine müde Kantine wieder aufrichten.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Nicht jedes gute Ergebnis braucht einen Fanfarenzug und drei Reden.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Wenn jemand sagt „irgendwas stimmt nicht“, will ich Logs, Ursachen und alte Akten sehen.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Bevor ich entscheide, höre ich, welche Stimmung im Raum nicht in die Akte passt.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Ich merke schnell, wer in der Kolonne leiser wird oder aus dem Takt fällt.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Gib mir ein ruhiges Zimmer, ein Ziel und niemanden an der Tür: die Produktion beginnt.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Ich beruhige mich erst, wenn Chaos in Nummern, Listen und Zuständigkeiten zerlegt ist.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Ein zu perfekter Plan verdächtigt sich selbst: Er hat der Wirklichkeit keinen Ausgang gelassen.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Deadline am Abend? Die Stoßbrigade im Kopf meldet sich freiwillig.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Eine stabile Lieferung pro Tag schlägt drei glorreiche Wunder pro Nacht.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Wenn etwas wichtig ist, verdient es eine klare Stimme, ein Plakat und vielleicht eine Trommel.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Ich stelle lieber etwas Solides auf den Tisch, als den Tisch selbst zu beschreiben.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Ich trenne Ursache, Bedingung und Ergebnis, bevor die Versammlung anfängt zu singen.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Manchmal erklärt ein Symbol mehr als alle Parameter im Maschinenraum.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Gemeinsam fertig werden zählt mehr als allein mit wehender Fahne loszurennen.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Ich schätze das Kollektiv, aber es muss nicht alle zehn Minuten klopfen.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Regeln sind keine Ketten, sondern die letzte funktionierende Heizung im Schneesturm.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Vor Ort weiß man oft mehr als im Protokoll, das noch auf Genehmigung wartet.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Im Ausnahmezustand finde ich schneller den Hebel als im normalen Kalender.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Wenn die Brigade überhitzt, senke ich lieber das Tempo, bevor alle zu Rauch werden.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Ich kann gewöhnliche Arbeit so erklären, dass sie nach Auftrag klingt.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Manche Erfolge werden stärker, wenn man sie nicht über den Lautsprecher jagt.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Mich interessiert, warum das System so kaputtgehen konnte — das ist fast Geschichte.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Wenn eine Entscheidung Menschen verletzt, reicht mir ihre Effizienz nicht als Siegeslied.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Ich übernehme auch unsichtbare Arbeit, wenn das Kollektiv sonst friert.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Der passende Posten erlaubt mir, Probleme allein zu verdauen, bevor jemand ein Komitee gründet.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Ohne abgestempelten Plan wirkt die Zivilisation auf mich sofort drei Stufen weniger entwickelt.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Wenn die Lage sich ändert, bewege ich mich lieber zuerst und stempeln wir später.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Sobald Alarm ertönt, wird mein Gehirn ungewöhnlich klar und leicht militärisch.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Ich vertraue eher auf Dauerbetrieb als auf heldenhafte Selbstverbrennung.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Eine gute Parole kann eine müde Kantine wieder aufrichten.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Nicht jedes gute Ergebnis braucht einen Fanfarenzug und drei Reden.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Wenn jemand sagt „irgendwas stimmt nicht“, will ich Logs, Ursachen und alte Akten sehen.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Bevor ich entscheide, höre ich, welche Stimmung im Raum nicht in die Akte passt.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Ich merke schnell, wer in der Kolonne leiser wird oder aus dem Takt fällt.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Gib mir ein ruhiges Zimmer, ein Ziel und niemanden an der Tür: die Produktion beginnt.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Ich beruhige mich erst, wenn Chaos in Nummern, Listen und Zuständigkeiten zerlegt ist.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Ein zu perfekter Plan verdächtigt sich selbst: Er hat der Wirklichkeit keinen Ausgang gelassen.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Deadline am Abend? Die Stoßbrigade im Kopf meldet sich freiwillig.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Eine stabile Lieferung pro Tag schlägt drei glorreiche Wunder pro Nacht.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Wenn etwas wichtig ist, verdient es eine klare Stimme, ein Plakat und vielleicht eine Trommel.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Ich stelle lieber etwas Solides auf den Tisch, als den Tisch selbst zu beschreiben.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Ich trenne Ursache, Bedingung und Ergebnis, bevor die Versammlung anfängt zu singen.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Manchmal erklärt ein Symbol mehr als alle Parameter im Maschinenraum.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Gemeinsam fertig werden zählt mehr als allein mit wehender Fahne loszurennen.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Ich schätze das Kollektiv, aber es muss nicht alle zehn Minuten klopfen.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Idealmuster der Propagandaabteilung",
+      "description": "planmäßiger, Alarm, Funker, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Idealmuster der Propagandaabteilung und planmäßige Abweichungen",
+      "archiveComment": "Achtung: SOVIA-Typ bedeutet nicht, dass du Sovia bist, und auch nicht, dass Sovia selbst SOVIA-Typ ist. Es ist nur das Idealbild der Propagandaabteilung.",
+      "soviaComment": "Genosse, Idealmuster der Propagandaabteilung klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOVIL": {
+      "title": "Einzelner Propaganda-Ingenieur",
+      "description": "planmäßiger, Alarm, Funker, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Einzelner Propaganda-Ingenieur und planmäßige Abweichungen",
+      "archiveComment": "Aktenanomalie: Dieses Ergebnis ähnelt auffällig einer nicht veröffentlichten Person. Bitte nicht auf dem Flur besprechen.",
+      "soviaComment": "Genosse, Einzelner Propaganda-Ingenieur klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOVMA": {
+      "title": "Planmäßigerer Alarm-Funker",
+      "description": "planmäßiger, Alarm, Funker, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Alarm-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte SOVMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Alarm-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOVML": {
+      "title": "Planmäßigerer Alarm-Funker",
+      "description": "planmäßiger, Alarm, Funker, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Alarm-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte SOVML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Alarm-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOQIA": {
+      "title": "Planmäßigerer Alarm-stiller Verwalter",
+      "description": "planmäßiger, Alarm, stiller Verwalter, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SOQIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOQIL": {
+      "title": "Planmäßigerer Alarm-stiller Verwalter",
+      "description": "planmäßiger, Alarm, stiller Verwalter, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SOQIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOQMA": {
+      "title": "Planmäßigerer Alarm-stiller Verwalter",
+      "description": "planmäßiger, Alarm, stiller Verwalter, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SOQMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SOQML": {
+      "title": "Planmäßigerer Alarm-stiller Verwalter",
+      "description": "planmäßiger, Alarm, stiller Verwalter, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SOQML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEVIA": {
+      "title": "Planmäßigerer Dauer-Funker",
+      "description": "planmäßiger, Dauer, Funker, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte SEVIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEVIL": {
+      "title": "Planmäßigerer Dauer-Funker",
+      "description": "planmäßiger, Dauer, Funker, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte SEVIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEVMA": {
+      "title": "Planmäßigerer Dauer-Funker",
+      "description": "planmäßiger, Dauer, Funker, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte SEVMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEVML": {
+      "title": "Planmäßigerer Dauer-Funker",
+      "description": "planmäßiger, Dauer, Funker, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte SEVML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEQIA": {
+      "title": "Planmäßigerer Dauer-stiller Verwalter",
+      "description": "planmäßiger, Dauer, stiller Verwalter, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SEQIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEQIL": {
+      "title": "Planmäßigerer Dauer-stiller Verwalter",
+      "description": "planmäßiger, Dauer, stiller Verwalter, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SEQIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEQMA": {
+      "title": "Planmäßigerer Dauer-stiller Verwalter",
+      "description": "planmäßiger, Dauer, stiller Verwalter, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SEQMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "SEQML": {
+      "title": "Planmäßigerer Dauer-stiller Verwalter",
+      "description": "planmäßiger, Dauer, stiller Verwalter, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Planmäßigerer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte SEQML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Planmäßigerer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOVIA": {
+      "title": "Beweglicherer Alarm-Funker",
+      "description": "beweglicher, Alarm, Funker, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FOVIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOVIL": {
+      "title": "Beweglicherer Alarm-Funker",
+      "description": "beweglicher, Alarm, Funker, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FOVIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOVMA": {
+      "title": "Beweglicherer Alarm-Funker",
+      "description": "beweglicher, Alarm, Funker, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FOVMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOVML": {
+      "title": "Beweglicherer Alarm-Funker",
+      "description": "beweglicher, Alarm, Funker, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FOVML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOQIA": {
+      "title": "Beweglicherer Alarm-stiller Verwalter",
+      "description": "beweglicher, Alarm, stiller Verwalter, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FOQIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOQIL": {
+      "title": "Beweglicherer Alarm-stiller Verwalter",
+      "description": "beweglicher, Alarm, stiller Verwalter, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FOQIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOQMA": {
+      "title": "Beweglicherer Alarm-stiller Verwalter",
+      "description": "beweglicher, Alarm, stiller Verwalter, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FOQMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FOQML": {
+      "title": "Beweglicherer Alarm-stiller Verwalter",
+      "description": "beweglicher, Alarm, stiller Verwalter, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Alarm-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FOQML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Alarm-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEVIA": {
+      "title": "Beweglicherer Dauer-Funker",
+      "description": "beweglicher, Dauer, Funker, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FEVIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEVIL": {
+      "title": "Beweglicherer Dauer-Funker",
+      "description": "beweglicher, Dauer, Funker, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FEVIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEVMA": {
+      "title": "Beweglicherer Dauer-Funker",
+      "description": "beweglicher, Dauer, Funker, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FEVMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEVML": {
+      "title": "Beweglicherer Dauer-Funker",
+      "description": "beweglicher, Dauer, Funker, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-Funker und planmäßige Abweichungen",
+      "archiveComment": "Akte FEVML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-Funker klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEQIA": {
+      "title": "Beweglicherer Dauer-stiller Verwalter",
+      "description": "beweglicher, Dauer, stiller Verwalter, Systemtechniker, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FEQIA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEQIL": {
+      "title": "Beweglicherer Dauer-stiller Verwalter",
+      "description": "beweglicher, Dauer, stiller Verwalter, Systemtechniker, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FEQIL: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEQMA": {
+      "title": "Beweglicherer Dauer-stiller Verwalter",
+      "description": "beweglicher, Dauer, stiller Verwalter, Bedeutungshüter, Kollektiv: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FEQMA: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    },
+    "FEQML": {
+      "title": "Beweglicherer Dauer-stiller Verwalter",
+      "description": "beweglicher, Dauer, stiller Verwalter, Bedeutungshüter, Einzel: offiziell genug für die Akte, verdächtig genug für eine zweite Prüfung.",
+      "unit": "Abteilung für Beweglicherer Dauer-stiller Verwalter und planmäßige Abweichungen",
+      "archiveComment": "Akte FEQML: geeignet für Aufgaben mit Stempel, Alarm und kontrollierter Absurdität.",
+      "soviaComment": "Genosse, Beweglicherer Dauer-stiller Verwalter klingt nach einem Posten, den niemand freiwillig beantragt, aber alle brauchen."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Deine Tendenz gehorcht der bestehenden Postentabelle nicht vollständig. Die Propagandaabteilung registriert dich als zusammengesetzte Arbeitspersönlichkeit.",
+    "unit": "Vorläufiges Gesamt-Dispositionsbüro",
+    "archiveComment": "Diese Person erfordert Beobachtung, ist aber grundsätzlich produktionsfähig.",
+    "soviaComment": "Genosse, unbekannt heißt nicht nutzlos. Erst Werkzeug empfangen, dann Schicksal."
+  },
+  "copy": {
+    "template": "Im SOVIA-Zuteilungstest bin ich {{code}}-Typ · {{title}}. Zugewiesene Einheit: {{unit}}. Mach auch den Test: {{url}}",
+    "success": "Ergebnis kopiert.",
+    "failed": "Kopieren fehlgeschlagen. Bitte die Akte manuell sichern.",
+    "linkSuccess": "Ergebnislink kopiert."
+  },
+  "language": {
+    "label": "Sprache"
+  },
+  "details": {
+    "title": "Persönlichkeitsakte",
+    "personalityLabel": "Charakterbeschreibung",
+    "workLabel": "Bei der Arbeit",
+    "socialLabel": "Im Umgang mit Genossen"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Du bist ein SOVIA-Typ: planmäßiger, Alarm, Funker, Systemtechniker, Kollektiv. In der Akte steht Idealmuster der Propagandaabteilung. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOVIL": {
+      "personality": "Du bist ein SOVIL-Typ: planmäßiger, Alarm, Funker, Systemtechniker, Einzel. In der Akte steht Einzelner Propaganda-Ingenieur. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOVMA": {
+      "personality": "Du bist ein SOVMA-Typ: planmäßiger, Alarm, Funker, Bedeutungshüter, Kollektiv. In der Akte steht Planmäßigerer Alarm-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOVML": {
+      "personality": "Du bist ein SOVML-Typ: planmäßiger, Alarm, Funker, Bedeutungshüter, Einzel. In der Akte steht Planmäßigerer Alarm-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOQIA": {
+      "personality": "Du bist ein SOQIA-Typ: planmäßiger, Alarm, stiller Verwalter, Systemtechniker, Kollektiv. In der Akte steht Planmäßigerer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOQIL": {
+      "personality": "Du bist ein SOQIL-Typ: planmäßiger, Alarm, stiller Verwalter, Systemtechniker, Einzel. In der Akte steht Planmäßigerer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOQMA": {
+      "personality": "Du bist ein SOQMA-Typ: planmäßiger, Alarm, stiller Verwalter, Bedeutungshüter, Kollektiv. In der Akte steht Planmäßigerer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SOQML": {
+      "personality": "Du bist ein SOQML-Typ: planmäßiger, Alarm, stiller Verwalter, Bedeutungshüter, Einzel. In der Akte steht Planmäßigerer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEVIA": {
+      "personality": "Du bist ein SEVIA-Typ: planmäßiger, Dauer, Funker, Systemtechniker, Kollektiv. In der Akte steht Planmäßigerer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEVIL": {
+      "personality": "Du bist ein SEVIL-Typ: planmäßiger, Dauer, Funker, Systemtechniker, Einzel. In der Akte steht Planmäßigerer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEVMA": {
+      "personality": "Du bist ein SEVMA-Typ: planmäßiger, Dauer, Funker, Bedeutungshüter, Kollektiv. In der Akte steht Planmäßigerer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEVML": {
+      "personality": "Du bist ein SEVML-Typ: planmäßiger, Dauer, Funker, Bedeutungshüter, Einzel. In der Akte steht Planmäßigerer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEQIA": {
+      "personality": "Du bist ein SEQIA-Typ: planmäßiger, Dauer, stiller Verwalter, Systemtechniker, Kollektiv. In der Akte steht Planmäßigerer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEQIL": {
+      "personality": "Du bist ein SEQIL-Typ: planmäßiger, Dauer, stiller Verwalter, Systemtechniker, Einzel. In der Akte steht Planmäßigerer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEQMA": {
+      "personality": "Du bist ein SEQMA-Typ: planmäßiger, Dauer, stiller Verwalter, Bedeutungshüter, Kollektiv. In der Akte steht Planmäßigerer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "SEQML": {
+      "personality": "Du bist ein SEQML-Typ: planmäßiger, Dauer, stiller Verwalter, Bedeutungshüter, Einzel. In der Akte steht Planmäßigerer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOVIA": {
+      "personality": "Du bist ein FOVIA-Typ: beweglicher, Alarm, Funker, Systemtechniker, Kollektiv. In der Akte steht Beweglicherer Alarm-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOVIL": {
+      "personality": "Du bist ein FOVIL-Typ: beweglicher, Alarm, Funker, Systemtechniker, Einzel. In der Akte steht Beweglicherer Alarm-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOVMA": {
+      "personality": "Du bist ein FOVMA-Typ: beweglicher, Alarm, Funker, Bedeutungshüter, Kollektiv. In der Akte steht Beweglicherer Alarm-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOVML": {
+      "personality": "Du bist ein FOVML-Typ: beweglicher, Alarm, Funker, Bedeutungshüter, Einzel. In der Akte steht Beweglicherer Alarm-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOQIA": {
+      "personality": "Du bist ein FOQIA-Typ: beweglicher, Alarm, stiller Verwalter, Systemtechniker, Kollektiv. In der Akte steht Beweglicherer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOQIL": {
+      "personality": "Du bist ein FOQIL-Typ: beweglicher, Alarm, stiller Verwalter, Systemtechniker, Einzel. In der Akte steht Beweglicherer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOQMA": {
+      "personality": "Du bist ein FOQMA-Typ: beweglicher, Alarm, stiller Verwalter, Bedeutungshüter, Kollektiv. In der Akte steht Beweglicherer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FOQML": {
+      "personality": "Du bist ein FOQML-Typ: beweglicher, Alarm, stiller Verwalter, Bedeutungshüter, Einzel. In der Akte steht Beweglicherer Alarm-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEVIA": {
+      "personality": "Du bist ein FEVIA-Typ: beweglicher, Dauer, Funker, Systemtechniker, Kollektiv. In der Akte steht Beweglicherer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEVIL": {
+      "personality": "Du bist ein FEVIL-Typ: beweglicher, Dauer, Funker, Systemtechniker, Einzel. In der Akte steht Beweglicherer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEVMA": {
+      "personality": "Du bist ein FEVMA-Typ: beweglicher, Dauer, Funker, Bedeutungshüter, Kollektiv. In der Akte steht Beweglicherer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEVML": {
+      "personality": "Du bist ein FEVML-Typ: beweglicher, Dauer, Funker, Bedeutungshüter, Einzel. In der Akte steht Beweglicherer Dauer-Funker. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEQIA": {
+      "personality": "Du bist ein FEQIA-Typ: beweglicher, Dauer, stiller Verwalter, Systemtechniker, Kollektiv. In der Akte steht Beweglicherer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEQIL": {
+      "personality": "Du bist ein FEQIL-Typ: beweglicher, Dauer, stiller Verwalter, Systemtechniker, Einzel. In der Akte steht Beweglicherer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEQMA": {
+      "personality": "Du bist ein FEQMA-Typ: beweglicher, Dauer, stiller Verwalter, Bedeutungshüter, Kollektiv. In der Akte steht Beweglicherer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du kollektivfähig, aber mit einem inneren Archivstempel. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    },
+    "FEQML": {
+      "personality": "Du bist ein FEQML-Typ: beweglicher, Dauer, stiller Verwalter, Bedeutungshüter, Einzel. In der Akte steht Beweglicherer Dauer-stiller Verwalter. Das klingt offiziell genug, um drei Stempel und ein misstrauisches Nicken zu rechtfertigen.",
+      "work": "Bei der Arbeit bevorzugst du geordnete Improvisation, nützliche Störungen und Aufgaben, die nach einem Stempel klingen. Die Propagandaabteilung empfiehlt: Werkzeug bereithalten, Plan nicht essen und den Kaffee nicht als Ersatz für Schlaf registrieren.",
+      "social": "Unter Genossen wirkst du zuverlässig, aber mit klarer Türpolitik. Das Kollektiv schätzt dich, auch wenn es manchmal nicht weiß, ob du gerade hilfst, prüfst oder innerlich ein Protokoll schreibst."
+    }
+  },
+  "channelAd": {
+    "title": "Unterstütze die Kanäle von Comrade Sovia",
+    "intro": "Ich bearbeite Anime- und Game-Musik zu Liedern im sowjetischen Stil. Wenn du meine Arbeit unterstützen möchtest, schau auf meinen Kanälen vorbei."
+  }
+}

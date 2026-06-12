@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "Teste de Alocação SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Descubra sua personalidade laboral soviética e para qual posto a SOVIA te mandaria.",
+    "intro": "SOVIA é um sistema informal de alocação de personalidade laboral desenvolvido pelo Departamento de Propaganda. Ele decide se um camarada combina mais com a rádio, o arquivo, a sala de máquinas, o refeitório, o comitê de aquecimento ou outro posto necessário.",
+    "disclaimer": "Isto não é aconselhamento psicológico, orientação profissional nem decisão organizacional real. A interpretação final pertence à Seção Provisória de Revisão de Personalidade do Departamento de Propaganda."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Sistema soviético de alocação de personalidade laboral",
+    "department": "Seção Provisória de Revisão de Personalidade"
+  },
+  "demographics": {
+    "title": "Detalhes opcionais de arquivo",
+    "intro": "Estes campos são opcionais e ajudam o Departamento de Propaganda a entender qual camarada está fazendo o teste.",
+    "ageLabel": "Idade",
+    "genderLabel": "Gênero",
+    "ageOptions": {
+      "prefer_not_to_say": "Prefiro não informar",
+      "under_18": "Menos de 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Prefiro não informar",
+      "male": "Masculino",
+      "female": "Feminino",
+      "other": "Outro"
+    }
+  },
+  "typesPage": {
+    "title": "Todos os postos SOVIA",
+    "subtitle": "Todos os tipos e dossiês de posto do teste SOVIA.",
+    "intro": "Aqui ficam registrados 32 códigos de personalidade laboral. Cada posto combina estrutura, ação, influência, compreensão e relação.",
+    "startTestLabel": "Iniciar teste",
+    "codeLabel": "Código de personalidade",
+    "detailLabel": "Dossiê do posto",
+    "detailActionLabel": "Ver detalhes"
+  },
+  "progress": {
+    "label": "Progresso da revisão do dossiê",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Discordo totalmente",
+    "middle": "Neutro",
+    "max": "Concordo totalmente",
+    "leftHint": "Discordo totalmente",
+    "rightHint": "Concordo totalmente"
+  },
+  "actions": {
+    "start": "Iniciar",
+    "types": "Ver todos os postos",
+    "previous": "Pergunta anterior",
+    "next": "Próxima pergunta",
+    "continue": "Continuar",
+    "submit": "Enviar pedido de alocação laboral",
+    "restart": "Refazer teste",
+    "copy": "Copiar resultado",
+    "copyLink": "Copiar link"
+  },
+  "status": {
+    "unanswered": "Responda esta pergunta primeiro; o arquivista aguarda sua posição.",
+    "ready": "Resposta registrada. A revisão pode continuar.",
+    "copied": "Resultado copiado.",
+    "copyFailed": "Falha ao copiar. Salve o dossiê manualmente."
+  },
+  "certificate": {
+    "title": "Certificado de alocação do povo trabalhador",
+    "systemLabel": "Sistema de teste",
+    "statusLabel": "Status do dossiê",
+    "statusApproved": "Revisão aprovada",
+    "codeLabel": "Código de personalidade laboral",
+    "titleLabel": "Título de personalidade",
+    "unitLabel": "Unidade designada",
+    "axisLabel": "Tendência da estrela de cinco pontas",
+    "assessmentLabel": "Dados de avaliação",
+    "resultLinkLabel": "Link do resultado",
+    "tendencyLabel": "Força da tendência",
+    "rawScoreLabel": "Pontuação bruta",
+    "oppositeLabel": "Polo oposto",
+    "archiveCommentLabel": "Comentário de arquivo",
+    "soviaCommentLabel": "Comentário da Sovia",
+    "authorityLabel": "Autoridade aprovadora",
+    "authority": "Seção Provisória de Revisão de Personalidade",
+    "codeFormat": "tipo {{code}}",
+    "descriptionLabel": "Descrição curta"
+  },
+  "axes": {
+    "structure": {
+      "label": "Modo de estrutura",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "tipo estruturado",
+          "description": "Gosta de ordem, planos, regras e processos claros."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "tipo fluido",
+          "description": "Confia no campo, na adaptação e em rotas sem carimbo."
+        }
+      }
+    },
+    "action": {
+      "label": "Modo de ação",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "tipo choque",
+          "description": "Fica mais forte sob pressão e em emergências."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "tipo resistência",
+          "description": "Avança de modo estável, longo e sem combustão heroica."
+        }
+      }
+    },
+    "influence": {
+      "label": "Modo de influência",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "tipo rádio",
+          "description": "Sabe narrar, enquadrar e mover o clima."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "tipo silencioso",
+          "description": "Não explica demais e prefere que o trabalho se sustente."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Modo de compreensão",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "tipo investigação",
+          "description": "Analisa sistemas, causas, lógica e estrutura."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "tipo significado",
+          "description": "Lê emoção, símbolo, atmosfera, relações e histórias."
+        }
+      }
+    },
+    "relation": {
+      "label": "Modo de relação",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "tipo aliança",
+          "description": "Valoriza cooperação, ritmo coletivo e cuidado mútuo."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "tipo solitário",
+          "description": "Tem limites claros e trabalha melhor sem interrupções constantes."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Sem um plano carimbado, sinto que a civilização recua lentamente.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Quando a situação muda, prefiro agir primeiro e carimbar depois.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Quando o alarme toca, minha cabeça fica suspeitamente clara.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Confio mais na resistência do que em me queimar como herói.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Um bom slogan pode levantar um refeitório cansado.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Nem todo bom resultado precisa de fanfarra e três discursos.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Quando alguém diz “algo está errado”, quero logs, causas e arquivos.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Antes de decidir, escuto o clima que não cabe no dossiê.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Percebo rápido quem ficou quieto ou saiu do ritmo da coluna.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Dê-me uma sala tranquila, um objetivo e ninguém na porta: começa a produção.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "O caos só me acalma quando vira lista, número e responsável.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Um plano perfeito demais parece suspeito: não deixou saída para a realidade.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Um prazo para hoje à noite acorda minha brigada de choque interna.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Uma entrega estável por dia vence três milagres gloriosos por noite.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Se algo importa, merece uma voz clara, um cartaz e talvez um tambor.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Prefiro colocar algo sólido na mesa a descrever a mesa.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Separo causa, condição e resultado antes de a assembleia cantar.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Às vezes um símbolo explica mais que todos os parâmetros da sala de máquinas.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Terminar junto vale mais que correr sozinho com a bandeira.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Valorizo o coletivo, mas ele não precisa bater a cada dez minutos.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Regras não são correntes; às vezes são o último aquecedor funcionando.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "O campo às vezes sabe mais que a ata esperando assinatura.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Na emergência encontro a alavanca mais rápido que no calendário normal.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Se a equipe superaquece, reduzo o ritmo antes que todos virem fumaça.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Consigo apresentar uma tarefa comum como missão aprovada.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Alguns sucessos ficam mais fortes quando não passam pelo alto-falante.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Quero saber como um sistema conseguiu quebrar de forma tão histórica.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Se uma decisão machuca pessoas, sua eficiência não basta como hino.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Assumo trabalho invisível se o coletivo começar a passar frio.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Meu posto ideal me deixa digerir o problema antes de criar um comitê.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Sem um plano carimbado, sinto que a civilização recua lentamente.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Quando a situação muda, prefiro agir primeiro e carimbar depois.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Quando o alarme toca, minha cabeça fica suspeitamente clara.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Confio mais na resistência do que em me queimar como herói.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Um bom slogan pode levantar um refeitório cansado.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Nem todo bom resultado precisa de fanfarra e três discursos.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Quando alguém diz “algo está errado”, quero logs, causas e arquivos.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Antes de decidir, escuto o clima que não cabe no dossiê.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Percebo rápido quem ficou quieto ou saiu do ritmo da coluna.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Dê-me uma sala tranquila, um objetivo e ninguém na porta: começa a produção.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "O caos só me acalma quando vira lista, número e responsável.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Um plano perfeito demais parece suspeito: não deixou saída para a realidade.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Um prazo para hoje à noite acorda minha brigada de choque interna.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Uma entrega estável por dia vence três milagres gloriosos por noite.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Se algo importa, merece uma voz clara, um cartaz e talvez um tambor.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Prefiro colocar algo sólido na mesa a descrever a mesa.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Separo causa, condição e resultado antes de a assembleia cantar.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Às vezes um símbolo explica mais que todos os parâmetros da sala de máquinas.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Terminar junto vale mais que correr sozinho com a bandeira.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Valorizo o coletivo, mas ele não precisa bater a cada dez minutos.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Amostra ideal do Departamento de Propaganda",
+      "description": "planejado, de alarme, operador de rádio, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Amostra ideal do Departamento de Propaganda e desvios planejados",
+      "archiveComment": "Atenção: tirar SOVIA não significa que você é a Sovia, nem que a Sovia seja SOVIA. Você apenas se aproxima do modelo ideal imaginado pela Propaganda.",
+      "soviaComment": "Camarada, Amostra ideal do Departamento de Propaganda parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOVIL": {
+      "title": "Engenheiro de propaganda solitário",
+      "description": "planejado, de alarme, operador de rádio, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Engenheiro de propaganda solitário e desvios planejados",
+      "archiveComment": "Anomalia de dossiê: este resultado se parece demais com uma figura não publicada. Não comentem no corredor.",
+      "soviaComment": "Camarada, Engenheiro de propaganda solitário parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOVMA": {
+      "title": "Operador de rádio planejado de alarme",
+      "description": "planejado, de alarme, operador de rádio, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio planejado de alarme e desvios planejados",
+      "archiveComment": "Dossiê SOVMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio planejado de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOVML": {
+      "title": "Operador de rádio planejado de alarme",
+      "description": "planejado, de alarme, operador de rádio, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio planejado de alarme e desvios planejados",
+      "archiveComment": "Dossiê SOVML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio planejado de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOQIA": {
+      "title": "Administrador silencioso planejado de alarme",
+      "description": "planejado, de alarme, administrador silencioso, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de alarme e desvios planejados",
+      "archiveComment": "Dossiê SOQIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOQIL": {
+      "title": "Administrador silencioso planejado de alarme",
+      "description": "planejado, de alarme, administrador silencioso, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de alarme e desvios planejados",
+      "archiveComment": "Dossiê SOQIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOQMA": {
+      "title": "Administrador silencioso planejado de alarme",
+      "description": "planejado, de alarme, administrador silencioso, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de alarme e desvios planejados",
+      "archiveComment": "Dossiê SOQMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SOQML": {
+      "title": "Administrador silencioso planejado de alarme",
+      "description": "planejado, de alarme, administrador silencioso, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de alarme e desvios planejados",
+      "archiveComment": "Dossiê SOQML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEVIA": {
+      "title": "Operador de rádio planejado de resistência",
+      "description": "planejado, de resistência, operador de rádio, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEVIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEVIL": {
+      "title": "Operador de rádio planejado de resistência",
+      "description": "planejado, de resistência, operador de rádio, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEVIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEVMA": {
+      "title": "Operador de rádio planejado de resistência",
+      "description": "planejado, de resistência, operador de rádio, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEVMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEVML": {
+      "title": "Operador de rádio planejado de resistência",
+      "description": "planejado, de resistência, operador de rádio, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEVML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEQIA": {
+      "title": "Administrador silencioso planejado de resistência",
+      "description": "planejado, de resistência, administrador silencioso, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEQIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEQIL": {
+      "title": "Administrador silencioso planejado de resistência",
+      "description": "planejado, de resistência, administrador silencioso, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEQIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEQMA": {
+      "title": "Administrador silencioso planejado de resistência",
+      "description": "planejado, de resistência, administrador silencioso, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEQMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "SEQML": {
+      "title": "Administrador silencioso planejado de resistência",
+      "description": "planejado, de resistência, administrador silencioso, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso planejado de resistência e desvios planejados",
+      "archiveComment": "Dossiê SEQML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso planejado de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOVIA": {
+      "title": "Operador de rádio móvel de alarme",
+      "description": "móvel, de alarme, operador de rádio, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOVIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOVIL": {
+      "title": "Operador de rádio móvel de alarme",
+      "description": "móvel, de alarme, operador de rádio, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOVIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOVMA": {
+      "title": "Operador de rádio móvel de alarme",
+      "description": "móvel, de alarme, operador de rádio, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOVMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOVML": {
+      "title": "Operador de rádio móvel de alarme",
+      "description": "móvel, de alarme, operador de rádio, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOVML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOQIA": {
+      "title": "Administrador silencioso móvel de alarme",
+      "description": "móvel, de alarme, administrador silencioso, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOQIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOQIL": {
+      "title": "Administrador silencioso móvel de alarme",
+      "description": "móvel, de alarme, administrador silencioso, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOQIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOQMA": {
+      "title": "Administrador silencioso móvel de alarme",
+      "description": "móvel, de alarme, administrador silencioso, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOQMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FOQML": {
+      "title": "Administrador silencioso móvel de alarme",
+      "description": "móvel, de alarme, administrador silencioso, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de alarme e desvios planejados",
+      "archiveComment": "Dossiê FOQML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de alarme parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEVIA": {
+      "title": "Operador de rádio móvel de resistência",
+      "description": "móvel, de resistência, operador de rádio, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEVIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEVIL": {
+      "title": "Operador de rádio móvel de resistência",
+      "description": "móvel, de resistência, operador de rádio, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEVIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEVMA": {
+      "title": "Operador de rádio móvel de resistência",
+      "description": "móvel, de resistência, operador de rádio, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEVMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEVML": {
+      "title": "Operador de rádio móvel de resistência",
+      "description": "móvel, de resistência, operador de rádio, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Operador de rádio móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEVML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Operador de rádio móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEQIA": {
+      "title": "Administrador silencioso móvel de resistência",
+      "description": "móvel, de resistência, administrador silencioso, técnico de sistemas, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEQIA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEQIL": {
+      "title": "Administrador silencioso móvel de resistência",
+      "description": "móvel, de resistência, administrador silencioso, técnico de sistemas, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEQIL: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEQMA": {
+      "title": "Administrador silencioso móvel de resistência",
+      "description": "móvel, de resistência, administrador silencioso, guardião de significado, coletivo: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEQMA: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    },
+    "FEQML": {
+      "title": "Administrador silencioso móvel de resistência",
+      "description": "móvel, de resistência, administrador silencioso, guardião de significado, solitário: oficial o bastante para o dossiê e suspeito o bastante para segunda revisão.",
+      "unit": "Departamento de Administrador silencioso móvel de resistência e desvios planejados",
+      "archiveComment": "Dossiê FEQML: apto a tarefas com carimbo, alarme e absurdo controlado.",
+      "soviaComment": "Camarada, Administrador silencioso móvel de resistência parece um posto que ninguém pede, mas todo mundo precisa."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Sua tendência não obedece totalmente à tabela oficial de postos. A Propaganda registrará você como personalidade laboral composta.",
+    "unit": "Escritório Provisório de Coordenação Geral",
+    "archiveComment": "Pessoa a observar, mas já apta à produção.",
+    "soviaComment": "Camarada, desconhecido não significa inútil. Pegue a ferramenta, depois o destino."
+  },
+  "copy": {
+    "template": "No Teste de Alocação SOVIA, eu tirei {{code}} · {{title}}. Unidade: {{unit}}. Faça também: {{url}}",
+    "success": "Resultado copiado.",
+    "failed": "Falha ao copiar. Salve o dossiê manualmente.",
+    "linkSuccess": "Link do resultado copiado."
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "details": {
+    "title": "Dossiê de personalidade",
+    "personalityLabel": "Descrição da personalidade",
+    "workLabel": "No trabalho",
+    "socialLabel": "Relações com camaradas"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Você é tipo SOVIA: planejado, de alarme, operador de rádio, técnico de sistemas, coletivo. O dossiê diz Amostra ideal do Departamento de Propaganda. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOVIL": {
+      "personality": "Você é tipo SOVIL: planejado, de alarme, operador de rádio, técnico de sistemas, solitário. O dossiê diz Engenheiro de propaganda solitário. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOVMA": {
+      "personality": "Você é tipo SOVMA: planejado, de alarme, operador de rádio, guardião de significado, coletivo. O dossiê diz Operador de rádio planejado de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOVML": {
+      "personality": "Você é tipo SOVML: planejado, de alarme, operador de rádio, guardião de significado, solitário. O dossiê diz Operador de rádio planejado de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOQIA": {
+      "personality": "Você é tipo SOQIA: planejado, de alarme, administrador silencioso, técnico de sistemas, coletivo. O dossiê diz Administrador silencioso planejado de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOQIL": {
+      "personality": "Você é tipo SOQIL: planejado, de alarme, administrador silencioso, técnico de sistemas, solitário. O dossiê diz Administrador silencioso planejado de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOQMA": {
+      "personality": "Você é tipo SOQMA: planejado, de alarme, administrador silencioso, guardião de significado, coletivo. O dossiê diz Administrador silencioso planejado de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SOQML": {
+      "personality": "Você é tipo SOQML: planejado, de alarme, administrador silencioso, guardião de significado, solitário. O dossiê diz Administrador silencioso planejado de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEVIA": {
+      "personality": "Você é tipo SEVIA: planejado, de resistência, operador de rádio, técnico de sistemas, coletivo. O dossiê diz Operador de rádio planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEVIL": {
+      "personality": "Você é tipo SEVIL: planejado, de resistência, operador de rádio, técnico de sistemas, solitário. O dossiê diz Operador de rádio planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEVMA": {
+      "personality": "Você é tipo SEVMA: planejado, de resistência, operador de rádio, guardião de significado, coletivo. O dossiê diz Operador de rádio planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEVML": {
+      "personality": "Você é tipo SEVML: planejado, de resistência, operador de rádio, guardião de significado, solitário. O dossiê diz Operador de rádio planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEQIA": {
+      "personality": "Você é tipo SEQIA: planejado, de resistência, administrador silencioso, técnico de sistemas, coletivo. O dossiê diz Administrador silencioso planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEQIL": {
+      "personality": "Você é tipo SEQIL: planejado, de resistência, administrador silencioso, técnico de sistemas, solitário. O dossiê diz Administrador silencioso planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEQMA": {
+      "personality": "Você é tipo SEQMA: planejado, de resistência, administrador silencioso, guardião de significado, coletivo. O dossiê diz Administrador silencioso planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "SEQML": {
+      "personality": "Você é tipo SEQML: planejado, de resistência, administrador silencioso, guardião de significado, solitário. O dossiê diz Administrador silencioso planejado de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOVIA": {
+      "personality": "Você é tipo FOVIA: móvel, de alarme, operador de rádio, técnico de sistemas, coletivo. O dossiê diz Operador de rádio móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOVIL": {
+      "personality": "Você é tipo FOVIL: móvel, de alarme, operador de rádio, técnico de sistemas, solitário. O dossiê diz Operador de rádio móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOVMA": {
+      "personality": "Você é tipo FOVMA: móvel, de alarme, operador de rádio, guardião de significado, coletivo. O dossiê diz Operador de rádio móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOVML": {
+      "personality": "Você é tipo FOVML: móvel, de alarme, operador de rádio, guardião de significado, solitário. O dossiê diz Operador de rádio móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOQIA": {
+      "personality": "Você é tipo FOQIA: móvel, de alarme, administrador silencioso, técnico de sistemas, coletivo. O dossiê diz Administrador silencioso móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOQIL": {
+      "personality": "Você é tipo FOQIL: móvel, de alarme, administrador silencioso, técnico de sistemas, solitário. O dossiê diz Administrador silencioso móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOQMA": {
+      "personality": "Você é tipo FOQMA: móvel, de alarme, administrador silencioso, guardião de significado, coletivo. O dossiê diz Administrador silencioso móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FOQML": {
+      "personality": "Você é tipo FOQML: móvel, de alarme, administrador silencioso, guardião de significado, solitário. O dossiê diz Administrador silencioso móvel de alarme. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEVIA": {
+      "personality": "Você é tipo FEVIA: móvel, de resistência, operador de rádio, técnico de sistemas, coletivo. O dossiê diz Operador de rádio móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEVIL": {
+      "personality": "Você é tipo FEVIL: móvel, de resistência, operador de rádio, técnico de sistemas, solitário. O dossiê diz Operador de rádio móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEVMA": {
+      "personality": "Você é tipo FEVMA: móvel, de resistência, operador de rádio, guardião de significado, coletivo. O dossiê diz Operador de rádio móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEVML": {
+      "personality": "Você é tipo FEVML: móvel, de resistência, operador de rádio, guardião de significado, solitário. O dossiê diz Operador de rádio móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEQIA": {
+      "personality": "Você é tipo FEQIA: móvel, de resistência, administrador silencioso, técnico de sistemas, coletivo. O dossiê diz Administrador silencioso móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEQIL": {
+      "personality": "Você é tipo FEQIL: móvel, de resistência, administrador silencioso, técnico de sistemas, solitário. O dossiê diz Administrador silencioso móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEQMA": {
+      "personality": "Você é tipo FEQMA: móvel, de resistência, administrador silencioso, guardião de significado, coletivo. O dossiê diz Administrador silencioso móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece coletivo, mas com um carimbo interno de arquivo. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    },
+    "FEQML": {
+      "personality": "Você é tipo FEQML: móvel, de resistência, administrador silencioso, guardião de significado, solitário. O dossiê diz Administrador silencioso móvel de resistência. Isso soa oficial o bastante para três carimbos e um olhar desconfiado.",
+      "work": "No trabalho, você prefere improviso disciplinado, urgências úteis e tarefas que parecem pedir um carimbo. O Departamento de Propaganda recomenda manter a ferramenta por perto e não registrar café como sono.",
+      "social": "Entre camaradas, você parece confiável, mas com uma política de porta bem clara. O coletivo te aprecia, embora às vezes não saiba se você está ajudando, auditando ou escrevendo uma ata mental."
+    }
+  },
+  "channelAd": {
+    "title": "Apoie os canais da Comrade Sovia",
+    "intro": "Eu adapto músicas de anime e jogos em canções de estilo soviético. Se quiser apoiar meu trabalho, venha conhecer meus canais."
+  }
+}

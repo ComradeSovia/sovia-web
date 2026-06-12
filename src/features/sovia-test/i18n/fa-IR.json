@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "آزمون تخصیص SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "شخصیت کاری شوروی‌وار خود را بسنج و پست خود را ببین.",
+    "intro": "SOVIA یک سامانهٔ خیالی و غیررسمی برای تخصیص شخصیت کاری است که ادارهٔ تبلیغات ساخته است. این سامانه تشخیص می‌دهد رفیق برای برج رادیو، اتاق بایگانی، سالن ماشین، غذاخوری، کمیتهٔ گرمایش یا یک پست ضروری دیگر مناسب‌تر است.",
+    "disclaimer": "این مشاورهٔ روان‌شناختی، توصیهٔ شغلی یا تصمیم واقعی سازمانی نیست. تفسیر نهایی با بخش موقت بررسی شخصیت در ادارهٔ تبلیغات است."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "آزمون تخصیص SOVIA",
+    "department": "بخش موقت بررسی شخصیت اداره تبلیغات"
+  },
+  "demographics": {
+    "title": "جزئیات اختیاری پرونده",
+    "intro": "این فیلدها اختیاری هستند و به ادارهٔ تبلیغات کمک می‌کنند بفهمد کدام رفیق در آزمون شرکت می‌کند.",
+    "ageLabel": "سن",
+    "genderLabel": "جنسیت",
+    "ageOptions": {
+      "prefer_not_to_say": "ترجیح می‌دهم نگویم",
+      "under_18": "زیر ۱۸",
+      "18_24": "۱۸–۲۴",
+      "25_34": "۲۵–۳۴",
+      "35_44": "۳۵–۴۴",
+      "45_54": "۴۵–۵۴",
+      "55_plus": "۵۵+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "ترجیح می‌دهم نگویم",
+      "male": "مرد",
+      "female": "زن",
+      "other": "دیگر"
+    }
+  },
+  "typesPage": {
+    "title": "همهٔ پست‌های SOVIA",
+    "subtitle": "همهٔ گونه‌ها و پرونده‌های پست در آزمون تخصیص SOVIA را ببینید.",
+    "intro": "در اینجا ۳۲ کد شخصیت کاری فهرست شده است. هر پست از شیوهٔ ساختار، شیوهٔ اقدام، شیوهٔ تأثیر، شیوهٔ فهم و شیوهٔ رابطه ساخته می‌شود.",
+    "startTestLabel": "شروع آزمون",
+    "codeLabel": "کد شخصیت",
+    "detailLabel": "پروندهٔ پست",
+    "detailActionLabel": "دیدن جزئیات"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "0",
+    "middle": "5",
+    "max": "10",
+    "leftHint": "0",
+    "rightHint": "10"
+  },
+  "actions": {
+    "start": "شروع آزمون",
+    "types": "دیدن همهٔ پست‌ها",
+    "previous": "پرسش قبلی",
+    "next": "پرسش بعدی",
+    "continue": "ادامه",
+    "submit": "ارسال درخواست تخصیص کار",
+    "restart": "آزمون دوباره",
+    "copy": "کپی نتیجه",
+    "copyLink": "کپی پیوند"
+  },
+  "status": {
+    "unanswered": "اول این مورد را کامل کن؛ بایگان هنوز منتظر موضع توست.",
+    "ready": "پاسخ ثبت شد. بررسی می‌تواند ادامه یابد.",
+    "copied": "نتیجه کپی شد.",
+    "copyFailed": "کپی ناموفق بود؛ پرونده را دستی ذخیره کن.",
+    "linkSuccess": "پیوند نتیجه کپی شد."
+  },
+  "certificate": {
+    "title": "گواهی تخصیص نیروی کار",
+    "systemLabel": "سامانهٔ آزمون",
+    "statusLabel": "وضعیت پرونده",
+    "statusApproved": "تأیید شد",
+    "codeLabel": "کد شخصیت کاری",
+    "titleLabel": "عنوان شخصیت",
+    "unitLabel": "واحد تخصیص",
+    "axisLabel": "گرایش ستارهٔ پنج‌پر",
+    "assessmentLabel": "داده‌های ارزیابی",
+    "resultLinkLabel": "پیوند نتیجه",
+    "tendencyLabel": "شدت گرایش",
+    "rawScoreLabel": "امتیاز خام",
+    "oppositeLabel": "گزینهٔ مقابل",
+    "archiveCommentLabel": "یادداشت بایگانی",
+    "soviaCommentLabel": "یادداشت Sovia",
+    "authorityLabel": "مرجع تأیید",
+    "descriptionLabel": "توضیح کوتاه",
+    "authority": "بخش موقت بررسی شخصیت در ادارهٔ تبلیغات",
+    "codeFormat": "نوع {{code}}"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structure",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structure",
+          "description": "Structure"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flow",
+          "description": "Flow"
+        }
+      }
+    },
+    "action": {
+      "label": "Action",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Overdrive"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Endurance",
+          "description": "Endurance"
+        }
+      }
+    },
+    "influence": {
+      "label": "Influence",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Voice",
+          "description": "Voice"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Quiet",
+          "description": "Quiet"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Understanding",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Inquiry",
+          "description": "Inquiry"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Meaning",
+          "description": "Meaning"
+        }
+      }
+    },
+    "relation": {
+      "label": "Relation",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliance",
+          "description": "Alliance"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Lone",
+          "description": "Lone"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "اگر برگهٔ برنامه وجود نداشته باشد، حس می‌کنم تمدن آرام‌آرام عقب‌نشینی می‌کند.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "خیلی لازم ندارم دیگران بدانند چه کرده‌ام؛ همین که نتیجه سرپا بماند کافی است.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "یک اتاق آرام و هدفی روشن به من بدهید، می‌توانم خیلی چیزها را تنها تمام کنم.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "اگر کاری مسئول، مهلت و برنامهٔ پشتیبان نداشته باشد، سخت آرام می‌گیرم.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "اگر نتیجه واقعاً خوب باشد، لزوماً لازم نیست توضیح بدهم چرا خوب است.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "اگر کاری تمرکز طولانی بخواهد، ترجیح می‌دهم جلسه‌ها کمتر شوند.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "دوست دارم مواد آشفته را به شماره، نسخه و فهرست تبدیل کنم.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "ترجیح می‌دهم چیزی را محکم بسازم، نه اینکه آن را پر سروصدا بسته‌بندی کنم.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "وقتی آدم‌ها زیاد می‌شوند، بیشتر دلم می‌خواهد به گوشه‌ای بروم و کار را تنها تمام کنم.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "قواعد زنجیر نیستند؛ ابزارند تا همه مجبور نباشند مدام حدس بزنند.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "حتی اگر جواب را بدانم، خیلی دوست ندارم در مرکز صحنه بایستم.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "می‌خواهم دیگران مرزهای کاری مرا محترم بدانند و هر لحظه وارد نشوند.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "اگر نظام روشن باشد، درون آن پایدارتر عمل می‌کنم.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "بعضی دستاوردها هرچه کمتر توضیح داده شوند، نیرومندترند.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "پست واقعاً مناسب من باید اجازه دهد مسئله را تنها هضم کنم.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "نمونه آرمانی تبلیغات",
+      "description": "شخصیت کاری SOVIA: نمونه آرمانی تبلیغات. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOVIA در ترویتسک نو سوم",
+      "archiveComment": "توجه: نوع SOVIA نمونهٔ آرمانی تبلیغات است؛ نه یعنی تو Sovia هستی و نه یعنی Sovia خودش این نوع است.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOVIL": {
+      "title": "مهندس تبلیغات تنها",
+      "description": "شخصیت کاری SOVIL: مهندس تبلیغات تنها. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOVIL در ترویتسک نو سوم",
+      "archiveComment": "ناهنجاری بایگانی: این نتیجه به یک شخصیت منتشرنشده شباهت دارد. در راهرو درباره‌اش حرف نزن.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOVMA": {
+      "title": "کارگزار پرونده SOVMA",
+      "description": "شخصیت کاری SOVMA: کارگزار پرونده SOVMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOVMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOVML": {
+      "title": "کارگزار پرونده SOVML",
+      "description": "شخصیت کاری SOVML: کارگزار پرونده SOVML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOVML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOQIA": {
+      "title": "کارگزار پرونده SOQIA",
+      "description": "شخصیت کاری SOQIA: کارگزار پرونده SOQIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOQIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOQIL": {
+      "title": "کارگزار پرونده SOQIL",
+      "description": "شخصیت کاری SOQIL: کارگزار پرونده SOQIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOQIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOQMA": {
+      "title": "کارگزار پرونده SOQMA",
+      "description": "شخصیت کاری SOQMA: کارگزار پرونده SOQMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOQMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SOQML": {
+      "title": "کارگزار پرونده SOQML",
+      "description": "شخصیت کاری SOQML: کارگزار پرونده SOQML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SOQML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEVIA": {
+      "title": "کارگزار پرونده SEVIA",
+      "description": "شخصیت کاری SEVIA: کارگزار پرونده SEVIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEVIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEVIL": {
+      "title": "کارگزار پرونده SEVIL",
+      "description": "شخصیت کاری SEVIL: کارگزار پرونده SEVIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEVIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEVMA": {
+      "title": "کارگزار پرونده SEVMA",
+      "description": "شخصیت کاری SEVMA: کارگزار پرونده SEVMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEVMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEVML": {
+      "title": "کارگزار پرونده SEVML",
+      "description": "شخصیت کاری SEVML: کارگزار پرونده SEVML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEVML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEQIA": {
+      "title": "کارگزار پرونده SEQIA",
+      "description": "شخصیت کاری SEQIA: کارگزار پرونده SEQIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEQIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEQIL": {
+      "title": "کارگزار پرونده SEQIL",
+      "description": "شخصیت کاری SEQIL: کارگزار پرونده SEQIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEQIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEQMA": {
+      "title": "کارگزار پرونده SEQMA",
+      "description": "شخصیت کاری SEQMA: کارگزار پرونده SEQMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEQMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "SEQML": {
+      "title": "کارگزار پرونده SEQML",
+      "description": "شخصیت کاری SEQML: کارگزار پرونده SEQML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص SEQML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOVIA": {
+      "title": "کارگزار پرونده FOVIA",
+      "description": "شخصیت کاری FOVIA: کارگزار پرونده FOVIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOVIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOVIL": {
+      "title": "کارگزار پرونده FOVIL",
+      "description": "شخصیت کاری FOVIL: کارگزار پرونده FOVIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOVIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOVMA": {
+      "title": "کارگزار پرونده FOVMA",
+      "description": "شخصیت کاری FOVMA: کارگزار پرونده FOVMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOVMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOVML": {
+      "title": "کارگزار پرونده FOVML",
+      "description": "شخصیت کاری FOVML: کارگزار پرونده FOVML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOVML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOQIA": {
+      "title": "کارگزار پرونده FOQIA",
+      "description": "شخصیت کاری FOQIA: کارگزار پرونده FOQIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOQIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOQIL": {
+      "title": "کارگزار پرونده FOQIL",
+      "description": "شخصیت کاری FOQIL: کارگزار پرونده FOQIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOQIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOQMA": {
+      "title": "کارگزار پرونده FOQMA",
+      "description": "شخصیت کاری FOQMA: کارگزار پرونده FOQMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOQMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FOQML": {
+      "title": "کارگزار پرونده FOQML",
+      "description": "شخصیت کاری FOQML: کارگزار پرونده FOQML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FOQML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEVIA": {
+      "title": "کارگزار پرونده FEVIA",
+      "description": "شخصیت کاری FEVIA: کارگزار پرونده FEVIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEVIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEVIL": {
+      "title": "کارگزار پرونده FEVIL",
+      "description": "شخصیت کاری FEVIL: کارگزار پرونده FEVIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEVIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEVMA": {
+      "title": "کارگزار پرونده FEVMA",
+      "description": "شخصیت کاری FEVMA: کارگزار پرونده FEVMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEVMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEVML": {
+      "title": "کارگزار پرونده FEVML",
+      "description": "شخصیت کاری FEVML: کارگزار پرونده FEVML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEVML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEQIA": {
+      "title": "کارگزار پرونده FEQIA",
+      "description": "شخصیت کاری FEQIA: کارگزار پرونده FEQIA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEQIA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEQIL": {
+      "title": "کارگزار پرونده FEQIL",
+      "description": "شخصیت کاری FEQIL: کارگزار پرونده FEQIL. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEQIL در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEQMA": {
+      "title": "کارگزار پرونده FEQMA",
+      "description": "شخصیت کاری FEQMA: کارگزار پرونده FEQMA. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEQMA در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    },
+    "FEQML": {
+      "title": "کارگزار پرونده FEQML",
+      "description": "شخصیت کاری FEQML: کارگزار پرونده FEQML. پرونده برای تولید مناسب است، با احتمال اندکی آشفتگی در کمیته.",
+      "unit": "اتاق تخصیص FEQML در ترویتسک نو سوم",
+      "archiveComment": "این تیپ برای کارهای عجیب اما ضروری مناسب است؛ ترجیحاً پیش از آنکه کسی زیاد سؤال کند تمام شود.",
+      "soviaComment": "رفیق، فرم برای تولید پذیرفتنی است."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "گرایش‌های تو کاملاً از جدول فعلی پست‌ها اطاعت نمی‌کند. ادارهٔ تبلیغات تو را به‌عنوان شخصیت کاری ترکیبی ثبت و بر اساس کمبود همان روز تخصیص می‌دهد.",
+    "unit": "دفتر موقت اعزام عمومی",
+    "archiveComment": "این شخص نیاز به مشاهده دارد، اما ثبات پایه‌ای لازم برای تولید را دارد.",
+    "soviaComment": "رفیق، ناشناخته بودن به معنای بی‌فایده بودن نیست. اول ابزار را بگیر، بعد سرنوشت را."
+  },
+  "copy": {
+    "template": "SOVIA result: {{code}} · {{title}}. Unit: {{unit}}. Try it: {{url}}",
+    "success": "Result copied.",
+    "failed": "Copy failed.",
+    "linkSuccess": "Result link copied."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "پروندهٔ شخصیت",
+    "personalityLabel": "شرح شخصیت",
+    "workLabel": "حالت کاری",
+    "socialLabel": "روابط اجتماعی"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "رفیق، نوع SOVIA با عنوان «نمونه آرمانی تبلیغات» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOVIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOVIL": {
+      "personality": "رفیق، نوع SOVIL با عنوان «مهندس تبلیغات تنها» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOVIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOVMA": {
+      "personality": "رفیق، نوع SOVMA با عنوان «کارگزار پرونده SOVMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOVMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOVML": {
+      "personality": "رفیق، نوع SOVML با عنوان «کارگزار پرونده SOVML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOVML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOQIA": {
+      "personality": "رفیق، نوع SOQIA با عنوان «کارگزار پرونده SOQIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOQIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOQIL": {
+      "personality": "رفیق، نوع SOQIL با عنوان «کارگزار پرونده SOQIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOQIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOQMA": {
+      "personality": "رفیق، نوع SOQMA با عنوان «کارگزار پرونده SOQMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOQMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SOQML": {
+      "personality": "رفیق، نوع SOQML با عنوان «کارگزار پرونده SOQML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SOQML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEVIA": {
+      "personality": "رفیق، نوع SEVIA با عنوان «کارگزار پرونده SEVIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEVIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEVIL": {
+      "personality": "رفیق، نوع SEVIL با عنوان «کارگزار پرونده SEVIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEVIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEVMA": {
+      "personality": "رفیق، نوع SEVMA با عنوان «کارگزار پرونده SEVMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEVMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEVML": {
+      "personality": "رفیق، نوع SEVML با عنوان «کارگزار پرونده SEVML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEVML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEQIA": {
+      "personality": "رفیق، نوع SEQIA با عنوان «کارگزار پرونده SEQIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEQIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEQIL": {
+      "personality": "رفیق، نوع SEQIL با عنوان «کارگزار پرونده SEQIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEQIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEQMA": {
+      "personality": "رفیق، نوع SEQMA با عنوان «کارگزار پرونده SEQMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEQMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "SEQML": {
+      "personality": "رفیق، نوع SEQML با عنوان «کارگزار پرونده SEQML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص SEQML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOVIA": {
+      "personality": "رفیق، نوع FOVIA با عنوان «کارگزار پرونده FOVIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOVIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOVIL": {
+      "personality": "رفیق، نوع FOVIL با عنوان «کارگزار پرونده FOVIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOVIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOVMA": {
+      "personality": "رفیق، نوع FOVMA با عنوان «کارگزار پرونده FOVMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOVMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOVML": {
+      "personality": "رفیق، نوع FOVML با عنوان «کارگزار پرونده FOVML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOVML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOQIA": {
+      "personality": "رفیق، نوع FOQIA با عنوان «کارگزار پرونده FOQIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOQIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOQIL": {
+      "personality": "رفیق، نوع FOQIL با عنوان «کارگزار پرونده FOQIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOQIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOQMA": {
+      "personality": "رفیق، نوع FOQMA با عنوان «کارگزار پرونده FOQMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOQMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FOQML": {
+      "personality": "رفیق، نوع FOQML با عنوان «کارگزار پرونده FOQML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FOQML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEVIA": {
+      "personality": "رفیق، نوع FEVIA با عنوان «کارگزار پرونده FEVIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEVIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEVIL": {
+      "personality": "رفیق، نوع FEVIL با عنوان «کارگزار پرونده FEVIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEVIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEVMA": {
+      "personality": "رفیق، نوع FEVMA با عنوان «کارگزار پرونده FEVMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEVMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEVML": {
+      "personality": "رفیق، نوع FEVML با عنوان «کارگزار پرونده FEVML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEVML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEQIA": {
+      "personality": "رفیق، نوع FEQIA با عنوان «کارگزار پرونده FEQIA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEQIA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEQIL": {
+      "personality": "رفیق، نوع FEQIL با عنوان «کارگزار پرونده FEQIL» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEQIL در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEQMA": {
+      "personality": "رفیق، نوع FEQMA با عنوان «کارگزار پرونده FEQMA» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEQMA در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    },
+    "FEQML": {
+      "personality": "رفیق، نوع FEQML با عنوان «کارگزار پرونده FEQML» مثل یک یادداشت داخلی حرکت می‌کند: کمی خشک، بسیار مفید و آن‌قدر مشکوک که مهر قرمز بخورد.",
+      "work": "در کار، پست «اتاق تخصیص FEQML در ترویتسک نو سوم» به او می‌آید: هدف روشن، کمی آزادی عمل و بوروکراسی‌ای که راه فرعی را نبندد. اگر جلسه زیاد شود، تولید به دنبال خروج اضطراری می‌گردد.",
+      "social": "در روابط اجتماعی، مراقبت را با کارهای کوچک و عملی نشان می‌دهد: چراغ روشن می‌ماند، پیام می‌رسد و هیچ رفیقی در صف جا نمی‌ماند."
+    }
+  },
+  "channelAd": {
+    "title": "از کانال‌های Comrade Sovia حمایت کنید",
+    "intro": "من موسیقی انیمه و بازی را به ترانه‌هایی با سبک شوروی بازآفرینی می‌کنم. اگر می‌خواهید از کارم حمایت کنید، به کانال‌هایم سر بزنید."
+  }
+}

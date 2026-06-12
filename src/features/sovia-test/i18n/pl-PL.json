@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "Test Przydziału SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Sprawdź swoją radziecką osobowość pracy i stanowisko, na które przydzieliłaby cię SOVIA.",
+    "intro": "SOVIA to nieformalny system przydziału osobowości pracy opracowany przez Wydział Propagandy. Ustala, czy towarzysz lepiej nadaje się do radiowęzła, archiwum, maszynowni, stołówki, komisji ogrzewania czy innego niezbędnego stanowiska.",
+    "disclaimer": "To nie jest porada psychologiczna, zawodowa ani prawdziwa decyzja organizacyjna. Ostateczna interpretacja należy do Tymczasowej Sekcji Oceny Osobowości Wydziału Propagandy."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Radziecki system przydziału osobowości pracy",
+    "department": "Tymczasowa Sekcja Oceny Osobowości"
+  },
+  "demographics": {
+    "title": "Opcjonalne dane archiwalne",
+    "intro": "Te pola są opcjonalne i pomagają Wydziałowi Propagandy zrozumieć, który towarzysz wykonuje test.",
+    "ageLabel": "Wiek",
+    "genderLabel": "Płeć",
+    "ageOptions": {
+      "prefer_not_to_say": "Wolę nie mówić",
+      "under_18": "Poniżej 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Wolę nie mówić",
+      "male": "Mężczyzna",
+      "female": "Kobieta",
+      "other": "Inne"
+    }
+  },
+  "typesPage": {
+    "title": "Wszystkie stanowiska SOVIA",
+    "subtitle": "Wszystkie typy i akta stanowisk w teście SOVIA.",
+    "intro": "Zarchiwizowano tu 32 kody osobowości pracy. Każde stanowisko łączy strukturę, działanie, wpływ, rozumienie i relacje.",
+    "startTestLabel": "Rozpocznij test",
+    "codeLabel": "Kod osobowości",
+    "detailLabel": "Akta stanowiska",
+    "detailActionLabel": "Zobacz szczegóły"
+  },
+  "progress": {
+    "label": "Postęp kontroli akt",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Zdecydowanie się nie zgadzam",
+    "middle": "Neutralnie",
+    "max": "Zdecydowanie się zgadzam",
+    "leftHint": "Zdecydowanie się nie zgadzam",
+    "rightHint": "Zdecydowanie się zgadzam"
+  },
+  "actions": {
+    "start": "Start",
+    "types": "Zobacz wszystkie stanowiska",
+    "previous": "Poprzednie pytanie",
+    "next": "Następne pytanie",
+    "continue": "Dalej",
+    "submit": "Złóż wniosek o przydział pracy",
+    "restart": "Powtórz test",
+    "copy": "Kopiuj wynik",
+    "copyLink": "Kopiuj link"
+  },
+  "status": {
+    "unanswered": "Najpierw odpowiedz na pytanie; archiwista czeka na twoje stanowisko.",
+    "ready": "Odpowiedź zapisana. Kontrola może trwać dalej.",
+    "copied": "Wynik skopiowany.",
+    "copyFailed": "Nie udało się skopiować. Zapisz akta ręcznie."
+  },
+  "certificate": {
+    "title": "Zaświadczenie przydziału ludu pracującego",
+    "systemLabel": "System testu",
+    "statusLabel": "Status akt",
+    "statusApproved": "Kontrola zatwierdzona",
+    "codeLabel": "Kod osobowości pracy",
+    "titleLabel": "Tytuł osobowości",
+    "unitLabel": "Przydzielona jednostka",
+    "axisLabel": "Tendencja pięcioramiennej gwiazdy",
+    "assessmentLabel": "Dane oceny",
+    "resultLinkLabel": "Link wyniku",
+    "tendencyLabel": "Siła tendencji",
+    "rawScoreLabel": "Wynik surowy",
+    "oppositeLabel": "Przeciwieństwo",
+    "archiveCommentLabel": "Komentarz archiwum",
+    "soviaCommentLabel": "Komentarz Sovii",
+    "authorityLabel": "Organ zatwierdzający",
+    "authority": "Tymczasowa Sekcja Oceny Osobowości",
+    "codeFormat": "typ {{code}}",
+    "descriptionLabel": "Krótki opis"
+  },
+  "axes": {
+    "structure": {
+      "label": "Tryb struktury",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "typ strukturalny",
+          "description": "Lubi porządek, plany, zasady i jasne procedury."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "typ płynny",
+          "description": "Polega na sytuacji, adaptacji i drogach bez pieczątek."
+        }
+      }
+    },
+    "action": {
+      "label": "Tryb działania",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "typ szturmowy",
+          "description": "Wzmacnia się pod presją i w zadaniach alarmowych."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "typ wytrzymałościowy",
+          "description": "Pracuje stabilnie, długo i bez spalania siebie."
+        }
+      }
+    },
+    "influence": {
+      "label": "Tryb wpływu",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "typ radiowy",
+          "description": "Umie opowiadać, objaśniać i poruszać atmosferę."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "typ cichy",
+          "description": "Nie tłumaczy za dużo i woli solidny rezultat."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Tryb rozumienia",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "typ badawczy",
+          "description": "Analizuje systemy, przyczyny, logikę i strukturę."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "typ znaczenia",
+          "description": "Czyta emocje, symbole, atmosferę, relacje i historie."
+        }
+      }
+    },
+    "relation": {
+      "label": "Tryb relacji",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "typ sojuszniczy",
+          "description": "Ceni współpracę, rytm kolektywu i wspólne kończenie zadań."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "typ samotny",
+          "description": "Ma jasne granice i najlepiej pracuje bez ciągłych przerwań."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Bez planu z pieczątką czuję, że cywilizacja powoli się cofa.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Gdy sytuacja się zmienia, wolę ruszyć najpierw, a pieczątkę zdobyć później.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Gdy włącza się alarm, mój mózg robi się podejrzanie jasny.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Bardziej ufam wytrzymałości niż bohaterskiemu spalaniu siebie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Dobre hasło potrafi podnieść zmęczoną stołówkę.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Nie każdy dobry wynik potrzebuje fanfar i trzech przemówień.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Gdy ktoś mówi „coś jest nie tak”, chcę logów, przyczyn i starych akt.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Zanim zdecyduję, słucham atmosfery, której nie da się włożyć do akt.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Szybko widzę, kto milknie albo wypada z rytmu kolumny.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Daj mi cichy pokój, cel i nikogo przy drzwiach: produkcja rusza.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Chaos uspokaja mnie dopiero wtedy, gdy staje się listą, numerem i odpowiedzialnym.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Zbyt doskonały plan jest podejrzany: nie zostawił wyjścia rzeczywistości.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Deadline dziś wieczorem budzi moją wewnętrzną brygadę szturmową.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Jedna stabilna dostawa dziennie wygrywa z trzema cudami nocą.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Jeśli coś jest ważne, zasługuje na jasny głos, plakat i może bęben.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Wolę położyć coś solidnego na stole niż opisywać sam stół.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Oddzielam przyczynę, warunek i skutek, zanim zebranie zacznie śpiewać.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Czasem symbol tłumaczy więcej niż wszystkie parametry maszynowni.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Skończyć razem znaczy więcej niż biec samotnie z flagą.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Cenię kolektyw, ale nie musi pukać co dziesięć minut.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Zasady nie są kajdanami; czasem są ostatnim działającym kaloryferem.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Teren czasem wie więcej niż protokół czekający na podpis.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "W kryzysie szybciej znajduję dźwignię niż w zwykłym kalendarzu.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Gdy zespół się przegrzewa, zwalniam tempo zanim wszyscy zaczną dymić.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Umiem opisać zwykłe zadanie tak, jakby było zatwierdzoną misją.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Niektóre sukcesy są silniejsze, gdy nie idą przez głośnik.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Chcę wiedzieć, jak system zdołał zepsuć się w tak historyczny sposób.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Jeśli decyzja rani ludzi, jej skuteczność nie wystarczy mi jako hymn.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Biorę też niewidzialną pracę, jeśli kolektyw zaczyna marznąć.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Idealne stanowisko pozwala mi strawić problem, zanim powstanie komitet.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Bez planu z pieczątką czuję, że cywilizacja powoli się cofa.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Gdy sytuacja się zmienia, wolę ruszyć najpierw, a pieczątkę zdobyć później.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Gdy włącza się alarm, mój mózg robi się podejrzanie jasny.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Bardziej ufam wytrzymałości niż bohaterskiemu spalaniu siebie.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Dobre hasło potrafi podnieść zmęczoną stołówkę.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Nie każdy dobry wynik potrzebuje fanfar i trzech przemówień.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Gdy ktoś mówi „coś jest nie tak”, chcę logów, przyczyn i starych akt.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Zanim zdecyduję, słucham atmosfery, której nie da się włożyć do akt.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Szybko widzę, kto milknie albo wypada z rytmu kolumny.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Daj mi cichy pokój, cel i nikogo przy drzwiach: produkcja rusza.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Chaos uspokaja mnie dopiero wtedy, gdy staje się listą, numerem i odpowiedzialnym.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Zbyt doskonały plan jest podejrzany: nie zostawił wyjścia rzeczywistości.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Deadline dziś wieczorem budzi moją wewnętrzną brygadę szturmową.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Jedna stabilna dostawa dziennie wygrywa z trzema cudami nocą.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Jeśli coś jest ważne, zasługuje na jasny głos, plakat i może bęben.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Wolę położyć coś solidnego na stole niż opisywać sam stół.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Oddzielam przyczynę, warunek i skutek, zanim zebranie zacznie śpiewać.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Czasem symbol tłumaczy więcej niż wszystkie parametry maszynowni.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Skończyć razem znaczy więcej niż biec samotnie z flagą.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Cenię kolektyw, ale nie musi pukać co dziesięć minut.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Wzorzec idealny Wydziału Propagandy",
+      "description": "planowy, alarmowy, radiowiec, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Wzorzec idealny Wydziału Propagandy i planowych odchyleń",
+      "archiveComment": "Uwaga: typ SOVIA nie oznacza, że jesteś Sovią, ani że Sovia sama jest typem SOVIA. To tylko ideał wymyślony przez Propagandę.",
+      "soviaComment": "Towarzyszu, Wzorzec idealny Wydziału Propagandy brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOVIL": {
+      "title": "Samotny inżynier propagandy",
+      "description": "planowy, alarmowy, radiowiec, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Samotny inżynier propagandy i planowych odchyleń",
+      "archiveComment": "Anomalia akt: wynik zbyt podobny do nieujawnionej postaci. Nie omawiać na korytarzu.",
+      "soviaComment": "Towarzyszu, Samotny inżynier propagandy brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOVMA": {
+      "title": "Planowy alarmowy radiowiec",
+      "description": "planowy, alarmowy, radiowiec, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy alarmowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta SOVMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy alarmowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOVML": {
+      "title": "Planowy alarmowy radiowiec",
+      "description": "planowy, alarmowy, radiowiec, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy alarmowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta SOVML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy alarmowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOQIA": {
+      "title": "Planowy alarmowy cichy administrator",
+      "description": "planowy, alarmowy, cichy administrator, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SOQIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOQIL": {
+      "title": "Planowy alarmowy cichy administrator",
+      "description": "planowy, alarmowy, cichy administrator, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SOQIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOQMA": {
+      "title": "Planowy alarmowy cichy administrator",
+      "description": "planowy, alarmowy, cichy administrator, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SOQMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SOQML": {
+      "title": "Planowy alarmowy cichy administrator",
+      "description": "planowy, alarmowy, cichy administrator, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SOQML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEVIA": {
+      "title": "Planowy wytrzymałościowy radiowiec",
+      "description": "planowy, wytrzymałościowy, radiowiec, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta SEVIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEVIL": {
+      "title": "Planowy wytrzymałościowy radiowiec",
+      "description": "planowy, wytrzymałościowy, radiowiec, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta SEVIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEVMA": {
+      "title": "Planowy wytrzymałościowy radiowiec",
+      "description": "planowy, wytrzymałościowy, radiowiec, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta SEVMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEVML": {
+      "title": "Planowy wytrzymałościowy radiowiec",
+      "description": "planowy, wytrzymałościowy, radiowiec, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta SEVML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEQIA": {
+      "title": "Planowy wytrzymałościowy cichy administrator",
+      "description": "planowy, wytrzymałościowy, cichy administrator, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SEQIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEQIL": {
+      "title": "Planowy wytrzymałościowy cichy administrator",
+      "description": "planowy, wytrzymałościowy, cichy administrator, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SEQIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEQMA": {
+      "title": "Planowy wytrzymałościowy cichy administrator",
+      "description": "planowy, wytrzymałościowy, cichy administrator, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SEQMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "SEQML": {
+      "title": "Planowy wytrzymałościowy cichy administrator",
+      "description": "planowy, wytrzymałościowy, cichy administrator, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Planowy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta SEQML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Planowy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOVIA": {
+      "title": "Ruchomy alarmowy radiowiec",
+      "description": "ruchomy, alarmowy, radiowiec, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FOVIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOVIL": {
+      "title": "Ruchomy alarmowy radiowiec",
+      "description": "ruchomy, alarmowy, radiowiec, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FOVIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOVMA": {
+      "title": "Ruchomy alarmowy radiowiec",
+      "description": "ruchomy, alarmowy, radiowiec, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FOVMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOVML": {
+      "title": "Ruchomy alarmowy radiowiec",
+      "description": "ruchomy, alarmowy, radiowiec, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FOVML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOQIA": {
+      "title": "Ruchomy alarmowy cichy administrator",
+      "description": "ruchomy, alarmowy, cichy administrator, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FOQIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOQIL": {
+      "title": "Ruchomy alarmowy cichy administrator",
+      "description": "ruchomy, alarmowy, cichy administrator, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FOQIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOQMA": {
+      "title": "Ruchomy alarmowy cichy administrator",
+      "description": "ruchomy, alarmowy, cichy administrator, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FOQMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FOQML": {
+      "title": "Ruchomy alarmowy cichy administrator",
+      "description": "ruchomy, alarmowy, cichy administrator, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy alarmowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FOQML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy alarmowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEVIA": {
+      "title": "Ruchomy wytrzymałościowy radiowiec",
+      "description": "ruchomy, wytrzymałościowy, radiowiec, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FEVIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEVIL": {
+      "title": "Ruchomy wytrzymałościowy radiowiec",
+      "description": "ruchomy, wytrzymałościowy, radiowiec, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FEVIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEVMA": {
+      "title": "Ruchomy wytrzymałościowy radiowiec",
+      "description": "ruchomy, wytrzymałościowy, radiowiec, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FEVMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEVML": {
+      "title": "Ruchomy wytrzymałościowy radiowiec",
+      "description": "ruchomy, wytrzymałościowy, radiowiec, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy radiowiec i planowych odchyleń",
+      "archiveComment": "Akta FEVML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy radiowiec brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEQIA": {
+      "title": "Ruchomy wytrzymałościowy cichy administrator",
+      "description": "ruchomy, wytrzymałościowy, cichy administrator, technik systemowy, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FEQIA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEQIL": {
+      "title": "Ruchomy wytrzymałościowy cichy administrator",
+      "description": "ruchomy, wytrzymałościowy, cichy administrator, technik systemowy, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FEQIL: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEQMA": {
+      "title": "Ruchomy wytrzymałościowy cichy administrator",
+      "description": "ruchomy, wytrzymałościowy, cichy administrator, strażnik znaczeń, kolektywny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FEQMA: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    },
+    "FEQML": {
+      "title": "Ruchomy wytrzymałościowy cichy administrator",
+      "description": "ruchomy, wytrzymałościowy, cichy administrator, strażnik znaczeń, samotny: dość oficjalne do akt i dość podejrzane do drugiej kontroli.",
+      "unit": "Wydział Ruchomy wytrzymałościowy cichy administrator i planowych odchyleń",
+      "archiveComment": "Akta FEQML: nadaje się do zadań z pieczątką, alarmem i kontrolowanym absurdem.",
+      "soviaComment": "Towarzyszu, Ruchomy wytrzymałościowy cichy administrator brzmi jak stanowisko, o które nikt nie prosi, ale wszyscy go potrzebują."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Twoja tendencja nie mieści się w pełni w oficjalnej tabeli stanowisk. Propaganda zapisze cię jako złożoną osobowość pracy.",
+    "unit": "Tymczasowe Biuro Koordynacji Ogólnej",
+    "archiveComment": "Osoba do obserwacji, lecz już zdolna do produkcji.",
+    "soviaComment": "Towarzyszu, nieznane nie znaczy bezużyteczne. Najpierw narzędzie, potem los."
+  },
+  "copy": {
+    "template": "W Teście Przydziału SOVIA wyszedł mi typ {{code}} · {{title}}. Jednostka: {{unit}}. Sprawdź też: {{url}}",
+    "success": "Wynik skopiowany.",
+    "failed": "Nie udało się skopiować. Zapisz akta ręcznie.",
+    "linkSuccess": "Link wyniku skopiowany."
+  },
+  "language": {
+    "label": "Język"
+  },
+  "details": {
+    "title": "Akta osobowości",
+    "personalityLabel": "Opis charakteru",
+    "workLabel": "W pracy",
+    "socialLabel": "Relacje z towarzyszami"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Jesteś typem SOVIA: planowy, alarmowy, radiowiec, technik systemowy, kolektywny. W aktach widnieje Wzorzec idealny Wydziału Propagandy. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOVIL": {
+      "personality": "Jesteś typem SOVIL: planowy, alarmowy, radiowiec, technik systemowy, samotny. W aktach widnieje Samotny inżynier propagandy. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOVMA": {
+      "personality": "Jesteś typem SOVMA: planowy, alarmowy, radiowiec, strażnik znaczeń, kolektywny. W aktach widnieje Planowy alarmowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOVML": {
+      "personality": "Jesteś typem SOVML: planowy, alarmowy, radiowiec, strażnik znaczeń, samotny. W aktach widnieje Planowy alarmowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOQIA": {
+      "personality": "Jesteś typem SOQIA: planowy, alarmowy, cichy administrator, technik systemowy, kolektywny. W aktach widnieje Planowy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOQIL": {
+      "personality": "Jesteś typem SOQIL: planowy, alarmowy, cichy administrator, technik systemowy, samotny. W aktach widnieje Planowy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOQMA": {
+      "personality": "Jesteś typem SOQMA: planowy, alarmowy, cichy administrator, strażnik znaczeń, kolektywny. W aktach widnieje Planowy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SOQML": {
+      "personality": "Jesteś typem SOQML: planowy, alarmowy, cichy administrator, strażnik znaczeń, samotny. W aktach widnieje Planowy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEVIA": {
+      "personality": "Jesteś typem SEVIA: planowy, wytrzymałościowy, radiowiec, technik systemowy, kolektywny. W aktach widnieje Planowy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEVIL": {
+      "personality": "Jesteś typem SEVIL: planowy, wytrzymałościowy, radiowiec, technik systemowy, samotny. W aktach widnieje Planowy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEVMA": {
+      "personality": "Jesteś typem SEVMA: planowy, wytrzymałościowy, radiowiec, strażnik znaczeń, kolektywny. W aktach widnieje Planowy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEVML": {
+      "personality": "Jesteś typem SEVML: planowy, wytrzymałościowy, radiowiec, strażnik znaczeń, samotny. W aktach widnieje Planowy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEQIA": {
+      "personality": "Jesteś typem SEQIA: planowy, wytrzymałościowy, cichy administrator, technik systemowy, kolektywny. W aktach widnieje Planowy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEQIL": {
+      "personality": "Jesteś typem SEQIL: planowy, wytrzymałościowy, cichy administrator, technik systemowy, samotny. W aktach widnieje Planowy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEQMA": {
+      "personality": "Jesteś typem SEQMA: planowy, wytrzymałościowy, cichy administrator, strażnik znaczeń, kolektywny. W aktach widnieje Planowy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "SEQML": {
+      "personality": "Jesteś typem SEQML: planowy, wytrzymałościowy, cichy administrator, strażnik znaczeń, samotny. W aktach widnieje Planowy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOVIA": {
+      "personality": "Jesteś typem FOVIA: ruchomy, alarmowy, radiowiec, technik systemowy, kolektywny. W aktach widnieje Ruchomy alarmowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOVIL": {
+      "personality": "Jesteś typem FOVIL: ruchomy, alarmowy, radiowiec, technik systemowy, samotny. W aktach widnieje Ruchomy alarmowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOVMA": {
+      "personality": "Jesteś typem FOVMA: ruchomy, alarmowy, radiowiec, strażnik znaczeń, kolektywny. W aktach widnieje Ruchomy alarmowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOVML": {
+      "personality": "Jesteś typem FOVML: ruchomy, alarmowy, radiowiec, strażnik znaczeń, samotny. W aktach widnieje Ruchomy alarmowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOQIA": {
+      "personality": "Jesteś typem FOQIA: ruchomy, alarmowy, cichy administrator, technik systemowy, kolektywny. W aktach widnieje Ruchomy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOQIL": {
+      "personality": "Jesteś typem FOQIL: ruchomy, alarmowy, cichy administrator, technik systemowy, samotny. W aktach widnieje Ruchomy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOQMA": {
+      "personality": "Jesteś typem FOQMA: ruchomy, alarmowy, cichy administrator, strażnik znaczeń, kolektywny. W aktach widnieje Ruchomy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FOQML": {
+      "personality": "Jesteś typem FOQML: ruchomy, alarmowy, cichy administrator, strażnik znaczeń, samotny. W aktach widnieje Ruchomy alarmowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEVIA": {
+      "personality": "Jesteś typem FEVIA: ruchomy, wytrzymałościowy, radiowiec, technik systemowy, kolektywny. W aktach widnieje Ruchomy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEVIL": {
+      "personality": "Jesteś typem FEVIL: ruchomy, wytrzymałościowy, radiowiec, technik systemowy, samotny. W aktach widnieje Ruchomy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEVMA": {
+      "personality": "Jesteś typem FEVMA: ruchomy, wytrzymałościowy, radiowiec, strażnik znaczeń, kolektywny. W aktach widnieje Ruchomy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEVML": {
+      "personality": "Jesteś typem FEVML: ruchomy, wytrzymałościowy, radiowiec, strażnik znaczeń, samotny. W aktach widnieje Ruchomy wytrzymałościowy radiowiec. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEQIA": {
+      "personality": "Jesteś typem FEQIA: ruchomy, wytrzymałościowy, cichy administrator, technik systemowy, kolektywny. W aktach widnieje Ruchomy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEQIL": {
+      "personality": "Jesteś typem FEQIL: ruchomy, wytrzymałościowy, cichy administrator, technik systemowy, samotny. W aktach widnieje Ruchomy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEQMA": {
+      "personality": "Jesteś typem FEQMA: ruchomy, wytrzymałościowy, cichy administrator, strażnik znaczeń, kolektywny. W aktach widnieje Ruchomy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się kolektywny, lecz z wewnętrzną pieczątką archiwum. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    },
+    "FEQML": {
+      "personality": "Jesteś typem FEQML: ruchomy, wytrzymałościowy, cichy administrator, strażnik znaczeń, samotny. W aktach widnieje Ruchomy wytrzymałościowy cichy administrator. Brzmi to dość oficjalnie na trzy pieczątki i jedno podejrzliwe spojrzenie.",
+      "work": "W pracy wolisz zdyscyplinowaną improwizację, użyteczne alarmy i zadania proszące o pieczątkę. Wydział Propagandy zaleca trzymać narzędzie pod ręką i nie wpisywać kawy jako snu.",
+      "social": "Wśród towarzyszy wydajesz się solidny, ale z bardzo jasną polityką drzwi. Kolektyw cię ceni, choć czasem nie wie, czy pomagasz, kontrolujesz, czy piszesz w głowie protokół."
+    }
+  },
+  "channelAd": {
+    "title": "Wesprzyj kanały Comrade Sovia",
+    "intro": "Przerabiam muzykę z anime i gier na piosenki w stylu radzieckim. Jeśli chcesz wesprzeć moją pracę, odwiedź moje kanały."
+  }
+}

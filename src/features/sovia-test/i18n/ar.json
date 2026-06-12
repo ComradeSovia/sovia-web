@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "اختبار توزيع SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "اختبر شخصيتك العمالية السوفيتية واعرف موقعك.",
+    "intro": "SOVIA نظام خيالي غير رسمي لتوزيع الشخصية العمالية طورته إدارة الدعاية. يقرر ما إذا كان الرفيق أنسب لبرج الإذاعة أو غرفة الأرشيف أو قاعة الآلات أو المقصف أو لجنة التدفئة أو منصب ضروري آخر.",
+    "disclaimer": "هذا ليس إرشاداً نفسياً ولا نصيحة مهنية ولا قراراً تنظيمياً حقيقياً. حق التفسير النهائي يعود إلى قسم فحص الشخصية المؤقت في إدارة الدعاية."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "اختبار توزيع SOVIA",
+    "department": "قسم فحص الشخصية المؤقت في إدارة الدعاية"
+  },
+  "demographics": {
+    "title": "تفاصيل أرشيفية اختيارية",
+    "intro": "هذه الحقول اختيارية وتساعد قسم الدعاية على فهم الرفيق الذي يجري الاختبار.",
+    "ageLabel": "العمر",
+    "genderLabel": "الجنس",
+    "ageOptions": {
+      "prefer_not_to_say": "أفضل عدم الإجابة",
+      "under_18": "أقل من 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "أفضل عدم الإجابة",
+      "male": "ذكر",
+      "female": "أنثى",
+      "other": "آخر"
+    }
+  },
+  "typesPage": {
+    "title": "كل مناصب SOVIA",
+    "subtitle": "استعرض كل الأنماط وملفات المناصب في اختبار توزيع SOVIA.",
+    "intro": "تضم هذه القائمة 32 رمزاً للشخصية العمالية. يتكوّن كل منصب من طريقة البنية، وأسلوب العمل، وطريقة التأثير، وطريقة الفهم، وطريقة العلاقة.",
+    "startTestLabel": "ابدأ الاختبار",
+    "codeLabel": "رمز الشخصية",
+    "detailLabel": "ملف المنصب",
+    "detailActionLabel": "عرض التفاصيل"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "0",
+    "middle": "5",
+    "max": "10",
+    "leftHint": "0",
+    "rightHint": "10"
+  },
+  "actions": {
+    "start": "ابدأ الاختبار",
+    "types": "تصفح كل المناصب",
+    "previous": "السؤال السابق",
+    "next": "السؤال التالي",
+    "continue": "متابعة",
+    "submit": "تقديم طلب توزيع العمل",
+    "restart": "إعادة الاختبار",
+    "copy": "نسخ النتيجة",
+    "copyLink": "نسخ الرابط"
+  },
+  "status": {
+    "unanswered": "أكمل هذه المادة أولاً؛ أمين الأرشيف ما زال ينتظر موقفك.",
+    "ready": "تم تسجيل الإجابة. يمكن مواصلة الفحص.",
+    "copied": "تم نسخ النتيجة.",
+    "copyFailed": "فشل النسخ. احفظ الملف يدوياً.",
+    "linkSuccess": "تم نسخ رابط النتيجة."
+  },
+  "certificate": {
+    "title": "شهادة توزيع العاملين",
+    "systemLabel": "نظام الاختبار",
+    "statusLabel": "حالة الملف",
+    "statusApproved": "تمت الموافقة",
+    "codeLabel": "رمز الشخصية العمالية",
+    "titleLabel": "لقب الشخصية",
+    "unitLabel": "وحدة التوزيع",
+    "axisLabel": "ميل النجمة الخماسية",
+    "assessmentLabel": "بيانات التقييم",
+    "resultLinkLabel": "رابط النتيجة",
+    "tendencyLabel": "قوة الميل",
+    "rawScoreLabel": "الدرجة الخام",
+    "oppositeLabel": "البند المقابل",
+    "archiveCommentLabel": "ملاحظة الأرشيف",
+    "soviaCommentLabel": "ملاحظة Sovia",
+    "authorityLabel": "الجهة المعتمدة",
+    "descriptionLabel": "وصف مختصر",
+    "authority": "قسم فحص الشخصية المؤقت في إدارة الدعاية",
+    "codeFormat": "نوع {{code}}"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structure",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structure",
+          "description": "Structure"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flow",
+          "description": "Flow"
+        }
+      }
+    },
+    "action": {
+      "label": "Action",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Overdrive"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Endurance",
+          "description": "Endurance"
+        }
+      }
+    },
+    "influence": {
+      "label": "Influence",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Voice",
+          "description": "Voice"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Quiet",
+          "description": "Quiet"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Understanding",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Inquiry",
+          "description": "Inquiry"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Meaning",
+          "description": "Meaning"
+        }
+      }
+    },
+    "relation": {
+      "label": "Relation",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliance",
+          "description": "Alliance"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Lone",
+          "description": "Lone"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "إذا لم توجد ورقة خطة، أشعر أن الحضارة تتراجع ببطء.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "لا أحتاج كثيراً أن يعرف الآخرون ما فعلته؛ يكفي أن تصمد النتيجة.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "أعطني غرفة هادئة وهدفاً واضحاً، وسأستطيع إنجاز الكثير وحدي.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "إذا لم تكن للمهمة جهة مسؤولة وموعد نهائي وخطة احتياطية، يصعب عليّ أن أطمئن.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "إذا كان الإنجاز جيداً بالفعل، فلا أحتاج دائماً إلى شرح لماذا هو جيد.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "إذا احتاج العمل إلى تركيز طويل، فأنا أفضل تقليل الاجتماعات.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "أحب تحويل المواد الفوضوية إلى أرقام وإصدارات وقوائم.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "أفضل أن أجعل الشيء متيناً بدلاً من تغليفه بضجيج احتفالي.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "عندما يكثر الناس، أميل إلى الانسحاب إلى زاوية وإنجاز المهمة وحدي.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "القواعد ليست قيوداً؛ إنها أدوات تمنع الجميع من التخمين مراراً.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "لا أحب الوقوف في مركز المشهد كثيراً، حتى عندما أعرف الجواب.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "أريد من الآخرين احترام حدود عملي وعدم اقتحامه في أي لحظة.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "ما دام النظام واضحاً، أستطيع أن أعمل داخله بثبات أكبر.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "بعض الإنجازات تزداد قوة كلما قلّ شرحها.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "المنصب المناسب لي حقاً يجب أن يسمح لي بهضم المشكلة وحدي.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "العينة المثالية للدعاية",
+      "description": "شخصية العمل SOVIA: العينة المثالية للدعاية. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOVIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "تنبيه: نوع SOVIA هو المثال الدعائي المثالي، وليس دليلاً على أنك Sovia أو أن Sovia نفسها من هذا النوع.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOVIL": {
+      "title": "مهندس الدعاية المنفرد",
+      "description": "شخصية العمل SOVIL: مهندس الدعاية المنفرد. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOVIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "خلل في الأرشيف: هذا يشبه شخصية غير منشورة. لا تناقش الأمر في الممر.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOVMA": {
+      "title": "عامل ملف SOVMA",
+      "description": "شخصية العمل SOVMA: عامل ملف SOVMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOVMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOVML": {
+      "title": "عامل ملف SOVML",
+      "description": "شخصية العمل SOVML: عامل ملف SOVML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOVML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOQIA": {
+      "title": "عامل ملف SOQIA",
+      "description": "شخصية العمل SOQIA: عامل ملف SOQIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOQIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOQIL": {
+      "title": "عامل ملف SOQIL",
+      "description": "شخصية العمل SOQIL: عامل ملف SOQIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOQIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOQMA": {
+      "title": "عامل ملف SOQMA",
+      "description": "شخصية العمل SOQMA: عامل ملف SOQMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOQMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SOQML": {
+      "title": "عامل ملف SOQML",
+      "description": "شخصية العمل SOQML: عامل ملف SOQML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SOQML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEVIA": {
+      "title": "عامل ملف SEVIA",
+      "description": "شخصية العمل SEVIA: عامل ملف SEVIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEVIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEVIL": {
+      "title": "عامل ملف SEVIL",
+      "description": "شخصية العمل SEVIL: عامل ملف SEVIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEVIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEVMA": {
+      "title": "عامل ملف SEVMA",
+      "description": "شخصية العمل SEVMA: عامل ملف SEVMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEVMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEVML": {
+      "title": "عامل ملف SEVML",
+      "description": "شخصية العمل SEVML: عامل ملف SEVML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEVML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEQIA": {
+      "title": "عامل ملف SEQIA",
+      "description": "شخصية العمل SEQIA: عامل ملف SEQIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEQIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEQIL": {
+      "title": "عامل ملف SEQIL",
+      "description": "شخصية العمل SEQIL: عامل ملف SEQIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEQIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEQMA": {
+      "title": "عامل ملف SEQMA",
+      "description": "شخصية العمل SEQMA: عامل ملف SEQMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEQMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "SEQML": {
+      "title": "عامل ملف SEQML",
+      "description": "شخصية العمل SEQML: عامل ملف SEQML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع SEQML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOVIA": {
+      "title": "عامل ملف FOVIA",
+      "description": "شخصية العمل FOVIA: عامل ملف FOVIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOVIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOVIL": {
+      "title": "عامل ملف FOVIL",
+      "description": "شخصية العمل FOVIL: عامل ملف FOVIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOVIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOVMA": {
+      "title": "عامل ملف FOVMA",
+      "description": "شخصية العمل FOVMA: عامل ملف FOVMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOVMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOVML": {
+      "title": "عامل ملف FOVML",
+      "description": "شخصية العمل FOVML: عامل ملف FOVML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOVML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOQIA": {
+      "title": "عامل ملف FOQIA",
+      "description": "شخصية العمل FOQIA: عامل ملف FOQIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOQIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOQIL": {
+      "title": "عامل ملف FOQIL",
+      "description": "شخصية العمل FOQIL: عامل ملف FOQIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOQIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOQMA": {
+      "title": "عامل ملف FOQMA",
+      "description": "شخصية العمل FOQMA: عامل ملف FOQMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOQMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FOQML": {
+      "title": "عامل ملف FOQML",
+      "description": "شخصية العمل FOQML: عامل ملف FOQML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FOQML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEVIA": {
+      "title": "عامل ملف FEVIA",
+      "description": "شخصية العمل FEVIA: عامل ملف FEVIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEVIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEVIL": {
+      "title": "عامل ملف FEVIL",
+      "description": "شخصية العمل FEVIL: عامل ملف FEVIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEVIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEVMA": {
+      "title": "عامل ملف FEVMA",
+      "description": "شخصية العمل FEVMA: عامل ملف FEVMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEVMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEVML": {
+      "title": "عامل ملف FEVML",
+      "description": "شخصية العمل FEVML: عامل ملف FEVML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEVML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEQIA": {
+      "title": "عامل ملف FEQIA",
+      "description": "شخصية العمل FEQIA: عامل ملف FEQIA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEQIA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEQIL": {
+      "title": "عامل ملف FEQIL",
+      "description": "شخصية العمل FEQIL: عامل ملف FEQIL. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEQIL في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEQMA": {
+      "title": "عامل ملف FEQMA",
+      "description": "شخصية العمل FEQMA: عامل ملف FEQMA. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEQMA في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    },
+    "FEQML": {
+      "title": "عامل ملف FEQML",
+      "description": "شخصية العمل FEQML: عامل ملف FEQML. يبدو الملف صالحاً للإنتاج، مع احتمال بسيط لإرباك اللجنة.",
+      "unit": "غرفة توزيع FEQML في ترويتسك الجديدة الثالثة",
+      "archiveComment": "هذا النمط مناسب لأعمال غريبة لكنها ضرورية، ويُفضّل أن تنتهي قبل أن يسأل أحد كثيراً.",
+      "soviaComment": "أيها الرفيق، النموذج صالح للإنتاج."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "ميولك لا تطيع جدول المناصب الحالي بالكامل. ستسجلك إدارة الدعاية كشخصية عمالية مركبة وتوزعك حسب نقص ذلك اليوم.",
+    "unit": "مكتب الجدولة العامة المؤقت",
+    "archiveComment": "هذا الشخص يحتاج إلى مراقبة، لكنه يملك استقراراً أساسياً صالحاً للإنتاج.",
+    "soviaComment": "أيها الرفيق، المجهول لا يعني عديم الفائدة. استلم الأدوات أولاً، ثم استلم المصير."
+  },
+  "copy": {
+    "template": "SOVIA result: {{code}} · {{title}}. Unit: {{unit}}. Try it: {{url}}",
+    "success": "Result copied.",
+    "failed": "Copy failed.",
+    "linkSuccess": "Result link copied."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "ملف الشخصية",
+    "personalityLabel": "وصف الشخصية",
+    "workLabel": "حالة العمل",
+    "socialLabel": "العلاقات الاجتماعية"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "أيها الرفيق، نوع SOVIA المعروف باسم «العينة المثالية للدعاية» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOVIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOVIL": {
+      "personality": "أيها الرفيق، نوع SOVIL المعروف باسم «مهندس الدعاية المنفرد» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOVIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOVMA": {
+      "personality": "أيها الرفيق، نوع SOVMA المعروف باسم «عامل ملف SOVMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOVMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOVML": {
+      "personality": "أيها الرفيق، نوع SOVML المعروف باسم «عامل ملف SOVML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOVML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOQIA": {
+      "personality": "أيها الرفيق، نوع SOQIA المعروف باسم «عامل ملف SOQIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOQIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOQIL": {
+      "personality": "أيها الرفيق، نوع SOQIL المعروف باسم «عامل ملف SOQIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOQIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOQMA": {
+      "personality": "أيها الرفيق، نوع SOQMA المعروف باسم «عامل ملف SOQMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOQMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SOQML": {
+      "personality": "أيها الرفيق، نوع SOQML المعروف باسم «عامل ملف SOQML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SOQML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEVIA": {
+      "personality": "أيها الرفيق، نوع SEVIA المعروف باسم «عامل ملف SEVIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEVIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEVIL": {
+      "personality": "أيها الرفيق، نوع SEVIL المعروف باسم «عامل ملف SEVIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEVIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEVMA": {
+      "personality": "أيها الرفيق، نوع SEVMA المعروف باسم «عامل ملف SEVMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEVMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEVML": {
+      "personality": "أيها الرفيق، نوع SEVML المعروف باسم «عامل ملف SEVML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEVML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEQIA": {
+      "personality": "أيها الرفيق، نوع SEQIA المعروف باسم «عامل ملف SEQIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEQIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEQIL": {
+      "personality": "أيها الرفيق، نوع SEQIL المعروف باسم «عامل ملف SEQIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEQIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEQMA": {
+      "personality": "أيها الرفيق، نوع SEQMA المعروف باسم «عامل ملف SEQMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEQMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "SEQML": {
+      "personality": "أيها الرفيق، نوع SEQML المعروف باسم «عامل ملف SEQML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع SEQML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOVIA": {
+      "personality": "أيها الرفيق، نوع FOVIA المعروف باسم «عامل ملف FOVIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOVIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOVIL": {
+      "personality": "أيها الرفيق، نوع FOVIL المعروف باسم «عامل ملف FOVIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOVIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOVMA": {
+      "personality": "أيها الرفيق، نوع FOVMA المعروف باسم «عامل ملف FOVMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOVMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOVML": {
+      "personality": "أيها الرفيق، نوع FOVML المعروف باسم «عامل ملف FOVML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOVML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOQIA": {
+      "personality": "أيها الرفيق، نوع FOQIA المعروف باسم «عامل ملف FOQIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOQIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOQIL": {
+      "personality": "أيها الرفيق، نوع FOQIL المعروف باسم «عامل ملف FOQIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOQIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOQMA": {
+      "personality": "أيها الرفيق، نوع FOQMA المعروف باسم «عامل ملف FOQMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOQMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FOQML": {
+      "personality": "أيها الرفيق، نوع FOQML المعروف باسم «عامل ملف FOQML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FOQML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEVIA": {
+      "personality": "أيها الرفيق، نوع FEVIA المعروف باسم «عامل ملف FEVIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEVIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEVIL": {
+      "personality": "أيها الرفيق، نوع FEVIL المعروف باسم «عامل ملف FEVIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEVIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEVMA": {
+      "personality": "أيها الرفيق، نوع FEVMA المعروف باسم «عامل ملف FEVMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEVMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEVML": {
+      "personality": "أيها الرفيق، نوع FEVML المعروف باسم «عامل ملف FEVML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEVML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEQIA": {
+      "personality": "أيها الرفيق، نوع FEQIA المعروف باسم «عامل ملف FEQIA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEQIA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEQIL": {
+      "personality": "أيها الرفيق، نوع FEQIL المعروف باسم «عامل ملف FEQIL» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEQIL في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEQMA": {
+      "personality": "أيها الرفيق، نوع FEQMA المعروف باسم «عامل ملف FEQMA» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEQMA في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    },
+    "FEQML": {
+      "personality": "أيها الرفيق، نوع FEQML المعروف باسم «عامل ملف FEQML» يتحرك كأنه مذكرة داخلية: جاف قليلاً، مفيد جداً، ومريب بما يكفي ليستحق الختم الأحمر.",
+      "work": "في العمل، يناسبه منصب «غرفة توزيع FEQML في ترويتسك الجديدة الثالثة»: هدف واضح، حرية كافية للحركة، وكمية بيروقراطية لا تسدّ الباب الجانبي. إذا زاد الاجتماع، يبدأ الإنتاج بالبحث عن مخرج.",
+      "social": "اجتماعياً، يعتني بالآخرين عبر أفعال عملية صغيرة: يبقى المصباح مضاءً، تصل الرسالة في وقتها، ولا يُترك أي رفيق خلف الطابور."
+    }
+  },
+  "channelAd": {
+    "title": "ادعم قنوات Comrade Sovia",
+    "intro": "أحوّل موسيقى الأنمي والألعاب إلى أغانٍ بأسلوب سوفييتي. إذا أردت دعم عملي، فتفضل بزيارة قنواتي."
+  }
+}
