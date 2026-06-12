@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "Test di Assegnazione SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Scopri la tua personalità lavorativa sovietica e a quale incarico SOVIA ti assegnerebbe.",
+    "intro": "SOVIA è un sistema informale di assegnazione della personalità lavorativa sviluppato dal Dipartimento Propaganda. Decide se un compagno sia più adatto alla radio, agli archivi, alla sala macchine, alla mensa, al comitato del riscaldamento o ad altri incarichi necessari.",
+    "disclaimer": "Non è consulenza psicologica, né orientamento professionale, né una vera decisione organizzativa. L’interpretazione finale spetta alla Sezione Provvisoria di Revisione della Personalità del Dipartimento Propaganda."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Sistema sovietico di assegnazione della personalità lavorativa",
+    "department": "Sezione Provvisoria di Revisione della Personalità"
+  },
+  "demographics": {
+    "title": "Dettagli d’archivio opzionali",
+    "intro": "Questi campi sono facoltativi e aiutano il Dipartimento di Propaganda a capire quale compagno sta svolgendo il test.",
+    "ageLabel": "Età",
+    "genderLabel": "Genere",
+    "ageOptions": {
+      "prefer_not_to_say": "Preferisco non dirlo",
+      "under_18": "Meno di 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Preferisco non dirlo",
+      "male": "Maschile",
+      "female": "Femminile",
+      "other": "Altro"
+    }
+  },
+  "typesPage": {
+    "title": "Tutti gli incarichi SOVIA",
+    "subtitle": "Tutti i tipi e i fascicoli del Test SOVIA.",
+    "intro": "Qui sono archiviati 32 codici di personalità lavorativa. Ogni incarico combina struttura, azione, influenza, comprensione e relazione.",
+    "startTestLabel": "Inizia il test",
+    "codeLabel": "Codice personalità",
+    "detailLabel": "Fascicolo incarico",
+    "detailActionLabel": "Vedi dettagli"
+  },
+  "progress": {
+    "label": "Avanzamento revisione fascicolo",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Totalmente in disaccordo",
+    "middle": "Neutrale",
+    "max": "Totalmente d’accordo",
+    "leftHint": "Totalmente in disaccordo",
+    "rightHint": "Totalmente d’accordo"
+  },
+  "actions": {
+    "start": "Inizia",
+    "types": "Vedi tutti gli incarichi",
+    "previous": "Domanda precedente",
+    "next": "Domanda successiva",
+    "continue": "Continua",
+    "submit": "Invia domanda di assegnazione lavorativa",
+    "restart": "Rifai il test",
+    "copy": "Copia risultato",
+    "copyLink": "Copia link"
+  },
+  "status": {
+    "unanswered": "Rispondi prima a questa domanda; l’archivista attende la tua posizione.",
+    "ready": "Risposta registrata. La revisione può continuare.",
+    "copied": "Risultato copiato.",
+    "copyFailed": "Copia fallita. Salva il fascicolo manualmente."
+  },
+  "certificate": {
+    "title": "Certificato di assegnazione del popolo lavoratore",
+    "systemLabel": "Sistema di test",
+    "statusLabel": "Stato fascicolo",
+    "statusApproved": "Revisione approvata",
+    "codeLabel": "Codice personalità lavorativa",
+    "titleLabel": "Titolo personalità",
+    "unitLabel": "Unità assegnata",
+    "axisLabel": "Tendenza della stella a cinque punte",
+    "assessmentLabel": "Dati di valutazione",
+    "resultLinkLabel": "Link risultato",
+    "tendencyLabel": "Forza tendenza",
+    "rawScoreLabel": "Punteggio grezzo",
+    "oppositeLabel": "Polo opposto",
+    "archiveCommentLabel": "Nota d’archivio",
+    "soviaCommentLabel": "Commento di Sovia",
+    "authorityLabel": "Autorità approvatrice",
+    "authority": "Sezione Provvisoria di Revisione della Personalità",
+    "codeFormat": "tipo {{code}}",
+    "descriptionLabel": "Descrizione breve"
+  },
+  "axes": {
+    "structure": {
+      "label": "Modo di struttura",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "tipo strutturato",
+          "description": "Ama ordine, piani, regole e processi chiari."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "tipo fluido",
+          "description": "Si affida al campo, all’adattamento e a percorsi non timbrati."
+        }
+      }
+    },
+    "action": {
+      "label": "Modo di azione",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "tipo d’assalto",
+          "description": "Rende di più sotto pressione e nelle emergenze."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "tipo resistenza",
+          "description": "Avanza in modo stabile e duraturo senza bruciarsi."
+        }
+      }
+    },
+    "influence": {
+      "label": "Modo di influenza",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "tipo radio",
+          "description": "Sa raccontare, inquadrare e muovere l’atmosfera."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "tipo silenzioso",
+          "description": "Non spiega troppo e preferisce che il lavoro regga da sé."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Modo di comprensione",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "tipo indagine",
+          "description": "Analizza sistemi, cause, logiche e strutture."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "tipo significato",
+          "description": "Legge emozioni, simboli, atmosfere, relazioni e storie."
+        }
+      }
+    },
+    "relation": {
+      "label": "Modo di relazione",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "tipo alleanza",
+          "description": "Valorizza cooperazione, ritmo collettivo e cura reciproca."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "tipo solitario",
+          "description": "Ha confini chiari e lavora meglio senza interruzioni continue."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Senza un piano timbrato sento la civiltà arretrare lentamente.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Quando la situazione cambia, preferisco muovermi prima e timbrare dopo.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Quando suona l’allarme, la mia testa diventa sospettosamente chiara.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Mi fido più della resistenza che del bruciarmi da eroe.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Un buon slogan può rimettere in piedi una mensa esausta.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Non ogni buon risultato ha bisogno di fanfara e tre discorsi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Quando qualcuno dice “qualcosa non va”, voglio log, cause e archivi.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Prima di decidere ascolto l’atmosfera che non entra nel fascicolo.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Noto presto chi tace o perde il passo nella colonna.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Dammi una stanza tranquilla, un obiettivo e nessuno alla porta: la produzione inizia.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Il caos mi tranquillizza solo quando diventa lista, numero e responsabile.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Un piano troppo perfetto è sospetto: non ha lasciato un’uscita alla realtà.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Una scadenza per stasera sveglia la mia brigata d’assalto interiore.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Una consegna stabile al giorno batte tre miracoli gloriosi a notte.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Se qualcosa conta, merita una voce chiara, un manifesto e forse un tamburo.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Preferisco mettere qualcosa di solido sul tavolo piuttosto che descrivere il tavolo.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Separo causa, condizione e risultato prima che l’assemblea inizi a cantare.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "A volte un simbolo spiega più di tutti i parametri della sala macchine.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Finire insieme vale più che correre da soli con la bandiera.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Apprezzo il collettivo, ma non deve bussare ogni dieci minuti.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Le regole non sono catene; a volte sono l’ultimo radiatore funzionante.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Il campo a volte sa più del verbale in attesa di firma.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Nell’emergenza trovo la leva più in fretta che nel calendario normale.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Se la squadra si surriscalda, abbasso il ritmo prima che tutti fumino.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Posso presentare un compito ordinario come missione approvata.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Alcuni successi diventano più forti se non passano dall’altoparlante.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Voglio sapere come un sistema sia riuscito a rompersi in modo così storico.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Se una decisione ferisce le persone, la sua efficienza non mi basta come inno.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Mi prendo anche il lavoro invisibile se il collettivo rischia di avere freddo.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Il posto ideale mi lascia digerire il problema prima di fondare un comitato.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Senza un piano timbrato sento la civiltà arretrare lentamente.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Quando la situazione cambia, preferisco muovermi prima e timbrare dopo.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Quando suona l’allarme, la mia testa diventa sospettosamente chiara.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Mi fido più della resistenza che del bruciarmi da eroe.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Un buon slogan può rimettere in piedi una mensa esausta.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Non ogni buon risultato ha bisogno di fanfara e tre discorsi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Quando qualcuno dice “qualcosa non va”, voglio log, cause e archivi.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Prima di decidere ascolto l’atmosfera che non entra nel fascicolo.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Noto presto chi tace o perde il passo nella colonna.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Dammi una stanza tranquilla, un obiettivo e nessuno alla porta: la produzione inizia.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Il caos mi tranquillizza solo quando diventa lista, numero e responsabile.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Un piano troppo perfetto è sospetto: non ha lasciato un’uscita alla realtà.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Una scadenza per stasera sveglia la mia brigata d’assalto interiore.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Una consegna stabile al giorno batte tre miracoli gloriosi a notte.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Se qualcosa conta, merita una voce chiara, un manifesto e forse un tamburo.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Preferisco mettere qualcosa di solido sul tavolo piuttosto che descrivere il tavolo.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Separo causa, condizione e risultato prima che l’assemblea inizi a cantare.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "A volte un simbolo spiega più di tutti i parametri della sala macchine.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Finire insieme vale più che correre da soli con la bandiera.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Apprezzo il collettivo, ma non deve bussare ogni dieci minuti.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Campione ideale del Dipartimento Propaganda",
+      "description": "pianificato, d’allarme, operatore radio, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Campione ideale del Dipartimento Propaganda e delle deviazioni pianificate",
+      "archiveComment": "Attenzione: risultare SOVIA non significa che tu sia Sovia, né che Sovia sia SOVIA. Vuol dire solo che somigli al modello ideale della Propaganda.",
+      "soviaComment": "Compagno, Campione ideale del Dipartimento Propaganda sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOVIL": {
+      "title": "Ingegnere della propaganda solitario",
+      "description": "pianificato, d’allarme, operatore radio, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Ingegnere della propaganda solitario e delle deviazioni pianificate",
+      "archiveComment": "Anomalia d’archivio: questo risultato somiglia troppo a una figura non pubblicata. Non parlarne in corridoio.",
+      "soviaComment": "Compagno, Ingegnere della propaganda solitario sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOVMA": {
+      "title": "Operatore radio pianificato d’allarme",
+      "description": "pianificato, d’allarme, operatore radio, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio pianificato d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SOVMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio pianificato d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOVML": {
+      "title": "Operatore radio pianificato d’allarme",
+      "description": "pianificato, d’allarme, operatore radio, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio pianificato d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SOVML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio pianificato d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOQIA": {
+      "title": "Amministratore silenzioso pianificato d’allarme",
+      "description": "pianificato, d’allarme, amministratore silenzioso, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SOQIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOQIL": {
+      "title": "Amministratore silenzioso pianificato d’allarme",
+      "description": "pianificato, d’allarme, amministratore silenzioso, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SOQIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOQMA": {
+      "title": "Amministratore silenzioso pianificato d’allarme",
+      "description": "pianificato, d’allarme, amministratore silenzioso, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SOQMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SOQML": {
+      "title": "Amministratore silenzioso pianificato d’allarme",
+      "description": "pianificato, d’allarme, amministratore silenzioso, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SOQML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEVIA": {
+      "title": "Operatore radio pianificato di resistenza",
+      "description": "pianificato, di resistenza, operatore radio, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEVIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEVIL": {
+      "title": "Operatore radio pianificato di resistenza",
+      "description": "pianificato, di resistenza, operatore radio, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEVIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEVMA": {
+      "title": "Operatore radio pianificato di resistenza",
+      "description": "pianificato, di resistenza, operatore radio, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEVMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEVML": {
+      "title": "Operatore radio pianificato di resistenza",
+      "description": "pianificato, di resistenza, operatore radio, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEVML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEQIA": {
+      "title": "Amministratore silenzioso pianificato di resistenza",
+      "description": "pianificato, di resistenza, amministratore silenzioso, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEQIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEQIL": {
+      "title": "Amministratore silenzioso pianificato di resistenza",
+      "description": "pianificato, di resistenza, amministratore silenzioso, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEQIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEQMA": {
+      "title": "Amministratore silenzioso pianificato di resistenza",
+      "description": "pianificato, di resistenza, amministratore silenzioso, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEQMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "SEQML": {
+      "title": "Amministratore silenzioso pianificato di resistenza",
+      "description": "pianificato, di resistenza, amministratore silenzioso, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso pianificato di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo SEQML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso pianificato di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOVIA": {
+      "title": "Operatore radio mobile d’allarme",
+      "description": "mobile, d’allarme, operatore radio, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOVIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOVIL": {
+      "title": "Operatore radio mobile d’allarme",
+      "description": "mobile, d’allarme, operatore radio, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOVIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOVMA": {
+      "title": "Operatore radio mobile d’allarme",
+      "description": "mobile, d’allarme, operatore radio, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOVMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOVML": {
+      "title": "Operatore radio mobile d’allarme",
+      "description": "mobile, d’allarme, operatore radio, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOVML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOQIA": {
+      "title": "Amministratore silenzioso mobile d’allarme",
+      "description": "mobile, d’allarme, amministratore silenzioso, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOQIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOQIL": {
+      "title": "Amministratore silenzioso mobile d’allarme",
+      "description": "mobile, d’allarme, amministratore silenzioso, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOQIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOQMA": {
+      "title": "Amministratore silenzioso mobile d’allarme",
+      "description": "mobile, d’allarme, amministratore silenzioso, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOQMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FOQML": {
+      "title": "Amministratore silenzioso mobile d’allarme",
+      "description": "mobile, d’allarme, amministratore silenzioso, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile d’allarme e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FOQML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile d’allarme sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEVIA": {
+      "title": "Operatore radio mobile di resistenza",
+      "description": "mobile, di resistenza, operatore radio, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEVIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEVIL": {
+      "title": "Operatore radio mobile di resistenza",
+      "description": "mobile, di resistenza, operatore radio, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEVIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEVMA": {
+      "title": "Operatore radio mobile di resistenza",
+      "description": "mobile, di resistenza, operatore radio, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEVMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEVML": {
+      "title": "Operatore radio mobile di resistenza",
+      "description": "mobile, di resistenza, operatore radio, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Operatore radio mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEVML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Operatore radio mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEQIA": {
+      "title": "Amministratore silenzioso mobile di resistenza",
+      "description": "mobile, di resistenza, amministratore silenzioso, tecnico di sistema, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEQIA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEQIL": {
+      "title": "Amministratore silenzioso mobile di resistenza",
+      "description": "mobile, di resistenza, amministratore silenzioso, tecnico di sistema, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEQIL: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEQMA": {
+      "title": "Amministratore silenzioso mobile di resistenza",
+      "description": "mobile, di resistenza, amministratore silenzioso, custode del senso, collettivo: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEQMA: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    },
+    "FEQML": {
+      "title": "Amministratore silenzioso mobile di resistenza",
+      "description": "mobile, di resistenza, amministratore silenzioso, custode del senso, solitario: abbastanza ufficiale per il fascicolo e abbastanza sospetto per una seconda revisione.",
+      "unit": "Ufficio del Amministratore silenzioso mobile di resistenza e delle deviazioni pianificate",
+      "archiveComment": "Fascicolo FEQML: idoneo a incarichi con timbro, allarme e assurdità controllata.",
+      "soviaComment": "Compagno, Amministratore silenzioso mobile di resistenza sembra un incarico che nessuno richiede, ma tutti usano."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "La tua tendenza non obbedisce del tutto alla tabella ufficiale degli incarichi. La Propaganda ti registrerà come personalità lavorativa composita.",
+    "unit": "Ufficio Provvisorio di Coordinamento Generale",
+    "archiveComment": "Soggetto da osservare, ma già idoneo alla produzione.",
+    "soviaComment": "Compagno, ignoto non significa inutile. Ritira lo strumento, poi il destino."
+  },
+  "copy": {
+    "template": "Nel Test di Assegnazione SOVIA ho ottenuto {{code}} · {{title}}. Unità assegnata: {{unit}}. Provalo anche tu: {{url}}",
+    "success": "Risultato copiato.",
+    "failed": "Copia fallita. Salva il fascicolo manualmente.",
+    "linkSuccess": "Link del risultato copiato."
+  },
+  "language": {
+    "label": "Lingua"
+  },
+  "details": {
+    "title": "Fascicolo personalità",
+    "personalityLabel": "Descrizione del carattere",
+    "workLabel": "Al lavoro",
+    "socialLabel": "Relazioni con i compagni"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Sei un tipo SOVIA: pianificato, d’allarme, operatore radio, tecnico di sistema, collettivo. Nel fascicolo risulti Campione ideale del Dipartimento Propaganda. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOVIL": {
+      "personality": "Sei un tipo SOVIL: pianificato, d’allarme, operatore radio, tecnico di sistema, solitario. Nel fascicolo risulti Ingegnere della propaganda solitario. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOVMA": {
+      "personality": "Sei un tipo SOVMA: pianificato, d’allarme, operatore radio, custode del senso, collettivo. Nel fascicolo risulti Operatore radio pianificato d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOVML": {
+      "personality": "Sei un tipo SOVML: pianificato, d’allarme, operatore radio, custode del senso, solitario. Nel fascicolo risulti Operatore radio pianificato d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOQIA": {
+      "personality": "Sei un tipo SOQIA: pianificato, d’allarme, amministratore silenzioso, tecnico di sistema, collettivo. Nel fascicolo risulti Amministratore silenzioso pianificato d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOQIL": {
+      "personality": "Sei un tipo SOQIL: pianificato, d’allarme, amministratore silenzioso, tecnico di sistema, solitario. Nel fascicolo risulti Amministratore silenzioso pianificato d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOQMA": {
+      "personality": "Sei un tipo SOQMA: pianificato, d’allarme, amministratore silenzioso, custode del senso, collettivo. Nel fascicolo risulti Amministratore silenzioso pianificato d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SOQML": {
+      "personality": "Sei un tipo SOQML: pianificato, d’allarme, amministratore silenzioso, custode del senso, solitario. Nel fascicolo risulti Amministratore silenzioso pianificato d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEVIA": {
+      "personality": "Sei un tipo SEVIA: pianificato, di resistenza, operatore radio, tecnico di sistema, collettivo. Nel fascicolo risulti Operatore radio pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEVIL": {
+      "personality": "Sei un tipo SEVIL: pianificato, di resistenza, operatore radio, tecnico di sistema, solitario. Nel fascicolo risulti Operatore radio pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEVMA": {
+      "personality": "Sei un tipo SEVMA: pianificato, di resistenza, operatore radio, custode del senso, collettivo. Nel fascicolo risulti Operatore radio pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEVML": {
+      "personality": "Sei un tipo SEVML: pianificato, di resistenza, operatore radio, custode del senso, solitario. Nel fascicolo risulti Operatore radio pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEQIA": {
+      "personality": "Sei un tipo SEQIA: pianificato, di resistenza, amministratore silenzioso, tecnico di sistema, collettivo. Nel fascicolo risulti Amministratore silenzioso pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEQIL": {
+      "personality": "Sei un tipo SEQIL: pianificato, di resistenza, amministratore silenzioso, tecnico di sistema, solitario. Nel fascicolo risulti Amministratore silenzioso pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEQMA": {
+      "personality": "Sei un tipo SEQMA: pianificato, di resistenza, amministratore silenzioso, custode del senso, collettivo. Nel fascicolo risulti Amministratore silenzioso pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "SEQML": {
+      "personality": "Sei un tipo SEQML: pianificato, di resistenza, amministratore silenzioso, custode del senso, solitario. Nel fascicolo risulti Amministratore silenzioso pianificato di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOVIA": {
+      "personality": "Sei un tipo FOVIA: mobile, d’allarme, operatore radio, tecnico di sistema, collettivo. Nel fascicolo risulti Operatore radio mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOVIL": {
+      "personality": "Sei un tipo FOVIL: mobile, d’allarme, operatore radio, tecnico di sistema, solitario. Nel fascicolo risulti Operatore radio mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOVMA": {
+      "personality": "Sei un tipo FOVMA: mobile, d’allarme, operatore radio, custode del senso, collettivo. Nel fascicolo risulti Operatore radio mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOVML": {
+      "personality": "Sei un tipo FOVML: mobile, d’allarme, operatore radio, custode del senso, solitario. Nel fascicolo risulti Operatore radio mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOQIA": {
+      "personality": "Sei un tipo FOQIA: mobile, d’allarme, amministratore silenzioso, tecnico di sistema, collettivo. Nel fascicolo risulti Amministratore silenzioso mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOQIL": {
+      "personality": "Sei un tipo FOQIL: mobile, d’allarme, amministratore silenzioso, tecnico di sistema, solitario. Nel fascicolo risulti Amministratore silenzioso mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOQMA": {
+      "personality": "Sei un tipo FOQMA: mobile, d’allarme, amministratore silenzioso, custode del senso, collettivo. Nel fascicolo risulti Amministratore silenzioso mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FOQML": {
+      "personality": "Sei un tipo FOQML: mobile, d’allarme, amministratore silenzioso, custode del senso, solitario. Nel fascicolo risulti Amministratore silenzioso mobile d’allarme. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEVIA": {
+      "personality": "Sei un tipo FEVIA: mobile, di resistenza, operatore radio, tecnico di sistema, collettivo. Nel fascicolo risulti Operatore radio mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEVIL": {
+      "personality": "Sei un tipo FEVIL: mobile, di resistenza, operatore radio, tecnico di sistema, solitario. Nel fascicolo risulti Operatore radio mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEVMA": {
+      "personality": "Sei un tipo FEVMA: mobile, di resistenza, operatore radio, custode del senso, collettivo. Nel fascicolo risulti Operatore radio mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEVML": {
+      "personality": "Sei un tipo FEVML: mobile, di resistenza, operatore radio, custode del senso, solitario. Nel fascicolo risulti Operatore radio mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEQIA": {
+      "personality": "Sei un tipo FEQIA: mobile, di resistenza, amministratore silenzioso, tecnico di sistema, collettivo. Nel fascicolo risulti Amministratore silenzioso mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEQIL": {
+      "personality": "Sei un tipo FEQIL: mobile, di resistenza, amministratore silenzioso, tecnico di sistema, solitario. Nel fascicolo risulti Amministratore silenzioso mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEQMA": {
+      "personality": "Sei un tipo FEQMA: mobile, di resistenza, amministratore silenzioso, custode del senso, collettivo. Nel fascicolo risulti Amministratore silenzioso mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri cooperativo, ma con un timbro d’archivio interiore. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    },
+    "FEQML": {
+      "personality": "Sei un tipo FEQML: mobile, di resistenza, amministratore silenzioso, custode del senso, solitario. Nel fascicolo risulti Amministratore silenzioso mobile di resistenza. Suona abbastanza ufficiale per tre timbri e uno sguardo diffidente.",
+      "work": "Al lavoro preferisci improvvisazione disciplinata, urgenze utili e incarichi che sembrano chiedere un timbro. Il Dipartimento Propaganda raccomanda di tenere lo strumento a portata e di non registrare il caffè come sonno.",
+      "social": "Tra compagni sembri affidabile, ma con una politica della porta molto chiara. Il collettivo ti apprezza, anche se a volte non capisce se stai aiutando, controllando o scrivendo mentalmente un verbale."
+    }
+  },
+  "channelAd": {
+    "title": "Sostieni i canali di Comrade Sovia",
+    "intro": "Adatto musiche di anime e videogiochi in canzoni in stile sovietico. Se vuoi sostenere il mio lavoro, visita i miei canali."
+  }
+}

@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden">
       <RaysBackground />
       <LayoutHeader />
       <LayoutMain>{children}</LayoutMain>

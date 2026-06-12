@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "Přidělovací test SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Zjisti svou sovětskou pracovní osobnost a přidělenou pozici.",
+    "intro": "SOVIA je fiktivní neformální systém přidělování pracovních osobností vyvinutý Oddělením propagandy. Určuje, zda se soudruh lépe hodí do rozhlasové věže, archivu, strojovny, jídelny, topenářské komise nebo na jiné nezbytné místo.",
+    "disclaimer": "Nejde o psychologické poradenství, kariérní radu ani skutečné organizační rozhodnutí. Konečný výklad náleží Dočasné sekci pro přezkum osobnosti při Oddělení propagandy."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Přidělovací test SOVIA",
+    "department": "Dočasná sekce pro kontrolu osobnosti Oddělení propagandy"
+  },
+  "demographics": {
+    "title": "Volitelné archivní údaje",
+    "intro": "Tato pole jsou volitelná a pomáhají Oddělení propagandy pochopit, který soudruh test vyplňuje.",
+    "ageLabel": "Věk",
+    "genderLabel": "Pohlaví",
+    "ageOptions": {
+      "prefer_not_to_say": "Raději neuvádět",
+      "under_18": "Méně než 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Raději neuvádět",
+      "male": "Muž",
+      "female": "Žena",
+      "other": "Jiné"
+    }
+  },
+  "typesPage": {
+    "title": "Všechny pozice SOVIA",
+    "subtitle": "Prohlédněte si všechny typy a pracovní spisy v přidělovacím testu SOVIA.",
+    "intro": "Zde je uvedeno 32 kódů pracovní osobnosti. Každá pozice vzniká kombinací struktury, akce, vlivu, porozumění a vztahu.",
+    "startTestLabel": "Spustit test",
+    "codeLabel": "Kód osobnosti",
+    "detailLabel": "Pracovní spis",
+    "detailActionLabel": "Zobrazit detail"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "0",
+    "middle": "5",
+    "max": "10",
+    "leftHint": "0",
+    "rightHint": "10"
+  },
+  "actions": {
+    "start": "Spustit test",
+    "types": "Prohlédnout všechny pozice",
+    "previous": "Předchozí otázka",
+    "next": "Další otázka",
+    "continue": "Pokračovat",
+    "submit": "Odeslat žádost o pracovní přidělení",
+    "restart": "Opakovat test",
+    "copy": "Kopírovat výsledek",
+    "copyLink": "Kopírovat odkaz"
+  },
+  "status": {
+    "unanswered": "Nejprve dokončete tuto položku; archivář stále čeká na vaše stanovisko.",
+    "ready": "Odpověď byla zaznamenána. Přezkum může pokračovat.",
+    "copied": "Výsledek zkopírován.",
+    "copyFailed": "Kopírování selhalo; spis uložte ručně.",
+    "linkSuccess": "Odkaz na výsledek zkopírován."
+  },
+  "certificate": {
+    "title": "Osvědčení o přidělení pracujícího",
+    "systemLabel": "Testovací systém",
+    "statusLabel": "Stav spisu",
+    "statusApproved": "Schváleno",
+    "codeLabel": "Kód pracovní osobnosti",
+    "titleLabel": "Osobnostní titul",
+    "unitLabel": "Přidělená jednotka",
+    "axisLabel": "Sklon pěticípé hvězdy",
+    "assessmentLabel": "Hodnoticí data",
+    "resultLinkLabel": "Odkaz na výsledek",
+    "tendencyLabel": "Síla sklonu",
+    "rawScoreLabel": "Hrubé skóre",
+    "oppositeLabel": "Protějšek",
+    "archiveCommentLabel": "Poznámka archivu",
+    "soviaCommentLabel": "Poznámka Sovii",
+    "authorityLabel": "Schvalující orgán",
+    "descriptionLabel": "Stručný popis",
+    "authority": "Dočasná sekce pro přezkum osobnosti při Oddělení propagandy",
+    "codeFormat": "typ {{code}}"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structure",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structure",
+          "description": "Structure"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flow",
+          "description": "Flow"
+        }
+      }
+    },
+    "action": {
+      "label": "Action",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Overdrive"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Endurance",
+          "description": "Endurance"
+        }
+      }
+    },
+    "influence": {
+      "label": "Influence",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Voice",
+          "description": "Voice"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Quiet",
+          "description": "Quiet"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Understanding",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Inquiry",
+          "description": "Inquiry"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Meaning",
+          "description": "Meaning"
+        }
+      }
+    },
+    "relation": {
+      "label": "Relation",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliance",
+          "description": "Alliance"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Lone",
+          "description": "Lone"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Když není plánovací list, mám pocit, že civilizace pomalu ustupuje.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Nepotřebuji nutně, aby všichni věděli, co jsem udělal; stačí, když výsledek obstojí.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Dejte mi tichou místnost a jasný cíl a zvládnu toho hodně sám.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Pokud úkol nemá odpovědnou osobu, termín a záložní plán, těžko jsem v klidu.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Když je výsledek už dobrý, nemusím vždy vysvětlovat, proč je dobrý.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Když práce vyžaduje dlouhé soustředění, raději bych měl méně schůzí.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Rád měním chaotické materiály na čísla, verze a seznamy.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Raději udělám věc pevně než ji zabalím do velkého humbuku.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Když je lidí příliš mnoho, mám chuť ustoupit do rohu a dokončit úkol sám.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Pravidla nejsou pouta; jsou to nástroje, aby všichni nemuseli pořád hádat.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Nerad stojím uprostřed dění, i když znám odpověď.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Chci, aby ostatní respektovali moje pracovní hranice a nevpadali dovnitř kdykoliv.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Když je systém jasný, dokážu v něm fungovat stabilněji.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "When reality changes, move first and stamp the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "When the alarm rings, I become clearer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Stable daily output beats heroic midnight mobilization.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "A good slogan can raise tired comrades again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Některé výsledky mají tím větší sílu, čím méně se vysvětlují.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "If something feels wrong, check the mechanism and logs.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Stories and emotional weight can explain more than parameters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "I check whether anyone has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Pozice, která se ke mně opravdu hodí, mi musí dovolit strávit problém o samotě.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Ideální vzorek propagandy",
+      "description": "Pracovní osobnost SOVIA: Ideální vzorek propagandy. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOVIA Třetího Nového Troicka",
+      "archiveComment": "Pozor: typ SOVIA je ideální propagandistický vzorek, ne důkaz, že jste Sovia nebo že Sovia sama je tento typ.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOVIL": {
+      "title": "Osamělý propagandistický inženýr",
+      "description": "Pracovní osobnost SOVIL: Osamělý propagandistický inženýr. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOVIL Třetího Nového Troicka",
+      "archiveComment": "Archivní anomálie: výsledek připomíná nezveřejněnou postavu. Neprobírejte to na chodbě.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOVMA": {
+      "title": "Spisový pracovník SOVMA",
+      "description": "Pracovní osobnost SOVMA: Spisový pracovník SOVMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOVMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOVML": {
+      "title": "Spisový pracovník SOVML",
+      "description": "Pracovní osobnost SOVML: Spisový pracovník SOVML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOVML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOQIA": {
+      "title": "Spisový pracovník SOQIA",
+      "description": "Pracovní osobnost SOQIA: Spisový pracovník SOQIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOQIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOQIL": {
+      "title": "Spisový pracovník SOQIL",
+      "description": "Pracovní osobnost SOQIL: Spisový pracovník SOQIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOQIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOQMA": {
+      "title": "Spisový pracovník SOQMA",
+      "description": "Pracovní osobnost SOQMA: Spisový pracovník SOQMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOQMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SOQML": {
+      "title": "Spisový pracovník SOQML",
+      "description": "Pracovní osobnost SOQML: Spisový pracovník SOQML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SOQML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEVIA": {
+      "title": "Spisový pracovník SEVIA",
+      "description": "Pracovní osobnost SEVIA: Spisový pracovník SEVIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEVIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEVIL": {
+      "title": "Spisový pracovník SEVIL",
+      "description": "Pracovní osobnost SEVIL: Spisový pracovník SEVIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEVIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEVMA": {
+      "title": "Spisový pracovník SEVMA",
+      "description": "Pracovní osobnost SEVMA: Spisový pracovník SEVMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEVMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEVML": {
+      "title": "Spisový pracovník SEVML",
+      "description": "Pracovní osobnost SEVML: Spisový pracovník SEVML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEVML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEQIA": {
+      "title": "Spisový pracovník SEQIA",
+      "description": "Pracovní osobnost SEQIA: Spisový pracovník SEQIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEQIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEQIL": {
+      "title": "Spisový pracovník SEQIL",
+      "description": "Pracovní osobnost SEQIL: Spisový pracovník SEQIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEQIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEQMA": {
+      "title": "Spisový pracovník SEQMA",
+      "description": "Pracovní osobnost SEQMA: Spisový pracovník SEQMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEQMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "SEQML": {
+      "title": "Spisový pracovník SEQML",
+      "description": "Pracovní osobnost SEQML: Spisový pracovník SEQML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost SEQML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOVIA": {
+      "title": "Spisový pracovník FOVIA",
+      "description": "Pracovní osobnost FOVIA: Spisový pracovník FOVIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOVIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOVIL": {
+      "title": "Spisový pracovník FOVIL",
+      "description": "Pracovní osobnost FOVIL: Spisový pracovník FOVIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOVIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOVMA": {
+      "title": "Spisový pracovník FOVMA",
+      "description": "Pracovní osobnost FOVMA: Spisový pracovník FOVMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOVMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOVML": {
+      "title": "Spisový pracovník FOVML",
+      "description": "Pracovní osobnost FOVML: Spisový pracovník FOVML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOVML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOQIA": {
+      "title": "Spisový pracovník FOQIA",
+      "description": "Pracovní osobnost FOQIA: Spisový pracovník FOQIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOQIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOQIL": {
+      "title": "Spisový pracovník FOQIL",
+      "description": "Pracovní osobnost FOQIL: Spisový pracovník FOQIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOQIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOQMA": {
+      "title": "Spisový pracovník FOQMA",
+      "description": "Pracovní osobnost FOQMA: Spisový pracovník FOQMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOQMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FOQML": {
+      "title": "Spisový pracovník FOQML",
+      "description": "Pracovní osobnost FOQML: Spisový pracovník FOQML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FOQML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEVIA": {
+      "title": "Spisový pracovník FEVIA",
+      "description": "Pracovní osobnost FEVIA: Spisový pracovník FEVIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEVIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEVIL": {
+      "title": "Spisový pracovník FEVIL",
+      "description": "Pracovní osobnost FEVIL: Spisový pracovník FEVIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEVIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEVMA": {
+      "title": "Spisový pracovník FEVMA",
+      "description": "Pracovní osobnost FEVMA: Spisový pracovník FEVMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEVMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEVML": {
+      "title": "Spisový pracovník FEVML",
+      "description": "Pracovní osobnost FEVML: Spisový pracovník FEVML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEVML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEQIA": {
+      "title": "Spisový pracovník FEQIA",
+      "description": "Pracovní osobnost FEQIA: Spisový pracovník FEQIA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEQIA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEQIL": {
+      "title": "Spisový pracovník FEQIL",
+      "description": "Pracovní osobnost FEQIL: Spisový pracovník FEQIL. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEQIL Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEQMA": {
+      "title": "Spisový pracovník FEQMA",
+      "description": "Pracovní osobnost FEQMA: Spisový pracovník FEQMA. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEQMA Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    },
+    "FEQML": {
+      "title": "Spisový pracovník FEQML",
+      "description": "Pracovní osobnost FEQML: Spisový pracovník FEQML. Spis je způsobilý k výrobě, s mírným rizikem zmatení komise.",
+      "unit": "Přidělovací místnost FEQML Třetího Nového Troicka",
+      "archiveComment": "Tento typ se hodí pro podivné, ale nezbytné práce, které je lepší dokončit dřív, než se někdo začne příliš vyptávat.",
+      "soviaComment": "Soudruhu, formulář je způsobilý k výrobě."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Vaše sklony se úplně nepodřizují současné tabulce pozic. Oddělení propagandy vás zapíše jako složenou pracovní osobnost a přidělí podle nedostatku daného dne.",
+    "unit": "Dočasný všeobecný dispečink",
+    "archiveComment": "Tuto osobu je třeba pozorovat, ale základní stabilita pro výrobu je přítomna.",
+    "soviaComment": "Soudruhu, neznámé neznamená neužitečné. Nejprve vyzvednout nástroje, potom osud."
+  },
+  "copy": {
+    "template": "SOVIA result: {{code}} · {{title}}. Unit: {{unit}}. Try it: {{url}}",
+    "success": "Result copied.",
+    "failed": "Copy failed.",
+    "linkSuccess": "Result link copied."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "Osobnostní spis",
+    "personalityLabel": "Popis osobnosti",
+    "workLabel": "Pracovní režim",
+    "socialLabel": "Mezilidské vztahy"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Soudruhu, typ SOVIA zvaný „Ideální vzorek propagandy“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOVIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOVIL": {
+      "personality": "Soudruhu, typ SOVIL zvaný „Osamělý propagandistický inženýr“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOVIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOVMA": {
+      "personality": "Soudruhu, typ SOVMA zvaný „Spisový pracovník SOVMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOVMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOVML": {
+      "personality": "Soudruhu, typ SOVML zvaný „Spisový pracovník SOVML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOVML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOQIA": {
+      "personality": "Soudruhu, typ SOQIA zvaný „Spisový pracovník SOQIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOQIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOQIL": {
+      "personality": "Soudruhu, typ SOQIL zvaný „Spisový pracovník SOQIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOQIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOQMA": {
+      "personality": "Soudruhu, typ SOQMA zvaný „Spisový pracovník SOQMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOQMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SOQML": {
+      "personality": "Soudruhu, typ SOQML zvaný „Spisový pracovník SOQML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SOQML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEVIA": {
+      "personality": "Soudruhu, typ SEVIA zvaný „Spisový pracovník SEVIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEVIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEVIL": {
+      "personality": "Soudruhu, typ SEVIL zvaný „Spisový pracovník SEVIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEVIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEVMA": {
+      "personality": "Soudruhu, typ SEVMA zvaný „Spisový pracovník SEVMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEVMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEVML": {
+      "personality": "Soudruhu, typ SEVML zvaný „Spisový pracovník SEVML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEVML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEQIA": {
+      "personality": "Soudruhu, typ SEQIA zvaný „Spisový pracovník SEQIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEQIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEQIL": {
+      "personality": "Soudruhu, typ SEQIL zvaný „Spisový pracovník SEQIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEQIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEQMA": {
+      "personality": "Soudruhu, typ SEQMA zvaný „Spisový pracovník SEQMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEQMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "SEQML": {
+      "personality": "Soudruhu, typ SEQML zvaný „Spisový pracovník SEQML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost SEQML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOVIA": {
+      "personality": "Soudruhu, typ FOVIA zvaný „Spisový pracovník FOVIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOVIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOVIL": {
+      "personality": "Soudruhu, typ FOVIL zvaný „Spisový pracovník FOVIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOVIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOVMA": {
+      "personality": "Soudruhu, typ FOVMA zvaný „Spisový pracovník FOVMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOVMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOVML": {
+      "personality": "Soudruhu, typ FOVML zvaný „Spisový pracovník FOVML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOVML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOQIA": {
+      "personality": "Soudruhu, typ FOQIA zvaný „Spisový pracovník FOQIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOQIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOQIL": {
+      "personality": "Soudruhu, typ FOQIL zvaný „Spisový pracovník FOQIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOQIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOQMA": {
+      "personality": "Soudruhu, typ FOQMA zvaný „Spisový pracovník FOQMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOQMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FOQML": {
+      "personality": "Soudruhu, typ FOQML zvaný „Spisový pracovník FOQML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FOQML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEVIA": {
+      "personality": "Soudruhu, typ FEVIA zvaný „Spisový pracovník FEVIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEVIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEVIL": {
+      "personality": "Soudruhu, typ FEVIL zvaný „Spisový pracovník FEVIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEVIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEVMA": {
+      "personality": "Soudruhu, typ FEVMA zvaný „Spisový pracovník FEVMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEVMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEVML": {
+      "personality": "Soudruhu, typ FEVML zvaný „Spisový pracovník FEVML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEVML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEQIA": {
+      "personality": "Soudruhu, typ FEQIA zvaný „Spisový pracovník FEQIA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEQIA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEQIL": {
+      "personality": "Soudruhu, typ FEQIL zvaný „Spisový pracovník FEQIL“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEQIL Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEQMA": {
+      "personality": "Soudruhu, typ FEQMA zvaný „Spisový pracovník FEQMA“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEQMA Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    },
+    "FEQML": {
+      "personality": "Soudruhu, typ FEQML zvaný „Spisový pracovník FEQML“ se chová jako interní memorandum: trochu suché, velmi užitečné a dost podezřelé na červené razítko.",
+      "work": "V práci mu sedí pozice „Přidělovací místnost FEQML Třetího Nového Troicka“: jasný cíl, trochu prostoru k manévrování a byrokracie, která nezablokuje boční dveře. Když přibude schůzí, výroba začne hledat únikový východ.",
+      "social": "Ve vztazích projevuje péči malými praktickými činy: světlo zůstane rozsvícené, zpráva dorazí včas a žádný soudruh nezůstane zapomenut ve frontě."
+    }
+  },
+  "channelAd": {
+    "title": "Podpořte kanály Comrade Sovia",
+    "intro": "Upravuji anime a herní hudbu do písní v sovětském stylu. Pokud chcete podpořit mou práci, podívejte se na mé kanály."
+  }
+}

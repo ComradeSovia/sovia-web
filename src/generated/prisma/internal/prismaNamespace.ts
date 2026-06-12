@@ -384,7 +384,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  MusicWork: 'MusicWork'
+  MusicWork: 'MusicWork',
+  SoviaTestSubmission: 'SoviaTestSubmission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,7 +401,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "musicWork"
+    modelProps: "musicWork" | "soviaTestSubmission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +479,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SoviaTestSubmission: {
+      payload: Prisma.$SoviaTestSubmissionPayload<ExtArgs>
+      fields: Prisma.SoviaTestSubmissionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoviaTestSubmissionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoviaTestSubmissionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>
+        }
+        findFirst: {
+          args: Prisma.SoviaTestSubmissionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoviaTestSubmissionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>
+        }
+        findMany: {
+          args: Prisma.SoviaTestSubmissionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>[]
+        }
+        create: {
+          args: Prisma.SoviaTestSubmissionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>
+        }
+        createMany: {
+          args: Prisma.SoviaTestSubmissionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoviaTestSubmissionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>[]
+        }
+        delete: {
+          args: Prisma.SoviaTestSubmissionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>
+        }
+        update: {
+          args: Prisma.SoviaTestSubmissionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoviaTestSubmissionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoviaTestSubmissionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoviaTestSubmissionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoviaTestSubmissionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoviaTestSubmissionPayload>
+        }
+        aggregate: {
+          args: Prisma.SoviaTestSubmissionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoviaTestSubmission>
+        }
+        groupBy: {
+          args: Prisma.SoviaTestSubmissionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoviaTestSubmissionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoviaTestSubmissionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoviaTestSubmissionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -533,12 +608,36 @@ export const MusicWorkScalarFieldEnum = {
 export type MusicWorkScalarFieldEnum = (typeof MusicWorkScalarFieldEnum)[keyof typeof MusicWorkScalarFieldEnum]
 
 
+export const SoviaTestSubmissionScalarFieldEnum = {
+  id: 'id',
+  visitorId: 'visitorId',
+  fingerprint: 'fingerprint',
+  resultCode: 'resultCode',
+  resultHash: 'resultHash',
+  locale: 'locale',
+  ageGroup: 'ageGroup',
+  gender: 'gender',
+  scores: 'scores',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoviaTestSubmissionScalarFieldEnum = (typeof SoviaTestSubmissionScalarFieldEnum)[keyof typeof SoviaTestSubmissionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -555,6 +654,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -588,6 +696,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -715,6 +837,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   musicWork?: Prisma.MusicWorkOmit
+  soviaTestSubmission?: Prisma.SoviaTestSubmissionOmit
 }
 
 /* Types for Logging */

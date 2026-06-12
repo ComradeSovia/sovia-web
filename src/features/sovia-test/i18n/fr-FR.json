@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "Test d’affectation SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Découvre ta personnalité de travail soviétique et le poste que SOVIA te réserverait.",
+    "intro": "SOVIA est un système non officiel d’affectation des personnalités de travail développé par le Département de la propagande. Il détermine si un camarade convient mieux à la station radio, aux archives, à la salle des machines, à la cantine, au comité du chauffage ou à tout autre poste nécessaire.",
+    "disclaimer": "Ce n’est ni une consultation psychologique, ni un conseil de carrière, ni une véritable décision d’organisation. L’interprétation finale appartient à la Section provisoire d’examen de la personnalité du Département de la propagande."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Système soviétique d’affectation des personnalités de travail",
+    "department": "Section provisoire d’examen de la personnalité"
+  },
+  "demographics": {
+    "title": "Détails d’archive facultatifs",
+    "intro": "Ces champs sont facultatifs et aident le Département de la propagande à comprendre quel camarade passe le test.",
+    "ageLabel": "Âge",
+    "genderLabel": "Genre",
+    "ageOptions": {
+      "prefer_not_to_say": "Préfère ne pas répondre",
+      "under_18": "Moins de 18 ans",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55 ans et plus"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Préfère ne pas répondre",
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre"
+    }
+  },
+  "typesPage": {
+    "title": "Tous les postes SOVIA",
+    "subtitle": "Tous les types et dossiers de postes du test SOVIA.",
+    "intro": "Ici sont archivés 32 codes de personnalité de travail. Chaque poste combine structure, action, influence, compréhension et relation.",
+    "startTestLabel": "Commencer le test",
+    "codeLabel": "Code de personnalité",
+    "detailLabel": "Dossier de poste",
+    "detailActionLabel": "Voir le détail"
+  },
+  "progress": {
+    "label": "Progression de l’examen du dossier",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Pas du tout d’accord",
+    "middle": "Neutre",
+    "max": "Tout à fait d’accord",
+    "leftHint": "Pas du tout d’accord",
+    "rightHint": "Tout à fait d’accord"
+  },
+  "actions": {
+    "start": "Commencer",
+    "types": "Voir tous les postes",
+    "previous": "Question précédente",
+    "next": "Question suivante",
+    "continue": "Continuer",
+    "submit": "Soumettre la demande d’affectation",
+    "restart": "Recommencer",
+    "copy": "Copier le résultat",
+    "copyLink": "Copier le lien"
+  },
+  "status": {
+    "unanswered": "Réponds d’abord à cette question ; l’archiviste attend ta position.",
+    "ready": "Réponse enregistrée. L’examen peut continuer.",
+    "copied": "Résultat copié.",
+    "copyFailed": "Copie impossible. Sauvegarde le dossier manuellement."
+  },
+  "certificate": {
+    "title": "Certificat d’affectation du peuple travailleur",
+    "systemLabel": "Système de test",
+    "statusLabel": "État du dossier",
+    "statusApproved": "Examen validé",
+    "codeLabel": "Code de personnalité de travail",
+    "titleLabel": "Titre de personnalité",
+    "unitLabel": "Unité affectée",
+    "axisLabel": "Tendance de l’étoile à cinq branches",
+    "assessmentLabel": "Données d’évaluation",
+    "resultLinkLabel": "Lien du résultat",
+    "tendencyLabel": "Force de tendance",
+    "rawScoreLabel": "Score brut",
+    "oppositeLabel": "Pôle opposé",
+    "archiveCommentLabel": "Note d’archives",
+    "soviaCommentLabel": "Commentaire de Sovia",
+    "authorityLabel": "Autorité d’approbation",
+    "authority": "Section provisoire d’examen de la personnalité",
+    "codeFormat": "type {{code}}",
+    "descriptionLabel": "Description courte"
+  },
+  "axes": {
+    "structure": {
+      "label": "Mode de structure",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "type structuré",
+          "description": "Aime l’ordre, les plans, les règles et les procédures claires."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "type fluide",
+          "description": "S’appuie sur le terrain, l’adaptation et les issues non tamponnées."
+        }
+      }
+    },
+    "action": {
+      "label": "Mode d’action",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "type de choc",
+          "description": "Devient plus efficace sous pression et en urgence."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "type endurance",
+          "description": "Avance durablement sans mobilisation brûlante."
+        }
+      }
+    },
+    "influence": {
+      "label": "Mode d’influence",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "type radio",
+          "description": "Sait raconter, cadrer et faire bouger l’atmosphère."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "type silencieux",
+          "description": "Explique peu et préfère que le travail tienne debout."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Mode de compréhension",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "type enquête",
+          "description": "Analyse les systèmes, causes, logiques et structures."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "type sens",
+          "description": "Lit les émotions, symboles, atmosphères et histoires."
+        }
+      }
+    },
+    "relation": {
+      "label": "Mode relationnel",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "type alliance",
+          "description": "Valorise la coopération, le rythme collectif et le soin mutuel."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "type solitaire",
+          "description": "Garde des limites claires et travaille mieux sans interruptions constantes."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Sans plan tamponné, j’ai l’impression que la civilisation recule lentement.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Quand la situation change, je préfère agir d’abord et tamponner ensuite.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Quand l’alarme sonne, mon cerveau devient étrangement clair.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Je fais davantage confiance à l’endurance qu’à l’héroïsme qui brûle tout.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Un bon slogan peut redresser une cantine épuisée.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Tout bon résultat n’a pas besoin de fanfare ni de trois discours.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Quand quelqu’un dit « il y a un problème », je veux les logs, les causes et les archives.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Avant de décider, j’écoute l’ambiance qui ne rentre pas dans le dossier.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Je remarque vite qui se tait ou sort du rythme dans la colonne.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Donne-moi une pièce calme, un objectif et personne à la porte : la production commence.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Le chaos me rassure seulement quand il devient liste, numéro et responsabilité.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Un plan trop parfait me paraît suspect : il n’a laissé aucune sortie au réel.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Une deadline ce soir réveille en moi une brigade de choc.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Une livraison stable par jour vaut mieux que trois miracles glorieux par nuit.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Si quelque chose compte, il mérite une voix claire et peut-être une affiche.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Je préfère poser un résultat solide sur la table plutôt que décrire la table.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Je sépare cause, condition et résultat avant que l’assemblée ne chante.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Un symbole explique parfois plus que tous les paramètres de la salle des machines.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Finir ensemble compte plus que courir seul avec le drapeau.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "J’apprécie le collectif, mais il n’a pas besoin de frapper toutes les dix minutes.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Les règles ne sont pas des chaînes : ce sont parfois le dernier radiateur en état.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Le terrain sait parfois plus que le procès-verbal en attente de signature.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Dans l’urgence, je trouve le levier plus vite que dans le calendrier normal.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Quand l’équipe surchauffe, je baisse le rythme avant que tout le monde ne fume.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Je peux présenter une tâche ordinaire comme une mission validée.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Certains succès gagnent en force quand on ne les passe pas au haut-parleur.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Je veux savoir comment un système a réussi à tomber en panne de cette manière.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Si une décision blesse les gens, son efficacité ne me suffit pas comme hymne.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Je prends aussi le travail invisible si le collectif risque d’avoir froid.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Le poste idéal me laisse digérer le problème seul avant de créer un comité.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Sans plan tamponné, j’ai l’impression que la civilisation recule lentement.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Quand la situation change, je préfère agir d’abord et tamponner ensuite.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Quand l’alarme sonne, mon cerveau devient étrangement clair.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Je fais davantage confiance à l’endurance qu’à l’héroïsme qui brûle tout.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Un bon slogan peut redresser une cantine épuisée.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Tout bon résultat n’a pas besoin de fanfare ni de trois discours.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Quand quelqu’un dit « il y a un problème », je veux les logs, les causes et les archives.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Avant de décider, j’écoute l’ambiance qui ne rentre pas dans le dossier.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Je remarque vite qui se tait ou sort du rythme dans la colonne.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Donne-moi une pièce calme, un objectif et personne à la porte : la production commence.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Le chaos me rassure seulement quand il devient liste, numéro et responsabilité.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Un plan trop parfait me paraît suspect : il n’a laissé aucune sortie au réel.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Une deadline ce soir réveille en moi une brigade de choc.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Une livraison stable par jour vaut mieux que trois miracles glorieux par nuit.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Si quelque chose compte, il mérite une voix claire et peut-être une affiche.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Je préfère poser un résultat solide sur la table plutôt que décrire la table.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Je sépare cause, condition et résultat avant que l’assemblée ne chante.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Un symbole explique parfois plus que tous les paramètres de la salle des machines.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Finir ensemble compte plus que courir seul avec le drapeau.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "J’apprécie le collectif, mais il n’a pas besoin de frapper toutes les dix minutes.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Échantillon idéal du Département de la propagande",
+      "description": "structuré, d’alarme, opérateur radio, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Échantillon idéal du Département de la propagande et des écarts planifiés",
+      "archiveComment": "Attention : être de type SOVIA ne veut pas dire que tu es Sovia, ni que Sovia elle-même est de type SOVIA. C’est seulement l’échantillon idéal imaginé par la propagande.",
+      "soviaComment": "Camarade, Échantillon idéal du Département de la propagande ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOVIL": {
+      "title": "Ingénieur de propagande solitaire",
+      "description": "structuré, d’alarme, opérateur radio, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Ingénieur de propagande solitaire et des écarts planifiés",
+      "archiveComment": "Anomalie de dossier : ce résultat ressemble beaucoup à un personnage non publié. Merci de ne pas en parler dans le couloir.",
+      "soviaComment": "Camarade, Ingénieur de propagande solitaire ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOVMA": {
+      "title": "Structuré d’alarme opérateur radio",
+      "description": "structuré, d’alarme, opérateur radio, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’alarme opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier SOVMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’alarme opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOVML": {
+      "title": "Structuré d’alarme opérateur radio",
+      "description": "structuré, d’alarme, opérateur radio, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’alarme opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier SOVML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’alarme opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOQIA": {
+      "title": "Structuré d’alarme administrateur silencieux",
+      "description": "structuré, d’alarme, administrateur silencieux, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SOQIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOQIL": {
+      "title": "Structuré d’alarme administrateur silencieux",
+      "description": "structuré, d’alarme, administrateur silencieux, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SOQIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOQMA": {
+      "title": "Structuré d’alarme administrateur silencieux",
+      "description": "structuré, d’alarme, administrateur silencieux, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SOQMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SOQML": {
+      "title": "Structuré d’alarme administrateur silencieux",
+      "description": "structuré, d’alarme, administrateur silencieux, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SOQML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEVIA": {
+      "title": "Structuré d’endurance opérateur radio",
+      "description": "structuré, d’endurance, opérateur radio, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier SEVIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEVIL": {
+      "title": "Structuré d’endurance opérateur radio",
+      "description": "structuré, d’endurance, opérateur radio, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier SEVIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEVMA": {
+      "title": "Structuré d’endurance opérateur radio",
+      "description": "structuré, d’endurance, opérateur radio, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier SEVMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEVML": {
+      "title": "Structuré d’endurance opérateur radio",
+      "description": "structuré, d’endurance, opérateur radio, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier SEVML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEQIA": {
+      "title": "Structuré d’endurance administrateur silencieux",
+      "description": "structuré, d’endurance, administrateur silencieux, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SEQIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEQIL": {
+      "title": "Structuré d’endurance administrateur silencieux",
+      "description": "structuré, d’endurance, administrateur silencieux, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SEQIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEQMA": {
+      "title": "Structuré d’endurance administrateur silencieux",
+      "description": "structuré, d’endurance, administrateur silencieux, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SEQMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "SEQML": {
+      "title": "Structuré d’endurance administrateur silencieux",
+      "description": "structuré, d’endurance, administrateur silencieux, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Structuré d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier SEQML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Structuré d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOVIA": {
+      "title": "Mobile d’alarme opérateur radio",
+      "description": "mobile, d’alarme, opérateur radio, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FOVIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOVIL": {
+      "title": "Mobile d’alarme opérateur radio",
+      "description": "mobile, d’alarme, opérateur radio, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FOVIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOVMA": {
+      "title": "Mobile d’alarme opérateur radio",
+      "description": "mobile, d’alarme, opérateur radio, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FOVMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOVML": {
+      "title": "Mobile d’alarme opérateur radio",
+      "description": "mobile, d’alarme, opérateur radio, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FOVML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOQIA": {
+      "title": "Mobile d’alarme administrateur silencieux",
+      "description": "mobile, d’alarme, administrateur silencieux, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FOQIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOQIL": {
+      "title": "Mobile d’alarme administrateur silencieux",
+      "description": "mobile, d’alarme, administrateur silencieux, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FOQIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOQMA": {
+      "title": "Mobile d’alarme administrateur silencieux",
+      "description": "mobile, d’alarme, administrateur silencieux, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FOQMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FOQML": {
+      "title": "Mobile d’alarme administrateur silencieux",
+      "description": "mobile, d’alarme, administrateur silencieux, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’alarme administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FOQML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’alarme administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEVIA": {
+      "title": "Mobile d’endurance opérateur radio",
+      "description": "mobile, d’endurance, opérateur radio, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FEVIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEVIL": {
+      "title": "Mobile d’endurance opérateur radio",
+      "description": "mobile, d’endurance, opérateur radio, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FEVIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEVMA": {
+      "title": "Mobile d’endurance opérateur radio",
+      "description": "mobile, d’endurance, opérateur radio, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FEVMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEVML": {
+      "title": "Mobile d’endurance opérateur radio",
+      "description": "mobile, d’endurance, opérateur radio, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance opérateur radio et des écarts planifiés",
+      "archiveComment": "Dossier FEVML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance opérateur radio ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEQIA": {
+      "title": "Mobile d’endurance administrateur silencieux",
+      "description": "mobile, d’endurance, administrateur silencieux, technicien système, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FEQIA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEQIL": {
+      "title": "Mobile d’endurance administrateur silencieux",
+      "description": "mobile, d’endurance, administrateur silencieux, technicien système, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FEQIL : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEQMA": {
+      "title": "Mobile d’endurance administrateur silencieux",
+      "description": "mobile, d’endurance, administrateur silencieux, gardien du sens, collectif : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FEQMA : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    },
+    "FEQML": {
+      "title": "Mobile d’endurance administrateur silencieux",
+      "description": "mobile, d’endurance, administrateur silencieux, gardien du sens, solitaire : assez officiel pour le dossier, assez suspect pour une deuxième vérification.",
+      "unit": "Bureau du Mobile d’endurance administrateur silencieux et des écarts planifiés",
+      "archiveComment": "Dossier FEQML : apte aux tâches avec tampon, alarme et absurdité contrôlée.",
+      "soviaComment": "Camarade, Mobile d’endurance administrateur silencieux ressemble à un poste que personne ne demande, mais que tout le monde utilise."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Ta tendance ne respecte pas entièrement le tableau officiel. La propagande t’enregistre comme personnalité de travail composite.",
+    "unit": "Bureau provisoire de coordination générale",
+    "archiveComment": "Sujet à observer, mais déjà apte à la production.",
+    "soviaComment": "Camarade, inconnu ne veut pas dire inutile. Prends l’outil, puis le destin."
+  },
+  "copy": {
+    "template": "Au test SOVIA, je suis de type {{code}} · {{title}}. Unité affectée : {{unit}}. Essaie aussi : {{url}}",
+    "success": "Résultat copié.",
+    "failed": "Copie impossible. Sauvegarde le dossier manuellement.",
+    "linkSuccess": "Lien du résultat copié."
+  },
+  "language": {
+    "label": "Langue"
+  },
+  "details": {
+    "title": "Dossier de personnalité",
+    "personalityLabel": "Caractère",
+    "workLabel": "Au travail",
+    "socialLabel": "Relations avec les camarades"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Tu es un type SOVIA : structuré, d’alarme, opérateur radio, technicien système, collectif. Le dossier indique Échantillon idéal du Département de la propagande. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOVIL": {
+      "personality": "Tu es un type SOVIL : structuré, d’alarme, opérateur radio, technicien système, solitaire. Le dossier indique Ingénieur de propagande solitaire. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOVMA": {
+      "personality": "Tu es un type SOVMA : structuré, d’alarme, opérateur radio, gardien du sens, collectif. Le dossier indique Structuré d’alarme opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOVML": {
+      "personality": "Tu es un type SOVML : structuré, d’alarme, opérateur radio, gardien du sens, solitaire. Le dossier indique Structuré d’alarme opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOQIA": {
+      "personality": "Tu es un type SOQIA : structuré, d’alarme, administrateur silencieux, technicien système, collectif. Le dossier indique Structuré d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOQIL": {
+      "personality": "Tu es un type SOQIL : structuré, d’alarme, administrateur silencieux, technicien système, solitaire. Le dossier indique Structuré d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOQMA": {
+      "personality": "Tu es un type SOQMA : structuré, d’alarme, administrateur silencieux, gardien du sens, collectif. Le dossier indique Structuré d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SOQML": {
+      "personality": "Tu es un type SOQML : structuré, d’alarme, administrateur silencieux, gardien du sens, solitaire. Le dossier indique Structuré d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEVIA": {
+      "personality": "Tu es un type SEVIA : structuré, d’endurance, opérateur radio, technicien système, collectif. Le dossier indique Structuré d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEVIL": {
+      "personality": "Tu es un type SEVIL : structuré, d’endurance, opérateur radio, technicien système, solitaire. Le dossier indique Structuré d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEVMA": {
+      "personality": "Tu es un type SEVMA : structuré, d’endurance, opérateur radio, gardien du sens, collectif. Le dossier indique Structuré d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEVML": {
+      "personality": "Tu es un type SEVML : structuré, d’endurance, opérateur radio, gardien du sens, solitaire. Le dossier indique Structuré d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEQIA": {
+      "personality": "Tu es un type SEQIA : structuré, d’endurance, administrateur silencieux, technicien système, collectif. Le dossier indique Structuré d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEQIL": {
+      "personality": "Tu es un type SEQIL : structuré, d’endurance, administrateur silencieux, technicien système, solitaire. Le dossier indique Structuré d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEQMA": {
+      "personality": "Tu es un type SEQMA : structuré, d’endurance, administrateur silencieux, gardien du sens, collectif. Le dossier indique Structuré d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "SEQML": {
+      "personality": "Tu es un type SEQML : structuré, d’endurance, administrateur silencieux, gardien du sens, solitaire. Le dossier indique Structuré d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOVIA": {
+      "personality": "Tu es un type FOVIA : mobile, d’alarme, opérateur radio, technicien système, collectif. Le dossier indique Mobile d’alarme opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOVIL": {
+      "personality": "Tu es un type FOVIL : mobile, d’alarme, opérateur radio, technicien système, solitaire. Le dossier indique Mobile d’alarme opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOVMA": {
+      "personality": "Tu es un type FOVMA : mobile, d’alarme, opérateur radio, gardien du sens, collectif. Le dossier indique Mobile d’alarme opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOVML": {
+      "personality": "Tu es un type FOVML : mobile, d’alarme, opérateur radio, gardien du sens, solitaire. Le dossier indique Mobile d’alarme opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOQIA": {
+      "personality": "Tu es un type FOQIA : mobile, d’alarme, administrateur silencieux, technicien système, collectif. Le dossier indique Mobile d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOQIL": {
+      "personality": "Tu es un type FOQIL : mobile, d’alarme, administrateur silencieux, technicien système, solitaire. Le dossier indique Mobile d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOQMA": {
+      "personality": "Tu es un type FOQMA : mobile, d’alarme, administrateur silencieux, gardien du sens, collectif. Le dossier indique Mobile d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FOQML": {
+      "personality": "Tu es un type FOQML : mobile, d’alarme, administrateur silencieux, gardien du sens, solitaire. Le dossier indique Mobile d’alarme administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEVIA": {
+      "personality": "Tu es un type FEVIA : mobile, d’endurance, opérateur radio, technicien système, collectif. Le dossier indique Mobile d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEVIL": {
+      "personality": "Tu es un type FEVIL : mobile, d’endurance, opérateur radio, technicien système, solitaire. Le dossier indique Mobile d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEVMA": {
+      "personality": "Tu es un type FEVMA : mobile, d’endurance, opérateur radio, gardien du sens, collectif. Le dossier indique Mobile d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEVML": {
+      "personality": "Tu es un type FEVML : mobile, d’endurance, opérateur radio, gardien du sens, solitaire. Le dossier indique Mobile d’endurance opérateur radio. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEQIA": {
+      "personality": "Tu es un type FEQIA : mobile, d’endurance, administrateur silencieux, technicien système, collectif. Le dossier indique Mobile d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEQIL": {
+      "personality": "Tu es un type FEQIL : mobile, d’endurance, administrateur silencieux, technicien système, solitaire. Le dossier indique Mobile d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEQMA": {
+      "personality": "Tu es un type FEQMA : mobile, d’endurance, administrateur silencieux, gardien du sens, collectif. Le dossier indique Mobile d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais collectif, mais avec un tampon intérieur d’archives. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    },
+    "FEQML": {
+      "personality": "Tu es un type FEQML : mobile, d’endurance, administrateur silencieux, gardien du sens, solitaire. Le dossier indique Mobile d’endurance administrateur silencieux. C’est assez officiel pour obtenir trois tampons et un regard méfiant.",
+      "work": "Au travail, tu préfères une improvisation disciplinée, des urgences utiles et des tâches qui réclament un tampon. Le Département de la propagande recommande de garder l’outil à portée de main et de ne pas enregistrer le café comme sommeil.",
+      "social": "Avec les camarades, tu parais fiable, mais avec une politique de porte très claire. Le collectif t’apprécie, même s’il ignore parfois si tu aides, examines ou rédiges mentalement un procès-verbal."
+    }
+  },
+  "channelAd": {
+    "title": "Soutenir les chaînes de Comrade Sovia",
+    "intro": "J’adapte des musiques d’anime et de jeux en chansons de style soviétique. Si tu veux soutenir mon travail, viens visiter mes chaînes."
+  }
+}

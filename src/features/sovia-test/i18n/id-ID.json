@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "Tes Alokasi SOVIA",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Ukur kepribadian kerja Soviet-mu dan lihat pos mana yang akan ditugaskan kepadamu.",
+    "intro": "SOVIA adalah sistem alokasi kepribadian kerja tidak resmi dari Departemen Propaganda. Ia menilai apakah seorang kamerad cocok untuk menara siaran, arsip, ruang mesin, kantin, komite pemanas, atau pos wajib lain.",
+    "disclaimer": "Ini bukan konseling psikologis, bukan nasihat karier, dan bukan keputusan organisasi sungguhan. Tafsir akhir milik Bagian Pemeriksaan Kepribadian Sementara."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Tes Alokasi SOVIA",
+    "department": "Bagian Pemeriksaan Kepribadian Sementara Departemen Propaganda"
+  },
+  "demographics": {
+    "title": "Detail arsip opsional",
+    "intro": "Kolom-kolom ini bersifat opsional dan membantu Departemen Propaganda memahami kamerad yang sedang mengikuti tes.",
+    "ageLabel": "Usia",
+    "genderLabel": "Gender",
+    "ageOptions": {
+      "prefer_not_to_say": "Memilih untuk tidak menjawab",
+      "under_18": "Di bawah 18",
+      "18_24": "18–24",
+      "25_34": "25–34",
+      "35_44": "35–44",
+      "45_54": "45–54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Memilih untuk tidak menjawab",
+      "male": "Laki-laki",
+      "female": "Perempuan",
+      "other": "Lainnya"
+    }
+  },
+  "typesPage": {
+    "title": "Semua Pos SOVIA",
+    "subtitle": "Ukur kepribadian kerja Soviet-mu dan lihat pos mana yang akan ditugaskan kepadamu.",
+    "intro": "Di sini tercatat 32 kode kepribadian kerja. Setiap pos dibentuk dari struktur, aksi, pengaruh, pemahaman, dan hubungan.",
+    "startTestLabel": "Mulai tes",
+    "codeLabel": "Kode kepribadian kerja",
+    "detailLabel": "Berkas Kepribadian",
+    "detailActionLabel": "Berikutnya"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Sangat tidak setuju",
+    "middle": "Netral",
+    "max": "Sangat setuju",
+    "leftHint": "Sangat tidak setuju",
+    "rightHint": "Sangat setuju"
+  },
+  "actions": {
+    "start": "Mulai tes",
+    "types": "Lihat semua pos",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "continue": "Lanjut",
+    "submit": "Ajukan alokasi kerja",
+    "restart": "Ulangi tes",
+    "copy": "Salin hasil",
+    "copyLink": "Salin tautan"
+  },
+  "status": {
+    "unanswered": "Selesaikan dulu; petugas arsip masih menunggu sikapmu.",
+    "ready": "Jawaban dicatat. Pemeriksaan dapat lanjut.",
+    "copied": "Hasil disalin.",
+    "copyFailed": "Gagal menyalin. Simpan berkas secara manual.",
+    "linkSuccess": "Tautan hasil disalin."
+  },
+  "certificate": {
+    "title": "Sertifikat Alokasi Rakyat Pekerja",
+    "systemLabel": "Sistem tes",
+    "statusLabel": "Status berkas",
+    "statusApproved": "Lulus pemeriksaan",
+    "codeLabel": "Kode kepribadian kerja",
+    "titleLabel": "Gelar kepribadian",
+    "unitLabel": "Unit penugasan",
+    "axisLabel": "Kecenderungan bintang lima",
+    "assessmentLabel": "Data evaluasi",
+    "resultLinkLabel": "Tautan hasil",
+    "tendencyLabel": "Kekuatan kecenderungan",
+    "rawScoreLabel": "Skor mentah",
+    "oppositeLabel": "Pembanding",
+    "archiveCommentLabel": "Catatan arsip",
+    "soviaCommentLabel": "Komentar Sovia",
+    "authorityLabel": "Otoritas pengesah",
+    "descriptionLabel": "Deskripsi singkat",
+    "authority": "Bagian Pemeriksaan Kepribadian Sementara Departemen Propaganda",
+    "codeFormat": "{{code}}"
+  },
+  "axes": {
+    "structure": {
+      "label": "Cara berstruktur",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Struktur",
+          "description": "Struktur"
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Aliran",
+          "description": "Aliran"
+        }
+      }
+    },
+    "action": {
+      "label": "Cara bertindak",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Serbu",
+          "description": "Serbu"
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Daya tahan",
+          "description": "Daya tahan"
+        }
+      }
+    },
+    "influence": {
+      "label": "Cara memengaruhi",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Suara",
+          "description": "Suara"
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Senyap",
+          "description": "Senyap"
+        }
+      }
+    },
+    "understanding": {
+      "label": "Cara memahami",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Penyelidikan",
+          "description": "Penyelidikan"
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Makna",
+          "description": "Makna"
+        }
+      }
+    },
+    "relation": {
+      "label": "Cara berelasi",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Aliansi",
+          "description": "Aliansi"
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Sendiri",
+          "description": "Sendiri"
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Tanpa rencana yang jelas, bengkel tampak bergerak menuju kekacauan sejarah.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Ketika situasi berubah, lebih baik bergerak dulu dan stempel laporan nanti.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Saat alarm berbunyi, aku justru menjadi lebih jernih.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Aku lebih percaya output harian stabil daripada mobilisasi tengah malam.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Slogan yang baik bisa membuat kamerad lelah mengangkat kepala lagi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "Sebagian kerja tidak perlu pidato; hasil yang kokoh sudah cukup.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Jika sesuatu terasa salah, aku ingin memeriksa mekanisme, sejarah, dan lognya.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Cerita, simbol, dan bobot emosi kadang menjelaskan lebih dari parameter.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Aku otomatis mengecek apakah ada kamerad yang tertinggal.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Beri aku ruang tenang dan tujuan jelas; aku bisa menyelesaikan banyak hal sendiri.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Tanpa rencana yang jelas, bengkel tampak bergerak menuju kekacauan sejarah.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Ketika situasi berubah, lebih baik bergerak dulu dan stempel laporan nanti.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Saat alarm berbunyi, aku justru menjadi lebih jernih.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Aku lebih percaya output harian stabil daripada mobilisasi tengah malam.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "Slogan yang baik bisa membuat kamerad lelah mengangkat kepala lagi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Sebagian kerja tidak perlu pidato; hasil yang kokoh sudah cukup.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Jika sesuatu terasa salah, aku ingin memeriksa mekanisme, sejarah, dan lognya.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Cerita, simbol, dan bobot emosi kadang menjelaskan lebih dari parameter.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Aku otomatis mengecek apakah ada kamerad yang tertinggal.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Beri aku ruang tenang dan tujuan jelas; aku bisa menyelesaikan banyak hal sendiri.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Tanpa rencana yang jelas, bengkel tampak bergerak menuju kekacauan sejarah.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Ketika situasi berubah, lebih baik bergerak dulu dan stempel laporan nanti.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Saat alarm berbunyi, aku justru menjadi lebih jernih.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Aku lebih percaya output harian stabil daripada mobilisasi tengah malam.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Slogan yang baik bisa membuat kamerad lelah mengangkat kepala lagi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Sebagian kerja tidak perlu pidato; hasil yang kokoh sudah cukup.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Jika sesuatu terasa salah, aku ingin memeriksa mekanisme, sejarah, dan lognya.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Cerita, simbol, dan bobot emosi kadang menjelaskan lebih dari parameter.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Aku otomatis mengecek apakah ada kamerad yang tertinggal.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "Beri aku ruang tenang dan tujuan jelas; aku bisa menyelesaikan banyak hal sendiri.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Tanpa rencana yang jelas, bengkel tampak bergerak menuju kekacauan sejarah.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Ketika situasi berubah, lebih baik bergerak dulu dan stempel laporan nanti.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Saat alarm berbunyi, aku justru menjadi lebih jernih.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Aku lebih percaya output harian stabil daripada mobilisasi tengah malam.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Slogan yang baik bisa membuat kamerad lelah mengangkat kepala lagi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Sebagian kerja tidak perlu pidato; hasil yang kokoh sudah cukup.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Jika sesuatu terasa salah, aku ingin memeriksa mekanisme, sejarah, dan lognya.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Cerita, simbol, dan bobot emosi kadang menjelaskan lebih dari parameter.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Aku otomatis mengecek apakah ada kamerad yang tertinggal.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "Beri aku ruang tenang dan tujuan jelas; aku bisa menyelesaikan banyak hal sendiri.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Tanpa rencana yang jelas, bengkel tampak bergerak menuju kekacauan sejarah.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Ketika situasi berubah, lebih baik bergerak dulu dan stempel laporan nanti.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Saat alarm berbunyi, aku justru menjadi lebih jernih.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Aku lebih percaya output harian stabil daripada mobilisasi tengah malam.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Slogan yang baik bisa membuat kamerad lelah mengangkat kepala lagi.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Sebagian kerja tidak perlu pidato; hasil yang kokoh sudah cukup.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Jika sesuatu terasa salah, aku ingin memeriksa mekanisme, sejarah, dan lognya.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Cerita, simbol, dan bobot emosi kadang menjelaskan lebih dari parameter.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Aku otomatis mengecek apakah ada kamerad yang tertinggal.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Beri aku ruang tenang dan tujuan jelas; aku bisa menyelesaikan banyak hal sendiri.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Sampel Ideal Propaganda",
+      "description": "Kepribadian kerja SOVIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOVIA di Troitsk Baru Ketiga",
+      "archiveComment": "Tipe SOVIA adalah ideal propaganda, bukan berarti kamu adalah Sovia atau Sovia sendiri bertipe SOVIA.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOVIL": {
+      "title": "Insinyur Propaganda Soliter",
+      "description": "Kepribadian kerja SOVIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOVIL di Troitsk Baru Ketiga",
+      "archiveComment": "Anomali arsip: hasil ini menyerupai karakter yang belum dipublikasikan.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOVMA": {
+      "title": "Petugas Berkas SOVMA",
+      "description": "Kepribadian kerja SOVMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOVMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOVML": {
+      "title": "Petugas Berkas SOVML",
+      "description": "Kepribadian kerja SOVML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOVML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOQIA": {
+      "title": "Petugas Berkas SOQIA",
+      "description": "Kepribadian kerja SOQIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOQIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOQIL": {
+      "title": "Petugas Berkas SOQIL",
+      "description": "Kepribadian kerja SOQIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOQIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOQMA": {
+      "title": "Petugas Berkas SOQMA",
+      "description": "Kepribadian kerja SOQMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOQMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SOQML": {
+      "title": "Petugas Berkas SOQML",
+      "description": "Kepribadian kerja SOQML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SOQML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEVIA": {
+      "title": "Petugas Berkas SEVIA",
+      "description": "Kepribadian kerja SEVIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEVIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEVIL": {
+      "title": "Petugas Berkas SEVIL",
+      "description": "Kepribadian kerja SEVIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEVIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEVMA": {
+      "title": "Petugas Berkas SEVMA",
+      "description": "Kepribadian kerja SEVMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEVMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEVML": {
+      "title": "Petugas Berkas SEVML",
+      "description": "Kepribadian kerja SEVML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEVML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEQIA": {
+      "title": "Petugas Berkas SEQIA",
+      "description": "Kepribadian kerja SEQIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEQIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEQIL": {
+      "title": "Petugas Berkas SEQIL",
+      "description": "Kepribadian kerja SEQIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEQIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEQMA": {
+      "title": "Petugas Berkas SEQMA",
+      "description": "Kepribadian kerja SEQMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEQMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "SEQML": {
+      "title": "Petugas Berkas SEQML",
+      "description": "Kepribadian kerja SEQML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi SEQML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOVIA": {
+      "title": "Petugas Berkas FOVIA",
+      "description": "Kepribadian kerja FOVIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOVIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOVIL": {
+      "title": "Petugas Berkas FOVIL",
+      "description": "Kepribadian kerja FOVIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOVIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOVMA": {
+      "title": "Petugas Berkas FOVMA",
+      "description": "Kepribadian kerja FOVMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOVMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOVML": {
+      "title": "Petugas Berkas FOVML",
+      "description": "Kepribadian kerja FOVML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOVML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOQIA": {
+      "title": "Petugas Berkas FOQIA",
+      "description": "Kepribadian kerja FOQIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOQIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOQIL": {
+      "title": "Petugas Berkas FOQIL",
+      "description": "Kepribadian kerja FOQIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOQIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOQMA": {
+      "title": "Petugas Berkas FOQMA",
+      "description": "Kepribadian kerja FOQMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOQMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FOQML": {
+      "title": "Petugas Berkas FOQML",
+      "description": "Kepribadian kerja FOQML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FOQML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEVIA": {
+      "title": "Petugas Berkas FEVIA",
+      "description": "Kepribadian kerja FEVIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEVIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEVIL": {
+      "title": "Petugas Berkas FEVIL",
+      "description": "Kepribadian kerja FEVIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEVIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEVMA": {
+      "title": "Petugas Berkas FEVMA",
+      "description": "Kepribadian kerja FEVMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEVMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEVML": {
+      "title": "Petugas Berkas FEVML",
+      "description": "Kepribadian kerja FEVML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEVML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEQIA": {
+      "title": "Petugas Berkas FEQIA",
+      "description": "Kepribadian kerja FEQIA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEQIA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEQIL": {
+      "title": "Petugas Berkas FEQIL",
+      "description": "Kepribadian kerja FEQIL: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEQIL di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEQMA": {
+      "title": "Petugas Berkas FEQMA",
+      "description": "Kepribadian kerja FEQMA: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEQMA di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    },
+    "FEQML": {
+      "title": "Petugas Berkas FEQML",
+      "description": "Kepribadian kerja FEQML: roda kecil dalam mesin rencana yang tidak boleh hilang.",
+      "unit": "Ruang Alokasi FEQML di Troitsk Baru Ketiga",
+      "archiveComment": "Cocok untuk tugas aneh namun perlu selesai sebelum pagi.",
+      "soviaComment": "Kamerad, formulirmu tidak sempurna, tetapi siap produksi."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Kecenderunganmu belum sepenuhnya tunduk pada tabel pos yang ada.",
+    "unit": "Kantor Penjadwalan Gabungan Sementara",
+    "archiveComment": "Perlu diamati, tetapi sudah cukup stabil untuk masuk produksi.",
+    "soviaComment": "Kamerad, yang tidak diketahui bukan berarti tidak berguna. Ambil alatnya dulu."
+  },
+  "copy": {
+    "template": "Di Tes Alokasi SOVIA, aku mendapat tipe {{code}} · {{title}}. Unit: {{unit}}. Coba juga: {{url}}",
+    "success": "Hasil disalin.",
+    "failed": "Gagal menyalin. Simpan berkas secara manual.",
+    "linkSuccess": "Tautan hasil disalin."
+  },
+  "language": {
+    "label": "语言"
+  },
+  "details": {
+    "title": "Berkas Kepribadian",
+    "personalityLabel": "Deskripsi karakter",
+    "workLabel": "Saat bekerja",
+    "socialLabel": "Hubungan sosial"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Tipe SOVIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOVIL": {
+      "personality": "Tipe SOVIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOVMA": {
+      "personality": "Tipe SOVMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOVML": {
+      "personality": "Tipe SOVML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOQIA": {
+      "personality": "Tipe SOQIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOQIL": {
+      "personality": "Tipe SOQIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOQMA": {
+      "personality": "Tipe SOQMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SOQML": {
+      "personality": "Tipe SOQML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEVIA": {
+      "personality": "Tipe SEVIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEVIL": {
+      "personality": "Tipe SEVIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEVMA": {
+      "personality": "Tipe SEVMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEVML": {
+      "personality": "Tipe SEVML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEQIA": {
+      "personality": "Tipe SEQIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEQIL": {
+      "personality": "Tipe SEQIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEQMA": {
+      "personality": "Tipe SEQMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "SEQML": {
+      "personality": "Tipe SEQML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOVIA": {
+      "personality": "Tipe FOVIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOVIL": {
+      "personality": "Tipe FOVIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOVMA": {
+      "personality": "Tipe FOVMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOVML": {
+      "personality": "Tipe FOVML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOQIA": {
+      "personality": "Tipe FOQIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOQIL": {
+      "personality": "Tipe FOQIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOQMA": {
+      "personality": "Tipe FOQMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FOQML": {
+      "personality": "Tipe FOQML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEVIA": {
+      "personality": "Tipe FEVIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEVIL": {
+      "personality": "Tipe FEVIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEVMA": {
+      "personality": "Tipe FEVMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEVML": {
+      "personality": "Tipe FEVML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEQIA": {
+      "personality": "Tipe FEQIA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEQIL": {
+      "personality": "Tipe FEQIL bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEQMA": {
+      "personality": "Tipe FEQMA bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    },
+    "FEQML": {
+      "personality": "Tipe FEQML bergerak seperti catatan internal: kering, agak lucu, dan mencurigakan berguna bagi bengkel.",
+      "work": "Di tempat kerja, ia butuh arah jelas dan sedikit ruang manuver. Jika birokrasi terlalu tebal, ia mencari pintu samping.",
+      "social": "Dalam hubungan, ia menunjukkan perhatian lewat tindakan kecil: lampu menyala, pesan terkirim, dan tidak ada kamerad tertinggal."
+    }
+  },
+  "channelAd": {
+    "title": "Dukung kanal Comrade Sovia",
+    "intro": "Saya mengadaptasi musik anime dan game menjadi lagu bergaya Soviet. Jika ingin mendukung karya saya, silakan kunjungi kanal saya."
+  }
+}

@@ -1,0 +1,1288 @@
+{
+  "page": {
+    "title": "SOVIA Allocation Test",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Find out your Soviet labor personality and where SOVIA would assign you.",
+    "intro": "SOVIA is an unofficial labor-personality allocation system developed by the Propaganda Department. It determines whether a comrade is better suited for the radio tower, archive room, machine room, canteen, heating committee, or another necessary post.",
+    "disclaimer": "This is not psychological counseling, career advice, or an actual organizational decision. Final interpretation belongs to the Temporary Personality Review Section of the Propaganda Department."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Soviet Labor Personality Allocation System",
+    "department": "Temporary Personality Review Section of the Propaganda Department"
+  },
+  "demographics": {
+    "title": "Optional archive details",
+    "intro": "These fields are optional and help the Propaganda Department understand who is taking the test.",
+    "ageLabel": "Age",
+    "genderLabel": "Gender",
+    "ageOptions": {
+      "prefer_not_to_say": "Prefer not to say",
+      "under_18": "Under 18",
+      "18_24": "18-24",
+      "25_34": "25-34",
+      "35_44": "35-44",
+      "45_54": "45-54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Prefer not to say",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
+  },
+  "typesPage": {
+    "title": "All SOVIA Posts",
+    "subtitle": "Browse every type and personnel file in the SOVIA Allocation Test.",
+    "intro": "This archive contains 32 labor-personality codes. Each post is formed from structure, action, influence, understanding, and relation.",
+    "startTestLabel": "Start test",
+    "codeLabel": "Personality code",
+    "detailLabel": "Personnel file",
+    "detailActionLabel": "View details"
+  },
+  "progress": {
+    "label": "Archive review progress",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Strongly disagree",
+    "middle": "Neutral",
+    "max": "Strongly agree",
+    "leftHint": "Strongly disagree",
+    "rightHint": "Strongly agree"
+  },
+  "actions": {
+    "start": "Start test",
+    "types": "Browse all posts",
+    "previous": "Previous",
+    "next": "Next",
+    "continue": "Continue",
+    "submit": "Submit labor allocation request",
+    "restart": "Restart test",
+    "copy": "Copy result",
+    "copyLink": "Copy link"
+  },
+  "status": {
+    "unanswered": "Please answer the current item first. The archive clerk is waiting for your position.",
+    "ready": "Answer recorded. The review may continue.",
+    "copied": "Result copied.",
+    "copyFailed": "Copy failed. Please preserve the file manually.",
+    "linkSuccess": "Result link copied."
+  },
+  "certificate": {
+    "title": "Certificate of Labor-People Allocation",
+    "systemLabel": "Test system",
+    "statusLabel": "Archive status",
+    "statusApproved": "Approved",
+    "codeLabel": "Labor personality code",
+    "titleLabel": "Personality title",
+    "unitLabel": "Assigned unit",
+    "axisLabel": "Five-point star tendencies",
+    "assessmentLabel": "Assessment data",
+    "resultLinkLabel": "Result link",
+    "tendencyLabel": "Tendency strength",
+    "rawScoreLabel": "Raw score",
+    "oppositeLabel": "Opposite item",
+    "archiveCommentLabel": "Archive comment",
+    "soviaCommentLabel": "Sovia comment",
+    "authorityLabel": "Approving authority",
+    "authority": "Temporary Personality Review Section of the Propaganda Department",
+    "codeFormat": "{{code}} Type",
+    "descriptionLabel": "Short description"
+  },
+  "axes": {
+    "structure": {
+      "label": "Structure mode",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Structured",
+          "description": "Prefers order, planning, rules, and clear procedures."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Flowing",
+          "description": "Relies on field judgment, adapts to change, and dislikes being locked inside a process."
+        }
+      }
+    },
+    "action": {
+      "label": "Action mode",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Overdrive",
+          "description": "Gets stronger under pressure; suited for emergency tasks and last-minute rescue."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Endurance",
+          "description": "Stable, long-term, continuous output without self-burning mobilization."
+        }
+      }
+    },
+    "influence": {
+      "label": "Influence mode",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Voice",
+          "description": "Good at expression, narrative, packaging, and shaping the atmosphere."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Quiet",
+          "description": "Dislikes over-explaining and cares more about doing the thing properly."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Understanding mode",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Inquiry",
+          "description": "Analyzes systems, causes, logic, and structure."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Meaning",
+          "description": "Values emotions, symbols, atmosphere, relationships, and stories."
+        }
+      }
+    },
+    "relation": {
+      "label": "Relation mode",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "Alliance",
+          "description": "Values cooperation, collective rhythm, care, and shared completion."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Lone",
+          "description": "Has clear boundaries, works well independently, and dislikes frequent interruption."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "As long as there is no plan sheet, I feel civilization is slowly retreating.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "When the situation changes on site, I would rather move first and fill in the report later.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "The moment the alarm sounds, I actually become very clear-headed.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "I trust steady daily progress more than waiting for one magnificent explosion.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "If something is worth doing, it is also worth saying like a loud slogan.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "I do not need people to know what I did, as long as the result can stand on its own.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "When facing a problem, I first break down the structure, find the cause, and draw the relations.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "I first feel the atmosphere and meaning of something before deciding how to respond.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "The collective rhythm matters to me; rushing too far alone may break the formation.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Give me a quiet room and a clear objective, and I can complete many things alone.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "If a task has no owner, deadline, or backup plan, I find it hard to feel safe.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "I prefer adjusting while doing; fixing the process too early makes the air feel unbreathable.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "When things become truly urgent, I first organize the people who can move.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "I value delivering a little on time every day more than one burst of heroics.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "A good slogan can make a group of exhausted people raise their heads again.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "If the result is already strong, I do not always need to explain why it is strong.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "I cannot help asking why a system runs the way it does.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "When the atmosphere of a scene is wrong, even the correct process feels broken to me.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "I actively check whether anyone in the team has been left behind.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "If a job requires long focus, I would rather have fewer meetings.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "I like turning chaotic materials into numbers, versions, and lists.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Field intuition is sometimes closer to reality than the meeting minutes.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "The more sudden the situation, the more easily I enter high-efficiency mode.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "I do not like burning myself out; stable endurance feels like real discipline.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "I can make ordinary things sound like tasks worth carrying out.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "I would rather make something solid than wrap it in noise.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "When facing a problem, I first look for the mechanism behind it.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Stories, symbols, and emotions often explain a problem better than parameters alone.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "I prefer aligning the rhythm with everyone before pushing forward together.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "When there are too many people, I want to retreat to a corner and finish the task alone.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Rules are not chains; they are tools that stop everyone from guessing repeatedly.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Some things must start first. The rules can be filed after the dust settles.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "If the scene needs someone to step forward, I usually do not wait long.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "I am better suited to maintaining something long-running than charging every day.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "I am willing to explain an idea to many people until it becomes common language.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "I do not really like standing in the center, even when I know the answer.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "I separate causes, conditions, and results in my mind.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "I often sense whether a decision will hurt people before judging whether it is effective.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "When completing a task, I naturally consider its effect on the collective.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "I want others to respect my work boundaries and not burst in at any moment.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "If the system is clear, I perform more steadily inside it.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "A plan that is too complete makes me suspect it left no exit for reality.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "I do not fear sudden assignments; I fear having nothing that needs immediate handling.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "I deliberately slow the pace to keep the team from overheating and collapsing.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "I am good at translating complex emotions into words others can understand.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Some results become stronger when explained less.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "I like knowing what chain reactions a decision will trigger inside the system.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "If something has no emotional weight, I find it hard to believe it truly matters.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "I am willing to take on a little invisible work for the stability of the collective.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "The post that truly suits me should allow me to digest problems alone.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Propaganda Department Ideal Sample",
+      "description": "Planned, urgent, articulate, system-aware, and still willing to return to the collective.",
+      "unit": "Display Case of Ideal Labor Personality, Propaganda Department",
+      "archiveComment": "Attention: You received SOVIA Type. This does not mean you are Sovia, nor does it mean Sovia is SOVIA Type. It only means you resemble the ideal labor-personality sample imagined by the Propaganda Department.",
+      "soviaComment": "Comrade, please do not mistake a propaganda poster for a selfie."
+    },
+    "SOVIL": {
+      "title": "Lone Propaganda Engineer",
+      "description": "You look collective on paper, but at 3 a.m. you are usually repairing the world alone.",
+      "unit": "3 a.m. Propaganda Machine Room, Third New Troitsk",
+      "archiveComment": "Archive anomaly: this result is highly similar to an undisclosed character.",
+      "soviaComment": "Comrade, please do not discuss this in the corridor."
+    },
+    "SOVMA": {
+      "title": "Red Resonance Broadcaster",
+      "description": "You broadcast plans, alarms, and human feelings on the same frequency.",
+      "unit": "Factory-Roof Emotional Mobilization Radio Tower",
+      "archiveComment": "Suited for tuning everyone back to the same frequency during chaos.",
+      "soviaComment": "Comrade, your voice has a collective echo."
+    },
+    "SOVML": {
+      "title": "Snow-Night Solo Broadcaster",
+      "description": "You can express and feel deeply, but preferably from a quiet radio room.",
+      "unit": "Snow-Night Solo Radio and Confidential Frequency Office",
+      "archiveComment": "Suited for keeping the channel lit when nobody is officially on duty.",
+      "soviaComment": "Comrade, some signals are meant to be sent softly."
+    },
+    "SOQIA": {
+      "title": "Silent Strike Technician",
+      "description": "You do not shout slogans, but when the alarm rings you are already fixing the problem.",
+      "unit": "Night-Shift Control Console Emergency Repair Section",
+      "archiveComment": "Suited for problems that appear at midnight and must disappear by morning.",
+      "soviaComment": "Comrade, the system has no sympathy for sleep."
+    },
+    "SOQIL": {
+      "title": "Underground Machine-Room Night Watcher",
+      "description": "You have plans, can fight fires, understand systems, and require everyone to be quiet first.",
+      "unit": "Zero Watch Room, Underground Archive Machine Room",
+      "archiveComment": "Often found among logs, backups, old interfaces, and empty corridors.",
+      "soviaComment": "Comrade, your silence has completed deployment."
+    },
+    "SOQMA": {
+      "title": "Low-Voice Mobilization Clerk",
+      "description": "You dislike noisy propaganda but care for everyone’s position when it matters.",
+      "unit": "Rear Roll-Call Post of the Temporary Strike Team",
+      "archiveComment": "Suited for checking who has not eaten and who is about to collapse in the chaos.",
+      "soviaComment": "Comrade, low volume can still mobilize."
+    },
+    "SOQML": {
+      "title": "Secret Mission Executor",
+      "description": "You can rush and endure, but you do not want the process to be watched.",
+      "unit": "Windowless Office Special Delivery Group",
+      "archiveComment": "Suited for independent tasks that should not enter the public report.",
+      "soviaComment": "Comrade, once the door closes, the plan begins."
+    },
+    "SEVIA": {
+      "title": "Long-Term Propaganda Secretary",
+      "description": "You do not burn yourself out; you steadily make things understandable.",
+      "unit": "Long-Term Slogan Maintenance Section, Propaganda Department",
+      "archiveComment": "Suited for content that may not go viral, but must always exist.",
+      "soviaComment": "Comrade, continuous updating is also discipline."
+    },
+    "SEVIL": {
+      "title": "Solo Typesetting Worker",
+      "description": "You have order and expression, but prefer laying out the page alone until dawn.",
+      "unit": "Night Poster Proofreading and Typesetting Workshop",
+      "archiveComment": "Should be assigned to a quiet corner under a lamp that does not flicker.",
+      "soviaComment": "Comrade, this poster is lonely but orderly."
+    },
+    "SEVMA": {
+      "title": "Canteen Radio Coordinator",
+      "description": "You make sure messages are heard and everyone eats on time.",
+      "unit": "Broadcast and Ration Office, Canteen Window No. 7",
+      "archiveComment": "This person holds the real core of collective stability: hot food and notices.",
+      "soviaComment": "Comrade, the revolution cannot listen on an empty stomach."
+    },
+    "SEVML": {
+      "title": "Gentle Slogan Keeper",
+      "description": "You can express human feelings, but do not want to stand in the brightest spot.",
+      "unit": "Old Poster Restoration and Night-Lamp Room",
+      "archiveComment": "Suited for preserving feelings that were never officially archived.",
+      "soviaComment": "Comrade, this slogan still has warmth."
+    },
+    "SEQIA": {
+      "title": "Archive Broadcast Secretary",
+      "description": "Stable, rational, quiet; the key notice will never be missed.",
+      "unit": "Archive Bulletin Board and Version Record Section",
+      "archiveComment": "Suited for giving chaotic matters numbers, sources, and explanations.",
+      "soviaComment": "Comrade, history will not organize itself."
+    },
+    "SEQIL": {
+      "title": "Underground Archive Night Watcher",
+      "description": "Like a reliable backup: unnoticed until something breaks, then everyone looks for you.",
+      "unit": "Night Key Office, Underground Archive Vault",
+      "archiveComment": "Suited for guarding old records, cold coffee, and truths that cannot be lost.",
+      "soviaComment": "Comrade, your presence has been safely archived."
+    },
+    "SEQMA": {
+      "title": "Heating Committee Clerk",
+      "description": "You do not make people boil; you keep them from freezing.",
+      "unit": "Winter Heating and Emotional Insulation Committee",
+      "archiveComment": "Stable, quiet, reliable, like a radiator pipe that has not failed.",
+      "soviaComment": "Comrade, temperature is also discipline."
+    },
+    "SEQML": {
+      "title": "Keeper of Residual-Warmth Archives",
+      "description": "You remember details others forget and store them quietly for a long time.",
+      "unit": "Unclaimed Memories Preservation Office",
+      "archiveComment": "Not suitable for frequent disturbance; suitable for long-term trust.",
+      "soviaComment": "Comrade, some archives must not be burned."
+    },
+    "FOVIA": {
+      "title": "Field Mobilization Commander",
+      "description": "The plan may not be in hand, but you know where to rush now.",
+      "unit": "Temporary Square Emergency Mobilization Platform",
+      "archiveComment": "Suited for reorganizing the team after the plan fails.",
+      "soviaComment": "Comrade, the map is outdated, but you have already departed."
+    },
+    "FOVIL": {
+      "title": "Guerrilla Propagandist",
+      "description": "You finish missions by field judgment, improvised expression, and an unofficial path.",
+      "unit": "Mobile Radio Truck and Informal Routes Section",
+      "archiveComment": "Suited for bypassing procedure and finding a signal in the snow.",
+      "soviaComment": "Comrade, the route is not legal, but it works."
+    },
+    "FOVMA": {
+      "title": "Snow-Night Mobilization Poet",
+      "description": "You turn chaos, emotion, and field presence into words that make people stand up.",
+      "unit": "Third New Troitsk Snow-Night Radio Station",
+      "archiveComment": "Suited for taking the microphone when nobody knows what to say.",
+      "soviaComment": "Comrade, someone will hear you in the snow."
+    },
+    "FOVML": {
+      "title": "Wandering Radio Poet",
+      "description": "You belong to no fixed post, yet always send a signal on strange nights.",
+      "unit": "Unfixed-Frequency Mobile Radio",
+      "archiveComment": "Not recommended for a permanent seat; new routes may grow out of it.",
+      "soviaComment": "Comrade, your signal is unstable, but it has a story."
+    },
+    "FOQIA": {
+      "title": "Field Repair Comrade",
+      "description": "No speeches: assess the scene, then repair the broken part.",
+      "unit": "Temporary Fault Handling and Wrench Registration Section",
+      "archiveComment": "Suited for taking over the toolbox when the manual fails.",
+      "soviaComment": "Comrade, repair first; write the report later."
+    },
+    "FOQIL": {
+      "title": "Solo Fault Handler",
+      "description": "You enter chaotic sites alone and come back with results.",
+      "unit": "No-Spectators Repair Passage",
+      "archiveComment": "This person needs tools, permissions, and no interruptions.",
+      "soviaComment": "Comrade, step aside. He is about to process reality."
+    },
+    "FOQMA": {
+      "title": "Silent Fire-Rescue Captain",
+      "description": "You may not say much, but you pull the nearly scattered team back together.",
+      "unit": "Temporary Shelter Order Restoration Office",
+      "archiveComment": "Suited for silently carrying too much at an accident scene.",
+      "soviaComment": "Comrade, your silence is maintaining formation."
+    },
+    "FOQML": {
+      "title": "Snowfield Lone Repairer",
+      "description": "With instinct, experience, and unexplained stubbornness, you make things run again.",
+      "unit": "Remote Signal Tower Single-Person Maintenance Station",
+      "archiveComment": "Suitable for distant assignment, but please confirm survival regularly.",
+      "soviaComment": "Comrade, bring the logs back with you."
+    },
+    "FEVIA": {
+      "title": "Mobile Cultural Officer",
+      "description": "You do not rush to charge, but you turn daily life into shareable material.",
+      "unit": "Children’s Palace Touring Radio and Wall-Newspaper Group",
+      "archiveComment": "Suited for making an ordinary day feel slightly like a holiday.",
+      "soviaComment": "Comrade, today’s weather can go into the wall newspaper."
+    },
+    "FEVIL": {
+      "title": "Strolling Propagandist",
+      "description": "You dislike being locked in a process or surrounded by people, yet you still make things.",
+      "unit": "Riverside Bench Informal Creation Section",
+      "archiveComment": "Suited for producing content where there are no meetings.",
+      "soviaComment": "Comrade, walking is also production preparation."
+    },
+    "FEVMA": {
+      "title": "Daily Broadcast Light-Keeper",
+      "description": "Gentle and expressive, you are willing to brighten ordinary life a little.",
+      "unit": "Morning Broadcast and Hot-Tea Supply Station",
+      "archiveComment": "Suited for everything that is not spectacular, but helps people continue.",
+      "soviaComment": "Comrade, please keep the channel lit today as well."
+    },
+    "FEVML": {
+      "title": "Old Streetlamp Letter Writer",
+      "description": "You live by feeling, speak slowly, and save emotion for a few people.",
+      "unit": "Private Correspondence Office under the Old Streetlamp",
+      "archiveComment": "Not suitable for rushing; suitable for waiting.",
+      "soviaComment": "Comrade, your letter is late, but still warm."
+    },
+    "FEQIA": {
+      "title": "Quiet Inspector",
+      "description": "You create no noise; you simply confirm the system is not broken.",
+      "unit": "Morning Equipment Inspection and Teacup Registry Section",
+      "archiveComment": "Suited for fixing problems before everyone wakes up.",
+      "soviaComment": "Comrade, quiet is also a kind of reliability."
+    },
+    "FEQIL": {
+      "title": "Empty-Corridor Maintenance Worker",
+      "description": "You work slowly and alone, but what is entrusted to you usually does not disappear.",
+      "unit": "Empty Corridor Lightbulb and Doorplate Maintenance Office",
+      "archiveComment": "Not suited for noisy posts; suited for long-term trust.",
+      "soviaComment": "Comrade, nobody sees what you fix, but everyone uses it."
+    },
+    "FEQMA": {
+      "title": "Logistics Warmth Keeper",
+      "description": "You do not interrupt or charge, but you make the place feel survivable.",
+      "unit": "Logistics Hot Water, Blankets, and Silent Support Section",
+      "archiveComment": "Suited for maintaining the minimum necessary warmth when the collective is exhausted.",
+      "soviaComment": "Comrade, hot water is already a great victory."
+    },
+    "FEQML": {
+      "title": "Silent Warmth Keeper",
+      "description": "Like a dim lamp: you do not disturb others, but you remain there.",
+      "unit": "Old Dormitory Night-Lamp and Unsent Letters Office",
+      "archiveComment": "This person needs space, time, and a world that does not suddenly schedule meetings.",
+      "soviaComment": "Comrade, you are not loud, but you have not gone out."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Your tendencies do not fully obey the existing post table. The Propaganda Department will register you as a composite labor personality and assign you flexibly according to the shortage of the day.",
+    "unit": "Temporary General Dispatch Office",
+    "archiveComment": "This person requires observation, but already possesses the basic stability necessary for production.",
+    "soviaComment": "Comrade, unknown does not mean useless. First receive the tools, then receive destiny."
+  },
+  "copy": {
+    "template": "I got {{code}} Type · {{title}} in the SOVIA Allocation Test. Assigned unit: {{unit}}. Try it: {{url}}",
+    "success": "Result copied.",
+    "failed": "Copy failed. Please preserve the archive manually.",
+    "linkSuccess": "Result link copied."
+  },
+  "language": {
+    "label": "Language"
+  },
+  "details": {
+    "title": "Personality Archive",
+    "personalityLabel": "Personality",
+    "workLabel": "At work",
+    "socialLabel": "With people"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "You are theoretically the Propaganda Department’s favorite kind of comrade: planned, urgent, articulate, system-aware, and still willing to return to the collective. The problem is that such people usually exist in posters, training manuals, and leadership speeches. You are not perfect; you merely look printable.",
+      "work": "At work, you make the plan, prepare the emergency version, and then describe the result as a small victory. You fit complex tasks, cross-unit coordination, and anything that nobody understands but everyone must understand by Monday. The risk is that the organization may mistake you for a universal screw.",
+      "social": "With people, you can care for the collective and speak with direction. Others may find you reliable, motivating, and capable of holding the room. Some may also suspect that even your casual chats have passed preliminary review."
+    },
+    "SOVIL": {
+      "personality": "You look like a collective person on paper, but in practice you often repair the world alone at three in the morning. You have order, action, expression, and analysis; the final letter exposes the truth: you need solitude. You do not reject the collective. The collective should simply avoid knocking for a while.",
+      "work": "At work, you can take over important, complex, unwanted tasks that still absolutely must be finished. You decompose, push, rescue, and place the result on the table. The downside is that you may refuse to explain the battle, so others only see the deliverable and not the small war in the machine room.",
+      "social": "With people, you are not cold, but your boundaries are real. You will do things for others, but dislike being continuously watched. Others may find you mysterious, reliable, and hard to approach; you are mostly just asking for ten minutes of silence so the plan can survive."
+    },
+    "SOVMA": {
+      "personality": "You are the Red Resonance Broadcaster. You broadcast plans, alarms, and human feelings on the same frequency. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Factory-Roof Emotional Mobilization Radio Tower. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SOVML": {
+      "personality": "You are the Snow-Night Solo Broadcaster. You can express and feel deeply, but preferably from a quiet radio room. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Snow-Night Solo Radio and Confidential Frequency Office. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SOQIA": {
+      "personality": "You are the Silent Strike Technician. You do not shout slogans, but when the alarm rings you are already fixing the problem. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Night-Shift Control Console Emergency Repair Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SOQIL": {
+      "personality": "You are the Underground Machine-Room Night Watcher. You have plans, can fight fires, understand systems, and require everyone to be quiet first. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Zero Watch Room, Underground Archive Machine Room. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SOQMA": {
+      "personality": "You are the Low-Voice Mobilization Clerk. You dislike noisy propaganda but care for everyone’s position when it matters. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Rear Roll-Call Post of the Temporary Strike Team. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SOQML": {
+      "personality": "You are the Secret Mission Executor. You can rush and endure, but you do not want the process to be watched. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Windowless Office Special Delivery Group. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEVIA": {
+      "personality": "You are the Long-Term Propaganda Secretary. You do not burn yourself out; you steadily make things understandable. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Long-Term Slogan Maintenance Section, Propaganda Department. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEVIL": {
+      "personality": "You are the Solo Typesetting Worker. You have order and expression, but prefer laying out the page alone until dawn. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Night Poster Proofreading and Typesetting Workshop. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEVMA": {
+      "personality": "You are the Canteen Radio Coordinator. You make sure messages are heard and everyone eats on time. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Broadcast and Ration Office, Canteen Window No. 7. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEVML": {
+      "personality": "You are the Gentle Slogan Keeper. You can express human feelings, but do not want to stand in the brightest spot. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Old Poster Restoration and Night-Lamp Room. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEQIA": {
+      "personality": "You are the Archive Broadcast Secretary. Stable, rational, quiet; the key notice will never be missed. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Archive Bulletin Board and Version Record Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEQIL": {
+      "personality": "You are the Underground Archive Night Watcher. Like a reliable backup: unnoticed until something breaks, then everyone looks for you. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Night Key Office, Underground Archive Vault. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEQMA": {
+      "personality": "You are the Heating Committee Clerk. You do not make people boil; you keep them from freezing. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Winter Heating and Emotional Insulation Committee. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "SEQML": {
+      "personality": "You are the Keeper of Residual-Warmth Archives. You remember details others forget and store them quietly for a long time. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Unclaimed Memories Preservation Office. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOVIA": {
+      "personality": "You are the Field Mobilization Commander. The plan may not be in hand, but you know where to rush now. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Temporary Square Emergency Mobilization Platform. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOVIL": {
+      "personality": "You are the Guerrilla Propagandist. You finish missions by field judgment, improvised expression, and an unofficial path. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Mobile Radio Truck and Informal Routes Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOVMA": {
+      "personality": "You are the Snow-Night Mobilization Poet. You turn chaos, emotion, and field presence into words that make people stand up. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Third New Troitsk Snow-Night Radio Station. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOVML": {
+      "personality": "You are the Wandering Radio Poet. You belong to no fixed post, yet always send a signal on strange nights. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Unfixed-Frequency Mobile Radio. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOQIA": {
+      "personality": "You are the Field Repair Comrade. No speeches: assess the scene, then repair the broken part. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Temporary Fault Handling and Wrench Registration Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOQIL": {
+      "personality": "You are the Solo Fault Handler. You enter chaotic sites alone and come back with results. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the No-Spectators Repair Passage. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOQMA": {
+      "personality": "You are the Silent Fire-Rescue Captain. You may not say much, but you pull the nearly scattered team back together. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Temporary Shelter Order Restoration Office. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FOQML": {
+      "personality": "You are the Snowfield Lone Repairer. With instinct, experience, and unexplained stubbornness, you make things run again. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Remote Signal Tower Single-Person Maintenance Station. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEVIA": {
+      "personality": "You are the Mobile Cultural Officer. You do not rush to charge, but you turn daily life into shareable material. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Children’s Palace Touring Radio and Wall-Newspaper Group. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEVIL": {
+      "personality": "You are the Strolling Propagandist. You dislike being locked in a process or surrounded by people, yet you still make things. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Riverside Bench Informal Creation Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEVMA": {
+      "personality": "You are the Daily Broadcast Light-Keeper. Gentle and expressive, you are willing to brighten ordinary life a little. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Morning Broadcast and Hot-Tea Supply Station. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEVML": {
+      "personality": "You are the Old Streetlamp Letter Writer. You live by feeling, speak slowly, and save emotion for a few people. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Private Correspondence Office under the Old Streetlamp. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEQIA": {
+      "personality": "You are the Quiet Inspector. You create no noise; you simply confirm the system is not broken. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Morning Equipment Inspection and Teacup Registry Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEQIL": {
+      "personality": "You are the Empty-Corridor Maintenance Worker. You work slowly and alone, but what is entrusted to you usually does not disappear. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Empty Corridor Lightbulb and Doorplate Maintenance Office. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEQMA": {
+      "personality": "You are the Logistics Warmth Keeper. You do not interrupt or charge, but you make the place feel survivable. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Logistics Hot Water, Blankets, and Silent Support Section. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    },
+    "FEQML": {
+      "personality": "You are the Silent Warmth Keeper. Like a dim lamp: you do not disturb others, but you remain there. The archive does not call this a flaw; it calls it a personality deviation currently suitable for production. In ordinary language: you are functional, strange, and probably useful after formal approval.",
+      "work": "At work, you are most likely to be assigned to the Old Dormitory Night-Lamp and Unsent Letters Office. You perform best when the task has a bit of pressure, a bit of absurdity, and at least one form that nobody wants to fill out. Bring tea, a spare plan, and the willingness to survive the meeting.",
+      "social": "With people, you show the same tendencies as your post: helpful, specific, and not always easy to classify. Comrades may not fully understand your operating manual, but they will usually look for you when the system starts making suspicious noises."
+    }
+  },
+  "channelAd": {
+    "title": "Support Comrade Sovia channels",
+    "intro": "I adapt anime and game music into Soviet-style songs. If you want to support my work, come visit my channels."
+  }
+}

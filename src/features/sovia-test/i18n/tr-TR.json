@@ -1,0 +1,1287 @@
+{
+  "page": {
+    "title": "SOVIA Dağıtım Testi",
+    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "subtitle": "Sovyet emek kişiliğini ölç; SOVIA seni hangi göreve sevk eder, öğren.",
+    "intro": "SOVIA, Propaganda Dairesi tarafından geliştirilmiş gayriresmî bir emek kişiliği dağıtım sistemidir. Bir yoldaşın radyo kulesine, arşiv odasına, makine dairesine, kantine, ısıtma komitesine ya da başka gerekli bir mevkiye daha uygun olup olmadığını belirler.",
+    "disclaimer": "Bu psikolojik danışmanlık, kariyer tavsiyesi veya gerçek bir örgütsel karar değildir. Nihai yorum yetkisi Propaganda Dairesi Geçici Kişilik İnceleme Şubesi’ne aittir."
+  },
+  "system": {
+    "name": "SOVIA",
+    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "zhName": "Sovyet Emek Kişiliği Dağıtım Sistemi",
+    "department": "Propaganda Dairesi Geçici Kişilik İnceleme Şubesi"
+  },
+  "demographics": {
+    "title": "İsteğe bağlı arşiv bilgileri",
+    "intro": "Bu alanlar isteğe bağlıdır ve Propaganda Dairesi’nin testi kimlerin çözdüğünü anlamasına yardımcı olur.",
+    "ageLabel": "Yaş",
+    "genderLabel": "Cinsiyet",
+    "ageOptions": {
+      "prefer_not_to_say": "Belirtmek istemiyorum",
+      "under_18": "18 yaş altı",
+      "18_24": "18-24",
+      "25_34": "25-34",
+      "35_44": "35-44",
+      "45_54": "45-54",
+      "55_plus": "55+"
+    },
+    "genderOptions": {
+      "prefer_not_to_say": "Belirtmek istemiyorum",
+      "male": "Erkek",
+      "female": "Kadın",
+      "other": "Diğer"
+    }
+  },
+  "typesPage": {
+    "title": "Tüm SOVIA Görevleri",
+    "subtitle": "SOVIA Dağıtım Testi’ndeki tüm tipleri ve görev dosyalarını incele.",
+    "intro": "Burada 32 emek kişiliği kodu kayıt altına alınmıştır. Her görev; yapı biçimi, eylem biçimi, etki biçimi, anlama biçimi ve ilişki biçiminin birleşiminden oluşur.",
+    "startTestLabel": "Teste başla",
+    "codeLabel": "Kişilik kodu",
+    "detailLabel": "Görev dosyası",
+    "detailActionLabel": "Ayrıntıları gör"
+  },
+  "progress": {
+    "label": "Arşiv inceleme ilerlemesi",
+    "format": "{{current}} / {{total}}"
+  },
+  "scale": {
+    "min": "Kesinlikle katılmıyorum",
+    "middle": "Tarafsız",
+    "max": "Kesinlikle katılıyorum",
+    "leftHint": "Kesinlikle katılmıyorum",
+    "rightHint": "Kesinlikle katılıyorum"
+  },
+  "actions": {
+    "start": "Teste başla",
+    "types": "Tüm görevleri görüntüle",
+    "previous": "Önceki soru",
+    "next": "Sonraki soru",
+    "continue": "Devam et",
+    "submit": "Emek dağıtım başvurusunu gönder",
+    "restart": "Testi yeniden başlat",
+    "copy": "Sonucu kopyala",
+    "copyLink": "Bağlantıyı kopyala"
+  },
+  "status": {
+    "unanswered": "Lütfen mevcut soruyu tamamla; arşiv memuru hâlâ beyanını bekliyor.",
+    "ready": "Yanıt kaydedildi; incelemeye devam edilebilir.",
+    "copied": "Sonuç kopyalandı.",
+    "copyFailed": "Kopyalama başarısız; lütfen dosyayı elle sakla."
+  },
+  "certificate": {
+    "title": "Emek Halkı Dağıtım Belgesi",
+    "systemLabel": "Test sistemi",
+    "statusLabel": "Dosya durumu",
+    "statusApproved": "İncelemeden geçti",
+    "codeLabel": "Emek kişiliği kodu",
+    "titleLabel": "Kişilik unvanı",
+    "unitLabel": "Atandığı birim",
+    "axisLabel": "Beş köşeli yıldız eğilimi",
+    "assessmentLabel": "Değerlendirme verileri",
+    "resultLinkLabel": "Sonuç bağlantısı",
+    "tendencyLabel": "Eğilim gücü",
+    "rawScoreLabel": "Ham puan",
+    "oppositeLabel": "Karşı kutup",
+    "archiveCommentLabel": "Arşiv yorumu",
+    "soviaCommentLabel": "Sovia yorumu",
+    "authorityLabel": "Onay makamı",
+    "authority": "Propaganda Dairesi Geçici Kişilik İnceleme Şubesi",
+    "codeFormat": "{{code}} Tipi",
+    "descriptionLabel": "Kısa açıklama"
+  },
+  "axes": {
+    "structure": {
+      "label": "Yapı biçimi",
+      "letters": {
+        "S": {
+          "name": "Structure",
+          "zhName": "Yapısal tip",
+          "description": "Düzen, plan, kural ve açık iş akışını sever."
+        },
+        "F": {
+          "name": "Flow",
+          "zhName": "Akış tipi",
+          "description": "Sahadaki sezgiye güvenir, değişime uyum sağlar, sürecin tamamen kilitlenmesini sevmez."
+        }
+      }
+    },
+    "action": {
+      "label": "Eylem biçimi",
+      "letters": {
+        "O": {
+          "name": "Overdrive",
+          "zhName": "Taarruz tipi",
+          "description": "Baskı arttıkça patlama gücü yükselir; acil görev ve kriz söndürme için uygundur."
+        },
+        "E": {
+          "name": "Endurance",
+          "zhName": "Dayanıklılık tipi",
+          "description": "İstikrarlı, uzun vadeli ve sürekli üretir; yanıp kül olma seferberliğine ihtiyaç duymaz."
+        }
+      }
+    },
+    "influence": {
+      "label": "Etki biçimi",
+      "letters": {
+        "V": {
+          "name": "Voice",
+          "zhName": "Yayın tipi",
+          "description": "İfade, anlatı, paketleme ve atmosferi etkilemede iyidir."
+        },
+        "Q": {
+          "name": "Quiet",
+          "zhName": "Sessiz tip",
+          "description": "Aşırı açıklamayı sevmez; asıl işi sağlam yapmaya önem verir."
+        }
+      }
+    },
+    "understanding": {
+      "label": "Anlama biçimi",
+      "letters": {
+        "I": {
+          "name": "Inquiry",
+          "zhName": "Sorgulayıcı tip",
+          "description": "Sistemleri, nedenleri, mantığı ve yapıyı analiz etmeye alışkındır."
+        },
+        "M": {
+          "name": "Meaning",
+          "zhName": "Anlam tipi",
+          "description": "Duygu, sembol, atmosfer, ilişki ve hikâyeye daha çok önem verir."
+        }
+      }
+    },
+    "relation": {
+      "label": "İlişki biçimi",
+      "letters": {
+        "A": {
+          "name": "Alliance",
+          "zhName": "İttifak tipi",
+          "description": "İşbirliği, kolektif ritim, başkalarını gözetme ve birlikte tamamlamaya önem verir."
+        },
+        "L": {
+          "name": "Lone",
+          "zhName": "Yalnız tip",
+          "description": "Sınırları nettir; bağımsız çalışmaya uygundur, sık bölünmeyi sevmez."
+        }
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "statement": "Plan sayfası yoksa, uygarlığın yavaşça geri çekildiğini hissederim.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "statement": "Sahadaki durum değiştiğinde önce harekete geçip raporu sonra tamamlamayı tercih ederim.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "statement": "Alarm çaldığı anda, aksine zihnim tamamen berraklaşır.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "statement": "Büyük bir patlamayı beklemektense her gün düzenli biraz ilerlemeye daha çok inanırım.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "statement": "Bir iş yapılmaya değerse, gür bir slogana dönüşmeye de değerdir.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "statement": "İnsanların ne yaptığımı bilmesine pek ihtiyacım yok; sonuç ayakta duruyorsa yeter.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "statement": "Bir sorunla karşılaşınca önce yapıyı söker, sebebi arar, ilişki şeması çizerim.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "statement": "Önce işin atmosferini ve anlamını hisseder, sonra nasıl karşılık vereceğime karar veririm.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "statement": "Kolektif ritim benim için önemlidir; tek kişinin fazla hızlı koşması safları bozabilir.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "statement": "Bana sessiz bir oda ve net bir hedef ver; birçok işi tek başıma bitirebilirim.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "statement": "Bir görevin sorumlusu, son tarihi ve yedek planı yoksa rahat edemem.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "statement": "Yaparken ayarlamayı severim; süreci en baştan kilitlemek bana havasız gelir.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "statement": "Gerçekten acil olduğunda, önce hareket edebilecek insanları örgütlerim.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "statement": "Tek bir patlamadansa her gün zamanında küçük bir teslimatı daha çok önemserim.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "statement": "İyi bir slogan, yorgun bir topluluğun başını yeniden kaldırabilir.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "statement": "Sonuç zaten iyiyse, neden iyi olduğunu ayrıca açıklamam şart değil.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "statement": "Bir sistemin neden böyle çalıştığını istemeden de olsa kurcalarım.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "statement": "Bir sahnenin atmosferi yanlışsa, doğru süreç bile bana bir şeyler bozukmuş gibi gelir.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "statement": "Ekipte geride kalan biri var mı diye kendiliğimden kontrol ederim.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "statement": "Bir iş uzun süre odaklanma gerektiriyorsa, daha az toplantı isterim.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "statement": "Karışık malzemeyi numara, sürüm ve listeye dönüştürmeyi severim.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "statement": "Saha sezgisi bazen toplantı tutanaklarından gerçeğe daha yakındır.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "statement": "Durum ne kadar ani olursa, yüksek verim moduna o kadar kolay girerim.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "statement": "Kendimi yakıp bitirmeyi sevmem; istikrarlı dayanıklılık gerçek disipline daha çok benzer.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "statement": "Sıradan bir işi bile uygulanmaya değer bir görev gibi anlatabilirim.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "statement": "Bir şeyi çok gürültülü paketlemektense sağlam yapmayı tercih ederim.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "statement": "Bir sorun karşısında önce arkasındaki mekanizmayı ararım.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "statement": "Hikâye, sembol ve duygu çoğu zaman parametrelerden daha iyi açıklama yapar.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "statement": "Herkesle ritmi hizalayıp sonra birlikte ilerlemeyi tercih ederim.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "statement": "İnsan çok olunca köşeye çekilip görevi tek başıma bitirmek isterim.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "statement": "Kurallar zincir değil; herkesin sürekli tahmin yürütmek zorunda kalmamasını sağlayan araçlardır.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "statement": "Bazı şeylere önce başlamak gerekir; kurallar toz duman yatışınca tamamlanabilir.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "action",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "statement": "Sahada birinin öne çıkması gerekiyorsa, genelde uzun süre beklemem.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "statement": "Her gün taarruz etmektense uzun süre çalışan bir sistemi korumaya daha uygunum.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "statement": "Bir fikri birçok kişiye anlatıp ortak dile dönüşene kadar taşımaya razıyım.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "statement": "Cevabı bilsem bile merkezde durmayı pek sevmem.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "statement": "Nedenleri, koşulları ve sonuçları ayrı ayrı görmeyi severim.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "statement": "Bir kararın insanları incitip incitmeyeceğini çoğu zaman önce hisseder, sonra etkili olup olmadığına bakarım.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "statement": "Bir görevi tamamlarken onun kolektif üzerindeki etkisini doğal olarak düşünürüm.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "statement": "İş sınırlarıma saygı duyulmasını, insanların her an içeri dalmamasını isterim.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "structure",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "statement": "Sistem netse onun içinde daha istikrarlı çalışırım.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "statement": "Fazla kusursuz bir plan, gerçeğe çıkış kapısı bırakmadığından şüphelenmeme yol açar.",
+      "scores": [
+        {
+          "axis": "structure",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "statement": "Geçici görevlerden korkmam; asıl, hemen çözülmesi gereken hiçbir şeyin olmamasından korkarım.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": 2
+        },
+        {
+          "axis": "structure",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q44",
+      "statement": "Ekip aşırı ısınıp dağılmasın diye ritmi bilinçli olarak düşürürüm.",
+      "scores": [
+        {
+          "axis": "action",
+          "weight": -2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q45",
+      "statement": "Karmaşık duyguları herkesin anlayacağı dile çevirmekte iyiyim.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": 2
+        },
+        {
+          "axis": "understanding",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q46",
+      "statement": "Bazı sonuçlar, ne kadar az açıklanırsa o kadar güçlüdür.",
+      "scores": [
+        {
+          "axis": "influence",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q47",
+      "statement": "Bir kararın sistemde hangi zincirleme tepkileri başlatacağını bilmek isterim.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": 2
+        },
+        {
+          "axis": "relation",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q48",
+      "statement": "Bir şeyin duygusal ağırlığı yoksa onun gerçekten önemli olduğuna zor inanırım.",
+      "scores": [
+        {
+          "axis": "understanding",
+          "weight": -2
+        },
+        {
+          "axis": "influence",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "q49",
+      "statement": "Kolektif istikrar için göze batmayan biraz fazla işi üstlenmeye razıyım.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": 2
+        },
+        {
+          "axis": "action",
+          "weight": -1
+        }
+      ]
+    },
+    {
+      "id": "q50",
+      "statement": "Bana gerçekten uygun görev, sorunları tek başıma sindirmeme izin vermelidir.",
+      "scores": [
+        {
+          "axis": "relation",
+          "weight": -2
+        },
+        {
+          "axis": "understanding",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "SOVIA": {
+      "title": "Propaganda Dairesi İdeal Numunesi",
+      "description": "Planlı, taarruz gücü olan, yayın yapabilen, sistemi anlayan ve yine de kolektife dönen kişi.",
+      "unit": "Propaganda Dairesi İdeal Emek Kişiliği Vitrini",
+      "archiveComment": "Dikkat: SOVIA Tipi çıktın. Bu, senin Sovia olduğun ya da Sovia’nın SOVIA Tipi olduğu anlamına gelmez. Sadece Propaganda Dairesi’nin hayalindeki ideal emek kişiliğine yaklaştığını gösterir.",
+      "soviaComment": "Yoldaş, lütfen propaganda afişini özçekim sanma."
+    },
+    "SOVIL": {
+      "title": "Yalnız Propaganda Mühendisi",
+      "description": "Kolektife ait görünürsün; ama dünya genelde gece üçte tek başına tamir edilir.",
+      "unit": "Üçüncü Yeni Troitsk Gece Yarısı Propaganda Makine Odası",
+      "archiveComment": "Arşiv anomalisi: Bu sonuç, açıklanmamış bir karakterle tehlikeli derecede benzeşiyor.",
+      "soviaComment": "Yoldaş, bunu koridorda konuşmayalım."
+    },
+    "SOVMA": {
+      "title": "Kızıl Yankı Yayıncısı",
+      "description": "Planı, alarmı ve insanların duygusunu aynı frekansta yayınlarsın.",
+      "unit": "Fabrika Çatısı Duygu Seferberliği Radyo Kulesi",
+      "archiveComment": "Kargaşa anında herkesi aynı frekansa döndürmek için uygundur.",
+      "soviaComment": "Yoldaş, sesinde kolektif yankı var."
+    },
+    "SOVML": {
+      "title": "Karlı Gece Tek Kişilik Spikeri",
+      "description": "İfade edersin, hissedersin; ama sana sessiz bir yayın odası daha iyi gelir.",
+      "unit": "Karlı Gece Tek Kişilik Radyo ve Gizli Frekans İdaresi",
+      "archiveComment": "Kimse nöbette değilken kanalı açık tutmaya uygundur.",
+      "soviaComment": "Yoldaş, bazı sinyaller düşük sesle gönderilir."
+    },
+    "SOQIA": {
+      "title": "Sessiz Taarruz Teknisyeni",
+      "description": "Slogan atmayı sevmezsin; alarm çalınca sorun çoktan işleme alınmıştır.",
+      "unit": "Gece Vardiyası Kontrol Paneli Acil Onarım Şubesi",
+      "archiveComment": "Gece yarısı ortaya çıkıp sabaha kadar kaybolması gereken sorunlara uygundur.",
+      "soviaComment": "Yoldaş, sistem uykuyla pazarlık yapmaz."
+    },
+    "SOQIL": {
+      "title": "Yeraltı Makine Odası Nöbetçisi",
+      "description": "Planlısın, yangın söndürürsün, sistemi anlarsın ve herkesin önce susmasını istersin.",
+      "unit": "Yeraltı Arşiv Makine Odası Sıfırıncı Nöbet Bölmesi",
+      "archiveComment": "Loglar, yedekler, eski arayüzler ve insansız koridorlarda sık görülür.",
+      "soviaComment": "Yoldaş, sessizliğin başarıyla konuşlandırıldı."
+    },
+    "SOQMA": {
+      "title": "Alçak Sesli Seferberlik Memuru",
+      "description": "Gürültülü propagandayı sevmezsin; kritik anda herkesin yerini kontrol edersin.",
+      "unit": "Geçici Taarruz Birliği Arka Hat Yoklama Masası",
+      "archiveComment": "Kargaşada kimin yemek yemediğini, kimin çökmek üzere olduğunu doğrulamaya uygundur.",
+      "soviaComment": "Yoldaş, fısıltı da seferberlik olabilir."
+    },
+    "SOQML": {
+      "title": "Gizli Görev Uygulayıcısı",
+      "description": "Koşarsın, dayanırsın; ama sürecin izlenmesini istemezsin.",
+      "unit": "Penceresiz Büro Özel Teslimat Grubu",
+      "archiveComment": "Kamu raporuna girmemesi daha iyi olan işleri tek başına yürütmeye uygundur.",
+      "soviaComment": "Yoldaş, kapı kapanınca plan başlar."
+    },
+    "SEVIA": {
+      "title": "Uzun Vadeli Propaganda Sekreteri",
+      "description": "Kendini yakmazsın; işleri istikrarlı biçimde anlaşılır hale getirirsin.",
+      "unit": "Propaganda Dairesi Uzun Vadeli Slogan Bakım Şubesi",
+      "archiveComment": "Patlamayacak ama sürekli var olması gereken içeriklere uygundur.",
+      "soviaComment": "Yoldaş, düzenli güncelleme de disiplindir."
+    },
+    "SEVIL": {
+      "title": "Tek Kişilik Dizgi İşçisi",
+      "description": "Düzen ve ifade sende var; ama sayfayı sabaha kadar tek başına düzeltmek daha uygundur.",
+      "unit": "Gece Afiş Düzeltme ve Dizgi Atölyesi",
+      "archiveComment": "Sessiz bir köşe ve titremeyen bir lamba altında görevlendirilmeye uygundur.",
+      "soviaComment": "Yoldaş, bu afiş yalnız ama düzenli."
+    },
+    "SEVMA": {
+      "title": "Kantin Yayın Koordinatörü",
+      "description": "Duyurunun işitilmesini ve herkesin zamanında yemesini sağlarsın.",
+      "unit": "Kantin Yedinci Pencere Yayın ve Tayın Bürosu",
+      "archiveComment": "Kolektif istikrarın gerçek çekirdeği olan sıcak yemek ve duyuruyu elinde tutar.",
+      "soviaComment": "Yoldaş, devrim aç karnına dinlenmez."
+    },
+    "SEVML": {
+      "title": "Nazik Slogan Muhafızı",
+      "description": "İnsan duygularını ifade edersin ama fazla aydınlık yerde durmak istemezsin.",
+      "unit": "Eski Afiş Restorasyon ve Gece Lambası Odası",
+      "archiveComment": "Resmî arşive girmemiş ruh hallerini saklamaya uygundur.",
+      "soviaComment": "Yoldaş, bu sloganda kalan sıcaklık var."
+    },
+    "SEQIA": {
+      "title": "Arşiv Yayın Sekreteri",
+      "description": "İstikrarlı, rasyonel ve sessizsin; ama kritik bilgi asla yayın dışı kalmaz.",
+      "unit": "Arşiv Duyuru Panosu ve Sürüm Kayıt Şubesi",
+      "archiveComment": "Karmaşaya numara, kaynak ve açıklama kazandırmaya uygundur.",
+      "soviaComment": "Yoldaş, tarih kendini düzenlemez."
+    },
+    "SEQIL": {
+      "title": "Yeraltı Arşiv Nöbetçisi",
+      "description": "Güvenilir bir yedek gibisin: normalde görünmezsin, kriz çıkınca herkes seni arar.",
+      "unit": "Yeraltı Arşivi Gece Anahtar İdaresi",
+      "archiveComment": "Eski kayıtları, soğuk kahveyi ve kaybolmaması gereken hakikati saklamaya uygundur.",
+      "soviaComment": "Yoldaş, varlığın güvenli biçimde arşivlendi."
+    },
+    "SEQMA": {
+      "title": "Isıtma Komitesi Yazmanı",
+      "description": "İnsanları coşturmakla değil, donmalarını önlemekle görevlisin.",
+      "unit": "Kış Isıtma ve Duygusal Yalıtım Komitesi",
+      "archiveComment": "İstikrarlı, sessiz, güvenilir; bozulmamış bir kalorifer borusu gibi.",
+      "soviaComment": "Yoldaş, sıcaklık da disiplindir."
+    },
+    "SEQML": {
+      "title": "Artakalan Sıcaklık Arşivcisi",
+      "description": "Başkalarının unuttuğu ayrıntıları hatırlar ve uzun süre sessizce saklarsın.",
+      "unit": "Sahipsiz Anılar Muhafaza Bürosu",
+      "archiveComment": "Sık bölünmemeli; uzun vadeli emanet için uygundur.",
+      "soviaComment": "Yoldaş, bazı dosyalar yakılamaz."
+    },
+    "FOVIA": {
+      "title": "Saha Seferberlik Komutanı",
+      "description": "Plan elinde olmayabilir; ama şimdi nereye koşulacağını bilirsin.",
+      "unit": "Geçici Meydan Acil Seferberlik Kürsüsü",
+      "archiveComment": "Plan geçersizleştiğinde ekibi yeniden toplamak için uygundur.",
+      "soviaComment": "Yoldaş, harita güncel değil ama sen çoktan çıktın."
+    },
+    "FOVIL": {
+      "title": "Gerilla Propaganda Görevlisi",
+      "description": "Saha sezgisi, geçici ifade ve kimsenin onaylamadığı bir patikayla işi bitirirsin.",
+      "unit": "Gezici Yayın Aracı ve Gayriresmî Rota Şubesi",
+      "archiveComment": "Süreci atlayıp karda sinyal bulmaya uygundur.",
+      "soviaComment": "Yoldaş, rota yasal değil ama etkili."
+    },
+    "FOVMA": {
+      "title": "Karlı Gece Seferberlik Şairi",
+      "description": "Kargaşa, duygu ve saha hissini insanı ayağa kaldıran bir söze çevirirsin.",
+      "unit": "Üçüncü Yeni Troitsk Karlı Gece Radyo İstasyonu",
+      "archiveComment": "Kimse ne söyleyeceğini bilmediğinde mikrofonu devralmaya uygundur.",
+      "soviaComment": "Yoldaş, seni karın içinde duyan biri olacak."
+    },
+    "FOVML": {
+      "title": "Gezgin Radyo Şairi",
+      "description": "Sabit kadroya ait değilsin; ama tuhaf gecelerde hep sinyal gönderirsin.",
+      "unit": "Sabit Frekansı Olmayan Gezici Radyo",
+      "archiveComment": "Uzun süre sabit koltuk önerilmez; yeni rotalar çıkarabilir.",
+      "soviaComment": "Yoldaş, sinyalin kararsız ama hikâyesi güçlü."
+    },
+    "FOQIA": {
+      "title": "Saha Onarım Yoldaşı",
+      "description": "Boş konuşmaz, sahayı okur ve bozuk parçayı tamir edersin.",
+      "unit": "Geçici Arıza İşleme ve İngiliz Anahtarı Kayıt Şubesi",
+      "archiveComment": "Kullanım kılavuzu çöktüğünde alet kutusunu devralmaya uygundur.",
+      "soviaComment": "Yoldaş, önce onar; rapor sonra yazılır."
+    },
+    "FOQIL": {
+      "title": "Tek Kişilik Arıza Müdahale Elemanı",
+      "description": "Kargaşa sahasına tek başına girip sonuçla çıkmaya uygunsun.",
+      "unit": "Seyirci Girmesi Yasak Onarım Koridoru",
+      "archiveComment": "Bu kişinin araca, yetkiye ve rahatsız edilmemeye ihtiyacı var.",
+      "soviaComment": "Yoldaş, yol açın; gerçekliği işlemeye başlayacak."
+    },
+    "FOQMA": {
+      "title": "Sessiz Yangın Söndürme Şefi",
+      "description": "Çok konuşmayabilirsin; ama dağılmak üzere olan insanları tekrar toparlarsın.",
+      "unit": "Geçici Sığınak Düzen Yenileme Bürosu",
+      "archiveComment": "Kaza sahasında fazla şeyi sessizce üstlenmeye uygundur.",
+      "soviaComment": "Yoldaş, sessizliğin safları koruyor."
+    },
+    "FOQML": {
+      "title": "Karda Yalnız Bakımcı",
+      "description": "Sezgi, deneyim ve açıklamasız inatla işleri yeniden çalışır hale getirirsin.",
+      "unit": "Uzak Banliyö Sinyal Kulesi Tek Kişilik Bakım İstasyonu",
+      "archiveComment": "Uzağa atanabilir; ama hayatta olduğunun düzenli kontrol edilmesi gerekir.",
+      "soviaComment": "Yoldaş, dönerken logları da getir."
+    },
+    "FEVIA": {
+      "title": "Gezici Kültür Sorumlusu",
+      "description": "Taarruza acele etmezsin; ama gündeliği paylaşılabilir bir şeye dönüştürürsün.",
+      "unit": "Pioner Sarayı Gezici Yayın ve Duvar Gazetesi Grubu",
+      "archiveComment": "Sıradan bir günü biraz bayrama benzetmeye uygundur.",
+      "soviaComment": "Yoldaş, bugünün havası duvar gazetesine yazılabilir."
+    },
+    "FEVIL": {
+      "title": "Gezinti Usulü Propagandacı",
+      "description": "Süreç tarafından sıkıştırılmayı ve kalabalıkla çevrilmeyi sevmezsin; yine de üretirsin.",
+      "unit": "Nehir Kenarı Bankı Gayriresmî Üretim Şubesi",
+      "archiveComment": "Toplantısız yerlerde içerik üretmeye uygundur.",
+      "soviaComment": "Yoldaş, yürüyüş de üretim hazırlığıdır."
+    },
+    "FEVMA": {
+      "title": "Gündelik Yayın Aydınlatıcısı",
+      "description": "Yumuşaksın, ifade edersin ve sıradan hayatı biraz aydınlatırsın.",
+      "unit": "Sabah Yayını ve Sıcak Çay Tedarik İstasyonu",
+      "archiveComment": "Dünyayı sarsmayan ama devam etmeyi sağlayan işleri yürütmeye uygundur.",
+      "soviaComment": "Yoldaş, bugün de kanalın ışığını açık tut."
+    },
+    "FEVML": {
+      "title": "Eski Sokak Lambası Mektupçusu",
+      "description": "Sezgiyle yaşar, yavaş ifade eder, duyguyu az kişiye bırakırsın.",
+      "unit": "Eski Sokak Lambası Altı Özel Yazışma Bürosu",
+      "archiveComment": "Bu kişi aceleye gelmez; beklemeye uygundur.",
+      "soviaComment": "Yoldaş, mektubun geç yazılmış ama sıcaklığı geçerli."
+    },
+    "FEQIA": {
+      "title": "Sessiz Denetim Görevlisi",
+      "description": "Gösteri yapmazsın; yalnızca sistemin bozulmadığını istikrarlı biçimde doğrularsın.",
+      "unit": "Sabah Ekipman Denetimi ve Çay Bardağı Kayıt Şubesi",
+      "archiveComment": "Herkes uyanmadan sorunları temizlemeye uygundur.",
+      "soviaComment": "Yoldaş, sessizlik de güvenilirliktir."
+    },
+    "FEQIL": {
+      "title": "İnsansız Koridor Bakımcısı",
+      "description": "Yavaş ve tek başına yaparsın; ama sana verilenler genelde kaybolmaz.",
+      "unit": "İnsansız Koridor Ampul ve Kapı Tabelası Bakım Bürosu",
+      "archiveComment": "Gürültülü mevkilere uygun değil; uzun vadeli güven için uygundur.",
+      "soviaComment": "Yoldaş, tamir ettiğin şeyi kimse görmüyor ama herkes kullanıyor."
+    },
+    "FEQMA": {
+      "title": "Lojistik Artakalan Sıcaklık Yöneticisi",
+      "description": "Söz kesmez, taarruz etmezsin; ama buranın hâlâ yaşanabilir olduğunu hissettirirsin.",
+      "unit": "Lojistik Sıcak Su, Battaniye ve Sessiz Destek Şubesi",
+      "archiveComment": "Kolektif yorgun düştüğünde en düşük ama gerekli sıcaklığı korumaya uygundur.",
+      "soviaComment": "Yoldaş, sıcak su büyük bir zaferdir."
+    },
+    "FEQML": {
+      "title": "Sessiz Artakalan Sıcaklık Muhafızı",
+      "description": "Çok parlak olmayan bir lamba gibisin: rahatsız etmezsin, ama hep oradasın.",
+      "unit": "Eski Yurt Gece Lambası ve Gönderilmemiş Mektuplar İdaresi",
+      "archiveComment": "Bu kişinin mekâna, zamana ve aniden toplantı yapmayan bir dünyaya ihtiyacı var.",
+      "soviaComment": "Yoldaş, yüksek sesli değilsin ama sönmedin."
+    }
+  },
+  "fallback": {
+    "archetypeTitleFormat": "{{name}}",
+    "archetypeDescription": "Eğilimlerin mevcut görev çizelgesine tam itaat etmiyor. Propaganda Dairesi seni karma emek kişiliği olarak kayda geçirip günlük açığa göre esnek biçimde dağıtacak.",
+    "unit": "Geçici Genel Sevk Bürosu",
+    "archiveComment": "Bu kişi gözlem gerektirir; ancak üretime alınabilecek temel istikrara sahiptir.",
+    "soviaComment": "Yoldaş, bilinmeyen işe yaramaz demek değildir. Önce aracı, sonra kaderi teslim al."
+  },
+  "copy": {
+    "template": "SOVIA Dağıtım Testi’nde {{code}} Tipi · {{title}} çıktım. Atandığım birim: {{unit}}. Sen de dene: {{url}}",
+    "success": "Sonuç kopyalandı.",
+    "failed": "Kopyalama başarısız; lütfen dosyayı elle sakla.",
+    "linkSuccess": "Sonuç bağlantısı kopyalandı."
+  },
+  "language": {
+    "label": "Dil"
+  },
+  "details": {
+    "title": "Kişilik dosyası",
+    "personalityLabel": "Kişilik açıklaması",
+    "workLabel": "İş hâli",
+    "socialLabel": "İnsan ilişkileri"
+  },
+  "typeEssays": {
+    "SOVIA": {
+      "personality": "Teoride Propaganda Dairesi’nin en sevdiği yoldaş sensin: planlı, taarruz gücü olan, yayın yapabilen, sistemi anlayan ve yine de kolektife dönebilen biri. Sorun şu ki bu tip insanlar çoğunlukla afişlerde, eğitim kitapçıklarında ve fazla cilalı konuşma metinlerinde yaşar. Mükemmel değilsin; sadece basıma fazlasıyla uygunsun.",
+      "work": "İş sırasında önce planı kurar, sonra acil durum versiyonunu hazırlar, en sonunda sonucu küçük bir zafer bildirisi gibi anlatırsın. Karmaşık görevler, birimler arası koordinasyon ve “kimse anlamıyor ama pazartesiye kadar herkes anlamalı” dosyaları için uygunsun. Risk: örgüt seni evrensel vida sanabilir.",
+      "social": "İnsanlarla ilişkinde kolektifi gözetebilir ve söze yön verebilirsin. İnsanlar seni güvenilir, motive edici ve odayı toparlayabilen biri olarak görür. Bazıları ise sıradan sohbetlerinin bile ön incelemeden geçmiş olmasından kuşkulanabilir."
+    },
+    "SOVIL": {
+      "personality": "Kolektife ait biri gibi görünürsün; gerçekte dünyayı çoğu zaman gece üçte tek başına tamir edersin. Düzenin, hareket gücün, ifade yeteneğin ve analiz kabiliyetin var; son harf ise gerçeği ele veriyor: yalnızlığa ihtiyacın var. Kolektifi sevmiyor değilsin, sadece kolektifin önce kapıyı çalmamasını tercih ediyorsun.",
+      "work": "İşte önemli, karmaşık, kimsenin almak istemediği ama mutlaka bitmesi gereken görevleri devralmaya uygunsun. Kendin parçalar, kendin ilerler, kendin yangını söndürür ve sonunda sonucu masaya bırakırsın. Eksik tarafın, süreci açıklamak istememen; bu yüzden insanlar sonucu görür ama makine odasında küçük çaplı bir savaş yaşandığını bilmez.",
+      "social": "İnsan ilişkilerinde soğuk değilsin, fakat sınırların belirgindir. Başkaları için iş yaparsın ama sürekli izlenmeyi sevmezsin. İnsanlar seni gizemli, güvenilir ve biraz zor yaklaşılır bulabilir; sen ise sadece on dakika sessizlik istiyorsundur, plan hayatta kalsın diye."
+    },
+    "SOVMA": {
+      "personality": "Kızıl Yankı Yayıncısı olarak kayda geçtin. Planı, alarmı ve insanların duygusunu aynı frekansta yayınlarsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Fabrika Çatısı Duygu Seferberliği Radyo Kulesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Kızıl Yankı Yayıncısı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SOVML": {
+      "personality": "Karlı Gece Tek Kişilik Spikeri olarak kayda geçtin. İfade edersin, hissedersin; ama sana sessiz bir yayın odası daha iyi gelir. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Karlı Gece Tek Kişilik Radyo ve Gizli Frekans İdaresi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Karlı Gece Tek Kişilik Spikeri tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SOQIA": {
+      "personality": "Sessiz Taarruz Teknisyeni olarak kayda geçtin. Slogan atmayı sevmezsin; alarm çalınca sorun çoktan işleme alınmıştır. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Gece Vardiyası Kontrol Paneli Acil Onarım Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Sessiz Taarruz Teknisyeni tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SOQIL": {
+      "personality": "Yeraltı Makine Odası Nöbetçisi olarak kayda geçtin. Planlısın, yangın söndürürsün, sistemi anlarsın ve herkesin önce susmasını istersin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Yeraltı Arşiv Makine Odası Sıfırıncı Nöbet Bölmesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Yeraltı Makine Odası Nöbetçisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SOQMA": {
+      "personality": "Alçak Sesli Seferberlik Memuru olarak kayda geçtin. Gürültülü propagandayı sevmezsin; kritik anda herkesin yerini kontrol edersin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Geçici Taarruz Birliği Arka Hat Yoklama Masası koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Alçak Sesli Seferberlik Memuru tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SOQML": {
+      "personality": "Gizli Görev Uygulayıcısı olarak kayda geçtin. Koşarsın, dayanırsın; ama sürecin izlenmesini istemezsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Penceresiz Büro Özel Teslimat Grubu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Gizli Görev Uygulayıcısı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEVIA": {
+      "personality": "Uzun Vadeli Propaganda Sekreteri olarak kayda geçtin. Kendini yakmazsın; işleri istikrarlı biçimde anlaşılır hale getirirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Propaganda Dairesi Uzun Vadeli Slogan Bakım Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Uzun Vadeli Propaganda Sekreteri tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEVIL": {
+      "personality": "Tek Kişilik Dizgi İşçisi olarak kayda geçtin. Düzen ve ifade sende var; ama sayfayı sabaha kadar tek başına düzeltmek daha uygundur. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Gece Afiş Düzeltme ve Dizgi Atölyesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Tek Kişilik Dizgi İşçisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEVMA": {
+      "personality": "Kantin Yayın Koordinatörü olarak kayda geçtin. Duyurunun işitilmesini ve herkesin zamanında yemesini sağlarsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Kantin Yedinci Pencere Yayın ve Tayın Bürosu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Kantin Yayın Koordinatörü tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEVML": {
+      "personality": "Nazik Slogan Muhafızı olarak kayda geçtin. İnsan duygularını ifade edersin ama fazla aydınlık yerde durmak istemezsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Eski Afiş Restorasyon ve Gece Lambası Odası koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Nazik Slogan Muhafızı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEQIA": {
+      "personality": "Arşiv Yayın Sekreteri olarak kayda geçtin. İstikrarlı, rasyonel ve sessizsin; ama kritik bilgi asla yayın dışı kalmaz. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Arşiv Duyuru Panosu ve Sürüm Kayıt Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Arşiv Yayın Sekreteri tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEQIL": {
+      "personality": "Yeraltı Arşiv Nöbetçisi olarak kayda geçtin. Güvenilir bir yedek gibisin: normalde görünmezsin, kriz çıkınca herkes seni arar. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Yeraltı Arşivi Gece Anahtar İdaresi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Yeraltı Arşiv Nöbetçisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEQMA": {
+      "personality": "Isıtma Komitesi Yazmanı olarak kayda geçtin. İnsanları coşturmakla değil, donmalarını önlemekle görevlisin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Kış Isıtma ve Duygusal Yalıtım Komitesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Isıtma Komitesi Yazmanı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "SEQML": {
+      "personality": "Artakalan Sıcaklık Arşivcisi olarak kayda geçtin. Başkalarının unuttuğu ayrıntıları hatırlar ve uzun süre sessizce saklarsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Sahipsiz Anılar Muhafaza Bürosu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Artakalan Sıcaklık Arşivcisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOVIA": {
+      "personality": "Saha Seferberlik Komutanı olarak kayda geçtin. Plan elinde olmayabilir; ama şimdi nereye koşulacağını bilirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Geçici Meydan Acil Seferberlik Kürsüsü koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Saha Seferberlik Komutanı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOVIL": {
+      "personality": "Gerilla Propaganda Görevlisi olarak kayda geçtin. Saha sezgisi, geçici ifade ve kimsenin onaylamadığı bir patikayla işi bitirirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Gezici Yayın Aracı ve Gayriresmî Rota Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Gerilla Propaganda Görevlisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOVMA": {
+      "personality": "Karlı Gece Seferberlik Şairi olarak kayda geçtin. Kargaşa, duygu ve saha hissini insanı ayağa kaldıran bir söze çevirirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Üçüncü Yeni Troitsk Karlı Gece Radyo İstasyonu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Karlı Gece Seferberlik Şairi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOVML": {
+      "personality": "Gezgin Radyo Şairi olarak kayda geçtin. Sabit kadroya ait değilsin; ama tuhaf gecelerde hep sinyal gönderirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Sabit Frekansı Olmayan Gezici Radyo koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Gezgin Radyo Şairi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOQIA": {
+      "personality": "Saha Onarım Yoldaşı olarak kayda geçtin. Boş konuşmaz, sahayı okur ve bozuk parçayı tamir edersin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Geçici Arıza İşleme ve İngiliz Anahtarı Kayıt Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Saha Onarım Yoldaşı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOQIL": {
+      "personality": "Tek Kişilik Arıza Müdahale Elemanı olarak kayda geçtin. Kargaşa sahasına tek başına girip sonuçla çıkmaya uygunsun. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Seyirci Girmesi Yasak Onarım Koridoru koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Tek Kişilik Arıza Müdahale Elemanı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOQMA": {
+      "personality": "Sessiz Yangın Söndürme Şefi olarak kayda geçtin. Çok konuşmayabilirsin; ama dağılmak üzere olan insanları tekrar toparlarsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Geçici Sığınak Düzen Yenileme Bürosu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Sessiz Yangın Söndürme Şefi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FOQML": {
+      "personality": "Karda Yalnız Bakımcı olarak kayda geçtin. Sezgi, deneyim ve açıklamasız inatla işleri yeniden çalışır hale getirirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Uzak Banliyö Sinyal Kulesi Tek Kişilik Bakım İstasyonu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Karda Yalnız Bakımcı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEVIA": {
+      "personality": "Gezici Kültür Sorumlusu olarak kayda geçtin. Taarruza acele etmezsin; ama gündeliği paylaşılabilir bir şeye dönüştürürsün. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Pioner Sarayı Gezici Yayın ve Duvar Gazetesi Grubu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Gezici Kültür Sorumlusu tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEVIL": {
+      "personality": "Gezinti Usulü Propagandacı olarak kayda geçtin. Süreç tarafından sıkıştırılmayı ve kalabalıkla çevrilmeyi sevmezsin; yine de üretirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Nehir Kenarı Bankı Gayriresmî Üretim Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Gezinti Usulü Propagandacı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEVMA": {
+      "personality": "Gündelik Yayın Aydınlatıcısı olarak kayda geçtin. Yumuşaksın, ifade edersin ve sıradan hayatı biraz aydınlatırsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Sabah Yayını ve Sıcak Çay Tedarik İstasyonu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Gündelik Yayın Aydınlatıcısı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEVML": {
+      "personality": "Eski Sokak Lambası Mektupçusu olarak kayda geçtin. Sezgiyle yaşar, yavaş ifade eder, duyguyu az kişiye bırakırsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Eski Sokak Lambası Altı Özel Yazışma Bürosu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Eski Sokak Lambası Mektupçusu tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEQIA": {
+      "personality": "Sessiz Denetim Görevlisi olarak kayda geçtin. Gösteri yapmazsın; yalnızca sistemin bozulmadığını istikrarlı biçimde doğrularsın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Sabah Ekipman Denetimi ve Çay Bardağı Kayıt Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Sessiz Denetim Görevlisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEQIL": {
+      "personality": "İnsansız Koridor Bakımcısı olarak kayda geçtin. Yavaş ve tek başına yaparsın; ama sana verilenler genelde kaybolmaz. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin İnsansız Koridor Ampul ve Kapı Tabelası Bakım Bürosu koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde İnsansız Koridor Bakımcısı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEQMA": {
+      "personality": "Lojistik Artakalan Sıcaklık Yöneticisi olarak kayda geçtin. Söz kesmez, taarruz etmezsin; ama buranın hâlâ yaşanabilir olduğunu hissettirirsin. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Lojistik Sıcak Su, Battaniye ve Sessiz Destek Şubesi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Lojistik Artakalan Sıcaklık Yöneticisi tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    },
+    "FEQML": {
+      "personality": "Sessiz Artakalan Sıcaklık Muhafızı olarak kayda geçtin. Çok parlak olmayan bir lamba gibisin: rahatsız etmezsin, ama hep oradasın. Bu, Propaganda Dairesi’nin kuru mühürlü dilinde sıradan bir not gibi görünür; pratikte ise senin ruh hâlinin, çalışma masanın ve iç disiplinsiz görünen disiplininin tek dosyada toplanmasıdır.",
+      "work": "İşteyken seni en verimli kılan şey, görevin Eski Yurt Gece Lambası ve Gönderilmemiş Mektuplar İdaresi koridorlarına yakışacak kadar belirgin olmasıdır. Gerektiğinde plan yapar, gerektiğinde arşiv memurunun bakışları altında doğaçlama yaparsın. Risk şudur: örgüt bir kez işe yaradığını görürse, seni “geçici” diye kalıcı olarak görevlendirebilir.",
+      "social": "İnsanlarla ilişkinde Sessiz Artakalan Sıcaklık Muhafızı tipi yoldaşlara özgü bir denge vardır: bazen kolektif için görünür olursun, bazen de kapının üstüne “inceleme sürüyor” yazıp içeri çekilirsin. Seni anlayanlar bunun soğukluk değil, Sovyet usulü enerji tasarrufu olduğunu bilir."
+    }
+  },
+  "channelAd": {
+    "title": "Comrade Sovia kanallarını destekle",
+    "intro": "Anime ve oyun müziklerini Sovyet tarzı şarkılara uyarlıyorum. Çalışmalarımı desteklemek istersen kanallarıma göz at."
+  }
+}
