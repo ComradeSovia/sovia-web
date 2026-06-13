@@ -1059,6 +1059,45 @@ export function SoviaTestComponent({
                 {result.archetype.description}
               </p>
             </div>
+
+            <div className="flex flex-wrap gap-5">
+              <button
+                className="btn-primary"
+                onClick={copyResult}
+                type="button"
+              >
+                {copy.actions.copy}
+              </button>
+              <button className="btn-outline" onClick={restart} type="button">
+                {copy.actions.restart}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="card grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div className="min-w-0">
+            <div className="meta">{copy.channelAd.title}</div>
+            <p className="mt-3 text-sm font-medium leading-relaxed">
+              {copy.channelAd.intro}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {[Routes.Youtube, Routes.VKVideo, Routes.Bilibili].map((route) => (
+              <a
+                className={
+                  route.href === Routes.Youtube.href
+                    ? "btn-primary"
+                    : "btn-outline"
+                }
+                href={route.href}
+                key={route.href}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {route.label}
+              </a>
+            ))}
           </div>
         </div>
 
@@ -1127,22 +1166,6 @@ export function SoviaTestComponent({
           </div>
         )}
 
-        <div className="card space-y-4">
-          <div className="meta">{copy.certificate.resultLinkLabel}</div>
-          <input
-            className="w-full border-[3px] border-ink bg-paper px-4 py-3 font-black text-ink shadow-[6px_6px_0_rgb(var(--red))]"
-            readOnly
-            value={resultUrl}
-          />
-          <button
-            className="btn-primary"
-            onClick={copyResultLink}
-            type="button"
-          >
-            {copy.actions.copyLink}
-          </button>
-        </div>
-
         <div className="card space-y-5">
           <div className="meta">{copy.certificate.assessmentLabel}</div>
           <div className="grid gap-6 xl:grid-cols-[22rem_1fr]">
@@ -1205,35 +1228,20 @@ export function SoviaTestComponent({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-5">
-          <button className="btn-primary" onClick={copyResult} type="button">
-            {copy.actions.copy}
+        <div className="card space-y-4">
+          <div className="meta">{copy.certificate.resultLinkLabel}</div>
+          <input
+            className="w-full border-[3px] border-ink bg-paper px-4 py-3 font-black text-ink shadow-[6px_6px_0_rgb(var(--red))]"
+            readOnly
+            value={resultUrl}
+          />
+          <button
+            className="btn-primary"
+            onClick={copyResultLink}
+            type="button"
+          >
+            {copy.actions.copyLink}
           </button>
-          <button className="btn-outline" onClick={restart} type="button">
-            {copy.actions.restart}
-          </button>
-        </div>
-
-        <div className="card grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-          <div className="min-w-0">
-            <div className="meta">{copy.channelAd.title}</div>
-            <p className="mt-3 text-sm font-medium leading-relaxed">
-              {copy.channelAd.intro}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {[Routes.Youtube, Routes.VKVideo, Routes.Bilibili].map((route) => (
-              <a
-                className="btn-outline"
-                href={route.href}
-                key={route.href}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {route.label}
-              </a>
-            ))}
-          </div>
         </div>
 
         <div className="meta">{status}</div>
