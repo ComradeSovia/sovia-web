@@ -2,7 +2,9 @@
 
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
+import { getSoviaLetterColor } from "../lib/letter-colors";
 import type { AxisKey } from "../types";
+import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 
 const defaultCopy = getDefaultSoviaTestCopy();
@@ -18,13 +20,6 @@ const AXIS_ORDER: AxisKey[] = [
 type SoviaTestTypeComponentProps = {
   type: string;
 };
-
-function formatText(template: string, values: Record<string, string | number>) {
-  return Object.entries(values).reduce(
-    (text, [key, value]) => text.replaceAll(`{{${key}}}`, String(value)),
-    template,
-  );
-}
 
 export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
   const { copy, locale, locales, setLocale } = useSoviaTestI18n();
@@ -50,9 +45,7 @@ export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
             {copy.certificate.codeLabel}
           </div>
           <div className="sovia-type-code bg-block p-4 font-black leading-none text-relief [overflow-wrap:normal] [word-break:normal]">
-            {formatText(copy.certificate.codeFormat, {
-              code,
-            })}
+            <SoviaCode code={code} template={copy.certificate.codeFormat} />
           </div>
         </div>
 
@@ -82,9 +75,7 @@ export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
 
           <div className="meta">{copy.certificate.codeLabel}</div>
           <div className="text-4xl font-black text-ink">
-            {formatText(copy.certificate.codeFormat, {
-              code,
-            })}
+            <SoviaCode code={code} template={copy.certificate.codeFormat} />
           </div>
 
           <div className="meta">{copy.certificate.titleLabel}</div>
@@ -151,10 +142,16 @@ export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
             return (
               <div className="border-[3px] border-ink bg-paper p-4" key={axis}>
                 <div className="meta break-words">{copy.axes[axis].label}</div>
-                <div className="mt-2 text-3xl font-black text-ink">
+                <div
+                  className="mt-2 text-3xl font-black"
+                  style={{ color: getSoviaLetterColor(letter) }}
+                >
                   {letter}
                 </div>
-                <div className="font-black leading-tight text-red">
+                <div
+                  className="font-black leading-tight"
+                  style={{ color: getSoviaLetterColor(letter) }}
+                >
                   {letterCopy.zhName}
                 </div>
                 <p className="mt-2 text-sm">{letterCopy.description}</p>

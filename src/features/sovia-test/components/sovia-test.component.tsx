@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
+import { getSoviaLetterColor } from "../lib/letter-colors";
 import type {
   ArchetypeCopy,
   AxisKey,
@@ -14,6 +15,7 @@ import type {
   SoviaTestGender,
 } from "../types";
 import { SOVIA_TEST_AGE_GROUPS, SOVIA_TEST_GENDER_OPTIONS } from "../types";
+import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 
 const defaultCopy = getDefaultSoviaTestCopy();
@@ -958,8 +960,8 @@ export function SoviaTestComponent({
                 {copy.demographics.intro}
               </p>
             </div>
-            <div className="w-fit border-[3px] border-ink bg-block px-4 py-3 text-2xl font-black leading-none text-relief">
-              {result.code}
+            <div className="w-fit border-[3px] border-ink bg-paper px-4 py-3 text-2xl font-black leading-none text-ink shadow-[5px_5px_0_rgb(var(--shadow))]">
+              <SoviaCode code={result.code} />
             </div>
           </div>
 
@@ -1036,9 +1038,10 @@ export function SoviaTestComponent({
               {copy.system.name}
             </div>
             <div className="bg-block p-5 text-[clamp(2.25rem,5vw,3.5rem)] font-black leading-none text-relief">
-              {formatText(copy.certificate.codeFormat, {
-                code: result.code,
-              })}
+              <SoviaCode
+                code={result.code}
+                template={copy.certificate.codeFormat}
+              />
             </div>
           </div>
 
@@ -1069,9 +1072,10 @@ export function SoviaTestComponent({
 
             <div className="meta">{copy.certificate.codeLabel}</div>
             <div className="text-4xl font-black text-ink">
-              {formatText(copy.certificate.codeFormat, {
-                code: result.code,
-              })}
+              <SoviaCode
+                code={result.code}
+                template={copy.certificate.codeFormat}
+              />
             </div>
 
             <div className="meta">{copy.certificate.titleLabel}</div>
@@ -1155,10 +1159,16 @@ export function SoviaTestComponent({
                     <div className="meta break-words">
                       {copy.axes[axis].label}
                     </div>
-                    <div className="mt-2 text-3xl font-black text-ink">
+                    <div
+                      className="mt-2 text-3xl font-black"
+                      style={{ color: getSoviaLetterColor(summary.winner) }}
+                    >
                       {summary.winner}
                     </div>
-                    <div className="font-black text-red">
+                    <div
+                      className="font-black"
+                      style={{ color: getSoviaLetterColor(summary.winner) }}
+                    >
                       {summary.letter.zhName}
                     </div>
                     <div className="mt-4 space-y-2">
@@ -1172,7 +1182,10 @@ export function SoviaTestComponent({
                           style={{ width: `${summary.winnerPercentage}%` }}
                         />
                       </div>
-                      <div className="flex items-center justify-between gap-3 text-[11px] font-black uppercase leading-tight tracking-[0.04em] text-red">
+                      <div
+                        className="flex items-center justify-between gap-3 text-[11px] font-black uppercase leading-tight tracking-[0.04em]"
+                        style={{ color: getSoviaLetterColor(summary.loser) }}
+                      >
                         <span>
                           {copy.certificate.oppositeLabel}:{" "}
                           {summary.oppositeLetter.zhName}

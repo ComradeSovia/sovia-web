@@ -1,6 +1,7 @@
 "use client";
 
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
+import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 
 export function SoviaTestTypesComponent() {
@@ -49,8 +50,8 @@ export function SoviaTestTypesComponent() {
             >
               <div className="relative z-10 flex items-start justify-between gap-4">
                 <div className="meta">{copy.typesPage.codeLabel}</div>
-                <div className="border-[3px] border-ink bg-red px-3 py-2 text-xl font-black leading-none text-relief">
-                  {code}
+                <div className="border-[3px] border-ink bg-paper px-3 py-2 text-xl font-black leading-none text-ink shadow-[4px_4px_0_rgb(var(--shadow))]">
+                  <SoviaCode code={code} />
                 </div>
               </div>
 
