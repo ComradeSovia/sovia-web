@@ -77,6 +77,11 @@ const VISITOR_ID_TTL_MS = 60 * 60 * 1000;
 type TestScreen = "intro" | "quiz" | "demographics" | "result";
 
 type Scores = Record<AxisKey, number>;
+type InitialTestState = {
+  answers: AnswerValue[];
+  screen: TestScreen;
+  sharedScores: Scores | null;
+};
 type StoredVisitor = {
   id: string;
   expiresAt: number;
@@ -97,6 +102,36 @@ type AnswerValue = number | null;
 
 function createEmptyAnswers() {
   return Array.from({ length: defaultCopy.questions.length }, () => null);
+}
+
+function createInitialTestState(initialHash?: string): InitialTestState {
+  const sharedScores = decodeScores(initialHash ?? null);
+
+  if (sharedScores) {
+    return {
+      answers: createEmptyAnswers(),
+      screen: "result",
+      sharedScores,
+    };
+  }
+
+  const sharedAnswers = decodeAnswers(initialHash ?? null);
+
+  if (sharedAnswers) {
+    const sharedResult = getResult(sharedAnswers, defaultCopy);
+
+    return {
+      answers: sharedAnswers,
+      screen: "result",
+      sharedScores: sharedResult.scores,
+    };
+  }
+
+  return {
+    answers: createEmptyAnswers(),
+    screen: "intro",
+    sharedScores: null,
+  };
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -600,13 +635,24 @@ export function SoviaTestComponent({
 }: SoviaTestComponentProps = {}) {
   const router = useRouter();
   const { copy, locale, locales, setLocale } = useSoviaTestI18n();
+  const initialStateRef = useRef<InitialTestState | null>(null);
 
-  const [answers, setAnswers] = useState<AnswerValue[]>(createEmptyAnswers);
-  const [sharedScores, setSharedScores] = useState<Scores | null>(null);
+  if (!initialStateRef.current) {
+    initialStateRef.current = createInitialTestState(initialHash);
+  }
+
+  const initialState = initialStateRef.current;
+
+  const [answers, setAnswers] = useState<AnswerValue[]>(
+    () => initialState.answers,
+  );
+  const [sharedScores, setSharedScores] = useState<Scores | null>(
+    () => initialState.sharedScores,
+  );
   const [ageGroup, setAgeGroup] =
     useState<SoviaTestAgeGroup>("prefer_not_to_say");
   const [gender, setGender] = useState<SoviaTestGender>("prefer_not_to_say");
-  const [screen, setScreen] = useState<TestScreen>("intro");
+  const [screen, setScreen] = useState<TestScreen>(() => initialState.screen);
   const [currentPage, setCurrentPage] = useState(0);
   const [status, setStatus] = useState(copy.status.ready);
   const [isSubmitting, setIsSubmitting] = useState(false);
