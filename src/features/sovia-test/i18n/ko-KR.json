@@ -62,13 +62,19 @@
     "submit": "노동 배치 신청 제출",
     "restart": "다시 테스트",
     "copy": "결과 복사",
-    "copyLink": "링크 복사"
+    "copyLink": "링크 복사",
+    "generateImage": "결과 이미지 생성",
+    "generatingImage": "생성 중...",
+    "share": "결과 공유"
   },
   "status": {
     "unanswered": "현재 문항을 먼저 완료하세요. 기록원이 당신의 입장을 기다리고 있습니다.",
     "ready": "응답이 기록되었습니다. 심사를 계속할 수 있습니다.",
     "copied": "결과가 복사되었습니다.",
-    "copyFailed": "복사 실패. 기록을 직접 저장하세요."
+    "copyFailed": "복사 실패. 기록을 직접 저장하세요.",
+    "linkSuccess": "결과 링크가 복사되었습니다.",
+    "resultImageGenerated": "결과 이미지가 생성되었습니다.",
+    "shareSuccess": "결과가 공유되었습니다."
   },
   "certificate": {
     "title": "노동인민 배치 증명서",
@@ -89,7 +95,8 @@
     "authorityLabel": "승인 기관",
     "authority": "선전부 임시 인격심사과",
     "codeFormat": "{{code}} 형",
-    "descriptionLabel": "간단 설명"
+    "descriptionLabel": "간단 설명",
+    "resultImageLabel": "결과 이미지"
   },
   "axes": {
     "structure": {

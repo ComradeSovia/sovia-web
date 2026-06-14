@@ -62,13 +62,19 @@
     "submit": "提交勞動分配申请",
     "restart": "重新測試",
     "copy": "複製結果",
-    "copyLink": "複製連結"
+    "copyLink": "複製連結",
+    "generateImage": "生成結果圖片",
+    "generatingImage": "生成中...",
+    "share": "分享結果"
   },
   "status": {
     "unanswered": "请先完成当前題目，檔案员还在等你的表态。",
     "ready": "回答已記錄，可以繼續審查。",
     "copied": "結果已複製。",
-    "copyFailed": "複製失败，请手动保存檔案。"
+    "copyFailed": "複製失败，请手动保存檔案。",
+    "linkSuccess": "結果連結已複製。",
+    "resultImageGenerated": "結果圖片已生成。",
+    "shareSuccess": "結果已分享。"
   },
   "certificate": {
     "title": "勞動人民分配證明",
@@ -89,7 +95,8 @@
     "authorityLabel": "批准機關",
     "authority": "宣傳部臨時人格審查科",
     "codeFormat": "{{code}} 型",
-    "descriptionLabel": "簡短描述"
+    "descriptionLabel": "簡短描述",
+    "resultImageLabel": "結果圖片"
   },
   "axes": {
     "structure": {

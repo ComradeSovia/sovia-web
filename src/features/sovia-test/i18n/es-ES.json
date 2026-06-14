@@ -62,13 +62,19 @@
     "submit": "Enviar solicitud de asignación laboral",
     "restart": "Repetir test",
     "copy": "Copiar resultado",
-    "copyLink": "Copiar enlace"
+    "copyLink": "Copiar enlace",
+    "generateImage": "Generar imagen del resultado",
+    "generatingImage": "Generando...",
+    "share": "Compartir resultado"
   },
   "status": {
     "unanswered": "Responde primero esta pregunta; el archivista espera tu posición.",
     "ready": "Respuesta registrada. La revisión puede continuar.",
     "copied": "Resultado copiado.",
-    "copyFailed": "No se pudo copiar. Guarda el expediente manualmente."
+    "copyFailed": "No se pudo copiar. Guarda el expediente manualmente.",
+    "linkSuccess": "Enlace del resultado copiado.",
+    "resultImageGenerated": "Imagen del resultado generada.",
+    "shareSuccess": "Resultado compartido."
   },
   "certificate": {
     "title": "Certificado de asignación del pueblo trabajador",
@@ -89,7 +95,8 @@
     "authorityLabel": "Autoridad aprobadora",
     "authority": "Sección Provisional de Revisión de Personalidad",
     "codeFormat": "tipo {{code}}",
-    "descriptionLabel": "Descripción breve"
+    "descriptionLabel": "Descripción breve",
+    "resultImageLabel": "Imagen del resultado"
   },
   "axes": {
     "structure": {

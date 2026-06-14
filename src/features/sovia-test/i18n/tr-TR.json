@@ -62,13 +62,19 @@
     "submit": "Emek dağıtım başvurusunu gönder",
     "restart": "Testi yeniden başlat",
     "copy": "Sonucu kopyala",
-    "copyLink": "Bağlantıyı kopyala"
+    "copyLink": "Bağlantıyı kopyala",
+    "generateImage": "Sonuç görseli oluştur",
+    "generatingImage": "Oluşturuluyor...",
+    "share": "Sonucu paylaş"
   },
   "status": {
     "unanswered": "Lütfen mevcut soruyu tamamla; arşiv memuru hâlâ beyanını bekliyor.",
     "ready": "Yanıt kaydedildi; incelemeye devam edilebilir.",
     "copied": "Sonuç kopyalandı.",
-    "copyFailed": "Kopyalama başarısız; lütfen dosyayı elle sakla."
+    "copyFailed": "Kopyalama başarısız; lütfen dosyayı elle sakla.",
+    "linkSuccess": "Sonuç bağlantısı kopyalandı.",
+    "resultImageGenerated": "Sonuç görseli oluşturuldu.",
+    "shareSuccess": "Sonuç paylaşıldı."
   },
   "certificate": {
     "title": "Emek Halkı Dağıtım Belgesi",
@@ -89,7 +95,8 @@
     "authorityLabel": "Onay makamı",
     "authority": "Propaganda Dairesi Geçici Kişilik İnceleme Şubesi",
     "codeFormat": "{{code}} Tipi",
-    "descriptionLabel": "Kısa açıklama"
+    "descriptionLabel": "Kısa açıklama",
+    "resultImageLabel": "Sonuç görseli"
   },
   "axes": {
     "structure": {

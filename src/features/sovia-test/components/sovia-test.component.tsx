@@ -1,8 +1,10 @@
 ﻿"use client";
 
 import { Routes } from "@sovia/shared";
+import NextImage from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import QRCode from "qrcode";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
@@ -17,6 +19,7 @@ import type {
 import { SOVIA_TEST_AGE_GROUPS, SOVIA_TEST_GENDER_OPTIONS } from "../types";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
+import { SoviaTestResultImage } from "./sovia-test-result-image.component";
 
 const defaultCopy = getDefaultSoviaTestCopy();
 
@@ -324,6 +327,771 @@ function formatText(template: string, values: Record<string, string | number>) {
     (text, [key, value]) => text.replaceAll(`{{${key}}}`, String(value)),
     template,
   );
+}
+
+type ResultImageInput = {
+  code: string;
+  title: string;
+  description: string;
+  unit: string;
+  archiveComment: string;
+  soviaComment: string;
+  authority: string;
+  copy: SoviaTestCopy;
+  personality?: string;
+  scores: Scores;
+  social?: string;
+  work?: string;
+  resultUrl: string;
+};
+
+function loadCanvasImage(src: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new window.Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = src;
+  });
+}
+
+async function loadQrCodeImage(text: string) {
+  const dataUrl = await QRCode.toDataURL(text, {
+    errorCorrectionLevel: "M",
+    margin: 3,
+    width: 420,
+    color: {
+      dark: "#111111",
+      light: "#f4ecd6",
+    },
+  });
+
+  return loadCanvasImage(dataUrl);
+}
+
+function drawWrappedText(
+  context: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
+  maxLines = Number.POSITIVE_INFINITY,
+) {
+  const visibleLines = getWrappedTextLines(context, text, maxWidth, maxLines);
+
+  visibleLines.forEach((visibleLine, index) => {
+    context.fillText(visibleLine, x, y + index * lineHeight);
+  });
+
+  return y + visibleLines.length * lineHeight;
+}
+
+function getWrappedTextLines(
+  context: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  maxLines = Number.POSITIVE_INFINITY,
+) {
+  const characters = Array.from(text);
+  const lines: string[] = [];
+  let line = "";
+
+  characters.forEach((character) => {
+    const nextLine = `${line}${character}`;
+
+    if (line && context.measureText(nextLine).width > maxWidth) {
+      lines.push(line.trimEnd());
+      line = character.trimStart();
+      return;
+    }
+
+    line = nextLine;
+  });
+
+  if (line) {
+    lines.push(line.trimEnd());
+  }
+
+  const visibleLines = lines.slice(0, maxLines);
+
+  if (lines.length > maxLines) {
+    let lastLine = `${visibleLines[visibleLines.length - 1]}...`;
+
+    while (
+      lastLine.length > 3 &&
+      context.measureText(lastLine).width > maxWidth
+    ) {
+      lastLine = `${lastLine.slice(0, -4)}...`;
+    }
+
+    visibleLines[visibleLines.length - 1] = lastLine;
+  }
+
+  return visibleLines;
+}
+
+function measureWrappedText(
+  context: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  lineHeight: number,
+) {
+  return getWrappedTextLines(context, text, maxWidth).length * lineHeight;
+}
+
+function drawImageLabel(
+  context: CanvasRenderingContext2D,
+  label: string,
+  value: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+) {
+  context.fillStyle = "#b91c1c";
+  context.font =
+    "900 22px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  context.fillText(label.toUpperCase(), x, y);
+
+  context.fillStyle = "#111111";
+  context.font =
+    "700 31px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+
+  return drawWrappedText(context, value, x, y + 43, maxWidth, 42, 4) + 22;
+}
+
+function drawPosterPanel(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  fill = "#f4ecd6",
+  shadow = false,
+) {
+  if (shadow) {
+    context.fillStyle = "#111111";
+    context.fillRect(x + 12, y + 12, width, height);
+  }
+
+  context.fillStyle = fill;
+  context.fillRect(x, y, width, height);
+  context.strokeStyle = "#111111";
+  context.lineWidth = 5;
+  context.strokeRect(x, y, width, height);
+}
+
+function drawPosterLabel(
+  context: CanvasRenderingContext2D,
+  label: string,
+  x: number,
+  y: number,
+) {
+  context.fillStyle = "#b91c1c";
+  context.font =
+    "900 22px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  context.fillText(label.toUpperCase(), x, y);
+}
+
+function drawFivePointStar(
+  context: CanvasRenderingContext2D,
+  centerX: number,
+  centerY: number,
+  outerRadius: number,
+  innerRadius: number,
+  fill: string,
+  stroke = "#111111",
+) {
+  context.beginPath();
+
+  for (let index = 0; index < 10; index += 1) {
+    const angle = ((-90 + index * 36) * Math.PI) / 180;
+    const radius = index % 2 === 0 ? outerRadius : innerRadius;
+    const x = centerX + Math.cos(angle) * radius;
+    const y = centerY + Math.sin(angle) * radius;
+
+    if (index === 0) {
+      context.moveTo(x, y);
+      continue;
+    }
+
+    context.lineTo(x, y);
+  }
+
+  context.closePath();
+  context.fillStyle = fill;
+  context.fill();
+  context.strokeStyle = stroke;
+  context.lineWidth = 4;
+  context.stroke();
+}
+
+function drawAxisStar(
+  context: CanvasRenderingContext2D,
+  copy: SoviaTestCopy,
+  scores: Scores,
+  x: number,
+  y: number,
+  size: number,
+) {
+  const summaries = AXIS_ORDER.map((axis) =>
+    getAxisSummary(axis, scores, copy),
+  );
+  const center = size / 2;
+  const outerRadius = size * 0.32;
+  const innerRadius = size * 0.14;
+  const dataBaseRadius = size * 0.1;
+  const dataRadiusRange = size * 0.23;
+  const labelRadius = size * 0.4;
+
+  function point(angle: number, radius: number) {
+    return {
+      x: x + center + Math.cos(angle) * radius,
+      y: y + center + Math.sin(angle) * radius,
+    };
+  }
+
+  const angles = summaries.map((_, index) => {
+    return ((-90 + index * 72) * Math.PI) / 180;
+  });
+
+  drawFivePointStar(
+    context,
+    x + center,
+    y + center,
+    outerRadius,
+    innerRadius,
+    "rgba(185, 28, 28, 0.18)",
+  );
+
+  context.strokeStyle = "#111111";
+  context.lineWidth = 2;
+  context.setLineDash([8, 8]);
+  angles.forEach((angle) => {
+    const lineEnd = point(angle, outerRadius);
+    context.beginPath();
+    context.moveTo(x + center, y + center);
+    context.lineTo(lineEnd.x, lineEnd.y);
+    context.stroke();
+  });
+  context.setLineDash([]);
+
+  context.beginPath();
+  summaries.forEach((summary, index) => {
+    const soviaSidePercentage = getSoviaSidePercentage(
+      summary.axis,
+      summary.axisScore,
+    );
+    const radius =
+      dataBaseRadius + (soviaSidePercentage / 100) * dataRadiusRange;
+    const currentPoint = point(angles[index] ?? 0, radius);
+
+    if (index === 0) {
+      context.moveTo(currentPoint.x, currentPoint.y);
+      return;
+    }
+
+    context.lineTo(currentPoint.x, currentPoint.y);
+  });
+  context.closePath();
+  context.fillStyle = "rgba(185, 28, 28, 0.58)";
+  context.fill();
+  context.strokeStyle = "#b91c1c";
+  context.lineWidth = 5;
+  context.stroke();
+
+  context.fillStyle = "#f4ecd6";
+  context.beginPath();
+  context.arc(x + center, y + center, 9, 0, Math.PI * 2);
+  context.fill();
+  context.strokeStyle = "#111111";
+  context.lineWidth = 3;
+  context.stroke();
+
+  summaries.forEach((summary, index) => {
+    const angle = angles[index] ?? 0;
+    const [soviaLetter] = getAxisLetters(summary.axis);
+    const soviaSidePercentage = getSoviaSidePercentage(
+      summary.axis,
+      summary.axisScore,
+    );
+    const dotRadius =
+      dataBaseRadius + (soviaSidePercentage / 100) * dataRadiusRange;
+    const dot = point(angle, dotRadius);
+    const label = point(angle, labelRadius);
+
+    context.fillStyle = "#f5c400";
+    context.beginPath();
+    context.arc(dot.x, dot.y, 8, 0, Math.PI * 2);
+    context.fill();
+    context.strokeStyle = "#111111";
+    context.lineWidth = 3;
+    context.stroke();
+
+    context.textAlign =
+      label.x < x + center - 12
+        ? "right"
+        : label.x > x + center + 12
+          ? "left"
+          : "center";
+    context.fillStyle = "#111111";
+    context.font =
+      "900 24px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+    context.fillText(soviaLetter, label.x, label.y);
+    context.fillStyle = "#b91c1c";
+    context.font =
+      "900 15px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+    context.fillText(`${soviaSidePercentage}%`, label.x, label.y + 21);
+  });
+
+  context.textAlign = "left";
+}
+
+function drawResultCode(
+  context: CanvasRenderingContext2D,
+  code: string,
+  x: number,
+  y: number,
+) {
+  let letterX = x;
+
+  context.font =
+    "900 92px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+
+  Array.from(code).forEach((letter) => {
+    context.fillStyle = getSoviaLetterColor(letter);
+    context.fillText(letter, letterX, y);
+    letterX += context.measureText(letter).width + 6;
+  });
+}
+
+async function createSoviaResultPng(input: ResultImageInput) {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("Canvas is not available.");
+  }
+
+  const width = 1600;
+  const portrait = await loadCanvasImage(
+    `${window.location.origin}/img/sovia-test/code/${input.code.toLowerCase()}.jpg`,
+  );
+  const qrImage = await loadQrCodeImage(input.resultUrl);
+  canvas.width = width;
+  canvas.height = 100;
+
+  const leftRailWidth = 118;
+  const contentX = 160;
+  const contentWidth = 1305;
+  const gap = 56;
+  const halfGap = 48;
+  const halfWidth = (contentWidth - halfGap) / 2;
+  const titlePanelY = 250;
+
+  context.font =
+    "900 78px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  const titleHeight = measureWrappedText(context, input.title, 790, 86);
+  const titlePanelHeight = Math.max(315, titleHeight + 150);
+  const portraitPanelY = titlePanelY + titlePanelHeight + gap;
+  const portraitPanelHeight = contentWidth + 95;
+  const portraitSize = 1135;
+  const portraitX = contentX + (contentWidth - portraitSize) / 2;
+  const portraitY = portraitPanelY + 55;
+
+  context.font =
+    "700 30px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  const descriptionHeight = measureWrappedText(
+    context,
+    input.description,
+    contentWidth - 76,
+    40,
+  );
+  const descriptionPanelY = portraitPanelY + portraitPanelHeight + gap;
+  const descriptionPanelHeight = Math.max(170, descriptionHeight + 115);
+
+  context.font =
+    "700 31px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  const unitHeight = measureWrappedText(context, input.unit, 790, 42);
+  const statusHeight = measureWrappedText(
+    context,
+    input.copy.certificate.statusApproved,
+    360,
+    42,
+  );
+  const unitPanelY = descriptionPanelY + descriptionPanelHeight + gap;
+  const unitPanelHeight = Math.max(
+    150,
+    Math.max(unitHeight, statusHeight) + 92,
+  );
+
+  const archiveHeight = measureWrappedText(
+    context,
+    input.archiveComment,
+    halfWidth - 76,
+    42,
+  );
+  const soviaHeight = measureWrappedText(
+    context,
+    input.soviaComment,
+    halfWidth - 76,
+    42,
+  );
+  const commentsPanelY = unitPanelY + unitPanelHeight + gap;
+  const commentsPanelHeight = Math.max(
+    255,
+    Math.max(archiveHeight, soviaHeight) + 120,
+  );
+
+  context.font =
+    "700 20px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  const detailTextWidth = halfWidth - 76;
+  const personalityHeight = measureWrappedText(
+    context,
+    input.personality ?? "",
+    detailTextWidth,
+    28,
+  );
+  const workHeight = measureWrappedText(
+    context,
+    input.work ?? "",
+    detailTextWidth,
+    28,
+  );
+  const socialHeight = measureWrappedText(
+    context,
+    input.social ?? "",
+    detailTextWidth,
+    28,
+  );
+  const detailsPanelHeight = Math.max(
+    720,
+    120 + personalityHeight + workHeight + socialHeight + 210,
+  );
+  const axisPanelHeight = 620;
+  const lowerPanelY = commentsPanelY + commentsPanelHeight + gap;
+  const lowerPanelHeight = Math.max(axisPanelHeight, detailsPanelHeight);
+  const footerPanelY = lowerPanelY + lowerPanelHeight + gap;
+  const footerPanelHeight = 285;
+  const height = footerPanelY + footerPanelHeight + 145;
+  canvas.height = height;
+
+  context.fillStyle = "#f4ecd6";
+  context.fillRect(0, 0, width, height);
+  context.fillStyle = "#b91c1c";
+  context.fillRect(0, 0, width, 185);
+  context.fillRect(0, 0, leftRailWidth, height);
+  context.beginPath();
+  context.moveTo(118, 185);
+  context.lineTo(720, 185);
+  context.lineTo(118, 785);
+  context.closePath();
+  context.fill();
+  context.beginPath();
+  context.moveTo(1600, 185);
+  context.lineTo(1600, 590);
+  context.lineTo(1220, 185);
+  context.closePath();
+  context.fillStyle = "#111111";
+  context.fill();
+  context.fillStyle = "#111111";
+  context.fillRect(118, 185, width - 236, 8);
+  context.save();
+  context.translate(68, height - 220);
+  context.rotate(-Math.PI / 2);
+  context.fillStyle = "#f4ecd6";
+  context.font =
+    "900 38px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  context.fillText("SOVIA LABOR PERSONALITY ARCHIVE", 0, 0);
+  context.restore();
+
+  context.fillStyle = "#f4ecd6";
+  context.font =
+    "900 42px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  context.fillText("SOVIA ALLOCATION RESULT", 160, 118);
+  drawFivePointStar(context, 1458, 95, 56, 24, "#f5c400");
+
+  drawPosterPanel(
+    context,
+    contentX,
+    titlePanelY,
+    contentWidth,
+    titlePanelHeight,
+  );
+  drawPosterLabel(
+    context,
+    input.copy.certificate.codeLabel,
+    198,
+    titlePanelY + 68,
+  );
+  drawResultCode(context, input.code, 198, titlePanelY + 180);
+  context.fillStyle = "#111111";
+  context.font =
+    "900 78px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  drawWrappedText(context, input.title, 610, titlePanelY + 130, 790, 86);
+
+  drawPosterPanel(
+    context,
+    contentX,
+    portraitPanelY,
+    contentWidth,
+    portraitPanelHeight,
+    "#f4ecd6",
+    true,
+  );
+  context.fillStyle = "#111111";
+  context.fillRect(
+    portraitX - 30,
+    portraitY - 30,
+    portraitSize + 60,
+    portraitSize + 60,
+  );
+  context.fillStyle = "#f4ecd6";
+  context.fillRect(
+    portraitX - 10,
+    portraitY - 10,
+    portraitSize + 20,
+    portraitSize + 20,
+  );
+  context.drawImage(portrait, portraitX, portraitY, portraitSize, portraitSize);
+  context.fillStyle = "#b91c1c";
+  context.font =
+    "900 28px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  context.fillText(input.code, portraitX - 30, portraitY + portraitSize + 48);
+  context.fillStyle = "#111111";
+  context.fillRect(portraitX + 70, portraitY + portraitSize + 36, 910, 5);
+
+  drawPosterPanel(
+    context,
+    contentX,
+    descriptionPanelY,
+    contentWidth,
+    descriptionPanelHeight,
+  );
+  drawPosterLabel(
+    context,
+    input.copy.certificate.descriptionLabel,
+    198,
+    descriptionPanelY + 62,
+  );
+  context.fillStyle = "#111111";
+  context.font =
+    "700 30px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  drawWrappedText(
+    context,
+    input.description,
+    198,
+    descriptionPanelY + 110,
+    contentWidth - 76,
+    40,
+  );
+
+  drawPosterPanel(context, contentX, unitPanelY, contentWidth, unitPanelHeight);
+  drawImageLabel(
+    context,
+    input.copy.certificate.unitLabel,
+    input.unit,
+    198,
+    unitPanelY + 55,
+    790,
+  );
+  drawImageLabel(
+    context,
+    input.copy.certificate.statusLabel,
+    input.copy.certificate.statusApproved,
+    1040,
+    unitPanelY + 55,
+    360,
+  );
+
+  drawPosterPanel(
+    context,
+    contentX,
+    commentsPanelY,
+    halfWidth,
+    commentsPanelHeight,
+  );
+  drawPosterLabel(
+    context,
+    input.copy.certificate.archiveCommentLabel,
+    198,
+    commentsPanelY + 67,
+  );
+  context.fillStyle = "#111111";
+  context.font =
+    "700 31px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  drawWrappedText(
+    context,
+    input.archiveComment,
+    198,
+    commentsPanelY + 119,
+    halfWidth - 76,
+    42,
+  );
+
+  const rightCommentX = contentX + halfWidth + halfGap;
+  drawPosterPanel(
+    context,
+    rightCommentX,
+    commentsPanelY,
+    halfWidth,
+    commentsPanelHeight,
+  );
+  drawPosterLabel(
+    context,
+    input.copy.certificate.soviaCommentLabel,
+    rightCommentX + 38,
+    commentsPanelY + 67,
+  );
+  context.fillStyle = "#111111";
+  context.font =
+    "700 31px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  drawWrappedText(
+    context,
+    input.soviaComment,
+    rightCommentX + 38,
+    commentsPanelY + 119,
+    halfWidth - 76,
+    42,
+  );
+
+  drawPosterPanel(context, contentX, lowerPanelY, 520, axisPanelHeight);
+  drawPosterLabel(
+    context,
+    input.copy.certificate.axisLabel,
+    198,
+    lowerPanelY + 65,
+  );
+  drawAxisStar(context, input.copy, input.scores, 245, lowerPanelY + 100, 300);
+  context.font =
+    "900 18px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  AXIS_ORDER.forEach((axis, index) => {
+    const summary = getAxisSummary(axis, input.scores, input.copy);
+    const y = lowerPanelY + 435 + index * 28;
+
+    context.fillStyle = getSoviaLetterColor(summary.winner);
+    context.fillText(summary.winner, 198, y);
+    context.fillStyle = "#111111";
+    context.fillText(input.copy.axes[axis].label, 238, y);
+    context.fillStyle = "#b91c1c";
+    context.fillText(`${summary.winnerPercentage}%`, 605, y);
+  });
+
+  const detailX = contentX + 575;
+  drawPosterPanel(context, detailX, lowerPanelY, 730, lowerPanelHeight);
+  drawPosterLabel(
+    context,
+    input.copy.details.title,
+    detailX + 40,
+    lowerPanelY + 65,
+  );
+  context.strokeStyle = "#111111";
+  context.lineWidth = 3;
+  let detailY = lowerPanelY + 130;
+
+  drawPosterLabel(
+    context,
+    input.copy.details.personalityLabel,
+    detailX + 40,
+    detailY,
+  );
+  context.fillStyle = "#111111";
+  context.font =
+    "700 20px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  detailY =
+    drawWrappedText(
+      context,
+      input.personality ?? "",
+      detailX + 40,
+      detailY + 36,
+      detailTextWidth,
+      28,
+    ) + 42;
+  context.beginPath();
+  context.moveTo(detailX + 40, detailY - 20);
+  context.lineTo(detailX + 692, detailY - 20);
+  context.stroke();
+
+  drawPosterLabel(context, input.copy.details.workLabel, detailX + 40, detailY);
+  context.fillStyle = "#111111";
+  context.font =
+    "700 20px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  detailY =
+    drawWrappedText(
+      context,
+      input.work ?? "",
+      detailX + 40,
+      detailY + 36,
+      detailTextWidth,
+      28,
+    ) + 42;
+  context.beginPath();
+  context.moveTo(detailX + 40, detailY - 20);
+  context.lineTo(detailX + 692, detailY - 20);
+  context.stroke();
+
+  drawPosterLabel(
+    context,
+    input.copy.details.socialLabel,
+    detailX + 40,
+    detailY,
+  );
+  context.fillStyle = "#111111";
+  context.font =
+    "700 20px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  drawWrappedText(
+    context,
+    input.social ?? "",
+    detailX + 40,
+    detailY + 36,
+    detailTextWidth,
+    28,
+  );
+
+  drawPosterPanel(
+    context,
+    contentX,
+    footerPanelY,
+    contentWidth,
+    footerPanelHeight,
+  );
+
+  context.fillStyle = "#111111";
+  context.fillRect(198, footerPanelY + 68, 690, 5);
+  context.fillStyle = "#b91c1c";
+  context.font =
+    "900 23px 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif";
+  drawWrappedText(
+    context,
+    input.authority.toUpperCase(),
+    198,
+    footerPanelY + 122,
+    820,
+    34,
+    2,
+  );
+  context.fillStyle = "#111111";
+  context.font =
+    "700 26px Arial, 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
+  drawWrappedText(
+    context,
+    input.resultUrl,
+    198,
+    footerPanelY + 208,
+    760,
+    36,
+    2,
+  );
+  context.fillStyle = "#111111";
+  context.fillRect(1112, footerPanelY + 26, 310, 310);
+  context.fillStyle = "#f4ecd6";
+  context.fillRect(1128, footerPanelY + 42, 278, 278);
+  context.drawImage(qrImage, 1142, footerPanelY + 56, 250, 250);
+
+  return {
+    dataUrl: canvas.toDataURL("image/png"),
+    height,
+    width,
+  };
 }
 
 function calculateScores(answers: AnswerValue[]) {
@@ -657,9 +1425,16 @@ export function SoviaTestComponent({
   const [status, setStatus] = useState(copy.status.ready);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resultUrl, setResultUrl] = useState("");
+  const [generatedResultImage, setGeneratedResultImage] = useState("");
+  const [generatedResultImageSize, setGeneratedResultImageSize] = useState({
+    width: 1600,
+    height: 4100,
+  });
+  const [isGeneratingResultImage, setIsGeneratingResultImage] = useState(false);
   const questionRefs = useRef(new Map<number, HTMLDivElement>());
   const quizActionsRef = useRef<HTMLDivElement>(null);
   const pendingQuestionFocusRef = useRef<number | null>(null);
+  const generatedResultImageSignatureRef = useRef("");
 
   const result = useMemo(() => {
     if (sharedScores) {
@@ -685,6 +1460,43 @@ export function SoviaTestComponent({
   const quizStatus = currentPageAnswered
     ? copy.status.ready
     : copy.status.unanswered;
+  const resultImageInput = useMemo<ResultImageInput>(
+    () => ({
+      code: result.code,
+      title: result.archetype.title,
+      description: result.archetype.description,
+      unit: result.archetype.unit,
+      archiveComment: result.archetype.archiveComment,
+      soviaComment: result.archetype.soviaComment,
+      authority: copy.certificate.authority,
+      copy,
+      personality: resultEssay?.personality,
+      scores: result.scores,
+      social: resultEssay?.social,
+      work: resultEssay?.work,
+      resultUrl,
+    }),
+    [copy, result, resultEssay, resultUrl],
+  );
+  const resultImageSignature = useMemo(() => {
+    return JSON.stringify({
+      locale,
+      code: resultImageInput.code,
+      title: resultImageInput.title,
+      description: resultImageInput.description,
+      unit: resultImageInput.unit,
+      archiveComment: resultImageInput.archiveComment,
+      soviaComment: resultImageInput.soviaComment,
+      authority: resultImageInput.authority,
+      personality: resultImageInput.personality,
+      work: resultImageInput.work,
+      social: resultImageInput.social,
+      resultUrl: resultImageInput.resultUrl,
+      scores: AXIS_ORDER.map((axis) =>
+        resultImageInput.scores[axis].toFixed(4),
+      ),
+    });
+  }, [locale, resultImageInput]);
 
   useEffect(() => {
     setResultUrl(window.location.href);
@@ -937,6 +1749,114 @@ export function SoviaTestComponent({
     }
   }
 
+  async function shareResult() {
+    const url = resultUrl || window.location.href;
+    const text = formatText(copy.copy.template, {
+      code: result.code,
+      title: result.archetype.title,
+      unit: result.archetype.unit,
+      url,
+    });
+    const shareData: ShareData = {
+      title: `${result.code} ${result.archetype.title}`,
+      text,
+      url,
+    };
+
+    try {
+      if (navigator.share) {
+        const imageResponse = await fetch(
+          `/img/sovia-test/code/${result.code.toLowerCase()}.jpg`,
+        );
+        const imageBlob = await imageResponse.blob();
+        const imageFile = new File(
+          [imageBlob],
+          `${result.code.toLowerCase()}.jpg`,
+          { type: imageBlob.type || "image/jpeg" },
+        );
+        const fileShareData: ShareData = {
+          ...shareData,
+          files: [imageFile],
+        };
+
+        if (!navigator.canShare || navigator.canShare(fileShareData)) {
+          await navigator.share(fileShareData);
+          setStatus(copy.status.shareSuccess);
+          return;
+        }
+
+        await navigator.share(shareData);
+        setStatus(copy.status.shareSuccess);
+        return;
+      }
+
+      await navigator.clipboard.writeText(text);
+      setStatus(copy.copy.success);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus(copy.copy.success);
+      } catch {
+        setStatus(copy.copy.failed);
+      }
+    }
+  }
+
+  const generateResultImage = useCallback(async () => {
+    if (isGeneratingResultImage) {
+      return;
+    }
+
+    setIsGeneratingResultImage(true);
+
+    try {
+      const image = await createSoviaResultPng({
+        ...resultImageInput,
+        resultUrl: resultImageInput.resultUrl || window.location.href,
+      });
+
+      setGeneratedResultImage(image.dataUrl);
+      setGeneratedResultImageSize({
+        width: image.width,
+        height: image.height,
+      });
+      generatedResultImageSignatureRef.current = resultImageSignature;
+      setStatus(copy.status.resultImageGenerated);
+    } catch (error) {
+      console.warn("Failed to generate SOVIA result image.", error);
+      setStatus(copy.copy.failed);
+    } finally {
+      setIsGeneratingResultImage(false);
+    }
+  }, [
+    copy.copy.failed,
+    copy.status.resultImageGenerated,
+    isGeneratingResultImage,
+    resultImageInput,
+    resultImageSignature,
+  ]);
+
+  useEffect(() => {
+    if (
+      !generatedResultImage ||
+      isGeneratingResultImage ||
+      generatedResultImageSignatureRef.current === resultImageSignature
+    ) {
+      return;
+    }
+
+    generateResultImage();
+  }, [
+    generateResultImage,
+    generatedResultImage,
+    isGeneratingResultImage,
+    resultImageSignature,
+  ]);
+
   if (screen === "intro") {
     return (
       <section className="sovia-test-ui space-y-8">
@@ -946,7 +1866,16 @@ export function SoviaTestComponent({
           locales={locales}
           onLocaleChange={setLocale}
         />
-        <div className="manifesto grid gap-8 md:grid-cols-[16rem_1fr]">
+        <NextImage
+          alt={copy.page.title}
+          className="w-full border-[3px] border-ink bg-paper object-cover shadow-[8px_8px_0_rgb(var(--red))]"
+          height={1882}
+          priority
+          sizes="100vw"
+          src="/img/sovia-test/banner.jpg"
+          width={3344}
+        />
+        <div className="manifesto grid gap-8 md:grid-cols-[22rem_1fr]">
           <div className="space-y-4">
             <div className="inline-block bg-block px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-relief">
               {copy.progress.label}
@@ -1078,73 +2007,47 @@ export function SoviaTestComponent({
           locales={locales}
           onLocaleChange={setLocale}
         />
-        <div className="manifesto grid gap-8 md:grid-cols-[16rem_1fr]">
-          <div className="space-y-4">
-            <div className="inline-block bg-block px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-relief">
-              {copy.system.name}
+        <div className="manifesto grid gap-8 md:grid-cols-[minmax(0,1fr)_22rem]">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <div className="inline-block bg-block px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-relief">
+                {copy.system.name}
+              </div>
+              <div className="bg-block p-5 text-[clamp(2.25rem,5vw,3.5rem)] font-black leading-none text-relief">
+                <SoviaCode
+                  code={result.code}
+                  template={copy.certificate.codeFormat}
+                />
+              </div>
             </div>
-            <div className="bg-block p-5 text-[clamp(2.25rem,5vw,3.5rem)] font-black leading-none text-relief">
-              <SoviaCode
-                code={result.code}
-                template={copy.certificate.codeFormat}
-              />
+
+            <div className="space-y-5">
+              <div>
+                <div className="meta">{copy.certificate.title}</div>
+                <h1 className="sovia-result-title mt-3">
+                  {result.archetype.title}
+                </h1>
+              </div>
+
+              <div className="space-y-2">
+                <div className="meta">{copy.certificate.descriptionLabel}</div>
+                <p className="text-base font-medium leading-relaxed">
+                  {result.archetype.description}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-5">
+                <button className="btn-primary" onClick={restart} type="button">
+                  {copy.actions.restart}
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-5">
-            <div>
-              <div className="meta">{copy.certificate.title}</div>
-              <h1 className="sovia-result-title mt-3">
-                {result.archetype.title}
-              </h1>
-            </div>
-
-            <div className="space-y-2">
-              <div className="meta">{copy.certificate.descriptionLabel}</div>
-              <p className="text-base font-medium leading-relaxed">
-                {result.archetype.description}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-5">
-              <button
-                className="btn-primary"
-                onClick={copyResult}
-                type="button"
-              >
-                {copy.actions.copy}
-              </button>
-              <button className="btn-outline" onClick={restart} type="button">
-                {copy.actions.restart}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="card grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-          <div className="min-w-0">
-            <div className="meta">{copy.channelAd.title}</div>
-            <p className="mt-3 text-sm font-medium leading-relaxed">
-              {copy.channelAd.intro}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {[Routes.Youtube, Routes.VKVideo, Routes.Bilibili].map((route) => (
-              <a
-                className={
-                  route.href === Routes.Youtube.href
-                    ? "btn-primary"
-                    : "btn-outline"
-                }
-                href={route.href}
-                key={route.href}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {route.label}
-              </a>
-            ))}
-          </div>
+          <SoviaTestResultImage
+            code={result.code}
+            title={result.archetype.title}
+          />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -1281,13 +2184,72 @@ export function SoviaTestComponent({
             readOnly
             value={resultUrl}
           />
-          <button
-            className="btn-primary"
-            onClick={copyResultLink}
-            type="button"
-          >
-            {copy.actions.copyLink}
-          </button>
+          <div className="flex flex-wrap gap-5">
+            <button className="btn-primary" onClick={copyResult} type="button">
+              {copy.actions.copy}
+            </button>
+            <button className="btn-outline" onClick={shareResult} type="button">
+              {copy.actions.share}
+            </button>
+            <button
+              className="btn-outline"
+              onClick={copyResultLink}
+              type="button"
+            >
+              {copy.actions.copyLink}
+            </button>
+            <button
+              className="btn-outline"
+              disabled={isGeneratingResultImage}
+              onClick={generateResultImage}
+              type="button"
+            >
+              {isGeneratingResultImage
+                ? copy.actions.generatingImage
+                : copy.actions.generateImage}
+            </button>
+          </div>
+
+          {generatedResultImage && (
+            <div className="space-y-4 pt-4">
+              <div className="meta">{copy.certificate.resultImageLabel}</div>
+              <NextImage
+                alt={`${result.code} ${result.archetype.title} result poster`}
+                className="w-full border-[3px] border-ink bg-paper shadow-[8px_8px_0_rgb(var(--red))]"
+                height={generatedResultImageSize.height}
+                sizes="100vw"
+                src={generatedResultImage}
+                unoptimized
+                width={generatedResultImageSize.width}
+              />
+            </div>
+          )}
+        </div>
+
+        <div className="card grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div className="min-w-0">
+            <div className="meta">{copy.channelAd.title}</div>
+            <p className="mt-3 text-sm font-medium leading-relaxed">
+              {copy.channelAd.intro}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {[Routes.Youtube, Routes.VKVideo, Routes.Bilibili].map((route) => (
+              <a
+                className={
+                  route.href === Routes.Youtube.href
+                    ? "btn-primary"
+                    : "btn-outline"
+                }
+                href={route.href}
+                key={route.href}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {route.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="meta">{status}</div>

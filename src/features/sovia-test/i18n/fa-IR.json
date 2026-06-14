@@ -62,14 +62,19 @@
     "submit": "ارسال درخواست تخصیص کار",
     "restart": "آزمون دوباره",
     "copy": "کپی نتیجه",
-    "copyLink": "کپی پیوند"
+    "copyLink": "کپی پیوند",
+    "generateImage": "ساخت تصویر نتیجه",
+    "generatingImage": "در حال ساخت...",
+    "share": "اشتراک‌گذاری نتیجه"
   },
   "status": {
     "unanswered": "اول این مورد را کامل کن؛ بایگان هنوز منتظر موضع توست.",
     "ready": "پاسخ ثبت شد. بررسی می‌تواند ادامه یابد.",
     "copied": "نتیجه کپی شد.",
     "copyFailed": "کپی ناموفق بود؛ پرونده را دستی ذخیره کن.",
-    "linkSuccess": "پیوند نتیجه کپی شد."
+    "linkSuccess": "پیوند نتیجه کپی شد.",
+    "resultImageGenerated": "تصویر نتیجه ساخته شد.",
+    "shareSuccess": "نتیجه به اشتراک گذاشته شد."
   },
   "certificate": {
     "title": "گواهی تخصیص نیروی کار",
@@ -90,7 +95,8 @@
     "authorityLabel": "مرجع تأیید",
     "descriptionLabel": "توضیح کوتاه",
     "authority": "بخش موقت بررسی شخصیت در ادارهٔ تبلیغات",
-    "codeFormat": "نوع {{code}}"
+    "codeFormat": "نوع {{code}}",
+    "resultImageLabel": "تصویر نتیجه"
   },
   "axes": {
     "structure": {

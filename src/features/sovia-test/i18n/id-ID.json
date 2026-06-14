@@ -62,14 +62,19 @@
     "submit": "Ajukan alokasi kerja",
     "restart": "Ulangi tes",
     "copy": "Salin hasil",
-    "copyLink": "Salin tautan"
+    "copyLink": "Salin tautan",
+    "generateImage": "Buat gambar hasil",
+    "generatingImage": "Membuat...",
+    "share": "Bagikan hasil"
   },
   "status": {
     "unanswered": "Selesaikan dulu; petugas arsip masih menunggu sikapmu.",
     "ready": "Jawaban dicatat. Pemeriksaan dapat lanjut.",
     "copied": "Hasil disalin.",
     "copyFailed": "Gagal menyalin. Simpan berkas secara manual.",
-    "linkSuccess": "Tautan hasil disalin."
+    "linkSuccess": "Tautan hasil disalin.",
+    "resultImageGenerated": "Gambar hasil dibuat.",
+    "shareSuccess": "Hasil dibagikan."
   },
   "certificate": {
     "title": "Sertifikat Alokasi Rakyat Pekerja",
@@ -90,7 +95,8 @@
     "authorityLabel": "Otoritas pengesah",
     "descriptionLabel": "Deskripsi singkat",
     "authority": "Bagian Pemeriksaan Kepribadian Sementara Departemen Propaganda",
-    "codeFormat": "{{code}}"
+    "codeFormat": "{{code}}",
+    "resultImageLabel": "Gambar hasil"
   },
   "axes": {
     "structure": {

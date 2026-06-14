@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
@@ -15,6 +16,15 @@ export function SoviaTestTypesComponent() {
         locale={locale}
         locales={locales}
         onLocaleChange={setLocale}
+      />
+      <Image
+        alt={copy.typesPage.title}
+        className="w-full border-[3px] border-ink bg-paper object-cover shadow-[8px_8px_0_rgb(var(--red))]"
+        height={3764}
+        priority
+        sizes="100vw"
+        src="/img/sovia-test/all_types.jpg"
+        width={6688}
       />
       <div className="manifesto grid gap-8 md:grid-cols-[16rem_1fr]">
         <div className="space-y-4">
@@ -48,6 +58,15 @@ export function SoviaTestTypesComponent() {
               href={`/test/types/${code.toLowerCase()}`}
               key={code}
             >
+              <Image
+                alt={`${code} ${archetype.title}`}
+                className="relative z-10 aspect-square w-full border-[3px] border-ink bg-paper object-cover shadow-[6px_6px_0_rgb(var(--red))]"
+                height={1254}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                src={`/img/sovia-test/code/${code.toLowerCase()}.jpg`}
+                width={1254}
+              />
+
               <div className="relative z-10 flex items-start justify-between gap-4">
                 <div className="meta">{copy.typesPage.codeLabel}</div>
                 <div className="border-[3px] border-ink bg-paper px-3 py-2 text-xl font-black leading-none text-ink shadow-[4px_4px_0_rgb(var(--shadow))]">

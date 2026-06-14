@@ -62,14 +62,19 @@
     "submit": "Dien arbeidsverdeling in",
     "restart": "Opnieuw testen",
     "copy": "Kopieer resultaat",
-    "copyLink": "Kopieer link"
+    "copyLink": "Kopieer link",
+    "generateImage": "Resultaatafbeelding maken",
+    "generatingImage": "Bezig met maken...",
+    "share": "Resultaat delen"
   },
   "status": {
     "unanswered": "Maak dit eerst af; de archivaris wacht nog.",
     "ready": "Antwoord geregistreerd. Inspectie kan verder.",
     "copied": "Resultaat gekopieerd.",
     "copyFailed": "Kopiëren mislukt. Bewaar handmatig.",
-    "linkSuccess": "Resultaatlink gekopieerd."
+    "linkSuccess": "Resultaatlink gekopieerd.",
+    "resultImageGenerated": "Resultaatafbeelding gemaakt.",
+    "shareSuccess": "Resultaat gedeeld."
   },
   "certificate": {
     "title": "Bewijs van Arbeidsvolksverdeling",
@@ -90,7 +95,8 @@
     "authorityLabel": "Goedkeuringsinstantie",
     "descriptionLabel": "Korte beschrijving",
     "authority": "Tijdelijke Persoonlijkheidsinspectie van het Propagandadepartement",
-    "codeFormat": "{{code}}"
+    "codeFormat": "{{code}}",
+    "resultImageLabel": "Resultaatafbeelding"
   },
   "axes": {
     "structure": {

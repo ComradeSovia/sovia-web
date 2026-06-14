@@ -137,12 +137,18 @@ export type SoviaTestCopy = {
     restart: string;
     copy: string;
     copyLink: string;
+    share: string;
+    generateImage: string;
+    generatingImage: string;
   };
   status: {
     unanswered: string;
     ready: string;
     copied: string;
     copyFailed: string;
+    linkSuccess: string;
+    shareSuccess: string;
+    resultImageGenerated: string;
   };
   certificate: {
     title: string;
@@ -162,6 +168,7 @@ export type SoviaTestCopy = {
     oppositeLabel: string;
     archiveCommentLabel: string;
     soviaCommentLabel: string;
+    resultImageLabel: string;
     authorityLabel: string;
     authority: string;
   };

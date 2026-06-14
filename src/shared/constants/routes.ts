@@ -4,7 +4,7 @@ export const Routes = {
   Center: { label: "Center", href: "/" },
   About: { label: "About Sovia", href: "/about" },
   Sound: { label: "Songs", href: "/sound" },
-  Test: { label: "Test", href: "/test" },
+  Test: { label: "SOVIA-Test", href: "/test" },
   LyricsLibrary: { label: "Lyrics Library", href: "/sound" },
   Report: { label: "Report", href: "/report" },
   Gallery: { label: "Gallery", href: "/gallery" },

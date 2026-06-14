@@ -62,14 +62,19 @@
     "submit": "Munkabeosztási kérelem benyújtása",
     "restart": "Újratesztelés",
     "copy": "Eredmény másolása",
-    "copyLink": "Link másolása"
+    "copyLink": "Link másolása",
+    "generateImage": "Eredménykép létrehozása",
+    "generatingImage": "Létrehozás...",
+    "share": "Eredmény megosztása"
   },
   "status": {
     "unanswered": "Előbb töltsd ki ezt a pontot; az irattáros még várja az állásfoglalásodat.",
     "ready": "A válasz rögzítve. A vizsgálat folytatható.",
     "copied": "Az eredmény másolva.",
     "copyFailed": "A másolás nem sikerült; mentsd el kézzel az aktát.",
-    "linkSuccess": "Az eredmény hivatkozása másolva."
+    "linkSuccess": "Az eredmény hivatkozása másolva.",
+    "resultImageGenerated": "Az eredménykép elkészült.",
+    "shareSuccess": "Az eredmény megosztva."
   },
   "certificate": {
     "title": "Dolgozói beosztási igazolás",
@@ -90,7 +95,8 @@
     "authorityLabel": "Jóváhagyó szerv",
     "descriptionLabel": "Rövid leírás",
     "authority": "A Propagandaosztály Ideiglenes Személyiségvizsgáló Szekciója",
-    "codeFormat": "{{code}} típus"
+    "codeFormat": "{{code}} típus",
+    "resultImageLabel": "Eredménykép"
   },
   "axes": {
     "structure": {

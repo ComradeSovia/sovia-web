@@ -62,13 +62,19 @@
     "submit": "提交劳动分配申请",
     "restart": "重新测试",
     "copy": "复制结果",
-    "copyLink": "复制链接"
+    "copyLink": "复制链接",
+    "generateImage": "生成结果图片",
+    "generatingImage": "生成中...",
+    "share": "分享结果"
   },
   "status": {
     "unanswered": "请先完成当前题目，档案员还在等你的表态。",
     "ready": "回答已记录，可以继续审查。",
     "copied": "结果已复制。",
-    "copyFailed": "复制失败，请手动保存档案。"
+    "copyFailed": "复制失败，请手动保存档案。",
+    "linkSuccess": "结果链接已复制。",
+    "resultImageGenerated": "结果图片已生成。",
+    "shareSuccess": "结果已分享。"
   },
   "certificate": {
     "title": "劳动人民分配证明",
@@ -89,7 +95,8 @@
     "authorityLabel": "批准机关",
     "authority": "宣传部临时人格审查科",
     "codeFormat": "{{code}} 型",
-    "descriptionLabel": "简短描述"
+    "descriptionLabel": "简短描述",
+    "resultImageLabel": "结果图片"
   },
   "axes": {
     "structure": {

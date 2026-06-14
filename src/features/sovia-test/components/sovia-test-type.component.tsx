@@ -6,6 +6,7 @@ import { getSoviaLetterColor } from "../lib/letter-colors";
 import type { AxisKey } from "../types";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
+import { SoviaTestResultImage } from "./sovia-test-result-image.component";
 
 const defaultCopy = getDefaultSoviaTestCopy();
 
@@ -39,33 +40,37 @@ export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
         locales={locales}
         onLocaleChange={setLocale}
       />
-      <div className="manifesto grid gap-8 md:grid-cols-[12rem_minmax(0,1fr)]">
-        <div className="space-y-4">
-          <div className="inline-block bg-block px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-relief">
-            {copy.certificate.codeLabel}
+      <div className="manifesto grid gap-8 md:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <div className="inline-block bg-block px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-relief">
+              {copy.certificate.codeLabel}
+            </div>
+            <div className="sovia-type-code bg-block p-4 font-black leading-none text-relief [overflow-wrap:normal] [word-break:normal]">
+              <SoviaCode code={code} template={copy.certificate.codeFormat} />
+            </div>
           </div>
-          <div className="sovia-type-code bg-block p-4 font-black leading-none text-relief [overflow-wrap:normal] [word-break:normal]">
-            <SoviaCode code={code} template={copy.certificate.codeFormat} />
+
+          <div className="space-y-5">
+            <div>
+              <div className="meta">{copy.typesPage.detailLabel}</div>
+              <h1 className="sovia-type-title mt-3">{archetype.title}</h1>
+            </div>
+            <p className="text-base font-medium leading-relaxed">
+              {archetype.description}
+            </p>
+            <div className="flex flex-wrap gap-5">
+              <a className="btn-primary" href="/test">
+                {copy.typesPage.startTestLabel}
+              </a>
+              <a className="btn-outline" href="/test/types">
+                {copy.actions.types}
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-5">
-          <div>
-            <div className="meta">{copy.typesPage.detailLabel}</div>
-            <h1 className="sovia-type-title mt-3">{archetype.title}</h1>
-          </div>
-          <p className="text-base font-medium leading-relaxed">
-            {archetype.description}
-          </p>
-          <div className="flex flex-wrap gap-5">
-            <a className="btn-primary" href="/test">
-              {copy.typesPage.startTestLabel}
-            </a>
-            <a className="btn-outline" href="/test/types">
-              {copy.actions.types}
-            </a>
-          </div>
-        </div>
+        <SoviaTestResultImage code={code} title={archetype.title} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

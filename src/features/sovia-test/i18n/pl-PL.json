@@ -62,13 +62,19 @@
     "submit": "Złóż wniosek o przydział pracy",
     "restart": "Powtórz test",
     "copy": "Kopiuj wynik",
-    "copyLink": "Kopiuj link"
+    "copyLink": "Kopiuj link",
+    "generateImage": "Wygeneruj obraz wyniku",
+    "generatingImage": "Generowanie...",
+    "share": "Udostępnij wynik"
   },
   "status": {
     "unanswered": "Najpierw odpowiedz na pytanie; archiwista czeka na twoje stanowisko.",
     "ready": "Odpowiedź zapisana. Kontrola może trwać dalej.",
     "copied": "Wynik skopiowany.",
-    "copyFailed": "Nie udało się skopiować. Zapisz akta ręcznie."
+    "copyFailed": "Nie udało się skopiować. Zapisz akta ręcznie.",
+    "linkSuccess": "Link wyniku skopiowany.",
+    "resultImageGenerated": "Obraz wyniku został wygenerowany.",
+    "shareSuccess": "Wynik udostępniony."
   },
   "certificate": {
     "title": "Zaświadczenie przydziału ludu pracującego",
@@ -89,7 +95,8 @@
     "authorityLabel": "Organ zatwierdzający",
     "authority": "Tymczasowa Sekcja Oceny Osobowości",
     "codeFormat": "typ {{code}}",
-    "descriptionLabel": "Krótki opis"
+    "descriptionLabel": "Krótki opis",
+    "resultImageLabel": "Obraz wyniku"
   },
   "axes": {
     "structure": {

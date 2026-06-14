@@ -62,13 +62,19 @@
     "submit": "Soumettre la demande d’affectation",
     "restart": "Recommencer",
     "copy": "Copier le résultat",
-    "copyLink": "Copier le lien"
+    "copyLink": "Copier le lien",
+    "generateImage": "Générer l’image du résultat",
+    "generatingImage": "Génération...",
+    "share": "Partager le résultat"
   },
   "status": {
     "unanswered": "Réponds d’abord à cette question ; l’archiviste attend ta position.",
     "ready": "Réponse enregistrée. L’examen peut continuer.",
     "copied": "Résultat copié.",
-    "copyFailed": "Copie impossible. Sauvegarde le dossier manuellement."
+    "copyFailed": "Copie impossible. Sauvegarde le dossier manuellement.",
+    "linkSuccess": "Lien du résultat copié.",
+    "resultImageGenerated": "Image du résultat générée.",
+    "shareSuccess": "Résultat partagé."
   },
   "certificate": {
     "title": "Certificat d’affectation du peuple travailleur",
@@ -89,7 +95,8 @@
     "authorityLabel": "Autorité d’approbation",
     "authority": "Section provisoire d’examen de la personnalité",
     "codeFormat": "type {{code}}",
-    "descriptionLabel": "Description courte"
+    "descriptionLabel": "Description courte",
+    "resultImageLabel": "Image du résultat"
   },
   "axes": {
     "structure": {

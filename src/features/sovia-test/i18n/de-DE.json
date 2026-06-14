@@ -62,13 +62,19 @@
     "submit": "Arbeitszuteilungsantrag einreichen",
     "restart": "Neu testen",
     "copy": "Ergebnis kopieren",
-    "copyLink": "Link kopieren"
+    "copyLink": "Link kopieren",
+    "generateImage": "Ergebnisbild erstellen",
+    "generatingImage": "Wird erstellt...",
+    "share": "Ergebnis teilen"
   },
   "status": {
     "unanswered": "Bitte beantworte zuerst diese Frage; der Archivar wartet auf deine Stellungnahme.",
     "ready": "Antwort registriert. Die Prüfung kann fortgesetzt werden.",
     "copied": "Ergebnis kopiert.",
-    "copyFailed": "Kopieren fehlgeschlagen. Bitte die Akte manuell sichern."
+    "copyFailed": "Kopieren fehlgeschlagen. Bitte die Akte manuell sichern.",
+    "linkSuccess": "Ergebnislink kopiert.",
+    "resultImageGenerated": "Ergebnisbild wurde erstellt.",
+    "shareSuccess": "Ergebnis wurde geteilt."
   },
   "certificate": {
     "title": "Bescheinigung der arbeitenden Bevölkerung",
@@ -89,7 +95,8 @@
     "authorityLabel": "Genehmigungsstelle",
     "authority": "Vorläufige Persönlichkeitsprüfung der Propagandaabteilung",
     "codeFormat": "Typ {{code}}",
-    "descriptionLabel": "Kurzbeschreibung"
+    "descriptionLabel": "Kurzbeschreibung",
+    "resultImageLabel": "Ergebnisbild"
   },
   "axes": {
     "structure": {

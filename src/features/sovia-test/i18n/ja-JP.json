@@ -62,14 +62,19 @@
     "submit": "労働配属申請を提出",
     "restart": "もう一度テスト",
     "copy": "結果をコピー",
-    "copyLink": "リンクをコピー"
+    "copyLink": "リンクをコピー",
+    "generateImage": "結果画像を生成",
+    "generatingImage": "生成中...",
+    "share": "結果を共有"
   },
   "status": {
     "unanswered": "まず現在の項目に回答してください。档案係があなたの表明を待っています。",
     "ready": "回答を記録しました。審査を続行できます。",
     "copied": "結果をコピーしました。",
     "copyFailed": "コピーに失敗しました。手動で档案を保存してください。",
-    "linkSuccess": "結果リンクをコピーしました。"
+    "linkSuccess": "結果リンクをコピーしました。",
+    "resultImageGenerated": "結果画像を生成しました。",
+    "shareSuccess": "結果を共有しました。"
   },
   "certificate": {
     "title": "労働人民配属証明書",
@@ -90,7 +95,8 @@
     "authorityLabel": "承認機関",
     "authority": "宣伝部臨時人格審査科",
     "codeFormat": "{{code}} 型",
-    "descriptionLabel": "短い説明"
+    "descriptionLabel": "短い説明",
+    "resultImageLabel": "結果画像"
   },
   "axes": {
     "structure": {

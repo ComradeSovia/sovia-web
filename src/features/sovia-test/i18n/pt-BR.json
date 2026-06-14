@@ -62,13 +62,19 @@
     "submit": "Enviar pedido de alocação laboral",
     "restart": "Refazer teste",
     "copy": "Copiar resultado",
-    "copyLink": "Copiar link"
+    "copyLink": "Copiar link",
+    "generateImage": "Gerar imagem do resultado",
+    "generatingImage": "Gerando...",
+    "share": "Compartilhar resultado"
   },
   "status": {
     "unanswered": "Responda esta pergunta primeiro; o arquivista aguarda sua posição.",
     "ready": "Resposta registrada. A revisão pode continuar.",
     "copied": "Resultado copiado.",
-    "copyFailed": "Falha ao copiar. Salve o dossiê manualmente."
+    "copyFailed": "Falha ao copiar. Salve o dossiê manualmente.",
+    "linkSuccess": "Link do resultado copiado.",
+    "resultImageGenerated": "Imagem do resultado gerada.",
+    "shareSuccess": "Resultado compartilhado."
   },
   "certificate": {
     "title": "Certificado de alocação do povo trabalhador",
@@ -89,7 +95,8 @@
     "authorityLabel": "Autoridade aprovadora",
     "authority": "Seção Provisória de Revisão de Personalidade",
     "codeFormat": "tipo {{code}}",
-    "descriptionLabel": "Descrição curta"
+    "descriptionLabel": "Descrição curta",
+    "resultImageLabel": "Imagem do resultado"
   },
   "axes": {
     "structure": {

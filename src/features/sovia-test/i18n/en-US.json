@@ -62,14 +62,19 @@
     "submit": "Submit labor allocation request",
     "restart": "Restart test",
     "copy": "Copy result",
-    "copyLink": "Copy link"
+    "copyLink": "Copy link",
+    "generateImage": "Generate result image",
+    "generatingImage": "Generating...",
+    "share": "Share result"
   },
   "status": {
     "unanswered": "Please answer the current item first. The archive clerk is waiting for your position.",
     "ready": "Answer recorded. The review may continue.",
     "copied": "Result copied.",
     "copyFailed": "Copy failed. Please preserve the file manually.",
-    "linkSuccess": "Result link copied."
+    "linkSuccess": "Result link copied.",
+    "resultImageGenerated": "Result image generated.",
+    "shareSuccess": "Result shared."
   },
   "certificate": {
     "title": "Certificate of Labor-People Allocation",
@@ -90,7 +95,8 @@
     "authorityLabel": "Approving authority",
     "authority": "Temporary Personality Review Section of the Propaganda Department",
     "codeFormat": "{{code}} Type",
-    "descriptionLabel": "Short description"
+    "descriptionLabel": "Short description",
+    "resultImageLabel": "Result image"
   },
   "axes": {
     "structure": {

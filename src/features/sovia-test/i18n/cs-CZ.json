@@ -62,14 +62,19 @@
     "submit": "Odeslat žádost o pracovní přidělení",
     "restart": "Opakovat test",
     "copy": "Kopírovat výsledek",
-    "copyLink": "Kopírovat odkaz"
+    "copyLink": "Kopírovat odkaz",
+    "generateImage": "Vytvořit obrázek výsledku",
+    "generatingImage": "Vytváření...",
+    "share": "Sdílet výsledek"
   },
   "status": {
     "unanswered": "Nejprve dokončete tuto položku; archivář stále čeká na vaše stanovisko.",
     "ready": "Odpověď byla zaznamenána. Přezkum může pokračovat.",
     "copied": "Výsledek zkopírován.",
     "copyFailed": "Kopírování selhalo; spis uložte ručně.",
-    "linkSuccess": "Odkaz na výsledek zkopírován."
+    "linkSuccess": "Odkaz na výsledek zkopírován.",
+    "resultImageGenerated": "Obrázek výsledku byl vytvořen.",
+    "shareSuccess": "Výsledek byl sdílen."
   },
   "certificate": {
     "title": "Osvědčení o přidělení pracujícího",
@@ -90,7 +95,8 @@
     "authorityLabel": "Schvalující orgán",
     "descriptionLabel": "Stručný popis",
     "authority": "Dočasná sekce pro přezkum osobnosti při Oddělení propagandy",
-    "codeFormat": "typ {{code}}"
+    "codeFormat": "typ {{code}}",
+    "resultImageLabel": "Obrázek výsledku"
   },
   "axes": {
     "structure": {

@@ -62,14 +62,19 @@
     "submit": "تقديم طلب توزيع العمل",
     "restart": "إعادة الاختبار",
     "copy": "نسخ النتيجة",
-    "copyLink": "نسخ الرابط"
+    "copyLink": "نسخ الرابط",
+    "generateImage": "إنشاء صورة النتيجة",
+    "generatingImage": "جارٍ الإنشاء...",
+    "share": "مشاركة النتيجة"
   },
   "status": {
     "unanswered": "أكمل هذه المادة أولاً؛ أمين الأرشيف ما زال ينتظر موقفك.",
     "ready": "تم تسجيل الإجابة. يمكن مواصلة الفحص.",
     "copied": "تم نسخ النتيجة.",
     "copyFailed": "فشل النسخ. احفظ الملف يدوياً.",
-    "linkSuccess": "تم نسخ رابط النتيجة."
+    "linkSuccess": "تم نسخ رابط النتيجة.",
+    "resultImageGenerated": "تم إنشاء صورة النتيجة.",
+    "shareSuccess": "تمت مشاركة النتيجة."
   },
   "certificate": {
     "title": "شهادة توزيع العاملين",
@@ -90,7 +95,8 @@
     "authorityLabel": "الجهة المعتمدة",
     "descriptionLabel": "وصف مختصر",
     "authority": "قسم فحص الشخصية المؤقت في إدارة الدعاية",
-    "codeFormat": "نوع {{code}}"
+    "codeFormat": "نوع {{code}}",
+    "resultImageLabel": "صورة النتيجة"
   },
   "axes": {
     "structure": {

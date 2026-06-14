@@ -62,13 +62,19 @@
     "submit": "Nộp đơn phân công lao động",
     "restart": "Làm lại",
     "copy": "Sao chép kết quả",
-    "copyLink": "Sao chép liên kết"
+    "copyLink": "Sao chép liên kết",
+    "generateImage": "Tạo ảnh kết quả",
+    "generatingImage": "Đang tạo...",
+    "share": "Chia sẻ kết quả"
   },
   "status": {
     "unanswered": "Hãy trả lời câu hiện tại trước; cán bộ lưu trữ đang chờ lập trường của bạn.",
     "ready": "Câu trả lời đã được ghi nhận. Có thể tiếp tục thẩm tra.",
     "copied": "Đã sao chép kết quả.",
-    "copyFailed": "Sao chép thất bại. Hãy tự lưu hồ sơ."
+    "copyFailed": "Sao chép thất bại. Hãy tự lưu hồ sơ.",
+    "linkSuccess": "Đã sao chép liên kết kết quả.",
+    "resultImageGenerated": "Đã tạo ảnh kết quả.",
+    "shareSuccess": "Đã chia sẻ kết quả."
   },
   "certificate": {
     "title": "Giấy chứng nhận phân công nhân dân lao động",
@@ -89,7 +95,8 @@
     "authorityLabel": "Cơ quan phê chuẩn",
     "authority": "Ban thẩm tra nhân cách tạm thời",
     "codeFormat": "kiểu {{code}}",
-    "descriptionLabel": "Mô tả ngắn"
+    "descriptionLabel": "Mô tả ngắn",
+    "resultImageLabel": "Ảnh kết quả"
   },
   "axes": {
     "structure": {

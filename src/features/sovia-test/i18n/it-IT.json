@@ -62,13 +62,19 @@
     "submit": "Invia domanda di assegnazione lavorativa",
     "restart": "Rifai il test",
     "copy": "Copia risultato",
-    "copyLink": "Copia link"
+    "copyLink": "Copia link",
+    "generateImage": "Genera immagine risultato",
+    "generatingImage": "Generazione...",
+    "share": "Condividi risultato"
   },
   "status": {
     "unanswered": "Rispondi prima a questa domanda; l’archivista attende la tua posizione.",
     "ready": "Risposta registrata. La revisione può continuare.",
     "copied": "Risultato copiato.",
-    "copyFailed": "Copia fallita. Salva il fascicolo manualmente."
+    "copyFailed": "Copia fallita. Salva il fascicolo manualmente.",
+    "linkSuccess": "Link del risultato copiato.",
+    "resultImageGenerated": "Immagine del risultato generata.",
+    "shareSuccess": "Risultato condiviso."
   },
   "certificate": {
     "title": "Certificato di assegnazione del popolo lavoratore",
@@ -89,7 +95,8 @@
     "authorityLabel": "Autorità approvatrice",
     "authority": "Sezione Provvisoria di Revisione della Personalità",
     "codeFormat": "tipo {{code}}",
-    "descriptionLabel": "Descrizione breve"
+    "descriptionLabel": "Descrizione breve",
+    "resultImageLabel": "Immagine risultato"
   },
   "axes": {
     "structure": {
