@@ -1720,7 +1720,7 @@ export function SoviaTestComponent({
     setCurrentPage(0);
     setScreen("intro");
     setStatus(copy.status.ready);
-    router.replace("/test", { scroll: false });
+    router.push("/test", { scroll: false });
   }
 
   async function copyResult() {
