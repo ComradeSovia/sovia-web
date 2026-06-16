@@ -37,6 +37,14 @@ const CARDS: ReadonlyArray<CardItem> = [
     links: [Routes.X, Routes.Instagram],
   },
   {
+    id: "video-images",
+    title: "Video Images",
+    subTitle: "Thumbnails & Design Materials",
+    description:
+      "Video thumbnail designs and other image materials used around the videos are collected on Pixiv.",
+    links: [Routes.Pixiv],
+  },
+  {
     id: "community",
     title: "Community",
     subTitle: "Regional & Discussion Spaces",

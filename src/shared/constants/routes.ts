@@ -16,6 +16,10 @@ export const Routes = {
     label: "IG (Realism Style)",
     href: "https://www.instagram.com/comradesovia/",
   },
+  Pixiv: {
+    label: "Pixiv",
+    href: "https://www.pixiv.net/en/users/126922434",
+  },
   Reddit: { label: "Reddit", href: "https://www.reddit.com/r/sovia/" },
   Bilibili: {
     label: "Bilibili",
