@@ -26,7 +26,7 @@ const CARDS: ReadonlyArray<CardItem> = [
     subTitle: "Streaming Pages",
     description:
       "Official music releases are collected on the streaming artist pages.",
-    links: [Routes.Spotify, Routes.AppleMusic],
+    links: [Routes.Spotify, Routes.AppleMusic, Routes.YoutubeMusic],
   },
   {
     id: "concept-design",

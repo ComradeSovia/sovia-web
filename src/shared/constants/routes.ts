@@ -33,6 +33,10 @@ export const Routes = {
     label: "Apple Music",
     href: "https://music.apple.com/ru/artist/comrade-sovia/1860353708",
   },
+  YoutubeMusic: {
+    label: "YouTube Music",
+    href: "https://music.youtube.com/@comradesovia",
+  },
   Request: { label: "Request", href: "/request" },
   Notice: { label: "Notice", href: "/notice" },
   Youtube: { label: "YouTube", href: "https://www.youtube.com/@ComradeSovia" },
