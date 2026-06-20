@@ -343,6 +343,18 @@ a:hover {
   box-shadow: 6px 6px 0 rgb(var(--red));
 }
 
+.card h2,
+.card h3 {
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.card p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 /* =========================
    Small meta text industrial feel
    ========================= */
@@ -352,6 +364,18 @@ a:hover {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgb(var(--red));
+}
+
+.card .meta {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
+}
+
+.card .btn-primary,
+.card .btn-outline {
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
 }
 
 .sovia-test-ui {
