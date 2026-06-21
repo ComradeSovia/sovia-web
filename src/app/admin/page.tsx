@@ -1,10 +1,12 @@
 import { AdminPage } from "@sovia/admin";
+import { getDefaultAdminCopy } from "@sovia/admin/i18n/copy";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+const copy = getDefaultAdminCopy();
 
 export const metadata: Metadata = {
-  title: "Admin",
+  title: copy.metadata.title,
   robots: {
     index: false,
     follow: false,

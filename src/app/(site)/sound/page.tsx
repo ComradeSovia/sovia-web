@@ -1,19 +1,19 @@
 import { loadAllMusicWorks, SoundClient } from "@sovia/sound";
+import { getDefaultSoundCopy } from "@sovia/sound/i18n/copy";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+const copy = getDefaultSoundCopy();
 
 export const metadata: Metadata = {
-  title: "Sound Works",
-  description:
-    "Search Comrade Sovia's archive of Soviet-style anime, game, Vocaloid, and pop music adaptations with lyrics and YouTube links.",
+  title: copy.page.title,
+  description: copy.page.description,
   alternates: {
     canonical: "/sound",
   },
   openGraph: {
-    title: "Sound Works | Comrade Sovia",
-    description:
-      "Browse Soviet-style anime and game music adaptations from Comrade Sovia.",
+    title: `${copy.page.title} | Comrade Sovia`,
+    description: copy.page.openGraphDescription,
     url: "/sound",
   },
 };

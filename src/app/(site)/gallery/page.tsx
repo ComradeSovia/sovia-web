@@ -1,9 +1,12 @@
 import { UnderConstruction } from "@sovia/shared";
+import { getDefaultSharedCopy } from "@sovia/shared/i18n/copy";
 import type { Metadata } from "next";
 
+const copy = getDefaultSharedCopy();
+
 export const metadata: Metadata = {
-  title: "Gallery",
-  description: "Image gallery and visual archive for Comrade Sovia.",
+  title: copy.pages.gallery.title,
+  description: copy.pages.gallery.description,
   alternates: {
     canonical: "/gallery",
   },
@@ -14,5 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function GalleryPage() {
-  return <UnderConstruction title="Gallery" />;
+  return <UnderConstruction title={copy.pages.gallery.title} />;
 }

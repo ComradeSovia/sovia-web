@@ -1,9 +1,12 @@
 import { UnderConstruction } from "@sovia/shared";
+import { getDefaultSharedCopy } from "@sovia/shared/i18n/copy";
 import type { Metadata } from "next";
 
+const copy = getDefaultSharedCopy();
+
 export const metadata: Metadata = {
-  title: "Request",
-  description: "Request a song or adaptation for the Comrade Sovia archive.",
+  title: copy.pages.request.title,
+  description: copy.pages.request.description,
   alternates: {
     canonical: "/request",
   },
@@ -14,5 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function RequestPage() {
-  return <UnderConstruction title="Request" />;
+  return <UnderConstruction title={copy.pages.request.title} />;
 }

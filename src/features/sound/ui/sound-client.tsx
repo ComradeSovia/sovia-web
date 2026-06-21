@@ -2,12 +2,14 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { getDefaultSoundCopy } from "../i18n/copy";
 import { filterMusic } from "../lib/filter-music";
 import type { MusicWork } from "../model/music";
 import { SoundCard } from "./sound-card";
 
 const PAGE_SIZE = 50;
 const DEBOUNCE_DELAY = 300; // ms
+const copy = getDefaultSoundCopy();
 
 export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
   const router = useRouter();
@@ -69,11 +71,11 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
   return (
     <section className="space-y-10">
       <div className="grid gap-5 border-[3px] border-ink bg-paper p-5 shadow-[10px_10px_0_rgb(var(--shadow))] md:grid-cols-[1fr_22rem] md:items-end">
-        <h1 className="text-5xl sm:text-6xl">Sound Works</h1>
+        <h1 className="text-5xl sm:text-6xl">{copy.page.title}</h1>
 
         <input
           className="w-full border-[3px] border-ink bg-paper px-4 py-3 font-black uppercase tracking-[0.08em] text-ink placeholder:text-[rgb(var(--ink)/0.45)] shadow-[6px_6px_0_rgb(var(--red))] focus:outline-none focus:ring-4 focus:ring-[rgb(var(--yellow))]"
-          placeholder="Search title, series..."
+          placeholder={copy.search.placeholder}
           value={inputValue}
           onChange={(e) => {
             setInputValue(e.target.value);
@@ -95,7 +97,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
             onClick={() => updatePage(page - 1)}
             type="button"
           >
-            Prev
+            {copy.pagination.previous}
           </button>
 
           <div className="meta">
@@ -108,7 +110,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
             onClick={() => updatePage(page + 1)}
             type="button"
           >
-            Next
+            {copy.pagination.next}
           </button>
         </div>
       )}

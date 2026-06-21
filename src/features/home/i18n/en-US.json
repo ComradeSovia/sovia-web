@@ -1,0 +1,158 @@
+{
+  "hero": {
+    "eyebrow": "Department of stylistic reconstruction",
+    "titleLineOne": "COMRADE",
+    "titleLineTwo": "SOVIA",
+    "statement": "Rhythm of labor, archive of voices, reconstruction of familiar sound.",
+    "unitLabel": "Video Unit",
+    "unitLines": ["Watch", "videos", "across", "YouTube", "VK", "Bilibili."]
+  },
+  "manifesto": {
+    "eyebrow": "About Our Department",
+    "serial": "00",
+    "titleLines": ["About", "Sovia"],
+    "text": "Sovia Rabocheva collects familiar songs and sends them through the machinery of another world. This is not replication, and not only comedy. This is reconstruction.",
+    "strongTerms": [
+      "familiar songs",
+      "machinery of another world",
+      "reconstruction"
+    ],
+    "actionLabel": "About Sovia"
+  },
+  "about": {
+    "metadataTitle": "About Sovia | Comrade Sovia",
+    "metadataDescription": "About Sovia Rabocheva and the reconstruction of familiar songs through another world.",
+    "eyebrow": "About Our Department",
+    "serial": "00",
+    "titleLines": ["About", "Sovia"],
+    "sections": [
+      [
+        { "text": "My name is " },
+        { "text": "Sovia Rabocheva", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "I collect " },
+        { "text": "familiar songs", "strong": true },
+        { "text": " and send them back through the " },
+        { "text": "machinery of another world", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "Melodies are " },
+        { "text": "reorganized", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "Languages are " },
+        { "text": "reassigned", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "Emotions are " },
+        { "text": "filed", "strong": true },
+        { "text": ", " },
+        { "text": "stamped", "strong": true },
+        { "text": ", and sent back to the " },
+        { "text": "people", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "This is not " },
+        { "text": "replication", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "This is not only " },
+        { "text": "comedy", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "This is " },
+        { "text": "reconstruction", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "Every song becomes a small report on " },
+        { "text": "labor", "strong": true },
+        { "text": ", " },
+        { "text": "order", "strong": true },
+        { "text": ", " },
+        { "text": "collectivity", "strong": true },
+        { "text": ", and " },
+        { "text": "memory", "strong": true },
+        { "text": "." }
+      ],
+      [
+        { "text": "Every " },
+        { "text": "arrangement", "strong": true },
+        { "text": " asks the same question:" }
+      ],
+      [{ "text": "What would this melody become," }],
+      [
+        { "text": "if it had grown up in a " },
+        { "text": "different reality", "strong": true },
+        { "text": "?" }
+      ],
+      [
+        { "text": "If it sounds " },
+        { "text": "familiar", "strong": true },
+        { "text": "," }
+      ],
+      [
+        { "text": "but not quite from " },
+        { "text": "this world", "strong": true },
+        { "text": "," }
+      ],
+      [
+        { "text": "then the " },
+        { "text": "operation was successful", "strong": true },
+        { "text": "." }
+      ]
+    ]
+  },
+  "cards": [
+    {
+      "id": "lyrics-library",
+      "title": "Lyrics Library",
+      "subTitle": "Impression Lyrics Archive",
+      "description": "Read the lyrics, song notes, and archive entries for Comrade Sovia works.",
+      "pageIntro": "The lyric and archive desk for Comrade Sovia works: song pages, source notes, YouTube records, and the text fragments attached to each adaptation."
+    },
+    {
+      "id": "music-release",
+      "title": "Music Release",
+      "subTitle": "Streaming Pages",
+      "description": "Official music releases are collected on the streaming artist pages.",
+      "pageIntro": "Official streaming outposts for Comrade Sovia releases, gathered for listeners who prefer music platforms over the archive interface."
+    },
+    {
+      "id": "concept-design",
+      "title": "Concept Design",
+      "subTitle": "Anime & Realism Styles",
+      "description": "Anime-styled visual work lives on X, while realistic images and polished visual updates live on IG.",
+      "pageIntro": "Visual design channels for the Sovia project, split between anime-styled development, realism studies, and polished public updates."
+    },
+    {
+      "id": "video-images",
+      "title": "Video Images",
+      "subTitle": "Thumbnails & Design Materials",
+      "description": "Video thumbnail designs and other image materials used around the videos are collected on Pixiv.",
+      "pageIntro": "A collection point for thumbnail work, illustration materials, and visual assets connected to Comrade Sovia videos."
+    },
+    {
+      "id": "community",
+      "title": "Community",
+      "subTitle": "Regional & Discussion Spaces",
+      "description": "Places for discussion, sharing, and the Russian-region community around Sovia.",
+      "pageIntro": "Community spaces for discussion, updates, regional posts, and people following the Sovia archive from different platforms."
+    }
+  ],
+  "cardPage": {
+    "eyebrow": "External Office",
+    "openChannel": "Open Channel",
+    "openLink": "Open Link",
+    "enterArchive": "Enter Archive",
+    "backToCenter": "Back To Center"
+  }
+}

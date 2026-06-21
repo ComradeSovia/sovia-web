@@ -1,0 +1,82 @@
+{
+  "site": {
+    "name": "Comrade Sovia",
+    "title": "Comrade Sovia | Soviet-style Anime Music Archive",
+    "description": "Browse Comrade Sovia's Soviet-style anime and game music adaptations, lyrics, YouTube videos, and archive notes.",
+    "keywords": [
+      "Comrade Sovia",
+      "Sovia",
+      "Soviet music",
+      "anime music",
+      "anime song covers",
+      "Soviet choir",
+      "YouTube music archive"
+    ]
+  },
+  "routes": {
+    "center": "Center",
+    "about": "About Sovia",
+    "sound": "Songs",
+    "test": "SOVIA-Test",
+    "lyricsLibrary": "Lyrics Library",
+    "musicRelease": "Music Release",
+    "conceptDesign": "Concept Design",
+    "videoImages": "Video Images",
+    "community": "Community",
+    "report": "Report",
+    "gallery": "Gallery",
+    "x": "X (Anime Style)",
+    "vk": "VK Community",
+    "vkVideo": "VK-Video",
+    "discord": "Join Discord",
+    "instagram": "IG (Realism Style)",
+    "pixiv": "Pixiv",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili",
+    "spotify": "Spotify",
+    "appleMusic": "Apple Music",
+    "youtubeMusic": "YouTube Music",
+    "request": "Request",
+    "notice": "Notice",
+    "youtube": "YouTube"
+  },
+  "brand": {
+    "title": "USSR",
+    "subtitle": "Unit of Soviet Songs Reform"
+  },
+  "underConstruction": {
+    "status": "СТАТУС",
+    "description": "СТРАНИЦА НАХОДИТСЯ В СТАДИИ СТРОИТЕЛЬСТВА",
+    "under": "UNDER",
+    "construction": "CONSTRUCTION",
+    "returnLabel": "Return to Center",
+    "footer": "Order is being established."
+  },
+  "notFound": {
+    "status": "СТАТУС",
+    "description": "СТРАНИЦА НЕ НАЙДЕНА",
+    "title": "404",
+    "lineOne": "NOT",
+    "lineTwo": "FOUND",
+    "returnLabel": "Return to Center",
+    "footer": "Order is not optional."
+  },
+  "pages": {
+    "gallery": {
+      "title": "Gallery",
+      "description": "Image gallery and visual archive for Comrade Sovia."
+    },
+    "report": {
+      "title": "Report",
+      "description": "Updates, notes, and archive reports from Comrade Sovia."
+    },
+    "request": {
+      "title": "Request",
+      "description": "Request a song or adaptation for the Comrade Sovia archive."
+    },
+    "notice": {
+      "title": "Notice",
+      "description": "Notices and important information for the Comrade Sovia site."
+    }
+  }
+}

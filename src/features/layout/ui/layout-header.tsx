@@ -1,5 +1,6 @@
 import { HammerStarMark } from "@sovia/shared";
 import { LayoutNav, LayoutNavMobile } from "./layout-nav";
+import { SiteLanguageSwitcher } from "./site-language-switcher";
 import { ThemeToggle } from "./theme-toggle";
 
 export function LayoutHeader() {
@@ -23,6 +24,7 @@ export function LayoutHeader() {
         <LayoutNav />
 
         <div className="flex items-center gap-3">
+          <SiteLanguageSwitcher />
           <ThemeToggle />
           {requestButton}
         </div>

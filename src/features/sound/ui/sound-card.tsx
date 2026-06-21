@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getDefaultSoundCopy } from "../i18n/copy";
 import type { MusicWork } from "../model/music";
 import { U2BThumbnail } from "./u2b-thumbnail";
+
+const copy = getDefaultSoundCopy();
 
 export function SoundCard({ work }: { work: MusicWork }) {
   if (!work.u2bId) return null;
@@ -13,7 +16,9 @@ export function SoundCard({ work }: { work: MusicWork }) {
         <h3 className="text-2xl">{work.title}</h3>
 
         <p className="text-sm">
-          {work.original ? `Adapted from ${work.original}` : "Original work"}
+          {work.original
+            ? copy.card.adaptedFrom.replace("{{original}}", work.original)
+            : copy.card.originalWork}
         </p>
 
         {work.series && <div className="meta">{work.series}</div>}
@@ -21,7 +26,7 @@ export function SoundCard({ work }: { work: MusicWork }) {
 
       <div className="flex flex-wrap gap-3 pt-2">
         <Link href={`/sound/${work.path}`} className="btn-outline">
-          View Details
+          {copy.card.details}
         </Link>
         <a
           href={`https://www.youtube.com/watch?v=${work.u2bId}`}
@@ -29,7 +34,7 @@ export function SoundCard({ work }: { work: MusicWork }) {
           rel="noopener noreferrer"
           className="btn-outline"
         >
-          Watch YouTube
+          {copy.card.watchYoutube}
         </a>
       </div>
     </div>

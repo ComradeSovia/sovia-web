@@ -9,20 +9,25 @@ import {
 import { Input } from "@sovia/shared/ui/shadcn/input";
 import { Label } from "@sovia/shared/ui/shadcn/label";
 import { loginAdmin } from "../actions";
+import { getDefaultAdminCopy } from "../i18n/copy";
+
+const copy = getDefaultAdminCopy();
 
 export function AdminLogin() {
   return (
     <section className="mx-auto flex min-h-[70vh] max-w-md items-center">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-mono text-2xl">admin.shell</CardTitle>
-          <CardDescription>Restricted content console</CardDescription>
+          <CardTitle className="font-mono text-2xl">
+            {copy.login.title}
+          </CardTitle>
+          <CardDescription>{copy.login.description}</CardDescription>
         </CardHeader>
 
         <CardContent>
           <form action={loginAdmin} className="grid gap-5">
             <div className="grid gap-2">
-              <Label htmlFor="admin-password">Password</Label>
+              <Label htmlFor="admin-password">{copy.login.password}</Label>
               <Input
                 id="admin-password"
                 name="password"
@@ -31,7 +36,7 @@ export function AdminLogin() {
               />
             </div>
 
-            <Button type="submit">Enter</Button>
+            <Button type="submit">{copy.login.submit}</Button>
           </form>
         </CardContent>
       </Card>

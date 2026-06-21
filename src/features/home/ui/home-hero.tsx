@@ -1,4 +1,7 @@
 import { Routes } from "@sovia/shared";
+import { getDefaultHomeCopy } from "../i18n/copy";
+
+const copy = getDefaultHomeCopy();
 
 export function HomeHero() {
   return (
@@ -9,19 +12,18 @@ export function HomeHero() {
       <div className="relative grid gap-8 lg:grid-cols-[1fr_16rem]">
         <div className="space-y-6">
           <div className="meta border-l-[12px] border-red pl-3">
-            Department of stylistic reconstruction
+            {copy.hero.eyebrow}
           </div>
 
           <h1 className="max-w-4xl">
-            COMRADE
+            {copy.hero.titleLineOne}
             <br />
-            SOVIA
+            {copy.hero.titleLineTwo}
           </h1>
 
           <div className="border-y-[3px] border-ink py-4">
             <p className="max-w-3xl text-lg font-black uppercase leading-tight tracking-[0.06em] text-ink sm:text-2xl">
-              Rhythm of labor, archive of voices, reconstruction of familiar
-              sound.
+              {copy.hero.statement}
             </p>
           </div>
 
@@ -59,20 +61,15 @@ export function HomeHero() {
           </div>
           <div className="space-y-3 border-t-[3px] border-ink bg-block p-5">
             <div className="text-xs font-black uppercase tracking-[0.2em] text-yellow">
-              Video Unit
+              {copy.hero.unitLabel}
             </div>
             <p className="bg-paper px-3 py-2 text-[13px] font-black uppercase leading-snug tracking-[0.04em] text-ink">
-              Watch
-              <br />
-              videos
-              <br />
-              across
-              <br />
-              YouTube
-              <br />
-              VK
-              <br />
-              Bilibili.
+              {copy.hero.unitLines.map((line) => (
+                <span key={line}>
+                  {line}
+                  <br />
+                </span>
+              ))}
             </p>
           </div>
         </div>

@@ -1,9 +1,12 @@
 import { UnderConstruction } from "@sovia/shared";
+import { getDefaultSharedCopy } from "@sovia/shared/i18n/copy";
 import type { Metadata } from "next";
 
+const copy = getDefaultSharedCopy();
+
 export const metadata: Metadata = {
-  title: "Report",
-  description: "Updates, notes, and archive reports from Comrade Sovia.",
+  title: copy.pages.report.title,
+  description: copy.pages.report.description,
   alternates: {
     canonical: "/report",
   },
@@ -14,5 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function ReportPage() {
-  return <UnderConstruction title="Report" />;
+  return <UnderConstruction title={copy.pages.report.title} />;
 }

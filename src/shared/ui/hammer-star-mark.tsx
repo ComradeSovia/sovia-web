@@ -1,7 +1,7 @@
 import { Routes } from "../constants/routes";
+import { getDefaultSharedCopy } from "../i18n/copy";
 
-const WEB_SITE_TITLE = "USSR";
-const WEB_SITE_TITLE_SUB = "Unit of Soviet Songs Reform";
+const copy = getDefaultSharedCopy();
 
 export function HammerStarMark() {
   return (
@@ -12,10 +12,10 @@ export function HammerStarMark() {
         </div>
         <div className="px-3 py-2 leading-tight">
           <div className="text-sm font-black tracking-[0.2em]">
-            {WEB_SITE_TITLE}
+            {copy.brand.title}
           </div>
           <div className="text-[10px] font-black uppercase tracking-[0.12em]">
-            {WEB_SITE_TITLE_SUB}
+            {copy.brand.subtitle}
           </div>
         </div>
       </div>

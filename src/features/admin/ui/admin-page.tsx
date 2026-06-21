@@ -26,7 +26,10 @@ import {
   getAdminDatabaseStatus,
   listAdminMusicWorks,
 } from "../data/music-admin";
+import { getDefaultAdminCopy } from "../i18n/copy";
 import { AdminLogin } from "./login-form";
+
+const copy = getDefaultAdminCopy();
 
 export async function AdminPage({ error }: { error?: string }) {
   if (!hasAdminPassword()) {
@@ -35,11 +38,10 @@ export async function AdminPage({ error }: { error?: string }) {
         <Alert className="border-red-500/50 bg-red-950/40">
           <AlertCircle className="mb-3 h-5 w-5 text-red-300" />
           <AlertTitle className="text-red-200">
-            admin password missing
+            {copy.status.missingPasswordTitle}
           </AlertTitle>
           <AlertDescription className="text-red-200/80">
-            Set SOVIA_ADMIN_PASSWORD or ADMIN_PASSWORD in env to enable the
-            admin panel.
+            {copy.status.missingPasswordDescription}
           </AlertDescription>
         </Alert>
       </section>
@@ -60,20 +62,18 @@ export async function AdminPage({ error }: { error?: string }) {
           <div>
             <div className="mb-2 flex items-center gap-2 text-sm text-emerald-500">
               <Database className="h-4 w-4" />
-              content database
+              {copy.status.databaseLabel}
             </div>
             <CardTitle className="font-mono text-3xl">
-              admin@comrade-sovia
+              {copy.status.title}
             </CardTitle>
-            <CardDescription>
-              postgres overrides / legacy fallback
-            </CardDescription>
+            <CardDescription>{copy.status.description}</CardDescription>
           </div>
 
           <form action={logoutAdmin}>
             <Button type="submit" variant="outline">
               <LogOut className="mr-2 h-4 w-4" />
-              Logout
+              {copy.status.logout}
             </Button>
           </form>
         </CardHeader>
@@ -82,7 +82,9 @@ export async function AdminPage({ error }: { error?: string }) {
       {!databaseStatus.ok && (
         <Alert className="border-red-500/50 bg-red-950/40">
           <AlertCircle className="mb-3 h-5 w-5 text-red-300" />
-          <AlertTitle className="text-red-200">database error</AlertTitle>
+          <AlertTitle className="text-red-200">
+            {copy.status.databaseError}
+          </AlertTitle>
           <AlertDescription className="text-red-200/80">
             {databaseStatus.message}
           </AlertDescription>
@@ -92,16 +94,18 @@ export async function AdminPage({ error }: { error?: string }) {
       {error === "database" && databaseStatus.ok && (
         <Alert className="border-red-500/50 bg-red-950/40">
           <AlertCircle className="mb-3 h-5 w-5 text-red-300" />
-          <AlertTitle className="text-red-200">database error</AlertTitle>
+          <AlertTitle className="text-red-200">
+            {copy.status.databaseError}
+          </AlertTitle>
           <AlertDescription className="text-red-200/80">
-            The last admin action could not be completed. Try again.
+            {copy.status.lastActionFailed}
           </AlertDescription>
         </Alert>
       )}
 
       {databaseStatus.ok ? (
         <Alert>
-          <AlertTitle>connection ready</AlertTitle>
+          <AlertTitle>{copy.status.connectionReady}</AlertTitle>
           <AlertDescription>{databaseStatus.message}</AlertDescription>
         </Alert>
       ) : null}
@@ -110,10 +114,8 @@ export async function AdminPage({ error }: { error?: string }) {
         <>
           <Card>
             <CardHeader>
-              <CardTitle>new work</CardTitle>
-              <CardDescription>
-                create a postgres override record
-              </CardDescription>
+              <CardTitle>{copy.form.newWork}</CardTitle>
+              <CardDescription>{copy.form.newWorkDescription}</CardDescription>
             </CardHeader>
             <CardContent>
               <MusicWorkForm />
@@ -140,7 +142,7 @@ export async function AdminPage({ error }: { error?: string }) {
                     <input name="path" type="hidden" value={work.path} />
                     <Button type="submit" variant="destructive">
                       <Trash2 className="mr-2 h-4 w-4" />
-                      Delete DB Override
+                      {copy.form.deleteOverride}
                     </Button>
                   </form>
                 </div>
@@ -172,25 +174,39 @@ function MusicWorkForm({ work }: MusicWorkFormProps) {
       {work && <input name="currentPath" type="hidden" value={work.path} />}
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Path" name="path" required value={work?.path} />
-        <Field label="Content ID" name="vid" value={work?.vid} />
-        <Field label="Title" name="title" required value={work?.title} />
-        <Field label="Original" name="original" value={work?.original} />
-        <Field label="YouTube ID" name="u2bId" value={work?.u2bId} />
-        <Field label="Series" name="series" value={work?.series} />
+        <Field label={copy.form.path} name="path" required value={work?.path} />
+        <Field label={copy.form.contentId} name="vid" value={work?.vid} />
+        <Field
+          label={copy.form.title}
+          name="title"
+          required
+          value={work?.title}
+        />
+        <Field
+          label={copy.form.original}
+          name="original"
+          value={work?.original}
+        />
+        <Field label={copy.form.youtubeId} name="u2bId" value={work?.u2bId} />
+        <Field label={copy.form.series} name="series" value={work?.series} />
       </div>
 
       <TextArea
-        label="Description"
+        label={copy.form.description}
         name="description"
         value={work?.description}
       />
-      <TextArea label="Lyrics" name="lyrics" value={work?.lyrics} rows={14} />
+      <TextArea
+        label={copy.form.lyrics}
+        name="lyrics"
+        value={work?.lyrics}
+        rows={14}
+      />
 
       <div>
         <Button type="submit">
           <Save className="mr-2 h-4 w-4" />
-          Save
+          {copy.form.save}
         </Button>
       </div>
     </form>

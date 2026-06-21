@@ -1,47 +1,62 @@
+import { getDefaultSharedCopy } from "../i18n/copy";
 import type { RouteItem } from "../model/nav";
 
+const copy = getDefaultSharedCopy();
+
 export const Routes = {
-  Center: { label: "Center", href: "/" },
-  About: { label: "About Sovia", href: "/about" },
-  Sound: { label: "Songs", href: "/sound" },
-  Test: { label: "SOVIA-Test", href: "/test" },
-  LyricsLibrary: { label: "Lyrics Library", href: "/lyrics-library" },
-  MusicRelease: { label: "Music Release", href: "/music-release" },
-  ConceptDesign: { label: "Concept Design", href: "/concept-design" },
-  VideoImages: { label: "Video Images", href: "/video-images" },
-  Community: { label: "Community", href: "/community" },
-  Report: { label: "Report", href: "/report" },
-  Gallery: { label: "Gallery", href: "/gallery" },
-  X: { label: "X (Anime Style)", href: "https://x.com/ComradeSovia" },
-  VK: { label: "VK Community", href: "https://vk.com/comradesovia" },
-  VKVideo: { label: "VK-Video", href: "https://vkvideo.ru/@comradesovia" },
-  Discord: { label: "Join Discord", href: "https://discord.gg/dX4V42ejpd" },
+  Center: { label: copy.routes.center, href: "/" },
+  About: { label: copy.routes.about, href: "/about" },
+  Sound: { label: copy.routes.sound, href: "/sound" },
+  Test: { label: copy.routes.test, href: "/test" },
+  LyricsLibrary: { label: copy.routes.lyricsLibrary, href: "/lyrics-library" },
+  MusicRelease: { label: copy.routes.musicRelease, href: "/music-release" },
+  ConceptDesign: { label: copy.routes.conceptDesign, href: "/concept-design" },
+  VideoImages: { label: copy.routes.videoImages, href: "/video-images" },
+  Community: { label: copy.routes.community, href: "/community" },
+  Report: { label: copy.routes.report, href: "/report" },
+  Gallery: { label: copy.routes.gallery, href: "/gallery" },
+  X: { label: copy.routes.x, href: "https://x.com/ComradeSovia" },
+  VK: { label: copy.routes.vk, href: "https://vk.com/comradesovia" },
+  VKVideo: {
+    label: copy.routes.vkVideo,
+    href: "https://vkvideo.ru/@comradesovia",
+  },
+  Discord: {
+    label: copy.routes.discord,
+    href: "https://discord.gg/dX4V42ejpd",
+  },
   Instagram: {
-    label: "IG (Realism Style)",
+    label: copy.routes.instagram,
     href: "https://www.instagram.com/comradesovia/",
   },
   Pixiv: {
-    label: "Pixiv",
+    label: copy.routes.pixiv,
     href: "https://www.pixiv.net/en/users/126922434",
   },
-  Reddit: { label: "Reddit", href: "https://www.reddit.com/r/sovia/" },
+  Reddit: {
+    label: copy.routes.reddit,
+    href: "https://www.reddit.com/r/sovia/",
+  },
   Bilibili: {
-    label: "Bilibili",
+    label: copy.routes.bilibili,
     href: "https://space.bilibili.com/52845729",
   },
   Spotify: {
-    label: "Spotify",
+    label: copy.routes.spotify,
     href: "https://open.spotify.com/artist/47LCSQdqODH3fx1UvPOHnA?si=EbLMW2NrR26tql5rdfeB9g&pi=eJKQ2GHmQMCOq",
   },
   AppleMusic: {
-    label: "Apple Music",
+    label: copy.routes.appleMusic,
     href: "https://music.apple.com/ru/artist/comrade-sovia/1860353708",
   },
   YoutubeMusic: {
-    label: "YouTube Music",
+    label: copy.routes.youtubeMusic,
     href: "https://music.youtube.com/@comradesovia",
   },
-  Request: { label: "Request", href: "/request" },
-  Notice: { label: "Notice", href: "/notice" },
-  Youtube: { label: "YouTube", href: "https://www.youtube.com/@ComradeSovia" },
+  Request: { label: copy.routes.request, href: "/request" },
+  Notice: { label: copy.routes.notice, href: "/notice" },
+  Youtube: {
+    label: copy.routes.youtube,
+    href: "https://www.youtube.com/@ComradeSovia",
+  },
 } as const satisfies Record<string, RouteItem>;

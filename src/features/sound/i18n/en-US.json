@@ -1,0 +1,20 @@
+{
+  "page": {
+    "title": "Sound Works",
+    "description": "Search Comrade Sovia's archive of Soviet-style anime, game, Vocaloid, and pop music adaptations with lyrics and YouTube links.",
+    "openGraphDescription": "Browse Soviet-style anime and game music adaptations from Comrade Sovia."
+  },
+  "search": {
+    "placeholder": "Search title, series..."
+  },
+  "pagination": {
+    "previous": "Prev",
+    "next": "Next"
+  },
+  "card": {
+    "adaptedFrom": "Adapted from {{original}}",
+    "originalWork": "Original work",
+    "details": "View Details",
+    "watchYoutube": "Watch YouTube"
+  }
+}

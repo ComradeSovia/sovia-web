@@ -1,5 +1,6 @@
 import { Routes } from "@sovia/shared";
 import type { RouteItem } from "@sovia/shared/model/nav";
+import { getDefaultHomeCopy } from "../i18n/copy";
 
 export type HomeCardItem = {
   id: string;
@@ -11,63 +12,46 @@ export type HomeCardItem = {
   links: ReadonlyArray<RouteItem>;
 };
 
-export const HOME_CARDS = [
-  {
-    id: "lyrics-library",
-    title: "Lyrics Library",
-    subTitle: "Impression Lyrics Archive",
+const copy = getDefaultHomeCopy();
+
+const CARD_CONFIG = {
+  "lyrics-library": {
     route: Routes.LyricsLibrary,
-    description:
-      "Read the lyrics, song notes, and archive entries for Comrade Sovia works.",
-    pageIntro:
-      "The lyric and archive desk for Comrade Sovia works: song pages, source notes, YouTube records, and the text fragments attached to each adaptation.",
     links: [Routes.Sound],
   },
-  {
-    id: "music-release",
-    title: "Music Release",
-    subTitle: "Streaming Pages",
+  "music-release": {
     route: Routes.MusicRelease,
-    description:
-      "Official music releases are collected on the streaming artist pages.",
-    pageIntro:
-      "Official streaming outposts for Comrade Sovia releases, gathered for listeners who prefer music platforms over the archive interface.",
     links: [Routes.Spotify, Routes.AppleMusic, Routes.YoutubeMusic],
   },
-  {
-    id: "concept-design",
-    title: "Concept Design",
-    subTitle: "Anime & Realism Styles",
+  "concept-design": {
     route: Routes.ConceptDesign,
-    description:
-      "Anime-styled visual work lives on X, while realistic images and polished visual updates live on IG.",
-    pageIntro:
-      "Visual design channels for the Sovia project, split between anime-styled development, realism studies, and polished public updates.",
     links: [Routes.X, Routes.Instagram],
   },
-  {
-    id: "video-images",
-    title: "Video Images",
-    subTitle: "Thumbnails & Design Materials",
+  "video-images": {
     route: Routes.VideoImages,
-    description:
-      "Video thumbnail designs and other image materials used around the videos are collected on Pixiv.",
-    pageIntro:
-      "A collection point for thumbnail work, illustration materials, and visual assets connected to Comrade Sovia videos.",
     links: [Routes.Pixiv],
   },
-  {
-    id: "community",
-    title: "Community",
-    subTitle: "Regional & Discussion Spaces",
+  community: {
     route: Routes.Community,
-    description:
-      "Places for discussion, sharing, and the Russian-region community around Sovia.",
-    pageIntro:
-      "Community spaces for discussion, updates, regional posts, and people following the Sovia archive from different platforms.",
     links: [Routes.Reddit, Routes.Discord, Routes.VK],
   },
-] as const satisfies ReadonlyArray<HomeCardItem>;
+} as const satisfies Record<
+  string,
+  {
+    links: ReadonlyArray<RouteItem>;
+    route: RouteItem;
+  }
+>;
+
+export const HOME_CARDS = copy.cards.map((card) => {
+  const config = CARD_CONFIG[card.id as keyof typeof CARD_CONFIG];
+
+  return {
+    ...card,
+    links: config.links,
+    route: config.route,
+  };
+}) satisfies ReadonlyArray<HomeCardItem>;
 
 export function getHomeCard(id: HomeCardItem["id"]) {
   return HOME_CARDS.find((card) => card.id === id);

@@ -1,28 +1,33 @@
 import { Routes } from "@sovia/shared";
+import { getDefaultSharedCopy } from "@sovia/shared/i18n/copy";
 import Link from "next/link";
+
+const copy = getDefaultSharedCopy();
 
 export default function NotFound() {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-10">
       <div className="meta">
-        ОШИБКА УД
+        {copy.notFound.status}
         <br />
-        ДАННАЯ СТРАНИЦА НЕ УТВЕРЖДЕНА
+        {copy.notFound.description}
       </div>
 
       <h1>
-        404
+        {copy.notFound.title}
         <br />
-        Page Not Found
+        {copy.notFound.lineOne}
+        <br />
+        {copy.notFound.lineTwo}
       </h1>
 
       <div className="flex gap-6 pt-4">
         <Link href={Routes.Center.href} className="btn-primary">
-          Порядок не обсуждается.
+          {copy.notFound.returnLabel}
         </Link>
       </div>
 
-      <p className="meta pt-6">Order is not optional.</p>
+      <p className="meta pt-6">{copy.notFound.footer}</p>
     </section>
   );
 }
