@@ -1,21 +1,35 @@
 import { SoviaTestComponent } from "@sovia/sovia-test";
 import {
-  getSoviaTestLocaleFromSearchParams,
-  type SoviaTestSearchParams,
+  matchSoviaTestLocale,
+  type SoviaTestLocale,
 } from "@sovia/sovia-test/i18n/config";
 import { getSoviaTestCopy } from "@sovia/sovia-test/i18n/copy";
 import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-type TestPageProps = {
-  searchParams: Promise<SoviaTestSearchParams>;
+type LocalizedTestPageProps = {
+  params: Promise<{
+    lang: string;
+  }>;
 };
 
+function getLocale(lang: string): SoviaTestLocale {
+  const locale = matchSoviaTestLocale(lang);
+
+  if (!locale) {
+    notFound();
+  }
+
+  return locale;
+}
+
 export async function generateMetadata({
-  searchParams,
-}: TestPageProps): Promise<Metadata> {
-  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
+  params,
+}: LocalizedTestPageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = getLocale(lang);
   const testCopy = getSoviaTestCopy(locale);
   const path = "/test";
 
@@ -26,16 +40,21 @@ export async function generateMetadata({
     openGraph: {
       title: testCopy.page.title,
       description: testCopy.page.subtitle,
-      url: path,
+      url: `/${locale}${path}`,
       locale: locale.replace("-", "_"),
     },
   };
 }
 
-export default function TestPage() {
+export default async function LocalizedTestPage({
+  params,
+}: LocalizedTestPageProps) {
+  const { lang } = await params;
+  const locale = getLocale(lang);
+
   return (
     <Suspense fallback={null}>
-      <SoviaTestComponent />
+      <SoviaTestComponent initialLocale={locale} />
     </Suspense>
   );
 }

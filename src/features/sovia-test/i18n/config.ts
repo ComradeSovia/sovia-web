@@ -55,3 +55,81 @@ export const SOVIA_TEST_LOCALE_LABELS: Record<SoviaTestLocale, string> = {
 };
 
 export const SOVIA_TEST_LOCALE_STORAGE_KEY = "sovia-test-locale";
+
+export type SoviaTestSearchParams = {
+  lang?: string | string[];
+};
+
+export function normalizeSoviaTestLocale(value: string) {
+  return value.trim().replaceAll("_", "-");
+}
+
+export function matchSoviaTestLocale(value: string) {
+  const normalizedLocale = normalizeSoviaTestLocale(value);
+  const exactLocale = SOVIA_TEST_LOCALES.find(
+    (locale) => locale.toLowerCase() === normalizedLocale.toLowerCase(),
+  );
+
+  if (exactLocale) {
+    return exactLocale;
+  }
+
+  const language = normalizedLocale.split("-")[0]?.toLowerCase();
+  return SOVIA_TEST_LOCALES.find(
+    (locale) => locale.split("-")[0]?.toLowerCase() === language,
+  );
+}
+
+export function getSoviaTestLocaleFromSearchParams(
+  searchParams?: SoviaTestSearchParams,
+) {
+  const lang = Array.isArray(searchParams?.lang)
+    ? searchParams.lang[0]
+    : searchParams?.lang;
+
+  if (!lang) {
+    return DEFAULT_SOVIA_TEST_LOCALE;
+  }
+
+  return matchSoviaTestLocale(lang) ?? DEFAULT_SOVIA_TEST_LOCALE;
+}
+
+export function getSoviaTestLocalizedPath(
+  path: string,
+  locale: SoviaTestLocale,
+) {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const pathWithoutLocale = stripSoviaTestLocaleFromPath(normalizedPath);
+
+  return `/${locale}${pathWithoutLocale}`;
+}
+
+export function getSoviaTestLanguageAlternates(path: string) {
+  return Object.fromEntries(
+    SOVIA_TEST_LOCALES.map((locale) => [
+      locale,
+      getSoviaTestLocalizedPath(path, locale),
+    ]),
+  ) as Record<SoviaTestLocale, string>;
+}
+
+export function getSoviaTestLocaleFromPath(pathname: string) {
+  const firstSegment = pathname.split("/").filter(Boolean)[0];
+
+  if (!firstSegment) {
+    return null;
+  }
+
+  return matchSoviaTestLocale(firstSegment) ?? null;
+}
+
+export function stripSoviaTestLocaleFromPath(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  const firstSegment = segments[0];
+
+  if (firstSegment && matchSoviaTestLocale(firstSegment)) {
+    return `/${segments.slice(1).join("/")}`;
+  }
+
+  return pathname.startsWith("/") ? pathname : `/${pathname}`;
+}

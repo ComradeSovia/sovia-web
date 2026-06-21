@@ -1,7 +1,7 @@
 import { SoviaTestComponent } from "@sovia/sovia-test";
 import {
-  getSoviaTestLocaleFromSearchParams,
-  type SoviaTestSearchParams,
+  matchSoviaTestLocale,
+  type SoviaTestLocale,
 } from "@sovia/sovia-test/i18n/config";
 import {
   getDefaultSoviaTestCopy,
@@ -9,7 +9,7 @@ import {
 } from "@sovia/sovia-test/i18n/copy";
 import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 const testCopy = getDefaultSoviaTestCopy();
 const HASH_ALPHABET = "k7qz4vnr9x2mpt6c8bd5jwy3hfgs";
@@ -19,13 +19,23 @@ const SCORE_SCALE = 5;
 const SCORE_HASH_CHUNK_SIZE = 2;
 const AXIS_COUNT = 5;
 
-type ResultPageProps = {
+type LocalizedResultPageProps = {
   params: Promise<{
-    type: string;
     hash: string;
+    lang: string;
+    type: string;
   }>;
-  searchParams: Promise<SoviaTestSearchParams>;
 };
+
+function getLocale(lang: string): SoviaTestLocale {
+  const locale = matchSoviaTestLocale(lang);
+
+  if (!locale) {
+    notFound();
+  }
+
+  return locale;
+}
 
 function encodeAnswerToken(answer: number, index: number) {
   const encoded = (answer + HASH_KEY[index % HASH_KEY.length]) % 11;
@@ -113,10 +123,9 @@ function isValidResultHash(value: string) {
 
 export async function generateMetadata({
   params,
-  searchParams,
-}: ResultPageProps): Promise<Metadata> {
-  const { type, hash } = await params;
-  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
+}: LocalizedResultPageProps): Promise<Metadata> {
+  const { hash, lang, type } = await params;
+  const locale = getLocale(lang);
   const localizedCopy = getSoviaTestCopy(locale);
   const code = type.toUpperCase();
   const path = `/test/result/${type}/${hash}`;
@@ -128,19 +137,28 @@ export async function generateMetadata({
     openGraph: {
       title: `${code} | ${localizedCopy.page.title}`,
       description: localizedCopy.page.subtitle,
-      url: path,
+      url: `/${locale}${path}`,
       locale: locale.replace("-", "_"),
     },
   };
 }
 
-export default async function TestResultPage({ params }: ResultPageProps) {
-  const { type, hash } = await params;
+export default async function LocalizedTestResultPage({
+  params,
+}: LocalizedResultPageProps) {
+  const { hash, lang, type } = await params;
+  const locale = getLocale(lang);
   const code = type.toUpperCase();
 
   if (testCopy.types[code] && !isValidResultHash(hash)) {
-    redirect(`/test/types/${type.toLowerCase()}`);
+    redirect(`/${locale}/test/types/${type.toLowerCase()}`);
   }
 
-  return <SoviaTestComponent initialHash={hash} initialResultType={type} />;
+  return (
+    <SoviaTestComponent
+      initialHash={hash}
+      initialLocale={locale}
+      initialResultType={type}
+    />
+  );
 }

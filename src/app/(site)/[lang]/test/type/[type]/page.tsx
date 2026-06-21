@@ -1,7 +1,7 @@
 import { SoviaTestTypeComponent } from "@sovia/sovia-test";
 import {
-  getSoviaTestLocaleFromSearchParams,
-  type SoviaTestSearchParams,
+  matchSoviaTestLocale,
+  type SoviaTestLocale,
 } from "@sovia/sovia-test/i18n/config";
 import {
   getDefaultSoviaTestCopy,
@@ -13,19 +13,28 @@ import { notFound } from "next/navigation";
 
 const defaultTestCopy = getDefaultSoviaTestCopy();
 
-type TypePageProps = {
+type LocalizedTestTypePageProps = {
   params: Promise<{
+    lang: string;
     type: string;
   }>;
-  searchParams: Promise<SoviaTestSearchParams>;
 };
+
+function getLocale(lang: string): SoviaTestLocale {
+  const locale = matchSoviaTestLocale(lang);
+
+  if (!locale) {
+    notFound();
+  }
+
+  return locale;
+}
 
 export async function generateMetadata({
   params,
-  searchParams,
-}: TypePageProps): Promise<Metadata> {
-  const { type } = await params;
-  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
+}: LocalizedTestTypePageProps): Promise<Metadata> {
+  const { lang, type } = await params;
+  const locale = getLocale(lang);
   const testCopy = getSoviaTestCopy(locale);
   const code = type.toUpperCase();
   const archetype = testCopy.types[code] ?? defaultTestCopy.types[code];
@@ -44,19 +53,22 @@ export async function generateMetadata({
     openGraph: {
       title: `${code} | ${archetype.title}`,
       description: archetype.description,
-      url: path,
+      url: `/${locale}${path}`,
       locale: locale.replace("-", "_"),
     },
   };
 }
 
-export default async function TestTypePage({ params }: TypePageProps) {
-  const { type } = await params;
+export default async function LocalizedTestTypePage({
+  params,
+}: LocalizedTestTypePageProps) {
+  const { lang, type } = await params;
+  const locale = getLocale(lang);
   const code = type.toUpperCase();
 
   if (!defaultTestCopy.types[code]) {
     notFound();
   }
 
-  return <SoviaTestTypeComponent type={code} />;
+  return <SoviaTestTypeComponent initialLocale={locale} type={code} />;
 }

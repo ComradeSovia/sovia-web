@@ -3,35 +3,29 @@
 import { useMemo, useState } from "react";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
+  getSoviaTestLocaleFromPath,
+  getSoviaTestLocalizedPath,
+  matchSoviaTestLocale,
   SOVIA_TEST_LOCALE_STORAGE_KEY,
   SOVIA_TEST_LOCALES,
   type SoviaTestLocale,
+  stripSoviaTestLocaleFromPath,
 } from "./config";
 import { getSoviaTestCopy } from "./copy";
 
-function normalizeLocale(value: string) {
-  return value.trim().replaceAll("_", "-");
-}
-
-function matchLocale(value: string) {
-  const normalizedLocale = normalizeLocale(value);
-  const exactLocale = SOVIA_TEST_LOCALES.find(
-    (locale) => locale.toLowerCase() === normalizedLocale.toLowerCase(),
-  );
-
-  if (exactLocale) {
-    return exactLocale;
+function detectBrowserLocale(initialLocale?: SoviaTestLocale) {
+  if (initialLocale) {
+    return initialLocale;
   }
 
-  const language = normalizedLocale.split("-")[0]?.toLowerCase();
-  return SOVIA_TEST_LOCALES.find(
-    (locale) => locale.split("-")[0]?.toLowerCase() === language,
-  );
-}
-
-function detectBrowserLocale() {
   if (typeof window === "undefined") {
     return DEFAULT_SOVIA_TEST_LOCALE;
+  }
+
+  const pathLocale = getSoviaTestLocaleFromPath(window.location.pathname);
+
+  if (pathLocale) {
+    return pathLocale;
   }
 
   const savedLocale = window.localStorage.getItem(
@@ -39,7 +33,7 @@ function detectBrowserLocale() {
   );
 
   if (savedLocale) {
-    const matchedSavedLocale = matchLocale(savedLocale);
+    const matchedSavedLocale = matchSoviaTestLocale(savedLocale);
 
     if (matchedSavedLocale) {
       return matchedSavedLocale;
@@ -47,7 +41,7 @@ function detectBrowserLocale() {
   }
 
   for (const language of window.navigator.languages) {
-    const matchedLocale = matchLocale(language);
+    const matchedLocale = matchSoviaTestLocale(language);
 
     if (matchedLocale) {
       return matchedLocale;
@@ -61,14 +55,24 @@ export function getSoviaTestLocales() {
   return SOVIA_TEST_LOCALES;
 }
 
-export function useSoviaTestI18n() {
-  const [locale, setLocaleState] =
-    useState<SoviaTestLocale>(detectBrowserLocale);
+export function useSoviaTestI18n(initialLocale?: SoviaTestLocale) {
+  const [locale, setLocaleState] = useState<SoviaTestLocale>(() =>
+    detectBrowserLocale(initialLocale),
+  );
 
   const copy = useMemo(() => getSoviaTestCopy(locale), [locale]);
 
   function setLocale(nextLocale: SoviaTestLocale) {
     window.localStorage.setItem(SOVIA_TEST_LOCALE_STORAGE_KEY, nextLocale);
+    // biome-ignore lint/suspicious/noDocumentCookie: Middleware reads this lightweight test-language preference cookie.
+    document.cookie = `${SOVIA_TEST_LOCALE_STORAGE_KEY}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; samesite=lax`;
+    const url = new URL(window.location.href);
+    const pathWithoutLocale = stripSoviaTestLocaleFromPath(url.pathname);
+
+    url.pathname = getSoviaTestLocalizedPath(pathWithoutLocale, nextLocale);
+    url.searchParams.delete("lang");
+
+    window.history.replaceState(null, "", url);
     setLocaleState(nextLocale);
   }
 

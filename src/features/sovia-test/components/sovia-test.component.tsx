@@ -5,6 +5,10 @@ import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  getSoviaTestLocalizedPath,
+  type SoviaTestLocale,
+} from "../i18n/config";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
@@ -98,6 +102,7 @@ const SCORE_HASH_CHUNK_SIZE = 2;
 
 type SoviaTestComponentProps = {
   initialHash?: string;
+  initialLocale?: SoviaTestLocale;
   initialResultType?: string;
 };
 
@@ -1399,10 +1404,11 @@ function SoviaAxisStar({ copy, scores }: SoviaAxisStarProps) {
 
 export function SoviaTestComponent({
   initialHash,
+  initialLocale,
   initialResultType,
 }: SoviaTestComponentProps = {}) {
   const router = useRouter();
-  const { copy, locale, locales, setLocale } = useSoviaTestI18n();
+  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
   const initialStateRef = useRef<InitialTestState | null>(null);
 
   if (!initialStateRef.current) {
@@ -1478,6 +1484,10 @@ export function SoviaTestComponent({
     }),
     [copy, result, resultEssay, resultUrl],
   );
+  const localizedPath = useCallback(
+    (path: string) => getSoviaTestLocalizedPath(path, locale),
+    [locale],
+  );
   const resultImageSignature = useMemo(() => {
     return JSON.stringify({
       locale,
@@ -1512,7 +1522,9 @@ export function SoviaTestComponent({
       const sharedResult = getScoresResult(sharedScores, copy);
       const sharedType = sharedResult.code.toLowerCase();
       const sharedHash = encodeScores(sharedScores);
-      const sharedPath = `/test/result/${sharedType}/${sharedHash}`;
+      const sharedPath = localizedPath(
+        `/test/result/${sharedType}/${sharedHash}`,
+      );
 
       setAnswers(createEmptyAnswers());
       setSharedScores(sharedScores);
@@ -1530,9 +1542,12 @@ export function SoviaTestComponent({
 
     if (!sharedAnswers) {
       if (hasSharedType && normalizedType) {
-        router.replace(`/test/types/${normalizedType.toLowerCase()}`, {
-          scroll: false,
-        });
+        router.replace(
+          localizedPath(`/test/types/${normalizedType.toLowerCase()}`),
+          {
+            scroll: false,
+          },
+        );
       }
 
       return;
@@ -1541,7 +1556,9 @@ export function SoviaTestComponent({
     const sharedResult = getResult(sharedAnswers, copy);
     const sharedType = sharedResult.code.toLowerCase();
     const sharedHash = encodeScores(sharedResult.scores);
-    const sharedPath = `/test/result/${sharedType}/${sharedHash}`;
+    const sharedPath = localizedPath(
+      `/test/result/${sharedType}/${sharedHash}`,
+    );
 
     setAnswers(sharedAnswers);
     setSharedScores(sharedResult.scores);
@@ -1553,7 +1570,7 @@ export function SoviaTestComponent({
     if (initialResultType?.toLowerCase() !== sharedType) {
       router.replace(sharedPath, { scroll: false });
     }
-  }, [copy, initialHash, initialResultType, router]);
+  }, [copy, initialHash, initialResultType, localizedPath, router]);
 
   useEffect(() => {
     if (screen !== "quiz") {
@@ -1681,7 +1698,9 @@ export function SoviaTestComponent({
     );
     const completedResult = getResult(completedAnswers, copy);
     const hash = encodeScores(completedResult.scores);
-    const nextPath = `/test/result/${completedResult.code.toLowerCase()}/${hash}`;
+    const nextPath = localizedPath(
+      `/test/result/${completedResult.code.toLowerCase()}/${hash}`,
+    );
 
     setIsSubmitting(true);
 
@@ -1720,7 +1739,7 @@ export function SoviaTestComponent({
     setCurrentPage(0);
     setScreen("intro");
     setStatus(copy.status.ready);
-    router.push("/test", { scroll: false });
+    router.push(localizedPath("/test"), { scroll: false });
   }
 
   async function copyResult() {
@@ -1904,7 +1923,7 @@ export function SoviaTestComponent({
               <button className="btn-primary" onClick={start} type="button">
                 {copy.actions.start}
               </button>
-              <a className="btn-outline" href="/test/types">
+              <a className="btn-outline" href={localizedPath("/test/types")}>
                 {copy.actions.types}
               </a>
             </div>

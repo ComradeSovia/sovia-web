@@ -1,13 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import {
+  getSoviaTestLocalizedPath,
+  type SoviaTestLocale,
+} from "../i18n/config";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 
-export function SoviaTestTypesComponent() {
-  const { copy, locale, locales, setLocale } = useSoviaTestI18n();
+type SoviaTestTypesComponentProps = {
+  initialLocale?: SoviaTestLocale;
+};
+
+export function SoviaTestTypesComponent({
+  initialLocale,
+}: SoviaTestTypesComponentProps = {}) {
+  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
   const entries = Object.entries(copy.types);
+  const localizedPath = (path: string) =>
+    getSoviaTestLocalizedPath(path, locale);
 
   return (
     <section className="sovia-test-ui space-y-10">
@@ -44,7 +56,7 @@ export function SoviaTestTypesComponent() {
           <p className="text-base font-medium leading-relaxed">
             {copy.typesPage.intro}
           </p>
-          <a className="btn-primary" href="/test">
+          <a className="btn-primary" href={localizedPath("/test")}>
             {copy.typesPage.startTestLabel}
           </a>
         </div>
@@ -55,7 +67,7 @@ export function SoviaTestTypesComponent() {
           return (
             <a
               className="card flex min-h-72 flex-col gap-5"
-              href={`/test/types/${code.toLowerCase()}`}
+              href={localizedPath(`/test/types/${code.toLowerCase()}`)}
               key={code}
             >
               <Image

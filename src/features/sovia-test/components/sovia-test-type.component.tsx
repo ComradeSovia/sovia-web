@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  getSoviaTestLocalizedPath,
+  type SoviaTestLocale,
+} from "../i18n/config";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
@@ -19,14 +23,20 @@ const AXIS_ORDER: AxisKey[] = [
 ];
 
 type SoviaTestTypeComponentProps = {
+  initialLocale?: SoviaTestLocale;
   type: string;
 };
 
-export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
-  const { copy, locale, locales, setLocale } = useSoviaTestI18n();
+export function SoviaTestTypeComponent({
+  initialLocale,
+  type,
+}: SoviaTestTypeComponentProps) {
+  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
   const code = type.toUpperCase();
   const archetype = copy.types[code] ?? defaultCopy.types[code];
   const essay = copy.typeEssays[code] ?? defaultCopy.typeEssays[code];
+  const localizedPath = (path: string) =>
+    getSoviaTestLocalizedPath(path, locale);
 
   if (!archetype) {
     return null;
@@ -60,10 +70,10 @@ export function SoviaTestTypeComponent({ type }: SoviaTestTypeComponentProps) {
               {archetype.description}
             </p>
             <div className="flex flex-wrap gap-5">
-              <a className="btn-primary" href="/test">
+              <a className="btn-primary" href={localizedPath("/test")}>
                 {copy.typesPage.startTestLabel}
               </a>
-              <a className="btn-outline" href="/test/types">
+              <a className="btn-outline" href={localizedPath("/test/types")}>
                 {copy.actions.types}
               </a>
             </div>
