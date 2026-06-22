@@ -1,0 +1,82 @@
+{
+  "site": {
+    "name": "同志ソヴィア",
+    "title": "同志ソヴィア | ソビエト風アニメ音楽アーカイブ",
+    "description": "同志ソヴィアによるソビエト風のアニメ・ゲーム音楽アレンジ、歌詞、YouTube 動画、アーカイブノートを閲覧できます。",
+    "keywords": [
+      "同志ソヴィア",
+      "ソヴィア",
+      "ソビエト音楽",
+      "アニメ音楽",
+      "アニメソングカバー",
+      "ソビエト合唱",
+      "YouTube 音楽アーカイブ"
+    ]
+  },
+  "routes": {
+    "center": "中央",
+    "about": "ソヴィアについて",
+    "sound": "楽曲",
+    "test": "SOVIA-Test",
+    "lyricsLibrary": "歌詞ライブラリ",
+    "musicRelease": "音楽リリース",
+    "conceptDesign": "コンセプト設計",
+    "videoImages": "動画画像",
+    "community": "コミュニティ",
+    "report": "報告",
+    "gallery": "ギャラリー",
+    "x": "X（アニメ風）",
+    "vk": "VK コミュニティ",
+    "vkVideo": "VK-Video",
+    "discord": "Discord に参加",
+    "instagram": "IG（写実風）",
+    "pixiv": "Pixiv",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili",
+    "spotify": "Spotify",
+    "appleMusic": "Apple Music",
+    "youtubeMusic": "YouTube Music",
+    "request": "リクエスト",
+    "notice": "お知らせ",
+    "youtube": "YouTube"
+  },
+  "brand": {
+    "title": "USSR",
+    "subtitle": "ソビエト歌曲改革部隊"
+  },
+  "underConstruction": {
+    "status": "СТАТУС",
+    "description": "ページは建設中です",
+    "under": "UNDER",
+    "construction": "CONSTRUCTION",
+    "returnLabel": "中央へ戻る",
+    "footer": "秩序は確立中です。"
+  },
+  "notFound": {
+    "status": "СТАТУС",
+    "description": "ページが見つかりません",
+    "title": "404",
+    "lineOne": "NOT",
+    "lineTwo": "FOUND",
+    "returnLabel": "中央へ戻る",
+    "footer": "秩序は任意ではありません。"
+  },
+  "pages": {
+    "gallery": {
+      "title": "ギャラリー",
+      "description": "同志ソヴィアの画像ギャラリーとビジュアルアーカイブ。"
+    },
+    "report": {
+      "title": "報告",
+      "description": "同志ソヴィアからの更新、ノート、アーカイブ報告。"
+    },
+    "request": {
+      "title": "リクエスト",
+      "description": "同志ソヴィアのアーカイブに楽曲やアレンジをリクエストします。"
+    },
+    "notice": {
+      "title": "お知らせ",
+      "description": "同志ソヴィアサイトの重要なお知らせと情報。"
+    }
+  }
+}

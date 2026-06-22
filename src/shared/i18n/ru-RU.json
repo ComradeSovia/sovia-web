@@ -1,0 +1,82 @@
+{
+  "site": {
+    "name": "Товарищ Совия",
+    "title": "Товарищ Совия | Архив аниме-музыки в советском стиле",
+    "description": "Смотрите аниме- и игровые музыкальные адаптации товарища Совии в советском стиле, тексты, видео YouTube и архивные заметки.",
+    "keywords": [
+      "Товарищ Совия",
+      "Совия",
+      "советская музыка",
+      "аниме музыка",
+      "каверы аниме песен",
+      "советский хор",
+      "музыкальный архив YouTube"
+    ]
+  },
+  "routes": {
+    "center": "Центр",
+    "about": "О Совии",
+    "sound": "Песни",
+    "test": "SOVIA-Test",
+    "lyricsLibrary": "Библиотека текстов",
+    "musicRelease": "Музыкальные релизы",
+    "conceptDesign": "Концепт-дизайн",
+    "videoImages": "Изображения видео",
+    "community": "Сообщество",
+    "report": "Отчет",
+    "gallery": "Галерея",
+    "x": "X (аниме-стиль)",
+    "vk": "Сообщество VK",
+    "vkVideo": "VK-Video",
+    "discord": "Войти в Discord",
+    "instagram": "IG (реализм)",
+    "pixiv": "Pixiv",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili",
+    "spotify": "Spotify",
+    "appleMusic": "Apple Music",
+    "youtubeMusic": "YouTube Music",
+    "request": "Запрос",
+    "notice": "Уведомления",
+    "youtube": "YouTube"
+  },
+  "brand": {
+    "title": "USSR",
+    "subtitle": "Отдел реформы советских песен"
+  },
+  "underConstruction": {
+    "status": "СТАТУС",
+    "description": "СТРАНИЦА НАХОДИТСЯ В СТАДИИ СТРОИТЕЛЬСТВА",
+    "under": "UNDER",
+    "construction": "CONSTRUCTION",
+    "returnLabel": "Вернуться в центр",
+    "footer": "Порядок устанавливается."
+  },
+  "notFound": {
+    "status": "СТАТУС",
+    "description": "СТРАНИЦА НЕ НАЙДЕНА",
+    "title": "404",
+    "lineOne": "NOT",
+    "lineTwo": "FOUND",
+    "returnLabel": "Вернуться в центр",
+    "footer": "Порядок не является опцией."
+  },
+  "pages": {
+    "gallery": {
+      "title": "Галерея",
+      "description": "Галерея изображений и визуальный архив товарища Совии."
+    },
+    "report": {
+      "title": "Отчет",
+      "description": "Обновления, заметки и архивные отчеты товарища Совии."
+    },
+    "request": {
+      "title": "Запрос",
+      "description": "Запросить песню или адаптацию для архива товарища Совии."
+    },
+    "notice": {
+      "title": "Уведомления",
+      "description": "Уведомления и важная информация сайта товарища Совии."
+    }
+  }
+}

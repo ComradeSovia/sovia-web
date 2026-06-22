@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "title": "管理"
+  },
+  "login": {
+    "title": "admin.shell",
+    "description": "制限付きコンテンツコンソール",
+    "password": "パスワード",
+    "submit": "入る"
+  },
+  "status": {
+    "missingPasswordTitle": "管理者パスワードがありません",
+    "missingPasswordDescription": "管理パネルを有効にするには、環境変数に SOVIA_ADMIN_PASSWORD または ADMIN_PASSWORD を設定してください。",
+    "databaseLabel": "コンテンツデータベース",
+    "title": "admin@comrade-sovia",
+    "description": "postgres 上書き / 旧データフォールバック",
+    "logout": "ログアウト",
+    "databaseError": "データベースエラー",
+    "lastActionFailed": "最後の管理操作を完了できませんでした。もう一度お試しください。",
+    "connectionReady": "接続準備完了"
+  },
+  "form": {
+    "newWork": "新規作品",
+    "newWorkDescription": "postgres 上書きレコードを作成",
+    "path": "パス",
+    "contentId": "コンテンツ ID",
+    "title": "タイトル",
+    "original": "原作",
+    "youtubeId": "YouTube ID",
+    "series": "シリーズ",
+    "description": "説明",
+    "lyrics": "歌詞",
+    "save": "保存",
+    "deleteOverride": "DB 上書きを削除"
+  }
+}

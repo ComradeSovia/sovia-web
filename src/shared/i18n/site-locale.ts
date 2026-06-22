@@ -6,10 +6,6 @@ export const SITE_LOCALES = [
   "zh-TW",
   "ja-JP",
   "ko-KR",
-  "de-DE",
-  "fr-FR",
-  "es-ES",
-  "pt-BR",
   "ru-RU",
 ] as const;
 
@@ -21,10 +17,6 @@ export const SITE_LOCALE_LABELS: Record<SiteLocale, string> = {
   "zh-TW": "繁體中文",
   "ja-JP": "日本語",
   "ko-KR": "한국어",
-  "de-DE": "Deutsch",
-  "fr-FR": "Français",
-  "es-ES": "Español",
-  "pt-BR": "Português",
   "ru-RU": "Русский",
 };
 

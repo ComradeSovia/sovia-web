@@ -1,0 +1,13 @@
+{
+  "main": {
+    "sectionLabel": "동지 소비아 / 중앙 페이지",
+    "signalLabel": "아카이브 / 개혁 / 신호"
+  },
+  "footer": {
+    "text": "소비아 이바노브나 라보체바가 모든 책임을 집니다.",
+    "slogan": "일의 리듬, 노동의 소리"
+  },
+  "siteLanguage": {
+    "label": "사이트 언어"
+  }
+}

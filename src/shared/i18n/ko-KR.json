@@ -1,0 +1,82 @@
+{
+  "site": {
+    "name": "동지 소비아",
+    "title": "동지 소비아 | 소비에트풍 애니 음악 아카이브",
+    "description": "동지 소비아의 소비에트풍 애니메이션 및 게임 음악 편곡, 가사, YouTube 영상, 아카이브 노트를 둘러보세요.",
+    "keywords": [
+      "동지 소비아",
+      "소비아",
+      "소비에트 음악",
+      "애니 음악",
+      "애니송 커버",
+      "소비에트 합창",
+      "YouTube 음악 아카이브"
+    ]
+  },
+  "routes": {
+    "center": "중앙",
+    "about": "소비아 소개",
+    "sound": "노래",
+    "test": "SOVIA-Test",
+    "lyricsLibrary": "가사 라이브러리",
+    "musicRelease": "음악 발매",
+    "conceptDesign": "콘셉트 디자인",
+    "videoImages": "영상 이미지",
+    "community": "커뮤니티",
+    "report": "보고",
+    "gallery": "갤러리",
+    "x": "X (애니 스타일)",
+    "vk": "VK 커뮤니티",
+    "vkVideo": "VK-Video",
+    "discord": "Discord 참여",
+    "instagram": "IG (리얼 스타일)",
+    "pixiv": "Pixiv",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili",
+    "spotify": "Spotify",
+    "appleMusic": "Apple Music",
+    "youtubeMusic": "YouTube Music",
+    "request": "요청",
+    "notice": "공지",
+    "youtube": "YouTube"
+  },
+  "brand": {
+    "title": "USSR",
+    "subtitle": "소비에트 노래 개혁 부대"
+  },
+  "underConstruction": {
+    "status": "СТАТУС",
+    "description": "페이지 공사 중",
+    "under": "UNDER",
+    "construction": "CONSTRUCTION",
+    "returnLabel": "중앙으로 돌아가기",
+    "footer": "질서가 세워지고 있습니다."
+  },
+  "notFound": {
+    "status": "СТАТУС",
+    "description": "페이지를 찾을 수 없습니다",
+    "title": "404",
+    "lineOne": "NOT",
+    "lineTwo": "FOUND",
+    "returnLabel": "중앙으로 돌아가기",
+    "footer": "질서는 선택 사항이 아닙니다."
+  },
+  "pages": {
+    "gallery": {
+      "title": "갤러리",
+      "description": "동지 소비아의 이미지 갤러리와 비주얼 아카이브입니다."
+    },
+    "report": {
+      "title": "보고",
+      "description": "동지 소비아의 업데이트, 노트, 아카이브 보고입니다."
+    },
+    "request": {
+      "title": "요청",
+      "description": "동지 소비아 아카이브에 노래나 편곡을 요청합니다."
+    },
+    "notice": {
+      "title": "공지",
+      "description": "동지 소비아 사이트의 중요 공지와 정보입니다."
+    }
+  }
+}

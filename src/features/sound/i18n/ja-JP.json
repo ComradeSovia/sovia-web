@@ -1,0 +1,20 @@
+{
+  "page": {
+    "title": "サウンド作品",
+    "description": "同志ソヴィアのソビエト風アニメ、ゲーム、Vocaloid、ポップ音楽アレンジのアーカイブを、歌詞と YouTube リンク付きで検索できます。",
+    "openGraphDescription": "同志ソヴィアによるソビエト風のアニメ・ゲーム音楽アレンジを閲覧できます。"
+  },
+  "search": {
+    "placeholder": "タイトル、シリーズを検索..."
+  },
+  "pagination": {
+    "previous": "前へ",
+    "next": "次へ"
+  },
+  "card": {
+    "adaptedFrom": "{{original}} よりアレンジ",
+    "originalWork": "原作",
+    "details": "詳細を見る",
+    "watchYoutube": "YouTube で見る"
+  }
+}

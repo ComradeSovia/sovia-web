@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "title": "管理"
+  },
+  "login": {
+    "title": "admin.shell",
+    "description": "受限内容控制台",
+    "password": "密码",
+    "submit": "进入"
+  },
+  "status": {
+    "missingPasswordTitle": "缺少管理员密码",
+    "missingPasswordDescription": "在环境变量中设置 SOVIA_ADMIN_PASSWORD 或 ADMIN_PASSWORD 以启用管理面板。",
+    "databaseLabel": "内容数据库",
+    "title": "admin@comrade-sovia",
+    "description": "postgres 覆盖 / 旧数据回退",
+    "logout": "退出",
+    "databaseError": "数据库错误",
+    "lastActionFailed": "上一次管理操作未能完成，请重试。",
+    "connectionReady": "连接就绪"
+  },
+  "form": {
+    "newWork": "新作品",
+    "newWorkDescription": "创建 postgres 覆盖记录",
+    "path": "路径",
+    "contentId": "内容 ID",
+    "title": "标题",
+    "original": "原作",
+    "youtubeId": "YouTube ID",
+    "series": "系列",
+    "description": "描述",
+    "lyrics": "歌词",
+    "save": "保存",
+    "deleteOverride": "删除数据库覆盖"
+  }
+}

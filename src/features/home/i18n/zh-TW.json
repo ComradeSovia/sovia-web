@@ -1,0 +1,86 @@
+{
+  "hero": {
+    "eyebrow": "風格重構部門",
+    "titleLineOne": "COMRADE",
+    "titleLineTwo": "SOVIA",
+    "statement": "勞動的節奏，聲音的檔案，熟悉旋律的重構。",
+    "unitLabel": "影片單位",
+    "unitLines": ["在", "YouTube", "VK", "Bilibili", "觀看", "影片"]
+  },
+  "manifesto": {
+    "eyebrow": "關於我們的部門",
+    "serial": "00",
+    "titleLines": ["關於", "索維婭"],
+    "text": "索維婭・拉博切娃收集熟悉的歌曲，並把它們送入另一個世界的機器。這不是複製，也不只是玩笑。這是重構。",
+    "strongTerms": ["熟悉的歌曲", "另一個世界的機器", "重構"],
+    "actionLabel": "關於索維婭"
+  },
+  "about": {
+    "metadataTitle": "關於索維婭 | 同志索維婭",
+    "metadataDescription": "關於索維婭・拉博切娃，以及熟悉歌曲在另一個世界中的重構。",
+    "eyebrow": "關於我們的部門",
+    "serial": "00",
+    "titleLines": ["關於", "索維婭"],
+    "sections": [
+      [{ "text": "我的名字是 " }, { "text": "索維婭・拉博切娃", "strong": true }, { "text": "。" }],
+      [{ "text": "我收集" }, { "text": "熟悉的歌曲", "strong": true }, { "text": "，並把它們送回" }, { "text": "另一個世界的機器", "strong": true }, { "text": "之中。" }],
+      [{ "text": "旋律被" }, { "text": "重新組織", "strong": true }, { "text": "。" }],
+      [{ "text": "語言被" }, { "text": "重新分配", "strong": true }, { "text": "。" }],
+      [{ "text": "情緒被" }, { "text": "歸檔", "strong": true }, { "text": "、" }, { "text": "蓋章", "strong": true }, { "text": "，再送回" }, { "text": "人民", "strong": true }, { "text": "。" }],
+      [{ "text": "這不是" }, { "text": "複製", "strong": true }, { "text": "。" }],
+      [{ "text": "這也不只是" }, { "text": "喜劇", "strong": true }, { "text": "。" }],
+      [{ "text": "這是" }, { "text": "重構", "strong": true }, { "text": "。" }],
+      [{ "text": "每首歌都成為一份關於" }, { "text": "勞動", "strong": true }, { "text": "、" }, { "text": "秩序", "strong": true }, { "text": "、" }, { "text": "集體", "strong": true }, { "text": "與" }, { "text": "記憶", "strong": true }, { "text": "的小報告。" }],
+      [{ "text": "每一次" }, { "text": "編曲", "strong": true }, { "text": "都問同一個問題：" }],
+      [{ "text": "如果這段旋律" }],
+      [{ "text": "在一個" }, { "text": "不同的現實", "strong": true }, { "text": "中長大，它會變成什麼？" }],
+      [{ "text": "如果它聽起來" }, { "text": "熟悉", "strong": true }, { "text": "，" }],
+      [{ "text": "卻又不像來自" }, { "text": "這個世界", "strong": true }, { "text": "，" }],
+      [{ "text": "那麼這次" }, { "text": "行動就成功了", "strong": true }, { "text": "。" }]
+    ]
+  },
+  "cards": [
+    {
+      "id": "lyrics-library",
+      "title": "歌詞庫",
+      "subTitle": "印象歌詞檔案",
+      "description": "閱讀同志索維婭作品的歌詞、歌曲筆記和檔案條目。",
+      "pageIntro": "同志索維婭作品的歌詞與檔案台：歌曲頁面、來源筆記、YouTube 記錄，以及每次改編附帶的文字片段。"
+    },
+    {
+      "id": "music-release",
+      "title": "音樂發行",
+      "subTitle": "串流平台頁面",
+      "description": "官方音樂發行內容匯集在各串流藝人頁面。",
+      "pageIntro": "同志索維婭官方發行的串流據點，方便更喜歡音樂平台而非檔案介面的聽眾。"
+    },
+    {
+      "id": "concept-design",
+      "title": "概念設計",
+      "subTitle": "動漫與寫實風格",
+      "description": "動漫風格視覺作品發布在 X，寫實圖像和視覺更新發布在 IG。",
+      "pageIntro": "索維婭專案的視覺設計頻道，包含動漫風格開發、寫實研究和公開視覺更新。"
+    },
+    {
+      "id": "video-images",
+      "title": "影片圖像",
+      "subTitle": "縮圖與設計材料",
+      "description": "影片縮圖設計和相關圖像材料匯集在 Pixiv。",
+      "pageIntro": "這裡收集與同志索維婭影片相關的縮圖、插畫材料和視覺資產。"
+    },
+    {
+      "id": "community",
+      "title": "社群",
+      "subTitle": "地區與討論空間",
+      "description": "圍繞索維婭的討論、分享和俄語地區社群空間。",
+      "pageIntro": "面向討論、更新、地區貼文和來自不同平台的索維婭檔案關注者的社群空間。"
+    }
+  ],
+  "cardPage": {
+    "eyebrow": "外部辦公室",
+    "openChannel": "開啟頻道",
+    "openLink": "開啟連結",
+    "enterArchive": "進入檔案",
+    "backToCenter": "返回中心"
+  }
+}

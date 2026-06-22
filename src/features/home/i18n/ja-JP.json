@@ -1,0 +1,86 @@
+{
+  "hero": {
+    "eyebrow": "様式再構成部門",
+    "titleLineOne": "COMRADE",
+    "titleLineTwo": "SOVIA",
+    "statement": "労働のリズム、声のアーカイブ、なじみある音の再構成。",
+    "unitLabel": "動画部隊",
+    "unitLines": ["YouTube", "VK", "Bilibili", "で", "動画を", "見る"]
+  },
+  "manifesto": {
+    "eyebrow": "私たちの部門について",
+    "serial": "00",
+    "titleLines": ["ソヴィア", "について"],
+    "text": "ソヴィア・ラボチェワは、なじみある歌を集め、別世界の機械へ通します。これは複製ではなく、ただの冗談でもありません。これは再構成です。",
+    "strongTerms": ["なじみある歌", "別世界の機械", "再構成"],
+    "actionLabel": "ソヴィアについて"
+  },
+  "about": {
+    "metadataTitle": "ソヴィアについて | 同志ソヴィア",
+    "metadataDescription": "ソヴィア・ラボチェワと、なじみある歌を別世界で再構成することについて。",
+    "eyebrow": "私たちの部門について",
+    "serial": "00",
+    "titleLines": ["ソヴィア", "について"],
+    "sections": [
+      [{ "text": "私の名前は " }, { "text": "ソヴィア・ラボチェワ", "strong": true }, { "text": "です。" }],
+      [{ "text": "私は" }, { "text": "なじみある歌", "strong": true }, { "text": "を集め、それらを" }, { "text": "別世界の機械", "strong": true }, { "text": "へ送り返します。" }],
+      [{ "text": "旋律は" }, { "text": "再編成", "strong": true }, { "text": "されます。" }],
+      [{ "text": "言語は" }, { "text": "再配属", "strong": true }, { "text": "されます。" }],
+      [{ "text": "感情は" }, { "text": "記録", "strong": true }, { "text": "され、" }, { "text": "押印", "strong": true }, { "text": "され、" }, { "text": "人々", "strong": true }, { "text": "へ戻されます。" }],
+      [{ "text": "これは" }, { "text": "複製", "strong": true }, { "text": "ではありません。" }],
+      [{ "text": "これはただの" }, { "text": "コメディ", "strong": true }, { "text": "でもありません。" }],
+      [{ "text": "これは" }, { "text": "再構成", "strong": true }, { "text": "です。" }],
+      [{ "text": "すべての歌は、" }, { "text": "労働", "strong": true }, { "text": "、" }, { "text": "秩序", "strong": true }, { "text": "、" }, { "text": "集団", "strong": true }, { "text": "、そして" }, { "text": "記憶", "strong": true }, { "text": "についての小さな報告になります。" }],
+      [{ "text": "すべての" }, { "text": "編曲", "strong": true }, { "text": "は同じ問いを投げます。" }],
+      [{ "text": "この旋律は何になるのか、" }],
+      [{ "text": "もし" }, { "text": "別の現実", "strong": true }, { "text": "で育っていたなら？" }],
+      [{ "text": "それが" }, { "text": "なじみ深く", "strong": true }, { "text": "聞こえて、" }],
+      [{ "text": "それでも" }, { "text": "この世界", "strong": true }, { "text": "のものではないなら、" }],
+      [{ "text": "その" }, { "text": "作戦は成功", "strong": true }, { "text": "です。" }]
+    ]
+  },
+  "cards": [
+    {
+      "id": "lyrics-library",
+      "title": "歌詞ライブラリ",
+      "subTitle": "印象歌詞アーカイブ",
+      "description": "同志ソヴィア作品の歌詞、楽曲ノート、アーカイブ項目を読めます。",
+      "pageIntro": "同志ソヴィア作品の歌詞とアーカイブ窓口です。楽曲ページ、出典メモ、YouTube 記録、各アレンジに付いた文章片をまとめています。"
+    },
+    {
+      "id": "music-release",
+      "title": "音楽リリース",
+      "subTitle": "配信ページ",
+      "description": "公式音楽リリースは配信サービスのアーティストページにまとめています。",
+      "pageIntro": "同志ソヴィア公式リリースの配信拠点です。アーカイブ画面より音楽サービスで聴きたい人向けにまとめています。"
+    },
+    {
+      "id": "concept-design",
+      "title": "コンセプト設計",
+      "subTitle": "アニメ風・写実風",
+      "description": "アニメ風のビジュアルは X に、写実画像と更新は IG に掲載しています。",
+      "pageIntro": "ソヴィアプロジェクトのビジュアル設計チャンネルです。アニメ風開発、写実研究、公開用の視覚更新を扱います。"
+    },
+    {
+      "id": "video-images",
+      "title": "動画画像",
+      "subTitle": "サムネイルとデザイン素材",
+      "description": "動画サムネイルや関連画像素材は Pixiv にまとめています。",
+      "pageIntro": "同志ソヴィア動画に関わるサムネイル、イラスト素材、ビジュアル資産の収集場所です。"
+    },
+    {
+      "id": "community",
+      "title": "コミュニティ",
+      "subTitle": "地域・議論スペース",
+      "description": "ソヴィアをめぐる議論、共有、ロシア地域コミュニティの場です。",
+      "pageIntro": "議論、更新、地域投稿、さまざまな平台からソヴィアアーカイブを追う人々のためのコミュニティスペースです。"
+    }
+  ],
+  "cardPage": {
+    "eyebrow": "外部オフィス",
+    "openChannel": "チャンネルを開く",
+    "openLink": "リンクを開く",
+    "enterArchive": "アーカイブに入る",
+    "backToCenter": "中央へ戻る"
+  }
+}

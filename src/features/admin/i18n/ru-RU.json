@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "title": "Админ"
+  },
+  "login": {
+    "title": "admin.shell",
+    "description": "Закрытая консоль контента",
+    "password": "Пароль",
+    "submit": "Войти"
+  },
+  "status": {
+    "missingPasswordTitle": "нет пароля администратора",
+    "missingPasswordDescription": "Укажите SOVIA_ADMIN_PASSWORD или ADMIN_PASSWORD в env, чтобы включить админ-панель.",
+    "databaseLabel": "база контента",
+    "title": "admin@comrade-sovia",
+    "description": "postgres overrides / legacy fallback",
+    "logout": "Выйти",
+    "databaseError": "ошибка базы данных",
+    "lastActionFailed": "Последнее действие администратора не удалось завершить. Попробуйте еще раз.",
+    "connectionReady": "соединение готово"
+  },
+  "form": {
+    "newWork": "новая работа",
+    "newWorkDescription": "создать запись postgres override",
+    "path": "Путь",
+    "contentId": "Content ID",
+    "title": "Название",
+    "original": "Оригинал",
+    "youtubeId": "YouTube ID",
+    "series": "Серия",
+    "description": "Описание",
+    "lyrics": "Текст",
+    "save": "Сохранить",
+    "deleteOverride": "Удалить DB Override"
+  }
+}

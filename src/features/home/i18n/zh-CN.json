@@ -1,0 +1,86 @@
+{
+  "hero": {
+    "eyebrow": "风格重构部门",
+    "titleLineOne": "COMRADE",
+    "titleLineTwo": "SOVIA",
+    "statement": "劳动的节奏，声音的档案，熟悉旋律的重构。",
+    "unitLabel": "视频单位",
+    "unitLines": ["在", "YouTube", "VK", "Bilibili", "观看", "视频"]
+  },
+  "manifesto": {
+    "eyebrow": "关于我们的部门",
+    "serial": "00",
+    "titleLines": ["关于", "索维娅"],
+    "text": "索维娅・拉博切娃收集熟悉的歌曲，并把它们送入另一个世界的机器。这不是复制，也不只是玩笑。这是重构。",
+    "strongTerms": ["熟悉的歌曲", "另一个世界的机器", "重构"],
+    "actionLabel": "关于索维娅"
+  },
+  "about": {
+    "metadataTitle": "关于索维娅 | 同志索维娅",
+    "metadataDescription": "关于索维娅・拉博切娃，以及熟悉歌曲在另一个世界中的重构。",
+    "eyebrow": "关于我们的部门",
+    "serial": "00",
+    "titleLines": ["关于", "索维娅"],
+    "sections": [
+      [{ "text": "我的名字是 " }, { "text": "索维娅・拉博切娃", "strong": true }, { "text": "。" }],
+      [{ "text": "我收集" }, { "text": "熟悉的歌曲", "strong": true }, { "text": "，并把它们送回" }, { "text": "另一个世界的机器", "strong": true }, { "text": "之中。" }],
+      [{ "text": "旋律被" }, { "text": "重新组织", "strong": true }, { "text": "。" }],
+      [{ "text": "语言被" }, { "text": "重新分配", "strong": true }, { "text": "。" }],
+      [{ "text": "情绪被" }, { "text": "归档", "strong": true }, { "text": "、" }, { "text": "盖章", "strong": true }, { "text": "，再送回" }, { "text": "人民", "strong": true }, { "text": "。" }],
+      [{ "text": "这不是" }, { "text": "复制", "strong": true }, { "text": "。" }],
+      [{ "text": "这也不只是" }, { "text": "喜剧", "strong": true }, { "text": "。" }],
+      [{ "text": "这是" }, { "text": "重构", "strong": true }, { "text": "。" }],
+      [{ "text": "每首歌都成为一份关于" }, { "text": "劳动", "strong": true }, { "text": "、" }, { "text": "秩序", "strong": true }, { "text": "、" }, { "text": "集体", "strong": true }, { "text": "与" }, { "text": "记忆", "strong": true }, { "text": "的小报告。" }],
+      [{ "text": "每一次" }, { "text": "编曲", "strong": true }, { "text": "都问同一个问题：" }],
+      [{ "text": "如果这段旋律" }],
+      [{ "text": "在一个" }, { "text": "不同的现实", "strong": true }, { "text": "中长大，它会变成什么？" }],
+      [{ "text": "如果它听起来" }, { "text": "熟悉", "strong": true }, { "text": "，" }],
+      [{ "text": "却又不像来自" }, { "text": "这个世界", "strong": true }, { "text": "，" }],
+      [{ "text": "那么这次" }, { "text": "行动就成功了", "strong": true }, { "text": "。" }]
+    ]
+  },
+  "cards": [
+    {
+      "id": "lyrics-library",
+      "title": "歌词库",
+      "subTitle": "印象歌词档案",
+      "description": "阅读同志索维娅作品的歌词、歌曲笔记和档案条目。",
+      "pageIntro": "同志索维娅作品的歌词与档案台：歌曲页面、来源笔记、YouTube 记录，以及每次改编附带的文字片段。"
+    },
+    {
+      "id": "music-release",
+      "title": "音乐发布",
+      "subTitle": "流媒体页面",
+      "description": "官方音乐发布内容汇集在各流媒体艺人页面。",
+      "pageIntro": "同志索维娅官方发布的流媒体据点，方便更喜欢音乐平台而非档案界面的听众。"
+    },
+    {
+      "id": "concept-design",
+      "title": "概念设计",
+      "subTitle": "动漫与写实风格",
+      "description": "动漫风格视觉作品发布在 X，写实图像和视觉更新发布在 IG。",
+      "pageIntro": "索维娅项目的视觉设计频道，包含动漫风格开发、写实研究和公开视觉更新。"
+    },
+    {
+      "id": "video-images",
+      "title": "视频图像",
+      "subTitle": "缩略图与设计材料",
+      "description": "视频缩略图设计和相关图像材料汇集在 Pixiv。",
+      "pageIntro": "这里收集与同志索维娅视频相关的缩略图、插画材料和视觉资产。"
+    },
+    {
+      "id": "community",
+      "title": "社区",
+      "subTitle": "地区与讨论空间",
+      "description": "围绕索维娅的讨论、分享和俄语地区社区空间。",
+      "pageIntro": "面向讨论、更新、地区帖子和来自不同平台的索维娅档案关注者的社区空间。"
+    }
+  ],
+  "cardPage": {
+    "eyebrow": "外部办公室",
+    "openChannel": "打开频道",
+    "openLink": "打开链接",
+    "enterArchive": "进入档案",
+    "backToCenter": "返回中心"
+  }
+}

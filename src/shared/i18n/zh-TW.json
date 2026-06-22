@@ -1,0 +1,82 @@
+{
+  "site": {
+    "name": "同志索維婭",
+    "title": "同志索維婭 | 蘇維埃風格動漫音樂檔案",
+    "description": "瀏覽同志索維婭的蘇維埃風格動漫與遊戲音樂改編、歌詞、YouTube 影片和檔案筆記。",
+    "keywords": [
+      "同志索維婭",
+      "索維婭",
+      "蘇維埃音樂",
+      "動漫音樂",
+      "動漫歌曲翻唱",
+      "蘇維埃合唱",
+      "YouTube 音樂檔案"
+    ]
+  },
+  "routes": {
+    "center": "中心",
+    "about": "關於索維婭",
+    "sound": "歌曲",
+    "test": "SOVIA-Test",
+    "lyricsLibrary": "歌詞庫",
+    "musicRelease": "音樂發行",
+    "conceptDesign": "概念設計",
+    "videoImages": "影片圖像",
+    "community": "社群",
+    "report": "報告",
+    "gallery": "畫廊",
+    "x": "X（動漫風格）",
+    "vk": "VK 社群",
+    "vkVideo": "VK-Video",
+    "discord": "加入 Discord",
+    "instagram": "IG（寫實風格）",
+    "pixiv": "Pixiv",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili",
+    "spotify": "Spotify",
+    "appleMusic": "Apple Music",
+    "youtubeMusic": "YouTube Music",
+    "request": "點歌",
+    "notice": "公告",
+    "youtube": "YouTube"
+  },
+  "brand": {
+    "title": "USSR",
+    "subtitle": "蘇維埃歌曲改革單位"
+  },
+  "underConstruction": {
+    "status": "СТАТУС",
+    "description": "頁面正在建設中",
+    "under": "UNDER",
+    "construction": "CONSTRUCTION",
+    "returnLabel": "返回中心",
+    "footer": "秩序正在建立。"
+  },
+  "notFound": {
+    "status": "СТАТУС",
+    "description": "找不到頁面",
+    "title": "404",
+    "lineOne": "NOT",
+    "lineTwo": "FOUND",
+    "returnLabel": "返回中心",
+    "footer": "秩序不是可選項。"
+  },
+  "pages": {
+    "gallery": {
+      "title": "畫廊",
+      "description": "同志索維婭的圖像畫廊與視覺檔案。"
+    },
+    "report": {
+      "title": "報告",
+      "description": "來自同志索維婭的更新、筆記和檔案報告。"
+    },
+    "request": {
+      "title": "點歌",
+      "description": "為同志索維婭檔案請求歌曲或改編。"
+    },
+    "notice": {
+      "title": "公告",
+      "description": "同志索維婭網站的重要公告與資訊。"
+    }
+  }
+}

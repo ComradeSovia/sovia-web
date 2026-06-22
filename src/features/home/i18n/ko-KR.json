@@ -1,0 +1,86 @@
+{
+  "hero": {
+    "eyebrow": "양식 재구성 부서",
+    "titleLineOne": "COMRADE",
+    "titleLineTwo": "SOVIA",
+    "statement": "노동의 리듬, 목소리의 아카이브, 익숙한 소리의 재구성.",
+    "unitLabel": "영상 부대",
+    "unitLines": ["YouTube", "VK", "Bilibili", "에서", "영상", "보기"]
+  },
+  "manifesto": {
+    "eyebrow": "우리 부서 소개",
+    "serial": "00",
+    "titleLines": ["소비아", "소개"],
+    "text": "소비아 라보체바는 익숙한 노래를 모아 다른 세계의 기계 속으로 보냅니다. 이것은 복제가 아니며, 단순한 농담도 아닙니다. 이것은 재구성입니다.",
+    "strongTerms": ["익숙한 노래", "다른 세계의 기계", "재구성"],
+    "actionLabel": "소비아 소개"
+  },
+  "about": {
+    "metadataTitle": "소비아 소개 | 동지 소비아",
+    "metadataDescription": "소비아 라보체바와 익숙한 노래를 다른 세계를 통해 재구성하는 일에 대하여.",
+    "eyebrow": "우리 부서 소개",
+    "serial": "00",
+    "titleLines": ["소비아", "소개"],
+    "sections": [
+      [{ "text": "내 이름은 " }, { "text": "소비아 라보체바", "strong": true }, { "text": "입니다." }],
+      [{ "text": "나는 " }, { "text": "익숙한 노래", "strong": true }, { "text": "를 모아 " }, { "text": "다른 세계의 기계", "strong": true }, { "text": "를 통해 다시 보냅니다." }],
+      [{ "text": "멜로디는 " }, { "text": "재정리", "strong": true }, { "text": "됩니다." }],
+      [{ "text": "언어는 " }, { "text": "재배치", "strong": true }, { "text": "됩니다." }],
+      [{ "text": "감정은 " }, { "text": "기록", "strong": true }, { "text": "되고, " }, { "text": "도장", "strong": true }, { "text": " 찍혀 " }, { "text": "사람들", "strong": true }, { "text": "에게 돌아갑니다." }],
+      [{ "text": "이것은 " }, { "text": "복제", "strong": true }, { "text": "가 아닙니다." }],
+      [{ "text": "이것은 단순한 " }, { "text": "코미디", "strong": true }, { "text": "도 아닙니다." }],
+      [{ "text": "이것은 " }, { "text": "재구성", "strong": true }, { "text": "입니다." }],
+      [{ "text": "모든 노래는 " }, { "text": "노동", "strong": true }, { "text": ", " }, { "text": "질서", "strong": true }, { "text": ", " }, { "text": "집단", "strong": true }, { "text": ", 그리고 " }, { "text": "기억", "strong": true }, { "text": "에 관한 작은 보고서가 됩니다." }],
+      [{ "text": "모든 " }, { "text": "편곡", "strong": true }, { "text": "은 같은 질문을 던집니다." }],
+      [{ "text": "이 멜로디는 무엇이 되었을까," }],
+      [{ "text": "만약 " }, { "text": "다른 현실", "strong": true }, { "text": "에서 자랐다면?" }],
+      [{ "text": "익숙하게 " }, { "text": "들리지만", "strong": true }, { "text": "," }],
+      [{ "text": "완전히 " }, { "text": "이 세계", "strong": true }, { "text": "의 것이 아니라면," }],
+      [{ "text": "그 " }, { "text": "작전은 성공", "strong": true }, { "text": "입니다." }]
+    ]
+  },
+  "cards": [
+    {
+      "id": "lyrics-library",
+      "title": "가사 라이브러리",
+      "subTitle": "인상 가사 아카이브",
+      "description": "동지 소비아 작품의 가사, 곡 노트, 아카이브 항목을 읽습니다.",
+      "pageIntro": "동지 소비아 작품을 위한 가사와 아카이브 데스크입니다. 곡 페이지, 출처 노트, YouTube 기록, 각 편곡에 붙은 텍스트 조각을 모았습니다."
+    },
+    {
+      "id": "music-release",
+      "title": "음악 발매",
+      "subTitle": "스트리밍 페이지",
+      "description": "공식 음악 발매는 스트리밍 아티스트 페이지에 모여 있습니다.",
+      "pageIntro": "동지 소비아 공식 발매의 스트리밍 거점입니다. 아카이브 화면보다 음악 플랫폼을 선호하는 청취자를 위해 모았습니다."
+    },
+    {
+      "id": "concept-design",
+      "title": "콘셉트 디자인",
+      "subTitle": "애니와 리얼 스타일",
+      "description": "애니 스타일 비주얼 작업은 X에, 리얼 이미지와 정리된 업데이트는 IG에 있습니다.",
+      "pageIntro": "소비아 프로젝트의 비주얼 디자인 채널입니다. 애니 스타일 개발, 리얼리즘 연구, 공개용 비주얼 업데이트를 나눠 다룹니다."
+    },
+    {
+      "id": "video-images",
+      "title": "영상 이미지",
+      "subTitle": "썸네일과 디자인 자료",
+      "description": "영상 썸네일 디자인과 관련 이미지 자료는 Pixiv에 모여 있습니다.",
+      "pageIntro": "동지 소비아 영상과 연결된 썸네일, 일러스트 자료, 비주얼 자산을 모으는 곳입니다."
+    },
+    {
+      "id": "community",
+      "title": "커뮤니티",
+      "subTitle": "지역 및 토론 공간",
+      "description": "소비아를 둘러싼 토론, 공유, 러시아 지역 커뮤니티 공간입니다.",
+      "pageIntro": "토론, 업데이트, 지역 게시물, 여러 플랫폼에서 소비아 아카이브를 따르는 사람들을 위한 커뮤니티 공간입니다."
+    }
+  ],
+  "cardPage": {
+    "eyebrow": "외부 사무소",
+    "openChannel": "채널 열기",
+    "openLink": "링크 열기",
+    "enterArchive": "아카이브 입장",
+    "backToCenter": "중앙으로 돌아가기"
+  }
+}
