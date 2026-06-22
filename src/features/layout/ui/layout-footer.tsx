@@ -1,8 +1,6 @@
-import { getDefaultLayoutCopy } from "../i18n/copy";
+import type { LayoutCopy } from "../i18n/copy";
 
-const copy = getDefaultLayoutCopy();
-
-export function LayoutFooter() {
+export function LayoutFooter({ copy }: { copy: LayoutCopy }) {
   return (
     <footer className="border-t-[3px] border-ink bg-block">
       <div className="mx-auto box-border flex w-full max-w-6xl flex-col gap-2 px-4 py-6 md:flex-row md:items-center md:justify-between">

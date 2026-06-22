@@ -4,25 +4,35 @@ import {
   SITE_NAME,
   siteUrl,
 } from "@sovia/shared";
+import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import { getHomeCards } from "../data/home-cards";
+import type { HomeCopy } from "../i18n/copy";
 import { HomeCards } from "./home-cards";
 import { HomeHero } from "./home-hero";
 import { HomeManifesto } from "./home-manifesto";
 
-export function HomePage() {
+export function HomePage({
+  copy,
+  sharedCopy,
+}: {
+  copy: HomeCopy;
+  sharedCopy: SharedCopy;
+}) {
+  const cards = getHomeCards(copy, sharedCopy);
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
-        name: SITE_NAME,
+        name: sharedCopy.site.name,
         url: siteUrl("/"),
         sameAs: ORGANIZATION_SAME_AS,
       },
       {
         "@type": "WebSite",
-        name: SITE_NAME,
+        name: sharedCopy.site.name,
         url: siteUrl("/"),
-        description: SITE_DESCRIPTION,
+        description: sharedCopy.site.description,
         potentialAction: {
           "@type": "SearchAction",
           target: `${siteUrl("/sound")}?q={search_term_string}`,
@@ -40,15 +50,15 @@ export function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <HomeHero />
+      <HomeHero copy={copy} sharedCopy={sharedCopy} />
 
       <div className="hr" />
 
-      <HomeCards />
+      <HomeCards cards={cards} />
 
       <div className="hr" />
 
-      <HomeManifesto />
+      <HomeManifesto copy={copy} />
     </section>
   );
 }

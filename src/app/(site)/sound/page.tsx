@@ -1,5 +1,6 @@
 import { loadAllMusicWorks, SoundClient } from "@sovia/sound";
-import { getDefaultSoundCopy } from "@sovia/sound/i18n/copy";
+import { getDefaultSoundCopy, getSoundCopy } from "@sovia/sound/i18n/copy";
+import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
 };
 
 export default async function MusicPage() {
+  const locale = await getCurrentSiteLocale();
   const musicWorks = await loadAllMusicWorks();
 
-  return <SoundClient musicWorks={musicWorks} />;
+  return <SoundClient copy={getSoundCopy(locale)} musicWorks={musicWorks} />;
 }

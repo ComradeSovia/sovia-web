@@ -26,12 +26,16 @@ import {
   getAdminDatabaseStatus,
   listAdminMusicWorks,
 } from "../data/music-admin";
-import { getDefaultAdminCopy } from "../i18n/copy";
+import type { AdminCopy } from "../i18n/copy";
 import { AdminLogin } from "./login-form";
 
-const copy = getDefaultAdminCopy();
-
-export async function AdminPage({ error }: { error?: string }) {
+export async function AdminPage({
+  copy,
+  error,
+}: {
+  copy: AdminCopy;
+  error?: string;
+}) {
   if (!hasAdminPassword()) {
     return (
       <section className="mx-auto max-w-2xl py-12">
@@ -49,7 +53,7 @@ export async function AdminPage({ error }: { error?: string }) {
   }
 
   if (!(await isAdminAuthenticated())) {
-    return <AdminLogin />;
+    return <AdminLogin copy={copy} />;
   }
 
   const databaseStatus = await getAdminDatabaseStatus();
@@ -118,7 +122,7 @@ export async function AdminPage({ error }: { error?: string }) {
               <CardDescription>{copy.form.newWorkDescription}</CardDescription>
             </CardHeader>
             <CardContent>
-              <MusicWorkForm />
+              <MusicWorkForm copy={copy} />
             </CardContent>
           </Card>
 
@@ -137,7 +141,7 @@ export async function AdminPage({ error }: { error?: string }) {
                   </div>
                 </summary>
                 <div className="mt-5 space-y-5">
-                  <MusicWorkForm work={work} />
+                  <MusicWorkForm copy={copy} work={work} />
                   <form action={deleteMusicWorkAction}>
                     <input name="path" type="hidden" value={work.path} />
                     <Button type="submit" variant="destructive">
@@ -156,6 +160,7 @@ export async function AdminPage({ error }: { error?: string }) {
 }
 
 type MusicWorkFormProps = {
+  copy: AdminCopy;
   work?: {
     path: string;
     vid: string;
@@ -168,7 +173,7 @@ type MusicWorkFormProps = {
   };
 };
 
-function MusicWorkForm({ work }: MusicWorkFormProps) {
+function MusicWorkForm({ copy, work }: MusicWorkFormProps) {
   return (
     <form action={saveMusicWorkAction} className="grid gap-4">
       {work && <input name="currentPath" type="hidden" value={work.path} />}

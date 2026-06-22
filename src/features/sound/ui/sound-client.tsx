@@ -2,16 +2,21 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { getDefaultSoundCopy } from "../i18n/copy";
+import type { SoundCopy } from "../i18n/copy";
 import { filterMusic } from "../lib/filter-music";
 import type { MusicWork } from "../model/music";
 import { SoundCard } from "./sound-card";
 
 const PAGE_SIZE = 50;
 const DEBOUNCE_DELAY = 300; // ms
-const copy = getDefaultSoundCopy();
 
-export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
+export function SoundClient({
+  copy,
+  musicWorks,
+}: {
+  copy: SoundCopy;
+  musicWorks: MusicWork[];
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
@@ -85,7 +90,7 @@ export function SoundClient({ musicWorks }: { musicWorks: MusicWork[] }) {
 
       <div className="grid gap-8 md:grid-cols-2">
         {pageItems.map((work) => (
-          <SoundCard key={work.path} work={work} />
+          <SoundCard copy={copy} key={work.path} work={work} />
         ))}
       </div>
 

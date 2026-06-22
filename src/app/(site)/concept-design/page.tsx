@@ -1,5 +1,8 @@
-import { HOME_CARDS, HomeCardPage } from "@sovia/home";
+import { HOME_CARDS, HomeCardPage, getHomeCards } from "@sovia/home";
+import { getHomeCopy } from "@sovia/home/i18n/copy";
 import { SITE_NAME, siteUrl } from "@sovia/shared";
+import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import type { Metadata } from "next";
 
 const card = HOME_CARDS[2];
@@ -17,6 +20,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ConceptDesignPage() {
-  return <HomeCardPage card={card} serial="04" />;
+export default async function ConceptDesignPage() {
+  const locale = await getCurrentSiteLocale();
+  const copy = getHomeCopy(locale);
+  const cards = getHomeCards(copy, getSharedCopy(locale));
+
+  return <HomeCardPage card={cards[2]} copy={copy} serial="04" />;
 }

@@ -1,7 +1,5 @@
 import { Routes } from "@sovia/shared";
-import { getDefaultHomeCopy } from "../i18n/copy";
-
-const copy = getDefaultHomeCopy();
+import type { HomeCopy } from "../i18n/copy";
 
 function renderHighlightedText(text: string, strongTerms: readonly string[]) {
   const pattern = new RegExp(`(${strongTerms.join("|")})`, "g");
@@ -15,7 +13,7 @@ function renderHighlightedText(text: string, strongTerms: readonly string[]) {
   });
 }
 
-export function HomeManifesto() {
+export function HomeManifesto({ copy }: { copy: HomeCopy }) {
   return (
     <div className="manifesto grid gap-8 md:grid-cols-[14rem_1fr]">
       <div className="space-y-4">

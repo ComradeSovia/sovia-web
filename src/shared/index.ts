@@ -8,7 +8,7 @@ export {
   SITE_URL,
   siteUrl,
 } from "./config/site";
-export { Routes } from "./constants/routes";
+export { getRoutes, Routes } from "./constants/routes";
 export { Card, type CardProps } from "./ui/card";
 export { HammerStarMark } from "./ui/hammer-star-mark";
 export { UnderConstruction } from "./ui/under-construction";

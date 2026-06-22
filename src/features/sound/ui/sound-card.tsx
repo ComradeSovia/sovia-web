@@ -1,11 +1,15 @@
 import Link from "next/link";
-import { getDefaultSoundCopy } from "../i18n/copy";
+import type { SoundCopy } from "../i18n/copy";
 import type { MusicWork } from "../model/music";
 import { U2BThumbnail } from "./u2b-thumbnail";
 
-const copy = getDefaultSoundCopy();
-
-export function SoundCard({ work }: { work: MusicWork }) {
+export function SoundCard({
+  copy,
+  work,
+}: {
+  copy: SoundCopy;
+  work: MusicWork;
+}) {
   if (!work.u2bId) return null;
 
   return (

@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { Routes } from "../constants/routes";
-import { getDefaultSharedCopy } from "../i18n/copy";
+import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
 
-const copy = getDefaultSharedCopy();
-
-export function UnderConstruction({ title }: { title: string }) {
+export function UnderConstruction({
+  copy = getDefaultSharedCopy(),
+  title,
+}: {
+  copy?: SharedCopy;
+  title: string;
+}) {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-10">
       <div className="meta">

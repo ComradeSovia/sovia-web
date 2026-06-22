@@ -1,10 +1,11 @@
 import { Routes } from "@sovia/shared";
-import { getDefaultSharedCopy } from "@sovia/shared/i18n/copy";
+import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import Link from "next/link";
 
-const copy = getDefaultSharedCopy();
+export default async function NotFound() {
+  const copy = getSharedCopy(await getCurrentSiteLocale());
 
-export default function NotFound() {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-10">
       <div className="meta">

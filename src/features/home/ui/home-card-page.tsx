@@ -1,15 +1,14 @@
 import type { HomeCardItem } from "@sovia/home/data/home-cards";
 import { Routes } from "@sovia/shared";
-import { getDefaultHomeCopy } from "../i18n/copy";
-
-const copy = getDefaultHomeCopy();
+import type { HomeCopy } from "../i18n/copy";
 
 type HomeCardPageProps = {
   card: HomeCardItem;
+  copy: HomeCopy;
   serial: string;
 };
 
-export function HomeCardPage({ card, serial }: HomeCardPageProps) {
+export function HomeCardPage({ card, copy, serial }: HomeCardPageProps) {
   return (
     <section className="space-y-10">
       <div className="manifesto grid gap-8 md:grid-cols-[14rem_1fr]">

@@ -1,9 +1,11 @@
 import { Routes } from "../constants/routes";
-import { getDefaultSharedCopy } from "../i18n/copy";
+import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
 
-const copy = getDefaultSharedCopy();
-
-export function HammerStarMark() {
+export function HammerStarMark({
+  copy = getDefaultSharedCopy(),
+}: {
+  copy?: SharedCopy;
+}) {
   return (
     <a href={Routes.Center.href} className="group text-ink hover-text-ink">
       <div className="inline-grid grid-cols-[3.25rem_1fr] items-stretch border-[3px] border-ink bg-paper shadow-[6px_6px_0_rgb(var(--shadow))] transition-transform group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[4px_4px_0_rgb(var(--red))]">

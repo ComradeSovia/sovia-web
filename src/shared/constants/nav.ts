@@ -1,5 +1,6 @@
 import type { RouteItem } from "../model/nav";
-import { Routes } from "./routes";
+import type { SharedCopy } from "../i18n/copy";
+import { getRoutes, Routes } from "./routes";
 
 export const NAV_ITEMS = [
   Routes.Center,
@@ -9,3 +10,16 @@ export const NAV_ITEMS = [
   // Routes.Gallery,
   // Routes.Report,
 ] satisfies RouteItem[];
+
+export function getNavItems(copy: SharedCopy) {
+  const routes = getRoutes(copy);
+
+  return [
+    routes.Center,
+    // routes.Notice,
+    routes.Sound,
+    routes.Test,
+    // routes.Gallery,
+    // routes.Report,
+  ] satisfies RouteItem[];
+}

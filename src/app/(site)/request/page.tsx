@@ -1,5 +1,6 @@
 import { UnderConstruction } from "@sovia/shared";
-import { getDefaultSharedCopy } from "@sovia/shared/i18n/copy";
+import { getDefaultSharedCopy, getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import type { Metadata } from "next";
 
 const copy = getDefaultSharedCopy();
@@ -16,6 +17,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RequestPage() {
-  return <UnderConstruction title={copy.pages.request.title} />;
+export default async function RequestPage() {
+  const localizedCopy = getSharedCopy(await getCurrentSiteLocale());
+
+  return (
+    <UnderConstruction
+      copy={localizedCopy}
+      title={localizedCopy.pages.request.title}
+    />
+  );
 }

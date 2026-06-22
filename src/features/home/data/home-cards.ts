@@ -1,6 +1,7 @@
-import { Routes } from "@sovia/shared";
+import { getRoutes, Routes } from "@sovia/shared";
+import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { RouteItem } from "@sovia/shared/model/nav";
-import { getDefaultHomeCopy } from "../i18n/copy";
+import { getDefaultHomeCopy, type HomeCopy } from "../i18n/copy";
 
 export type HomeCardItem = {
   id: string;
@@ -12,47 +13,62 @@ export type HomeCardItem = {
   links: ReadonlyArray<RouteItem>;
 };
 
-const copy = getDefaultHomeCopy();
-
-const CARD_CONFIG = {
-  "lyrics-library": {
-    route: Routes.LyricsLibrary,
-    links: [Routes.Sound],
-  },
-  "music-release": {
-    route: Routes.MusicRelease,
-    links: [Routes.Spotify, Routes.AppleMusic, Routes.YoutubeMusic],
-  },
-  "concept-design": {
-    route: Routes.ConceptDesign,
-    links: [Routes.X, Routes.Instagram],
-  },
-  "video-images": {
-    route: Routes.VideoImages,
-    links: [Routes.Pixiv],
-  },
-  community: {
-    route: Routes.Community,
-    links: [Routes.Reddit, Routes.Discord, Routes.VK],
-  },
-} as const satisfies Record<
-  string,
-  {
-    links: ReadonlyArray<RouteItem>;
-    route: RouteItem;
-  }
->;
-
-export const HOME_CARDS = copy.cards.map((card) => {
-  const config = CARD_CONFIG[card.id as keyof typeof CARD_CONFIG];
+function getCardConfig(sharedCopy?: SharedCopy) {
+  const routes = sharedCopy ? getRoutes(sharedCopy) : Routes;
 
   return {
-    ...card,
-    links: config.links,
-    route: config.route,
-  };
-}) satisfies ReadonlyArray<HomeCardItem>;
+    "lyrics-library": {
+      route: routes.LyricsLibrary,
+      links: [routes.Sound],
+    },
+    "music-release": {
+      route: routes.MusicRelease,
+      links: [routes.Spotify, routes.AppleMusic, routes.YoutubeMusic],
+    },
+    "concept-design": {
+      route: routes.ConceptDesign,
+      links: [routes.X, routes.Instagram],
+    },
+    "video-images": {
+      route: routes.VideoImages,
+      links: [routes.Pixiv],
+    },
+    community: {
+      route: routes.Community,
+      links: [routes.Reddit, routes.Discord, routes.VK],
+    },
+  } as const satisfies Record<
+    string,
+    {
+      links: ReadonlyArray<RouteItem>;
+      route: RouteItem;
+    }
+  >;
+}
 
-export function getHomeCard(id: HomeCardItem["id"]) {
-  return HOME_CARDS.find((card) => card.id === id);
+export function getHomeCards(
+  copy: HomeCopy,
+  sharedCopy?: SharedCopy,
+): ReadonlyArray<HomeCardItem> {
+  const cardConfig = getCardConfig(sharedCopy);
+
+  return copy.cards.map((card) => {
+    const config = cardConfig[card.id as keyof typeof cardConfig];
+
+    return {
+      ...card,
+      links: config.links,
+      route: config.route,
+    };
+  });
+}
+
+export const HOME_CARDS = getHomeCards(getDefaultHomeCopy());
+
+export function getHomeCard(
+  id: HomeCardItem["id"],
+  copy = getDefaultHomeCopy(),
+  sharedCopy?: SharedCopy,
+) {
+  return getHomeCards(copy, sharedCopy).find((card) => card.id === id);
 }

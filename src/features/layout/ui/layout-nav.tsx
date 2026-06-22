@@ -1,9 +1,12 @@
-import { NAV_ITEMS } from "@sovia/shared/constants/nav";
+import { getNavItems } from "@sovia/shared/constants/nav";
+import type { SharedCopy } from "@sovia/shared/i18n/copy";
 
-export function LayoutNav() {
+export function LayoutNav({ copy }: { copy: SharedCopy }) {
+  const navItems = getNavItems(copy);
+
   return (
     <nav className="hidden items-center gap-2 text-sm md:flex">
-      {NAV_ITEMS.map(({ href, label }) => (
+      {navItems.map(({ href, label }) => (
         <a
           key={href}
           href={href}
@@ -16,10 +19,12 @@ export function LayoutNav() {
   );
 }
 
-export function LayoutNavMobile() {
+export function LayoutNavMobile({ copy }: { copy: SharedCopy }) {
+  const navItems = getNavItems(copy);
+
   return (
     <nav className="flex items-center gap-6 text-sm md:hidden">
-      {NAV_ITEMS.map(({ href, label }) => (
+      {navItems.map(({ href, label }) => (
         <a
           key={href}
           href={href}

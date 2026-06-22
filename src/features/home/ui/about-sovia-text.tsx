@@ -1,8 +1,6 @@
-import { getDefaultHomeCopy } from "../i18n/copy";
+import type { HomeCopy } from "../i18n/copy";
 
-const copy = getDefaultHomeCopy();
-
-export function AboutSoviaText() {
+export function AboutSoviaText({ copy }: { copy: HomeCopy }) {
   return (
     <p className="text-base font-medium leading-relaxed">
       {copy.about.sections.map((section, sectionIndex) => (

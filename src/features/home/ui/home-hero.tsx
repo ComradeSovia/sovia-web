@@ -1,9 +1,16 @@
-import { Routes } from "@sovia/shared";
-import { getDefaultHomeCopy } from "../i18n/copy";
+import { getRoutes } from "@sovia/shared";
+import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import type { HomeCopy } from "../i18n/copy";
 
-const copy = getDefaultHomeCopy();
+export function HomeHero({
+  copy,
+  sharedCopy,
+}: {
+  copy: HomeCopy;
+  sharedCopy: SharedCopy;
+}) {
+  const routes = getRoutes(sharedCopy);
 
-export function HomeHero() {
   return (
     <div className="relative overflow-hidden border-[3px] border-ink bg-paper p-5 shadow-[12px_12px_0_rgb(var(--shadow))] sm:p-8">
       <div className="absolute right-[-4rem] top-8 h-10 w-72 -rotate-12 bg-red" />
@@ -29,28 +36,28 @@ export function HomeHero() {
 
           <div className="flex flex-wrap gap-5 pt-2">
             <a
-              href={Routes.Youtube.href}
+              href={routes.Youtube.href}
               className="btn-primary"
               rel="noopener noreferrer"
               target="_blank"
             >
-              {Routes.Youtube.label}
+              {routes.Youtube.label}
             </a>
             <a
-              href={Routes.VKVideo.href}
+              href={routes.VKVideo.href}
               className="btn-outline"
               rel="noopener noreferrer"
               target="_blank"
             >
-              {Routes.VKVideo.label}
+              {routes.VKVideo.label}
             </a>
             <a
-              href={Routes.Bilibili.href}
+              href={routes.Bilibili.href}
               className="btn-outline"
               rel="noopener noreferrer"
               target="_blank"
             >
-              {Routes.Bilibili.label}
+              {routes.Bilibili.label}
             </a>
           </div>
         </div>

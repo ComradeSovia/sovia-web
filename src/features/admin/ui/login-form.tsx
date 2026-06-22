@@ -9,11 +9,9 @@ import {
 import { Input } from "@sovia/shared/ui/shadcn/input";
 import { Label } from "@sovia/shared/ui/shadcn/label";
 import { loginAdmin } from "../actions";
-import { getDefaultAdminCopy } from "../i18n/copy";
+import type { AdminCopy } from "../i18n/copy";
 
-const copy = getDefaultAdminCopy();
-
-export function AdminLogin() {
+export function AdminLogin({ copy }: { copy: AdminCopy }) {
   return (
     <section className="mx-auto flex min-h-[70vh] max-w-md items-center">
       <Card className="w-full">

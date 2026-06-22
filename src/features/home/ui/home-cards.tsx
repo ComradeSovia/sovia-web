@@ -1,10 +1,10 @@
-import { HOME_CARDS } from "@sovia/home/data/home-cards";
+import type { HomeCardItem } from "@sovia/home/data/home-cards";
 import { Card } from "@sovia/shared";
 
-export function HomeCards() {
+export function HomeCards({ cards }: { cards: ReadonlyArray<HomeCardItem> }) {
   return (
     <div className="grid gap-7 md:grid-cols-3">
-      {HOME_CARDS.map(({ id, title, subTitle, route, description }, index) => (
+      {cards.map(({ id, title, subTitle, route, description }, index) => (
         <Card
           key={id}
           title={title}

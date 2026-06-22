@@ -1,8 +1,12 @@
-import { getDefaultLayoutCopy } from "../i18n/copy";
+import type { LayoutCopy } from "../i18n/copy";
 
-const copy = getDefaultLayoutCopy();
-
-export function LayoutMain({ children }: { children: React.ReactNode }) {
+export function LayoutMain({
+  children,
+  copy,
+}: {
+  children: React.ReactNode;
+  copy: LayoutCopy;
+}) {
   return (
     <main className="mx-auto box-border w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10">
       <div className="border-[3px] border-ink bg-paper shadow-[14px_14px_0_rgb(var(--shadow))]">
