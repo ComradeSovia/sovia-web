@@ -20,32 +20,33 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-export function mergeWithFallback<T>(
-  fallback: T,
-  override?: DeepPartial<T>,
-): T {
+function mergeUnknownWithFallback(fallback: unknown, override?: unknown): unknown {
   if (override === undefined) {
     return fallback;
   }
 
   if (Array.isArray(fallback) || Array.isArray(override)) {
-    return override as T;
+    return override;
   }
 
   if (isRecord(fallback) && isRecord(override)) {
     const merged: Record<string, unknown> = { ...fallback };
 
     for (const [key, value] of Object.entries(override)) {
-      merged[key] = mergeWithFallback(
-        fallback[key as keyof typeof fallback],
-        value as DeepPartial<T[keyof T]>,
-      );
+      merged[key] = mergeUnknownWithFallback(fallback[key], value);
     }
 
-    return merged as T;
+    return merged;
   }
 
-  return override as T;
+  return override;
+}
+
+export function mergeWithFallback<T>(
+  fallback: T,
+  override?: DeepPartial<T>,
+): T {
+  return mergeUnknownWithFallback(fallback, override) as T;
 }
 
 export function createDictionaryGetter<T>(
