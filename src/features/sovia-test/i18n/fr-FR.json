@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Test d’affectation SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Attribution d’identité professionnelle d’orientation soviétique",
     "subtitle": "Découvre ta personnalité de travail soviétique et le poste que SOVIA te réserverait.",
     "intro": "SOVIA est un système non officiel d’affectation des personnalités de travail développé par le Département de la propagande. Il détermine si un camarade convient mieux à la station radio, aux archives, à la salle des machines, à la cantine, au comité du chauffage ou à tout autre poste nécessaire.",
     "disclaimer": "Ce n’est ni une consultation psychologique, ni un conseil de carrière, ni une véritable décision d’organisation. L’interprétation finale appartient à la Section provisoire d’examen de la personnalité du Département de la propagande."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Attribution d’identité professionnelle d’orientation soviétique",
     "zhName": "Système soviétique d’affectation des personnalités de travail",
     "department": "Section provisoire d’examen de la personnalité"
   },

@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA 배치 테스트",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "소비에트 지향 직업 정체성 배정",
     "subtitle": "당신의 소비에트 노동 인격과 SOVIA가 배치할 직책을 확인하세요.",
     "intro": "SOVIA는 선전부가 개발한 비공식 노동 인격 배치 시스템입니다. 한 동지가 방송탑, 기록실, 기계실, 식당, 난방위원회 또는 다른 필수직책에 더 적합한지 판단합니다.",
     "disclaimer": "이것은 심리 상담도, 진로 조언도, 실제 조직 결정도 아닙니다. 최종 해석권은 선전부 임시 인격심사과에 있습니다."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "소비에트 지향 직업 정체성 배정",
     "zhName": "소비에트 노동 인격 배치 시스템",
     "department": "선전부 임시 인격심사과"
   },

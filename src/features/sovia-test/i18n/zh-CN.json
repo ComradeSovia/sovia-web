@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA 分配测试",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "苏维埃导向职业身份分配",
     "subtitle": "测测你的苏维埃劳动人格，会被分配到哪个岗位。",
     "intro": "SOVIA 是宣传部开发的非正式劳动人格分配系统。它用于判断一名同志更适合被分配到广播站、档案室、机房、食堂、供暖委员会或其他必要岗位。",
     "disclaimer": "这不是心理咨询，也不是职业建议，更不是真正的组织决定。最终解释权归宣传部临时人格审查科所有。"
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "苏维埃导向职业身份分配",
     "zhName": "苏维埃劳动人格分配系统",
     "department": "宣传部临时人格审查科"
   },

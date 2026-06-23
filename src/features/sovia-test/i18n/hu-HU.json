@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA beosztási teszt",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Szovjet-orientált munkaidentitás-besorolás",
     "subtitle": "Mérd fel szovjet munkaszemélyiségedet és posztodat.",
     "intro": "A SOVIA a Propagandaosztály által fejlesztett, fiktív és nem hivatalos munkaszemélyiség-beosztási rendszer. Eldönti, hogy az elvtárs inkább a rádiótoronyba, az irattárba, a gépterembe, a menzára, a fűtési bizottságba vagy más szükséges posztra való-e.",
     "disclaimer": "Ez nem pszichológiai tanácsadás, nem pályaválasztási tanács és nem valódi szervezeti döntés. A végső értelmezés joga a Propagandaosztály Ideiglenes Személyiségvizsgáló Szekciójáé."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Szovjet-orientált munkaidentitás-besorolás",
     "zhName": "SOVIA beosztási teszt",
     "department": "Propagandaosztály Ideiglenes Személyiségvizsgálati Részlege"
   },
@@ -43,7 +43,7 @@
     "detailActionLabel": "Részletek"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "Aktavizsgálat állása",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -100,77 +100,77 @@
   },
   "axes": {
     "structure": {
-      "label": "Structure",
+      "label": "Struktúramód",
       "letters": {
         "S": {
-          "name": "Structure",
-          "zhName": "Structure",
-          "description": "Structure"
+          "name": "Struktúra",
+          "zhName": "Struktúra",
+          "description": "A rendet, terveket, szabályokat és világos lépéseket kedveli."
         },
         "F": {
-          "name": "Flow",
-          "zhName": "Flow",
-          "description": "Flow"
+          "name": "Áramlás",
+          "zhName": "Áramlás",
+          "description": "Helyszíni ítéletre támaszkodik és alkalmazkodik a változáshoz."
         }
       }
     },
     "action": {
-      "label": "Action",
+      "label": "Cselekvésmód",
       "letters": {
         "O": {
-          "name": "Overdrive",
-          "zhName": "Overdrive",
-          "description": "Overdrive"
+          "name": "Túlhajtás",
+          "zhName": "Túlhajtás",
+          "description": "Nyomás és sürgős feladatok alatt élesedik ki."
         },
         "E": {
-          "name": "Endurance",
-          "zhName": "Endurance",
-          "description": "Endurance"
+          "name": "Kitartás",
+          "zhName": "Kitartás",
+          "description": "Stabil, hosszú távú teljesítményt tart fenn."
         }
       }
     },
     "influence": {
-      "label": "Influence",
+      "label": "Hatásmód",
       "letters": {
         "V": {
-          "name": "Voice",
-          "zhName": "Voice",
-          "description": "Voice"
+          "name": "Hang",
+          "zhName": "Hang",
+          "description": "Jó a kifejezésben, történetmesélésben és hangulatteremtésben."
         },
         "Q": {
-          "name": "Quiet",
-          "zhName": "Quiet",
-          "description": "Quiet"
+          "name": "Csend",
+          "zhName": "Csend",
+          "description": "Inkább jól végzi el a munkát, mintsem túlmagyarázza."
         }
       }
     },
     "understanding": {
-      "label": "Understanding",
+      "label": "Megértésmód",
       "letters": {
         "I": {
-          "name": "Inquiry",
-          "zhName": "Inquiry",
-          "description": "Inquiry"
+          "name": "Vizsgálódás",
+          "zhName": "Vizsgálódás",
+          "description": "Rendszereket, okokat, logikát és struktúrát elemez."
         },
         "M": {
-          "name": "Meaning",
-          "zhName": "Meaning",
-          "description": "Meaning"
+          "name": "Jelentés",
+          "zhName": "Jelentés",
+          "description": "Az érzelmet, jelképet, hangulatot és kapcsolatot figyeli."
         }
       }
     },
     "relation": {
-      "label": "Relation",
+      "label": "Kapcsolatmód",
       "letters": {
         "A": {
-          "name": "Alliance",
-          "zhName": "Alliance",
-          "description": "Alliance"
+          "name": "Szövetség",
+          "zhName": "Szövetség",
+          "description": "Értékeli az együttműködést, a csoport ritmusát és a gondoskodást."
         },
         "L": {
-          "name": "Lone",
-          "zhName": "Lone",
-          "description": "Lone"
+          "name": "Magányos",
+          "zhName": "Magányos",
+          "description": "Jól dolgozik egyedül, és világos határokra van szüksége."
         }
       }
     }
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Result link copied."
   },
   "language": {
-    "label": "语言"
+    "label": "Nyelv"
   },
   "details": {
     "title": "Személyiségi akta",

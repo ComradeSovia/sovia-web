@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA Dağıtım Testi",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Sovyet yönelimli mesleki kimlik ataması",
     "subtitle": "Sovyet emek kişiliğini ölç; SOVIA seni hangi göreve sevk eder, öğren.",
     "intro": "SOVIA, Propaganda Dairesi tarafından geliştirilmiş gayriresmî bir emek kişiliği dağıtım sistemidir. Bir yoldaşın radyo kulesine, arşiv odasına, makine dairesine, kantine, ısıtma komitesine ya da başka gerekli bir mevkiye daha uygun olup olmadığını belirler.",
     "disclaimer": "Bu psikolojik danışmanlık, kariyer tavsiyesi veya gerçek bir örgütsel karar değildir. Nihai yorum yetkisi Propaganda Dairesi Geçici Kişilik İnceleme Şubesi’ne aittir."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Sovyet yönelimli mesleki kimlik ataması",
     "zhName": "Sovyet Emek Kişiliği Dağıtım Sistemi",
     "department": "Propaganda Dairesi Geçici Kişilik İnceleme Şubesi"
   },

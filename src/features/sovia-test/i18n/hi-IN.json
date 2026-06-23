@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA आवंटन परीक्षण",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "सोवियत-उन्मुख व्यावसायिक पहचान आवंटन",
     "subtitle": "अपनी सोवियत श्रम-व्यक्तित्व जाँचें और अपना पद देखें।",
     "intro": "SOVIA प्रचार विभाग द्वारा बनाया गया एक काल्पनिक, अनौपचारिक श्रम-व्यक्तित्व आवंटन तंत्र है। यह तय करता है कि कोई कॉमरेड रेडियो टावर, अभिलेख कक्ष, मशीन कक्ष, कैंटीन, हीटिंग समिति या किसी अन्य आवश्यक पद के लिए अधिक उपयुक्त है।",
     "disclaimer": "यह मनोवैज्ञानिक सलाह, करियर सलाह या वास्तविक संगठनात्मक निर्णय नहीं है। अंतिम व्याख्या प्रचार विभाग के अस्थायी व्यक्तित्व समीक्षा अनुभाग की होगी।"
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "सोवियत-उन्मुख व्यावसायिक पहचान आवंटन",
     "zhName": "SOVIA आवंटन परीक्षण",
     "department": "प्रचार विभाग की अस्थायी व्यक्तित्व समीक्षा शाखा"
   },
@@ -43,7 +43,7 @@
     "detailActionLabel": "विवरण देखें"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "अभिलेख समीक्षा प्रगति",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -100,77 +100,77 @@
   },
   "axes": {
     "structure": {
-      "label": "Structure",
+      "label": "संरचना पद्धति",
       "letters": {
         "S": {
-          "name": "Structure",
-          "zhName": "Structure",
-          "description": "Structure"
+          "name": "संरचना",
+          "zhName": "संरचना",
+          "description": "व्यवस्था, योजना, नियम और स्पष्ट चरण पसंद करता/करती है।"
         },
         "F": {
-          "name": "Flow",
-          "zhName": "Flow",
-          "description": "Flow"
+          "name": "प्रवाह",
+          "zhName": "प्रवाह",
+          "description": "मैदान के निर्णय पर भरोसा करता/करती है और बदलाव से ढलता/ढलती है।"
         }
       }
     },
     "action": {
-      "label": "Action",
+      "label": "कार्य पद्धति",
       "letters": {
         "O": {
-          "name": "Overdrive",
-          "zhName": "Overdrive",
-          "description": "Overdrive"
+          "name": "अतिचालन",
+          "zhName": "अतिचालन",
+          "description": "दबाव और तत्काल कार्यों में अधिक स्पष्ट हो जाता/जाती है।"
         },
         "E": {
-          "name": "Endurance",
-          "zhName": "Endurance",
-          "description": "Endurance"
+          "name": "धैर्य",
+          "zhName": "धैर्य",
+          "description": "स्थिर और लंबे समय तक चलने वाला उत्पादन बनाए रखता/रखती है।"
         }
       }
     },
     "influence": {
-      "label": "Influence",
+      "label": "प्रभाव पद्धति",
       "letters": {
         "V": {
-          "name": "Voice",
-          "zhName": "Voice",
-          "description": "Voice"
+          "name": "स्वर",
+          "zhName": "स्वर",
+          "description": "अभिव्यक्ति, कथा और वातावरण बनाने में अच्छा/अच्छी है।"
         },
         "Q": {
-          "name": "Quiet",
-          "zhName": "Quiet",
-          "description": "Quiet"
+          "name": "शांति",
+          "zhName": "शांति",
+          "description": "अतिरिक्त व्याख्या से अधिक काम को ठीक से पूरा करना पसंद करता/करती है।"
         }
       }
     },
     "understanding": {
-      "label": "Understanding",
+      "label": "समझ पद्धति",
       "letters": {
         "I": {
-          "name": "Inquiry",
-          "zhName": "Inquiry",
-          "description": "Inquiry"
+          "name": "अन्वेषण",
+          "zhName": "अन्वेषण",
+          "description": "तंत्र, कारण, तर्क और संरचना का विश्लेषण करता/करती है।"
         },
         "M": {
-          "name": "Meaning",
-          "zhName": "Meaning",
-          "description": "Meaning"
+          "name": "अर्थ",
+          "zhName": "अर्थ",
+          "description": "भावना, प्रतीक, वातावरण और संबंध को महत्व देता/देती है।"
         }
       }
     },
     "relation": {
-      "label": "Relation",
+      "label": "संबंध पद्धति",
       "letters": {
         "A": {
-          "name": "Alliance",
-          "zhName": "Alliance",
-          "description": "Alliance"
+          "name": "गठबंधन",
+          "zhName": "गठबंधन",
+          "description": "सहयोग, समूह लय और देखभाल को महत्व देता/देती है।"
         },
         "L": {
-          "name": "Lone",
-          "zhName": "Lone",
-          "description": "Lone"
+          "name": "अकेला",
+          "zhName": "अकेला",
+          "description": "अकेले अच्छा काम करता/करती है और स्पष्ट सीमाएँ चाहता/चाहती है।"
         }
       }
     }
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Result link copied."
   },
   "language": {
-    "label": "语言"
+    "label": "भाषा"
   },
   "details": {
     "title": "व्यक्तित्व अभिलेख",

@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "اختبار توزيع SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "تخصيص الهوية المهنية ذات التوجه السوفيتي",
     "subtitle": "اختبر شخصيتك العمالية السوفيتية واعرف موقعك.",
     "intro": "SOVIA نظام خيالي غير رسمي لتوزيع الشخصية العمالية طورته إدارة الدعاية. يقرر ما إذا كان الرفيق أنسب لبرج الإذاعة أو غرفة الأرشيف أو قاعة الآلات أو المقصف أو لجنة التدفئة أو منصب ضروري آخر.",
     "disclaimer": "هذا ليس إرشاداً نفسياً ولا نصيحة مهنية ولا قراراً تنظيمياً حقيقياً. حق التفسير النهائي يعود إلى قسم فحص الشخصية المؤقت في إدارة الدعاية."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "تخصيص الهوية المهنية ذات التوجه السوفيتي",
     "zhName": "اختبار توزيع SOVIA",
     "department": "قسم فحص الشخصية المؤقت في إدارة الدعاية"
   },
@@ -43,7 +43,7 @@
     "detailActionLabel": "عرض التفاصيل"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "تقدم مراجعة الأرشيف",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -100,77 +100,77 @@
   },
   "axes": {
     "structure": {
-      "label": "Structure",
+      "label": "طريقة البنية",
       "letters": {
         "S": {
-          "name": "Structure",
-          "zhName": "Structure",
-          "description": "Structure"
+          "name": "بنية",
+          "zhName": "بنية",
+          "description": "يفضل النظام والخطط والقواعد والخطوات الواضحة."
         },
         "F": {
-          "name": "Flow",
-          "zhName": "Flow",
-          "description": "Flow"
+          "name": "تدفق",
+          "zhName": "تدفق",
+          "description": "يتكيف مع التغير ويعتمد على حكم الميدان."
         }
       }
     },
     "action": {
-      "label": "Action",
+      "label": "طريقة العمل",
       "letters": {
         "O": {
-          "name": "Overdrive",
-          "zhName": "Overdrive",
-          "description": "Overdrive"
+          "name": "اندفاع",
+          "zhName": "اندفاع",
+          "description": "يزداد وضوحاً تحت الضغط والمهام العاجلة."
         },
         "E": {
-          "name": "Endurance",
-          "zhName": "Endurance",
-          "description": "Endurance"
+          "name": "تحمّل",
+          "zhName": "تحمّل",
+          "description": "يحافظ على إنتاج ثابت وطويل النفس."
         }
       }
     },
     "influence": {
-      "label": "Influence",
+      "label": "طريقة التأثير",
       "letters": {
         "V": {
-          "name": "Voice",
-          "zhName": "Voice",
-          "description": "Voice"
+          "name": "صوت",
+          "zhName": "صوت",
+          "description": "يجيد التعبير والسرد وصناعة الجو."
         },
         "Q": {
-          "name": "Quiet",
-          "zhName": "Quiet",
-          "description": "Quiet"
+          "name": "صمت",
+          "zhName": "صمت",
+          "description": "يفضل إنجاز العمل بإتقان دون شرح زائد."
         }
       }
     },
     "understanding": {
-      "label": "Understanding",
+      "label": "طريقة الفهم",
       "letters": {
         "I": {
-          "name": "Inquiry",
-          "zhName": "Inquiry",
-          "description": "Inquiry"
+          "name": "استقصاء",
+          "zhName": "استقصاء",
+          "description": "يحلل الأنظمة والأسباب والمنطق والبنية."
         },
         "M": {
-          "name": "Meaning",
-          "zhName": "Meaning",
-          "description": "Meaning"
+          "name": "معنى",
+          "zhName": "معنى",
+          "description": "يهتم بالعاطفة والرمز والجو والعلاقات."
         }
       }
     },
     "relation": {
-      "label": "Relation",
+      "label": "طريقة العلاقة",
       "letters": {
         "A": {
-          "name": "Alliance",
-          "zhName": "Alliance",
-          "description": "Alliance"
+          "name": "تحالف",
+          "zhName": "تحالف",
+          "description": "يهتم بالتعاون وإيقاع الجماعة والرعاية."
         },
         "L": {
-          "name": "Lone",
-          "zhName": "Lone",
-          "description": "Lone"
+          "name": "منفرد",
+          "zhName": "منفرد",
+          "description": "يعمل جيداً وحده ويحتاج حدوداً واضحة."
         }
       }
     }
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Result link copied."
   },
   "language": {
-    "label": "语言"
+    "label": "اللغة"
   },
   "details": {
     "title": "ملف الشخصية",

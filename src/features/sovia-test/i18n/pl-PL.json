@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Test Przydziału SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Sowiecko ukierunkowany przydział tożsamości zawodowej",
     "subtitle": "Sprawdź swoją radziecką osobowość pracy i stanowisko, na które przydzieliłaby cię SOVIA.",
     "intro": "SOVIA to nieformalny system przydziału osobowości pracy opracowany przez Wydział Propagandy. Ustala, czy towarzysz lepiej nadaje się do radiowęzła, archiwum, maszynowni, stołówki, komisji ogrzewania czy innego niezbędnego stanowiska.",
     "disclaimer": "To nie jest porada psychologiczna, zawodowa ani prawdziwa decyzja organizacyjna. Ostateczna interpretacja należy do Tymczasowej Sekcji Oceny Osobowości Wydziału Propagandy."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Sowiecko ukierunkowany przydział tożsamości zawodowej",
     "zhName": "Radziecki system przydziału osobowości pracy",
     "department": "Tymczasowa Sekcja Oceny Osobowości"
   },

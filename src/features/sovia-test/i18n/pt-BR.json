@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Teste de Alocação SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Alocação de identidade vocacional orientada ao estilo soviético",
     "subtitle": "Descubra sua personalidade laboral soviética e para qual posto a SOVIA te mandaria.",
     "intro": "SOVIA é um sistema informal de alocação de personalidade laboral desenvolvido pelo Departamento de Propaganda. Ele decide se um camarada combina mais com a rádio, o arquivo, a sala de máquinas, o refeitório, o comitê de aquecimento ou outro posto necessário.",
     "disclaimer": "Isto não é aconselhamento psicológico, orientação profissional nem decisão organizacional real. A interpretação final pertence à Seção Provisória de Revisão de Personalidade do Departamento de Propaganda."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Alocação de identidade vocacional orientada ao estilo soviético",
     "zhName": "Sistema soviético de alocação de personalidade laboral",
     "department": "Seção Provisória de Revisão de Personalidade"
   },

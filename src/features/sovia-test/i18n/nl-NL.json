@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA-verdelingstest",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Sovjetgerichte toewijzing van beroepsidentiteit",
     "subtitle": "Meet je Sovjet-arbeidspersoonlijkheid en ontdek je post.",
     "intro": "SOVIA is een informeel systeem van het Propagandadepartement. Het bepaalt of een kameraad past bij radiotoren, archief, machinekamer, kantine, verwarmingscomité of andere noodzakelijke post.",
     "disclaimer": "Dit is geen psychologisch advies, geen loopbaanadvies en geen echte organisatiebeslissing. De eindinterpretatie ligt bij de Tijdelijke Persoonlijkheidsinspectie."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Sovjetgerichte toewijzing van beroepsidentiteit",
     "zhName": "SOVIA-verdelingstest",
     "department": "Tijdelijke Persoonlijkheidsinspectie van het Propagandadepartement"
   },
@@ -16,7 +16,7 @@
     "title": "Optionele archiefgegevens",
     "intro": "Deze velden zijn optioneel en helpen de Propaganda-afdeling te begrijpen welke kameraad de test maakt.",
     "ageLabel": "Leeftijd",
-    "genderLabel": "Gender",
+    "genderLabel": "Geslacht",
     "ageOptions": {
       "prefer_not_to_say": "Zeg ik liever niet",
       "under_18": "Onder 18",
@@ -37,13 +37,13 @@
     "title": "Alle SOVIA-posten",
     "subtitle": "Meet je Sovjet-arbeidspersoonlijkheid en ontdek je post.",
     "intro": "Hier staan 32 arbeids-persoonlijkheidscodes. Elke post is samengesteld uit structuur, actie, invloed, begrip en relatie.",
-    "startTestLabel": "Start test",
+    "startTestLabel": "Test starten",
     "codeLabel": "Arbeidspersoonlijkheidscode",
     "detailLabel": "Persoonlijkheidsdossier",
     "detailActionLabel": "Volgende"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "Voortgang dossiercontrole",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -54,7 +54,7 @@
     "rightHint": "Helemaal eens"
   },
   "actions": {
-    "start": "Start test",
+    "start": "Test starten",
     "types": "Bekijk alle posten",
     "previous": "Vorige",
     "next": "Volgende",
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Resultaatlink gekopieerd."
   },
   "language": {
-    "label": "语言"
+    "label": "Taal"
   },
   "details": {
     "title": "Persoonlijkheidsdossier",

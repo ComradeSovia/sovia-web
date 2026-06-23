@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Test di Assegnazione SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Assegnazione dell’identità professionale in stile sovietico",
     "subtitle": "Scopri la tua personalità lavorativa sovietica e a quale incarico SOVIA ti assegnerebbe.",
     "intro": "SOVIA è un sistema informale di assegnazione della personalità lavorativa sviluppato dal Dipartimento Propaganda. Decide se un compagno sia più adatto alla radio, agli archivi, alla sala macchine, alla mensa, al comitato del riscaldamento o ad altri incarichi necessari.",
     "disclaimer": "Non è consulenza psicologica, né orientamento professionale, né una vera decisione organizzativa. L’interpretazione finale spetta alla Sezione Provvisoria di Revisione della Personalità del Dipartimento Propaganda."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Assegnazione dell’identità professionale in stile sovietico",
     "zhName": "Sistema sovietico di assegnazione della personalità lavorativa",
     "department": "Sezione Provvisoria di Revisione della Personalità"
   },

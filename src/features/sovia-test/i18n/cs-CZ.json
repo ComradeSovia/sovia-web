@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Přidělovací test SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Sovětsky orientované přidělení pracovní identity",
     "subtitle": "Zjisti svou sovětskou pracovní osobnost a přidělenou pozici.",
     "intro": "SOVIA je fiktivní neformální systém přidělování pracovních osobností vyvinutý Oddělením propagandy. Určuje, zda se soudruh lépe hodí do rozhlasové věže, archivu, strojovny, jídelny, topenářské komise nebo na jiné nezbytné místo.",
     "disclaimer": "Nejde o psychologické poradenství, kariérní radu ani skutečné organizační rozhodnutí. Konečný výklad náleží Dočasné sekci pro přezkum osobnosti při Oddělení propagandy."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Sovětsky orientované přidělení pracovní identity",
     "zhName": "Přidělovací test SOVIA",
     "department": "Dočasná sekce pro kontrolu osobnosti Oddělení propagandy"
   },
@@ -43,7 +43,7 @@
     "detailActionLabel": "Zobrazit detail"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "Postup kontroly spisu",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -100,77 +100,77 @@
   },
   "axes": {
     "structure": {
-      "label": "Structure",
+      "label": "Způsob struktury",
       "letters": {
         "S": {
-          "name": "Structure",
-          "zhName": "Structure",
-          "description": "Structure"
+          "name": "Struktura",
+          "zhName": "Struktura",
+          "description": "Preferuje pořádek, plány, pravidla a jasné kroky."
         },
         "F": {
-          "name": "Flow",
-          "zhName": "Flow",
-          "description": "Flow"
+          "name": "Proud",
+          "zhName": "Proud",
+          "description": "Spoléhá na úsudek v terénu a přizpůsobuje se změnám."
         }
       }
     },
     "action": {
-      "label": "Action",
+      "label": "Způsob jednání",
       "letters": {
         "O": {
-          "name": "Overdrive",
-          "zhName": "Overdrive",
-          "description": "Overdrive"
+          "name": "Přetížení",
+          "zhName": "Přetížení",
+          "description": "Pod tlakem a v naléhavých úkolech se zostřuje."
         },
         "E": {
-          "name": "Endurance",
-          "zhName": "Endurance",
-          "description": "Endurance"
+          "name": "Výdrž",
+          "zhName": "Výdrž",
+          "description": "Udržuje stabilní dlouhodobý výkon."
         }
       }
     },
     "influence": {
-      "label": "Influence",
+      "label": "Způsob vlivu",
       "letters": {
         "V": {
-          "name": "Voice",
-          "zhName": "Voice",
-          "description": "Voice"
+          "name": "Hlas",
+          "zhName": "Hlas",
+          "description": "Umí vyjadřovat, vyprávět a tvořit atmosféru."
         },
         "Q": {
-          "name": "Quiet",
-          "zhName": "Quiet",
-          "description": "Quiet"
+          "name": "Ticho",
+          "zhName": "Ticho",
+          "description": "Raději odvádí práci pořádně bez zbytečného vysvětlování."
         }
       }
     },
     "understanding": {
-      "label": "Understanding",
+      "label": "Způsob porozumění",
       "letters": {
         "I": {
-          "name": "Inquiry",
-          "zhName": "Inquiry",
-          "description": "Inquiry"
+          "name": "Zkoumání",
+          "zhName": "Zkoumání",
+          "description": "Analyzuje systémy, příčiny, logiku a strukturu."
         },
         "M": {
-          "name": "Meaning",
-          "zhName": "Meaning",
-          "description": "Meaning"
+          "name": "Význam",
+          "zhName": "Význam",
+          "description": "Všímá si emocí, symbolů, atmosféry a vztahů."
         }
       }
     },
     "relation": {
-      "label": "Relation",
+      "label": "Způsob vztahů",
       "letters": {
         "A": {
-          "name": "Alliance",
-          "zhName": "Alliance",
-          "description": "Alliance"
+          "name": "Spojenectví",
+          "zhName": "Spojenectví",
+          "description": "Cení si spolupráce, rytmu skupiny a péče."
         },
         "L": {
-          "name": "Lone",
-          "zhName": "Lone",
-          "description": "Lone"
+          "name": "Samostatnost",
+          "zhName": "Samostatnost",
+          "description": "Pracuje dobře o samotě a potřebuje jasné hranice."
         }
       }
     }
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Result link copied."
   },
   "language": {
-    "label": "语言"
+    "label": "Jazyk"
   },
   "details": {
     "title": "Osobnostní spis",

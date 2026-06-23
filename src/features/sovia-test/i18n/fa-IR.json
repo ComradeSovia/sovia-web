@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "آزمون تخصیص SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "تخصیص هویت شغلی با گرایش شوروی",
     "subtitle": "شخصیت کاری شوروی‌وار خود را بسنج و پست خود را ببین.",
     "intro": "SOVIA یک سامانهٔ خیالی و غیررسمی برای تخصیص شخصیت کاری است که ادارهٔ تبلیغات ساخته است. این سامانه تشخیص می‌دهد رفیق برای برج رادیو، اتاق بایگانی، سالن ماشین، غذاخوری، کمیتهٔ گرمایش یا یک پست ضروری دیگر مناسب‌تر است.",
     "disclaimer": "این مشاورهٔ روان‌شناختی، توصیهٔ شغلی یا تصمیم واقعی سازمانی نیست. تفسیر نهایی با بخش موقت بررسی شخصیت در ادارهٔ تبلیغات است."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "تخصیص هویت شغلی با گرایش شوروی",
     "zhName": "آزمون تخصیص SOVIA",
     "department": "بخش موقت بررسی شخصیت اداره تبلیغات"
   },
@@ -43,7 +43,7 @@
     "detailActionLabel": "دیدن جزئیات"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "پیشرفت بررسی پرونده",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -100,77 +100,77 @@
   },
   "axes": {
     "structure": {
-      "label": "Structure",
+      "label": "شیوهٔ ساختار",
       "letters": {
         "S": {
-          "name": "Structure",
-          "zhName": "Structure",
-          "description": "Structure"
+          "name": "ساختار",
+          "zhName": "ساختار",
+          "description": "نظم، برنامه، قواعد و گام‌های روشن را ترجیح می‌دهد."
         },
         "F": {
-          "name": "Flow",
-          "zhName": "Flow",
-          "description": "Flow"
+          "name": "جریان",
+          "zhName": "جریان",
+          "description": "به داوری میدانی تکیه می‌کند و با تغییر سازگار می‌شود."
         }
       }
     },
     "action": {
-      "label": "Action",
+      "label": "شیوهٔ اقدام",
       "letters": {
         "O": {
-          "name": "Overdrive",
-          "zhName": "Overdrive",
-          "description": "Overdrive"
+          "name": "فشار بالا",
+          "zhName": "فشار بالا",
+          "description": "در فشار و مأموریت‌های فوری روشن‌تر عمل می‌کند."
         },
         "E": {
-          "name": "Endurance",
-          "zhName": "Endurance",
-          "description": "Endurance"
+          "name": "دوام",
+          "zhName": "دوام",
+          "description": "خروجی پایدار و بلندمدت را حفظ می‌کند."
         }
       }
     },
     "influence": {
-      "label": "Influence",
+      "label": "شیوهٔ تأثیر",
       "letters": {
         "V": {
-          "name": "Voice",
-          "zhName": "Voice",
-          "description": "Voice"
+          "name": "صدا",
+          "zhName": "صدا",
+          "description": "در بیان، روایت و ساختن فضا توانمند است."
         },
         "Q": {
-          "name": "Quiet",
-          "zhName": "Quiet",
-          "description": "Quiet"
+          "name": "سکوت",
+          "zhName": "سکوت",
+          "description": "ترجیح می‌دهد کار را درست انجام دهد، نه اینکه زیاد توضیح دهد."
         }
       }
     },
     "understanding": {
-      "label": "Understanding",
+      "label": "شیوهٔ فهم",
       "letters": {
         "I": {
-          "name": "Inquiry",
-          "zhName": "Inquiry",
-          "description": "Inquiry"
+          "name": "کاوش",
+          "zhName": "کاوش",
+          "description": "سامانه‌ها، علت‌ها، منطق و ساختار را تحلیل می‌کند."
         },
         "M": {
-          "name": "Meaning",
-          "zhName": "Meaning",
-          "description": "Meaning"
+          "name": "معنا",
+          "zhName": "معنا",
+          "description": "به احساس، نماد، فضا و رابطه اهمیت می‌دهد."
         }
       }
     },
     "relation": {
-      "label": "Relation",
+      "label": "شیوهٔ رابطه",
       "letters": {
         "A": {
-          "name": "Alliance",
-          "zhName": "Alliance",
-          "description": "Alliance"
+          "name": "اتحاد",
+          "zhName": "اتحاد",
+          "description": "برای همکاری، ریتم جمعی و مراقبت ارزش قائل است."
         },
         "L": {
-          "name": "Lone",
-          "zhName": "Lone",
-          "description": "Lone"
+          "name": "تنها",
+          "zhName": "تنها",
+          "description": "تنها خوب کار می‌کند و به مرزهای روشن نیاز دارد."
         }
       }
     }
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Result link copied."
   },
   "language": {
-    "label": "语言"
+    "label": "زبان"
   },
   "details": {
     "title": "پروندهٔ شخصیت",

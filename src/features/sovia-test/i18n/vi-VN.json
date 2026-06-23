@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Bài kiểm tra phân công SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Phân bổ danh tính nghề nghiệp theo định hướng Xô viết",
     "subtitle": "Xem nhân cách lao động kiểu Xô viết của bạn và SOVIA sẽ phân công bạn vào đâu.",
     "intro": "SOVIA là hệ thống phân công nhân cách lao động không chính thức do Cục Tuyên truyền phát triển. Nó xem một đồng chí hợp với đài phát thanh, phòng lưu trữ, phòng máy, nhà ăn, ủy ban sưởi ấm hay một vị trí cần thiết khác.",
     "disclaimer": "Đây không phải tư vấn tâm lý, không phải hướng nghiệp, và càng không phải quyết định tổ chức thật. Quyền giải thích cuối cùng thuộc về Ban thẩm tra nhân cách tạm thời của Cục Tuyên truyền."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Phân bổ danh tính nghề nghiệp theo định hướng Xô viết",
     "zhName": "Hệ thống phân công nhân cách lao động Xô viết",
     "department": "Ban thẩm tra nhân cách tạm thời"
   },

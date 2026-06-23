@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA 配属テスト",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "ソビエト志向職業アイデンティティ配属",
     "subtitle": "あなたのソビエト労働人格と、SOVIA が配属する職場を判定します。",
     "intro": "SOVIA は宣伝部が開発した非公式の労働人格配属システムです。同志が放送塔、資料室、機械室、食堂、暖房委員会、あるいはその他の必要部署に向いているかを判定します。",
     "disclaimer": "これは心理相談でも職業助言でも、本物の組織決定でもありません。最終解釈権は宣伝部臨時人格審査科にあります。"
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "ソビエト志向職業アイデンティティ配属",
     "zhName": "ソビエト労働人格配属システム",
     "department": "宣伝部臨時人格審査科"
   },

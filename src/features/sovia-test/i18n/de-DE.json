@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "SOVIA-Zuteilungstest",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Sowjetisch orientierte berufliche Identitätszuweisung",
     "subtitle": "Finde heraus, welche sowjetische Arbeitspersönlichkeit du hast und welchem Posten SOVIA dich zuteilt.",
     "intro": "SOVIA ist ein inoffizielles System der Propagandaabteilung zur Zuteilung von Arbeitspersönlichkeiten. Es entscheidet, ob ein Genosse eher in den Funkturm, das Archiv, den Maschinenraum, die Kantine, das Heizkomitee oder einen anderen notwendigen Posten gehört.",
     "disclaimer": "Dies ist keine psychologische Beratung, keine Berufsberatung und kein echter Organisationsbeschluss. Die endgültige Auslegung liegt bei der Vorläufigen Persönlichkeitsprüfung der Propagandaabteilung."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Sowjetisch orientierte berufliche Identitätszuweisung",
     "zhName": "Sowjetisches System zur Zuteilung von Arbeitspersönlichkeiten",
     "department": "Vorläufige Persönlichkeitsprüfung der Propagandaabteilung"
   },
@@ -48,7 +48,7 @@
   },
   "scale": {
     "min": "Stimme gar nicht zu",
-    "middle": "Neutral",
+    "middle": "Weder noch",
     "max": "Stimme völlig zu",
     "leftHint": "Stimme gar nicht zu",
     "rightHint": "Stimme völlig zu"

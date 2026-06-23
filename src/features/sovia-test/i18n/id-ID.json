@@ -1,14 +1,14 @@
 {
   "page": {
     "title": "Tes Alokasi SOVIA",
-    "eyebrow": "Soviet-Oriented Vocational Identity Allocation",
+    "eyebrow": "Alokasi Identitas Kerja Berorientasi Soviet",
     "subtitle": "Ukur kepribadian kerja Soviet-mu dan lihat pos mana yang akan ditugaskan kepadamu.",
     "intro": "SOVIA adalah sistem alokasi kepribadian kerja tidak resmi dari Departemen Propaganda. Ia menilai apakah seorang kamerad cocok untuk menara siaran, arsip, ruang mesin, kantin, komite pemanas, atau pos wajib lain.",
     "disclaimer": "Ini bukan konseling psikologis, bukan nasihat karier, dan bukan keputusan organisasi sungguhan. Tafsir akhir milik Bagian Pemeriksaan Kepribadian Sementara."
   },
   "system": {
     "name": "SOVIA",
-    "fullName": "Soviet-Oriented Vocational Identity Allocation",
+    "fullName": "Alokasi Identitas Kerja Berorientasi Soviet",
     "zhName": "Tes Alokasi SOVIA",
     "department": "Bagian Pemeriksaan Kepribadian Sementara Departemen Propaganda"
   },
@@ -16,7 +16,7 @@
     "title": "Detail arsip opsional",
     "intro": "Kolom-kolom ini bersifat opsional dan membantu Departemen Propaganda memahami kamerad yang sedang mengikuti tes.",
     "ageLabel": "Usia",
-    "genderLabel": "Gender",
+    "genderLabel": "Jenis kelamin",
     "ageOptions": {
       "prefer_not_to_say": "Memilih untuk tidak menjawab",
       "under_18": "Di bawah 18",
@@ -43,7 +43,7 @@
     "detailActionLabel": "Berikutnya"
   },
   "progress": {
-    "label": "Archive review progress",
+    "label": "Kemajuan pemeriksaan arsip",
     "format": "{{current}} / {{total}}"
   },
   "scale": {
@@ -1117,7 +1117,7 @@
     "linkSuccess": "Tautan hasil disalin."
   },
   "language": {
-    "label": "语言"
+    "label": "Bahasa"
   },
   "details": {
     "title": "Berkas Kepribadian",
