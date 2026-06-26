@@ -1488,6 +1488,15 @@ export function SoviaTestComponent({
     (path: string) => getSoviaTestLocalizedPath(path, locale),
     [locale],
   );
+  const shareUrl = useCallback((path: string) => {
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    return `${window.location.origin}${normalizedPath}`;
+  }, []);
+  const currentResultShareUrl = useCallback(() => {
+    return shareUrl(
+      `/test/result/${result.code.toLowerCase()}/${encodeScores(result.scores)}`,
+    );
+  }, [result, shareUrl]);
   const resultImageSignature = useMemo(() => {
     return JSON.stringify({
       locale,
@@ -1525,13 +1534,14 @@ export function SoviaTestComponent({
       const sharedPath = localizedPath(
         `/test/result/${sharedType}/${sharedHash}`,
       );
+      const sharedUrl = shareUrl(`/test/result/${sharedType}/${sharedHash}`);
 
       setAnswers(createEmptyAnswers());
       setSharedScores(sharedScores);
       setScreen("result");
       setCurrentPage(0);
       setStatus(copy.status.ready);
-      setResultUrl(`${window.location.origin}${sharedPath}`);
+      setResultUrl(sharedUrl);
 
       if (initialResultType?.toLowerCase() !== sharedType) {
         router.replace(sharedPath, { scroll: false });
@@ -1559,18 +1569,19 @@ export function SoviaTestComponent({
     const sharedPath = localizedPath(
       `/test/result/${sharedType}/${sharedHash}`,
     );
+    const sharedUrl = shareUrl(`/test/result/${sharedType}/${sharedHash}`);
 
     setAnswers(sharedAnswers);
     setSharedScores(sharedResult.scores);
     setScreen("result");
     setCurrentPage(0);
     setStatus(copy.status.ready);
-    setResultUrl(`${window.location.origin}${sharedPath}`);
+    setResultUrl(sharedUrl);
 
     if (initialResultType?.toLowerCase() !== sharedType) {
       router.replace(sharedPath, { scroll: false });
     }
-  }, [copy, initialHash, initialResultType, localizedPath, router]);
+  }, [copy, initialHash, initialResultType, localizedPath, router, shareUrl]);
 
   useEffect(() => {
     if (screen !== "quiz") {
@@ -1701,6 +1712,9 @@ export function SoviaTestComponent({
     const nextPath = localizedPath(
       `/test/result/${completedResult.code.toLowerCase()}/${hash}`,
     );
+    const nextShareUrl = shareUrl(
+      `/test/result/${completedResult.code.toLowerCase()}/${hash}`,
+    );
 
     setIsSubmitting(true);
 
@@ -1726,7 +1740,7 @@ export function SoviaTestComponent({
       console.warn("Failed to save SOVIA test submission.", error);
     }
 
-    setResultUrl(`${window.location.origin}${nextPath}`);
+    setResultUrl(nextShareUrl);
     router.replace(nextPath, { scroll: false });
     setSharedScores(completedResult.scores);
     setScreen("result");
@@ -1743,7 +1757,7 @@ export function SoviaTestComponent({
   }
 
   async function copyResult() {
-    const url = resultUrl || window.location.href;
+    const url = resultUrl || currentResultShareUrl();
     const text = formatText(copy.copy.template, {
       code: result.code,
       title: result.archetype.title,
@@ -1761,7 +1775,7 @@ export function SoviaTestComponent({
 
   async function copyResultLink() {
     try {
-      await navigator.clipboard.writeText(resultUrl);
+      await navigator.clipboard.writeText(resultUrl || currentResultShareUrl());
       setStatus(copy.copy.linkSuccess);
     } catch {
       setStatus(copy.copy.failed);
@@ -1769,7 +1783,7 @@ export function SoviaTestComponent({
   }
 
   async function shareResult() {
-    const url = resultUrl || window.location.href;
+    const url = resultUrl || currentResultShareUrl();
     const text = formatText(copy.copy.template, {
       code: result.code,
       title: result.archetype.title,
@@ -1835,7 +1849,7 @@ export function SoviaTestComponent({
     try {
       const image = await createSoviaResultPng({
         ...resultImageInput,
-        resultUrl: resultImageInput.resultUrl || window.location.href,
+        resultUrl: resultImageInput.resultUrl || currentResultShareUrl(),
       });
 
       setGeneratedResultImage(image.dataUrl);
@@ -1854,6 +1868,7 @@ export function SoviaTestComponent({
   }, [
     copy.copy.failed,
     copy.status.resultImageGenerated,
+    currentResultShareUrl,
     isGeneratingResultImage,
     resultImageInput,
     resultImageSignature,

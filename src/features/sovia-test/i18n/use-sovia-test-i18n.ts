@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  matchSiteLocale,
+  SITE_LOCALE_STORAGE_KEY,
+} from "@sovia/shared/i18n/site-locale";
+import {
+  getSiteLocalizedPath,
+  stripSiteLocaleFromPath,
+} from "@sovia/shared/i18n/site-routing";
 import { useMemo, useState } from "react";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
@@ -12,6 +20,47 @@ import {
   stripSoviaTestLocaleFromPath,
 } from "./config";
 import { getSoviaTestCopy } from "./copy";
+
+function getSiteLocaleFromPath(pathname: string) {
+  const firstSegment = pathname.split("/").filter(Boolean)[0];
+  return firstSegment ? matchSiteLocale(firstSegment) : null;
+}
+
+function getSiteLocaleFromCookie() {
+  const cookie = document.cookie
+    .split(";")
+    .map((entry) => entry.trim())
+    .find((entry) => entry.startsWith(`${SITE_LOCALE_STORAGE_KEY}=`));
+  const value = cookie?.slice(SITE_LOCALE_STORAGE_KEY.length + 1);
+
+  return value ? matchSiteLocale(decodeURIComponent(value)) : null;
+}
+
+function getSavedSiteLocale() {
+  const savedLocale = window.localStorage.getItem(SITE_LOCALE_STORAGE_KEY);
+  return (
+    (savedLocale ? matchSiteLocale(savedLocale) : null) ??
+    getSiteLocaleFromCookie()
+  );
+}
+
+function getLocalizedPath(pathname: string, nextLocale: SoviaTestLocale) {
+  const siteLocale = getSiteLocaleFromPath(pathname) ?? getSavedSiteLocale();
+  const pathWithoutSiteLocale = siteLocale
+    ? stripSiteLocaleFromPath(pathname)
+    : pathname;
+  const pathWithoutTestLocale = stripSoviaTestLocaleFromPath(
+    pathWithoutSiteLocale,
+  );
+  const localizedTestPath = getSoviaTestLocalizedPath(
+    pathWithoutTestLocale,
+    nextLocale,
+  );
+
+  return siteLocale
+    ? getSiteLocalizedPath(localizedTestPath, siteLocale)
+    : localizedTestPath;
+}
 
 function detectBrowserLocale(initialLocale?: SoviaTestLocale) {
   if (initialLocale) {
@@ -67,9 +116,8 @@ export function useSoviaTestI18n(initialLocale?: SoviaTestLocale) {
     // biome-ignore lint/suspicious/noDocumentCookie: Middleware reads this lightweight test-language preference cookie.
     document.cookie = `${SOVIA_TEST_LOCALE_STORAGE_KEY}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; samesite=lax`;
     const url = new URL(window.location.href);
-    const pathWithoutLocale = stripSoviaTestLocaleFromPath(url.pathname);
 
-    url.pathname = getSoviaTestLocalizedPath(pathWithoutLocale, nextLocale);
+    url.pathname = getLocalizedPath(url.pathname, nextLocale);
     url.searchParams.delete("lang");
 
     window.history.replaceState(null, "", url);

@@ -50,13 +50,17 @@ export async function generateMetadata({
   };
 }
 
-export default async function TestTypePage({ params }: TypePageProps) {
+export default async function TestTypePage({
+  params,
+  searchParams,
+}: TypePageProps) {
   const { type } = await params;
+  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
   const code = type.toUpperCase();
 
   if (!defaultTestCopy.types[code]) {
     notFound();
   }
 
-  return <SoviaTestTypeComponent type={code} />;
+  return <SoviaTestTypeComponent initialLocale={locale} type={code} />;
 }

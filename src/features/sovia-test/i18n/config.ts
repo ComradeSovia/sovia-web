@@ -100,8 +100,11 @@ export function getSoviaTestLocalizedPath(
 ) {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   const pathWithoutLocale = stripSoviaTestLocaleFromPath(normalizedPath);
+  const pathWithoutTestPrefix = pathWithoutLocale.startsWith("/test")
+    ? pathWithoutLocale.slice("/test".length)
+    : pathWithoutLocale;
 
-  return `/${locale}${pathWithoutLocale}`;
+  return `/test/${locale}${pathWithoutTestPrefix}`;
 }
 
 export function getSoviaTestLanguageAlternates(path: string) {
@@ -114,10 +117,16 @@ export function getSoviaTestLanguageAlternates(path: string) {
 }
 
 export function getSoviaTestLocaleFromPath(pathname: string) {
-  const firstSegment = pathname.split("/").filter(Boolean)[0];
+  const segments = pathname.split("/").filter(Boolean);
+  const firstSegment = segments[0];
+  const secondSegment = segments[1];
 
   if (!firstSegment) {
     return null;
+  }
+
+  if (firstSegment === "test" && secondSegment) {
+    return matchSoviaTestLocale(secondSegment) ?? null;
   }
 
   return matchSoviaTestLocale(firstSegment) ?? null;
@@ -126,6 +135,15 @@ export function getSoviaTestLocaleFromPath(pathname: string) {
 export function stripSoviaTestLocaleFromPath(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
   const firstSegment = segments[0];
+  const secondSegment = segments[1];
+
+  if (
+    firstSegment === "test" &&
+    secondSegment &&
+    matchSoviaTestLocale(secondSegment)
+  ) {
+    return `/test/${segments.slice(2).join("/")}`.replace(/\/$/, "");
+  }
 
   if (firstSegment && matchSoviaTestLocale(firstSegment)) {
     return `/${segments.slice(1).join("/")}`;

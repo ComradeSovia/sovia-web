@@ -32,10 +32,12 @@ export async function generateMetadata({
   };
 }
 
-export default function TestPage() {
+export default async function TestPage({ searchParams }: TestPageProps) {
+  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
+
   return (
     <Suspense fallback={null}>
-      <SoviaTestComponent />
+      <SoviaTestComponent initialLocale={locale} />
     </Suspense>
   );
 }

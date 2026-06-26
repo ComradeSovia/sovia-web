@@ -31,6 +31,10 @@ export async function generateMetadata({
   };
 }
 
-export default function TestTypesPage() {
-  return <SoviaTestTypesComponent />;
+export default async function TestTypesPage({
+  searchParams,
+}: TestTypesPageProps) {
+  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
+
+  return <SoviaTestTypesComponent initialLocale={locale} />;
 }

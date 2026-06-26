@@ -1,8 +1,13 @@
+import {
+  DEFAULT_SITE_LOCALE,
+  matchSiteLocale,
+  type SiteLocale,
+} from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { SoviaTestComponent } from "@sovia/sovia-test";
 import {
-  getSoviaTestLocaleFromSearchParams,
-  getSoviaTestLocalizedPath,
-  type SoviaTestSearchParams,
+  matchSoviaTestLocale,
+  type SoviaTestLocale,
 } from "@sovia/sovia-test/i18n/config";
 import {
   getDefaultSoviaTestCopy,
@@ -10,7 +15,7 @@ import {
 } from "@sovia/sovia-test/i18n/copy";
 import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 const testCopy = getDefaultSoviaTestCopy();
 const HASH_ALPHABET = "k7qz4vnr9x2mpt6c8bd5jwy3hfgs";
@@ -20,13 +25,33 @@ const SCORE_SCALE = 5;
 const SCORE_HASH_CHUNK_SIZE = 2;
 const AXIS_COUNT = 5;
 
-type ResultPageProps = {
+type PageProps = {
   params: Promise<{
-    type: string;
     hash: string;
+    lang: string;
+    testLang: string;
+    type: string;
   }>;
-  searchParams: Promise<SoviaTestSearchParams>;
 };
+
+function getLocales(lang: string, testLang: string) {
+  const siteLocale = matchSiteLocale(lang);
+  const testLocale = matchSoviaTestLocale(testLang);
+
+  if (!siteLocale || !testLocale) {
+    notFound();
+  }
+
+  return { siteLocale, testLocale };
+}
+
+function getSiteTestPath(
+  path: string,
+  siteLocale: SiteLocale,
+  testLocale: SoviaTestLocale,
+) {
+  return getSiteLocalizedPath(`/test/${testLocale}${path}`, siteLocale);
+}
 
 function encodeAnswerToken(answer: number, index: number) {
   const encoded = (answer + HASH_KEY[index % HASH_KEY.length]) % 11;
@@ -114,45 +139,54 @@ function isValidResultHash(value: string) {
 
 export async function generateMetadata({
   params,
-  searchParams,
-}: ResultPageProps): Promise<Metadata> {
-  const { type, hash } = await params;
-  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
-  const localizedCopy = getSoviaTestCopy(locale);
+}: PageProps): Promise<Metadata> {
+  const { hash, lang, testLang, type } = await params;
+  const { siteLocale, testLocale } = getLocales(lang, testLang);
+  const localizedCopy = getSoviaTestCopy(testLocale);
   const code = type.toUpperCase();
   const path = `/test/result/${type}/${hash}`;
 
   return {
     title: `${code} | ${localizedCopy.page.title}`,
     description: localizedCopy.page.subtitle,
-    alternates: getSoviaTestAlternates(path, locale),
+    alternates: {
+      ...getSoviaTestAlternates(path, testLocale),
+      canonical: getSiteTestPath(
+        `/result/${type}/${hash}`,
+        siteLocale,
+        testLocale,
+      ),
+    },
     openGraph: {
       title: `${code} | ${localizedCopy.page.title}`,
       description: localizedCopy.page.subtitle,
-      url: path,
-      locale: locale.replace("-", "_"),
+      url: getSiteTestPath(`/result/${type}/${hash}`, siteLocale, testLocale),
+      locale: testLocale.replace("-", "_"),
     },
   };
 }
 
-export default async function TestResultPage({
+export default async function LocalizedSiteTestResultPage({
   params,
-  searchParams,
-}: ResultPageProps) {
-  const { type, hash } = await params;
-  const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
+}: PageProps) {
+  const { hash, lang, testLang, type } = await params;
+  const { siteLocale, testLocale } = getLocales(lang, testLang);
   const code = type.toUpperCase();
 
   if (testCopy.types[code] && !isValidResultHash(hash)) {
     redirect(
-      getSoviaTestLocalizedPath(`/test/types/${type.toLowerCase()}`, locale),
+      getSiteTestPath(`/types/${type.toLowerCase()}`, siteLocale, testLocale),
     );
+  }
+
+  if (siteLocale === DEFAULT_SITE_LOCALE) {
+    redirect(`/test/${testLocale}/result/${type}/${hash}`);
   }
 
   return (
     <SoviaTestComponent
       initialHash={hash}
-      initialLocale={locale}
+      initialLocale={testLocale}
       initialResultType={type}
     />
   );
