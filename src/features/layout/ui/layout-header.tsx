@@ -32,9 +32,9 @@ export function LayoutHeader({
   return (
     <header className="sticky top-0 z-20 border-b-[3px] border-ink bg-[rgb(var(--paper)/0.9)] backdrop-blur">
       <div className="mx-auto box-border flex w-full max-w-6xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
-        <HammerStarMark copy={sharedCopy} />
+        <HammerStarMark copy={sharedCopy} locale={locale} />
 
-        <LayoutNav copy={sharedCopy} />
+        <LayoutNav copy={sharedCopy} locale={locale} />
 
         <div className="flex items-center gap-3">
           <SiteLanguageSwitcher copy={layoutCopy} initialLocale={locale} />
@@ -45,7 +45,7 @@ export function LayoutHeader({
 
       <div className="flex items-center border-t-[3px] border-ink bg-red md:hidden">
         <div className="mx-auto box-border w-full max-w-6xl px-4 py-2 text-xs font-black tracking-[0.16em] text-relief">
-          <LayoutNavMobile copy={sharedCopy} />
+          <LayoutNavMobile copy={sharedCopy} locale={locale} />
         </div>
       </div>
     </header>

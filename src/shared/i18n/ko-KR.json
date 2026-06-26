@@ -17,7 +17,9 @@
     "center": "중앙",
     "about": "소비아 소개",
     "sound": "노래",
-    "test": "SOVIA-Test",
+    "test": "SOVIA 테스트",
+    "tools": "도구",
+    "airCon": "에어컨",
     "lyricsLibrary": "가사 라이브러리",
     "musicRelease": "음악 발매",
     "conceptDesign": "콘셉트 디자인",
@@ -41,8 +43,8 @@
     "youtube": "YouTube"
   },
   "brand": {
-    "title": "USSR",
-    "subtitle": "소비에트 노래 개혁 부대"
+    "title": "소련",
+    "subtitle": "소비에트 음악 련성부"
   },
   "underConstruction": {
     "status": "СТАТУС",
@@ -77,6 +79,29 @@
     "notice": {
       "title": "공지",
       "description": "동지 소비아 사이트의 중요 공지와 정보입니다."
+    },
+    "tools": {
+      "title": "도구",
+      "description": "동지 소비아 아카이브의 작은 인터랙티브 도구와 유틸리티 공간입니다.",
+      "intro": "조작 가능한 기계, 아카이브 콘솔, 작은 유틸리티를 모아 둔 선반입니다.",
+      "airConTitle": "가상 에어컨",
+      "airConDescription": "전원을 켜고 온도와 풍량을 조절합니다."
+    },
+    "airCon": {
+      "title": "가상 에어컨",
+      "eyebrow": "도구 / 기후 제어대",
+      "subtitle": "시원한 바람과 공식적인 버튼 딸깍 소리를 만드는 작은 사무용 기계입니다.",
+      "powerOn": "켜기",
+      "powerOff": "끄기",
+      "temperature": "온도",
+      "fanSpeed": "풍량",
+      "mode": "모드",
+      "cool": "냉방",
+      "dry": "제습",
+      "fan": "송풍",
+      "auto": "자동",
+      "statusOn": "시스템 작동 중",
+      "statusOff": "시스템 대기 중"
     }
   }
 }

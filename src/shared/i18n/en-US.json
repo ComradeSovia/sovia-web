@@ -17,7 +17,9 @@
     "center": "Center",
     "about": "About Sovia",
     "sound": "Songs",
-    "test": "SOVIA-Test",
+    "test": "SOVIA Test",
+    "tools": "Tools",
+    "airCon": "Air-Con",
     "lyricsLibrary": "Lyrics Library",
     "musicRelease": "Music Release",
     "conceptDesign": "Concept Design",
@@ -77,6 +79,29 @@
     "notice": {
       "title": "Notice",
       "description": "Notices and important information for the Comrade Sovia site."
+    },
+    "tools": {
+      "title": "Tools",
+      "description": "Small interactive tools and utility rooms from the Comrade Sovia archive.",
+      "intro": "A compact shelf of usable machines, archive consoles, and odd little utilities.",
+      "airConTitle": "Virtual Air-Con",
+      "airConDescription": "Turn on the compressor, set the temperature, and tune the fan speed."
+    },
+    "airCon": {
+      "title": "Virtual Air-Con",
+      "eyebrow": "Tools / Climate Desk",
+      "subtitle": "A little office machine for manufactured cool air and official button clicks.",
+      "powerOn": "Power on",
+      "powerOff": "Power off",
+      "temperature": "Temperature",
+      "fanSpeed": "Fan speed",
+      "mode": "Mode",
+      "cool": "Cool",
+      "dry": "Dry",
+      "fan": "Fan",
+      "auto": "Auto",
+      "statusOn": "System running",
+      "statusOff": "System standby"
     }
   }
 }

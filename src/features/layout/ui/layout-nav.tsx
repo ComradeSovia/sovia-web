@@ -1,8 +1,15 @@
 import { getNavItems } from "@sovia/shared/constants/nav";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 
-export function LayoutNav({ copy }: { copy: SharedCopy }) {
-  const navItems = getNavItems(copy);
+export function LayoutNav({
+  copy,
+  locale,
+}: {
+  copy: SharedCopy;
+  locale: SiteLocale;
+}) {
+  const navItems = getNavItems(copy, locale);
 
   return (
     <nav className="hidden items-center gap-2 text-sm md:flex">
@@ -19,8 +26,14 @@ export function LayoutNav({ copy }: { copy: SharedCopy }) {
   );
 }
 
-export function LayoutNavMobile({ copy }: { copy: SharedCopy }) {
-  const navItems = getNavItems(copy);
+export function LayoutNavMobile({
+  copy,
+  locale,
+}: {
+  copy: SharedCopy;
+  locale: SiteLocale;
+}) {
+  const navItems = getNavItems(copy, locale);
 
   return (
     <nav className="flex items-center gap-6 text-sm md:hidden">

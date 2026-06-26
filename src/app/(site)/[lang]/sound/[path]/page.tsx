@@ -1,5 +1,8 @@
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
-import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
+import {
+  DEFAULT_SITE_LOCALE,
+  matchSiteLocale,
+} from "@sovia/shared/i18n/site-locale";
 import {
   getSiteLocalizedPath,
   getSiteMetadataAlternates,
@@ -10,17 +13,26 @@ import {
   SoundDetail,
 } from "@sovia/sound";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+type LocalizedSoundDetailParams = Promise<{ lang: string; path: string }>;
+
+function getLocale(lang: string) {
+  return matchSiteLocale(lang);
+}
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ path: string }>;
+  params: LocalizedSoundDetailParams;
 }): Promise<Metadata> {
-  const { path } = await params;
-  const locale = await getCurrentSiteLocale();
+  const { lang, path } = await params;
+  const locale = getLocale(lang);
+
+  if (!locale) {
+    return {};
+  }
+
   const sharedCopy = getSharedCopy(locale);
   const work = await loadMusicWorkWithContent(path);
 
@@ -30,9 +42,8 @@ export async function generateMetadata({
     };
   }
 
-  const description = getWorkDescription(work);
   const basePath = `/sound/${work.path}`;
-  const canonical = getSiteLocalizedPath(basePath, locale);
+  const description = getWorkDescription(work);
   const thumbnail = work.u2bId
     ? `https://img.youtube.com/vi/${work.u2bId}/maxresdefault.jpg`
     : "/opengraph-image";
@@ -43,7 +54,7 @@ export async function generateMetadata({
     alternates: getSiteMetadataAlternates(basePath, locale),
     openGraph: {
       type: "music.song",
-      url: canonical,
+      url: getSiteLocalizedPath(basePath, locale),
       siteName: sharedCopy.site.name,
       title: `${work.title} | ${sharedCopy.site.name}`,
       description,
@@ -65,12 +76,21 @@ export async function generateMetadata({
   };
 }
 
-export default async function SoundDetailPage({
+export default async function LocalizedSoundDetailPage({
   params,
 }: {
-  params: Promise<{ path: string }>;
+  params: LocalizedSoundDetailParams;
 }) {
-  const { path } = await params;
+  const { lang, path } = await params;
+  const locale = getLocale(lang);
+
+  if (!locale) {
+    notFound();
+  }
+
+  if (locale === DEFAULT_SITE_LOCALE) {
+    redirect(`/sound/${path}`);
+  }
 
   const work = await loadMusicWorkWithContent(path);
 

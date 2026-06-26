@@ -1,14 +1,22 @@
 import type { HomeCardItem } from "@sovia/home/data/home-cards";
 import { Routes } from "@sovia/shared";
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import type { HomeCopy } from "../i18n/copy";
 
 type HomeCardPageProps = {
   card: HomeCardItem;
   copy: HomeCopy;
+  locale: SiteLocale;
   serial: string;
 };
 
-export function HomeCardPage({ card, copy, serial }: HomeCardPageProps) {
+export function HomeCardPage({
+  card,
+  copy,
+  locale,
+  serial,
+}: HomeCardPageProps) {
   return (
     <section className="space-y-10">
       <div className="manifesto grid gap-8 md:grid-cols-[14rem_1fr]">
@@ -58,7 +66,10 @@ export function HomeCardPage({ card, copy, serial }: HomeCardPageProps) {
         })}
       </div>
 
-      <a className="btn-outline" href={Routes.Center.href}>
+      <a
+        className="btn-outline"
+        href={getSiteLocalizedPath(Routes.Center.href, locale)}
+      >
         {copy.cardPage.backToCenter}
       </a>
     </section>

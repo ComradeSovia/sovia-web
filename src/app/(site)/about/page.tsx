@@ -1,23 +1,28 @@
-import { getDefaultHomeCopy, getHomeCopy } from "@sovia/home/i18n/copy";
+import { getHomeCopy } from "@sovia/home/i18n/copy";
 import { AboutSoviaText } from "@sovia/home/ui/about-sovia-text";
-import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import { siteUrl } from "@sovia/shared";
+import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
+import {
+  getSiteLocalizedPath,
+  getSiteMetadataAlternates,
+} from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
 
-const copy = getDefaultHomeCopy();
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getCurrentSiteLocale();
+  const copy = getHomeCopy(locale);
 
-export const metadata: Metadata = {
-  title: copy.about.metadataTitle,
-  description: copy.about.metadataDescription,
-  alternates: {
-    canonical: "/about",
-  },
-  openGraph: {
+  return {
     title: copy.about.metadataTitle,
     description: copy.about.metadataDescription,
-    url: siteUrl("/about"),
-  },
-};
+    alternates: getSiteMetadataAlternates("/about", locale),
+    openGraph: {
+      title: copy.about.metadataTitle,
+      description: copy.about.metadataDescription,
+      url: siteUrl(getSiteLocalizedPath("/about", locale)),
+    },
+  };
+}
 
 export default async function AboutPage() {
   const locale = await getCurrentSiteLocale();

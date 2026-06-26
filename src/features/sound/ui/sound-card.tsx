@@ -1,3 +1,5 @@
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Link from "next/link";
 import type { SoundCopy } from "../i18n/copy";
 import type { MusicWork } from "../model/music";
@@ -5,9 +7,11 @@ import { U2BThumbnail } from "./u2b-thumbnail";
 
 export function SoundCard({
   copy,
+  locale,
   work,
 }: {
   copy: SoundCopy;
+  locale: SiteLocale;
   work: MusicWork;
 }) {
   if (!work.u2bId) return null;
@@ -29,7 +33,10 @@ export function SoundCard({
       </div>
 
       <div className="flex flex-wrap gap-3 pt-2">
-        <Link href={`/sound/${work.path}`} className="btn-outline">
+        <Link
+          href={getSiteLocalizedPath(`/sound/${work.path}`, locale)}
+          className="btn-outline"
+        >
           {copy.card.details}
         </Link>
         <a

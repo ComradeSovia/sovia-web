@@ -1,22 +1,38 @@
 import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
+import type { SiteLocale } from "../i18n/site-locale";
+import { getSiteLocalizedPath } from "../i18n/site-routing";
 import type { RouteItem } from "../model/nav";
 
-export function getRoutes(copy: SharedCopy) {
+export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
+  const href = (path: string) =>
+    locale ? getSiteLocalizedPath(path, locale) : path;
+
   return {
-    Center: { label: copy.routes.center, href: "/" },
-    About: { label: copy.routes.about, href: "/about" },
-    Sound: { label: copy.routes.sound, href: "/sound" },
-    Test: { label: copy.routes.test, href: "/test" },
-    LyricsLibrary: { label: copy.routes.lyricsLibrary, href: "/lyrics-library" },
-    MusicRelease: { label: copy.routes.musicRelease, href: "/music-release" },
+    Center: { label: copy.routes.center, href: href("/") },
+    About: { label: copy.routes.about, href: href("/about") },
+    Sound: { label: copy.routes.sound, href: href("/sound") },
+    Test: { label: copy.routes.test, href: href("/test") },
+    Tools: { label: copy.routes.tools, href: href("/tools") },
+    AirCon: { label: copy.routes.airCon, href: href("/tools/air-con") },
+    LyricsLibrary: {
+      label: copy.routes.lyricsLibrary,
+      href: href("/lyrics-library"),
+    },
+    MusicRelease: {
+      label: copy.routes.musicRelease,
+      href: href("/music-release"),
+    },
     ConceptDesign: {
       label: copy.routes.conceptDesign,
-      href: "/concept-design",
+      href: href("/concept-design"),
     },
-    VideoImages: { label: copy.routes.videoImages, href: "/video-images" },
-    Community: { label: copy.routes.community, href: "/community" },
-    Report: { label: copy.routes.report, href: "/report" },
-    Gallery: { label: copy.routes.gallery, href: "/gallery" },
+    VideoImages: {
+      label: copy.routes.videoImages,
+      href: href("/video-images"),
+    },
+    Community: { label: copy.routes.community, href: href("/community") },
+    Report: { label: copy.routes.report, href: href("/report") },
+    Gallery: { label: copy.routes.gallery, href: href("/gallery") },
     X: { label: copy.routes.x, href: "https://x.com/ComradeSovia" },
     VK: { label: copy.routes.vk, href: "https://vk.com/comradesovia" },
     VKVideo: {
@@ -55,8 +71,8 @@ export function getRoutes(copy: SharedCopy) {
       label: copy.routes.youtubeMusic,
       href: "https://music.youtube.com/@comradesovia",
     },
-    Request: { label: copy.routes.request, href: "/request" },
-    Notice: { label: copy.routes.notice, href: "/notice" },
+    Request: { label: copy.routes.request, href: href("/request") },
+    Notice: { label: copy.routes.notice, href: href("/notice") },
     Youtube: {
       label: copy.routes.youtube,
       href: "https://www.youtube.com/@ComradeSovia",

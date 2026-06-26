@@ -1,4 +1,9 @@
 import { SITE_URL } from "@sovia/shared";
+import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
+import {
+  getSiteLanguageAlternates,
+  getSiteLocalizedPath,
+} from "@sovia/shared/i18n/site-routing";
 import { loadMusicIndex } from "@sovia/sound";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
@@ -17,6 +22,8 @@ const STATIC_PATHS = [
   "/concept-design",
   "/video-images",
   "/community",
+  "/tools",
+  "/tools/air-con",
 ] as const;
 
 const SOVIA_TEST_PATHS = ["/test", "/test/types"] as const;
@@ -40,12 +47,26 @@ function getAbsoluteLanguageAlternates(path: string) {
   ]);
 }
 
+function getAbsoluteSiteLanguageAlternates(path: string) {
+  const alternates = getSiteLanguageAlternates(path);
+
+  return Object.fromEntries([
+    ["x-default", absoluteUrl(getSiteLocalizedPath(path, "en-US"))],
+    ...SITE_LOCALES.map((locale) => [locale, absoluteUrl(alternates[locale])]),
+  ]);
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes: MetadataRoute.Sitemap = STATIC_PATHS.map((path) => ({
-    url: absoluteUrl(path),
-    changeFrequency: path === "/sound" ? "daily" : "weekly",
-    priority: path === "/" ? 1 : path === "/sound" ? 0.9 : 0.7,
-  }));
+  const staticRoutes: MetadataRoute.Sitemap = STATIC_PATHS.flatMap((path) =>
+    SITE_LOCALES.map((locale) => ({
+      url: absoluteUrl(getSiteLocalizedPath(path, locale)),
+      changeFrequency: path === "/sound" ? "daily" : "weekly",
+      priority: path === "/" ? 1 : path === "/sound" ? 0.9 : 0.7,
+      alternates: {
+        languages: getAbsoluteSiteLanguageAlternates(path),
+      },
+    })),
+  );
 
   const testCopy = getDefaultSoviaTestCopy();
   const testTypePaths = Object.keys(testCopy.types).map(
@@ -65,11 +86,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const workRoutes: MetadataRoute.Sitemap = (await loadMusicIndex())
     .filter((work) => work.u2bId)
-    .map((work) => ({
-      url: `${SITE_URL}/sound/${work.path}`,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    }));
+    .flatMap((work) => {
+      const path = `/sound/${work.path}`;
+
+      return SITE_LOCALES.map((locale) => ({
+        url: absoluteUrl(getSiteLocalizedPath(path, locale)),
+        changeFrequency: "monthly",
+        priority: 0.7,
+        alternates: {
+          languages: getAbsoluteSiteLanguageAlternates(path),
+        },
+      }));
+    });
 
   return [...staticRoutes, ...soviaTestRoutes, ...workRoutes];
 }

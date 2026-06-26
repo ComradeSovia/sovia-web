@@ -1,29 +1,42 @@
-import { HOME_CARDS, HomeCardPage, getHomeCards } from "@sovia/home";
+import { getHomeCards, HomeCardPage } from "@sovia/home";
 import { getHomeCopy } from "@sovia/home/i18n/copy";
-import { SITE_NAME, siteUrl } from "@sovia/shared";
+import { siteUrl } from "@sovia/shared";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
+import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
 
-const card = HOME_CARDS[3];
+const cardIndex = 3;
 
-export const metadata: Metadata = {
-  title: `${card.title} | ${SITE_NAME}`,
-  description: card.pageIntro,
-  alternates: {
-    canonical: card.route.href,
-  },
-  openGraph: {
-    title: `${card.title} | ${SITE_NAME}`,
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getCurrentSiteLocale();
+  const sharedCopy = getSharedCopy(locale);
+  const cards = getHomeCards(getHomeCopy(locale), sharedCopy, locale);
+  const card = cards[cardIndex];
+
+  return {
+    title: `${card.title} | ${sharedCopy.site.name}`,
     description: card.pageIntro,
-    url: siteUrl(card.route.href),
-  },
-};
+    alternates: getSiteMetadataAlternates("/video-images", locale),
+    openGraph: {
+      title: `${card.title} | ${sharedCopy.site.name}`,
+      description: card.pageIntro,
+      url: siteUrl(card.route.href),
+    },
+  };
+}
 
 export default async function VideoImagesPage() {
   const locale = await getCurrentSiteLocale();
   const copy = getHomeCopy(locale);
-  const cards = getHomeCards(copy, getSharedCopy(locale));
+  const cards = getHomeCards(copy, getSharedCopy(locale), locale);
 
-  return <HomeCardPage card={cards[3]} copy={copy} serial="05" />;
+  return (
+    <HomeCardPage
+      card={cards[cardIndex]}
+      copy={copy}
+      locale={locale}
+      serial="05"
+    />
+  );
 }

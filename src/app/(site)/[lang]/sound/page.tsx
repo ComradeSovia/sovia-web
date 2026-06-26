@@ -1,5 +1,8 @@
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
-import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
+import {
+  DEFAULT_SITE_LOCALE,
+  matchSiteLocale,
+} from "@sovia/shared/i18n/site-locale";
 import {
   getSiteLocalizedPath,
   getSiteMetadataAlternates,
@@ -7,11 +10,26 @@ import {
 import { loadAllMusicWorks, SoundClient } from "@sovia/sound";
 import { getSoundCopy } from "@sovia/sound/i18n/copy";
 import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+type LocalizedSoundParams = Promise<{ lang: string }>;
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getCurrentSiteLocale();
+function getLocale(lang: string) {
+  return matchSiteLocale(lang);
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: LocalizedSoundParams;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = getLocale(lang);
+
+  if (!locale) {
+    return {};
+  }
+
   const copy = getSoundCopy(locale);
   const sharedCopy = getSharedCopy(locale);
 
@@ -27,15 +45,27 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function MusicPage() {
-  const locale = await getCurrentSiteLocale();
-  const musicWorks = await loadAllMusicWorks();
+export default async function LocalizedSoundPage({
+  params,
+}: {
+  params: LocalizedSoundParams;
+}) {
+  const { lang } = await params;
+  const locale = getLocale(lang);
+
+  if (!locale) {
+    notFound();
+  }
+
+  if (locale === DEFAULT_SITE_LOCALE) {
+    redirect("/sound");
+  }
 
   return (
     <SoundClient
       copy={getSoundCopy(locale)}
       locale={locale}
-      musicWorks={musicWorks}
+      musicWorks={await loadAllMusicWorks()}
     />
   );
 }

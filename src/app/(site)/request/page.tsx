@@ -1,28 +1,32 @@
 import { UnderConstruction } from "@sovia/shared";
-import { getDefaultSharedCopy, getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
+import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
 
-const copy = getDefaultSharedCopy();
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getCurrentSiteLocale();
+  const copy = getSharedCopy(locale);
 
-export const metadata: Metadata = {
-  title: copy.pages.request.title,
-  description: copy.pages.request.description,
-  alternates: {
-    canonical: "/request",
-  },
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+  return {
+    title: copy.pages.request.title,
+    description: copy.pages.request.description,
+    alternates: getSiteMetadataAlternates("/request", locale),
+    robots: {
+      index: false,
+      follow: true,
+    },
+  };
+}
 
 export default async function RequestPage() {
-  const localizedCopy = getSharedCopy(await getCurrentSiteLocale());
+  const locale = await getCurrentSiteLocale();
+  const localizedCopy = getSharedCopy(locale);
 
   return (
     <UnderConstruction
       copy={localizedCopy}
+      locale={locale}
       title={localizedCopy.pages.request.title}
     />
   );

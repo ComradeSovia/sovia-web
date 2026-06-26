@@ -1,5 +1,6 @@
 "use client";
 
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { SoundCopy } from "../i18n/copy";
@@ -12,9 +13,11 @@ const DEBOUNCE_DELAY = 300; // ms
 
 export function SoundClient({
   copy,
+  locale,
   musicWorks,
 }: {
   copy: SoundCopy;
+  locale: SiteLocale;
   musicWorks: MusicWork[];
 }) {
   const router = useRouter();
@@ -90,7 +93,7 @@ export function SoundClient({
 
       <div className="grid gap-8 md:grid-cols-2">
         {pageItems.map((work) => (
-          <SoundCard copy={copy} key={work.path} work={work} />
+          <SoundCard copy={copy} key={work.path} locale={locale} work={work} />
         ))}
       </div>
 

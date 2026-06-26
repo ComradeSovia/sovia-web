@@ -17,7 +17,9 @@
     "center": "中央",
     "about": "ソヴィアについて",
     "sound": "楽曲",
-    "test": "SOVIA-Test",
+    "test": "SOVIAテスト",
+    "tools": "ツール",
+    "airCon": "エアコン",
     "lyricsLibrary": "歌詞ライブラリ",
     "musicRelease": "音楽リリース",
     "conceptDesign": "コンセプト設計",
@@ -41,8 +43,8 @@
     "youtube": "YouTube"
   },
   "brand": {
-    "title": "USSR",
-    "subtitle": "ソビエト歌曲改革部隊"
+    "title": "ソ煉",
+    "subtitle": "ソビエト式歌曲改造煉坊"
   },
   "underConstruction": {
     "status": "СТАТУС",
@@ -77,6 +79,29 @@
     "notice": {
       "title": "お知らせ",
       "description": "同志ソヴィアサイトの重要なお知らせと情報。"
+    },
+    "tools": {
+      "title": "ツール",
+      "description": "同志ソヴィアのアーカイブにある小さなインタラクティブツール群。",
+      "intro": "操作できる機械、アーカイブ端末、少し変わった小道具の棚です。",
+      "airConTitle": "仮想エアコン",
+      "airConDescription": "電源、温度、風量を調整できます。"
+    },
+    "airCon": {
+      "title": "仮想エアコン",
+      "eyebrow": "ツール / 気候制御卓",
+      "subtitle": "冷気と公式なクリック音を製造する小さな事務用機械。",
+      "powerOn": "電源オン",
+      "powerOff": "電源オフ",
+      "temperature": "温度",
+      "fanSpeed": "風量",
+      "mode": "モード",
+      "cool": "冷房",
+      "dry": "除湿",
+      "fan": "送風",
+      "auto": "自動",
+      "statusOn": "稼働中",
+      "statusOff": "待機中"
     }
   }
 }

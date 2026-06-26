@@ -8,9 +8,10 @@ import {
   SITE_LOCALES,
   type SiteLocale,
 } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { Check, ChevronDown, Languages } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { LayoutCopy } from "../i18n/copy";
 
 type SiteLanguageSwitcherProps = {
@@ -54,20 +55,38 @@ export function SiteLanguageSwitcher({
   copy,
   initialLocale: serverLocale,
 }: SiteLanguageSwitcherProps) {
+  const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const menuId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const [locale, setLocale] = useState<SiteLocale>(serverLocale);
   const [isOpen, setIsOpen] = useState(false);
+  const searchParamsString = searchParams.toString();
+
+  const replaceLocaleUrl = useCallback(
+    (nextLocale: SiteLocale) => {
+      const nextSearchParams = new URLSearchParams(searchParamsString);
+      nextSearchParams.delete("lang");
+
+      const query = nextSearchParams.toString();
+      const nextPath = getSiteLocalizedPath(pathname, nextLocale);
+      router.replace(query ? `${nextPath}?${query}` : nextPath, {
+        scroll: false,
+      });
+    },
+    [pathname, router, searchParamsString],
+  );
 
   useEffect(() => {
     const nextLocale = getInitialLocale(serverLocale);
     setLocale(nextLocale);
     writeSiteLocaleCookie(nextLocale);
     if (nextLocale !== serverLocale) {
+      replaceLocaleUrl(nextLocale);
       router.refresh();
     }
-  }, [serverLocale, router]);
+  }, [serverLocale, router, replaceLocaleUrl]);
 
   useEffect(() => {
     function closeOnOutsideClick(event: MouseEvent) {
@@ -85,6 +104,7 @@ export function SiteLanguageSwitcher({
     setIsOpen(false);
     window.localStorage.setItem(SITE_LOCALE_STORAGE_KEY, nextLocale);
     writeSiteLocaleCookie(nextLocale);
+    replaceLocaleUrl(nextLocale);
     router.refresh();
   }
 
@@ -134,7 +154,9 @@ export function SiteLanguageSwitcher({
                 type="button"
               >
                 <span className="grid place-items-center">
-                  {isSelected ? <Check aria-hidden className="h-3 w-3" /> : null}
+                  {isSelected ? (
+                    <Check aria-hidden className="h-3 w-3" />
+                  ) : null}
                 </span>
                 <span>{SITE_LOCALE_LABELS[availableLocale]}</span>
               </button>

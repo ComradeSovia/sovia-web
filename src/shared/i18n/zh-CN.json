@@ -1,11 +1,11 @@
 {
   "site": {
-    "name": "同志索维娅",
-    "title": "同志索维娅 | 苏维埃风格动漫音乐档案",
-    "description": "浏览同志索维娅的苏维埃风格动漫与游戏音乐改编、歌词、YouTube 视频和档案笔记。",
+    "name": "同志苏维雅",
+    "title": "同志苏维雅 | 苏维埃风格动漫音乐档案",
+    "description": "浏览同志苏维雅的苏维埃风格动漫与游戏音乐改编、歌词、YouTube 视频和档案笔记。",
     "keywords": [
-      "同志索维娅",
-      "索维娅",
+      "同志苏维雅",
+      "苏维雅",
       "苏维埃音乐",
       "动漫音乐",
       "动漫歌曲翻唱",
@@ -15,9 +15,11 @@
   },
   "routes": {
     "center": "中心",
-    "about": "关于索维娅",
+    "about": "关于苏维雅",
     "sound": "歌曲",
-    "test": "SOVIA-Test",
+    "test": "SOVIA测试",
+    "tools": "工具",
+    "airCon": "空调",
     "lyricsLibrary": "歌词库",
     "musicRelease": "音乐发布",
     "conceptDesign": "概念设计",
@@ -41,8 +43,8 @@
     "youtube": "YouTube"
   },
   "brand": {
-    "title": "USSR",
-    "subtitle": "苏维埃歌曲改革单位"
+    "title": "苏炼",
+    "subtitle": "苏维埃歌曲练成部"
   },
   "underConstruction": {
     "status": "СТАТУС",
@@ -64,19 +66,42 @@
   "pages": {
     "gallery": {
       "title": "画廊",
-      "description": "同志索维娅的图像画廊与视觉档案。"
+      "description": "同志苏维雅的图像画廊与视觉档案。"
     },
     "report": {
       "title": "报告",
-      "description": "来自同志索维娅的更新、笔记和档案报告。"
+      "description": "来自同志苏维雅的更新、笔记和档案报告。"
     },
     "request": {
       "title": "点歌",
-      "description": "为同志索维娅档案请求歌曲或改编。"
+      "description": "为同志苏维雅档案请求歌曲或改编。"
     },
     "notice": {
       "title": "公告",
-      "description": "同志索维娅站点的重要公告与信息。"
+      "description": "同志苏维雅站点的重要公告与信息。"
+    },
+    "tools": {
+      "title": "工具",
+      "description": "同志苏维雅档案里的小型互动工具和实用房间。",
+      "intro": "可操作的机器、档案控制台和一些奇怪小工具。",
+      "airConTitle": "虚拟空调",
+      "airConDescription": "开机、调温度、调风量。"
+    },
+    "airCon": {
+      "title": "虚拟空调",
+      "eyebrow": "工具 / 气候控制台",
+      "subtitle": "一台负责制造冷风和正式咔哒声的办公室小机器。",
+      "powerOn": "开机",
+      "powerOff": "关机",
+      "temperature": "温度",
+      "fanSpeed": "风量",
+      "mode": "模式",
+      "cool": "制冷",
+      "dry": "除湿",
+      "fan": "送风",
+      "auto": "自动",
+      "statusOn": "系统运行中",
+      "statusOff": "系统待机"
     }
   }
 }

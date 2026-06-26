@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { Routes } from "../constants/routes";
 import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
+import type { SiteLocale } from "../i18n/site-locale";
+import { DEFAULT_SITE_LOCALE } from "../i18n/site-locale";
+import { getSiteLocalizedPath } from "../i18n/site-routing";
 
 export function UnderConstruction({
   copy = getDefaultSharedCopy(),
+  locale = DEFAULT_SITE_LOCALE,
   title,
 }: {
   copy?: SharedCopy;
+  locale?: SiteLocale;
   title: string;
 }) {
   return (
@@ -26,7 +31,10 @@ export function UnderConstruction({
       </h1>
 
       <div className="flex gap-6 pt-4">
-        <Link href={Routes.Center.href} className="btn-primary">
+        <Link
+          href={getSiteLocalizedPath(Routes.Center.href, locale)}
+          className="btn-primary"
+        >
           {copy.underConstruction.returnLabel}
         </Link>
       </div>

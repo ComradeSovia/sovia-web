@@ -1,10 +1,6 @@
-import {
-  ORGANIZATION_SAME_AS,
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  siteUrl,
-} from "@sovia/shared";
+import { ORGANIZATION_SAME_AS, siteUrl } from "@sovia/shared";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getHomeCards } from "../data/home-cards";
 import type { HomeCopy } from "../i18n/copy";
 import { HomeCards } from "./home-cards";
@@ -13,12 +9,14 @@ import { HomeManifesto } from "./home-manifesto";
 
 export function HomePage({
   copy,
+  locale,
   sharedCopy,
 }: {
   copy: HomeCopy;
+  locale: SiteLocale;
   sharedCopy: SharedCopy;
 }) {
-  const cards = getHomeCards(copy, sharedCopy);
+  const cards = getHomeCards(copy, sharedCopy, locale);
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
