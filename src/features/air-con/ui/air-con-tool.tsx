@@ -811,7 +811,7 @@ function SovietDial({
 }) {
   return (
     <div className="grid justify-items-center gap-1">
-      <div className="text-[0.62rem] font-black leading-none tracking-[0] text-[rgb(56_39_23)] [html[data-theme='dark']_&]:text-[rgb(244_236_214)]">
+      <div className="text-[0.62rem] font-black leading-none tracking-[0] text-[rgb(56_39_23)]">
         {label}
       </div>
       <button
@@ -826,7 +826,7 @@ function SovietDial({
         />
         <div className="absolute inset-[1.05rem] rounded-full border border-[rgba(255,255,255,0.35)] bg-[rgba(0,0,0,0.18)]" />
       </button>
-      <div className="max-w-full truncate text-[0.65rem] font-black uppercase leading-none tracking-[0] text-[rgb(56_39_23)] [html[data-theme='dark']_&]:text-[rgb(244_236_214)]">
+      <div className="max-w-full truncate text-[0.65rem] font-black uppercase leading-none tracking-[0] text-[rgb(56_39_23)]">
         {value}
       </div>
     </div>
