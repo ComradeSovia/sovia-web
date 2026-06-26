@@ -95,6 +95,20 @@ html::before {
   opacity: var(--air-con-tint-opacity, 0.12);
 }
 
+:root[data-theme="dark"] .air-con-control-button,
+:root[data-theme="dark"] .air-con-control-label,
+:root[data-theme="dark"] .air-con-control-value {
+  color: rgb(244 236 214);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .air-con-control-button,
+  :root:not([data-theme="light"]) .air-con-control-label,
+  :root:not([data-theme="light"]) .air-con-control-value {
+    color: rgb(244 236 214);
+  }
+}
+
 /* =========================
    Text selection highlight
    ========================= */
