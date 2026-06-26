@@ -7,11 +7,13 @@ import {
 import { loadMusicIndex } from "@sovia/sound";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
-  getSoviaTestLanguageAlternates,
-  getSoviaTestLocalizedPath,
   SOVIA_TEST_LOCALES,
 } from "@sovia/sovia-test/i18n/config";
 import { getDefaultSoviaTestCopy } from "@sovia/sovia-test/i18n/copy";
+import {
+  getSoviaTestCanonicalLanguageAlternates,
+  getSoviaTestCanonicalPath,
+} from "@sovia/sovia-test/i18n/seo";
 import type { MetadataRoute } from "next";
 
 const STATIC_PATHS = [
@@ -33,12 +35,12 @@ function absoluteUrl(path: string) {
 }
 
 function getAbsoluteLanguageAlternates(path: string) {
-  const alternates = getSoviaTestLanguageAlternates(path);
+  const alternates = getSoviaTestCanonicalLanguageAlternates(path);
 
   return Object.fromEntries([
     [
       "x-default",
-      absoluteUrl(getSoviaTestLocalizedPath(path, DEFAULT_SOVIA_TEST_LOCALE)),
+      absoluteUrl(getSoviaTestCanonicalPath(path, DEFAULT_SOVIA_TEST_LOCALE)),
     ],
     ...SOVIA_TEST_LOCALES.map((locale) => [
       locale,
@@ -75,14 +77,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const soviaTestRoutes: MetadataRoute.Sitemap = [
     ...SOVIA_TEST_PATHS,
     ...testTypePaths,
-  ].map((path) => ({
-    url: absoluteUrl(getSoviaTestLocalizedPath(path, "en-US")),
-    changeFrequency: "weekly",
-    priority: path === "/test" ? 0.8 : 0.65,
-    alternates: {
-      languages: getAbsoluteLanguageAlternates(path),
-    },
-  }));
+  ].flatMap((path) =>
+    SOVIA_TEST_LOCALES.map((locale) => ({
+      url: absoluteUrl(getSoviaTestCanonicalPath(path, locale)),
+      changeFrequency: "weekly",
+      priority: path === "/test" ? 0.8 : 0.65,
+      alternates: {
+        languages: getAbsoluteLanguageAlternates(path),
+      },
+    })),
+  );
 
   const workRoutes: MetadataRoute.Sitemap = (await loadMusicIndex())
     .filter((work) => work.u2bId)

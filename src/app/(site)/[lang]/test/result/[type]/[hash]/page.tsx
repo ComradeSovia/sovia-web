@@ -7,7 +7,10 @@ import {
   getDefaultSoviaTestCopy,
   getSoviaTestCopy,
 } from "@sovia/sovia-test/i18n/copy";
-import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
+import {
+  getSoviaTestAlternates,
+  getSoviaTestCanonicalPath,
+} from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -137,7 +140,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${code} | ${localizedCopy.page.title}`,
       description: localizedCopy.page.subtitle,
-      url: `/${locale}${path}`,
+      url: getSoviaTestCanonicalPath(path, locale),
       locale: locale.replace("-", "_"),
     },
   };
@@ -151,7 +154,7 @@ export default async function LocalizedTestResultPage({
   const code = type.toUpperCase();
 
   if (testCopy.types[code] && !isValidResultHash(hash)) {
-    redirect(`/${locale}/test/types/${type.toLowerCase()}`);
+    redirect(getSoviaTestCanonicalPath(`/test/types/${type}`, locale));
   }
 
   return (

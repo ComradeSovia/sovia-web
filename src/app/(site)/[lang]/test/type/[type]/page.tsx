@@ -7,7 +7,10 @@ import {
   getDefaultSoviaTestCopy,
   getSoviaTestCopy,
 } from "@sovia/sovia-test/i18n/copy";
-import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
+import {
+  getSoviaTestAlternates,
+  getSoviaTestCanonicalPath,
+} from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -53,7 +56,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${code} | ${archetype.title}`,
       description: archetype.description,
-      url: `/${locale}${path}`,
+      url: getSoviaTestCanonicalPath(path, locale),
       locale: locale.replace("-", "_"),
     },
   };

@@ -1,19 +1,14 @@
-import {
-  DEFAULT_SITE_LOCALE,
-  matchSiteLocale,
-  type SiteLocale,
-} from "@sovia/shared/i18n/site-locale";
-import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
+import { matchSiteLocale } from "@sovia/shared/i18n/site-locale";
 import { SoviaTestComponent } from "@sovia/sovia-test";
-import {
-  matchSoviaTestLocale,
-  type SoviaTestLocale,
-} from "@sovia/sovia-test/i18n/config";
+import { matchSoviaTestLocale } from "@sovia/sovia-test/i18n/config";
 import {
   getDefaultSoviaTestCopy,
   getSoviaTestCopy,
 } from "@sovia/sovia-test/i18n/copy";
-import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
+import {
+  getSoviaTestAlternates,
+  getSoviaTestCanonicalPath,
+} from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -42,15 +37,7 @@ function getLocales(lang: string, testLang: string) {
     notFound();
   }
 
-  return { siteLocale, testLocale };
-}
-
-function getSiteTestPath(
-  path: string,
-  siteLocale: SiteLocale,
-  testLocale: SoviaTestLocale,
-) {
-  return getSiteLocalizedPath(`/test/${testLocale}${path}`, siteLocale);
+  return testLocale;
 }
 
 function encodeAnswerToken(answer: number, index: number) {
@@ -141,7 +128,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { hash, lang, testLang, type } = await params;
-  const { siteLocale, testLocale } = getLocales(lang, testLang);
+  const testLocale = getLocales(lang, testLang);
   const localizedCopy = getSoviaTestCopy(testLocale);
   const code = type.toUpperCase();
   const path = `/test/result/${type}/${hash}`;
@@ -149,18 +136,11 @@ export async function generateMetadata({
   return {
     title: `${code} | ${localizedCopy.page.title}`,
     description: localizedCopy.page.subtitle,
-    alternates: {
-      ...getSoviaTestAlternates(path, testLocale),
-      canonical: getSiteTestPath(
-        `/result/${type}/${hash}`,
-        siteLocale,
-        testLocale,
-      ),
-    },
+    alternates: getSoviaTestAlternates(path, testLocale),
     openGraph: {
       title: `${code} | ${localizedCopy.page.title}`,
       description: localizedCopy.page.subtitle,
-      url: getSiteTestPath(`/result/${type}/${hash}`, siteLocale, testLocale),
+      url: getSoviaTestCanonicalPath(path, testLocale),
       locale: testLocale.replace("-", "_"),
     },
   };
@@ -170,17 +150,11 @@ export default async function LocalizedSiteTestResultPage({
   params,
 }: PageProps) {
   const { hash, lang, testLang, type } = await params;
-  const { siteLocale, testLocale } = getLocales(lang, testLang);
+  const testLocale = getLocales(lang, testLang);
   const code = type.toUpperCase();
 
   if (testCopy.types[code] && !isValidResultHash(hash)) {
-    redirect(
-      getSiteTestPath(`/types/${type.toLowerCase()}`, siteLocale, testLocale),
-    );
-  }
-
-  if (siteLocale === DEFAULT_SITE_LOCALE) {
-    redirect(`/test/${testLocale}/result/${type}/${hash}`);
+    redirect(getSoviaTestCanonicalPath(`/test/types/${type}`, testLocale));
   }
 
   return (

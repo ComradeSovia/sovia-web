@@ -1,18 +1,13 @@
-import {
-  DEFAULT_SITE_LOCALE,
-  matchSiteLocale,
-  type SiteLocale,
-} from "@sovia/shared/i18n/site-locale";
-import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
+import { matchSiteLocale } from "@sovia/shared/i18n/site-locale";
 import { SoviaTestComponent } from "@sovia/sovia-test";
-import {
-  matchSoviaTestLocale,
-  type SoviaTestLocale,
-} from "@sovia/sovia-test/i18n/config";
+import { matchSoviaTestLocale } from "@sovia/sovia-test/i18n/config";
 import { getSoviaTestCopy } from "@sovia/sovia-test/i18n/copy";
-import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
+import {
+  getSoviaTestAlternates,
+  getSoviaTestCanonicalPath,
+} from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type PageProps = {
@@ -27,36 +22,25 @@ function getLocales(lang: string, testLang: string) {
     notFound();
   }
 
-  return { siteLocale, testLocale };
-}
-
-function getSiteTestPath(
-  path: string,
-  siteLocale: SiteLocale,
-  testLocale: SoviaTestLocale,
-) {
-  return getSiteLocalizedPath(`/test/${testLocale}${path}`, siteLocale);
+  return testLocale;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { lang, testLang } = await params;
-  const { siteLocale, testLocale } = getLocales(lang, testLang);
+  const testLocale = getLocales(lang, testLang);
   const testCopy = getSoviaTestCopy(testLocale);
   const path = "/test";
 
   return {
     title: testCopy.page.title,
     description: testCopy.page.subtitle,
-    alternates: {
-      ...getSoviaTestAlternates(path, testLocale),
-      canonical: getSiteTestPath("", siteLocale, testLocale),
-    },
+    alternates: getSoviaTestAlternates(path, testLocale),
     openGraph: {
       title: testCopy.page.title,
       description: testCopy.page.subtitle,
-      url: getSiteTestPath("", siteLocale, testLocale),
+      url: getSoviaTestCanonicalPath(path, testLocale),
       locale: testLocale.replace("-", "_"),
     },
   };
@@ -64,11 +48,7 @@ export async function generateMetadata({
 
 export default async function LocalizedSiteTestPage({ params }: PageProps) {
   const { lang, testLang } = await params;
-  const { siteLocale, testLocale } = getLocales(lang, testLang);
-
-  if (siteLocale === DEFAULT_SITE_LOCALE) {
-    redirect(`/test/${testLocale}`);
-  }
+  const testLocale = getLocales(lang, testLang);
 
   return (
     <Suspense fallback={null}>

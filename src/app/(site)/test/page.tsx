@@ -4,7 +4,10 @@ import {
   type SoviaTestSearchParams,
 } from "@sovia/sovia-test/i18n/config";
 import { getSoviaTestCopy } from "@sovia/sovia-test/i18n/copy";
-import { getSoviaTestAlternates } from "@sovia/sovia-test/i18n/seo";
+import {
+  getSoviaTestAlternates,
+  getSoviaTestCanonicalPath,
+} from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -26,7 +29,7 @@ export async function generateMetadata({
     openGraph: {
       title: testCopy.page.title,
       description: testCopy.page.subtitle,
-      url: path,
+      url: getSoviaTestCanonicalPath(path, locale),
       locale: locale.replace("-", "_"),
     },
   };
