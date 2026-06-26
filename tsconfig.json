@@ -24,6 +24,8 @@
       "@sovia/admin/*": ["./src/features/admin/*"],
       "@sovia/home": ["./src/features/home/index.ts"],
       "@sovia/home/*": ["./src/features/home/*"],
+      "@sovia/air-con": ["./src/features/air-con/index.ts"],
+      "@sovia/air-con/*": ["./src/features/air-con/*"],
       "@sovia/layout": ["./src/features/layout/index.ts"],
       "@sovia/layout/*": ["./src/features/layout/*"],
       "@sovia/shared": ["./src/shared/index.ts"],
@@ -31,7 +33,9 @@
       "@sovia/sovia-test": ["./src/features/sovia-test/index.ts"],
       "@sovia/sovia-test/*": ["./src/features/sovia-test/*"],
       "@sovia/sound": ["./src/features/sound/index.ts"],
-      "@sovia/sound/*": ["./src/features/sound/*"]
+      "@sovia/sound/*": ["./src/features/sound/*"],
+      "@sovia/tools": ["./src/features/tools/index.ts"],
+      "@sovia/tools/*": ["./src/features/tools/*"]
     }
   },
   "include": [

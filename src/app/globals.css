@@ -68,6 +68,31 @@ body {
     "liga" 1;
   overflow-x: clip;
   text-rendering: optimizeLegibility;
+  transition: filter 4000ms ease;
+}
+
+html::before {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  content: "";
+  background: rgb(var(--air-con-tint, 105 171 255) / 1);
+  mix-blend-mode: color;
+  opacity: 0;
+  transition: opacity 4000ms ease;
+}
+
+:root[data-air-con="cool"] body,
+:root[data-air-con="warm"] body {
+  filter: saturate(var(--air-con-saturation, 0.9))
+    brightness(var(--air-con-brightness, 1))
+    contrast(var(--air-con-contrast, 0.98));
+}
+
+:root[data-air-con="cool"]::before,
+:root[data-air-con="warm"]::before {
+  opacity: var(--air-con-tint-opacity, 0.12);
 }
 
 /* =========================
@@ -89,11 +114,12 @@ h4 {
   text-transform: uppercase;
   letter-spacing: 0;
   color: rgb(var(--ink));
-  line-height: 0.9;
+  line-height: 0.95;
+  overflow-wrap: anywhere;
 }
 
 h1 {
-  font-size: clamp(3.5rem, 14vw, 8.5rem);
+  font-size: 2.75rem;
 }
 
 h2 {
@@ -102,6 +128,18 @@ h2 {
 
 h3 {
   font-size: clamp(1.45rem, 3vw, 2.35rem);
+}
+
+@media (min-width: 640px) {
+  h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 5.25rem;
+  }
 }
 
 /* =========================
@@ -386,7 +424,7 @@ a:hover {
 .sovia-test-ui h2 {
   max-width: min(18ch, 100%);
   line-height: 1.05;
-  overflow-wrap: normal;
+  overflow-wrap: anywhere;
   word-break: normal;
   hyphens: none;
 }

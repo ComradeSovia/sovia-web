@@ -1,5 +1,6 @@
 import { getRoutes, Routes } from "@sovia/shared";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import type { RouteItem } from "@sovia/shared/model/nav";
 import { getDefaultHomeCopy, type HomeCopy } from "../i18n/copy";
 
@@ -13,8 +14,8 @@ export type HomeCardItem = {
   links: ReadonlyArray<RouteItem>;
 };
 
-function getCardConfig(sharedCopy?: SharedCopy) {
-  const routes = sharedCopy ? getRoutes(sharedCopy) : Routes;
+function getCardConfig(sharedCopy?: SharedCopy, locale?: SiteLocale) {
+  const routes = sharedCopy ? getRoutes(sharedCopy, locale) : Routes;
 
   return {
     "lyrics-library": {
@@ -49,8 +50,9 @@ function getCardConfig(sharedCopy?: SharedCopy) {
 export function getHomeCards(
   copy: HomeCopy,
   sharedCopy?: SharedCopy,
+  locale?: SiteLocale,
 ): ReadonlyArray<HomeCardItem> {
-  const cardConfig = getCardConfig(sharedCopy);
+  const cardConfig = getCardConfig(sharedCopy, locale);
 
   return copy.cards.map((card) => {
     const config = cardConfig[card.id as keyof typeof cardConfig];
