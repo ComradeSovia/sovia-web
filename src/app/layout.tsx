@@ -105,6 +105,11 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
       <head>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-P0019DW5J8"
+        />
+        <script src="/google-tag-init.js" />
         <script src="/theme-init.js" />
       </head>
       <body
