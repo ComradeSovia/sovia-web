@@ -54,6 +54,7 @@ This file is for AI coding agents working in this repository. Its goals are to r
 - Keep Tailwind classes readable; avoid unnecessary complex dynamic class construction.
 - Components should behave well responsively, especially on mobile. Avoid text overflow and layout overlap.
 - Buttons, forms, navigation, and other interactions should follow the existing component style.
+- Important public links that should stay discoverable site-wide can be added to the footer in `src/features/layout/ui/layout-footer.tsx`, preferably using existing route constants and localized labels.
 - `lucide-react` is installed; prefer it for common icons.
 
 ## Internationalization

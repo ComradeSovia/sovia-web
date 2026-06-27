@@ -27,7 +27,7 @@ export default async function SiteLayout({
         sharedCopy={sharedCopy}
       />
       <LayoutMain copy={layoutCopy}>{children}</LayoutMain>
-      <LayoutFooter copy={layoutCopy} />
+      <LayoutFooter copy={layoutCopy} locale={locale} sharedCopy={sharedCopy} />
     </div>
   );
 }

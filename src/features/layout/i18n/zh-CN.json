@@ -5,7 +5,11 @@
   },
   "footer": {
     "text": "苏维雅・伊万诺夫娜・菈波琪娃承担全部责任。",
-    "slogan": "工作的节奏，劳动的声音"
+    "slogan": "工作的节奏，劳动的声音",
+    "description": "苏维埃风格动漫与游戏音乐档案站，为同志们归档并保存。",
+    "archiveLabel": "档案",
+    "channelsLabel": "频道",
+    "stamp": "已归档，已盖章，已保存。"
   },
   "siteLanguage": {
     "label": "站点语言"

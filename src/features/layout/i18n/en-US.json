@@ -5,7 +5,11 @@
   },
   "footer": {
     "text": "Совия Ивановна Рабочева несёт полную ответственность.",
-    "slogan": "Ритм работы, звук труда"
+    "slogan": "Ритм работы, звук труда",
+    "description": "Soviet-style anime and game music archive, filed and preserved for the comrades.",
+    "archiveLabel": "Archive",
+    "channelsLabel": "Channels",
+    "stamp": "Filed, stamped, and preserved."
   },
   "siteLanguage": {
     "label": "Site language"

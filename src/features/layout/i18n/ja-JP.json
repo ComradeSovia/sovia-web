@@ -5,7 +5,11 @@
   },
   "footer": {
     "text": "ソヴィア・イワノヴナ・ラボチェワが全責任を負います。",
-    "slogan": "仕事のリズム、労働の音"
+    "slogan": "仕事のリズム、労働の音",
+    "description": "ソビエト風アニメ・ゲーム音楽アーカイブ。同志のために記録し保存します。",
+    "archiveLabel": "アーカイブ",
+    "channelsLabel": "チャンネル",
+    "stamp": "記録、押印、保存済み。"
   },
   "siteLanguage": {
     "label": "サイト言語"

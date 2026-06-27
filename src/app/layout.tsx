@@ -1,10 +1,57 @@
 import type { Metadata } from "next";
+import {
+  Noto_Sans,
+  Noto_Sans_JP,
+  Noto_Sans_KR,
+  Noto_Sans_SC,
+  Noto_Sans_TC,
+} from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@sovia/shared";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { ReactNode } from "react";
+
+const notoSans = Noto_Sans({
+  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+  variable: "--font-noto-sans",
+});
+
+const notoSansJp = Noto_Sans_JP({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  variable: "--font-noto-sans-jp",
+});
+
+const notoSansKr = Noto_Sans_KR({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  variable: "--font-noto-sans-kr",
+});
+
+const notoSansSc = Noto_Sans_SC({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  variable: "--font-noto-sans-sc",
+});
+
+const notoSansTc = Noto_Sans_TC({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  variable: "--font-noto-sans-tc",
+});
+
+function getSiteFontVariable(locale: string) {
+  switch (locale) {
+    case "ja-JP":
+      return notoSansJp.variable;
+    case "ko-KR":
+      return notoSansKr.variable;
+    case "zh-CN":
+      return notoSansSc.variable;
+    case "zh-TW":
+      return notoSansTc.variable;
+    default:
+      return notoSans.variable;
+  }
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getCurrentSiteLocale();
@@ -60,7 +107,9 @@ export default async function RootLayout({
       <head>
         <script src="/theme-init.js" />
       </head>
-      <body className="min-h-full bg-paper font-sans text-ink antialiased">
+      <body
+        className={`${getSiteFontVariable(locale)} min-h-full bg-paper font-sans text-ink antialiased`}
+      >
         {children}
       </body>
     </html>

@@ -5,7 +5,11 @@
   },
   "footer": {
     "text": "소비아 이바노브나 라보체바가 모든 책임을 집니다.",
-    "slogan": "일의 리듬, 노동의 소리"
+    "slogan": "일의 리듬, 노동의 소리",
+    "description": "소비에트풍 애니메이션 및 게임 음악 아카이브. 동지들을 위해 기록하고 보존합니다.",
+    "archiveLabel": "아카이브",
+    "channelsLabel": "채널",
+    "stamp": "기록, 날인, 보존 완료."
   },
   "siteLanguage": {
     "label": "사이트 언어"

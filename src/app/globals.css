@@ -58,17 +58,34 @@ html {
 }
 
 body {
+  --font-sovia-site: var(--font-noto-sans);
   background-color: rgb(var(--paper));
   color: rgb(var(--ink));
   font-family:
-    "Arial Black", Impact, Haettenschweiler, "Arial Narrow Bold", Arial,
-    sans-serif;
+    var(--font-sovia-site), "Arial Black", Impact, Haettenschweiler,
+    "Arial Narrow Bold", Arial, sans-serif;
   font-feature-settings:
     "kern" 1,
     "liga" 1;
   overflow-x: clip;
   text-rendering: optimizeLegibility;
   transition: filter 4000ms ease;
+}
+
+html[lang="ja-JP"] body {
+  --font-sovia-site: var(--font-noto-sans-jp);
+}
+
+html[lang="ko-KR"] body {
+  --font-sovia-site: var(--font-noto-sans-kr);
+}
+
+html[lang="zh-CN"] body {
+  --font-sovia-site: var(--font-noto-sans-sc);
+}
+
+html[lang="zh-TW"] body {
+  --font-sovia-site: var(--font-noto-sans-tc);
 }
 
 html::before {

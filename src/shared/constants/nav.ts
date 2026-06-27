@@ -13,7 +13,10 @@ export const NAV_ITEMS = [
   // Routes.Report,
 ] satisfies RouteItem[];
 
-export function getNavItems(copy: SharedCopy, locale?: SiteLocale) {
+export function getNavItems(
+  copy: SharedCopy,
+  locale?: SiteLocale,
+): ReadonlyArray<RouteItem> {
   const routes = getRoutes(copy, locale);
 
   return [
@@ -21,7 +24,10 @@ export function getNavItems(copy: SharedCopy, locale?: SiteLocale) {
     // routes.Notice,
     routes.Sound,
     routes.Test,
-    routes.Tools,
+    {
+      ...routes.Tools,
+      children: [routes.AirCon],
+    },
     // routes.Gallery,
     // routes.Report,
   ] satisfies RouteItem[];
