@@ -1,3 +1,4 @@
+import { loadMusicIndex } from "@sovia/sound";
 import { SoviaTestComponent } from "@sovia/sovia-test";
 import {
   matchSoviaTestLocale,
@@ -54,10 +55,14 @@ export default async function LocalizedTestPage({
 }: LocalizedTestPageProps) {
   const { lang } = await params;
   const locale = getLocale(lang);
+  const recommendedMusicWorks = await loadMusicIndex();
 
   return (
     <Suspense fallback={null}>
-      <SoviaTestComponent initialLocale={locale} />
+      <SoviaTestComponent
+        initialLocale={locale}
+        recommendedMusicWorks={recommendedMusicWorks}
+      />
     </Suspense>
   );
 }

@@ -1,10 +1,18 @@
 ﻿"use client";
 
 import { Routes } from "@sovia/shared";
+import {
+  matchSiteLocale,
+  type SiteLocale,
+} from "@sovia/shared/i18n/site-locale";
+import { getSoundCopy } from "@sovia/sound/i18n/copy";
+import type { MusicWork } from "@sovia/sound/model/music";
+import { SoundCard } from "@sovia/sound/ui/sound-card";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import songRecommendations from "../data/song-recommendations.json";
 import {
   getSoviaTestLocalizedPath,
   type SoviaTestLocale,
@@ -104,12 +112,91 @@ type SoviaTestComponentProps = {
   initialHash?: string;
   initialLocale?: SoviaTestLocale;
   initialResultType?: string;
+  recommendedMusicWorks?: MusicWork[];
 };
 
 type AnswerValue = number | null;
+type SongRecommendationCopy = {
+  intro: string;
+  title: string;
+};
+
+const SONG_RECOMMENDATION_COPY: Record<string, SongRecommendationCopy> = {
+  fallback: {
+    title: "Songs to listen to",
+    intro:
+      "The archive recommends these tracks for your assigned labor personality.",
+  },
+  "ja-JP": {
+    title: "おすすめの楽曲",
+    intro: "あなたの配属された労働人格に合わせて、アーカイブが選んだ楽曲です。",
+  },
+  "ko-KR": {
+    title: "추천 감상곡",
+    intro: "배정된 노동 인격에 맞춰 아카이브가 고른 곡입니다.",
+  },
+  "ru-RU": {
+    title: "Рекомендуемые песни",
+    intro: "Архив подобрал эти треки под назначенный трудовой тип.",
+  },
+  "zh-CN": {
+    title: "适合聆听的歌曲",
+    intro: "档案室根据你的劳动人格，为你随机抽取了两首适合播放的歌曲。",
+  },
+  "zh-TW": {
+    title: "適合聆聽的歌曲",
+    intro: "檔案室根據你的勞動人格，為你隨機抽取了兩首適合播放的歌曲。",
+  },
+};
+
+const songRecommendationsByCode = songRecommendations as Record<
+  string,
+  string[]
+>;
 
 function createEmptyAnswers() {
   return Array.from({ length: defaultCopy.questions.length }, () => null);
+}
+
+function getSongRecommendationCopy(locale: SoviaTestLocale) {
+  return SONG_RECOMMENDATION_COPY[locale] ?? SONG_RECOMMENDATION_COPY.fallback;
+}
+
+function getSoundLocale(locale: SoviaTestLocale): SiteLocale {
+  return matchSiteLocale(locale) ?? "en-US";
+}
+
+function getRecommendedSongs(
+  code: string,
+  worksByVideoId: Map<string, MusicWork>,
+  seed: string,
+) {
+  const ids = songRecommendationsByCode[code] ?? [];
+  const works = ids
+    .map((id) => worksByVideoId.get(id) ?? worksByVideoId.get(id.toLowerCase()))
+    .filter((work): work is MusicWork => Boolean(work));
+  const uniqueWorks = Array.from(
+    new Map(works.map((work) => [work.path, work])).values(),
+  );
+
+  return uniqueWorks
+    .map((work) => ({
+      order: hashString(`${seed}:${work.u2bId ?? work.path}`),
+      work,
+    }))
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 2)
+    .map(({ work }) => work);
+}
+
+function hashString(value: string) {
+  let hash = 0;
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+  }
+
+  return hash;
 }
 
 function createInitialTestState(initialHash?: string): InitialTestState {
@@ -1406,6 +1493,7 @@ export function SoviaTestComponent({
   initialHash,
   initialLocale,
   initialResultType,
+  recommendedMusicWorks = [],
 }: SoviaTestComponentProps = {}) {
   const router = useRouter();
   const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
@@ -1437,6 +1525,7 @@ export function SoviaTestComponent({
     height: 4100,
   });
   const [isGeneratingResultImage, setIsGeneratingResultImage] = useState(false);
+  const [songRecommendationSeed, setSongRecommendationSeed] = useState("ssr");
   const questionRefs = useRef(new Map<number, HTMLDivElement>());
   const quizActionsRef = useRef<HTMLDivElement>(null);
   const pendingQuestionFocusRef = useRef<number | null>(null);
@@ -1450,6 +1539,27 @@ export function SoviaTestComponent({
     return getResult(answers, copy);
   }, [answers, copy, sharedScores]);
   const resultEssay = copy.typeEssays[result.code];
+  const soundLocale = getSoundLocale(locale);
+  const soundCopy = useMemo(() => getSoundCopy(soundLocale), [soundLocale]);
+  const songRecommendationCopy = getSongRecommendationCopy(locale);
+  const worksByVideoId = useMemo(() => {
+    const map = new Map<string, MusicWork>();
+
+    for (const work of recommendedMusicWorks) {
+      if (!work.u2bId) {
+        continue;
+      }
+
+      map.set(work.u2bId, work);
+      map.set(work.u2bId.toLowerCase(), work);
+    }
+
+    return map;
+  }, [recommendedMusicWorks]);
+  const recommendedSongs = useMemo(
+    () => getRecommendedSongs(result.code, worksByVideoId, songRecommendationSeed),
+    [result.code, songRecommendationSeed, worksByVideoId],
+  );
   const totalPages = Math.ceil(
     defaultCopy.questions.length / QUESTIONS_PER_PAGE,
   );
@@ -1610,6 +1720,14 @@ export function SoviaTestComponent({
       });
     });
   }, [pageStart, screen]);
+
+  useEffect(() => {
+    if (screen !== "result") {
+      return;
+    }
+
+    setSongRecommendationSeed(`${result.code}:${crypto.randomUUID()}`);
+  }, [result.code, screen]);
 
   function focusElement(element: HTMLElement | null) {
     if (!element) {
@@ -2259,6 +2377,28 @@ export function SoviaTestComponent({
             </div>
           )}
         </div>
+
+        {recommendedSongs.length > 0 && (
+          <section className="space-y-5">
+            <div>
+              <div className="meta">{songRecommendationCopy.title}</div>
+              <p className="mt-3 text-sm font-medium leading-relaxed">
+                {songRecommendationCopy.intro}
+              </p>
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-2">
+              {recommendedSongs.map((work) => (
+                <SoundCard
+                  copy={soundCopy}
+                  key={work.path}
+                  locale={soundLocale}
+                  work={work}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="card grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
           <div className="min-w-0">
