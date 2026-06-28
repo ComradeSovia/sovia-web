@@ -7,7 +7,7 @@ import {
   Noto_Sans_TC,
 } from "next/font/google";
 import "./globals.css";
-import { SITE_URL } from "@sovia/shared";
+import { GoogleAnalytics, SITE_URL } from "@sovia/shared";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
@@ -105,16 +105,12 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
       <head>
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-P0019DW5J8"
-        />
-        <script src="/google-tag-init.js" />
         <script src="/theme-init.js" />
       </head>
       <body
         className={`${getSiteFontVariable(locale)} min-h-full bg-paper font-sans text-ink antialiased`}
       >
+        <GoogleAnalytics />
         {children}
       </body>
     </html>
