@@ -22,21 +22,89 @@
     "serial": "00",
     "titleLines": ["소비아", "소개"],
     "sections": [
-      [{ "text": "내 이름은 " }, { "text": "소비아 라보체바", "strong": true }, { "text": "입니다." }],
-      [{ "text": "나는 " }, { "text": "익숙한 노래", "strong": true }, { "text": "를 모아 " }, { "text": "다른 세계의 기계", "strong": true }, { "text": "를 통해 다시 보냅니다." }],
-      [{ "text": "멜로디는 " }, { "text": "재정리", "strong": true }, { "text": "됩니다." }],
-      [{ "text": "언어는 " }, { "text": "재배치", "strong": true }, { "text": "됩니다." }],
-      [{ "text": "감정은 " }, { "text": "기록", "strong": true }, { "text": "되고, " }, { "text": "도장", "strong": true }, { "text": " 찍혀 " }, { "text": "사람들", "strong": true }, { "text": "에게 돌아갑니다." }],
-      [{ "text": "이것은 " }, { "text": "복제", "strong": true }, { "text": "가 아닙니다." }],
-      [{ "text": "이것은 단순한 " }, { "text": "코미디", "strong": true }, { "text": "도 아닙니다." }],
-      [{ "text": "이것은 " }, { "text": "재구성", "strong": true }, { "text": "입니다." }],
-      [{ "text": "모든 노래는 " }, { "text": "노동", "strong": true }, { "text": ", " }, { "text": "질서", "strong": true }, { "text": ", " }, { "text": "집단", "strong": true }, { "text": ", 그리고 " }, { "text": "기억", "strong": true }, { "text": "에 관한 작은 보고서가 됩니다." }],
-      [{ "text": "모든 " }, { "text": "편곡", "strong": true }, { "text": "은 같은 질문을 던집니다." }],
+      [
+        { "text": "내 이름은 " },
+        { "text": "소비아 라보체바", "strong": true },
+        { "text": "입니다." }
+      ],
+      [
+        { "text": "나는 " },
+        { "text": "익숙한 노래", "strong": true },
+        { "text": "를 모아 " },
+        { "text": "다른 세계의 기계", "strong": true },
+        { "text": "를 통해 다시 보냅니다." }
+      ],
+      [
+        { "text": "멜로디는 " },
+        { "text": "재정리", "strong": true },
+        { "text": "됩니다." }
+      ],
+      [
+        { "text": "언어는 " },
+        { "text": "재배치", "strong": true },
+        { "text": "됩니다." }
+      ],
+      [
+        { "text": "감정은 " },
+        { "text": "기록", "strong": true },
+        { "text": "되고, " },
+        { "text": "도장", "strong": true },
+        { "text": " 찍혀 " },
+        { "text": "사람들", "strong": true },
+        { "text": "에게 돌아갑니다." }
+      ],
+      [
+        { "text": "이것은 " },
+        { "text": "복제", "strong": true },
+        { "text": "가 아닙니다." }
+      ],
+      [
+        { "text": "이것은 단순한 " },
+        { "text": "코미디", "strong": true },
+        { "text": "도 아닙니다." }
+      ],
+      [
+        { "text": "이것은 " },
+        { "text": "재구성", "strong": true },
+        { "text": "입니다." }
+      ],
+      [
+        { "text": "모든 노래는 " },
+        { "text": "노동", "strong": true },
+        { "text": ", " },
+        { "text": "질서", "strong": true },
+        { "text": ", " },
+        { "text": "집단", "strong": true },
+        { "text": ", 그리고 " },
+        { "text": "기억", "strong": true },
+        { "text": "에 관한 작은 보고서가 됩니다." }
+      ],
+      [
+        { "text": "모든 " },
+        { "text": "편곡", "strong": true },
+        { "text": "은 같은 질문을 던집니다." }
+      ],
       [{ "text": "이 멜로디는 무엇이 되었을까," }],
-      [{ "text": "만약 " }, { "text": "다른 현실", "strong": true }, { "text": "에서 자랐다면?" }],
-      [{ "text": "익숙하게 " }, { "text": "들리지만", "strong": true }, { "text": "," }],
-      [{ "text": "완전히 " }, { "text": "이 세계", "strong": true }, { "text": "의 것이 아니라면," }],
-      [{ "text": "그 " }, { "text": "작전은 성공", "strong": true }, { "text": "입니다." }]
+      [
+        { "text": "만약 " },
+        { "text": "다른 현실", "strong": true },
+        { "text": "에서 자랐다면?" }
+      ],
+      [
+        { "text": "익숙하게 " },
+        { "text": "들리지만", "strong": true },
+        { "text": "," }
+      ],
+      [
+        { "text": "완전히 " },
+        { "text": "이 세계", "strong": true },
+        { "text": "의 것이 아니라면," }
+      ],
+      [
+        { "text": "그 " },
+        { "text": "작전은 성공", "strong": true },
+        { "text": "입니다." }
+      ]
     ]
   },
   "cards": [

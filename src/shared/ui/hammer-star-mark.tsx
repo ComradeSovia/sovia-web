@@ -1,5 +1,5 @@
-import iconImage from "@/app/icon.png";
 import Image from "next/image";
+import iconImage from "@/app/icon.png";
 import { Routes } from "../constants/routes";
 import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
 import { DEFAULT_SITE_LOCALE, type SiteLocale } from "../i18n/site-locale";

@@ -1557,7 +1557,8 @@ export function SoviaTestComponent({
     return map;
   }, [recommendedMusicWorks]);
   const recommendedSongs = useMemo(
-    () => getRecommendedSongs(result.code, worksByVideoId, songRecommendationSeed),
+    () =>
+      getRecommendedSongs(result.code, worksByVideoId, songRecommendationSeed),
     [result.code, songRecommendationSeed, worksByVideoId],
   );
   const totalPages = Math.ceil(

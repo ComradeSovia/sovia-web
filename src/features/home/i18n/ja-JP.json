@@ -22,21 +22,89 @@
     "serial": "00",
     "titleLines": ["ソヴィア", "について"],
     "sections": [
-      [{ "text": "私の名前は " }, { "text": "ソヴィア・ラボチェワ", "strong": true }, { "text": "です。" }],
-      [{ "text": "私は" }, { "text": "なじみある歌", "strong": true }, { "text": "を集め、それらを" }, { "text": "別世界の機械", "strong": true }, { "text": "へ送り返します。" }],
-      [{ "text": "旋律は" }, { "text": "再編成", "strong": true }, { "text": "されます。" }],
-      [{ "text": "言語は" }, { "text": "再配属", "strong": true }, { "text": "されます。" }],
-      [{ "text": "感情は" }, { "text": "記録", "strong": true }, { "text": "され、" }, { "text": "押印", "strong": true }, { "text": "され、" }, { "text": "人々", "strong": true }, { "text": "へ戻されます。" }],
-      [{ "text": "これは" }, { "text": "複製", "strong": true }, { "text": "ではありません。" }],
-      [{ "text": "これはただの" }, { "text": "コメディ", "strong": true }, { "text": "でもありません。" }],
-      [{ "text": "これは" }, { "text": "再構成", "strong": true }, { "text": "です。" }],
-      [{ "text": "すべての歌は、" }, { "text": "労働", "strong": true }, { "text": "、" }, { "text": "秩序", "strong": true }, { "text": "、" }, { "text": "集団", "strong": true }, { "text": "、そして" }, { "text": "記憶", "strong": true }, { "text": "についての小さな報告になります。" }],
-      [{ "text": "すべての" }, { "text": "編曲", "strong": true }, { "text": "は同じ問いを投げます。" }],
+      [
+        { "text": "私の名前は " },
+        { "text": "ソヴィア・ラボチェワ", "strong": true },
+        { "text": "です。" }
+      ],
+      [
+        { "text": "私は" },
+        { "text": "なじみある歌", "strong": true },
+        { "text": "を集め、それらを" },
+        { "text": "別世界の機械", "strong": true },
+        { "text": "へ送り返します。" }
+      ],
+      [
+        { "text": "旋律は" },
+        { "text": "再編成", "strong": true },
+        { "text": "されます。" }
+      ],
+      [
+        { "text": "言語は" },
+        { "text": "再配属", "strong": true },
+        { "text": "されます。" }
+      ],
+      [
+        { "text": "感情は" },
+        { "text": "記録", "strong": true },
+        { "text": "され、" },
+        { "text": "押印", "strong": true },
+        { "text": "され、" },
+        { "text": "人々", "strong": true },
+        { "text": "へ戻されます。" }
+      ],
+      [
+        { "text": "これは" },
+        { "text": "複製", "strong": true },
+        { "text": "ではありません。" }
+      ],
+      [
+        { "text": "これはただの" },
+        { "text": "コメディ", "strong": true },
+        { "text": "でもありません。" }
+      ],
+      [
+        { "text": "これは" },
+        { "text": "再構成", "strong": true },
+        { "text": "です。" }
+      ],
+      [
+        { "text": "すべての歌は、" },
+        { "text": "労働", "strong": true },
+        { "text": "、" },
+        { "text": "秩序", "strong": true },
+        { "text": "、" },
+        { "text": "集団", "strong": true },
+        { "text": "、そして" },
+        { "text": "記憶", "strong": true },
+        { "text": "についての小さな報告になります。" }
+      ],
+      [
+        { "text": "すべての" },
+        { "text": "編曲", "strong": true },
+        { "text": "は同じ問いを投げます。" }
+      ],
       [{ "text": "この旋律は何になるのか、" }],
-      [{ "text": "もし" }, { "text": "別の現実", "strong": true }, { "text": "で育っていたなら？" }],
-      [{ "text": "それが" }, { "text": "なじみ深く", "strong": true }, { "text": "聞こえて、" }],
-      [{ "text": "それでも" }, { "text": "この世界", "strong": true }, { "text": "のものではないなら、" }],
-      [{ "text": "その" }, { "text": "作戦は成功", "strong": true }, { "text": "です。" }]
+      [
+        { "text": "もし" },
+        { "text": "別の現実", "strong": true },
+        { "text": "で育っていたなら？" }
+      ],
+      [
+        { "text": "それが" },
+        { "text": "なじみ深く", "strong": true },
+        { "text": "聞こえて、" }
+      ],
+      [
+        { "text": "それでも" },
+        { "text": "この世界", "strong": true },
+        { "text": "のものではないなら、" }
+      ],
+      [
+        { "text": "その" },
+        { "text": "作戦は成功", "strong": true },
+        { "text": "です。" }
+      ]
     ]
   },
   "cards": [

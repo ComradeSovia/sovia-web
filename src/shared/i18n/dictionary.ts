@@ -20,7 +20,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function mergeUnknownWithFallback(fallback: unknown, override?: unknown): unknown {
+function mergeUnknownWithFallback(
+  fallback: unknown,
+  override?: unknown,
+): unknown {
   if (override === undefined) {
     return fallback;
   }
