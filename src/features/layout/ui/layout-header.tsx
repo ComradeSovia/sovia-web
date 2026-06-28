@@ -39,13 +39,8 @@ export function LayoutHeader({
         <div className="flex items-center gap-3">
           <SiteLanguageSwitcher copy={layoutCopy} initialLocale={locale} />
           <ThemeToggle />
-          {requestButton}
-        </div>
-      </div>
-
-      <div className="flex items-center border-t-[3px] border-ink bg-red md:hidden">
-        <div className="mx-auto box-border w-full max-w-6xl px-4 py-2 text-xs font-black tracking-[0.16em] text-relief">
           <LayoutNavMobile copy={sharedCopy} locale={locale} />
+          {requestButton}
         </div>
       </div>
     </header>
