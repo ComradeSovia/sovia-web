@@ -8,6 +8,21 @@ import {
 import { getLayoutCopy } from "@sovia/layout/i18n/copy";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getCurrentSiteLocale();
+  const copy = getSharedCopy(locale);
+
+  return {
+    title: copy.notFound.title,
+    description: copy.notFound.description,
+    robots: {
+      follow: false,
+      index: false,
+    },
+  };
+}
 
 export default async function RootNotFound() {
   const locale = await getCurrentSiteLocale();
