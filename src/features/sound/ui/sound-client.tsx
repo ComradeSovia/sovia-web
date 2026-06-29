@@ -1,6 +1,7 @@
 "use client";
 
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { SoundCopy } from "../i18n/copy";
@@ -70,10 +71,18 @@ export function SoundClient({
     return () => clearTimeout(timer);
   }, [inputValue, query, router, searchParamsString]);
 
-  function updatePage(nextPage: number) {
+  function getPageHref(nextPage: number) {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(nextPage));
-    router.replace(`?${params.toString()}`, { scroll: false });
+    const safePage = Math.min(Math.max(1, nextPage), totalPages);
+
+    if (safePage <= 1) {
+      params.delete("page");
+    } else {
+      params.set("page", String(safePage));
+    }
+
+    const nextSearch = params.toString();
+    return nextSearch ? `?${nextSearch}` : "?";
   }
 
   return (
@@ -99,27 +108,29 @@ export function SoundClient({
 
       {totalPages > 1 && (
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <button
-            className="btn-outline"
-            disabled={page <= 1}
-            onClick={() => updatePage(page - 1)}
-            type="button"
-          >
-            {copy.pagination.previous}
-          </button>
+          {page <= 1 ? (
+            <span aria-disabled="true" className="btn-outline opacity-50">
+              {copy.pagination.previous}
+            </span>
+          ) : (
+            <Link className="btn-outline" href={getPageHref(page - 1)}>
+              {copy.pagination.previous}
+            </Link>
+          )}
 
           <div className="meta">
             {page} / {totalPages}
           </div>
 
-          <button
-            className="btn-outline"
-            disabled={page >= totalPages}
-            onClick={() => updatePage(page + 1)}
-            type="button"
-          >
-            {copy.pagination.next}
-          </button>
+          {page >= totalPages ? (
+            <span aria-disabled="true" className="btn-outline opacity-50">
+              {copy.pagination.next}
+            </span>
+          ) : (
+            <Link className="btn-outline" href={getPageHref(page + 1)}>
+              {copy.pagination.next}
+            </Link>
+          )}
         </div>
       )}
     </section>
