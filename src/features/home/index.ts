@@ -1,5 +1,9 @@
 export type { HomeCardItem } from "./data/home-cards";
 export { getHomeCard, getHomeCards, HOME_CARDS } from "./data/home-cards";
+export {
+  getAboutPageMetadata,
+  getHomeCardPageMetadata,
+} from "./lib/metadata";
 export { HomeCardPage } from "./ui/home-card-page";
 export { HomeCards } from "./ui/home-cards";
 export { HomeHero } from "./ui/home-hero";

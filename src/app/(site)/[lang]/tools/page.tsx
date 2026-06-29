@@ -1,9 +1,9 @@
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getSharedPageMetadata } from "@sovia/shared/i18n/metadata";
 import {
   DEFAULT_SITE_LOCALE,
   matchSiteLocale,
 } from "@sovia/shared/i18n/site-locale";
-import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import { ToolsPage } from "@sovia/tools";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
@@ -26,13 +26,7 @@ export async function generateMetadata({
     return {};
   }
 
-  const copy = getSharedCopy(locale);
-
-  return {
-    title: copy.pages.tools.title,
-    description: copy.pages.tools.description,
-    alternates: getSiteMetadataAlternates("/tools", locale),
-  };
+  return getSharedPageMetadata(locale, "tools", "/tools");
 }
 
 export default async function LocalizedToolsPage({

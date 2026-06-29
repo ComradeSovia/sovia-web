@@ -1,9 +1,9 @@
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
-import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import {
-  getSiteLocalizedPath,
-  getSiteMetadataAlternates,
-} from "@sovia/shared/i18n/site-routing";
+  createSiteMetadata,
+  formatPageTitle,
+} from "@sovia/shared/i18n/metadata";
+import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import { loadAllMusicWorks, SoundClient } from "@sovia/sound";
 import { getSoundCopy } from "@sovia/sound/i18n/copy";
 import type { Metadata } from "next";
@@ -15,16 +15,16 @@ export async function generateMetadata(): Promise<Metadata> {
   const copy = getSoundCopy(locale);
   const sharedCopy = getSharedCopy(locale);
 
-  return {
+  return createSiteMetadata({
+    locale,
+    path: "/sound",
     title: copy.page.title,
     description: copy.page.description,
-    alternates: getSiteMetadataAlternates("/sound", locale),
     openGraph: {
-      title: `${copy.page.title} | ${sharedCopy.site.name}`,
+      title: formatPageTitle(copy.page.title, sharedCopy.site.name),
       description: copy.page.openGraphDescription,
-      url: getSiteLocalizedPath("/sound", locale),
     },
-  };
+  });
 }
 
 export default async function MusicPage() {

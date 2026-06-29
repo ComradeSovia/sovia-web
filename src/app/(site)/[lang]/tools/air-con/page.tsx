@@ -1,10 +1,10 @@
 import { AirConTool } from "@sovia/air-con";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getSharedPageMetadata } from "@sovia/shared/i18n/metadata";
 import {
   DEFAULT_SITE_LOCALE,
   matchSiteLocale,
 } from "@sovia/shared/i18n/site-locale";
-import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -26,13 +26,7 @@ export async function generateMetadata({
     return {};
   }
 
-  const copy = getSharedCopy(locale);
-
-  return {
-    title: copy.pages.airCon.title,
-    description: copy.pages.airCon.subtitle,
-    alternates: getSiteMetadataAlternates("/tools/air-con", locale),
-  };
+  return getSharedPageMetadata(locale, "airCon", "/tools/air-con");
 }
 
 export default async function LocalizedAirConPage({

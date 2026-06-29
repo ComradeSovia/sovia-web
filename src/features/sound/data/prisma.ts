@@ -6,11 +6,26 @@ const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
+function isBuildPhase() {
+  return (
+    process.env.NEXT_PHASE === "phase-production-build" ||
+    process.env.npm_lifecycle_event === "build"
+  );
+}
+
 export function hasDatabaseUrl() {
-  return Boolean(process.env.DATABASE_URL) && !getDatabaseUrlError();
+  return (
+    !isBuildPhase() &&
+    Boolean(process.env.DATABASE_URL) &&
+    !getDatabaseUrlError()
+  );
 }
 
 export function getPrismaClient() {
+  if (isBuildPhase()) {
+    return null;
+  }
+
   const databaseUrl = process.env.DATABASE_URL;
 
   if (!databaseUrl) {
@@ -19,7 +34,7 @@ export function getPrismaClient() {
 
   const databaseUrlError = getDatabaseUrlError();
   if (databaseUrlError) {
-    throw new Error(databaseUrlError);
+    return null;
   }
 
   if (!globalForPrisma.prisma) {

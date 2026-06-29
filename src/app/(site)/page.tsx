@@ -1,19 +1,14 @@
 import { HomePage as HomePageContent } from "@sovia/home";
 import { getHomeCopy } from "@sovia/home/i18n/copy";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getSiteHomeMetadata } from "@sovia/shared/i18n/metadata";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
-import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getCurrentSiteLocale();
-  const copy = getSharedCopy(locale);
 
-  return {
-    title: copy.site.title,
-    description: copy.site.description,
-    alternates: getSiteMetadataAlternates("/", locale),
-  };
+  return getSiteHomeMetadata(locale);
 }
 
 export default async function CenterPage() {

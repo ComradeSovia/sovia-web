@@ -1,11 +1,11 @@
 import { HomePage as HomePageContent } from "@sovia/home";
 import { getHomeCopy } from "@sovia/home/i18n/copy";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { getSiteHomeMetadata } from "@sovia/shared/i18n/metadata";
 import {
   DEFAULT_SITE_LOCALE,
   matchSiteLocale,
 } from "@sovia/shared/i18n/site-locale";
-import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -25,13 +25,7 @@ export async function generateMetadata({
     return {};
   }
 
-  const copy = getSharedCopy(locale);
-
-  return {
-    title: copy.site.title,
-    description: copy.site.description,
-    alternates: getSiteMetadataAlternates("/", locale),
-  };
+  return getSiteHomeMetadata(locale);
 }
 
 export default async function LocalizedHomePage({
