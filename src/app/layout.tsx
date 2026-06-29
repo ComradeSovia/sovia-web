@@ -69,6 +69,11 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: copy.site.name,
     publisher: copy.site.name,
     keywords: copy.site.keywords,
+    verification: {
+      other: {
+        "naver-site-verification": "a0ad7335b3fc1c8d3cbdf5b3542d1e0d60f34f32",
+      },
+    },
     alternates: getSiteMetadataAlternates("/", locale),
     openGraph: {
       type: "website",
