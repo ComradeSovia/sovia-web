@@ -50,32 +50,36 @@ export async function saveSoviaTestSubmission(input: SoviaTestSubmissionInput) {
 
   const fingerprint = createSubmissionFingerprint(input.visitorId);
 
-  return prisma.soviaTestSubmission.upsert({
-    where: {
-      fingerprint,
-    },
-    create: {
-      visitorId: input.visitorId,
-      fingerprint,
-      resultCode: input.resultCode,
-      resultHash: input.resultHash,
-      locale: input.locale,
-      ageGroup: input.ageGroup,
-      gender: input.gender,
-      scores: input.scores as Prisma.InputJsonValue,
-    },
-    update: {
-      resultCode: input.resultCode,
-      resultHash: input.resultHash,
-      locale: input.locale,
-      ageGroup: input.ageGroup,
-      gender: input.gender,
-      scores: input.scores as Prisma.InputJsonValue,
-    },
-    select: {
-      id: true,
-    },
-  });
+  try {
+    return await prisma.soviaTestSubmission.upsert({
+      where: {
+        fingerprint,
+      },
+      create: {
+        visitorId: input.visitorId,
+        fingerprint,
+        resultCode: input.resultCode,
+        resultHash: input.resultHash,
+        locale: input.locale,
+        ageGroup: input.ageGroup,
+        gender: input.gender,
+        scores: input.scores as Prisma.InputJsonValue,
+      },
+      update: {
+        resultCode: input.resultCode,
+        resultHash: input.resultHash,
+        locale: input.locale,
+        ageGroup: input.ageGroup,
+        gender: input.gender,
+        scores: input.scores as Prisma.InputJsonValue,
+      },
+      select: {
+        id: true,
+      },
+    });
+  } catch {
+    return null;
+  }
 }
 
 export async function loadSoviaTestStats(): Promise<SoviaTestStats | null> {
@@ -108,8 +112,7 @@ export async function loadSoviaTestStats(): Promise<SoviaTestStats | null> {
         count: result._count.resultCode,
       })),
     };
-  } catch (error) {
-    console.warn("Failed to load SOVIA test stats.", error);
+  } catch {
     return null;
   }
 }
