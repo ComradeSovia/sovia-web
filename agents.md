@@ -32,6 +32,7 @@ This file is for AI coding agents working in this repository. Its goals are to r
 - Because the App Router lives in `src/app`, the active proxy entry must be `src/proxy.ts`. A root-level `proxy.ts` will not be picked up for this project layout.
 - Keep shared interception logic in `middleware.ts` only when it is re-exported through `src/proxy.ts`; otherwise direct URL entry may bypass the logic in dev/runtime.
 - If locale routing changes, verify both direct browser entry and client-side navigation. In particular, `/test` should normalize to `/{siteLocale}/test/{testLocale}`.
+- For internal navigation, use Next.js `Link` from `next/link` instead of a raw `<a>` whenever possible. Keep raw anchors for external URLs, downloads, mail/tel links, or cases where native anchor behavior is explicitly required.
 
 ## Implementation Rules
 
@@ -54,6 +55,7 @@ This file is for AI coding agents working in this repository. Its goals are to r
 - Keep Tailwind classes readable; avoid unnecessary complex dynamic class construction.
 - Components should behave well responsively, especially on mobile. Avoid text overflow and layout overlap.
 - Buttons, forms, navigation, and other interactions should follow the existing component style.
+- For internal navigation, use Next.js `Link` from `next/link` whenever possible instead of a raw `<a>` tag. Keep raw anchors for external URLs, downloads, special protocols, or cases where native anchor behavior is specifically required.
 - Important public links that should stay discoverable site-wide can be added to the footer in `src/features/layout/ui/layout-footer.tsx`, preferably using existing route constants and localized labels.
 - `lucide-react` is installed; prefer it for common icons.
 
