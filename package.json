@@ -8,6 +8,7 @@
     "build": "next build",
     "db:push": "prisma db push",
     "prisma:generate": "prisma generate",
+    "thumbnails:prewarm": "node scripts/prewarm-u2b-thumbnails.mjs",
     "start": "next start",
     "lint": "biome check",
     "lint:fix": "biome check --fix",
