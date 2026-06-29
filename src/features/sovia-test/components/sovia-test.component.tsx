@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import "../styles/sovia-test.module.css";
 import { Routes } from "@sovia/shared";
 import {
   matchSiteLocale,

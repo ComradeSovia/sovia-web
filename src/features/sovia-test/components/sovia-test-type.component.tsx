@@ -1,5 +1,6 @@
 "use client";
 
+import "../styles/sovia-test.module.css";
 import Link from "next/link";
 import type { SoviaTestStats } from "../data/submissions";
 import {

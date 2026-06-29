@@ -91,44 +91,6 @@ html[lang="zh-TW"] body {
   --font-sovia-site: var(--font-noto-sans-tc);
 }
 
-html::before {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483647;
-  pointer-events: none;
-  content: "";
-  background: rgb(var(--air-con-tint, 105 171 255) / 1);
-  mix-blend-mode: color;
-  opacity: 0;
-  transition: opacity 4000ms ease;
-}
-
-:root[data-air-con="cool"] body,
-:root[data-air-con="warm"] body {
-  filter: saturate(var(--air-con-saturation, 0.9))
-    brightness(var(--air-con-brightness, 1))
-    contrast(var(--air-con-contrast, 0.98));
-}
-
-:root[data-air-con="cool"]::before,
-:root[data-air-con="warm"]::before {
-  opacity: var(--air-con-tint-opacity, 0.12);
-}
-
-:root[data-theme="dark"] .air-con-control-button,
-:root[data-theme="dark"] .air-con-control-label,
-:root[data-theme="dark"] .air-con-control-value {
-  color: rgb(244 236 214);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .air-con-control-button,
-  :root:not([data-theme="light"]) .air-con-control-label,
-  :root:not([data-theme="light"]) .air-con-control-value {
-    color: rgb(244 236 214);
-  }
-}
-
 /* =========================
    Text selection highlight
    ========================= */
@@ -448,79 +410,6 @@ a:hover {
 .card .btn-outline {
   font-size: 0.72rem;
   letter-spacing: 0.09em;
-}
-
-.sovia-test-ui {
-  overflow-wrap: break-word;
-}
-
-.sovia-test-ui h1,
-.sovia-test-ui h2 {
-  max-width: min(18ch, 100%);
-  line-height: 1.05;
-  overflow-wrap: anywhere;
-  word-break: normal;
-  hyphens: none;
-}
-
-.sovia-test-ui .manifesto {
-  background:
-    linear-gradient(104deg, rgb(var(--red)) 0 19%, transparent 19%),
-    rgb(var(--paper));
-}
-
-.sovia-test-ui .sovia-type-title {
-  max-width: 100%;
-  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
-  line-height: 1.08;
-  text-wrap: balance;
-}
-
-.sovia-test-ui .sovia-page-title,
-.sovia-test-ui .sovia-types-title {
-  max-width: 100%;
-  font-size: clamp(2.1rem, 5vw, 3.5rem);
-  line-height: 1.05;
-  text-wrap: balance;
-}
-
-.sovia-test-ui .sovia-result-title {
-  max-width: 100%;
-  font-size: clamp(1.65rem, 4.2vw, 3.2rem);
-  line-height: 1.08;
-  overflow-wrap: anywhere;
-  text-wrap: balance;
-}
-
-.sovia-test-ui .sovia-type-code {
-  font-size: clamp(1.45rem, 3vw, 2.1rem);
-}
-
-.sovia-test-ui p {
-  overflow-wrap: break-word;
-}
-
-.sovia-test-ui .meta {
-  line-height: 1.25;
-  letter-spacing: 0.1em;
-}
-
-.sovia-test-ui .btn-primary,
-.sovia-test-ui .btn-outline {
-  max-width: 100%;
-  white-space: normal;
-  text-align: center;
-  line-height: 1.15;
-  letter-spacing: 0.08em;
-}
-
-.sovia-test-ui .btn-primary:disabled,
-.sovia-test-ui .btn-outline:disabled,
-.sovia-test-ui .btn-primary[aria-disabled="true"],
-.sovia-test-ui .btn-outline[aria-disabled="true"] {
-  cursor: not-allowed;
-  opacity: 0.45;
-  transform: none;
 }
 
 /* =========================

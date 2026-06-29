@@ -1,0 +1,72 @@
+:global(.sovia-test-ui) {
+  overflow-wrap: break-word;
+}
+
+:global(.sovia-test-ui h1),
+:global(.sovia-test-ui h2) {
+  max-width: min(18ch, 100%);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: none;
+}
+
+:global(.sovia-test-ui .manifesto) {
+  background:
+    linear-gradient(104deg, rgb(var(--red)) 0 19%, transparent 19%),
+    rgb(var(--paper));
+}
+
+:global(.sovia-test-ui .sovia-type-title) {
+  max-width: 100%;
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+:global(.sovia-test-ui .sovia-page-title),
+:global(.sovia-test-ui .sovia-types-title) {
+  max-width: 100%;
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+:global(.sovia-test-ui .sovia-result-title) {
+  max-width: 100%;
+  font-size: clamp(1.65rem, 4.2vw, 3.2rem);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+:global(.sovia-test-ui .sovia-type-code) {
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+}
+
+:global(.sovia-test-ui p) {
+  overflow-wrap: break-word;
+}
+
+:global(.sovia-test-ui .meta) {
+  line-height: 1.25;
+  letter-spacing: 0.1em;
+}
+
+:global(.sovia-test-ui .btn-primary),
+:global(.sovia-test-ui .btn-outline) {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+}
+
+:global(.sovia-test-ui .btn-primary:disabled),
+:global(.sovia-test-ui .btn-outline:disabled),
+:global(.sovia-test-ui .btn-primary[aria-disabled="true"]),
+:global(.sovia-test-ui .btn-outline[aria-disabled="true"]) {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+}

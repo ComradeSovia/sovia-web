@@ -1,5 +1,6 @@
 "use client";
 
+import "../styles/air-con.module.css";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import {
   Fan,
