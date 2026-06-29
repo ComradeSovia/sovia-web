@@ -9,7 +9,7 @@ export const SITE_DESCRIPTION = copy.site.description;
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
-  "https://sovia.app";
+  "https://sovia.work";
 
 export const SITE_URL = rawSiteUrl.replace(/\/$/, "");
 
