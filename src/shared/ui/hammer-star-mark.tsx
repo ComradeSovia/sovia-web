@@ -23,7 +23,7 @@ export function HammerStarMark({
           alt=""
           className="size-full object-cover"
           height={48}
-          priority
+          sizes="48px"
           src={iconImage}
           width={48}
         />

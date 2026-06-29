@@ -13,6 +13,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  getSoviaTestTypeImage,
+  SOVIA_TEST_BANNER_IMAGE,
+} from "../assets/images";
 import songRecommendations from "../data/song-recommendations.json";
 import type { SoviaTestStats } from "../data/submissions";
 import {
@@ -355,6 +359,7 @@ function SoviaTestStatsPanel({
                 const isDimmed = Boolean(activeChartKey) && !isActive;
 
                 return (
+                  // biome-ignore lint/a11y/useSemanticElements: SVG chart segments need pointer and keyboard interaction inside the chart.
                   <circle
                     aria-label={`${segment.key} ${segment.label}`}
                     className="cursor-pointer fill-none transition-all duration-150 focus:outline-none"
@@ -441,9 +446,7 @@ function SoviaTestStatsPanel({
           )}
         </div>
       ) : (
-        <p className="text-sm font-medium leading-relaxed">
-          {statsCopy.empty}
-        </p>
+        <p className="text-sm font-medium leading-relaxed">{statsCopy.empty}</p>
       )}
     </div>
   );
@@ -1015,9 +1018,7 @@ async function createSoviaResultPng(input: ResultImageInput) {
   }
 
   const width = 1600;
-  const portrait = await loadCanvasImage(
-    `${window.location.origin}/img/sovia-test/code/${input.code.toLowerCase()}.jpg`,
-  );
+  const portrait = await loadCanvasImage(getSoviaTestTypeImage(input.code).src);
   const qrImage = await loadQrCodeImage(input.resultUrl);
   canvas.width = width;
   canvas.height = 100;
@@ -2171,7 +2172,7 @@ export function SoviaTestComponent({
     try {
       if (navigator.share) {
         const imageResponse = await fetch(
-          `/img/sovia-test/code/${result.code.toLowerCase()}.jpg`,
+          getSoviaTestTypeImage(result.code).src,
         );
         const imageBlob = await imageResponse.blob();
         const imageFile = new File(
@@ -2276,9 +2277,10 @@ export function SoviaTestComponent({
           alt={copy.page.title}
           className="w-full border-[3px] border-ink bg-paper object-cover shadow-[8px_8px_0_rgb(var(--red))]"
           height={1882}
+          placeholder="blur"
           priority
           sizes="100vw"
-          src="/img/sovia-test/banner.jpg"
+          src={SOVIA_TEST_BANNER_IMAGE}
           width={3344}
         />
         <div className="manifesto grid gap-8 md:grid-cols-[22rem_1fr]">
@@ -2310,12 +2312,9 @@ export function SoviaTestComponent({
               <button className="btn-primary" onClick={start} type="button">
                 {copy.actions.start}
               </button>
-                <Link
-                  className="btn-outline"
-                  href={localizedPath("/test/types")}
-                >
-                  {copy.actions.types}
-                </Link>
+              <Link className="btn-outline" href={localizedPath("/test/types")}>
+                {copy.actions.types}
+              </Link>
             </div>
           </div>
         </div>

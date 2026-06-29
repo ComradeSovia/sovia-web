@@ -2,6 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import {
+  getSoviaTestTypeImage,
+  SOVIA_TEST_ALL_TYPES_IMAGE,
+} from "../assets/images";
 import type { SoviaTestStats } from "../data/submissions";
 import {
   getSoviaTestLocalizedPath,
@@ -42,9 +46,10 @@ export function SoviaTestTypesComponent({
         alt={copy.typesPage.title}
         className="w-full border-[3px] border-ink bg-paper object-cover shadow-[8px_8px_0_rgb(var(--red))]"
         height={3764}
+        placeholder="blur"
         priority
         sizes="100vw"
-        src="/img/sovia-test/all_types.jpg"
+        src={SOVIA_TEST_ALL_TYPES_IMAGE}
         width={6688}
       />
       <div className="manifesto grid gap-8 md:grid-cols-[16rem_1fr]">
@@ -65,9 +70,9 @@ export function SoviaTestTypesComponent({
           <p className="text-base font-medium leading-relaxed">
             {copy.typesPage.intro}
           </p>
-            <Link className="btn-primary" href={localizedPath("/test")}>
-              {copy.typesPage.startTestLabel}
-            </Link>
+          <Link className="btn-primary" href={localizedPath("/test")}>
+            {copy.typesPage.startTestLabel}
+          </Link>
         </div>
       </div>
 
@@ -85,8 +90,9 @@ export function SoviaTestTypesComponent({
                 alt={`${code} ${archetype.title}`}
                 className="relative z-10 aspect-square w-full border-[3px] border-ink bg-paper object-cover shadow-[6px_6px_0_rgb(var(--red))]"
                 height={1254}
+                placeholder="blur"
                 sizes="(min-width: 768px) 50vw, 100vw"
-                src={`/img/sovia-test/code/${code.toLowerCase()}.jpg`}
+                src={getSoviaTestTypeImage(code)}
                 width={1254}
               />
 

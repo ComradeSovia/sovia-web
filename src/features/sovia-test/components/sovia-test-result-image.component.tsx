@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getSoviaTestTypeImage } from "../assets/images";
 
 type SoviaTestResultImageProps = {
   code: string;
@@ -13,7 +14,7 @@ export function SoviaTestResultImage({
   title,
 }: SoviaTestResultImageProps) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const imageSrc = `/img/sovia-test/code/${code.toLowerCase()}.jpg`;
+  const imageSrc = getSoviaTestTypeImage(code);
   const imageAlt = `${code} ${title}`;
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function SoviaTestResultImage({
           alt={imageAlt}
           className="aspect-square w-full border-[2px] border-ink object-cover"
           height={1254}
+          placeholder="blur"
           priority
           sizes="(min-width: 768px) 22rem, 100vw"
           src={imageSrc}
@@ -79,6 +81,7 @@ export function SoviaTestResultImage({
                 alt={imageAlt}
                 className="max-h-[calc(100vh-7rem)] w-full object-contain"
                 height={1254}
+                placeholder="blur"
                 sizes="100vw"
                 src={imageSrc}
                 width={1254}

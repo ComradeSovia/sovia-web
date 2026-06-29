@@ -6,6 +6,7 @@ import {
   Noto_Sans_SC,
   Noto_Sans_TC,
 } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { GoogleAnalytics, SITE_URL } from "@sovia/shared";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
@@ -14,29 +15,51 @@ import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { ReactNode } from "react";
 
 const notoSans = Noto_Sans({
+  display: "swap",
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   variable: "--font-noto-sans",
 });
 
 const notoSansJp = Noto_Sans_JP({
+  display: "swap",
+  preload: false,
   subsets: ["latin", "latin-ext", "cyrillic"],
   variable: "--font-noto-sans-jp",
 });
 
 const notoSansKr = Noto_Sans_KR({
+  display: "swap",
+  preload: false,
   subsets: ["latin", "latin-ext", "cyrillic"],
   variable: "--font-noto-sans-kr",
 });
 
 const notoSansSc = Noto_Sans_SC({
+  display: "swap",
+  preload: false,
   subsets: ["latin", "latin-ext", "cyrillic"],
   variable: "--font-noto-sans-sc",
 });
 
 const notoSansTc = Noto_Sans_TC({
+  display: "swap",
+  preload: false,
   subsets: ["latin", "latin-ext", "cyrillic"],
   variable: "--font-noto-sans-tc",
 });
+
+const themeInitScript = `
+try {
+  var theme = window.localStorage.getItem("sovia-theme");
+  if (theme === "light" || theme === "dark") {
+    document.documentElement.dataset.theme = theme;
+  } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.documentElement.dataset.theme = "dark";
+  } else {
+    document.documentElement.dataset.theme = "light";
+  }
+} catch (_) {}
+`;
 
 function getSiteFontVariable(locale: string) {
   switch (locale) {
@@ -111,7 +134,12 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
       <head>
-        <script src="/theme-init.js" />
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Small inline theme bootstrap avoids an extra render-blocking request.
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
       </head>
       <body
         className={`${getSiteFontVariable(locale)} min-h-full bg-paper font-sans text-ink antialiased`}

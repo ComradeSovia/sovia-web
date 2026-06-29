@@ -1,7 +1,7 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
+import Script from "next/script";
 import { Suspense, useEffect } from "react";
 
 const GA_MEASUREMENT_ID =

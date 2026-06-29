@@ -80,15 +80,12 @@ export function SoviaTestTypeComponent({
               {archetype.description}
             </p>
             <div className="flex flex-wrap gap-5">
-                <Link className="btn-primary" href={localizedPath("/test")}>
-                  {copy.typesPage.startTestLabel}
-                </Link>
-                <Link
-                  className="btn-outline"
-                  href={localizedPath("/test/types")}
-                >
-                  {copy.actions.types}
-                </Link>
+              <Link className="btn-primary" href={localizedPath("/test")}>
+                {copy.typesPage.startTestLabel}
+              </Link>
+              <Link className="btn-outline" href={localizedPath("/test/types")}>
+                {copy.actions.types}
+              </Link>
             </div>
           </div>
         </div>

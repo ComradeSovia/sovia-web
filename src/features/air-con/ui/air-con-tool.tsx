@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AIR_CON_BANNERS, AIR_CON_STANDBY_BANNER } from "../assets/images";
 
 type Mode = "cool" | "dry" | "fan" | "auto";
 
@@ -42,14 +43,6 @@ const START_BRIDGE_MS = START_BRIDGE_SECONDS * 1000;
 const FAN_RESPONSE_DELAY_MS = 520;
 const FAN_VOLUME_FADE_MS = 1800;
 const POWER_OFF_FADE_MS = 2400;
-const AIRCON_STANDBY_BANNER_SRC = "/img/aircon/banner.jpg";
-const airConBanners = [
-  { min: 16, max: 19, src: "/img/aircon/banner16-19.jpg" },
-  { min: 20, max: 21, src: "/img/aircon/banner20-21.jpg" },
-  { min: 22, max: 26, src: "/img/aircon/banner22-26.jpg" },
-  { min: 27, max: 28, src: "/img/aircon/banner27-28.jpg" },
-  { min: 29, max: 30, src: "/img/aircon/banner29-30.jpg" },
-] as const;
 
 function applyFanSound(rig: AudioRig, fanSpeed: number) {
   const nextVolume = getLoopVolume(fanSpeed);
@@ -763,13 +756,13 @@ function AirConBanner({
 }) {
   const activeBanner =
     (isOn && mode !== "fan"
-      ? airConBanners.find(
+      ? AIR_CON_BANNERS.find(
           (banner) => temperature >= banner.min && temperature <= banner.max,
         )?.src
-      : AIRCON_STANDBY_BANNER_SRC) ?? airConBanners[2].src;
+      : AIR_CON_STANDBY_BANNER) ?? AIR_CON_BANNERS[2].src;
   const bannerSources = [
-    AIRCON_STANDBY_BANNER_SRC,
-    ...airConBanners.map((banner) => banner.src),
+    AIR_CON_STANDBY_BANNER,
+    ...AIR_CON_BANNERS.map((banner) => banner.src),
   ];
 
   return (
@@ -786,7 +779,8 @@ function AirConBanner({
                 isActive ? "opacity-100" : "opacity-0"
               }`}
               fill
-              key={src}
+              key={src.src}
+              placeholder="blur"
               priority={isActive}
               sizes="(min-width: 1024px) 960px, 100vw"
               src={src}
