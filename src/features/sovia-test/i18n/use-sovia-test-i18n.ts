@@ -27,6 +27,10 @@ function getSiteLocaleFromPath(pathname: string) {
 }
 
 function getSiteLocaleFromCookie() {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
   const cookie = document.cookie
     .split(";")
     .map((entry) => entry.trim())
@@ -37,6 +41,10 @@ function getSiteLocaleFromCookie() {
 }
 
 function getSavedSiteLocale() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   const savedLocale = window.localStorage.getItem(SITE_LOCALE_STORAGE_KEY);
   return (
     (savedLocale ? matchSiteLocale(savedLocale) : null) ??
@@ -44,7 +52,10 @@ function getSavedSiteLocale() {
   );
 }
 
-function getLocalizedPath(pathname: string, nextLocale: SoviaTestLocale) {
+export function getSoviaTestClientLocalizedPath(
+  pathname: string,
+  nextLocale: SoviaTestLocale,
+) {
   const siteLocale = getSiteLocaleFromPath(pathname) ?? getSavedSiteLocale();
   const pathWithoutSiteLocale = siteLocale
     ? stripSiteLocaleFromPath(pathname)
@@ -117,7 +128,7 @@ export function useSoviaTestI18n(initialLocale?: SoviaTestLocale) {
     document.cookie = `${SOVIA_TEST_LOCALE_STORAGE_KEY}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; samesite=lax`;
     const url = new URL(window.location.href);
 
-    url.pathname = getLocalizedPath(url.pathname, nextLocale);
+    url.pathname = getSoviaTestClientLocalizedPath(url.pathname, nextLocale);
     url.searchParams.delete("lang");
 
     window.history.replaceState(null, "", url);

@@ -10,6 +10,7 @@ import {
 } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { Check, ChevronDown, Languages } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { LayoutCopy } from "../i18n/copy";
@@ -78,6 +79,19 @@ export function SiteLanguageSwitcher({
     [pathname, router, searchParamsString],
   );
 
+  const getLocaleHref = useCallback(
+    (nextLocale: SiteLocale) => {
+      const nextSearchParams = new URLSearchParams(searchParamsString);
+      nextSearchParams.delete("lang");
+
+      const query = nextSearchParams.toString();
+      const nextPath = getSiteLocalizedPath(pathname, nextLocale);
+
+      return query ? `${nextPath}?${query}` : nextPath;
+    },
+    [pathname, searchParamsString],
+  );
+
   useEffect(() => {
     const nextLocale = getInitialLocale(serverLocale);
     setLocale(nextLocale);
@@ -104,8 +118,6 @@ export function SiteLanguageSwitcher({
     setIsOpen(false);
     window.localStorage.setItem(SITE_LOCALE_STORAGE_KEY, nextLocale);
     writeSiteLocaleCookie(nextLocale);
-    replaceLocaleUrl(nextLocale);
-    router.refresh();
   }
 
   return (
@@ -140,7 +152,7 @@ export function SiteLanguageSwitcher({
             const isSelected = availableLocale === locale;
 
             return (
-              <button
+              <Link
                 aria-selected={isSelected}
                 className={[
                   "grid w-full grid-cols-[1rem_1fr] items-center gap-2 px-2 py-2 text-left transition-colors",
@@ -148,10 +160,10 @@ export function SiteLanguageSwitcher({
                     ? "bg-red text-relief"
                     : "hover-bg-yellow hover-text-block",
                 ].join(" ")}
+                href={getLocaleHref(availableLocale)}
                 key={availableLocale}
                 onClick={() => updateLocale(availableLocale)}
                 role="option"
-                type="button"
               >
                 <span className="grid place-items-center">
                   {isSelected ? (
@@ -159,7 +171,7 @@ export function SiteLanguageSwitcher({
                   ) : null}
                 </span>
                 <span>{SITE_LOCALE_LABELS[availableLocale]}</span>
-              </button>
+              </Link>
             );
           })}
         </div>
