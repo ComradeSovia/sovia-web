@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+const CACHE_CONTROL = "public, max-age=604800, stale-while-revalidate=2592000";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const videoId = searchParams.get("id");
@@ -26,7 +28,7 @@ export async function GET(request: Request) {
     return new NextResponse(thumbnail.blurDataUrl, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Cache-Control": "public, max-age=86400",
+        "Cache-Control": CACHE_CONTROL,
       },
     });
   }
@@ -34,7 +36,7 @@ export async function GET(request: Request) {
   return new NextResponse(thumbnail.bytes, {
     headers: {
       "Content-Type": "image/jpeg",
-      "Cache-Control": "public, max-age=86400",
+      "Cache-Control": CACHE_CONTROL,
     },
   });
 }

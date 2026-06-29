@@ -89,6 +89,12 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
     return () => controller.abort();
   }, [nearViewport, resolvedBlurDataURL, u2bId]);
 
+  useEffect(() => {
+    if (nearViewport) {
+      setShouldRenderImage(true);
+    }
+  }, [nearViewport]);
+
   return (
     <div
       ref={containerRef}
