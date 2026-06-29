@@ -4,18 +4,23 @@
     "title": "同志蘇維雅 | 蘇維埃風格動漫音樂檔案",
     "description": "瀏覽同志蘇維雅的蘇維埃風格動漫與遊戲音樂改編、歌詞、YouTube 影片和檔案筆記。",
     "keywords": [
+      "Comrade Sovia",
+      "Sovia",
+      "Sovia Rabocheva",
+      "Soviet Ver.",
+      "YouTuber",
+      "VTuber",
+      "Sovia同志",
       "同志蘇維雅",
       "蘇維雅",
-      "蘇維埃音樂",
-      "動漫音樂",
-      "動漫歌曲翻唱",
-      "蘇維埃合唱",
-      "YouTube 音樂檔案"
+      "獨立遊戲開發者",
+      "蘇維埃",
+      "蘇聯"
     ]
   },
   "routes": {
     "center": "中心",
-    "about": "關於蘇維婭",
+    "about": "關於蘇維雅",
     "sound": "歌曲",
     "test": "SOVIA測試",
     "tools": "工具",
