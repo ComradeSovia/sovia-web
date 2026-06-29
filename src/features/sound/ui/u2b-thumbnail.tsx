@@ -15,9 +15,21 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
   const [resolvedBlurDataURL, setResolvedBlurDataURL] = useState(
     blurDataURL ?? null,
   );
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [shouldRenderImage, setShouldRenderImage] = useState(
     Boolean(blurDataURL),
   );
+
+  useEffect(() => {
+    if (!u2bId) {
+      return;
+    }
+
+    setNearViewport(Boolean(blurDataURL));
+    setResolvedBlurDataURL(blurDataURL ?? null);
+    setShouldRenderImage(Boolean(blurDataURL));
+    setImageLoaded(false);
+  }, [blurDataURL, u2bId]);
 
   useEffect(() => {
     if (nearViewport) {
@@ -78,23 +90,34 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
   }, [nearViewport, resolvedBlurDataURL, u2bId]);
 
   return (
-    <div ref={containerRef} className="aspect-video w-full bg-paper">
+    <div
+      ref={containerRef}
+      className="relative aspect-video w-full overflow-hidden border-[3px] border-ink bg-paper"
+    >
+      {resolvedBlurDataURL && (
+        <div
+          aria-hidden="true"
+          className={`absolute inset-0 scale-105 bg-cover bg-center blur-md transition-opacity duration-500 ${
+            imageLoaded ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ backgroundImage: `url(${resolvedBlurDataURL})` }}
+        />
+      )}
+
       {shouldRenderImage ? (
         <Image
           alt={alt}
-          blurDataURL={resolvedBlurDataURL ?? undefined}
-          className="aspect-video w-full border-[3px] border-ink object-cover"
-          height={270}
-          placeholder={resolvedBlurDataURL ? "blur" : "empty"}
+          className={`object-cover transition-opacity duration-500 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          fill
+          onLoad={() => setImageLoaded(true)}
+          sizes="(min-width: 768px) 50vw, 100vw"
           src={`/api/u2b-thumbnail?id=${u2bId}`}
           unoptimized
-          width={480}
         />
       ) : (
-        <div
-          aria-hidden="true"
-          className="aspect-video w-full border-[3px] border-ink bg-paper"
-        />
+        <div aria-hidden="true" className="absolute inset-0 bg-paper" />
       )}
     </div>
   );
