@@ -44,7 +44,7 @@ export function SoviaTestTypesComponent({
         onLocaleChange={setLocale}
       />
       <Image
-        alt={copy.typesPage.title}
+        alt={`${copy.typesPage.title} - ${copy.typesPage.subtitle}`}
         className="w-full border-[3px] border-ink bg-paper object-cover shadow-[8px_8px_0_rgb(var(--red))]"
         height={3764}
         placeholder="blur"
@@ -88,7 +88,7 @@ export function SoviaTestTypesComponent({
               key={code}
             >
               <Image
-                alt={`${code} ${archetype.title}`}
+                alt={`${copy.typesPage.detailLabel}: ${code} ${archetype.title}`}
                 className="relative z-10 aspect-square w-full border-[3px] border-ink bg-paper object-cover shadow-[6px_6px_0_rgb(var(--red))]"
                 height={1254}
                 placeholder="blur"

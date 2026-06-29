@@ -1,4 +1,4 @@
-import { SITE_DESCRIPTION, SITE_NAME } from "@sovia/shared";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from "@sovia/shared";
 import { ImageResponse } from "next/og";
 
 export const size = {
@@ -35,8 +35,8 @@ export default function Image() {
           textTransform: "uppercase",
         }}
       >
-        <span>Sound Archive</span>
-        <span style={{ color: "#b91c1c" }}>YouTube Music</span>
+        <span>Music & Creative Works</span>
+        <span style={{ color: "#b91c1c" }}>Sovia Archive</span>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -49,6 +49,16 @@ export default function Image() {
           }}
         >
           {SITE_NAME}
+        </div>
+        <div
+          style={{
+            width: 760,
+            fontSize: 44,
+            lineHeight: 1.05,
+            fontWeight: 900,
+          }}
+        >
+          {SITE_TITLE.replace(`${SITE_NAME} | `, "")}
         </div>
         <div
           style={{

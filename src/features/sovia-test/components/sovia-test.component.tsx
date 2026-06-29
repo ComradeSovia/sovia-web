@@ -2275,7 +2275,7 @@ export function SoviaTestComponent({
           onLocaleChange={setLocale}
         />
         <NextImage
-          alt={copy.page.title}
+          alt={`${copy.page.title} - ${copy.page.subtitle}`}
           className="w-full border-[3px] border-ink bg-paper object-cover shadow-[8px_8px_0_rgb(var(--red))]"
           height={1882}
           placeholder="blur"
@@ -2634,7 +2634,7 @@ export function SoviaTestComponent({
             <div className="space-y-4 pt-4">
               <div className="meta">{copy.certificate.resultImageLabel}</div>
               <NextImage
-                alt={`${result.code} ${result.archetype.title} result poster`}
+                alt={`${copy.certificate.resultImageLabel}: ${result.code} ${result.archetype.title}`}
                 className="w-full border-[3px] border-ink bg-paper shadow-[8px_8px_0_rgb(var(--red))]"
                 height={generatedResultImageSize.height}
                 sizes="100vw"

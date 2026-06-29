@@ -37,7 +37,7 @@ export function SoundDetail({ work }: { work: MusicWorkWithContent }) {
 
       {work.u2bId && (
         <U2BThumbnail
-          alt={work.title}
+          alt={`YouTube thumbnail for ${work.title}`}
           blurDataURL={work.thumbnailBlurDataUrl}
           u2bId={work.u2bId}
         />

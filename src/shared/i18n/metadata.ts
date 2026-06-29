@@ -28,6 +28,12 @@ type SiteMetadataOptions = {
   title: string;
 };
 
+const DEFAULT_OPEN_GRAPH_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+};
+
 export function formatPageTitle(title: string, siteName: string) {
   return `${title} | ${siteName}`;
 }
@@ -40,21 +46,37 @@ export function createSiteMetadata({
   robots,
   title,
 }: SiteMetadataOptions): Metadata {
+  const copy = getSharedCopy(locale);
+  const canonicalUrl = siteUrl(getSiteLocalizedPath(path, locale));
+  const openGraphTitle = openGraph?.title ?? title;
+  const openGraphDescription = openGraph?.description ?? description;
+  const openGraphImages = openGraph?.images ?? [
+    {
+      ...DEFAULT_OPEN_GRAPH_IMAGE,
+      alt: openGraphTitle,
+    },
+  ];
+
   return {
     title,
     description,
     alternates: getSiteMetadataAlternates(path, locale),
     ...(robots ? { robots } : {}),
-    ...(openGraph
-      ? {
-          openGraph: {
-            title: openGraph.title ?? title,
-            description: openGraph.description ?? description,
-            url: openGraph.url ?? siteUrl(getSiteLocalizedPath(path, locale)),
-            ...(openGraph.images ? { images: openGraph.images } : {}),
-          },
-        }
-      : {}),
+    openGraph: {
+      type: "website",
+      locale: locale.replace("-", "_"),
+      siteName: copy.site.name,
+      title: openGraphTitle,
+      description: openGraphDescription,
+      url: openGraph?.url ?? canonicalUrl,
+      images: openGraphImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: openGraphTitle,
+      description: openGraphDescription,
+      images: openGraphImages,
+    },
   };
 }
 

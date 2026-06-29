@@ -19,7 +19,7 @@ export function SoundCard({
   return (
     <div className="card flex flex-col gap-4">
       <U2BThumbnail
-        alt={work.title}
+        alt={`YouTube thumbnail for ${work.title}`}
         blurDataURL={work.thumbnailBlurDataUrl}
         u2bId={work.u2bId}
       />
