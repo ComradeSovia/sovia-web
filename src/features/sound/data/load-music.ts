@@ -3,6 +3,7 @@ import path from "node:path";
 import { DATA_CACHE_DIR } from "@sovia/shared/config/data";
 import type { MusicWork, MusicWorkWithContent } from "../model/music";
 import { getMusicWorkByPath, listMusicWorks } from "./music-repository";
+import { readThumbnailBlurDataUrl } from "./thumbnail-cache";
 
 const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
 
@@ -79,7 +80,10 @@ export async function loadAllMusicWorks(): Promise<MusicWork[]> {
     const ok = await checkYouTubeThumbnail(work.u2bId);
     if (!ok) continue;
 
-    result.push(work);
+    result.push({
+      ...work,
+      thumbnailBlurDataUrl: await readThumbnailBlurDataUrl(work.u2bId),
+    });
   }
 
   return result;
@@ -88,7 +92,16 @@ export async function loadAllMusicWorks(): Promise<MusicWork[]> {
 export async function loadMusicWorkWithContent(
   workPath: string,
 ): Promise<MusicWorkWithContent | null> {
-  return getMusicWorkByPath(workPath);
+  const work = await getMusicWorkByPath(workPath);
+
+  if (!work?.u2bId) {
+    return work;
+  }
+
+  return {
+    ...work,
+    thumbnailBlurDataUrl: await readThumbnailBlurDataUrl(work.u2bId),
+  };
 }
 
 export async function getAvailableLanguages(

@@ -1,58 +1,40 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { DATA_CACHE_DIR } from "@sovia/shared";
+import { ensureYouTubeThumbnailCache } from "@sovia/sound/data/thumbnail-cache";
 import { NextResponse } from "next/server";
 
-const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
-
-function getThumbnailCachePath(videoId: string) {
-  return path.join(THUMBNAIL_CACHE_DIR, `${videoId}.jpg`);
-}
+export const runtime = "nodejs";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const videoId = searchParams.get("id");
+  const format = searchParams.get("format");
 
   if (!videoId || !/^[\w-]+$/.test(videoId)) {
     return new NextResponse("Missing video id", { status: 400 });
   }
 
-  const cachePath = getThumbnailCachePath(videoId);
+  if (format && format !== "blur") {
+    return new NextResponse("Unsupported thumbnail format", { status: 400 });
+  }
 
-  try {
-    const cached = await fs.readFile(cachePath);
-    return new NextResponse(cached, {
+  const thumbnail = await ensureYouTubeThumbnailCache(videoId);
+
+  if (!thumbnail.exists || !thumbnail.bytes) {
+    return new NextResponse("Thumbnail not found", { status: 404 });
+  }
+
+  if (format === "blur") {
+    return new NextResponse(thumbnail.blurDataUrl, {
       headers: {
-        "Content-Type": "image/jpeg",
+        "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "public, max-age=86400",
       },
     });
-  } catch {}
-
-  const sources = ["maxresdefault.jpg", "hqdefault.jpg", "mqdefault.jpg"];
-
-  for (const file of sources) {
-    const url = `https://img.youtube.com/vi/${videoId}/${file}`;
-    const res = await fetch(url, {
-      headers: { "User-Agent": "Mozilla/5.0" },
-      cache: "force-cache",
-    });
-
-    if (res.ok) {
-      const buffer = await res.arrayBuffer();
-      const bytes = Buffer.from(buffer);
-
-      await fs.mkdir(THUMBNAIL_CACHE_DIR, { recursive: true });
-      await fs.writeFile(cachePath, bytes);
-
-      return new NextResponse(buffer, {
-        headers: {
-          "Content-Type": "image/jpeg",
-          "Cache-Control": "public, max-age=86400",
-        },
-      });
-    }
   }
 
-  return new NextResponse("Thumbnail not found", { status: 404 });
+  return new NextResponse(thumbnail.bytes, {
+    headers: {
+      "Content-Type": "image/jpeg",
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
 }

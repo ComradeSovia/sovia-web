@@ -4,6 +4,7 @@ export interface MusicWork {
   title: string;
   original?: string | null;
   u2bId?: string | null;
+  thumbnailBlurDataUrl?: string | null;
   series?: string | null;
 }
 

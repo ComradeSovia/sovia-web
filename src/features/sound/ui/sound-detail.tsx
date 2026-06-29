@@ -46,7 +46,13 @@ export function SoundDetail({ work }: { work: MusicWorkWithContent }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {work.u2bId && <U2BThumbnail u2bId={work.u2bId} alt={work.title} />}
+      {work.u2bId && (
+        <U2BThumbnail
+          alt={work.title}
+          blurDataURL={work.thumbnailBlurDataUrl}
+          u2bId={work.u2bId}
+        />
+      )}
 
       <header className="space-y-3">
         <h1 className="text-4xl leading-none sm:text-5xl">{work.title}</h1>
