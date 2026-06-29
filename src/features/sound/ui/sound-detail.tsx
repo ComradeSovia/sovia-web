@@ -1,6 +1,8 @@
-import { SITE_NAME, siteUrl } from "@sovia/shared";
+import { siteUrl } from "@sovia/shared";
+import { createMusicRecordingSchema } from "@sovia/shared/seo/schema";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
+import { getWorkDescription } from "../lib/metadata";
 import type { MusicWorkWithContent } from "../model/music";
 import { U2BThumbnail } from "./u2b-thumbnail";
 
@@ -13,30 +15,17 @@ export function SoundDetail({ work }: { work: MusicWorkWithContent }) {
       ? work.descriptions?.[descriptionLangs[0]]
       : null;
   const lyrics = lyricsLangs.length > 0 ? work.lyrics?.[lyricsLangs[0]] : null;
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "MusicRecording",
-    name: work.title,
-    byArtist: {
-      "@type": "MusicGroup",
-      name: SITE_NAME,
-      url: siteUrl("/"),
-    },
-    url: siteUrl(`/sound/${work.path}`),
+  const jsonLd = createMusicRecordingSchema({
+    description: getWorkDescription(work),
     image: work.u2bId
       ? `https://img.youtube.com/vi/${work.u2bId}/maxresdefault.jpg`
       : siteUrl("/opengraph-image"),
-    inAlbum: work.series
-      ? {
-          "@type": "MusicAlbum",
-          name: work.series,
-        }
-      : undefined,
-    isBasedOn: work.original || undefined,
-    sameAs: work.u2bId
-      ? `https://www.youtube.com/watch?v=${work.u2bId}`
-      : undefined,
-  };
+    original: work.original,
+    path: work.path,
+    series: work.series,
+    title: work.title,
+    u2bId: work.u2bId,
+  });
 
   return (
     <section className="mx-auto max-w-3xl space-y-12">

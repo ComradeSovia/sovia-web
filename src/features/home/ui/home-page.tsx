@@ -1,6 +1,6 @@
-import { ORGANIZATION_SAME_AS, siteUrl } from "@sovia/shared";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { createHomePageSchema } from "@sovia/shared/seo/schema";
 import { getHomeCards } from "../data/home-cards";
 import type { HomeCopy } from "../i18n/copy";
 import { HomeCards } from "./home-cards";
@@ -17,28 +17,7 @@ export function HomePage({
   sharedCopy: SharedCopy;
 }) {
   const cards = getHomeCards(copy, sharedCopy, locale);
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        name: sharedCopy.site.name,
-        url: siteUrl("/"),
-        sameAs: ORGANIZATION_SAME_AS,
-      },
-      {
-        "@type": "WebSite",
-        name: sharedCopy.site.name,
-        url: siteUrl("/"),
-        description: sharedCopy.site.description,
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${siteUrl("/sound")}?q={search_term_string}`,
-          "query-input": "required name=search_term_string",
-        },
-      },
-    ],
-  };
+  const jsonLd = createHomePageSchema(sharedCopy);
 
   return (
     <section className="space-y-16">
