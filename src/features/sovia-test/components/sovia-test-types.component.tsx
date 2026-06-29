@@ -30,7 +30,7 @@ export function SoviaTestTypesComponent({
     getSoviaTestLocalizedPath(path, locale);
 
   return (
-    <section className="sovia-test-ui space-y-10">
+    <section className="sovia-test-ui space-y-10" lang={locale}>
       <SoviaTestLanguageSwitcher
         copy={copy}
         locale={locale}

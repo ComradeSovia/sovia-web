@@ -2264,7 +2264,7 @@ export function SoviaTestComponent({
 
   if (screen === "intro") {
     return (
-      <section className="sovia-test-ui space-y-8">
+      <section className="sovia-test-ui space-y-8" lang={locale}>
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2323,7 +2323,7 @@ export function SoviaTestComponent({
 
   if (screen === "demographics") {
     return (
-      <section className="sovia-test-ui space-y-6">
+      <section className="sovia-test-ui space-y-6" lang={locale}>
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2407,7 +2407,7 @@ export function SoviaTestComponent({
 
   if (screen === "result") {
     return (
-      <section className="sovia-test-ui space-y-8">
+      <section className="sovia-test-ui space-y-8" lang={locale}>
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2696,7 +2696,7 @@ export function SoviaTestComponent({
   }
 
   return (
-    <section className="sovia-test-ui space-y-6">
+    <section className="sovia-test-ui space-y-6" lang={locale}>
       <SoviaTestLanguageSwitcher
         copy={copy}
         locale={locale}

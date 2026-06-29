@@ -52,7 +52,7 @@ export function SoviaTestTypeComponent({
   }
 
   return (
-    <section className="sovia-test-ui space-y-8">
+    <section className="sovia-test-ui space-y-8" lang={locale}>
       <SoviaTestLanguageSwitcher
         copy={copy}
         locale={locale}
