@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { SoviaTestStats } from "../data/submissions";
 import {
   getSoviaTestLocalizedPath,
@@ -79,12 +80,15 @@ export function SoviaTestTypeComponent({
               {archetype.description}
             </p>
             <div className="flex flex-wrap gap-5">
-              <a className="btn-primary" href={localizedPath("/test")}>
-                {copy.typesPage.startTestLabel}
-              </a>
-              <a className="btn-outline" href={localizedPath("/test/types")}>
-                {copy.actions.types}
-              </a>
+                <Link className="btn-primary" href={localizedPath("/test")}>
+                  {copy.typesPage.startTestLabel}
+                </Link>
+                <Link
+                  className="btn-outline"
+                  href={localizedPath("/test/types")}
+                >
+                  {copy.actions.types}
+                </Link>
             </div>
           </div>
         </div>

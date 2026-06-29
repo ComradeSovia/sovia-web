@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { SoviaTestStats } from "../data/submissions";
 import {
   getSoviaTestLocalizedPath,
@@ -64,9 +65,9 @@ export function SoviaTestTypesComponent({
           <p className="text-base font-medium leading-relaxed">
             {copy.typesPage.intro}
           </p>
-          <a className="btn-primary" href={localizedPath("/test")}>
-            {copy.typesPage.startTestLabel}
-          </a>
+            <Link className="btn-primary" href={localizedPath("/test")}>
+              {copy.typesPage.startTestLabel}
+            </Link>
         </div>
       </div>
 

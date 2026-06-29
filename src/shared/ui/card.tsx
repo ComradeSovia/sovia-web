@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { RouteItem } from "../model/nav";
 
 export type CardProps = {
@@ -22,9 +23,9 @@ export function Card({
   ) : null;
 
   const buttonComponent = route ? (
-    <a href={route.href} className="btn-primary">
+    <Link href={route.href} className="btn-primary">
       {route.label}
-    </a>
+    </Link>
   ) : null;
 
   const disabledButtonComponent = route ? (

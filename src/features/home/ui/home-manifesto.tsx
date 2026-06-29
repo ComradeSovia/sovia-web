@@ -1,4 +1,5 @@
 import { Routes } from "@sovia/shared";
+import Link from "next/link";
 import type { HomeCopy } from "../i18n/copy";
 
 function renderHighlightedText(text: string, strongTerms: readonly string[]) {
@@ -38,9 +39,9 @@ export function HomeManifesto({ copy }: { copy: HomeCopy }) {
             copy.manifesto.strongTerms,
           )}
         </p>
-        <a className="btn-primary" href={Routes.About.href}>
+        <Link className="btn-primary" href={Routes.About.href}>
           {copy.manifesto.actionLabel}
-        </a>
+        </Link>
       </div>
     </div>
   );

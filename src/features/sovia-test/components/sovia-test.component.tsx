@@ -9,6 +9,7 @@ import { getSoundCopy } from "@sovia/sound/i18n/copy";
 import type { MusicWork } from "@sovia/sound/model/music";
 import { SoundCard } from "@sovia/sound/ui/sound-card";
 import NextImage from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -2309,9 +2310,12 @@ export function SoviaTestComponent({
               <button className="btn-primary" onClick={start} type="button">
                 {copy.actions.start}
               </button>
-              <a className="btn-outline" href={localizedPath("/test/types")}>
-                {copy.actions.types}
-              </a>
+                <Link
+                  className="btn-outline"
+                  href={localizedPath("/test/types")}
+                >
+                  {copy.actions.types}
+                </Link>
             </div>
           </div>
         </div>
