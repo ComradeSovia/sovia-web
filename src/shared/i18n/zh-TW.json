@@ -1,8 +1,8 @@
 {
   "site": {
-    "name": "同志蘇維雅",
-    "title": "同志蘇維雅 | 蘇維埃風格動漫音樂檔案",
-    "description": "瀏覽同志蘇維雅的蘇維埃風格動漫與遊戲音樂改編、歌詞、YouTube 影片和檔案筆記。",
+    "name": "蘇維雅同志",
+    "title": "蘇維雅同志 | 蘇維埃風格動漫音樂檔案",
+    "description": "瀏覽蘇維雅同志的蘇維埃風格動漫與遊戲音樂改編、歌詞、YouTube 影片和檔案筆記。",
     "keywords": [
       "Comrade Sovia",
       "Sovia",
@@ -11,7 +11,7 @@
       "YouTuber",
       "VTuber",
       "Sovia同志",
-      "同志蘇維雅",
+      "蘇維雅同志",
       "蘇維雅",
       "獨立遊戲開發者",
       "蘇維埃",
@@ -71,23 +71,23 @@
   "pages": {
     "gallery": {
       "title": "畫廊",
-      "description": "同志蘇維雅的圖像畫廊與視覺檔案。"
+      "description": "蘇維雅同志的圖像畫廊與視覺檔案。"
     },
     "report": {
       "title": "報告",
-      "description": "來自同志蘇維雅的更新、筆記和檔案報告。"
+      "description": "來自蘇維雅同志的更新、筆記和檔案報告。"
     },
     "request": {
       "title": "點歌",
-      "description": "為同志蘇維雅檔案請求歌曲或改編。"
+      "description": "為蘇維雅同志檔案請求歌曲或改編。"
     },
     "notice": {
       "title": "公告",
-      "description": "同志蘇維雅網站的重要公告與資訊。"
+      "description": "蘇維雅同志網站的重要公告與資訊。"
     },
     "tools": {
       "title": "工具",
-      "description": "同志蘇維雅檔案裡的小型互動工具和實用房間。",
+      "description": "蘇維雅同志檔案裡的小型互動工具和實用房間。",
       "intro": "可操作的機器、檔案控制台和一些奇怪小工具。",
       "airConTitle": "虛擬空調",
       "airConDescription": "開機、調溫度、調風量。"

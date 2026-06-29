@@ -1,8 +1,8 @@
 {
   "page": {
     "title": "사운드 작품",
-    "description": "동지 소비아의 소비에트풍 애니, 게임, Vocaloid, 팝 음악 편곡 아카이브를 가사와 YouTube 링크와 함께 검색하세요.",
-    "openGraphDescription": "동지 소비아의 소비에트풍 애니 및 게임 음악 편곡을 둘러보세요."
+    "description": "소비아 동지의 소비에트풍 애니, 게임, Vocaloid, 팝 음악 편곡 아카이브를 가사와 YouTube 링크와 함께 검색하세요.",
+    "openGraphDescription": "소비아 동지의 소비에트풍 애니 및 게임 음악 편곡을 둘러보세요."
   },
   "search": {
     "placeholder": "제목, 시리즈 검색..."

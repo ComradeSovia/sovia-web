@@ -16,7 +16,7 @@
     "actionLabel": "關於蘇維雅"
   },
   "about": {
-    "metadataTitle": "關於蘇維雅 | 同志蘇維雅",
+    "metadataTitle": "關於蘇維雅 | 蘇維雅同志",
     "metadataDescription": "關於蘇維雅・菈波琪娃，以及熟悉歌曲在另一個世界中的重構。",
     "eyebrow": "關於我們的部門",
     "serial": "00",
@@ -112,15 +112,15 @@
       "id": "lyrics-library",
       "title": "歌詞庫",
       "subTitle": "印象歌詞檔案",
-      "description": "閱讀同志蘇維雅作品的歌詞、歌曲筆記和檔案條目。",
-      "pageIntro": "同志蘇維雅作品的歌詞與檔案台：歌曲頁面、來源筆記、YouTube 記錄，以及每次改編附帶的文字片段。"
+      "description": "閱讀蘇維雅同志作品的歌詞、歌曲筆記和檔案條目。",
+      "pageIntro": "蘇維雅同志作品的歌詞與檔案台：歌曲頁面、來源筆記、YouTube 記錄，以及每次改編附帶的文字片段。"
     },
     {
       "id": "music-release",
       "title": "音樂發行",
       "subTitle": "串流平台頁面",
       "description": "官方音樂發行內容匯集在各串流藝人頁面。",
-      "pageIntro": "同志蘇維雅官方發行的串流據點，方便更喜歡音樂平台而非檔案介面的聽眾。"
+      "pageIntro": "蘇維雅同志官方發行的串流據點，方便更喜歡音樂平台而非檔案介面的聽眾。"
     },
     {
       "id": "concept-design",
@@ -134,7 +134,7 @@
       "title": "影片圖像",
       "subTitle": "縮圖與設計材料",
       "description": "影片縮圖設計和相關圖像材料匯集在 Pixiv。",
-      "pageIntro": "這裡收集與同志蘇維雅影片相關的縮圖、插畫材料和視覺資產。"
+      "pageIntro": "這裡收集與蘇維雅同志影片相關的縮圖、插畫材料和視覺資產。"
     },
     {
       "id": "community",

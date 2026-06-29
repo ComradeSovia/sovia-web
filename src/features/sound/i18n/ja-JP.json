@@ -1,8 +1,8 @@
 {
   "page": {
     "title": "サウンド作品",
-    "description": "同志ソヴィアのソビエト風アニメ、ゲーム、Vocaloid、ポップ音楽アレンジのアーカイブを、歌詞と YouTube リンク付きで検索できます。",
-    "openGraphDescription": "同志ソヴィアによるソビエト風のアニメ・ゲーム音楽アレンジを閲覧できます。"
+    "description": "ソヴィア同志のソビエト風アニメ、ゲーム、Vocaloid、ポップ音楽アレンジのアーカイブを、歌詞と YouTube リンク付きで検索できます。",
+    "openGraphDescription": "ソヴィア同志によるソビエト風のアニメ・ゲーム音楽アレンジを閲覧できます。"
   },
   "search": {
     "placeholder": "タイトル、シリーズを検索..."
