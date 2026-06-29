@@ -1,4 +1,4 @@
-import { HammerStarMark } from "@sovia/shared";
+import { SoviaLogo } from "@sovia/shared";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import type { LayoutCopy } from "../i18n/copy";
@@ -32,7 +32,7 @@ export function LayoutHeader({
   return (
     <header className="sticky top-0 z-20 border-b-[3px] border-ink bg-[rgb(var(--paper)/0.9)] backdrop-blur">
       <div className="mx-auto box-border flex w-full max-w-6xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
-        <HammerStarMark copy={sharedCopy} locale={locale} />
+        <SoviaLogo copy={sharedCopy} locale={locale} />
 
         <LayoutNav copy={sharedCopy} locale={locale} />
 

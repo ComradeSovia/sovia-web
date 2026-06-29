@@ -5,7 +5,7 @@ import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
 import { DEFAULT_SITE_LOCALE, type SiteLocale } from "../i18n/site-locale";
 import { getSiteLocalizedPath } from "../i18n/site-routing";
 
-export function HammerStarMark({
+export function SoviaLogo({
   copy = getDefaultSharedCopy(),
   locale = DEFAULT_SITE_LOCALE,
 }: {
@@ -23,6 +23,7 @@ export function HammerStarMark({
           alt=""
           className="size-full object-cover"
           height={48}
+          placeholder="blur"
           sizes="48px"
           src={iconImage}
           width={48}

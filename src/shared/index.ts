@@ -11,5 +11,5 @@ export {
 export { getRoutes, Routes } from "./constants/routes";
 export { Card, type CardProps } from "./ui/card";
 export { GoogleAnalytics } from "./ui/google-analytics";
-export { HammerStarMark } from "./ui/hammer-star-mark";
+export { SoviaLogo } from "./ui/sovia-logo";
 export { UnderConstruction } from "./ui/under-construction";
