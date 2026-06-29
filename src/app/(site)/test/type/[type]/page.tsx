@@ -1,4 +1,5 @@
 import { SoviaTestTypeComponent } from "@sovia/sovia-test";
+import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import {
   getSoviaTestLocaleFromSearchParams,
   type SoviaTestSearchParams,
@@ -65,5 +66,9 @@ export default async function TestTypePage({
     notFound();
   }
 
-  return <SoviaTestTypeComponent initialLocale={locale} type={code} />;
+  const stats = await loadSoviaTestStats();
+
+  return (
+    <SoviaTestTypeComponent initialLocale={locale} stats={stats} type={code} />
+  );
 }

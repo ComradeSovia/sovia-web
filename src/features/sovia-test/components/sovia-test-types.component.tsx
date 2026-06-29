@@ -1,23 +1,31 @@
 "use client";
 
 import Image from "next/image";
+import type { SoviaTestStats } from "../data/submissions";
 import {
   getSoviaTestLocalizedPath,
   type SoviaTestLocale,
 } from "../i18n/config";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
+import {
+  getSoviaTypeShareCopy,
+  getSoviaTypeSharePercentage,
+} from "../lib/stats";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 
 type SoviaTestTypesComponentProps = {
   initialLocale?: SoviaTestLocale;
+  stats?: SoviaTestStats | null;
 };
 
 export function SoviaTestTypesComponent({
   initialLocale,
+  stats,
 }: SoviaTestTypesComponentProps = {}) {
   const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
   const entries = Object.entries(copy.types);
+  const typeShareCopy = getSoviaTypeShareCopy(locale);
   const localizedPath = (path: string) =>
     getSoviaTestLocalizedPath(path, locale);
 
@@ -64,6 +72,8 @@ export function SoviaTestTypesComponent({
 
       <div className="grid gap-6 md:grid-cols-2">
         {entries.map(([code, archetype]) => {
+          const typeShare = getSoviaTypeSharePercentage(stats, code);
+
           return (
             <a
               className="card flex min-h-72 flex-col gap-5"
@@ -85,6 +95,15 @@ export function SoviaTestTypesComponent({
                   <SoviaCode code={code} />
                 </div>
               </div>
+
+              {typeShare && (
+                <div className="relative z-10 border-[3px] border-ink bg-paper p-3 shadow-[4px_4px_0_rgb(var(--shadow))]">
+                  <div className="meta">{typeShareCopy.typeLabel}</div>
+                  <div className="mt-1 text-2xl font-black text-red">
+                    {typeShare}%
+                  </div>
+                </div>
+              )}
 
               <div className="relative z-10 space-y-3">
                 <h2 className="text-[clamp(2rem,4vw,2.75rem)]">

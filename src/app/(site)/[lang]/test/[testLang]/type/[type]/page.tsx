@@ -1,5 +1,6 @@
 import { matchSiteLocale } from "@sovia/shared/i18n/site-locale";
 import { SoviaTestTypeComponent } from "@sovia/sovia-test";
+import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import { matchSoviaTestLocale } from "@sovia/sovia-test/i18n/config";
 import {
   getDefaultSoviaTestCopy,
@@ -67,5 +68,13 @@ export default async function LocalizedSiteTestTypePage({ params }: PageProps) {
     notFound();
   }
 
-  return <SoviaTestTypeComponent initialLocale={testLocale} type={code} />;
+  const stats = await loadSoviaTestStats();
+
+  return (
+    <SoviaTestTypeComponent
+      initialLocale={testLocale}
+      stats={stats}
+      type={code}
+    />
+  );
 }

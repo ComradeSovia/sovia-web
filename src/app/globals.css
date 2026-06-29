@@ -13,6 +13,7 @@
   --red: 185 28 28;
   --deep-red: 69 10 10;
   --yellow: 245 196 0;
+  --code-stroke: 17 17 17;
 }
 
 :root[data-theme="dark"] {
@@ -25,6 +26,7 @@
   --red: 112 35 33;
   --deep-red: 56 18 17;
   --yellow: 125 99 34;
+  --code-stroke: 232 226 211;
   color-scheme: dark;
 }
 
@@ -43,6 +45,7 @@
     --red: 112 35 33;
     --deep-red: 56 18 17;
     --yellow: 125 99 34;
+    --code-stroke: 232 226 211;
     color-scheme: dark;
   }
 }

@@ -1,6 +1,7 @@
 import { matchSiteLocale } from "@sovia/shared/i18n/site-locale";
 import { loadMusicIndex } from "@sovia/sound";
 import { SoviaTestComponent } from "@sovia/sovia-test";
+import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import { matchSoviaTestLocale } from "@sovia/sovia-test/i18n/config";
 import {
   getDefaultSoviaTestCopy,
@@ -158,7 +159,10 @@ export default async function LocalizedSiteTestResultPage({
     redirect(getSoviaTestCanonicalPath(`/test/types/${type}`, testLocale));
   }
 
-  const recommendedMusicWorks = await loadMusicIndex();
+  const [recommendedMusicWorks, stats] = await Promise.all([
+    loadMusicIndex(),
+    loadSoviaTestStats(),
+  ]);
 
   return (
     <SoviaTestComponent
@@ -166,6 +170,7 @@ export default async function LocalizedSiteTestResultPage({
       initialLocale={testLocale}
       initialResultType={type}
       recommendedMusicWorks={recommendedMusicWorks}
+      stats={stats}
     />
   );
 }

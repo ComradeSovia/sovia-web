@@ -1,5 +1,6 @@
 import { loadMusicIndex } from "@sovia/sound";
 import { SoviaTestComponent } from "@sovia/sovia-test";
+import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import {
   getSoviaTestLocaleFromSearchParams,
   type SoviaTestSearchParams,
@@ -38,13 +39,17 @@ export async function generateMetadata({
 
 export default async function TestPage({ searchParams }: TestPageProps) {
   const locale = getSoviaTestLocaleFromSearchParams(await searchParams);
-  const recommendedMusicWorks = await loadMusicIndex();
+  const [recommendedMusicWorks, stats] = await Promise.all([
+    loadMusicIndex(),
+    loadSoviaTestStats(),
+  ]);
 
   return (
     <Suspense fallback={null}>
       <SoviaTestComponent
         initialLocale={locale}
         recommendedMusicWorks={recommendedMusicWorks}
+        stats={stats}
       />
     </Suspense>
   );

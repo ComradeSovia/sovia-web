@@ -1,5 +1,6 @@
 "use client";
 
+import type { SoviaTestStats } from "../data/submissions";
 import {
   getSoviaTestLocalizedPath,
   type SoviaTestLocale,
@@ -7,6 +8,10 @@ import {
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
+import {
+  getSoviaTypeShareCopy,
+  getSoviaTypeSharePercentage,
+} from "../lib/stats";
 import type { AxisKey } from "../types";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
@@ -24,17 +29,21 @@ const AXIS_ORDER: AxisKey[] = [
 
 type SoviaTestTypeComponentProps = {
   initialLocale?: SoviaTestLocale;
+  stats?: SoviaTestStats | null;
   type: string;
 };
 
 export function SoviaTestTypeComponent({
   initialLocale,
+  stats,
   type,
 }: SoviaTestTypeComponentProps) {
   const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
   const code = type.toUpperCase();
   const archetype = copy.types[code] ?? defaultCopy.types[code];
   const essay = copy.typeEssays[code] ?? defaultCopy.typeEssays[code];
+  const typeShareCopy = getSoviaTypeShareCopy(locale);
+  const typeShare = getSoviaTypeSharePercentage(stats, code);
   const localizedPath = (path: string) =>
     getSoviaTestLocalizedPath(path, locale);
 
@@ -95,6 +104,13 @@ export function SoviaTestTypeComponent({
 
           <div className="meta">{copy.certificate.titleLabel}</div>
           <p>{archetype.title}</p>
+
+          {typeShare && (
+            <>
+              <div className="meta">{typeShareCopy.typeLabel}</div>
+              <p className="text-3xl font-black text-red">{typeShare}%</p>
+            </>
+          )}
 
           <div className="meta">{copy.certificate.unitLabel}</div>
           <p>{archetype.unit}</p>

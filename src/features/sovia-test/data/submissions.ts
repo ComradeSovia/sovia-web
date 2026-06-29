@@ -19,6 +19,14 @@ export type SoviaTestSubmissionInput = {
   scores: Record<AxisKey, number>;
 };
 
+export type SoviaTestStats = {
+  totalSubmissions: number;
+  topResults: Array<{
+    code: string;
+    count: number;
+  }>;
+};
+
 export function isSoviaTestAgeGroup(value: string): value is SoviaTestAgeGroup {
   return SOVIA_TEST_AGE_GROUPS.some((ageGroup) => ageGroup === value);
 }
@@ -68,4 +76,40 @@ export async function saveSoviaTestSubmission(input: SoviaTestSubmissionInput) {
       id: true,
     },
   });
+}
+
+export async function loadSoviaTestStats(): Promise<SoviaTestStats | null> {
+  const prisma = getPrismaClient();
+
+  if (!prisma) {
+    return null;
+  }
+
+  try {
+    const [totalSubmissions, topResults] = await Promise.all([
+      prisma.soviaTestSubmission.count(),
+      prisma.soviaTestSubmission.groupBy({
+        by: ["resultCode"],
+        _count: {
+          resultCode: true,
+        },
+        orderBy: {
+          _count: {
+            resultCode: "desc",
+          },
+        },
+      }),
+    ]);
+
+    return {
+      totalSubmissions,
+      topResults: topResults.map((result) => ({
+        code: result.resultCode,
+        count: result._count.resultCode,
+      })),
+    };
+  } catch (error) {
+    console.warn("Failed to load SOVIA test stats.", error);
+    return null;
+  }
 }

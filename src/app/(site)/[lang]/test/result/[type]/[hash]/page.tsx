@@ -1,5 +1,6 @@
 import { loadMusicIndex } from "@sovia/sound";
 import { SoviaTestComponent } from "@sovia/sovia-test";
+import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import {
   matchSoviaTestLocale,
   type SoviaTestLocale,
@@ -158,7 +159,10 @@ export default async function LocalizedTestResultPage({
     redirect(getSoviaTestCanonicalPath(`/test/types/${type}`, locale));
   }
 
-  const recommendedMusicWorks = await loadMusicIndex();
+  const [recommendedMusicWorks, stats] = await Promise.all([
+    loadMusicIndex(),
+    loadSoviaTestStats(),
+  ]);
 
   return (
     <SoviaTestComponent
@@ -166,6 +170,7 @@ export default async function LocalizedTestResultPage({
       initialLocale={locale}
       initialResultType={type}
       recommendedMusicWorks={recommendedMusicWorks}
+      stats={stats}
     />
   );
 }

@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import songRecommendations from "../data/song-recommendations.json";
+import type { SoviaTestStats } from "../data/submissions";
 import {
   getSoviaTestLocalizedPath,
   type SoviaTestLocale,
@@ -20,6 +21,10 @@ import {
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
+import {
+  getSoviaTypeShareCopy,
+  getSoviaTypeSharePercentage,
+} from "../lib/stats";
 import type {
   ArchetypeCopy,
   AxisKey,
@@ -113,11 +118,18 @@ type SoviaTestComponentProps = {
   initialLocale?: SoviaTestLocale;
   initialResultType?: string;
   recommendedMusicWorks?: MusicWork[];
+  stats?: SoviaTestStats | null;
 };
 
 type AnswerValue = number | null;
 type SongRecommendationCopy = {
   intro: string;
+  title: string;
+};
+type StatsCopy = {
+  chartLabel: string;
+  empty: string;
+  topResultsLabel: string;
   title: string;
 };
 
@@ -154,12 +166,74 @@ const songRecommendationsByCode = songRecommendations as Record<
   string[]
 >;
 
+const STATS_COPY: Record<string, StatsCopy> = {
+  fallback: {
+    title: "Archive statistics",
+    chartLabel: "Assignment share",
+    topResultsLabel: "All assignment shares",
+    empty: "The archive has not received enough submissions yet.",
+  },
+  "ja-JP": {
+    title: "アーカイブ統計",
+    chartLabel: "配属比率",
+    topResultsLabel: "すべての配属比率",
+    empty: "アーカイブにはまだ十分な提出がありません。",
+  },
+  "ko-KR": {
+    title: "기록 통계",
+    chartLabel: "배정 비율",
+    topResultsLabel: "전체 배정 비율",
+    empty: "아직 충분한 제출 기록이 없습니다.",
+  },
+  "ru-RU": {
+    title: "Статистика архива",
+    chartLabel: "Доля назначений",
+    topResultsLabel: "Доли всех назначений",
+    empty: "В архиве пока недостаточно отправленных результатов.",
+  },
+  "zh-CN": {
+    title: "档案统计",
+    chartLabel: "分配占比",
+    topResultsLabel: "全部分配占比",
+    empty: "档案室暂时还没有足够的提交记录。",
+  },
+  "zh-TW": {
+    title: "檔案統計",
+    chartLabel: "分配佔比",
+    topResultsLabel: "全部分配佔比",
+    empty: "檔案室暫時還沒有足夠的提交記錄。",
+  },
+};
+
+const STATS_CHART_COLORS = [
+  "#b91c1c",
+  "#f5c400",
+  "#2563eb",
+  "#16a34a",
+  "#db2777",
+  "#7c3aed",
+  "#ea580c",
+  "#0891b2",
+  "#4d7c0f",
+  "#be123c",
+  "#4338ca",
+  "#ca8a04",
+  "#0f766e",
+  "#9333ea",
+  "#dc2626",
+  "#0284c7",
+];
+
 function createEmptyAnswers() {
   return Array.from({ length: defaultCopy.questions.length }, () => null);
 }
 
 function getSongRecommendationCopy(locale: SoviaTestLocale) {
   return SONG_RECOMMENDATION_COPY[locale] ?? SONG_RECOMMENDATION_COPY.fallback;
+}
+
+function getStatsCopy(locale: SoviaTestLocale) {
+  return STATS_COPY[locale] ?? STATS_COPY.fallback;
 }
 
 function getSoundLocale(locale: SoviaTestLocale): SiteLocale {
@@ -197,6 +271,181 @@ function hashString(value: string) {
   }
 
   return hash;
+}
+
+function SoviaTestStatsPanel({
+  copy,
+  locale,
+  stats,
+}: {
+  copy: SoviaTestCopy;
+  locale: SoviaTestLocale;
+  stats: SoviaTestStats | null | undefined;
+}) {
+  const statsCopy = getStatsCopy(locale);
+  const [hoveredChartKey, setHoveredChartKey] = useState<string | null>(null);
+  const [selectedChartKey, setSelectedChartKey] = useState<string | null>(null);
+  const hasStats = Boolean(stats && stats.totalSubmissions > 0);
+  const chartItems =
+    stats?.topResults.map((result, index) => {
+      const archetype = copy.types[result.code];
+
+      return {
+        color: STATS_CHART_COLORS[index % STATS_CHART_COLORS.length],
+        count: result.count,
+        key: result.code,
+        label: archetype?.title ?? result.code,
+        value: <SoviaCode code={result.code} />,
+      };
+    }) ?? [];
+  const activeChartKey =
+    hoveredChartKey ?? selectedChartKey ?? chartItems[0]?.key ?? null;
+  const activeChartItem =
+    chartItems.find((item) => item.key === activeChartKey) ?? chartItems[0];
+  const activePercentage =
+    stats && stats.totalSubmissions > 0 && activeChartItem
+      ? ((activeChartItem.count / stats.totalSubmissions) * 100).toFixed(2)
+      : "0.00";
+  const chartRadius = 35;
+  const chartCircumference = 2 * Math.PI * chartRadius;
+  let currentOffset = 0;
+  const chartSegments = chartItems.map((item) => {
+    const length =
+      stats && stats.totalSubmissions > 0
+        ? (item.count / stats.totalSubmissions) * chartCircumference
+        : 0;
+    const offset = currentOffset;
+    currentOffset += length;
+
+    return {
+      ...item,
+      dashArray: `${length} ${Math.max(0, chartCircumference - length)}`,
+      dashOffset: -offset,
+    };
+  });
+
+  return (
+    <div className="card space-y-5">
+      <div>
+        <div className="meta">{statsCopy.title}</div>
+        <h2 className="mt-2 text-[clamp(1.5rem,4vw,2.25rem)]">
+          {statsCopy.topResultsLabel}
+        </h2>
+      </div>
+
+      {hasStats ? (
+        <div className="mx-auto grid w-full max-w-[34rem] gap-5">
+          <div className="mx-auto w-full max-w-96">
+            <svg
+              aria-label={statsCopy.chartLabel}
+              className="aspect-square w-full overflow-visible drop-shadow-[10px_10px_0_rgb(var(--shadow))]"
+              role="img"
+              viewBox="0 0 100 100"
+            >
+              <circle
+                className="fill-paper stroke-ink"
+                cx="50"
+                cy="50"
+                r="49"
+                strokeWidth="2"
+              />
+              {chartSegments.map((segment) => {
+                const isActive = activeChartKey === segment.key;
+                const isDimmed = Boolean(activeChartKey) && !isActive;
+
+                return (
+                  <circle
+                    aria-label={`${segment.key} ${segment.label}`}
+                    className="cursor-pointer fill-none transition-all duration-150 focus:outline-none"
+                    cx="50"
+                    cy="50"
+                    key={segment.key}
+                    onClick={() =>
+                      setSelectedChartKey((current) =>
+                        current === segment.key ? null : segment.key,
+                      )
+                    }
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setSelectedChartKey((current) =>
+                          current === segment.key ? null : segment.key,
+                        );
+                      }
+                    }}
+                    onMouseEnter={() => setHoveredChartKey(segment.key)}
+                    onMouseLeave={() => setHoveredChartKey(null)}
+                    opacity={isDimmed ? 0.28 : 1}
+                    r={chartRadius}
+                    role="button"
+                    stroke={segment.color}
+                    strokeDasharray={segment.dashArray}
+                    strokeDashoffset={segment.dashOffset}
+                    strokeLinecap="butt"
+                    strokeWidth={isActive ? 27 : 20}
+                    style={{
+                      transform: "rotate(-90deg)",
+                      transformOrigin: "50px 50px",
+                    }}
+                    tabIndex={0}
+                  />
+                );
+              })}
+              <circle
+                className="fill-[rgb(var(--block))] stroke-ink"
+                cx="50"
+                cy="50"
+                r="22"
+                strokeWidth="2.5"
+              />
+              <text
+                className="fill-[rgb(var(--relief))] text-[4px] font-black uppercase tracking-[0.08em]"
+                textAnchor="middle"
+                x="50"
+                y="48"
+              >
+                {statsCopy.chartLabel}
+              </text>
+              <text
+                className="fill-[rgb(var(--yellow))] text-[8px] font-black"
+                textAnchor="middle"
+                x="50"
+                y="57"
+              >
+                SOVIA
+              </text>
+            </svg>
+          </div>
+
+          {activeChartItem && (
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-[3px] border-ink bg-paper p-4 shadow-[6px_6px_0_rgb(var(--shadow))]">
+              <div className="min-w-0">
+                <div
+                  className="text-2xl font-black leading-tight text-red"
+                  style={{
+                    textShadow:
+                      "1px 0 rgb(var(--code-stroke)), -1px 0 rgb(var(--code-stroke)), 0 1px rgb(var(--code-stroke)), 0 -1px rgb(var(--code-stroke))",
+                  }}
+                >
+                  {activeChartItem.value}
+                </div>
+                <div className="mt-1 text-xs font-black uppercase leading-tight tracking-[0.08em]">
+                  {activeChartItem.label}
+                </div>
+              </div>
+              <div className="text-2xl font-black text-ink">
+                {activePercentage}%
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <p className="text-sm font-medium leading-relaxed">
+          {statsCopy.empty}
+        </p>
+      )}
+    </div>
+  );
 }
 
 function createInitialTestState(initialHash?: string): InitialTestState {
@@ -1494,6 +1743,7 @@ export function SoviaTestComponent({
   initialLocale,
   initialResultType,
   recommendedMusicWorks = [],
+  stats,
 }: SoviaTestComponentProps = {}) {
   const router = useRouter();
   const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
@@ -1539,6 +1789,8 @@ export function SoviaTestComponent({
     return getResult(answers, copy);
   }, [answers, copy, sharedScores]);
   const resultEssay = copy.typeEssays[result.code];
+  const typeShareCopy = getSoviaTypeShareCopy(locale);
+  const resultTypeShare = getSoviaTypeSharePercentage(stats, result.code);
   const soundLocale = getSoundLocale(locale);
   const soundCopy = useMemo(() => getSoundCopy(soundLocale), [soundLocale]);
   const songRecommendationCopy = getSongRecommendationCopy(locale);
@@ -2063,6 +2315,8 @@ export function SoviaTestComponent({
             </div>
           </div>
         </div>
+
+        <SoviaTestStatsPanel copy={copy} locale={locale} stats={stats} />
       </section>
     );
   }
@@ -2188,6 +2442,15 @@ export function SoviaTestComponent({
                   {result.archetype.description}
                 </p>
               </div>
+
+              {resultTypeShare && (
+                <div className="w-fit border-[3px] border-ink bg-paper px-4 py-3 shadow-[5px_5px_0_rgb(var(--shadow))]">
+                  <div className="meta">{typeShareCopy.resultLabel}</div>
+                  <div className="mt-1 text-3xl font-black text-red">
+                    {resultTypeShare}%
+                  </div>
+                </div>
+              )}
 
               <div className="flex flex-wrap gap-5">
                 <button className="btn-primary" onClick={restart} type="button">

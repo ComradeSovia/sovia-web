@@ -1,6 +1,7 @@
 import { matchSiteLocale } from "@sovia/shared/i18n/site-locale";
 import { loadMusicIndex } from "@sovia/sound";
 import { SoviaTestComponent } from "@sovia/sovia-test";
+import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import { matchSoviaTestLocale } from "@sovia/sovia-test/i18n/config";
 import { getSoviaTestCopy } from "@sovia/sovia-test/i18n/copy";
 import {
@@ -50,13 +51,17 @@ export async function generateMetadata({
 export default async function LocalizedSiteTestPage({ params }: PageProps) {
   const { lang, testLang } = await params;
   const testLocale = getLocales(lang, testLang);
-  const recommendedMusicWorks = await loadMusicIndex();
+  const [recommendedMusicWorks, stats] = await Promise.all([
+    loadMusicIndex(),
+    loadSoviaTestStats(),
+  ]);
 
   return (
     <Suspense fallback={null}>
       <SoviaTestComponent
         initialLocale={testLocale}
         recommendedMusicWorks={recommendedMusicWorks}
+        stats={stats}
       />
     </Suspense>
   );
