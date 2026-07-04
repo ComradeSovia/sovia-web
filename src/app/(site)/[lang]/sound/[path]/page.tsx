@@ -8,6 +8,7 @@ import {
   getSiteMetadataAlternates,
 } from "@sovia/shared/i18n/site-routing";
 import {
+  getLocalizedWorkTitle,
   getWorkDescription,
   loadMusicWorkWithContent,
   SoundDetail,
@@ -43,33 +44,34 @@ export async function generateMetadata({
   }
 
   const basePath = `/sound/${work.path}`;
-  const description = getWorkDescription(work);
+  const description = getWorkDescription(work, locale);
   const thumbnail = work.u2bId
     ? `https://img.youtube.com/vi/${work.u2bId}/maxresdefault.jpg`
     : "/opengraph-image";
+  const title = getLocalizedWorkTitle(work, locale);
 
   return {
-    title: work.title,
+    title,
     description,
     alternates: getSiteMetadataAlternates(basePath, locale),
     openGraph: {
       type: "music.song",
       url: getSiteLocalizedPath(basePath, locale),
       siteName: sharedCopy.site.name,
-      title: `${work.title} | ${sharedCopy.site.name}`,
+      title: `${title} | ${sharedCopy.site.name}`,
       description,
       images: [
         {
           url: thumbnail,
           width: 1280,
           height: 720,
-          alt: work.title,
+          alt: title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${work.title} | ${sharedCopy.site.name}`,
+      title: `${title} | ${sharedCopy.site.name}`,
       description,
       images: [thumbnail],
     },
@@ -98,5 +100,5 @@ export default async function LocalizedSoundDetailPage({
     notFound();
   }
 
-  return <SoundDetail work={work} />;
+  return <SoundDetail locale={locale} work={work} />;
 }

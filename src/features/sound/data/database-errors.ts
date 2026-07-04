@@ -33,6 +33,10 @@ export function getFriendlyDatabaseError(error: unknown) {
       return "Could not connect to PostgreSQL. Check the host, port, network access, and whether the database is running.";
     }
 
+    if (message.includes("recovery mode")) {
+      return "PostgreSQL is in recovery mode. Wait for recovery to finish, then try again.";
+    }
+
     if (message.includes("does not exist") || message.includes("relation")) {
       return "The PostgreSQL connection works, but the Prisma table is missing. Run pnpm db:push.";
     }

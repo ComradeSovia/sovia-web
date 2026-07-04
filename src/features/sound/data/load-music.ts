@@ -107,6 +107,6 @@ export async function loadMusicWorkWithContent(
 export async function getAvailableLanguages(
   workPath: string,
 ): Promise<string[]> {
-  const workWithContent = await loadMusicWorkWithContent(workPath);
-  return workWithContent?.availableLanguages || [];
+  await loadMusicWorkWithContent(workPath);
+  return [];
 }

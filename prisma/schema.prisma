@@ -8,16 +8,31 @@ datasource db {
 }
 
 model MusicWork {
-  path        String   @id
-  vid         String
-  title       String
-  original    String?
-  u2bId       String?
-  series      String?
-  description String?
-  lyrics      String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  path             String   @id
+  vid              String
+  title            String
+  original         String?
+  u2bId            String?
+  series           String?
+  lyrics           String?
+  publishedAt      String?
+  isOriginal       Boolean  @default(false)
+  musicStyle       String?
+  inspiredByTitle  String?
+  inspiredByAuthor String?
+  inspiredByDetail String?
+  musicType        String?
+  vkId             String?
+  bilibiliId       String?
+  pixivId          String?
+  shortDescription String?
+  introText        String?
+  productionNotes  String?
+  relatedWorkUids  String?
+  youtubeLocalization Json?
+  subtitleTracks   Json?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@map("music_works")
 }

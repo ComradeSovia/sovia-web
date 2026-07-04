@@ -31,8 +31,21 @@ export type MusicWorkMinAggregateOutputType = {
   original: string | null
   u2bId: string | null
   series: string | null
-  description: string | null
   lyrics: string | null
+  publishedAt: string | null
+  isOriginal: boolean | null
+  musicStyle: string | null
+  inspiredByTitle: string | null
+  inspiredByAuthor: string | null
+  inspiredByDetail: string | null
+  musicType: string | null
+  vkId: string | null
+  bilibiliId: string | null
+  pixivId: string | null
+  shortDescription: string | null
+  introText: string | null
+  productionNotes: string | null
+  relatedWorkUids: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,8 +57,21 @@ export type MusicWorkMaxAggregateOutputType = {
   original: string | null
   u2bId: string | null
   series: string | null
-  description: string | null
   lyrics: string | null
+  publishedAt: string | null
+  isOriginal: boolean | null
+  musicStyle: string | null
+  inspiredByTitle: string | null
+  inspiredByAuthor: string | null
+  inspiredByDetail: string | null
+  musicType: string | null
+  vkId: string | null
+  bilibiliId: string | null
+  pixivId: string | null
+  shortDescription: string | null
+  introText: string | null
+  productionNotes: string | null
+  relatedWorkUids: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,8 +83,23 @@ export type MusicWorkCountAggregateOutputType = {
   original: number
   u2bId: number
   series: number
-  description: number
   lyrics: number
+  publishedAt: number
+  isOriginal: number
+  musicStyle: number
+  inspiredByTitle: number
+  inspiredByAuthor: number
+  inspiredByDetail: number
+  musicType: number
+  vkId: number
+  bilibiliId: number
+  pixivId: number
+  shortDescription: number
+  introText: number
+  productionNotes: number
+  relatedWorkUids: number
+  youtubeLocalization: number
+  subtitleTracks: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -72,8 +113,21 @@ export type MusicWorkMinAggregateInputType = {
   original?: true
   u2bId?: true
   series?: true
-  description?: true
   lyrics?: true
+  publishedAt?: true
+  isOriginal?: true
+  musicStyle?: true
+  inspiredByTitle?: true
+  inspiredByAuthor?: true
+  inspiredByDetail?: true
+  musicType?: true
+  vkId?: true
+  bilibiliId?: true
+  pixivId?: true
+  shortDescription?: true
+  introText?: true
+  productionNotes?: true
+  relatedWorkUids?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -85,8 +139,21 @@ export type MusicWorkMaxAggregateInputType = {
   original?: true
   u2bId?: true
   series?: true
-  description?: true
   lyrics?: true
+  publishedAt?: true
+  isOriginal?: true
+  musicStyle?: true
+  inspiredByTitle?: true
+  inspiredByAuthor?: true
+  inspiredByDetail?: true
+  musicType?: true
+  vkId?: true
+  bilibiliId?: true
+  pixivId?: true
+  shortDescription?: true
+  introText?: true
+  productionNotes?: true
+  relatedWorkUids?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -98,8 +165,23 @@ export type MusicWorkCountAggregateInputType = {
   original?: true
   u2bId?: true
   series?: true
-  description?: true
   lyrics?: true
+  publishedAt?: true
+  isOriginal?: true
+  musicStyle?: true
+  inspiredByTitle?: true
+  inspiredByAuthor?: true
+  inspiredByDetail?: true
+  musicType?: true
+  vkId?: true
+  bilibiliId?: true
+  pixivId?: true
+  shortDescription?: true
+  introText?: true
+  productionNotes?: true
+  relatedWorkUids?: true
+  youtubeLocalization?: true
+  subtitleTracks?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -184,8 +266,23 @@ export type MusicWorkGroupByOutputType = {
   original: string | null
   u2bId: string | null
   series: string | null
-  description: string | null
   lyrics: string | null
+  publishedAt: string | null
+  isOriginal: boolean
+  musicStyle: string | null
+  inspiredByTitle: string | null
+  inspiredByAuthor: string | null
+  inspiredByDetail: string | null
+  musicType: string | null
+  vkId: string | null
+  bilibiliId: string | null
+  pixivId: string | null
+  shortDescription: string | null
+  introText: string | null
+  productionNotes: string | null
+  relatedWorkUids: string | null
+  youtubeLocalization: runtime.JsonValue | null
+  subtitleTracks: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: MusicWorkCountAggregateOutputType | null
@@ -218,8 +315,23 @@ export type MusicWorkWhereInput = {
   original?: Prisma.StringNullableFilter<"MusicWork"> | string | null
   u2bId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
   series?: Prisma.StringNullableFilter<"MusicWork"> | string | null
-  description?: Prisma.StringNullableFilter<"MusicWork"> | string | null
   lyrics?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  publishedAt?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  isOriginal?: Prisma.BoolFilter<"MusicWork"> | boolean
+  musicStyle?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  inspiredByTitle?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  inspiredByAuthor?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  inspiredByDetail?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  musicType?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  vkId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  bilibiliId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  pixivId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  shortDescription?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  introText?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  productionNotes?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  relatedWorkUids?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  youtubeLocalization?: Prisma.JsonNullableFilter<"MusicWork">
+  subtitleTracks?: Prisma.JsonNullableFilter<"MusicWork">
   createdAt?: Prisma.DateTimeFilter<"MusicWork"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MusicWork"> | Date | string
 }
@@ -231,8 +343,23 @@ export type MusicWorkOrderByWithRelationInput = {
   original?: Prisma.SortOrderInput | Prisma.SortOrder
   u2bId?: Prisma.SortOrderInput | Prisma.SortOrder
   series?: Prisma.SortOrderInput | Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
   lyrics?: Prisma.SortOrderInput | Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isOriginal?: Prisma.SortOrder
+  musicStyle?: Prisma.SortOrderInput | Prisma.SortOrder
+  inspiredByTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  inspiredByAuthor?: Prisma.SortOrderInput | Prisma.SortOrder
+  inspiredByDetail?: Prisma.SortOrderInput | Prisma.SortOrder
+  musicType?: Prisma.SortOrderInput | Prisma.SortOrder
+  vkId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bilibiliId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pixivId?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  introText?: Prisma.SortOrderInput | Prisma.SortOrder
+  productionNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  relatedWorkUids?: Prisma.SortOrderInput | Prisma.SortOrder
+  youtubeLocalization?: Prisma.SortOrderInput | Prisma.SortOrder
+  subtitleTracks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -247,8 +374,23 @@ export type MusicWorkWhereUniqueInput = Prisma.AtLeast<{
   original?: Prisma.StringNullableFilter<"MusicWork"> | string | null
   u2bId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
   series?: Prisma.StringNullableFilter<"MusicWork"> | string | null
-  description?: Prisma.StringNullableFilter<"MusicWork"> | string | null
   lyrics?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  publishedAt?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  isOriginal?: Prisma.BoolFilter<"MusicWork"> | boolean
+  musicStyle?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  inspiredByTitle?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  inspiredByAuthor?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  inspiredByDetail?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  musicType?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  vkId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  bilibiliId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  pixivId?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  shortDescription?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  introText?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  productionNotes?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  relatedWorkUids?: Prisma.StringNullableFilter<"MusicWork"> | string | null
+  youtubeLocalization?: Prisma.JsonNullableFilter<"MusicWork">
+  subtitleTracks?: Prisma.JsonNullableFilter<"MusicWork">
   createdAt?: Prisma.DateTimeFilter<"MusicWork"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MusicWork"> | Date | string
 }, "path">
@@ -260,8 +402,23 @@ export type MusicWorkOrderByWithAggregationInput = {
   original?: Prisma.SortOrderInput | Prisma.SortOrder
   u2bId?: Prisma.SortOrderInput | Prisma.SortOrder
   series?: Prisma.SortOrderInput | Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
   lyrics?: Prisma.SortOrderInput | Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isOriginal?: Prisma.SortOrder
+  musicStyle?: Prisma.SortOrderInput | Prisma.SortOrder
+  inspiredByTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  inspiredByAuthor?: Prisma.SortOrderInput | Prisma.SortOrder
+  inspiredByDetail?: Prisma.SortOrderInput | Prisma.SortOrder
+  musicType?: Prisma.SortOrderInput | Prisma.SortOrder
+  vkId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bilibiliId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pixivId?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  introText?: Prisma.SortOrderInput | Prisma.SortOrder
+  productionNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  relatedWorkUids?: Prisma.SortOrderInput | Prisma.SortOrder
+  youtubeLocalization?: Prisma.SortOrderInput | Prisma.SortOrder
+  subtitleTracks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.MusicWorkCountOrderByAggregateInput
@@ -279,8 +436,23 @@ export type MusicWorkScalarWhereWithAggregatesInput = {
   original?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
   u2bId?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
   series?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
-  description?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
   lyrics?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  publishedAt?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  isOriginal?: Prisma.BoolWithAggregatesFilter<"MusicWork"> | boolean
+  musicStyle?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  inspiredByTitle?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  inspiredByAuthor?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  inspiredByDetail?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  musicType?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  vkId?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  bilibiliId?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  pixivId?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  shortDescription?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  introText?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  productionNotes?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  relatedWorkUids?: Prisma.StringNullableWithAggregatesFilter<"MusicWork"> | string | null
+  youtubeLocalization?: Prisma.JsonNullableWithAggregatesFilter<"MusicWork">
+  subtitleTracks?: Prisma.JsonNullableWithAggregatesFilter<"MusicWork">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MusicWork"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MusicWork"> | Date | string
 }
@@ -292,8 +464,23 @@ export type MusicWorkCreateInput = {
   original?: string | null
   u2bId?: string | null
   series?: string | null
-  description?: string | null
   lyrics?: string | null
+  publishedAt?: string | null
+  isOriginal?: boolean
+  musicStyle?: string | null
+  inspiredByTitle?: string | null
+  inspiredByAuthor?: string | null
+  inspiredByDetail?: string | null
+  musicType?: string | null
+  vkId?: string | null
+  bilibiliId?: string | null
+  pixivId?: string | null
+  shortDescription?: string | null
+  introText?: string | null
+  productionNotes?: string | null
+  relatedWorkUids?: string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -305,8 +492,23 @@ export type MusicWorkUncheckedCreateInput = {
   original?: string | null
   u2bId?: string | null
   series?: string | null
-  description?: string | null
   lyrics?: string | null
+  publishedAt?: string | null
+  isOriginal?: boolean
+  musicStyle?: string | null
+  inspiredByTitle?: string | null
+  inspiredByAuthor?: string | null
+  inspiredByDetail?: string | null
+  musicType?: string | null
+  vkId?: string | null
+  bilibiliId?: string | null
+  pixivId?: string | null
+  shortDescription?: string | null
+  introText?: string | null
+  productionNotes?: string | null
+  relatedWorkUids?: string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -318,8 +520,23 @@ export type MusicWorkUpdateInput = {
   original?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   u2bId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lyrics?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishedAt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOriginal?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByAuthor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  musicType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bilibiliId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pixivId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  introText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorkUids?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -331,8 +548,23 @@ export type MusicWorkUncheckedUpdateInput = {
   original?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   u2bId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lyrics?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishedAt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOriginal?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByAuthor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  musicType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bilibiliId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pixivId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  introText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorkUids?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -344,8 +576,23 @@ export type MusicWorkCreateManyInput = {
   original?: string | null
   u2bId?: string | null
   series?: string | null
-  description?: string | null
   lyrics?: string | null
+  publishedAt?: string | null
+  isOriginal?: boolean
+  musicStyle?: string | null
+  inspiredByTitle?: string | null
+  inspiredByAuthor?: string | null
+  inspiredByDetail?: string | null
+  musicType?: string | null
+  vkId?: string | null
+  bilibiliId?: string | null
+  pixivId?: string | null
+  shortDescription?: string | null
+  introText?: string | null
+  productionNotes?: string | null
+  relatedWorkUids?: string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -357,8 +604,23 @@ export type MusicWorkUpdateManyMutationInput = {
   original?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   u2bId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lyrics?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishedAt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOriginal?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByAuthor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  musicType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bilibiliId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pixivId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  introText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorkUids?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,8 +632,23 @@ export type MusicWorkUncheckedUpdateManyInput = {
   original?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   u2bId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lyrics?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishedAt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOriginal?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  musicStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByAuthor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inspiredByDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  musicType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bilibiliId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pixivId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  introText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorkUids?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeLocalization?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subtitleTracks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -383,8 +660,23 @@ export type MusicWorkCountOrderByAggregateInput = {
   original?: Prisma.SortOrder
   u2bId?: Prisma.SortOrder
   series?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   lyrics?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
+  isOriginal?: Prisma.SortOrder
+  musicStyle?: Prisma.SortOrder
+  inspiredByTitle?: Prisma.SortOrder
+  inspiredByAuthor?: Prisma.SortOrder
+  inspiredByDetail?: Prisma.SortOrder
+  musicType?: Prisma.SortOrder
+  vkId?: Prisma.SortOrder
+  bilibiliId?: Prisma.SortOrder
+  pixivId?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
+  introText?: Prisma.SortOrder
+  productionNotes?: Prisma.SortOrder
+  relatedWorkUids?: Prisma.SortOrder
+  youtubeLocalization?: Prisma.SortOrder
+  subtitleTracks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -396,8 +688,21 @@ export type MusicWorkMaxOrderByAggregateInput = {
   original?: Prisma.SortOrder
   u2bId?: Prisma.SortOrder
   series?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   lyrics?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
+  isOriginal?: Prisma.SortOrder
+  musicStyle?: Prisma.SortOrder
+  inspiredByTitle?: Prisma.SortOrder
+  inspiredByAuthor?: Prisma.SortOrder
+  inspiredByDetail?: Prisma.SortOrder
+  musicType?: Prisma.SortOrder
+  vkId?: Prisma.SortOrder
+  bilibiliId?: Prisma.SortOrder
+  pixivId?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
+  introText?: Prisma.SortOrder
+  productionNotes?: Prisma.SortOrder
+  relatedWorkUids?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -409,8 +714,21 @@ export type MusicWorkMinOrderByAggregateInput = {
   original?: Prisma.SortOrder
   u2bId?: Prisma.SortOrder
   series?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   lyrics?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
+  isOriginal?: Prisma.SortOrder
+  musicStyle?: Prisma.SortOrder
+  inspiredByTitle?: Prisma.SortOrder
+  inspiredByAuthor?: Prisma.SortOrder
+  inspiredByDetail?: Prisma.SortOrder
+  musicType?: Prisma.SortOrder
+  vkId?: Prisma.SortOrder
+  bilibiliId?: Prisma.SortOrder
+  pixivId?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
+  introText?: Prisma.SortOrder
+  productionNotes?: Prisma.SortOrder
+  relatedWorkUids?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -421,6 +739,10 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -436,8 +758,23 @@ export type MusicWorkSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   original?: boolean
   u2bId?: boolean
   series?: boolean
-  description?: boolean
   lyrics?: boolean
+  publishedAt?: boolean
+  isOriginal?: boolean
+  musicStyle?: boolean
+  inspiredByTitle?: boolean
+  inspiredByAuthor?: boolean
+  inspiredByDetail?: boolean
+  musicType?: boolean
+  vkId?: boolean
+  bilibiliId?: boolean
+  pixivId?: boolean
+  shortDescription?: boolean
+  introText?: boolean
+  productionNotes?: boolean
+  relatedWorkUids?: boolean
+  youtubeLocalization?: boolean
+  subtitleTracks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["musicWork"]>
@@ -449,8 +786,23 @@ export type MusicWorkSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   original?: boolean
   u2bId?: boolean
   series?: boolean
-  description?: boolean
   lyrics?: boolean
+  publishedAt?: boolean
+  isOriginal?: boolean
+  musicStyle?: boolean
+  inspiredByTitle?: boolean
+  inspiredByAuthor?: boolean
+  inspiredByDetail?: boolean
+  musicType?: boolean
+  vkId?: boolean
+  bilibiliId?: boolean
+  pixivId?: boolean
+  shortDescription?: boolean
+  introText?: boolean
+  productionNotes?: boolean
+  relatedWorkUids?: boolean
+  youtubeLocalization?: boolean
+  subtitleTracks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["musicWork"]>
@@ -462,8 +814,23 @@ export type MusicWorkSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   original?: boolean
   u2bId?: boolean
   series?: boolean
-  description?: boolean
   lyrics?: boolean
+  publishedAt?: boolean
+  isOriginal?: boolean
+  musicStyle?: boolean
+  inspiredByTitle?: boolean
+  inspiredByAuthor?: boolean
+  inspiredByDetail?: boolean
+  musicType?: boolean
+  vkId?: boolean
+  bilibiliId?: boolean
+  pixivId?: boolean
+  shortDescription?: boolean
+  introText?: boolean
+  productionNotes?: boolean
+  relatedWorkUids?: boolean
+  youtubeLocalization?: boolean
+  subtitleTracks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["musicWork"]>
@@ -475,13 +842,28 @@ export type MusicWorkSelectScalar = {
   original?: boolean
   u2bId?: boolean
   series?: boolean
-  description?: boolean
   lyrics?: boolean
+  publishedAt?: boolean
+  isOriginal?: boolean
+  musicStyle?: boolean
+  inspiredByTitle?: boolean
+  inspiredByAuthor?: boolean
+  inspiredByDetail?: boolean
+  musicType?: boolean
+  vkId?: boolean
+  bilibiliId?: boolean
+  pixivId?: boolean
+  shortDescription?: boolean
+  introText?: boolean
+  productionNotes?: boolean
+  relatedWorkUids?: boolean
+  youtubeLocalization?: boolean
+  subtitleTracks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MusicWorkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"path" | "vid" | "title" | "original" | "u2bId" | "series" | "description" | "lyrics" | "createdAt" | "updatedAt", ExtArgs["result"]["musicWork"]>
+export type MusicWorkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"path" | "vid" | "title" | "original" | "u2bId" | "series" | "lyrics" | "publishedAt" | "isOriginal" | "musicStyle" | "inspiredByTitle" | "inspiredByAuthor" | "inspiredByDetail" | "musicType" | "vkId" | "bilibiliId" | "pixivId" | "shortDescription" | "introText" | "productionNotes" | "relatedWorkUids" | "youtubeLocalization" | "subtitleTracks" | "createdAt" | "updatedAt", ExtArgs["result"]["musicWork"]>
 
 export type $MusicWorkPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MusicWork"
@@ -493,8 +875,23 @@ export type $MusicWorkPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     original: string | null
     u2bId: string | null
     series: string | null
-    description: string | null
     lyrics: string | null
+    publishedAt: string | null
+    isOriginal: boolean
+    musicStyle: string | null
+    inspiredByTitle: string | null
+    inspiredByAuthor: string | null
+    inspiredByDetail: string | null
+    musicType: string | null
+    vkId: string | null
+    bilibiliId: string | null
+    pixivId: string | null
+    shortDescription: string | null
+    introText: string | null
+    productionNotes: string | null
+    relatedWorkUids: string | null
+    youtubeLocalization: runtime.JsonValue | null
+    subtitleTracks: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["musicWork"]>
@@ -926,8 +1323,23 @@ export interface MusicWorkFieldRefs {
   readonly original: Prisma.FieldRef<"MusicWork", 'String'>
   readonly u2bId: Prisma.FieldRef<"MusicWork", 'String'>
   readonly series: Prisma.FieldRef<"MusicWork", 'String'>
-  readonly description: Prisma.FieldRef<"MusicWork", 'String'>
   readonly lyrics: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly publishedAt: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly isOriginal: Prisma.FieldRef<"MusicWork", 'Boolean'>
+  readonly musicStyle: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly inspiredByTitle: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly inspiredByAuthor: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly inspiredByDetail: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly musicType: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly vkId: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly bilibiliId: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly pixivId: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly shortDescription: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly introText: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly productionNotes: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly relatedWorkUids: Prisma.FieldRef<"MusicWork", 'String'>
+  readonly youtubeLocalization: Prisma.FieldRef<"MusicWork", 'Json'>
+  readonly subtitleTracks: Prisma.FieldRef<"MusicWork", 'Json'>
   readonly createdAt: Prisma.FieldRef<"MusicWork", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MusicWork", 'DateTime'>
 }

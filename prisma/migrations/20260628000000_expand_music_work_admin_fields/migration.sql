@@ -1,0 +1,15 @@
+ALTER TABLE "music_works"
+ADD COLUMN "publishedAt" TEXT,
+ADD COLUMN "isOriginal" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN "musicStyle" TEXT,
+ADD COLUMN "inspiredByTitle" TEXT,
+ADD COLUMN "inspiredByAuthor" TEXT,
+ADD COLUMN "inspiredByDetail" TEXT,
+ADD COLUMN "musicType" TEXT,
+ADD COLUMN "vkId" TEXT,
+ADD COLUMN "bilibiliId" TEXT,
+ADD COLUMN "pixivId" TEXT,
+ADD COLUMN "shortDescription" TEXT,
+ADD COLUMN "introText" TEXT,
+ADD COLUMN "productionNotes" TEXT,
+ADD COLUMN "relatedWorkUids" TEXT;

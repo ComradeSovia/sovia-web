@@ -66,7 +66,7 @@ This file is for AI coding agents working in this repository. Its goals are to r
   - `src/features/layout/i18n/*.json`
   - `src/features/home/i18n/*.json`
   - `src/features/sound/i18n/*.json`
-  - `src/features/admin/i18n/*.json`
+- Admin is intentionally English-only and does not use i18n. Keep admin UI copy inline in admin components/routes; do not add `src/features/admin/i18n` locale files or wire admin UI to site locale switching.
 - Main site supported locales are only `en-US`, `ru-RU`, `ja-JP`, `ko-KR`, `zh-CN`, and `zh-TW`; keep `src/shared/i18n/site-locale.ts` aligned with those languages.
 - When adding or changing main site copy, update the matching JSON files and the relevant `copy.ts` import/map so the locale is actually loaded.
 - Keep JSON key structures consistent across main site language files whenever possible. If a translation is intentionally incomplete, rely on the fallback dictionary merge and mention the gap in the final response.
