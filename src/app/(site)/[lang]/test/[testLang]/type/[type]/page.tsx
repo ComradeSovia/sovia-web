@@ -6,10 +6,7 @@ import {
   getDefaultSoviaTestCopy,
   getSoviaTestCopy,
 } from "@sovia/sovia-test/i18n/copy";
-import {
-  getSoviaTestAlternates,
-  getSoviaTestCanonicalPath,
-} from "@sovia/sovia-test/i18n/seo";
+import { getSoviaTestPageMetadata } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -49,13 +46,12 @@ export async function generateMetadata({
   return {
     title: `${code} | ${archetype.title}`,
     description: archetype.description,
-    alternates: getSoviaTestAlternates(path, testLocale),
-    openGraph: {
-      title: `${code} | ${archetype.title}`,
+    ...getSoviaTestPageMetadata({
       description: archetype.description,
-      url: getSoviaTestCanonicalPath(path, testLocale),
-      locale: testLocale.replace("-", "_"),
-    },
+      locale: testLocale,
+      path,
+      title: `${code} | ${archetype.title}`,
+    }),
   };
 }
 

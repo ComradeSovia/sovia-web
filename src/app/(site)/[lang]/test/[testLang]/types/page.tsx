@@ -4,8 +4,8 @@ import { loadSoviaTestStats } from "@sovia/sovia-test/data/submissions";
 import { matchSoviaTestLocale } from "@sovia/sovia-test/i18n/config";
 import { getSoviaTestCopy } from "@sovia/sovia-test/i18n/copy";
 import {
-  getSoviaTestAlternates,
-  getSoviaTestCanonicalPath,
+  createSoviaTestPageSchema,
+  getSoviaTestPageMetadata,
 } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -36,13 +36,12 @@ export async function generateMetadata({
   return {
     title: testCopy.typesPage.title,
     description: testCopy.typesPage.subtitle,
-    alternates: getSoviaTestAlternates(path, testLocale),
-    openGraph: {
-      title: testCopy.typesPage.title,
+    ...getSoviaTestPageMetadata({
       description: testCopy.typesPage.subtitle,
-      url: getSoviaTestCanonicalPath(path, testLocale),
-      locale: testLocale.replace("-", "_"),
-    },
+      locale: testLocale,
+      path,
+      title: testCopy.typesPage.title,
+    }),
   };
 }
 
@@ -51,7 +50,24 @@ export default async function LocalizedSiteTestTypesPage({
 }: PageProps) {
   const { lang, testLang } = await params;
   const testLocale = getLocales(lang, testLang);
+  const testCopy = getSoviaTestCopy(testLocale);
+  const jsonLd = createSoviaTestPageSchema({
+    description: testCopy.typesPage.subtitle,
+    locale: testLocale,
+    path: "/test/types",
+    title: testCopy.typesPage.title,
+  });
   const stats = await loadSoviaTestStats();
 
-  return <SoviaTestTypesComponent initialLocale={testLocale} stats={stats} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is generated from local structured data.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <SoviaTestTypesComponent initialLocale={testLocale} stats={stats} />
+    </>
+  );
 }

@@ -10,8 +10,8 @@ import {
   getSoviaTestCopy,
 } from "@sovia/sovia-test/i18n/copy";
 import {
-  getSoviaTestAlternates,
   getSoviaTestCanonicalPath,
+  getSoviaTestPageMetadata,
 } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -129,13 +129,12 @@ export async function generateMetadata({
   return {
     title: `${code} | ${localizedCopy.page.title}`,
     description: localizedCopy.page.subtitle,
-    alternates: getSoviaTestAlternates(path, locale),
-    openGraph: {
-      title: `${code} | ${localizedCopy.page.title}`,
+    ...getSoviaTestPageMetadata({
       description: localizedCopy.page.subtitle,
-      url: getSoviaTestCanonicalPath(path, locale),
-      locale: locale.replace("-", "_"),
-    },
+      locale,
+      path,
+      title: `${code} | ${localizedCopy.page.title}`,
+    }),
   };
 }
 
