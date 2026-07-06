@@ -8,8 +8,8 @@ import {
   getSoviaTestCopy,
 } from "@sovia/sovia-test/i18n/copy";
 import {
-  getSoviaTestAlternates,
   getSoviaTestCanonicalPath,
+  getSoviaTestPageMetadata,
 } from "@sovia/sovia-test/i18n/seo";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
@@ -138,13 +138,12 @@ export async function generateMetadata({
   return {
     title: `${code} | ${localizedCopy.page.title}`,
     description: localizedCopy.page.subtitle,
-    alternates: getSoviaTestAlternates(path, testLocale),
-    openGraph: {
-      title: `${code} | ${localizedCopy.page.title}`,
+    ...getSoviaTestPageMetadata({
       description: localizedCopy.page.subtitle,
-      url: getSoviaTestCanonicalPath(path, testLocale),
-      locale: testLocale.replace("-", "_"),
-    },
+      locale: testLocale,
+      path,
+      title: `${code} | ${localizedCopy.page.title}`,
+    }),
   };
 }
 
