@@ -64,12 +64,13 @@ export default function Image() {
           top: 62,
           width: 250,
           height: 250,
-          display: "flex",
           alignItems: "center",
           justifyContent: "center",
           transform: "rotate(8deg)",
           border: "14px solid #b91c1c",
           color: "#b91c1c",
+          display: "flex",
+          flexDirection: "column",
           fontSize: 34,
           fontWeight: 900,
           lineHeight: 0.95,
@@ -98,6 +99,8 @@ export default function Image() {
         <div
           style={{
             fontSize: 118,
+            display: "flex",
+            flexDirection: "column",
             lineHeight: 0.86,
             fontWeight: 900,
             letterSpacing: -2,

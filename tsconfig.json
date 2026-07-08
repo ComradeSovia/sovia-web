@@ -34,6 +34,8 @@
       "@sovia/sovia-test/*": ["./src/features/sovia-test/*"],
       "@sovia/sound": ["./src/features/sound/index.ts"],
       "@sovia/sound/*": ["./src/features/sound/*"],
+      "@sovia/typing": ["./src/features/typing/index.ts"],
+      "@sovia/typing/*": ["./src/features/typing/*"],
       "@sovia/tools": ["./src/features/tools/index.ts"],
       "@sovia/tools/*": ["./src/features/tools/*"]
     }
