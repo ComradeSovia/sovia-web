@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# generated code
+/src/generated/prisma/
+
 # don't commit data
 /data
 
