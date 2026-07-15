@@ -8,7 +8,7 @@ export function Alert({
   return (
     <div
       className={cn(
-        "relative w-full rounded-lg border border-emerald-500/40 bg-black p-4 text-emerald-200",
+        "relative w-full rounded-lg border border-zinc-700 bg-zinc-950 p-4 text-zinc-100",
         className,
       )}
       role="alert"
@@ -33,7 +33,5 @@ export function AlertDescription({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("text-sm text-emerald-500", className)} {...props} />
-  );
+  return <div className={cn("text-sm text-zinc-400", className)} {...props} />;
 }
