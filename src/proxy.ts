@@ -119,6 +119,18 @@ export function proxy(request: NextRequest) {
   const secondSegment = segments[1];
   const thirdSegment = segments[2];
 
+  if (firstSegment === "admin") {
+    return NextResponse.next();
+  }
+
+  if (
+    firstSegment &&
+    matchSiteLocale(firstSegment) &&
+    secondSegment === "admin"
+  ) {
+    return NextResponse.next();
+  }
+
   if (firstSegment === "test") {
     const pathLocale = secondSegment
       ? matchSoviaTestLocale(secondSegment)

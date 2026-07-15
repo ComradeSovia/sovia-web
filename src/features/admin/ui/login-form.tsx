@@ -1,41 +1,50 @@
-import { Button } from "@sovia/shared/ui/shadcn/button";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@sovia/shared/ui/shadcn/card";
-import { Input } from "@sovia/shared/ui/shadcn/input";
-import { Label } from "@sovia/shared/ui/shadcn/label";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { loginAdmin } from "../actions";
-import type { AdminCopy } from "../i18n/copy";
+import type { AdminAuthMode } from "../data/auth";
 
-export function AdminLogin({ copy }: { copy: AdminCopy }) {
+export function AdminLogin({
+  mode,
+}: {
+  mode: Exclude<AdminAuthMode, "disabled">;
+}) {
   return (
-    <section className="mx-auto flex min-h-[70vh] max-w-md items-center">
+    <section className="flex min-h-[calc(100vh-7rem)] items-center lg:min-h-[calc(100vh-2.5rem)]">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-mono text-2xl">
-            {copy.login.title}
-          </CardTitle>
-          <CardDescription>{copy.login.description}</CardDescription>
+          <CardTitle className="text-2xl">Admin</CardTitle>
+          <CardDescription>Restricted content console</CardDescription>
         </CardHeader>
 
         <CardContent>
-          <form action={loginAdmin} className="grid gap-5">
-            <div className="grid gap-2">
-              <Label htmlFor="admin-password">{copy.login.password}</Label>
-              <Input
-                id="admin-password"
-                name="password"
-                type="password"
-                required
-              />
-            </div>
+          {mode === "password" ? (
+            <form action={loginAdmin} className="grid gap-5">
+              <div className="grid gap-2">
+                <Label htmlFor="admin-password">Password</Label>
+                <Input
+                  id="admin-password"
+                  name="password"
+                  type="password"
+                  required
+                />
+              </div>
 
-            <Button type="submit">{copy.login.submit}</Button>
-          </form>
+              <Button type="submit">Enter</Button>
+            </form>
+          ) : (
+            <Button asChild className="w-full">
+              <Link href="/admin/login/google">Continue with Google</Link>
+            </Button>
+          )}
         </CardContent>
       </Card>
     </section>

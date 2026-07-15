@@ -1,1 +1,5 @@
-export { AdminPage } from "./ui/admin-page";
+export {
+  AdminContentEditorPage,
+  AdminContentListPage,
+  AdminDashboardPage,
+} from "./ui/admin-content";

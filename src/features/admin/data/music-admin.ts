@@ -1,6 +1,6 @@
 import {
   checkMusicDatabaseConnection,
-  deleteMusicWorkByPath,
+  deleteMusicWorkByContentId,
   ensureMusicDatabase,
   listMusicWorksWithContent,
   upsertMusicWork,
@@ -12,7 +12,6 @@ export function initializeMusicDatabase() {
 }
 
 export async function listAdminMusicWorks() {
-  initializeMusicDatabase();
   return listMusicWorksWithContent();
 }
 
@@ -21,17 +20,17 @@ export async function getAdminDatabaseStatus() {
 }
 
 export async function saveMusicWork({
-  currentPath,
+  currentContentId,
   work,
 }: {
-  currentPath?: string;
+  currentContentId?: string;
   work: MusicWorkDraft;
 }) {
   initializeMusicDatabase();
-  await upsertMusicWork(work, currentPath);
+  await upsertMusicWork(work, currentContentId);
 }
 
-export async function deleteMusicWork(path: string) {
+export async function deleteMusicWork(contentId: string) {
   initializeMusicDatabase();
-  await deleteMusicWorkByPath(path);
+  await deleteMusicWorkByContentId(contentId);
 }

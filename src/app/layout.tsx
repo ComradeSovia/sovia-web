@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import {
+  Geist,
   Noto_Sans,
   Noto_Sans_JP,
   Noto_Sans_KR,
@@ -13,6 +14,8 @@ import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
 import type { ReactNode } from "react";
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const notoSans = Noto_Sans({
   display: "swap",
@@ -132,7 +135,11 @@ export default async function RootLayout({
   const locale = await getCurrentSiteLocale();
 
   return (
-    <html lang={locale} className="h-full" suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`h-full ${geist.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <Script
           id="theme-init"
@@ -142,7 +149,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${getSiteFontVariable(locale)} min-h-full bg-paper font-sans text-ink antialiased`}
+        className={`${getSiteFontVariable(locale)} min-h-full bg-paper text-ink antialiased`}
       >
         <GoogleAnalytics />
         {children}
