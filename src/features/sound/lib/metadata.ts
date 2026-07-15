@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import type { MusicWorkWithContent } from "../model/music";
 
 function stripMarkdown(value: string) {
@@ -16,11 +17,25 @@ function truncate(value: string, maxLength: number) {
   return `${value.slice(0, maxLength - 1).trimEnd()}...`;
 }
 
-export function getWorkDescription(work: MusicWorkWithContent) {
-  const descriptions = Object.values(work.descriptions || {});
-  const firstDescription = descriptions.find(Boolean);
+export function getWorkTitle(work: MusicWorkWithContent) {
+  return work.title;
+}
 
-  if (firstDescription) {
+export function getLocalizedWorkTitle(
+  work: MusicWorkWithContent,
+  _locale?: SiteLocale,
+) {
+  return getWorkTitle(work);
+}
+
+export function getWorkDescription(
+  work: MusicWorkWithContent,
+  _locale?: SiteLocale,
+) {
+  const firstDescription =
+    work.shortDescription ?? work.introText ?? work.productionNotes;
+
+  if (firstDescription?.trim()) {
     return truncate(stripMarkdown(firstDescription), 155);
   }
 

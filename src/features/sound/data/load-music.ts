@@ -1,64 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
-import { DATA_CACHE_DIR } from "@sovia/shared/config/data";
+import {
+  checkYouTubeVideoPublished,
+  readYouTubeThumbnailBlurDataUrl,
+} from "@sovia/youtube-api";
 import type { MusicWork, MusicWorkWithContent } from "../model/music";
 import { getMusicWorkByPath, listMusicWorks } from "./music-repository";
-import { readThumbnailBlurDataUrl } from "./thumbnail-cache";
-
-const THUMBNAIL_CACHE_DIR = path.join(DATA_CACHE_DIR, "u2b-thumbnail");
-
-type ThumbnailCacheEntry = {
-  exists: boolean;
-  checkedAt: number;
-};
-
-const thumbnailCache = new Map<string, ThumbnailCacheEntry>();
-
-const THUMB_OK_TTL = 60 * 60 * 1000; // 1 hour
-const THUMB_FAIL_TTL = 5 * 60 * 1000; // 5 min
-
-/* -------------------------
-   YouTube probe
-------------------------- */
-
-async function checkYouTubeThumbnail(videoId: string): Promise<boolean> {
-  const cached = thumbnailCache.get(videoId);
-  const now = Date.now();
-  const cachePath = path.join(THUMBNAIL_CACHE_DIR, `${videoId}.jpg`);
-
-  if (fs.existsSync(cachePath)) {
-    thumbnailCache.set(videoId, {
-      exists: true,
-      checkedAt: now,
-    });
-    return true;
-  }
-
-  if (cached) {
-    const ttl = cached.exists ? THUMB_OK_TTL : THUMB_FAIL_TTL;
-    if (now - cached.checkedAt < ttl) {
-      return cached.exists;
-    }
-  }
-
-  const res = await fetch(
-    `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-    {
-      method: "HEAD",
-      headers: { "User-Agent": "Mozilla/5.0" },
-      next: { revalidate: 0 },
-    },
-  );
-
-  const exists = res.ok;
-
-  thumbnailCache.set(videoId, {
-    exists,
-    checkedAt: now,
-  });
-
-  return exists;
-}
 
 export async function loadMusicIndex(): Promise<MusicWork[]> {
   return listMusicWorks();
@@ -77,12 +22,12 @@ export async function loadAllMusicWorks(): Promise<MusicWork[]> {
   for (const work of works) {
     if (!work.u2bId) continue;
 
-    const ok = await checkYouTubeThumbnail(work.u2bId);
-    if (!ok) continue;
+    const publication = await checkYouTubeVideoPublished(work.u2bId);
+    if (publication.status !== "published") continue;
 
     result.push({
       ...work,
-      thumbnailBlurDataUrl: await readThumbnailBlurDataUrl(work.u2bId),
+      thumbnailBlurDataUrl: await readYouTubeThumbnailBlurDataUrl(work.u2bId),
     });
   }
 
@@ -100,13 +45,13 @@ export async function loadMusicWorkWithContent(
 
   return {
     ...work,
-    thumbnailBlurDataUrl: await readThumbnailBlurDataUrl(work.u2bId),
+    thumbnailBlurDataUrl: await readYouTubeThumbnailBlurDataUrl(work.u2bId),
   };
 }
 
 export async function getAvailableLanguages(
   workPath: string,
 ): Promise<string[]> {
-  const workWithContent = await loadMusicWorkWithContent(workPath);
-  return workWithContent?.availableLanguages || [];
+  await loadMusicWorkWithContent(workPath);
+  return [];
 }

@@ -1,0 +1,14 @@
+model MusicWorkSource {
+  contentId  String    @id
+  sourceType String?
+  title      String?
+  artists    Json?
+  sourceUrl  String?
+  ip         String?
+  series     String?
+  session    String?
+  details    String?
+  work       MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@map("music_work_sources")
+}
