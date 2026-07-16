@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 import { getDatabaseUrlError } from "./database-errors";
@@ -7,13 +9,30 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function isBuildPhase() {
-  return (
-    process.env.NEXT_PHASE === "phase-production-build" ||
-    process.env.npm_lifecycle_event === "build"
-  );
+  return process.env.NEXT_PHASE === "phase-production-build";
+}
+
+function ensureDatabaseUrlFromEnvFile() {
+  if (process.env.DATABASE_URL) return;
+
+  const envPath = path.join(process.cwd(), ".env");
+  if (!fs.existsSync(envPath)) return;
+
+  for (const line of fs.readFileSync(envPath, "utf8").split(/\r?\n/)) {
+    const match = /^\s*DATABASE_URL\s*=\s*(.*)\s*$/.exec(line);
+    if (!match) continue;
+
+    const value = match[1].trim().replace(/^['"]|['"]$/g, "");
+    if (value) {
+      process.env.DATABASE_URL = value;
+    }
+    return;
+  }
 }
 
 export function hasDatabaseUrl() {
+  ensureDatabaseUrlFromEnvFile();
+
   return (
     !isBuildPhase() &&
     Boolean(process.env.DATABASE_URL) &&
@@ -25,6 +44,8 @@ export function getPrismaClient() {
   if (isBuildPhase()) {
     return null;
   }
+
+  ensureDatabaseUrlFromEnvFile();
 
   const databaseUrl = process.env.DATABASE_URL;
 

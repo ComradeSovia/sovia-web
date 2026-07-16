@@ -41,7 +41,7 @@ const ADMIN_COPY = {
     authDisabledTitle: "admin auth disabled",
     databaseLabel: "content database",
     title: "admin@comrade-sovia",
-    description: "postgres overrides / legacy fallback",
+    description: "postgres content database",
     logout: "Logout",
     databaseError: "database error",
     lastActionFailed:

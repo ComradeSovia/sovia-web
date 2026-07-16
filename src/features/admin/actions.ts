@@ -16,6 +16,7 @@ import {
 } from "./data/auth";
 import {
   deleteMusicWork,
+  getAdminMusicWork,
   listAdminMusicWorks,
   saveMusicWork,
 } from "./data/music-admin";
@@ -206,8 +207,7 @@ function toDraft(
 async function getExistingDraft(contentId: string | undefined) {
   if (!contentId) return null;
 
-  const works = await listAdminMusicWorks();
-  const work = works.find((item) => item.contentId === contentId);
+  const work = await getAdminMusicWork(contentId);
 
   return work ? toDraft(work) : null;
 }
@@ -519,6 +519,11 @@ export async function saveMusicWorkStepAction(formData: FormData) {
   try {
     step = matchMusicWorkStep(stepValue);
     const existingDraft = await getExistingDraft(currentContentId);
+    if (currentContentId && !existingDraft) {
+      throw new Error(
+        "Existing content could not be loaded. Refresh the editor before saving.",
+      );
+    }
     draft = applyStepDraft(
       existingDraft ?? getDefaultDraft(formData),
       formData,

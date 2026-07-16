@@ -10,6 +10,8 @@ import {
 } from "@sovia/youtube-api";
 import {
   AlertCircle,
+  ArrowDown,
+  ArrowUp,
   CheckCircle2,
   Circle,
   Database,
@@ -22,6 +24,7 @@ import {
   Trash2,
   Video,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -57,6 +60,7 @@ import { deleteMusicWorkAction, saveMusicWorkStepAction } from "../actions";
 import { getAdminAuthStatus, isAdminAuthenticated } from "../data/auth";
 import {
   getAdminDatabaseStatus,
+  getAdminMusicWork,
   listAdminMusicWorks,
 } from "../data/music-admin";
 import { AdminActionToast } from "./admin-action-toast";
@@ -85,6 +89,11 @@ const WORK_TYPE_OPTIONS = [
   { label: "[C] Faithful Cover", value: "C" },
 ] as const;
 const FROM_TYPE_OPTIONS = ["Original", "Anime", "Game", "Pop", "Meme"] as const;
+const CONTENT_PAGE_SIZE = 50;
+const CONTENT_SORT_OPTIONS = ["publishedAt", "cid"] as const;
+const CONTENT_SORT_ORDERS = ["asc", "desc"] as const;
+type ContentSort = (typeof CONTENT_SORT_OPTIONS)[number];
+type ContentSortOrder = (typeof CONTENT_SORT_ORDERS)[number];
 
 async function AdminGate({ children }: { children: ReactNode }) {
   const authStatus = getAdminAuthStatus();
@@ -206,15 +215,28 @@ async function DashboardStatus() {
 export async function AdminContentListPage({
   error,
   message,
+  order,
+  page,
   query,
+  sort,
 }: {
   error?: string;
   message?: string;
+  order?: string;
+  page?: string;
   query?: string;
+  sort?: string;
 }) {
   return (
     <AdminGate>
-      <ContentList error={error} message={message} query={query} />
+      <ContentList
+        error={error}
+        message={message}
+        order={order}
+        page={page}
+        query={query}
+        sort={sort}
+      />
     </AdminGate>
   );
 }
@@ -222,51 +244,74 @@ export async function AdminContentListPage({
 async function ContentList({
   error,
   message,
+  order,
+  page,
   query,
+  sort,
 }: {
   error?: string;
   message?: string;
+  order?: string;
+  page?: string;
   query?: string;
+  sort?: string;
 }) {
   const databaseStatus = await getAdminDatabaseStatus();
 
   const normalizedQuery = query?.trim().toLowerCase() ?? "";
-  const works = (await listAdminMusicWorks()).filter((work) =>
-    [
-      work.path,
-      work.contentId,
-      work.storageSource,
-      work.visible ? "visible" : "hidden",
-      work.publishedAt,
-      work.songTitle,
-      work.fromTitle,
-      work.fromArtists?.join(", "),
-      work.fromSource,
-      work.fromType,
-      work.fromIp,
-      work.fromSeries,
-      work.fromSession,
-      work.fromDetails,
-      work.u2bId,
-      work.vkId,
-      work.vkTitle,
-      work.vkDescription,
-      work.bilibiliId,
-      work.bilibiliTitle,
-      work.bilibiliDescription,
-      work.pixivId,
-      work.pixivTitle,
-      work.pixivDescription,
-      work.shortDescription,
-      work.introText,
-      work.productionNotes,
-      work.lyrics,
-      ...Object.values(work.youtubeLocalization ?? {}).flatMap((content) => [
-        content?.title,
-        content?.description,
-      ]),
-      ...Object.values(work.subtitleTracks ?? {}),
-    ].some((value) => value?.toLowerCase().includes(normalizedQuery)),
+  const contentSort = matchContentSort(sort);
+  const contentSortOrder = matchContentSortOrder(order);
+  const currentPage = Math.max(1, Number.parseInt(page ?? "1", 10) || 1);
+  const filteredWorks = (await listAdminMusicWorks())
+    .filter((work) =>
+      [
+        work.path,
+        work.contentId,
+        work.storageSource,
+        work.visible ? "visible" : "hidden",
+        work.publishedAt,
+        work.songTitle,
+        work.title,
+        work.fromTitle,
+        work.fromArtists?.join(", "),
+        work.fromSource,
+        work.fromType,
+        work.fromIp,
+        work.fromSeries,
+        work.fromSession,
+        work.fromDetails,
+        work.u2bId,
+        work.vkId,
+        work.vkTitle,
+        work.vkDescription,
+        work.bilibiliId,
+        work.bilibiliTitle,
+        work.bilibiliDescription,
+        work.pixivId,
+        work.pixivTitle,
+        work.pixivDescription,
+        work.shortDescription,
+        work.introText,
+        work.productionNotes,
+        work.lyrics,
+        ...Object.values(work.youtubeLocalization ?? {}).flatMap((content) => [
+          content?.title,
+          content?.description,
+        ]),
+        ...Object.values(work.subtitleTracks ?? {}),
+      ].some((value) => value?.toLowerCase().includes(normalizedQuery)),
+    )
+    .sort((first, second) =>
+      compareContentWorks(first, second, contentSort, contentSortOrder),
+    );
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredWorks.length / CONTENT_PAGE_SIZE),
+  );
+  const safePage = Math.min(currentPage, totalPages);
+  const works = filteredWorks.slice(
+    (safePage - 1) * CONTENT_PAGE_SIZE,
+    safePage * CONTENT_PAGE_SIZE,
   );
 
   return (
@@ -286,8 +331,8 @@ async function ContentList({
 
       {!databaseStatus.ok ? (
         <DatabaseError
-          message={`${databaseStatus.message}\n\nShowing available file-backed content so the admin UI can keep rendering during local development. Database writes may still fail until migrations are applied.`}
-          summary="Database is not fully available. Showing file-backed content for local development."
+          message={`${databaseStatus.message}\n\nDatabase-backed content cannot be loaded until the connection and schema are available.`}
+          summary="Database is not fully available. Content records may be unavailable until the connection is restored."
           title="database warning"
         />
       ) : null}
@@ -316,6 +361,8 @@ async function ContentList({
           </div>
 
           <form action="/admin/content" className="grid gap-3">
+            <input name="sort" type="hidden" value={contentSort} />
+            <input name="order" type="hidden" value={contentSortOrder} />
             <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_14rem_auto] md:items-end">
               <div className="grid gap-2">
                 <Label htmlFor="admin-content-search">Search</Label>
@@ -350,14 +397,112 @@ async function ContentList({
           </form>
         </CardHeader>
         <CardContent>
-          <ContentTable works={works} />
+          <ContentTable
+            order={contentSortOrder}
+            page={safePage}
+            query={query}
+            sort={contentSort}
+            totalCount={filteredWorks.length}
+            totalPages={totalPages}
+            works={works}
+          />
         </CardContent>
       </Card>
     </section>
   );
 }
 
-function ContentTable({ works }: { works: AdminMusicWork[] }) {
+function matchContentSort(value?: string): ContentSort {
+  return CONTENT_SORT_OPTIONS.includes(value as ContentSort)
+    ? (value as ContentSort)
+    : "publishedAt";
+}
+
+function matchContentSortOrder(value?: string): ContentSortOrder {
+  return CONTENT_SORT_ORDERS.includes(value as ContentSortOrder)
+    ? (value as ContentSortOrder)
+    : "desc";
+}
+
+function compareContentWorks(
+  first: AdminMusicWork,
+  second: AdminMusicWork,
+  sort: ContentSort,
+  order: ContentSortOrder,
+) {
+  const direction = order === "asc" ? 1 : -1;
+
+  if (sort === "cid") {
+    return (
+      direction *
+      first.contentId.localeCompare(second.contentId, undefined, {
+        numeric: true,
+      })
+    );
+  }
+
+  const firstTime = Date.parse(first.publishedAt ?? "");
+  const secondTime = Date.parse(second.publishedAt ?? "");
+  const normalizedFirst = Number.isNaN(firstTime) ? 0 : firstTime;
+  const normalizedSecond = Number.isNaN(secondTime) ? 0 : secondTime;
+
+  if (normalizedFirst !== normalizedSecond) {
+    return direction * (normalizedFirst - normalizedSecond);
+  }
+
+  return first.contentId.localeCompare(second.contentId, undefined, {
+    numeric: true,
+  });
+}
+
+function getContentPageHref({
+  order,
+  page,
+  query,
+  sort,
+}: {
+  order: ContentSortOrder;
+  page: number;
+  query?: string;
+  sort: ContentSort;
+}) {
+  const params = new URLSearchParams();
+  const normalizedQuery = query?.trim();
+
+  if (normalizedQuery) {
+    params.set("q", normalizedQuery);
+  }
+  if (sort !== "publishedAt") {
+    params.set("sort", sort);
+  }
+  if (order !== "desc") {
+    params.set("order", order);
+  }
+  if (page > 1) {
+    params.set("page", String(page));
+  }
+
+  const search = params.toString();
+  return search ? `/admin/content?${search}` : "/admin/content";
+}
+
+function ContentTable({
+  order,
+  page,
+  query,
+  sort,
+  totalCount,
+  totalPages,
+  works,
+}: {
+  order: ContentSortOrder;
+  page: number;
+  query?: string;
+  sort: ContentSort;
+  totalCount: number;
+  totalPages: number;
+  works: AdminMusicWork[];
+}) {
   if (!works.length) {
     return (
       <div className="rounded-md border border-dashed border-zinc-700 px-4 py-8 text-center text-sm text-zinc-400">
@@ -367,73 +512,235 @@ function ContentTable({ works }: { works: AdminMusicWork[] }) {
   }
 
   return (
-    <div className="rounded-lg border bg-card">
-      <Table>
+    <div className="overflow-hidden rounded-lg border bg-card">
+      <Table className="min-w-full table-auto">
         <TableHeader>
           <TableRow>
-            <TableHead className="min-w-72">Title</TableHead>
-            <TableHead className="min-w-40">UID</TableHead>
-            <TableHead className="min-w-32">Source</TableHead>
-            <TableHead className="min-w-48">YouTube</TableHead>
-            <TableHead className="min-w-48">Subtitles</TableHead>
-            <TableHead className="min-w-48">Distribution</TableHead>
-            <TableHead className="w-24" />
+            <TableHead className="w-20">Edit</TableHead>
+            <TableHead className="w-28">Thumbnail</TableHead>
+            <SortableTableHead
+              activeSort={sort}
+              className="w-32"
+              label="Published"
+              order={order}
+              query={query}
+              sort="publishedAt"
+            />
+            <ResizableTableHead className="min-w-72" label="Song" />
+            <ResizableTableHead className="min-w-36" label="Platforms" />
+            <SortableTableHead
+              activeSort={sort}
+              className="w-24"
+              label="CID"
+              order={order}
+              query={query}
+              sort="cid"
+            />
           </TableRow>
         </TableHeader>
         <TableBody>
           {works.map((work) => (
             <TableRow key={work.contentId}>
-              <TableCell className="min-w-0">
+              <TableCell className="align-top">
+                <Button asChild size="sm" variant="ghost">
+                  <Link
+                    href={`/admin/content/${encodeURIComponent(work.contentId)}`}
+                    title="Edit content"
+                  >
+                    <Pencil />
+                  </Link>
+                </Button>
+              </TableCell>
+              <TableCell className="align-top">
+                <ContentThumbnail work={work} />
+              </TableCell>
+              <TableCell className="align-top text-xs text-muted-foreground">
+                {work.publishedAt || "Unpublished"}
+              </TableCell>
+              <TableCell className="min-w-0 align-top whitespace-normal">
                 <Link
                   href={`/admin/content/${encodeURIComponent(work.contentId)}`}
                   className="block min-w-0"
                 >
-                  <div className="truncate font-medium">
-                    {work.songTitle || "empty"}
+                  <div className="line-clamp-2 font-medium leading-snug">
+                    <ContentSongLabel work={work} />
                   </div>
-                  <div className="mt-1 truncate text-xs text-muted-foreground">
-                    {work.fromTitle ||
-                      work.fromDetails ||
-                      work.fromSeries ||
-                      work.fromType ||
-                      "No source"}
+                  <div className="mt-2 flex flex-wrap items-center gap-1">
+                    <StorageSourceBadge source={work.storageSource} />
+                    <WorkVisibilityBadge visible={Boolean(work.visible)} />
+                    <SubtitleBadges work={work} />
                   </div>
                 </Link>
               </TableCell>
-              <TableCell className="text-muted-foreground">
-                {work.contentId}
-              </TableCell>
-              <TableCell>
-                <StorageSourceBadge source={work.storageSource} />
-              </TableCell>
-              <TableCell>
-                <YoutubeLocalizationBadges work={work} />
-              </TableCell>
-              <TableCell>
-                <SubtitleBadges work={work} />
-              </TableCell>
-              <TableCell>
+              <TableCell className="align-top whitespace-normal">
                 <PlatformBadges work={work} />
               </TableCell>
-              <TableCell className="text-right">
-                <Button asChild size="sm" variant="ghost">
-                  <Link
-                    href={`/admin/content/${encodeURIComponent(work.contentId)}`}
-                  >
-                    <Pencil />
-                    Edit
-                  </Link>
-                </Button>
+              <TableCell className="align-top font-mono text-xs text-muted-foreground">
+                {work.contentId}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-between border-t px-4 py-3 text-xs text-muted-foreground">
-        <span>Page 1</span>
-        <span>{works.length} shown</span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t px-4 py-3 text-xs text-muted-foreground">
+        <span>
+          Page {page} / {totalPages}
+        </span>
+        <span>
+          {works.length} shown, {totalCount} total
+        </span>
+        <div className="flex items-center gap-2">
+          <Button
+            asChild={page > 1}
+            className={SECONDARY_BUTTON_CLASS}
+            disabled={page <= 1}
+            size="sm"
+            variant="outline"
+          >
+            {page > 1 ? (
+              <Link
+                href={getContentPageHref({
+                  order,
+                  page: page - 1,
+                  query,
+                  sort,
+                })}
+              >
+                Previous
+              </Link>
+            ) : (
+              <span>Previous</span>
+            )}
+          </Button>
+          <Button
+            asChild={page < totalPages}
+            className={SECONDARY_BUTTON_CLASS}
+            disabled={page >= totalPages}
+            size="sm"
+            variant="outline"
+          >
+            {page < totalPages ? (
+              <Link
+                href={getContentPageHref({
+                  order,
+                  page: page + 1,
+                  query,
+                  sort,
+                })}
+              >
+                Next
+              </Link>
+            ) : (
+              <span>Next</span>
+            )}
+          </Button>
+        </div>
       </div>
     </div>
+  );
+}
+
+function SortableTableHead({
+  activeSort,
+  className,
+  label,
+  order,
+  query,
+  sort,
+}: {
+  activeSort: ContentSort;
+  className?: string;
+  label: string;
+  order: ContentSortOrder;
+  query?: string;
+  sort: ContentSort;
+}) {
+  const isActive = activeSort === sort;
+  const nextOrder: ContentSortOrder =
+    isActive && order === "desc" ? "asc" : "desc";
+  const Icon = !isActive ? Circle : order === "desc" ? ArrowDown : ArrowUp;
+
+  return (
+    <TableHead className={className}>
+      <Link
+        className="inline-flex items-center gap-1.5 text-zinc-200 hover:text-white"
+        href={getContentPageHref({
+          order: nextOrder,
+          page: 1,
+          query,
+          sort,
+        })}
+        title={`Sort by ${label}`}
+      >
+        <span>{label}</span>
+        <Icon className="h-3.5 w-3.5" />
+      </Link>
+    </TableHead>
+  );
+}
+
+function ContentSongLabel({ work }: { work: AdminMusicWork }) {
+  const songName = work.songTitle || work.title || "empty";
+  const sourceName = [work.fromSeries, work.fromSession, work.fromDetails]
+    .filter(Boolean)
+    .join(" ");
+
+  return sourceName ? `${songName} - ${sourceName}` : songName;
+}
+
+function ResizableTableHead({
+  className,
+  label,
+}: {
+  className?: string;
+  label: string;
+}) {
+  return (
+    <TableHead className="p-0 align-top">
+      <div
+        className={`resize-x overflow-auto px-2 py-2 ${className ?? ""}`}
+        title="Drag the lower-right edge to resize this column"
+      >
+        {label}
+      </div>
+    </TableHead>
+  );
+}
+
+function ContentThumbnail({ work }: { work: AdminMusicWork }) {
+  if (!work.u2bId) {
+    return (
+      <div className="grid aspect-video w-24 place-items-center rounded-md border border-zinc-800 bg-zinc-950 text-xs text-zinc-500">
+        No image
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      alt=""
+      className="aspect-video w-24 rounded-md border border-zinc-800 bg-zinc-950 object-cover"
+      height={54}
+      loading="lazy"
+      src={`/api/u2b-thumbnail?id=${encodeURIComponent(work.u2bId)}`}
+      unoptimized
+      width={96}
+    />
+  );
+}
+
+function WorkVisibilityBadge({ visible }: { visible?: boolean }) {
+  return (
+    <Badge
+      className={
+        visible
+          ? "border-emerald-700 bg-emerald-950 text-emerald-100"
+          : "border-zinc-700 bg-transparent text-zinc-400"
+      }
+      variant="outline"
+    >
+      {visible ? "Visible" : "Hidden"}
+    </Badge>
   );
 }
 
@@ -443,7 +750,7 @@ function StorageSourceBadge({
   source?: AdminMusicWork["storageSource"];
 }) {
   const label =
-    source === "db+file" ? "DB + file" : source === "db" ? "DB" : "File";
+    source === "db+file" ? "DB + file" : source === "db" ? "DB" : "Unknown";
   const className =
     source === "db+file"
       ? "border-amber-700 bg-amber-950 text-amber-100"
@@ -455,34 +762,6 @@ function StorageSourceBadge({
     <Badge className={className} variant="outline">
       {label}
     </Badge>
-  );
-}
-
-function YoutubeLocalizationBadges({ work }: { work: AdminMusicWork }) {
-  const languages = Object.keys(work.youtubeLocalization ?? {});
-
-  if (!languages.length) {
-    return (
-      <Badge
-        className="border-zinc-700 bg-transparent text-zinc-400"
-        variant="outline"
-      >
-        empty
-      </Badge>
-    );
-  }
-
-  return (
-    <div className="flex max-w-56 flex-wrap gap-1">
-      {languages.map((locale) => (
-        <Badge
-          className="border-zinc-700 bg-zinc-800 text-zinc-100"
-          key={locale}
-        >
-          {locale}
-        </Badge>
-      ))}
-    </div>
   );
 }
 
@@ -572,8 +851,7 @@ async function ContentEditor({
 }) {
   const databaseStatus = await getAdminDatabaseStatus();
 
-  const works = await listAdminMusicWorks();
-  const work = id ? works.find((item) => item.contentId === id) : undefined;
+  const work = id ? ((await getAdminMusicWork(id)) ?? undefined) : undefined;
   const youtubePublicationStatus = await checkYouTubeVideoPublished(
     work?.u2bId,
   );
@@ -584,8 +862,8 @@ async function ContentEditor({
 
       {!databaseStatus.ok ? (
         <DatabaseError
-          message={`${databaseStatus.message}\n\nThe editor is rendering with available file-backed content. Saving database changes may still fail until migrations are applied.`}
-          summary="Database is not fully available. The editor is rendering with available file-backed content."
+          message={`${databaseStatus.message}\n\nThe editor cannot load database-backed content until the connection and schema are available.`}
+          summary="Database is not fully available. The editor may not be able to load this content record."
           title="database warning"
         />
       ) : null}

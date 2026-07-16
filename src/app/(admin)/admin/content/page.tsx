@@ -14,9 +14,25 @@ export const metadata: Metadata = {
 export default async function AdminContentRoute({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; message?: string; q?: string }>;
+  searchParams: Promise<{
+    error?: string;
+    message?: string;
+    order?: string;
+    page?: string;
+    q?: string;
+    sort?: string;
+  }>;
 }) {
-  const { error, message, q } = await searchParams;
+  const { error, message, order, page, q, sort } = await searchParams;
 
-  return <AdminContentListPage error={error} message={message} query={q} />;
+  return (
+    <AdminContentListPage
+      error={error}
+      message={message}
+      order={order}
+      page={page}
+      query={q}
+      sort={sort}
+    />
+  );
 }

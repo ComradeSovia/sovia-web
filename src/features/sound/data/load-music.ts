@@ -3,7 +3,7 @@ import {
   readYouTubeThumbnailBlurDataUrl,
 } from "@sovia/youtube-api";
 import type { MusicWork, MusicWorkWithContent } from "../model/music";
-import { getMusicWorkByPath, listMusicWorks } from "./music-repository";
+import { listMusicWorks } from "./music-repository";
 
 export async function loadMusicIndex(): Promise<MusicWork[]> {
   return listMusicWorks();
@@ -37,10 +37,13 @@ export async function loadAllMusicWorks(): Promise<MusicWork[]> {
 export async function loadMusicWorkWithContent(
   workPath: string,
 ): Promise<MusicWorkWithContent | null> {
-  const work = await getMusicWorkByPath(workPath);
+  const work =
+    (await listMusicWorks()).find(
+      (item) => item.path === workPath || item.contentId === workPath,
+    ) ?? null;
 
   if (!work?.u2bId) {
-    return work;
+    return work as MusicWorkWithContent | null;
   }
 
   return {

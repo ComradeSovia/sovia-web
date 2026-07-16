@@ -1,9 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
-import { DATA_LIST_FILE, DATA_WORKS_DIR } from "@sovia/shared/config/data";
 import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
 import type {
-  MusicWork,
   MusicWorkDraft,
   MusicWorkRecord,
   MusicWorkSubtitleTracks,
@@ -259,6 +255,22 @@ function toPlatformPayload({
   };
 }
 
+function withoutNullishValues<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([, item]) => item !== null && item !== undefined,
+    ),
+  ) as Partial<T>;
+}
+
+function withoutEmptyValues<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([, item]) => item !== null && item !== undefined && item !== "",
+    ),
+  ) as Partial<T>;
+}
+
 function toWorkWithContent(row: MusicWorkRecord): MusicWorkWithContent {
   const work = toWorkRecord(row);
 
@@ -314,75 +326,6 @@ function normalizeOptional(value: string | null | undefined) {
   return trimmed ? trimmed : null;
 }
 
-function readLegacyMarkdown(contentKey: string, fileName: string) {
-  const contentPath = path.join(DATA_WORKS_DIR, contentKey, fileName);
-  if (!fs.existsSync(contentPath)) return "";
-  return fs.readFileSync(contentPath, "utf-8");
-}
-
-function readLegacyWorks() {
-  if (!fs.existsSync(DATA_LIST_FILE)) return [];
-
-  const content = fs.readFileSync(DATA_LIST_FILE, "utf-8");
-  return JSON.parse(content) as MusicWork[];
-}
-
-function toLegacyWorkRecord(work: MusicWork): MusicWorkRecord {
-  const contentId = work.contentId || work.vid || work.path;
-  const songTitle = work.songTitle ?? work.title ?? null;
-  const fromTitle = work.fromTitle ?? work.original ?? null;
-  const fromSeries = work.fromSeries ?? work.series ?? null;
-
-  return {
-    path: work.path,
-    contentId,
-    storageSource: "file",
-    workType: work.workType ?? (work.isOriginal ? "O" : "R"),
-    songTitle,
-    fromTitle,
-    fromArtists: work.fromArtists ?? null,
-    fromSource: work.fromSource ?? null,
-    fromType: work.fromType ?? null,
-    fromIp: work.fromIp ?? null,
-    fromSeries,
-    fromSession: work.fromSession ?? null,
-    fromDetails: work.fromDetails ?? null,
-    vid: contentId,
-    title: songTitle ?? contentId,
-    original: normalizeOptional(fromTitle),
-    u2bId: normalizeOptional(work.u2bId),
-    series: normalizeOptional(fromSeries),
-    bilibiliId: null,
-    bilibiliTitle: null,
-    bilibiliDescription: null,
-    inspiredByDetail: null,
-    inspiredByAuthor: null,
-    inspiredByTitle: normalizeOptional(fromTitle),
-    introText: null,
-    isOriginal: false,
-    lyrics: readLegacyMarkdown(contentId, "lyrics.md"),
-    musicStyle: null,
-    musicType: null,
-    pixivId: null,
-    pixivTitle: null,
-    pixivDescription: null,
-    productionNotes: null,
-    publishedAt: work.publishedAt ?? null,
-    visible: work.visible ?? true,
-    relatedWorkUids: null,
-    shortDescription: null,
-    subtitleTracks: null,
-    vkId: null,
-    vkTitle: null,
-    vkDescription: null,
-    youtubeLocalization: null,
-  };
-}
-
-function toMusicWorkWithContent(work: MusicWorkRecord): MusicWorkWithContent {
-  return toWorkWithContent(work);
-}
-
 export function ensureMusicDatabase() {
   if (!getPrismaClient()) {
     throw new Error(getFriendlyDatabaseError(null));
@@ -421,43 +364,23 @@ export async function countMusicWorks() {
 }
 
 async function listDatabaseMusicWorks() {
-  try {
-    const prisma = getPrismaClient();
-    if (!prisma) return [];
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
 
-    return (
-      await withDatabaseTimeout(
-        prisma.musicWork.findMany({ include: MUSIC_WORK_INCLUDE }),
-      )
-    ).map((work) =>
-      toWorkRecord({
-        ...work,
-        storageSource: "db",
-      }),
-    );
-  } catch (error) {
-    console.warn(getFriendlyDatabaseError(error));
-    return [];
-  }
+  return (
+    await withDatabaseTimeout(
+      prisma.musicWork.findMany({ include: MUSIC_WORK_INCLUDE }),
+    )
+  ).map((work) =>
+    toWorkRecord({
+      ...work,
+      storageSource: "db",
+    }),
+  );
 }
 
 export async function listMusicWorks() {
-  const worksByContentId = new Map<string, MusicWorkRecord>();
-
-  for (const work of readLegacyWorks()) {
-    const record = toLegacyWorkRecord(work);
-    worksByContentId.set(record.contentId, record);
-  }
-
-  for (const work of await listDatabaseMusicWorks()) {
-    const hasFileRecord = worksByContentId.has(work.contentId);
-    worksByContentId.set(work.contentId, {
-      ...work,
-      storageSource: hasFileRecord ? "db+file" : "db",
-    });
-  }
-
-  return Array.from(worksByContentId.values()).sort((a, b) =>
+  return (await listDatabaseMusicWorks()).sort((a, b) =>
     a.contentId.localeCompare(b.contentId, undefined, { numeric: true }),
   );
 }
@@ -469,40 +392,29 @@ export async function listMusicWorksWithContent() {
 export async function getMusicWorkByPath(workPath: string) {
   let row: MusicWorkRecordSource | null = null;
 
-  try {
-    const prisma = getPrismaClient();
+  const prisma = getPrismaClient();
 
-    if (prisma) {
-      row = await withDatabaseTimeout(
-        prisma.musicWork.findUnique({
-          include: MUSIC_WORK_INCLUDE,
-          where: { path: workPath },
-        }),
-      );
-    }
-  } catch (error) {
-    console.warn(getFriendlyDatabaseError(error));
-  }
-
-  if (row) {
-    const hasFileRecord = readLegacyWorks().some(
-      (work) => (work.contentId || work.vid || work.path) === row.contentId,
-    );
-
-    return toWorkWithContent(
-      toWorkRecord({
-        ...row,
-        storageSource: hasFileRecord ? "db+file" : "db",
+  if (prisma) {
+    row = await withDatabaseTimeout(
+      prisma.musicWork.findFirst({
+        include: MUSIC_WORK_INCLUDE,
+        where: {
+          OR: [{ path: workPath }, { contentId: workPath }],
+        },
       }),
     );
   }
 
-  const legacyWork = readLegacyWorks().find((work) => work.path === workPath);
-  if (!legacyWork) {
-    return null;
+  if (row) {
+    return toWorkWithContent(
+      toWorkRecord({
+        ...row,
+        storageSource: "db",
+      }),
+    );
   }
 
-  return toMusicWorkWithContent(toLegacyWorkRecord(legacyWork));
+  return null;
 }
 
 export async function upsertMusicWork(
@@ -604,25 +516,28 @@ export async function upsertMusicWork(
         update: status,
       });
 
+      const contentUpdate = withoutEmptyValues(content);
       await tx.musicWorkContent.upsert({
         where: { contentId },
         create: {
           contentId,
           ...content,
         },
-        update: content,
+        update: contentUpdate,
       });
 
+      const sourceUpdate = withoutEmptyValues(source);
       await tx.musicWorkSource.upsert({
         where: { contentId },
         create: {
           contentId,
           ...source,
         },
-        update: source,
+        update: sourceUpdate,
       });
 
       for (const platform of platforms) {
+        const platformUpdate = withoutNullishValues(platform);
         await tx.musicWorkPlatform.upsert({
           where: {
             contentId_platform: {
@@ -634,7 +549,7 @@ export async function upsertMusicWork(
             contentId,
             ...platform,
           },
-          update: platform,
+          update: platformUpdate,
         });
       }
 
