@@ -67,6 +67,7 @@ export default function Image() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          flexDirection: "column",
           transform: "rotate(8deg)",
           border: "14px solid #b91c1c",
           color: "#b91c1c",
@@ -77,11 +78,9 @@ export default function Image() {
           textTransform: "uppercase",
         }}
       >
-        Music
-        <br />
-        Creative
-        <br />
-        Works
+        <span>Music</span>
+        <span>Creative</span>
+        <span>Works</span>
       </div>
 
       <div
@@ -98,15 +97,16 @@ export default function Image() {
         <div
           style={{
             fontSize: 118,
+            display: "flex",
+            flexDirection: "column",
             lineHeight: 0.86,
             fontWeight: 900,
             letterSpacing: -2,
             textTransform: "uppercase",
           }}
         >
-          Comrade
-          <br />
-          Sovia
+          <span>Comrade</span>
+          <span>Sovia</span>
         </div>
 
         <div
