@@ -1,29 +1,33 @@
 import { siteUrl } from "@sovia/shared";
+import {
+  DEFAULT_SITE_LOCALE,
+  type SiteLocale,
+} from "@sovia/shared/i18n/site-locale";
 import { createMusicRecordingSchema } from "@sovia/shared/seo/schema";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
-import { getWorkDescription } from "../lib/metadata";
+import { getWorkDescription, getWorkTitle } from "../lib/metadata";
 import type { MusicWorkWithContent } from "../model/music";
 import { U2BThumbnail } from "./u2b-thumbnail";
 
-export function SoundDetail({ work }: { work: MusicWorkWithContent }) {
-  const descriptionLangs = Object.keys(work.descriptions || {});
-  const lyricsLangs = Object.keys(work.lyrics || {});
-
-  const description =
-    descriptionLangs.length > 0
-      ? work.descriptions?.[descriptionLangs[0]]
-      : null;
-  const lyrics = lyricsLangs.length > 0 ? work.lyrics?.[lyricsLangs[0]] : null;
+export function SoundDetail({
+  locale = DEFAULT_SITE_LOCALE,
+  work,
+}: {
+  locale?: SiteLocale;
+  work: MusicWorkWithContent;
+}) {
+  const title = getWorkTitle(work);
+  const hasDescription = Boolean(work.introText || work.productionNotes);
   const jsonLd = createMusicRecordingSchema({
-    description: getWorkDescription(work),
+    description: getWorkDescription(work, locale),
     image: work.u2bId
       ? `https://img.youtube.com/vi/${work.u2bId}/maxresdefault.jpg`
       : siteUrl("/opengraph-image"),
     original: work.original,
     path: work.path,
     series: work.series,
-    title: work.title,
+    title,
     u2bId: work.u2bId,
   });
 
@@ -37,20 +41,22 @@ export function SoundDetail({ work }: { work: MusicWorkWithContent }) {
 
       {work.u2bId && (
         <U2BThumbnail
-          alt={`YouTube thumbnail for ${work.title}`}
+          alt={`YouTube thumbnail for ${title}`}
           blurDataURL={work.thumbnailBlurDataUrl}
           u2bId={work.u2bId}
         />
       )}
 
       <header className="space-y-3">
-        <h1 className="text-4xl leading-none sm:text-5xl">{work.title}</h1>
+        <h1 className="text-4xl leading-none sm:text-5xl">{title}</h1>
 
         {work.series && <div className="meta">{work.series}</div>}
 
         <p>
           {work.original ? `Adapted from ${work.original}` : "Original work"}
         </p>
+
+        {work.shortDescription ? <p>{work.shortDescription}</p> : null}
 
         {work.u2bId && (
           <a
@@ -64,19 +70,28 @@ export function SoundDetail({ work }: { work: MusicWorkWithContent }) {
         )}
       </header>
 
-      {description && (
+      {hasDescription && (
         <section className="space-y-4">
           <h2 className="text-3xl sm:text-4xl">Description</h2>
-          <ReactMarkdown remarkPlugins={[remarkBreaks]}>
-            {description}
-          </ReactMarkdown>
+          {work.introText ? (
+            <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+              {work.introText}
+            </ReactMarkdown>
+          ) : null}
+          {work.productionNotes ? (
+            <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+              {work.productionNotes}
+            </ReactMarkdown>
+          ) : null}
         </section>
       )}
 
-      {lyrics && (
+      {work.lyrics && (
         <section className="space-y-4">
           <h2 className="text-3xl sm:text-4xl">Lyrics</h2>
-          <ReactMarkdown remarkPlugins={[remarkBreaks]}>{lyrics}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+            {work.lyrics}
+          </ReactMarkdown>
         </section>
       )}
     </section>

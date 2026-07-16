@@ -16,6 +16,8 @@ ENV SITE_URL=$SITE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL=postgresql://user:password@localhost:5432/sovia
+RUN pnpm prisma:generate
 RUN pnpm build
 
 FROM base AS runner

@@ -1,16 +1,79 @@
-import fs from "node:fs";
-import path from "node:path";
-import { DATA_LIST_FILE, DATA_WORKS_DIR } from "@sovia/shared/config/data";
+import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
 import type {
-  MusicWork,
   MusicWorkDraft,
   MusicWorkRecord,
+  MusicWorkSubtitleTracks,
   MusicWorkWithContent,
+  MusicWorkYoutubeLocalization,
+  YoutubeLocalizationContent,
 } from "../model/music";
 import { getFriendlyDatabaseError } from "./database-errors";
 import { getPrismaClient } from "./prisma";
 
-const DATABASE_TIMEOUT_MS = 2500;
+const DATABASE_TIMEOUT_MS = 10_000;
+const YOUTUBE_LOCALIZATION_FIELDS = [
+  "title",
+  "description",
+] as const satisfies (keyof YoutubeLocalizationContent)[];
+
+const MUSIC_WORK_INCLUDE = {
+  content: true,
+  platforms: true,
+  source: true,
+  status: true,
+  subtitles: true,
+} as const;
+
+type MusicWorkSourceSection = {
+  sourceType?: string | null;
+  title?: string | null;
+  artists?: unknown;
+  sourceUrl?: string | null;
+  ip?: string | null;
+  series?: string | null;
+  session?: string | null;
+  details?: string | null;
+};
+
+type MusicWorkContentSection = {
+  songTitle?: string | null;
+  lyrics?: string | null;
+  shortDescription?: string | null;
+  introText?: string | null;
+  productionNotes?: string | null;
+  relatedWorkUids?: string | null;
+};
+
+type MusicWorkStatusSection = {
+  visible?: boolean | null;
+  publishedAt?: string | null;
+};
+
+type MusicWorkPlatformSection = {
+  platform?: string | null;
+  platformId?: string | null;
+  title?: string | null;
+  description?: string | null;
+  metadata?: unknown;
+};
+
+type MusicWorkSubtitlesSection = {
+  tracks?: unknown;
+};
+
+type MusicWorkRecordSource = {
+  path?: string | null;
+  contentId: string;
+  storageSource?: "db" | "db+file" | "file";
+  workType: string;
+  content?: MusicWorkContentSection | null;
+  platforms?: MusicWorkPlatformSection[] | null;
+  source?: MusicWorkSourceSection | null;
+  status?: MusicWorkStatusSection | null;
+  subtitles?: MusicWorkSubtitlesSection | null;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
+};
 
 async function withDatabaseTimeout<T>(operation: Promise<T>) {
   let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -30,16 +93,67 @@ async function withDatabaseTimeout<T>(operation: Promise<T>) {
   }
 }
 
-function toWorkRecord(value: MusicWorkRecord): MusicWorkRecord {
+function toWorkRecord(value: MusicWorkRecordSource): MusicWorkRecord {
+  const contentId = value.contentId;
+  const content = value.content;
+  const status = value.status;
+  const platforms = value.platforms ?? [];
+  const youtubePlatform = findPlatform(platforms, "youtube");
+  const bilibiliPlatform = findPlatform(platforms, "bilibili");
+  const vkPlatform = findPlatform(platforms, "vk");
+  const pixivPlatform = findPlatform(platforms, "pixiv");
+  const songTitle = content?.songTitle ?? null;
+  const source = value.source;
+  const subtitles = value.subtitles;
+  const fromTitle = source?.title ?? null;
+  const fromSeries = source?.series ?? null;
+  const fromArtists = normalizeStringArray(source?.artists);
+
   return {
-    path: value.path,
-    vid: value.vid,
-    title: value.title,
-    original: value.original,
-    u2bId: value.u2bId,
-    series: value.series,
-    description: value.description,
-    lyrics: value.lyrics,
+    path: value.path ?? "",
+    contentId,
+    storageSource: value.storageSource,
+    workType: value.workType,
+    visible: status?.visible ?? false,
+    publishedAt: status?.publishedAt,
+    songTitle,
+    fromTitle,
+    fromArtists,
+    fromSource: source?.sourceUrl,
+    fromType: source?.sourceType,
+    fromIp: source?.ip,
+    fromSeries,
+    fromSession: source?.session,
+    fromDetails: source?.details,
+    vid: contentId,
+    title: songTitle ?? contentId,
+    original: fromTitle,
+    u2bId: youtubePlatform?.platformId,
+    series: fromSeries,
+    bilibiliId: bilibiliPlatform?.platformId,
+    bilibiliTitle: bilibiliPlatform?.title,
+    bilibiliDescription: bilibiliPlatform?.description,
+    inspiredByDetail: source?.sourceUrl,
+    inspiredByAuthor: fromArtists?.join(", "),
+    inspiredByTitle: fromTitle,
+    introText: content?.introText,
+    isOriginal: value.workType === "O" || value.workType === "CO",
+    lyrics: content?.lyrics,
+    musicStyle: value.workType,
+    musicType: source?.sourceType,
+    pixivId: pixivPlatform?.platformId,
+    pixivTitle: pixivPlatform?.title,
+    pixivDescription: pixivPlatform?.description,
+    productionNotes: content?.productionNotes,
+    relatedWorkUids: content?.relatedWorkUids,
+    shortDescription: content?.shortDescription,
+    subtitleTracks: normalizeSubtitleTracks(subtitles?.tracks),
+    vkId: vkPlatform?.platformId,
+    vkTitle: vkPlatform?.title,
+    vkDescription: vkPlatform?.description,
+    youtubeLocalization: normalizeYoutubeLocalization(
+      youtubePlatform?.metadata,
+    ),
     createdAt:
       value.createdAt instanceof Date
         ? value.createdAt.toISOString()
@@ -51,27 +165,158 @@ function toWorkRecord(value: MusicWorkRecord): MusicWorkRecord {
   };
 }
 
+function isPlainRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function normalizeYoutubeLocalization(
+  value: unknown,
+): MusicWorkYoutubeLocalization {
+  if (!isPlainRecord(value)) return {};
+
+  const youtubeLocalization: MusicWorkYoutubeLocalization = {};
+
+  for (const locale of SITE_LOCALES) {
+    const source = value[locale];
+    if (!isPlainRecord(source)) continue;
+
+    const content: YoutubeLocalizationContent = {};
+
+    for (const field of YOUTUBE_LOCALIZATION_FIELDS) {
+      const fieldValue = source[field];
+      if (typeof fieldValue === "string" && fieldValue.trim()) {
+        content[field] = fieldValue;
+      }
+    }
+
+    if (Object.keys(content).length > 0) {
+      youtubeLocalization[locale] = content;
+    }
+  }
+
+  return youtubeLocalization;
+}
+
+function normalizeSubtitleTracks(value: unknown): MusicWorkSubtitleTracks {
+  if (!isPlainRecord(value)) return {};
+
+  const subtitleTracks: MusicWorkSubtitleTracks = {};
+
+  for (const locale of SITE_LOCALES) {
+    const track = value[locale];
+    if (typeof track === "string" && track.trim()) {
+      subtitleTracks[locale] = track;
+    }
+  }
+
+  return subtitleTracks;
+}
+
+function normalizeStringArray(value: unknown) {
+  if (Array.isArray(value)) {
+    const items = value
+      .filter((item): item is string => typeof item === "string")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return items.length ? items : null;
+  }
+
+  if (typeof value === "string") {
+    const items = value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return items.length ? items : null;
+  }
+
+  return null;
+}
+
+function findPlatform(platforms: MusicWorkPlatformSection[], platform: string) {
+  return platforms.find((item) => item.platform === platform);
+}
+
+function toPlatformPayload({
+  description,
+  metadata,
+  platformId,
+  title,
+}: {
+  description?: string | null;
+  metadata?: unknown;
+  platformId?: string | null;
+  title?: string | null;
+}) {
+  return {
+    description: normalizeOptional(description),
+    metadata: metadata ?? undefined,
+    platformId: normalizeOptional(platformId),
+    title: normalizeOptional(title),
+  };
+}
+
+function withoutNullishValues<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([, item]) => item !== null && item !== undefined,
+    ),
+  ) as Partial<T>;
+}
+
+function withoutEmptyValues<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([, item]) => item !== null && item !== undefined && item !== "",
+    ),
+  ) as Partial<T>;
+}
+
 function toWorkWithContent(row: MusicWorkRecord): MusicWorkWithContent {
   const work = toWorkRecord(row);
-  const descriptions: Record<string, string> = work.description
-    ? { default: work.description }
-    : {};
-  const lyrics: Record<string, string> = work.lyrics
-    ? { default: work.lyrics }
-    : {};
 
   return {
     path: work.path,
+    contentId: work.contentId,
+    storageSource: work.storageSource,
+    workType: work.workType,
+    visible: work.visible,
+    publishedAt: work.publishedAt,
+    songTitle: work.songTitle,
+    fromTitle: work.fromTitle,
+    fromArtists: work.fromArtists,
+    fromSource: work.fromSource,
+    fromType: work.fromType,
+    fromIp: work.fromIp,
+    fromSeries: work.fromSeries,
+    fromSession: work.fromSession,
+    fromDetails: work.fromDetails,
     vid: work.vid,
     title: work.title,
     original: work.original,
     u2bId: work.u2bId,
     series: work.series,
-    descriptions,
-    lyrics,
-    availableLanguages: Array.from(
-      new Set([...Object.keys(descriptions), ...Object.keys(lyrics)]),
-    ),
+    bilibiliId: work.bilibiliId,
+    bilibiliTitle: work.bilibiliTitle,
+    bilibiliDescription: work.bilibiliDescription,
+    inspiredByDetail: work.inspiredByDetail,
+    inspiredByAuthor: work.inspiredByAuthor,
+    inspiredByTitle: work.inspiredByTitle,
+    introText: work.introText,
+    isOriginal: work.isOriginal,
+    lyrics: work.lyrics,
+    musicStyle: work.musicStyle,
+    musicType: work.musicType,
+    pixivId: work.pixivId,
+    pixivTitle: work.pixivTitle,
+    pixivDescription: work.pixivDescription,
+    productionNotes: work.productionNotes,
+    relatedWorkUids: work.relatedWorkUids,
+    shortDescription: work.shortDescription,
+    subtitleTracks: work.subtitleTracks,
+    vkId: work.vkId,
+    vkTitle: work.vkTitle,
+    vkDescription: work.vkDescription,
+    youtubeLocalization: work.youtubeLocalization,
   };
 }
 
@@ -79,55 +324,6 @@ function normalizeOptional(value: string | null | undefined) {
   if (!value) return null;
   const trimmed = value.trim();
   return trimmed ? trimmed : null;
-}
-
-function readLegacyMarkdown(contentKey: string, fileName: string) {
-  const contentPath = path.join(DATA_WORKS_DIR, contentKey, fileName);
-  if (!fs.existsSync(contentPath)) return "";
-  return fs.readFileSync(contentPath, "utf-8");
-}
-
-function readLegacyWorks() {
-  if (!fs.existsSync(DATA_LIST_FILE)) return [];
-
-  const content = fs.readFileSync(DATA_LIST_FILE, "utf-8");
-  return JSON.parse(content) as MusicWork[];
-}
-
-function toLegacyWorkRecord(work: MusicWork): MusicWorkRecord {
-  return {
-    path: work.path,
-    vid: work.vid || work.path,
-    title: work.title,
-    original: normalizeOptional(work.original),
-    u2bId: normalizeOptional(work.u2bId),
-    series: normalizeOptional(work.series),
-    description: readLegacyMarkdown(work.vid, "info.md"),
-    lyrics: readLegacyMarkdown(work.vid, "lyrics.md"),
-  };
-}
-
-function toMusicWorkWithContent(work: MusicWorkRecord): MusicWorkWithContent {
-  const descriptions: Record<string, string> = work.description
-    ? { default: work.description }
-    : {};
-  const lyrics: Record<string, string> = work.lyrics
-    ? { default: work.lyrics }
-    : {};
-
-  return {
-    path: work.path,
-    vid: work.vid,
-    title: work.title,
-    original: work.original,
-    u2bId: work.u2bId,
-    series: work.series,
-    descriptions,
-    lyrics,
-    availableLanguages: Array.from(
-      new Set([...Object.keys(descriptions), ...Object.keys(lyrics)]),
-    ),
-  };
 }
 
 export function ensureMusicDatabase() {
@@ -168,32 +364,24 @@ export async function countMusicWorks() {
 }
 
 async function listDatabaseMusicWorks() {
-  try {
-    const prisma = getPrismaClient();
-    if (!prisma) return [];
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
 
-    return (await withDatabaseTimeout(prisma.musicWork.findMany())).map(
-      toWorkRecord,
-    );
-  } catch (error) {
-    console.warn(getFriendlyDatabaseError(error));
-    return [];
-  }
+  return (
+    await withDatabaseTimeout(
+      prisma.musicWork.findMany({ include: MUSIC_WORK_INCLUDE }),
+    )
+  ).map((work) =>
+    toWorkRecord({
+      ...work,
+      storageSource: "db",
+    }),
+  );
 }
 
 export async function listMusicWorks() {
-  const worksByPath = new Map<string, MusicWorkRecord>();
-
-  for (const work of readLegacyWorks()) {
-    worksByPath.set(work.path, toLegacyWorkRecord(work));
-  }
-
-  for (const work of await listDatabaseMusicWorks()) {
-    worksByPath.set(work.path, work);
-  }
-
-  return Array.from(worksByPath.values()).sort((a, b) =>
-    a.vid.localeCompare(b.vid, undefined, { numeric: true }),
+  return (await listDatabaseMusicWorks()).sort((a, b) =>
+    a.contentId.localeCompare(b.contentId, undefined, { numeric: true }),
   );
 }
 
@@ -202,68 +390,176 @@ export async function listMusicWorksWithContent() {
 }
 
 export async function getMusicWorkByPath(workPath: string) {
-  let row: MusicWorkRecord | null = null;
+  let row: MusicWorkRecordSource | null = null;
 
-  try {
-    const prisma = getPrismaClient();
+  const prisma = getPrismaClient();
 
-    if (prisma) {
-      row = await withDatabaseTimeout(
-        prisma.musicWork.findUnique({ where: { path: workPath } }),
-      );
-    }
-  } catch (error) {
-    console.warn(getFriendlyDatabaseError(error));
+  if (prisma) {
+    row = await withDatabaseTimeout(
+      prisma.musicWork.findFirst({
+        include: MUSIC_WORK_INCLUDE,
+        where: {
+          OR: [{ path: workPath }, { contentId: workPath }],
+        },
+      }),
+    );
   }
 
   if (row) {
-    return toWorkWithContent(toWorkRecord(row));
+    return toWorkWithContent(
+      toWorkRecord({
+        ...row,
+        storageSource: "db",
+      }),
+    );
   }
 
-  const legacyWork = readLegacyWorks().find((work) => work.path === workPath);
-  if (!legacyWork) {
-    return null;
-  }
-
-  return toMusicWorkWithContent(toLegacyWorkRecord(legacyWork));
+  return null;
 }
 
 export async function upsertMusicWork(
   work: MusicWorkDraft,
-  currentPath?: string,
+  currentContentId?: string,
 ) {
   const prisma = getPrismaClient();
   if (!prisma) {
     throw new Error(getFriendlyDatabaseError(null));
   }
 
+  const contentId = work.contentId || work.vid || work.path;
+  const source = {
+    artists: work.fromArtists ?? [],
+    details: normalizeOptional(work.fromDetails),
+    ip: normalizeOptional(work.fromIp),
+    series: normalizeOptional(work.fromSeries ?? work.series),
+    session: normalizeOptional(work.fromSession),
+    sourceType: normalizeOptional(work.fromType ?? work.musicType),
+    sourceUrl: normalizeOptional(work.fromSource ?? work.inspiredByDetail),
+    title: normalizeOptional(work.fromTitle ?? work.original),
+  };
+  const status = {
+    publishedAt: normalizeOptional(work.publishedAt),
+    visible: work.visible ?? false,
+  };
+  const content = {
+    introText: work.introText ?? "",
+    lyrics: work.lyrics ?? "",
+    productionNotes: work.productionNotes ?? "",
+    relatedWorkUids: normalizeOptional(work.relatedWorkUids),
+    shortDescription: normalizeOptional(work.shortDescription),
+    songTitle: normalizeOptional(work.songTitle ?? work.title),
+  };
+  const platforms = [
+    {
+      platform: "youtube",
+      ...toPlatformPayload({
+        metadata: work.youtubeLocalization ?? {},
+        platformId: work.u2bId,
+      }),
+    },
+    {
+      platform: "bilibili",
+      ...toPlatformPayload({
+        description: work.bilibiliDescription,
+        platformId: work.bilibiliId,
+        title: work.bilibiliTitle,
+      }),
+    },
+    {
+      platform: "vk",
+      ...toPlatformPayload({
+        description: work.vkDescription,
+        platformId: work.vkId,
+        title: work.vkTitle,
+      }),
+    },
+    {
+      platform: "pixiv",
+      ...toPlatformPayload({
+        description: work.pixivDescription,
+        platformId: work.pixivId,
+        title: work.pixivTitle,
+      }),
+    },
+  ];
+  const subtitles = {
+    tracks: work.subtitleTracks ?? {},
+  };
+
   try {
     await prisma.$transaction(async (tx) => {
-      if (currentPath && currentPath !== work.path) {
-        await tx.musicWork.deleteMany({ where: { path: currentPath } });
+      if (currentContentId && currentContentId !== contentId) {
+        await tx.musicWork.deleteMany({
+          where: { contentId: currentContentId },
+        });
       }
 
       await tx.musicWork.upsert({
-        where: { path: work.path },
+        where: { contentId },
         create: {
-          path: work.path,
-          vid: work.vid || work.path,
-          title: work.title,
-          original: normalizeOptional(work.original),
-          u2bId: normalizeOptional(work.u2bId),
-          series: normalizeOptional(work.series),
-          description: work.description ?? "",
-          lyrics: work.lyrics ?? "",
+          contentId,
+          path: normalizeOptional(work.path),
+          workType: work.workType || "O",
         },
         update: {
-          vid: work.vid || work.path,
-          title: work.title,
-          original: normalizeOptional(work.original),
-          u2bId: normalizeOptional(work.u2bId),
-          series: normalizeOptional(work.series),
-          description: work.description ?? "",
-          lyrics: work.lyrics ?? "",
+          path: normalizeOptional(work.path),
+          workType: work.workType || "O",
         },
+      });
+
+      await tx.musicWorkStatus.upsert({
+        where: { contentId },
+        create: {
+          contentId,
+          ...status,
+        },
+        update: status,
+      });
+
+      const contentUpdate = withoutEmptyValues(content);
+      await tx.musicWorkContent.upsert({
+        where: { contentId },
+        create: {
+          contentId,
+          ...content,
+        },
+        update: contentUpdate,
+      });
+
+      const sourceUpdate = withoutEmptyValues(source);
+      await tx.musicWorkSource.upsert({
+        where: { contentId },
+        create: {
+          contentId,
+          ...source,
+        },
+        update: sourceUpdate,
+      });
+
+      for (const platform of platforms) {
+        const platformUpdate = withoutNullishValues(platform);
+        await tx.musicWorkPlatform.upsert({
+          where: {
+            contentId_platform: {
+              contentId,
+              platform: platform.platform,
+            },
+          },
+          create: {
+            contentId,
+            ...platform,
+          },
+          update: platformUpdate,
+        });
+      }
+
+      await tx.musicWorkSubtitles.upsert({
+        where: { contentId },
+        create: {
+          contentId,
+          ...subtitles,
+        },
+        update: subtitles,
       });
     });
   } catch (error) {
@@ -271,14 +567,14 @@ export async function upsertMusicWork(
   }
 }
 
-export async function deleteMusicWorkByPath(workPath: string) {
+export async function deleteMusicWorkByContentId(contentId: string) {
   const prisma = getPrismaClient();
   if (!prisma) {
     throw new Error(getFriendlyDatabaseError(null));
   }
 
   try {
-    await prisma.musicWork.deleteMany({ where: { path: workPath } });
+    await prisma.musicWork.deleteMany({ where: { contentId } });
   } catch (error) {
     throw new Error(getFriendlyDatabaseError(error));
   }

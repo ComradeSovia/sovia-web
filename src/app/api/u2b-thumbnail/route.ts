@@ -1,4 +1,4 @@
-import { ensureYouTubeThumbnailCache } from "@sovia/sound/data/thumbnail-cache";
+import { ensureYouTubeThumbnailCache } from "@sovia/youtube-api";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";

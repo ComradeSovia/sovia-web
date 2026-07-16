@@ -1,7 +1,8 @@
 import {
   checkMusicDatabaseConnection,
-  deleteMusicWorkByPath,
+  deleteMusicWorkByContentId,
   ensureMusicDatabase,
+  getMusicWorkByPath,
   listMusicWorksWithContent,
   upsertMusicWork,
 } from "@sovia/sound/data/music-repository";
@@ -12,8 +13,20 @@ export function initializeMusicDatabase() {
 }
 
 export async function listAdminMusicWorks() {
-  initializeMusicDatabase();
   return listMusicWorksWithContent();
+}
+
+export async function getAdminMusicWork(id: string) {
+  const listedWork =
+    (await listMusicWorksWithContent()).find(
+      (item) => item.contentId === id || item.path === id,
+    ) ?? null;
+  if (listedWork) return listedWork;
+
+  const work = await getMusicWorkByPath(id);
+  if (work) return work;
+
+  return null;
 }
 
 export async function getAdminDatabaseStatus() {
@@ -21,17 +34,17 @@ export async function getAdminDatabaseStatus() {
 }
 
 export async function saveMusicWork({
-  currentPath,
+  currentContentId,
   work,
 }: {
-  currentPath?: string;
+  currentContentId?: string;
   work: MusicWorkDraft;
 }) {
   initializeMusicDatabase();
-  await upsertMusicWork(work, currentPath);
+  await upsertMusicWork(work, currentContentId);
 }
 
-export async function deleteMusicWork(path: string) {
+export async function deleteMusicWork(contentId: string) {
   initializeMusicDatabase();
-  await deleteMusicWorkByPath(path);
+  await deleteMusicWorkByContentId(contentId);
 }

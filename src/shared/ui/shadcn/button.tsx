@@ -4,18 +4,16 @@ import type * as React from "react";
 import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-emerald-500/40 px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-zinc-700 px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default:
-          "bg-emerald-400 text-black shadow-[0_0_18px_rgba(52,211,153,0.35)] hover:bg-emerald-300",
+        default: "bg-zinc-100 text-zinc-950 shadow-none hover:bg-white",
         destructive:
-          "border-red-500/50 bg-red-950 text-red-200 hover:bg-red-900",
-        outline:
-          "bg-black text-emerald-300 hover:bg-emerald-950 hover:text-emerald-100",
+          "border-zinc-700 bg-zinc-800 text-zinc-100 hover:bg-zinc-700",
+        outline: "bg-zinc-950 text-zinc-100 hover:bg-zinc-900 hover:text-white",
         ghost:
-          "border-transparent bg-transparent text-emerald-300 hover:bg-emerald-950",
+          "border-transparent bg-transparent text-zinc-300 hover:bg-zinc-900",
       },
       size: {
         default: "h-10 px-4 py-2",

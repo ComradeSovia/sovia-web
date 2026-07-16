@@ -35,7 +35,9 @@
       "@sovia/sound": ["./src/features/sound/index.ts"],
       "@sovia/sound/*": ["./src/features/sound/*"],
       "@sovia/tools": ["./src/features/tools/index.ts"],
-      "@sovia/tools/*": ["./src/features/tools/*"]
+      "@sovia/tools/*": ["./src/features/tools/*"],
+      "@sovia/youtube-api": ["./src/features/youtube-api/index.ts"],
+      "@sovia/youtube-api/*": ["./src/features/youtube-api/*"]
     }
   },
   "include": [

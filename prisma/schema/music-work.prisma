@@ -1,0 +1,36 @@
+model MusicWork {
+  contentId String                 @id
+  path      String?                @unique
+  workType  String
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  content   MusicWorkContent?
+  platforms MusicWorkPlatform[]
+  source    MusicWorkSource?
+  status    MusicWorkStatus?
+  subtitles MusicWorkSubtitles?
+
+  @@map("music_works")
+}
+
+model MusicWorkStatus {
+  contentId   String    @id
+  visible     Boolean   @default(false)
+  publishedAt String?
+  work        MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@map("music_work_statuses")
+}
+
+model MusicWorkContent {
+  contentId        String    @id
+  songTitle        String?
+  lyrics           String?
+  shortDescription String?
+  introText        String?
+  productionNotes  String?
+  relatedWorkUids  String?
+  work             MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@map("music_work_contents")
+}

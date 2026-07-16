@@ -1,0 +1,18 @@
+model SoviaTestSubmission {
+  id          String   @id @default(cuid())
+  visitorId   String?
+  fingerprint String?  @unique
+  resultCode  String
+  resultHash  String
+  locale      String
+  ageGroup    String
+  gender      String
+  scores      Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@index([visitorId])
+  @@index([resultCode])
+  @@index([locale])
+  @@map("sovia_test_submissions")
+}

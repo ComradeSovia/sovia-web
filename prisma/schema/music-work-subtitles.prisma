@@ -1,0 +1,7 @@
+model MusicWorkSubtitles {
+  contentId String    @id
+  tracks    Json?
+  work      MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@map("music_work_subtitles")
+}

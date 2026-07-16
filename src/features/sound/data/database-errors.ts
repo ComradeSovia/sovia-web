@@ -6,39 +6,69 @@ export function getFriendlyDatabaseError(error: unknown) {
   }
 
   if (error instanceof Error) {
-    const message = error.message.toLowerCase();
-
-    if (
-      message.includes("invalid") ||
-      message.includes("url") ||
-      message.includes("connection string")
-    ) {
-      return "DATABASE_URL looks invalid. Check the PostgreSQL connection string format.";
-    }
-
-    if (
-      message.includes("authentication") ||
-      message.includes("password") ||
-      message.includes("permission denied")
-    ) {
-      return "PostgreSQL rejected the credentials. Check the user name, password, and database permissions.";
-    }
-
-    if (
-      message.includes("connect") ||
-      message.includes("econnrefused") ||
-      message.includes("enotfound") ||
-      message.includes("timeout")
-    ) {
-      return "Could not connect to PostgreSQL. Check the host, port, network access, and whether the database is running.";
-    }
-
-    if (message.includes("does not exist") || message.includes("relation")) {
-      return "The PostgreSQL connection works, but the Prisma table is missing. Run pnpm db:push.";
-    }
+    return withDatabaseHint(error.message);
   }
 
-  return "The database connection is not available. Check DATABASE_URL and PostgreSQL, then try again.";
+  return "Unknown database error.";
+}
+
+function withDatabaseHint(message: string) {
+  const hint = getDatabaseErrorHint(message);
+  return hint ? `${message}\n\nHint: ${hint}` : message;
+}
+
+function getDatabaseErrorHint(message: string) {
+  const lowerMessage = message.toLowerCase();
+
+  if (
+    lowerMessage.includes("url") ||
+    lowerMessage.includes("connection string")
+  ) {
+    return "Check the PostgreSQL connection string format.";
+  }
+
+  if (
+    lowerMessage.includes("column") ||
+    lowerMessage.includes("table") ||
+    lowerMessage.includes("relation") ||
+    lowerMessage.includes("does not exist")
+  ) {
+    return "The database schema may be out of date. Run pending Prisma migrations.";
+  }
+
+  if (
+    lowerMessage.includes("authentication") ||
+    lowerMessage.includes("password") ||
+    lowerMessage.includes("permission denied")
+  ) {
+    return "Check the user name, password, and database permissions.";
+  }
+
+  if (
+    lowerMessage.includes("connect") ||
+    lowerMessage.includes("econnrefused") ||
+    lowerMessage.includes("enotfound")
+  ) {
+    return "Check the host, port, network access, and whether the database is running.";
+  }
+
+  if (
+    lowerMessage.includes("timed out") ||
+    lowerMessage.includes("timeout expired") ||
+    lowerMessage.includes("query timeout")
+  ) {
+    return "The database responded too slowly; check the SSH tunnel, database load, and pending Prisma migrations.";
+  }
+
+  if (lowerMessage.includes("recovery mode")) {
+    return "PostgreSQL is in recovery mode. Wait for recovery to finish, then try again.";
+  }
+
+  if (lowerMessage.includes("invalid")) {
+    return "Check the Prisma schema and pending migrations.";
+  }
+
+  return null;
 }
 
 export function getDatabaseUrlError() {

@@ -5,6 +5,7 @@ import {
   getSiteMetadataAlternates,
 } from "@sovia/shared/i18n/site-routing";
 import {
+  getLocalizedWorkTitle,
   getWorkDescription,
   loadMusicWorkWithContent,
   SoundDetail,
@@ -30,35 +31,36 @@ export async function generateMetadata({
     };
   }
 
-  const description = getWorkDescription(work);
+  const description = getWorkDescription(work, locale);
   const basePath = `/sound/${work.path}`;
   const canonical = getSiteLocalizedPath(basePath, locale);
+  const title = getLocalizedWorkTitle(work, locale);
   const thumbnail = work.u2bId
     ? `https://img.youtube.com/vi/${work.u2bId}/maxresdefault.jpg`
     : "/opengraph-image";
 
   return {
-    title: work.title,
+    title,
     description,
     alternates: getSiteMetadataAlternates(basePath, locale),
     openGraph: {
       type: "music.song",
       url: canonical,
       siteName: sharedCopy.site.name,
-      title: `${work.title} | ${sharedCopy.site.name}`,
+      title: `${title} | ${sharedCopy.site.name}`,
       description,
       images: [
         {
           url: thumbnail,
           width: 1280,
           height: 720,
-          alt: work.title,
+          alt: title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${work.title} | ${sharedCopy.site.name}`,
+      title: `${title} | ${sharedCopy.site.name}`,
       description,
       images: [thumbnail],
     },
@@ -71,6 +73,7 @@ export default async function SoundDetailPage({
   params: Promise<{ path: string }>;
 }) {
   const { path } = await params;
+  const locale = await getCurrentSiteLocale();
 
   const work = await loadMusicWorkWithContent(path);
 
@@ -78,5 +81,5 @@ export default async function SoundDetailPage({
     notFound();
   }
 
-  return <SoundDetail work={work} />;
+  return <SoundDetail locale={locale} work={work} />;
 }

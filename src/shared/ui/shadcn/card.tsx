@@ -8,7 +8,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-lg border border-emerald-500/30 bg-zinc-950/95 text-emerald-100 shadow-[0_0_40px_rgba(16,185,129,0.12)]",
+        "rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-none",
         className,
       )}
       {...props}
@@ -30,7 +30,7 @@ export function CardTitle({
   return (
     <div
       className={cn(
-        "text-lg font-semibold tracking-tight text-emerald-200",
+        "text-lg font-semibold tracking-tight text-zinc-100",
         className,
       )}
       {...props}
@@ -42,9 +42,7 @@ export function CardDescription({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("text-sm text-emerald-600", className)} {...props} />
-  );
+  return <div className={cn("text-sm text-zinc-400", className)} {...props} />;
 }
 
 export function CardContent({
