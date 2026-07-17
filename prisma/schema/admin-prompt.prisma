@@ -1,0 +1,17 @@
+model AdminPrompt {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  task        String
+  variant     String   @default("default")
+  title       String
+  description String?
+  model       String   @default("gpt-5")
+  content     String
+  enabled     Boolean  @default(true)
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([task, variant])
+  @@map("admin_prompts")
+}
