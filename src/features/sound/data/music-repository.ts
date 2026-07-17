@@ -255,11 +255,9 @@ function toPlatformPayload({
   };
 }
 
-function withoutNullishValues<T extends Record<string, unknown>>(value: T) {
+function withoutUndefinedValues<T extends Record<string, unknown>>(value: T) {
   return Object.fromEntries(
-    Object.entries(value).filter(
-      ([, item]) => item !== null && item !== undefined,
-    ),
+    Object.entries(value).filter(([, item]) => item !== undefined),
   ) as Partial<T>;
 }
 
@@ -537,7 +535,7 @@ export async function upsertMusicWork(
       });
 
       for (const platform of platforms) {
-        const platformUpdate = withoutNullishValues(platform);
+        const platformUpdate = withoutUndefinedValues(platform);
         await tx.musicWorkPlatform.upsert({
           where: {
             contentId_platform: {
@@ -576,6 +574,82 @@ export async function deleteMusicWorkByContentId(contentId: string) {
   try {
     await prisma.musicWork.deleteMany({ where: { contentId } });
   } catch (error) {
+    throw new Error(getFriendlyDatabaseError(error));
+  }
+}
+
+export async function clearMusicWorkStepData(contentId: string, step: string) {
+  const prisma = getPrismaClient();
+  if (!prisma) {
+    throw new Error(getFriendlyDatabaseError(null));
+  }
+
+  try {
+    switch (step) {
+      case "metadata":
+        await prisma.$transaction([
+          prisma.musicWork.updateMany({
+            data: { path: null },
+            where: { contentId },
+          }),
+          prisma.musicWorkContent.updateMany({
+            data: { songTitle: null },
+            where: { contentId },
+          }),
+        ]);
+        break;
+      case "status":
+        await prisma.musicWorkStatus.updateMany({
+          data: { publishedAt: null, visible: false },
+          where: { contentId },
+        });
+        break;
+      case "from":
+        await prisma.musicWorkSource.deleteMany({ where: { contentId } });
+        break;
+      case "description":
+        await prisma.musicWorkContent.updateMany({
+          data: {
+            introText: "",
+            productionNotes: "",
+            shortDescription: null,
+          },
+          where: { contentId },
+        });
+        break;
+      case "lyrics":
+        await prisma.musicWorkContent.updateMany({
+          data: { lyrics: "" },
+          where: { contentId },
+        });
+        break;
+      case "related":
+        await prisma.musicWorkContent.updateMany({
+          data: { relatedWorkUids: null },
+          where: { contentId },
+        });
+        break;
+      case "youtube":
+      case "bilibili":
+      case "vk":
+      case "pixiv":
+        await prisma.musicWorkPlatform.deleteMany({
+          where: { contentId, platform: step },
+        });
+        break;
+      case "subtitles":
+        await prisma.musicWorkSubtitles.deleteMany({ where: { contentId } });
+        break;
+      default:
+        throw new Error("This step cannot be cleared.");
+    }
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "This step cannot be cleared."
+    ) {
+      throw error;
+    }
     throw new Error(getFriendlyDatabaseError(error));
   }
 }

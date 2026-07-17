@@ -15,11 +15,20 @@ import {
   requireAdminSession,
 } from "./data/auth";
 import {
+  clearMusicWorkStep,
   deleteMusicWork,
   getAdminMusicWork,
   listAdminMusicWorks,
   saveMusicWork,
 } from "./data/music-admin";
+import {
+  assertValidFullMusicWorkForm,
+  assertValidMusicWorkStepForm,
+  FROM_TYPES,
+  type MusicWorkStep,
+  parseMusicWorkStep,
+  WORK_TYPES,
+} from "./validation/music-work-form";
 
 function getOptionalString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -46,11 +55,25 @@ function redirectWithActionError(
   error: unknown,
   fallback: string,
 ): never {
+  redirectWithActionMessage(
+    path,
+    getActionErrorMessage(error, fallback),
+    "error",
+  );
+}
+
+function redirectWithActionSuccess(path: string, message: string): never {
+  redirectWithActionMessage(path, message, "success");
+}
+
+function redirectWithActionMessage(
+  path: string,
+  message: string,
+  status: "error" | "success",
+): never {
   const separator = path.includes("?") ? "&" : "?";
   redirect(
-    `${path}${separator}message=${encodeURIComponent(
-      getActionErrorMessage(error, fallback),
-    )}`,
+    `${path}${separator}message=${encodeURIComponent(message)}&status=${status}`,
   );
 }
 
@@ -66,33 +89,6 @@ const YOUTUBE_LOCALIZATION_FIELDS = [
   "title",
   "description",
 ] as const satisfies (keyof YoutubeLocalizationContent)[];
-
-const MUSIC_WORK_STEPS = [
-  "metadata",
-  "status",
-  "from",
-  "description",
-  "lyrics",
-  "related",
-  "youtube",
-  "bilibili",
-  "vk",
-  "pixiv",
-  "subtitles",
-] as const;
-
-type MusicWorkStep = (typeof MUSIC_WORK_STEPS)[number];
-
-const WORK_TYPES = ["O", "CO", "R", "LC", "C"] as const;
-const FROM_TYPES = ["Original", "Anime", "Game", "Pop", "Meme"] as const;
-
-function matchMusicWorkStep(value: string): MusicWorkStep {
-  if (MUSIC_WORK_STEPS.includes(value as MusicWorkStep)) {
-    return value as MusicWorkStep;
-  }
-
-  throw new Error("Invalid music work step.");
-}
 
 function parseYoutubeLocalization(formData: FormData) {
   const youtubeLocalization: MusicWorkYoutubeLocalization = {};
@@ -154,6 +150,45 @@ function matchOption<T extends readonly string[]>(
 
   if (fallback) return fallback;
   throw new Error("Invalid option.");
+}
+
+function getValidationValue(formData: FormData) {
+  const fromType = getOptionalString(formData, "fromType")
+    ? getString(formData, "fromType")
+    : undefined;
+
+  return {
+    bilibiliDescription: getString(formData, "bilibiliDescription"),
+    bilibiliId: getString(formData, "bilibiliId"),
+    bilibiliTitle: getString(formData, "bilibiliTitle"),
+    contentId: getString(formData, "contentId") || getString(formData, "vid"),
+    fromArtists: getString(formData, "fromArtists"),
+    fromDetails: getString(formData, "fromDetails"),
+    fromIp: getString(formData, "fromIp"),
+    fromSeries: getString(formData, "fromSeries"),
+    fromSession: getString(formData, "fromSession"),
+    fromSource: getString(formData, "fromSource"),
+    fromTitle: getString(formData, "fromTitle"),
+    fromType,
+    introText: getString(formData, "introText"),
+    lyrics: getString(formData, "lyrics"),
+    path: getString(formData, "path"),
+    pixivDescription: getString(formData, "pixivDescription"),
+    pixivId: getString(formData, "pixivId"),
+    pixivTitle: getString(formData, "pixivTitle"),
+    productionNotes: getString(formData, "productionNotes"),
+    publishedAt: getString(formData, "publishedAt"),
+    relatedWorkUids: getString(formData, "relatedWorkUids"),
+    shortDescription: getString(formData, "shortDescription"),
+    u2bId: getString(formData, "u2bId"),
+    visible: getBoolean(formData, "visible"),
+    vkDescription: getString(formData, "vkDescription"),
+    vkId: getString(formData, "vkId"),
+    vkTitle: getString(formData, "vkTitle"),
+    workType:
+      getString(formData, "workType") ||
+      (getBoolean(formData, "isOriginal") ? "O" : "R"),
+  };
 }
 
 function toDraft(
@@ -221,9 +256,6 @@ function getDefaultDraft(formData: FormData): MusicWorkDraft {
     WORK_TYPES,
   );
 
-  if (!path) {
-    throw new Error("Path is required.");
-  }
   if (!contentId) {
     throw new Error("Content ID is required.");
   }
@@ -359,9 +391,6 @@ function applyStepDraft(
       break;
   }
 
-  if (!draft.path) {
-    throw new Error("Path is required.");
-  }
   if (!draft.contentId) {
     throw new Error("Content ID is required.");
   }
@@ -422,22 +451,8 @@ export async function saveMusicWorkAction(formData: FormData) {
     : (getOptionalString(formData, "fromSeries") ??
       getOptionalString(formData, "series"));
 
-  if (!path) {
-    redirectWithActionError(
-      getEditorErrorPath(currentContentId ?? contentId),
-      new Error("Path is required."),
-      "Path is required.",
-    );
-  }
-  if (!contentId) {
-    redirectWithActionError(
-      getEditorErrorPath(currentContentId),
-      new Error("Content ID is required."),
-      "Content ID is required.",
-    );
-  }
-
   try {
+    assertValidFullMusicWorkForm(getValidationValue(formData));
     await assertUniqueContentId(contentId, currentContentId);
     await saveMusicWork({
       currentContentId,
@@ -501,11 +516,14 @@ export async function saveMusicWorkAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/content");
   revalidatePath("/sound");
-  revalidatePath(`/sound/${path}`);
-
-  if (!currentContentId || currentContentId !== contentId) {
-    redirect(`/admin/content/${encodeURIComponent(contentId)}`);
+  if (path) {
+    revalidatePath(`/sound/${path}`);
   }
+
+  redirectWithActionSuccess(
+    `/admin/content/${encodeURIComponent(contentId)}`,
+    "Content saved.",
+  );
 }
 
 export async function saveMusicWorkStepAction(formData: FormData) {
@@ -517,7 +535,8 @@ export async function saveMusicWorkStepAction(formData: FormData) {
   let draft: MusicWorkDraft;
 
   try {
-    step = matchMusicWorkStep(stepValue);
+    step = parseMusicWorkStep(stepValue);
+    assertValidMusicWorkStepForm(step, getValidationValue(formData));
     const existingDraft = await getExistingDraft(currentContentId);
     if (currentContentId && !existingDraft) {
       throw new Error(
@@ -546,13 +565,14 @@ export async function saveMusicWorkStepAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/content");
   revalidatePath("/sound");
-  revalidatePath(`/sound/${draft.path}`);
-
-  if (!currentContentId || currentContentId !== draft.contentId) {
-    redirect(
-      `/admin/content/${encodeURIComponent(draft.contentId)}?step=${step}`,
-    );
+  if (draft.path) {
+    revalidatePath(`/sound/${draft.path}`);
   }
+
+  redirectWithActionSuccess(
+    `/admin/content/${encodeURIComponent(draft.contentId)}?step=${step}`,
+    `Saved ${step}.`,
+  );
 }
 
 export async function deleteMusicWorkAction(formData: FormData) {
@@ -582,4 +602,40 @@ export async function deleteMusicWorkAction(formData: FormData) {
     revalidatePath(`/sound/${path}`);
   }
   redirect("/admin/content");
+}
+
+export async function clearMusicWorkStepAction(formData: FormData) {
+  await requireAdminSession();
+
+  const contentId = getString(formData, "contentId");
+  const path = getOptionalString(formData, "path");
+  const step = parseMusicWorkStep(getString(formData, "adminStep"));
+  const redirectPath = `/admin/content/${encodeURIComponent(
+    contentId,
+  )}?step=${encodeURIComponent(step)}`;
+
+  if (!contentId) {
+    redirectWithActionError(
+      "/admin/content",
+      new Error("Content ID is required."),
+      "Content ID is required.",
+    );
+  }
+
+  try {
+    await clearMusicWorkStep(contentId, step);
+  } catch (error) {
+    console.error("Failed to clear music work step.", error);
+    redirectWithActionError(redirectPath, error, "Database error.");
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/content");
+  revalidatePath(`/admin/content/${contentId}`);
+  revalidatePath("/sound");
+  if (path) {
+    revalidatePath(`/sound/${path}`);
+  }
+
+  redirectWithActionSuccess(redirectPath, `Cleared ${step}.`);
 }

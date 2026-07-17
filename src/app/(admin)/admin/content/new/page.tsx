@@ -14,9 +14,11 @@ export const metadata: Metadata = {
 export default async function AdminNewContentRoute({
   searchParams,
 }: {
-  searchParams: Promise<{ message?: string; step?: string }>;
+  searchParams: Promise<{ message?: string; status?: string; step?: string }>;
 }) {
-  const { message, step } = await searchParams;
+  const { message, status, step } = await searchParams;
 
-  return <AdminContentEditorPage message={message} step={step} />;
+  return (
+    <AdminContentEditorPage message={message} status={status} step={step} />
+  );
 }

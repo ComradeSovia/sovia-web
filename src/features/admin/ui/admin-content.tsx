@@ -56,7 +56,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { deleteMusicWorkAction, saveMusicWorkStepAction } from "../actions";
+import { clearMusicWorkStepAction, saveMusicWorkStepAction } from "../actions";
 import { getAdminAuthStatus, isAdminAuthenticated } from "../data/auth";
 import {
   getAdminDatabaseStatus,
@@ -69,7 +69,7 @@ import {
   matchAdminEditorStep,
 } from "./admin-editor-steps";
 import { AdminLocalePanels } from "./admin-locale-panels";
-import { AdminDirtyForm } from "./admin-step-panels";
+import { AdminConfirmForm, AdminDirtyForm } from "./admin-step-panels";
 import { AdminLogin } from "./login-form";
 
 type AdminMusicWork = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
@@ -94,6 +94,13 @@ const CONTENT_SORT_OPTIONS = ["publishedAt", "cid"] as const;
 const CONTENT_SORT_ORDERS = ["asc", "desc"] as const;
 type ContentSort = (typeof CONTENT_SORT_OPTIONS)[number];
 type ContentSortOrder = (typeof CONTENT_SORT_ORDERS)[number];
+type ActionStatus = "error" | "success";
+const FIELD_STATE_CLASS =
+  "group -m-2 grid gap-2 rounded-md border border-transparent border-l-4 p-2 transition-colors data-[field-state=changed]:border-l-yellow-400 data-[field-state=changed]:bg-yellow-400/5 data-[field-state=database]:border-l-sky-500 data-[field-state=database]:bg-sky-500/5 data-[field-state=empty]:border-l-zinc-700 data-[field-state=empty]:bg-zinc-900/30 data-[field-state=invalid]:border-l-red-500 data-[field-state=invalid]:bg-red-500/5 data-[field-state=warning]:border-l-orange-500 data-[field-state=warning]:bg-orange-500/5";
+
+function matchActionStatus(value?: string): ActionStatus {
+  return value === "success" ? "success" : "error";
+}
 
 async function AdminGate({ children }: { children: ReactNode }) {
   const authStatus = getAdminAuthStatus();
@@ -219,6 +226,7 @@ export async function AdminContentListPage({
   page,
   query,
   sort,
+  status,
 }: {
   error?: string;
   message?: string;
@@ -226,6 +234,7 @@ export async function AdminContentListPage({
   page?: string;
   query?: string;
   sort?: string;
+  status?: string;
 }) {
   return (
     <AdminGate>
@@ -236,6 +245,7 @@ export async function AdminContentListPage({
         page={page}
         query={query}
         sort={sort}
+        status={status}
       />
     </AdminGate>
   );
@@ -248,6 +258,7 @@ async function ContentList({
   page,
   query,
   sort,
+  status,
 }: {
   error?: string;
   message?: string;
@@ -255,6 +266,7 @@ async function ContentList({
   page?: string;
   query?: string;
   sort?: string;
+  status?: string;
 }) {
   const databaseStatus = await getAdminDatabaseStatus();
 
@@ -320,6 +332,7 @@ async function ContentList({
         message={
           message ?? (error === "database" ? "Database error." : undefined)
         }
+        status={matchActionStatus(status)}
       />
 
       {error === "database" ? (
@@ -823,10 +836,12 @@ function PlatformBadges({ work }: { work: AdminMusicWork }) {
 export async function AdminContentEditorPage({
   id,
   message,
+  status,
   step,
 }: {
   id?: string;
   message?: string;
+  status?: string;
   step?: string;
 }) {
   return (
@@ -834,6 +849,7 @@ export async function AdminContentEditorPage({
       <ContentEditor
         id={id}
         message={message}
+        status={matchActionStatus(status)}
         step={matchAdminEditorStep(step)}
       />
     </AdminGate>
@@ -843,10 +859,12 @@ export async function AdminContentEditorPage({
 async function ContentEditor({
   id,
   message,
+  status,
   step,
 }: {
   id?: string;
   message?: string;
+  status: ActionStatus;
   step: AdminEditorStep;
 }) {
   const databaseStatus = await getAdminDatabaseStatus();
@@ -858,7 +876,7 @@ async function ContentEditor({
 
   return (
     <section className="space-y-5">
-      <AdminActionToast message={message} />
+      <AdminActionToast message={message} status={status} />
 
       {!databaseStatus.ok ? (
         <DatabaseError
@@ -897,7 +915,11 @@ async function ContentEditor({
               </div>
             </div>
             {work ? (
-              <form action={deleteMusicWorkAction}>
+              <AdminConfirmForm
+                action={clearMusicWorkStepAction}
+                message={`Clear data for the ${step} step? This will not delete the whole content record.`}
+              >
+                <input name="adminStep" type="hidden" value={step} />
                 <input name="contentId" type="hidden" value={work.contentId} />
                 <input name="path" type="hidden" value={work.path} />
                 <Button
@@ -906,9 +928,9 @@ async function ContentEditor({
                   variant="destructive"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete DB Override
+                  Clear step data
                 </Button>
-              </form>
+              </AdminConfirmForm>
             ) : null}
           </div>
           <ContentReviewHeader work={work} />
@@ -989,8 +1011,38 @@ function StepForm({
       {work ? (
         <input name="currentContentId" type="hidden" value={work.contentId} />
       ) : null}
+      <FieldStateGuide />
       {children}
     </AdminDirtyForm>
+  );
+}
+
+function FieldStateGuide() {
+  const items = [
+    ["border-zinc-700 bg-zinc-900/40", "Empty"],
+    ["border-sky-500 bg-sky-500/10", "Database"],
+    ["border-yellow-400 bg-yellow-400/10", "Modified"],
+    ["border-orange-500 bg-orange-500/10", "Warning"],
+    ["border-red-500 bg-red-500/10", "Blocking"],
+  ] as const;
+
+  return (
+    <details className="rounded-md border border-zinc-800 bg-zinc-950 p-3 text-xs text-zinc-400">
+      <summary className="cursor-pointer select-none font-medium text-zinc-200">
+        Field colors
+      </summary>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {items.map(([className, label]) => (
+          <span
+            className={`inline-flex items-center gap-2 rounded-md border px-2 py-1 ${className}`}
+            key={label}
+          >
+            <span className="h-3 w-1.5 rounded-full bg-current" />
+            {label}
+          </span>
+        ))}
+      </div>
+    </details>
   );
 }
 
@@ -1116,6 +1168,7 @@ function MusicWorkForm({
                 name="contentId"
                 required
                 value={work?.contentId}
+                warning="id"
               />
               <Field label="Path" name="path" value={work?.path} />
               <SelectField
@@ -1305,7 +1358,12 @@ function MusicWorkForm({
         <StepForm step="youtube" work={work}>
           <Section id="youtube" index={7} title="YouTube">
             <DistributionPanel title="YouTube">
-              <Field label="YouTube ID" name="u2bId" value={work?.u2bId} />
+              <Field
+                label="YouTube ID"
+                name="u2bId"
+                value={work?.u2bId}
+                warning="id"
+              />
               <AdminLocalePanels
                 labels={SITE_LOCALE_LABELS}
                 locales={SITE_LOCALES}
@@ -1331,6 +1389,7 @@ function MusicWorkForm({
                 label="BiliBili ID"
                 name="bilibiliId"
                 value={work?.bilibiliId}
+                warning="id"
               />
               <div className="grid gap-4 lg:grid-cols-2">
                 <PlatformReference
@@ -1354,7 +1413,12 @@ function MusicWorkForm({
         <StepForm step="vk" work={work}>
           <Section id="vk" index={9} title="VK Video">
             <DistributionPanel title="VK Video">
-              <Field label="VK ID" name="vkId" value={work?.vkId} />
+              <Field
+                label="VK ID"
+                name="vkId"
+                value={work?.vkId}
+                warning="id"
+              />
               <div className="grid gap-4 lg:grid-cols-2">
                 <PlatformReference
                   content={getYoutubeLocalizationContent(work, "ru-RU")}
@@ -1381,6 +1445,7 @@ function MusicWorkForm({
                 label="Pixiv post ID"
                 name="pixivId"
                 value={work?.pixivId}
+                warning="id"
               />
               <PlatformTextFields
                 descriptionName="pixivDescription"
@@ -1601,6 +1666,7 @@ function Field({
   required,
   type = "text",
   value,
+  warning,
 }: {
   label: string;
   name: string;
@@ -1608,14 +1674,14 @@ function Field({
   required?: boolean;
   type?: string;
   value?: string | null;
+  warning?: "id";
 }) {
   return (
-    <div className="grid gap-2">
-      <Label className="text-xs font-medium normal-case tracking-normal text-zinc-300">
-        {label}
-      </Label>
+    <div className={FIELD_STATE_CLASS} data-admin-field-name={name}>
+      <FieldLabel label={label} />
       <Input
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
+        data-admin-warning={warning}
         defaultValue={value ?? ""}
         key={name}
         name={name}
@@ -1641,12 +1707,13 @@ function CheckboxField({
   const id = `admin-field-${name}`;
 
   return (
-    <div className="grid gap-2">
+    <div className={FIELD_STATE_CLASS} data-admin-field-name={name}>
       <Label
-        className="text-xs font-medium normal-case tracking-normal text-zinc-300"
+        className="flex items-center justify-between gap-2 text-xs font-medium normal-case tracking-normal text-zinc-300"
         htmlFor={id}
       >
-        {label}
+        <span>{label}</span>
+        <FieldStatus />
       </Label>
       <div className="flex min-h-10 items-start gap-3 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-zinc-100 shadow-none">
         <Checkbox
@@ -1725,10 +1792,12 @@ function SelectField({
   value?: string | null;
 }) {
   return (
-    <div className="grid gap-2">
-      <Label className="text-xs font-medium normal-case tracking-normal text-zinc-300">
-        {label}
-      </Label>
+    <div
+      className={FIELD_STATE_CLASS}
+      data-admin-field-name={name}
+      data-admin-initial-value={value ?? ""}
+    >
+      <FieldLabel label={label} />
       <Select
         defaultValue={value ?? undefined}
         key={name}
@@ -1762,10 +1831,8 @@ function TextArea({
   value?: string | null;
 }) {
   return (
-    <div className="grid gap-2">
-      <Label className="text-xs font-medium normal-case tracking-normal text-zinc-300">
-        {label}
-      </Label>
+    <div className={FIELD_STATE_CLASS} data-admin-field-name={name}>
+      <FieldLabel label={label} />
       <Textarea
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
@@ -1774,5 +1841,23 @@ function TextArea({
         rows={rows}
       />
     </div>
+  );
+}
+
+function FieldLabel({ label }: { label: string }) {
+  return (
+    <Label className="flex items-center justify-between gap-2 text-xs font-medium normal-case tracking-normal text-zinc-300">
+      <span>{label}</span>
+      <FieldStatus />
+    </Label>
+  );
+}
+
+function FieldStatus() {
+  return (
+    <span
+      className="rounded-sm bg-zinc-900 px-1.5 py-0.5 font-mono text-[10px] uppercase text-zinc-500 group-data-[field-state=changed]:bg-yellow-400/10 group-data-[field-state=changed]:text-yellow-200 group-data-[field-state=database]:bg-sky-500/10 group-data-[field-state=database]:text-sky-200 group-data-[field-state=empty]:bg-zinc-800 group-data-[field-state=empty]:text-zinc-400 group-data-[field-state=invalid]:bg-red-500/10 group-data-[field-state=invalid]:text-red-200 group-data-[field-state=warning]:bg-orange-500/10 group-data-[field-state=warning]:text-orange-200"
+      data-admin-field-status
+    />
   );
 }

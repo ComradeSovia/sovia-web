@@ -21,9 +21,10 @@ export default async function AdminContentRoute({
     page?: string;
     q?: string;
     sort?: string;
+    status?: string;
   }>;
 }) {
-  const { error, message, order, page, q, sort } = await searchParams;
+  const { error, message, order, page, q, sort, status } = await searchParams;
 
   return (
     <AdminContentListPage
@@ -33,6 +34,7 @@ export default async function AdminContentRoute({
       page={page}
       query={q}
       sort={sort}
+      status={status}
     />
   );
 }

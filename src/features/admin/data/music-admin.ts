@@ -1,5 +1,6 @@
 import {
   checkMusicDatabaseConnection,
+  clearMusicWorkStepData,
   deleteMusicWorkByContentId,
   ensureMusicDatabase,
   getMusicWorkByPath,
@@ -47,4 +48,9 @@ export async function saveMusicWork({
 export async function deleteMusicWork(contentId: string) {
   initializeMusicDatabase();
   await deleteMusicWorkByContentId(contentId);
+}
+
+export async function clearMusicWorkStep(contentId: string, step: string) {
+  initializeMusicDatabase();
+  await clearMusicWorkStepData(contentId, step);
 }
