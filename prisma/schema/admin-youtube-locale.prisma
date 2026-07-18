@@ -1,0 +1,11 @@
+model AdminYoutubeLocale {
+  id        String   @id @default(cuid())
+  locale    String   @unique
+  label     String
+  position  Int      @default(0)
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_youtube_locales")
+}
