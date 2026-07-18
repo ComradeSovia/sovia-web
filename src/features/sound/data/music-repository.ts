@@ -176,8 +176,7 @@ function normalizeYoutubeLocalization(
 
   const youtubeLocalization: MusicWorkYoutubeLocalization = {};
 
-  for (const locale of SITE_LOCALES) {
-    const source = value[locale];
+  for (const [locale, source] of Object.entries(value)) {
     if (!isPlainRecord(source)) continue;
 
     const content: YoutubeLocalizationContent = {};

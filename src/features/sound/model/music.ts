@@ -6,7 +6,7 @@ export type YoutubeLocalizationContent = {
 };
 
 export type MusicWorkYoutubeLocalization = Partial<
-  Record<SiteLocale, YoutubeLocalizationContent>
+  Record<string, YoutubeLocalizationContent>
 >;
 
 export type MusicWorkSubtitleTracks = Partial<Record<SiteLocale, string>>;
