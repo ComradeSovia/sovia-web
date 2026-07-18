@@ -55,6 +55,11 @@ This file is for AI coding agents working in this repository. Its goals are to r
 - Keep Tailwind classes readable; avoid unnecessary complex dynamic class construction.
 - Components should behave well responsively, especially on mobile. Avoid text overflow and layout overlap.
 - Buttons, forms, navigation, and other interactions should follow the existing component style.
+- Admin database edit forms must use the admin dirty/state field system so editors can see what is empty, unchanged database data, modified, warning, or blocking. In `src/features/admin/ui/admin-content.tsx`, use the DB-aware helpers such as `Field`, `TextArea`, `SelectField`, and `CheckboxField` for values that are persisted to PostgreSQL.
+- Admin temporary/action-only inputs must use normal inputs without DB state colors. Examples include one-time AI generation notes, prompt selectors for a single generation action, confirmation controls, filters, and search boxes.
+- When adding a new admin form, decide field-by-field whether the value is a persisted database field or a temporary action parameter. Do not mix the two visual systems.
+- Admin AI actions should live in a right-side expandable panel beside the database edit fields when space allows. Keep AI action controls visually separate from ordinary save controls. AI action inputs are temporary/action-only inputs, not DB-state fields.
+- Admin AI generation should apply results to the current page/form first, causing the affected database fields to show as modified. Do not write generated content directly to PostgreSQL unless the user explicitly asks for an auto-save flow.
 - For internal navigation, use Next.js `Link` from `next/link` whenever possible instead of a raw `<a>` tag. Keep raw anchors for external URLs, downloads, special protocols, or cases where native anchor behavior is specifically required.
 - Important public links that should stay discoverable site-wide can be added to the footer in `src/features/layout/ui/layout-footer.tsx`, preferably using existing route constants and localized labels.
 - `lucide-react` is installed; prefer it for common icons.
