@@ -14,9 +14,5 @@ CREATE UNIQUE INDEX "admin_youtube_locales_locale_key" ON "admin_youtube_locales
 CREATE INDEX "admin_youtube_locales_position_idx" ON "admin_youtube_locales"("position");
 
 INSERT INTO "admin_youtube_locales" ("id", "locale", "label", "position", "enabled", "createdAt", "updatedAt") VALUES
-    ('admin_youtube_locale_en_us', 'en-US', 'English', 10, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('admin_youtube_locale_zh_cn', 'zh-CN', 'Chinese (Simplified)', 20, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('admin_youtube_locale_zh_tw', 'zh-TW', 'Chinese (Traditional)', 30, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('admin_youtube_locale_ja_jp', 'ja-JP', 'Japanese', 40, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('admin_youtube_locale_ko_kr', 'ko-KR', 'Korean', 50, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('admin_youtube_locale_ru_ru', 'ru-RU', 'Russian', 60, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    ('admin_youtube_locale_en', 'en', 'English', 100, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+   ('admin_youtube_locale_ru', 'ru', 'Russian', 100, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
