@@ -1,56 +1,91 @@
 "use client";
 
-import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import {
   Children,
   isValidElement,
   type ReactElement,
   type ReactNode,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 type LocalePanelElement = ReactElement<{
-  "data-locale": SiteLocale;
+  "data-locale": string;
 }>;
 
 type AdminLocalePanelsProps = {
-  labels: Record<SiteLocale, string>;
-  locales: readonly SiteLocale[];
-  readyLocales: readonly SiteLocale[];
+  labels: Record<string, string>;
+  locales: readonly string[];
+  primaryLocaleInputName?: string;
+  readyLocales: readonly string[];
   children: ReactNode;
 };
 
-function getInitialCompareLocale(locales: readonly SiteLocale[]) {
-  return locales.find((locale) => locale !== "en-US") ?? locales[0] ?? "en-US";
+function getInitialPrimaryLocale(locales: readonly string[]) {
+  if (locales.includes("en")) return "en";
+  if (locales.includes("en-US")) return "en-US";
+  return locales[0] ?? "";
+}
+
+function getInitialCompareLocale(locales: readonly string[]) {
+  const primaryLocale = getInitialPrimaryLocale(locales);
+  if (primaryLocale !== "ru" && locales.includes("ru")) return "ru";
+  if (primaryLocale !== "ru-RU" && locales.includes("ru-RU")) return "ru-RU";
+  return locales.find((locale) => locale !== primaryLocale) ?? primaryLocale;
+}
+
+function getStoragePrefix({
+  locales,
+  primaryLocaleInputName,
+}: {
+  locales: readonly string[];
+  primaryLocaleInputName?: string;
+}) {
+  return `sovia-admin-locale-panels:${primaryLocaleInputName ?? locales.join(",")}`;
+}
+
+function getStoredLocale(key: string, locales: readonly string[]) {
+  try {
+    const value = window.localStorage.getItem(key);
+    return value && locales.includes(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function setStoredLocale(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {}
 }
 
 export function AdminLocalePanels({
   children,
   labels,
   locales,
+  primaryLocaleInputName,
   readyLocales,
 }: AdminLocalePanelsProps) {
-  const [primaryLocale, setPrimaryLocale] = useState<SiteLocale>("en-US");
-  const [compareLocale, setCompareLocale] = useState<SiteLocale>(
+  const [primaryLocale, setPrimaryLocale] = useState<string>(
+    getInitialPrimaryLocale(locales),
+  );
+  const [compareLocale, setCompareLocale] = useState<string>(
     getInitialCompareLocale(locales),
   );
   const readySet = useMemo(() => new Set(readyLocales), [readyLocales]);
   const childArray = useMemo(() => Children.toArray(children), [children]);
+  const storagePrefix = useMemo(
+    () => getStoragePrefix({ locales, primaryLocaleInputName }),
+    [locales, primaryLocaleInputName],
+  );
   const panels = useMemo(
     () =>
       locales.map((locale) => {
         const panel = childArray.find((child): child is LocalePanelElement =>
           Boolean(
-            isValidElement<{ "data-locale": SiteLocale }>(child) &&
+            isValidElement<{ "data-locale": string }>(child) &&
               child.props["data-locale"] === locale,
           ),
         );
@@ -63,12 +98,44 @@ export function AdminLocalePanels({
     () => new Map(panels.map(({ locale, panel }) => [locale, panel])),
     [panels],
   );
-  const hiddenLocales = locales.filter(
-    (locale) => locale !== primaryLocale && locale !== compareLocale,
-  );
+
+  useEffect(() => {
+    const storedPrimaryLocale = getStoredLocale(
+      `${storagePrefix}:primary`,
+      locales,
+    );
+    const storedCompareLocale = getStoredLocale(
+      `${storagePrefix}:compare`,
+      locales,
+    );
+
+    if (storedPrimaryLocale) {
+      setPrimaryLocale(storedPrimaryLocale);
+    }
+    if (storedCompareLocale) {
+      setCompareLocale(storedCompareLocale);
+    }
+  }, [locales, storagePrefix]);
+
+  useEffect(() => {
+    if (!primaryLocale) return;
+    setStoredLocale(`${storagePrefix}:primary`, primaryLocale);
+  }, [primaryLocale, storagePrefix]);
+
+  useEffect(() => {
+    if (!compareLocale) return;
+    setStoredLocale(`${storagePrefix}:compare`, compareLocale);
+  }, [compareLocale, storagePrefix]);
 
   return (
     <div className="grid gap-4">
+      {primaryLocaleInputName ? (
+        <input
+          name={primaryLocaleInputName}
+          type="hidden"
+          value={primaryLocale}
+        />
+      ) : null}
       <div className="grid gap-3 lg:grid-cols-2">
         <LocaleSelect
           label="Primary language"
@@ -113,16 +180,26 @@ export function AdminLocalePanels({
       </div>
 
       <div className="grid gap-4 xl:grid-cols-2">
-        <div>{panelByLocale.get(primaryLocale)}</div>
-        {compareLocale !== primaryLocale ? (
-          <div>{panelByLocale.get(compareLocale)}</div>
-        ) : null}
-      </div>
+        {locales.map((locale, index) => {
+          const visible = locale === primaryLocale || locale === compareLocale;
+          const order =
+            locale === primaryLocale
+              ? 0
+              : locale === compareLocale
+                ? 1
+                : index + 2;
 
-      <div className="hidden">
-        {hiddenLocales.map((locale) => (
-          <div key={locale}>{panelByLocale.get(locale)}</div>
-        ))}
+          return (
+            <div
+              aria-hidden={!visible}
+              className={visible ? "block" : "hidden"}
+              key={locale}
+              style={{ order }}
+            >
+              {panelByLocale.get(locale)}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -137,31 +214,28 @@ function LocaleSelect({
   readySet,
 }: {
   label: string;
-  labels: Record<SiteLocale, string>;
-  locale: SiteLocale;
-  locales: readonly SiteLocale[];
-  onChange: (locale: SiteLocale) => void;
-  readySet: Set<SiteLocale>;
+  labels: Record<string, string>;
+  locale: string;
+  locales: readonly string[];
+  onChange: (locale: string) => void;
+  readySet: Set<string>;
 }) {
   return (
     <div className="grid gap-2">
       <span className="text-xs font-medium text-zinc-300">{label}</span>
-      <Select
-        onValueChange={(value) => onChange(value as SiteLocale)}
+      <select
+        className="h-8 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-2.5 py-1 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-3 focus-visible:ring-zinc-500/50"
+        onChange={(event) => onChange(event.target.value)}
+        suppressHydrationWarning
         value={locale}
       >
-        <SelectTrigger className="w-full">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {locales.map((availableLocale) => (
-            <SelectItem key={availableLocale} value={availableLocale}>
-              {readySet.has(availableLocale) ? "● " : "○ "}
-              {availableLocale} · {labels[availableLocale]}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        {locales.map((availableLocale) => (
+          <option key={availableLocale} value={availableLocale}>
+            {readySet.has(availableLocale) ? "* " : "- "}
+            {availableLocale} · {labels[availableLocale] ?? availableLocale}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

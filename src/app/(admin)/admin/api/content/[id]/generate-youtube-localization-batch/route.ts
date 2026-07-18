@@ -1,0 +1,91 @@
+import { requireAdminSession } from "@sovia/admin/data/auth";
+import { generateYouTubeLocalizationBatch } from "@sovia/admin/data/music-description-generator";
+import { NextResponse } from "next/server";
+
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    await requireAdminSession();
+
+    const { id } = await params;
+    const body = (await request.json()) as {
+      generationNotes?: unknown;
+      promptKey?: unknown;
+      sourceLocale?: unknown;
+      targetLocales?: unknown;
+      youtubeLocalization?: unknown;
+    };
+    const sourceLocale =
+      typeof body.sourceLocale === "string" &&
+      isYoutubeLocale(body.sourceLocale)
+        ? body.sourceLocale
+        : null;
+    const targetLocales = Array.isArray(body.targetLocales)
+      ? body.targetLocales.filter(
+          (locale): locale is string =>
+            typeof locale === "string" && isYoutubeLocale(locale),
+        )
+      : [];
+
+    if (!sourceLocale) {
+      throw new Error("Select a valid primary YouTube language first.");
+    }
+
+    const result = await generateYouTubeLocalizationBatch({
+      contentId: id,
+      generationNotes:
+        typeof body.generationNotes === "string"
+          ? body.generationNotes
+          : undefined,
+      promptKey:
+        typeof body.promptKey === "string" ? body.promptKey : undefined,
+      sourceLocale,
+      targetLocales,
+      youtubeLocalization: parseYoutubeLocalization(body.youtubeLocalization),
+    });
+
+    return NextResponse.json(result);
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "YouTube localization batch generation failed.";
+
+    return NextResponse.json({ message }, { status: 400 });
+  }
+}
+
+function isYoutubeLocale(value: string) {
+  return /^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/i.test(value);
+}
+
+function parseYoutubeLocalization(value: unknown) {
+  const localization: Record<
+    string,
+    {
+      description?: string | null;
+      title?: string | null;
+    }
+  > = {};
+
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return localization;
+  }
+
+  for (const [locale, content] of Object.entries(value)) {
+    if (!isYoutubeLocale(locale)) continue;
+    if (!content || typeof content !== "object" || Array.isArray(content)) {
+      continue;
+    }
+
+    localization[locale] = {
+      description:
+        typeof content.description === "string" ? content.description : null,
+      title: typeof content.title === "string" ? content.title : null,
+    };
+  }
+
+  return localization;
+}

@@ -12,6 +12,7 @@ import {
   LogOut,
   Plus,
   SlidersHorizontal,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -114,17 +115,12 @@ export function AdminSidebar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentStep = matchAdminEditorStep(searchParams.get("step"));
-  const isContentRoute = pathname.startsWith("/admin/content");
   const isContentEditor =
     pathname === "/admin/content/new" || pathname.startsWith("/admin/content/");
 
   const getStepHref = (step: AdminEditorStep) => `${pathname}?step=${step}`;
   const title = isContentEditor ? "Content editor" : "Sovia Admin";
-  const subtitle = isContentEditor
-    ? "Structured record"
-    : isContentRoute
-      ? "content studio"
-      : "control room";
+  const subtitle = isContentEditor ? "Structured record" : "control room";
   const basicItems: AdminFlowItem[] = [
     {
       active: currentStep === "metadata",
@@ -148,18 +144,18 @@ export function AdminSidebar({
       label: "From",
     },
     {
-      active: currentStep === "description",
-      href: getStepHref("description"),
-      icon: FileText,
-      index: 4,
-      label: "Description",
-    },
-    {
       active: currentStep === "lyrics",
       href: getStepHref("lyrics"),
       icon: ListMusic,
-      index: 5,
+      index: 4,
       label: "Lyrics",
+    },
+    {
+      active: currentStep === "description",
+      href: getStepHref("description"),
+      icon: FileText,
+      index: 5,
+      label: "Description",
     },
   ];
   const additionalItems: AdminFlowItem[] = [
@@ -226,7 +222,7 @@ export function AdminSidebar({
       </SidebarHeader>
 
       <SidebarContent>
-        {!isContentRoute ? (
+        {!isContentEditor ? (
           <SidebarGroup>
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -244,6 +240,18 @@ export function AdminSidebar({
                     icon: ListMusic,
                     label: "Content",
                   },
+                  {
+                    active: pathname.startsWith("/admin/prompts"),
+                    href: "/admin/prompts",
+                    icon: Sparkles,
+                    label: "Prompts",
+                  },
+                  {
+                    active: pathname.startsWith("/admin/yt-i18n"),
+                    href: "/admin/yt-i18n",
+                    icon: Globe2,
+                    label: "YouTube i18n",
+                  },
                 ]}
               />
             </SidebarGroupContent>
@@ -258,6 +266,14 @@ export function AdminSidebar({
                       <Link href="/admin/content">
                         <ArrowLeft />
                         <span>Content</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild tooltip="Prompts">
+                      <Link href="/admin/prompts">
+                        <Sparkles />
+                        <span>Prompts</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

@@ -15,12 +15,14 @@ import {
   CheckCircle2,
   Circle,
   Database,
+  Globe2,
   LayoutDashboard,
   ListMusic,
   Pencil,
   Plus,
   Save,
   Search,
+  Sparkles,
   Trash2,
   Video,
 } from "lucide-react";
@@ -41,13 +43,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Table,
   TableBody,
   TableCell,
@@ -56,23 +51,62 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { clearMusicWorkStepAction, saveMusicWorkStepAction } from "../actions";
+import {
+  clearMusicWorkStepAction,
+  deleteAdminPromptAction,
+  deleteAdminYoutubeLocaleAction,
+  saveAdminPromptAction,
+  saveAdminYoutubeLocaleAction,
+  saveMusicWorkStepAction,
+} from "../actions";
+import {
+  ADMIN_PROMPT_TASK_OPTIONS,
+  BILIBILI_COPY_PROMPT_TASK,
+  DEFAULT_PROMPT_VARIANT,
+  DESCRIPTION_GENERATOR_PROMPT_TASK,
+  getAdminPromptByKey,
+  listAdminPrompts,
+  listEnabledAdminPromptsForTask,
+  RELATED_SUGGESTION_PROMPT_TASK,
+  VK_COPY_PROMPT_TASK,
+  YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
+  YOUTUBE_LOCALIZATION_PROMPT_TASK,
+} from "../data/admin-prompts";
 import { getAdminAuthStatus, isAdminAuthenticated } from "../data/auth";
 import {
   getAdminDatabaseStatus,
   getAdminMusicWork,
   listAdminMusicWorks,
 } from "../data/music-admin";
+import { YOUTUBE_LANGUAGE_CATALOG } from "../data/youtube-language-catalog";
+import {
+  listAdminYoutubeLocales,
+  listEnabledAdminYoutubeLocales,
+} from "../data/youtube-locales";
 import { AdminActionToast } from "./admin-action-toast";
 import {
   type AdminEditorStep,
   matchAdminEditorStep,
 } from "./admin-editor-steps";
 import { AdminLocalePanels } from "./admin-locale-panels";
-import { AdminConfirmForm, AdminDirtyForm } from "./admin-step-panels";
+import {
+  AdminConfirmForm,
+  AdminDirtyForm,
+  AdminGenerateDescriptionButton,
+  AdminGeneratePlatformCopyButton,
+  AdminGenerateYoutubeLocalizationBatchButton,
+  AdminGenerateYoutubeLocalizationButton,
+  AdminSuggestRelatedButton,
+} from "./admin-step-panels";
 import { AdminLogin } from "./login-form";
 
 type AdminMusicWork = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
+type AdminPromptOption = Awaited<
+  ReturnType<typeof listEnabledAdminPromptsForTask>
+>[number];
+type AdminYoutubeLocaleOption = Awaited<
+  ReturnType<typeof listEnabledAdminYoutubeLocales>
+>[number];
 
 const CARD_CLASS = "border-zinc-800 bg-zinc-900 text-zinc-100 shadow-none";
 const CARD_TITLE_CLASS = "text-zinc-100";
@@ -179,6 +213,859 @@ export async function AdminDashboardPage() {
   );
 }
 
+export async function AdminPromptsPage({
+  message,
+  status,
+}: {
+  message?: string;
+  status?: string;
+}) {
+  return (
+    <AdminGate>
+      <PromptManager message={message} status={matchActionStatus(status)} />
+    </AdminGate>
+  );
+}
+
+export async function AdminYoutubeI18nPage({
+  message,
+  status,
+}: {
+  message?: string;
+  status?: string;
+}) {
+  return (
+    <AdminGate>
+      <YoutubeI18nPage message={message} status={matchActionStatus(status)} />
+    </AdminGate>
+  );
+}
+
+export async function AdminPromptEditorPage({
+  promptKey,
+  message,
+  status,
+}: {
+  message?: string;
+  promptKey?: string;
+  status?: string;
+}) {
+  return (
+    <AdminGate>
+      <PromptEditor
+        message={message}
+        promptKey={promptKey}
+        status={matchActionStatus(status)}
+      />
+    </AdminGate>
+  );
+}
+
+async function PromptManager({
+  message,
+  status,
+}: {
+  message?: string;
+  status: ActionStatus;
+}) {
+  const prompts = await listAdminPrompts();
+
+  return (
+    <section className="space-y-5">
+      <AdminActionToast message={message} status={status} />
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
+            <Sparkles className="h-4 w-4" />
+            prompt library
+          </div>
+          <CardTitle className={`text-3xl ${CARD_TITLE_CLASS}`}>
+            Prompts
+          </CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            Store admin AI prompts in PostgreSQL. The description generator uses
+            task{" "}
+            <span className="font-mono text-zinc-200">
+              {DESCRIPTION_GENERATOR_PROMPT_TASK}
+            </span>
+            . Open a prompt to see its input and output contract.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
+      <Card className={CARD_CLASS}>
+        <CardHeader className="flex flex-row items-start justify-between gap-4">
+          <div>
+            <CardTitle className={CARD_TITLE_CLASS}>Prompt list</CardTitle>
+            <CardDescription className={CARD_DESCRIPTION_CLASS}>
+              {prompts.length} prompt(s)
+            </CardDescription>
+          </div>
+          <Button asChild className={PRIMARY_BUTTON_CLASS}>
+            <Link href="/admin/prompts/new">
+              <Plus className="mr-2 h-4 w-4" />
+              New prompt
+            </Link>
+          </Button>
+        </CardHeader>
+        <CardContent>
+          {prompts.length ? (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-zinc-800">
+                    <TableHead className="text-zinc-400">Task</TableHead>
+                    <TableHead className="text-zinc-400">Variant</TableHead>
+                    <TableHead className="text-zinc-400">Title</TableHead>
+                    <TableHead className="text-zinc-400">Model</TableHead>
+                    <TableHead className="text-zinc-400">Status</TableHead>
+                    <TableHead className="text-right text-zinc-400">
+                      Edit
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {prompts.map((prompt) => (
+                    <TableRow className="border-zinc-800" key={prompt.id}>
+                      <TableCell className="font-mono text-zinc-200">
+                        {prompt.task}
+                      </TableCell>
+                      <TableCell className="font-mono text-zinc-400">
+                        {prompt.variant}
+                      </TableCell>
+                      <TableCell className="text-zinc-100">
+                        {prompt.title}
+                      </TableCell>
+                      <TableCell className="font-mono text-zinc-400">
+                        {prompt.model}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          className={
+                            prompt.isDefault
+                              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-100"
+                              : prompt.enabled
+                                ? "border-sky-500/40 bg-sky-500/10 text-sky-100"
+                                : "border-zinc-700 bg-zinc-900 text-zinc-400"
+                          }
+                          variant="outline"
+                        >
+                          {prompt.isDefault
+                            ? "default"
+                            : prompt.enabled
+                              ? "enabled"
+                              : "disabled"}
+                        </Badge>
+                        {prompt.isDefault && !prompt.enabled ? (
+                          <Badge
+                            className="ml-2 border-zinc-700 bg-zinc-900 text-zinc-400"
+                            variant="outline"
+                          >
+                            disabled
+                          </Badge>
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          asChild
+                          className={SECONDARY_BUTTON_CLASS}
+                          size="sm"
+                        >
+                          <Link
+                            href={`/admin/prompts/${encodeURIComponent(prompt.key)}`}
+                          >
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Edit
+                          </Link>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          ) : (
+            <div className="rounded-md border border-zinc-800 bg-zinc-950 p-4 text-sm text-zinc-400">
+              No prompts yet. Create one with the button above.
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </section>
+  );
+}
+
+async function YoutubeI18nPage({
+  message,
+  status,
+}: {
+  message?: string;
+  status: ActionStatus;
+}) {
+  const locales = await listAdminYoutubeLocales();
+  const configuredLocaleSet = new Set(locales.map((locale) => locale.locale));
+  const availableLanguageOptions = YOUTUBE_LANGUAGE_CATALOG.filter(
+    (language) => !configuredLocaleSet.has(language.locale),
+  ).map((language) => ({
+    label: `${language.label} (${language.locale})`,
+    value: language.locale,
+  }));
+
+  return (
+    <section className="space-y-5">
+      <AdminActionToast message={message} status={status} />
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
+            <Globe2 className="h-4 w-4" />
+            YouTube localization
+          </div>
+          <CardTitle className={`text-3xl ${CARD_TITLE_CLASS}`}>
+            YouTube languages
+          </CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            Manage the default language list used by the YouTube editor.
+            Removing a language here does not delete existing per-work
+            localizations.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <CardTitle className={CARD_TITLE_CLASS}>Add language</CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            Choose from the local YouTube language catalog saved in the
+            codebase.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AdminDirtyForm
+            action={saveAdminYoutubeLocaleAction}
+            className="grid gap-4 md:grid-cols-[minmax(0,1fr)_120px_auto_auto] md:items-end"
+          >
+            <SelectField
+              label="Language"
+              name="locale"
+              options={availableLanguageOptions}
+              placeholder={
+                availableLanguageOptions.length
+                  ? "Select YouTube language"
+                  : "All catalog languages are configured"
+              }
+              required
+              value=""
+            />
+            <Field label="Position" name="position" value="100" />
+            <CheckboxField checked label="Enabled" name="enabled" />
+            <Button
+              className={PRIMARY_BUTTON_CLASS}
+              disabled={!availableLanguageOptions.length}
+              type="submit"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Add
+            </Button>
+          </AdminDirtyForm>
+        </CardContent>
+      </Card>
+
+      <div className="grid gap-3">
+        {locales.length ? (
+          locales.map((locale) => (
+            <Card className={CARD_CLASS} key={locale.id}>
+              <CardContent className="pt-6">
+                <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
+                  <AdminDirtyForm
+                    action={saveAdminYoutubeLocaleAction}
+                    className="grid gap-4 xl:grid-cols-[160px_minmax(0,1fr)_120px_120px_auto] xl:items-end"
+                  >
+                    <Field
+                      label="Locale"
+                      name="locale"
+                      readOnly
+                      required
+                      value={locale.locale}
+                    />
+                    <Field
+                      label="Label"
+                      name="label"
+                      required
+                      value={locale.label}
+                    />
+                    <Field
+                      label="Position"
+                      name="position"
+                      value={String(locale.position)}
+                    />
+                    <CheckboxField
+                      checked={locale.enabled}
+                      label="Enabled"
+                      name="enabled"
+                    />
+                    <Button className={PRIMARY_BUTTON_CLASS} type="submit">
+                      <Save className="mr-2 h-4 w-4" />
+                      Save
+                    </Button>
+                  </AdminDirtyForm>
+                  <AdminConfirmForm
+                    action={deleteAdminYoutubeLocaleAction}
+                    message={`Remove "${locale.locale}" from the default YouTube localization language list? Existing song localizations will stay in the database.`}
+                  >
+                    <input name="locale" type="hidden" value={locale.locale} />
+                    <Button
+                      className="border-zinc-700 bg-zinc-800 text-zinc-100 shadow-none hover:bg-zinc-700"
+                      type="submit"
+                      variant="destructive"
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Remove
+                    </Button>
+                  </AdminConfirmForm>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Card className={CARD_CLASS}>
+            <CardHeader>
+              <CardTitle className={CARD_TITLE_CLASS}>
+                No languages configured
+              </CardTitle>
+              <CardDescription className={CARD_DESCRIPTION_CLASS}>
+                Add at least one enabled language to use YouTube localization
+                actions.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        )}
+      </div>
+    </section>
+  );
+}
+
+async function PromptEditor({
+  message,
+  promptKey,
+  status,
+}: {
+  message?: string;
+  promptKey?: string;
+  status: ActionStatus;
+}) {
+  const isNew = !promptKey || promptKey === "new";
+  const prompt = isNew ? null : await getAdminPromptByKey(promptKey);
+
+  return (
+    <section className="space-y-5">
+      <AdminActionToast message={message} status={status} />
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
+            <Sparkles className="h-4 w-4" />
+            prompt editor
+          </div>
+          <CardTitle className={`text-3xl ${CARD_TITLE_CLASS}`}>
+            {isNew ? "New prompt" : (prompt?.title ?? "Prompt not found")}
+          </CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            Prompt content is stored in PostgreSQL, not in source code.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
+      {!isNew && !prompt ? (
+        <DatabaseError
+          message="Prompt was not found."
+          summary="Prompt was not found."
+        />
+      ) : (
+        <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+          <PromptForm
+            mode={isNew ? "new" : "edit"}
+            prompt={{
+              content: prompt?.content ?? "",
+              description: prompt?.description ?? "",
+              enabled: prompt?.enabled ?? true,
+              isDefault: prompt?.isDefault ?? true,
+              key:
+                prompt?.key ?? `${DESCRIPTION_GENERATOR_PROMPT_TASK}.default`,
+              model: prompt?.model ?? "gpt-5",
+              task: prompt?.task ?? DESCRIPTION_GENERATOR_PROMPT_TASK,
+              title: prompt?.title ?? "Music description generator",
+              variant: prompt?.variant ?? DEFAULT_PROMPT_VARIANT,
+            }}
+          />
+          <PromptContractPanel />
+        </div>
+      )}
+    </section>
+  );
+}
+
+function PromptContractPanel() {
+  const descriptionInputExample = `{
+  "contentId": "251",
+  "workType": "R",
+  "songTitle": "Song title",
+  "extraInstructions": "Manual instructions for this generation only.",
+  "from": {
+    "type": "Anime",
+    "title": "Original song title",
+    "artists": ["Artist name"],
+    "sourceUrl": "https://example.com",
+    "ip": "Source IP",
+    "series": "Series name",
+    "session": "Season 2",
+    "details": "OP"
+  },
+  "lyrics": "Full lyrics text"
+}`;
+  const descriptionOutputExample = `{
+  "shortDescription": "One concise sentence.",
+  "introText": "Public page introduction.",
+  "productionNotes": "Adaptation or production notes."
+}`;
+  const relatedInputExample = `{
+  "currentWork": {
+    "contentId": "252",
+    "workType": "R",
+    "songTitle": "Song title",
+    "fromTitle": "Original song title",
+    "ip": "Source IP",
+    "series": "Series name",
+    "details": "OP",
+    "type": "Anime",
+    "lyrics": "Current work lyrics excerpt"
+  },
+  "existingRelatedUids": ["251"],
+  "extraInstructions": "Manual instructions for this generation only.",
+  "candidates": [
+    {
+      "contentId": "243",
+      "workType": "R",
+      "songTitle": "Candidate song",
+      "fromTitle": "Candidate original",
+      "ip": "Candidate IP",
+      "series": "Series name",
+      "details": "OP",
+      "type": "Anime",
+      "publishedAt": "2026-07-01T00:00:00.000Z"
+    }
+  ]
+}`;
+  const relatedOutputExample = `{
+  "candidates": [
+    { "uid": "243", "reason": "Short reason." },
+    { "uid": "244", "reason": "Short reason." },
+    { "uid": "245", "reason": "Short reason." }
+  ]
+}`;
+  const youtubeInputExample = `{
+  "language": {
+    "locale": "en",
+    "label": "English"
+  },
+  "metadata": {
+    "contentId": "123",
+    "path": "123",
+    "workType": "R",
+    "songTitle": "Song title",
+    "title": "Original imported title",
+    "youtubeId": "dQw4w9WgXcQ",
+    "publishedAt": "2026-07-01T00:00:00.000Z"
+  },
+  "from": {
+    "type": "Anime",
+    "title": "Original song title",
+    "artists": ["Artist name"],
+    "sourceUrl": "https://example.com",
+    "ip": "Source IP",
+    "series": "Series name",
+    "session": "Season 2",
+    "details": "OP"
+  },
+  "description": {
+    "shortDescription": "Short internal description.",
+    "introText": "Intro text from the Description step.",
+    "productionNotes": "Production notes from the Description step."
+  },
+  "relatedWorks": [
+    {
+      "contentId": "124",
+      "distributionIds": {
+        "youtube": "relatedYouTubeId",
+        "bilibili": "relatedBilibiliId",
+        "vk": "relatedVkId",
+        "pixiv": "relatedPixivId"
+      },
+      "workType": "R",
+      "songTitle": "Related song title",
+      "fromTitle": "Related original song",
+      "ip": "Related source IP",
+      "series": "Related series",
+      "details": "ED",
+      "type": "Anime",
+      "publishedAt": "2026-07-02T00:00:00.000Z"
+    }
+  ],
+  "lyrics": "Full lyrics text",
+  "existingYoutubeLocalization": {
+    "title": "Current YouTube title",
+    "description": "Current YouTube description"
+  },
+  "extraInstructions": "Manual instructions for this generation only."
+}`;
+  const youtubeOutputExample = `{
+  "title": "Localized YouTube title",
+  "description": "Full localized YouTube description, including final hashtags at the end."
+}`;
+  const platformInputExample = `{
+  "platform": {
+    "name": "bilibili",
+    "id": "BV1xx411c7mD"
+  },
+  "targetLanguage": {
+    "locale": "zh",
+    "label": "Chinese"
+  },
+  "metadata": {
+    "contentId": "123",
+    "path": "123",
+    "workType": "R",
+    "songTitle": "Song title",
+    "title": "Original imported title",
+    "youtubeId": "dQw4w9WgXcQ",
+    "publishedAt": "2026-07-01T00:00:00.000Z"
+  },
+  "from": {
+    "type": "Anime",
+    "title": "Original song title",
+    "artists": ["Artist name"],
+    "sourceUrl": "https://example.com",
+    "ip": "Source IP",
+    "series": "Series name",
+    "session": "Season 2",
+    "details": "OP"
+  },
+  "description": {
+    "shortDescription": "Short internal description.",
+    "introText": "Intro text from the Description step.",
+    "productionNotes": "Production notes from the Description step."
+  },
+  "referenceYoutubeLocalization": {
+    "locale": "zh",
+    "title": "Reference YouTube title",
+    "description": "Reference YouTube description"
+  },
+  "relatedWorks": [],
+  "lyrics": "Full lyrics text",
+  "existingPlatformCopy": {
+    "title": "Current platform title",
+    "description": "Current platform description"
+  },
+  "extraInstructions": "Manual instructions for this generation only."
+}`;
+  const platformOutputExample = `{
+  "title": "Platform title",
+  "description": "Platform description"
+}`;
+
+  return (
+    <aside className="space-y-4">
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <CardTitle className={CARD_TITLE_CLASS}>Prompt contract</CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            Use this structure when writing prompts. Prompt content is private
+            to the database.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 text-sm text-zinc-400">
+          <PromptContractBlock
+            inputExample={descriptionInputExample}
+            notes="Return concise copy for the Description step."
+            outputExample={descriptionOutputExample}
+            task={DESCRIPTION_GENERATOR_PROMPT_TASK}
+          />
+          <PromptContractBlock
+            inputExample={relatedInputExample}
+            notes="Return exactly 3 existing content UIDs from candidates. Do not return the current work or already related UIDs."
+            outputExample={relatedOutputExample}
+            task={RELATED_SUGGESTION_PROMPT_TASK}
+          />
+          <PromptContractBlock
+            inputExample={youtubeInputExample}
+            notes="Return YouTube title and the complete description in the target language.locale. Put all final hashtags at the end of description; do not output a separate hashtags field."
+            outputExample={youtubeOutputExample}
+            task={YOUTUBE_LOCALIZATION_PROMPT_TASK}
+          />
+          <PromptContractBlock
+            inputExample={platformInputExample}
+            notes="Return platform-native title and description. BiliBili targets Chinese; VK targets Russian. Use referenceYoutubeLocalization when available."
+            outputExample={platformOutputExample}
+            task={BILIBILI_COPY_PROMPT_TASK}
+          />
+          <PromptContractBlock
+            inputExample={platformInputExample
+              .replace(
+                '"name": "bilibili",\n    "id": "BV1xx411c7mD"',
+                '"name": "vk",\n    "id": "video-123_456"',
+              )
+              .replace(
+                '"locale": "zh",\n    "label": "Chinese"',
+                '"locale": "ru",\n    "label": "Russian"',
+              )}
+            notes="Return platform-native title and description for VK in Russian. Use referenceYoutubeLocalization when available."
+            outputExample={platformOutputExample}
+            task={VK_COPY_PROMPT_TASK}
+          />
+        </CardContent>
+      </Card>
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <CardTitle className={CARD_TITLE_CLASS}>How it is used</CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            The prompt text becomes the developer message. The input JSON is
+            sent as the user message. The model output is validated and applied
+            to the current form first, then you decide whether to save it.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </aside>
+  );
+}
+
+function PromptContractBlock({
+  inputExample,
+  notes,
+  outputExample,
+  task,
+}: {
+  inputExample: string;
+  notes: string;
+  outputExample: string;
+  task: string;
+}) {
+  return (
+    <details
+      className="rounded-md border border-zinc-800 bg-zinc-950/40"
+      open={task === DESCRIPTION_GENERATOR_PROMPT_TASK}
+    >
+      <summary className="cursor-pointer select-none p-3">
+        <span className="block text-xs font-medium text-zinc-300">Task</span>
+        <code className="mt-1 block text-xs text-zinc-100">{task}</code>
+        <span className="mt-2 block text-xs leading-5 text-zinc-500">
+          {notes}
+        </span>
+      </summary>
+      <div className="grid gap-3 border-t border-zinc-800 p-3">
+        <div>
+          <div className="mb-1 text-xs font-medium text-zinc-300">
+            Input JSON
+          </div>
+          <pre className="max-h-80 overflow-auto rounded-md border border-zinc-800 bg-zinc-950 p-3 text-xs leading-5 text-zinc-300">
+            {inputExample}
+          </pre>
+        </div>
+        <div>
+          <div className="mb-1 text-xs font-medium text-zinc-300">
+            Required output JSON
+          </div>
+          <pre className="overflow-auto rounded-md border border-zinc-800 bg-zinc-950 p-3 text-xs leading-5 text-zinc-300">
+            {outputExample}
+          </pre>
+        </div>
+      </div>
+    </details>
+  );
+}
+
+function PromptForm({
+  mode,
+  prompt,
+}: {
+  mode: "edit" | "new";
+  prompt: {
+    content: string;
+    description?: string | null;
+    enabled: boolean;
+    isDefault: boolean;
+    key: string;
+    model: string;
+    task: string;
+    title: string;
+    variant: string;
+  };
+}) {
+  const editorPath =
+    mode === "new"
+      ? "/admin/prompts/new"
+      : `/admin/prompts/${encodeURIComponent(prompt.key)}`;
+
+  return (
+    <Card className={CARD_CLASS}>
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <CardTitle className={CARD_TITLE_CLASS}>
+              {mode === "new" ? "New prompt" : prompt.title}
+            </CardTitle>
+            <CardDescription className={CARD_DESCRIPTION_CLASS}>
+              <span className="font-mono">{prompt.task || "prompt.task"}</span>
+              {" / "}
+              <span className="font-mono">{prompt.variant || "variant"}</span>
+              {prompt.isDefault
+                ? " · default"
+                : prompt.enabled
+                  ? " · enabled"
+                  : " · disabled"}
+            </CardDescription>
+          </div>
+          {mode === "edit" ? (
+            <AdminConfirmForm
+              action={deleteAdminPromptAction}
+              message={`Delete prompt "${prompt.key}"? This cannot be undone.`}
+            >
+              <input name="key" type="hidden" value={prompt.key} />
+              <Button
+                className="border-zinc-700 bg-zinc-800 text-zinc-100 shadow-none hover:bg-zinc-700"
+                type="submit"
+                variant="destructive"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete
+              </Button>
+            </AdminConfirmForm>
+          ) : null}
+        </div>
+      </CardHeader>
+      <CardContent>
+        <AdminDirtyForm action={saveAdminPromptAction} className="grid gap-4">
+          <input name="errorPath" type="hidden" value={editorPath} />
+          {mode === "edit" ? (
+            <input name="currentKey" type="hidden" value={prompt.key} />
+          ) : null}
+          <FieldStateGuide />
+          <div className="grid gap-4 md:grid-cols-2">
+            <SelectField
+              label="Task"
+              name="task"
+              options={ADMIN_PROMPT_TASK_OPTIONS}
+              placeholder="Select prompt task"
+              required
+              value={prompt.task}
+            />
+            <Field
+              label="Variant"
+              name="variant"
+              required
+              value={prompt.variant}
+            />
+            <Field label="Model" name="model" required value={prompt.model} />
+            <Field label="Title" name="title" required value={prompt.title} />
+            <CheckboxField
+              checked={prompt.enabled}
+              description="Disabled prompts are ignored by generation actions."
+              label="Enabled"
+              name="enabled"
+            />
+            <CheckboxField
+              checked={prompt.isDefault}
+              description="Default prompt is used automatically for this task."
+              label="Default"
+              name="isDefault"
+            />
+          </div>
+          <Field
+            label="Description"
+            name="description"
+            value={prompt.description}
+          />
+          <TextArea
+            label="Prompt content"
+            name="content"
+            rows={getTextRows(prompt.content, 14)}
+            value={prompt.content}
+          />
+          <div className="flex justify-end">
+            <Button className={PRIMARY_BUTTON_CLASS} type="submit">
+              <Save className="mr-2 h-4 w-4" />
+              Save prompt
+            </Button>
+          </div>
+        </AdminDirtyForm>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PromptTextarea({
+  label,
+  name,
+  rows,
+  value,
+}: {
+  label: string;
+  name: string;
+  rows: number;
+  value?: string | null;
+}) {
+  return (
+    <div className="grid gap-2">
+      <Label className="text-xs font-medium normal-case tracking-normal text-zinc-300">
+        {label}
+      </Label>
+      <Textarea
+        className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
+        defaultValue={value ?? ""}
+        name={name}
+        rows={rows}
+      />
+    </div>
+  );
+}
+
+function PromptSelect({
+  label,
+  name,
+  options,
+  placeholder,
+  value,
+}: {
+  label: string;
+  name: string;
+  options: readonly { label: string; value: string }[];
+  placeholder?: string;
+  value?: string | null;
+}) {
+  return (
+    <div className="grid gap-2">
+      <Label className="text-xs font-medium normal-case tracking-normal text-zinc-300">
+        {label}
+      </Label>
+      <select
+        className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+        defaultValue={value ?? ""}
+        key={name}
+        name={name}
+        suppressHydrationWarning
+      >
+        {placeholder ? (
+          <option disabled value="">
+            {placeholder}
+          </option>
+        ) : null}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 async function DashboardStatus() {
   const databaseStatus = await getAdminDatabaseStatus();
   const works = await listAdminMusicWorks();
@@ -212,6 +1099,16 @@ async function DashboardStatus() {
           <CardTitle className={CARD_TITLE_CLASS}>Music</CardTitle>
           <CardDescription className={CARD_DESCRIPTION_CLASS}>
             primary content type
+          </CardDescription>
+        </CardHeader>
+      </Card>
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <CardTitle className={CARD_TITLE_CLASS}>Prompts</CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            <Link className="text-zinc-100 underline" href="/admin/prompts">
+              Manage prompt library
+            </Link>
           </CardDescription>
         </CardHeader>
       </Card>
@@ -389,14 +1286,15 @@ async function ContentList({
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="admin-content-type">Category</Label>
-                <Select defaultValue="music" name="type">
-                  <SelectTrigger className="w-full" id="admin-content-type">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="music">Music</SelectItem>
-                  </SelectContent>
-                </Select>
+                <select
+                  className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+                  defaultValue="music"
+                  id="admin-content-type"
+                  name="type"
+                  suppressHydrationWarning
+                >
+                  <option value="music">Music</option>
+                </select>
               </div>
               <Button
                 className={SECONDARY_BUTTON_CLASS}
@@ -870,6 +1768,34 @@ async function ContentEditor({
   const databaseStatus = await getAdminDatabaseStatus();
 
   const work = id ? ((await getAdminMusicWork(id)) ?? undefined) : undefined;
+  const descriptionPrompts =
+    step === "description"
+      ? await listEnabledAdminPromptsForTask(DESCRIPTION_GENERATOR_PROMPT_TASK)
+      : [];
+  const relatedPrompts =
+    step === "related"
+      ? await listEnabledAdminPromptsForTask(RELATED_SUGGESTION_PROMPT_TASK)
+      : [];
+  const bilibiliPrompts =
+    step === "bilibili"
+      ? await listEnabledAdminPromptsForTask(BILIBILI_COPY_PROMPT_TASK)
+      : [];
+  const vkPrompts =
+    step === "vk"
+      ? await listEnabledAdminPromptsForTask(VK_COPY_PROMPT_TASK)
+      : [];
+  const youtubePrompts =
+    step === "youtube"
+      ? await listEnabledAdminPromptsForTask(YOUTUBE_LOCALIZATION_PROMPT_TASK)
+      : [];
+  const youtubeBatchPrompts =
+    step === "youtube"
+      ? await listEnabledAdminPromptsForTask(
+          YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
+        )
+      : [];
+  const youtubeLocaleConfig =
+    step === "youtube" ? await listEnabledAdminYoutubeLocales() : [];
   const youtubePublicationStatus = await checkYouTubeVideoPublished(
     work?.u2bId,
   );
@@ -944,7 +1870,14 @@ async function ContentEditor({
           ) : (
             <MusicWorkForm
               currentStep={step}
+              bilibiliPrompts={bilibiliPrompts}
+              descriptionPrompts={descriptionPrompts}
+              relatedPrompts={relatedPrompts}
+              vkPrompts={vkPrompts}
               work={work}
+              youtubeBatchPrompts={youtubeBatchPrompts}
+              youtubeLocaleConfig={youtubeLocaleConfig}
+              youtubePrompts={youtubePrompts}
               youtubePublicationStatus={youtubePublicationStatus}
             />
           )}
@@ -1057,6 +1990,294 @@ function StepSaveButton({ label }: { label: string }) {
   );
 }
 
+function DescriptionAiActions({
+  contentId,
+  prompts,
+}: {
+  contentId: string;
+  prompts: AdminPromptOption[];
+}) {
+  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
+
+  return (
+    <AiActionsDrawer
+      description="Use a prompt variant and optional one-time notes."
+      title="Generate description"
+    >
+      <PromptSelect
+        label="Prompt"
+        name="promptKey"
+        options={prompts.map((prompt) => ({
+          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+          value: prompt.key,
+        }))}
+        placeholder="Use default prompt"
+        value={defaultPrompt?.key}
+      />
+      {!prompts.length ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          No enabled prompts are available for this task.
+        </p>
+      ) : null}
+      <PromptTextarea
+        label="Generation notes"
+        name="generationNotes"
+        rows={4}
+        value=""
+      />
+      <p className="-mt-2 text-xs leading-5 text-zinc-500">
+        These notes are sent to the model as input and are not saved.
+      </p>
+      <div className="flex justify-end">
+        <AdminGenerateDescriptionButton
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+          contentId={contentId}
+          disabled={!prompts.length}
+        />
+      </div>
+    </AiActionsDrawer>
+  );
+}
+
+function RelatedAiActions({
+  contentId,
+  prompts,
+}: {
+  contentId: string;
+  prompts: AdminPromptOption[];
+}) {
+  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
+
+  return (
+    <AiActionsDrawer
+      description="Use this work and the content list to suggest 3 candidates."
+      title="Suggest related"
+    >
+      <PromptSelect
+        label="Prompt"
+        name="promptKey"
+        options={prompts.map((prompt) => ({
+          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+          value: prompt.key,
+        }))}
+        placeholder="Use default prompt"
+        value={defaultPrompt?.key}
+      />
+      {!prompts.length ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          No enabled prompts are available for this task.
+        </p>
+      ) : null}
+      <PromptTextarea
+        label="Generation notes"
+        name="generationNotes"
+        rows={4}
+        value=""
+      />
+      <p className="-mt-2 text-xs leading-5 text-zinc-500">
+        These notes are sent to the model as input and are not saved.
+      </p>
+      <div className="flex justify-end">
+        <AdminSuggestRelatedButton
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+          contentId={contentId}
+          disabled={!prompts.length}
+        />
+      </div>
+    </AiActionsDrawer>
+  );
+}
+
+function YoutubeAiActions({
+  batchPrompts,
+  contentId,
+  prompts,
+  youtubeId,
+}: {
+  batchPrompts: AdminPromptOption[];
+  contentId: string;
+  prompts: AdminPromptOption[];
+  youtubeId?: string | null;
+}) {
+  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
+  const defaultBatchPrompt = batchPrompts.find((prompt) => prompt.isDefault);
+  const disabled = !prompts.length || !youtubeId;
+  const batchDisabled = !batchPrompts.length || !youtubeId;
+
+  return (
+    <AiActionsDrawer
+      description="Use metadata, source, lyrics, and description fields to generate copy for the primary language."
+      title="Generate YouTube copy"
+    >
+      <PromptSelect
+        label="Current language prompt"
+        name="youtubeLocalizationPromptKey"
+        options={prompts.map((prompt) => ({
+          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+          value: prompt.key,
+        }))}
+        placeholder="Use default prompt"
+        value={defaultPrompt?.key}
+      />
+      {!prompts.length ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          No enabled prompts are available for this task.
+        </p>
+      ) : null}
+      <PromptSelect
+        label="Batch translation prompt"
+        name="youtubeLocalizationBatchPromptKey"
+        options={batchPrompts.map((prompt) => ({
+          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+          value: prompt.key,
+        }))}
+        placeholder="Use default batch prompt"
+        value={defaultBatchPrompt?.key}
+      />
+      {!batchPrompts.length ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          No enabled batch prompts are available for this task.
+        </p>
+      ) : null}
+      {!youtubeId ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          YouTube ID is required before generating YouTube copy.
+        </p>
+      ) : null}
+      <PromptTextarea
+        label="Generation notes"
+        name="generationNotes"
+        rows={4}
+        value=""
+      />
+      <p className="-mt-2 text-xs leading-5 text-zinc-500">
+        The selected primary language is sent as the target language and is not
+        saved separately.
+      </p>
+      <div className="flex justify-end">
+        <div className="grid gap-2">
+          <AdminGenerateYoutubeLocalizationButton
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+            contentId={contentId}
+            disabled={disabled}
+          />
+          <AdminGenerateYoutubeLocalizationBatchButton
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+            contentId={contentId}
+            disabled={batchDisabled}
+          />
+        </div>
+      </div>
+    </AiActionsDrawer>
+  );
+}
+
+function PlatformAiActions({
+  apiPath,
+  contentId,
+  description,
+  descriptionFieldName,
+  disabledReason,
+  generateLabel,
+  platformId,
+  prompts,
+  title,
+  titleFieldName,
+}: {
+  apiPath: "generate-bilibili-copy" | "generate-vk-copy";
+  contentId: string;
+  description: string;
+  descriptionFieldName: string;
+  disabledReason: string;
+  generateLabel: string;
+  platformId?: string | null;
+  prompts: AdminPromptOption[];
+  title: string;
+  titleFieldName: string;
+}) {
+  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
+  const disabled = !prompts.length || !platformId;
+
+  return (
+    <AiActionsDrawer description={description} title={title}>
+      <PromptSelect
+        label="Prompt"
+        name="platformCopyPromptKey"
+        options={prompts.map((prompt) => ({
+          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+          value: prompt.key,
+        }))}
+        placeholder="Use default prompt"
+        value={defaultPrompt?.key}
+      />
+      {!prompts.length ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          No enabled prompts are available for this task.
+        </p>
+      ) : null}
+      {!platformId ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">{disabledReason}</p>
+      ) : null}
+      <PromptTextarea
+        label="Generation notes"
+        name="generationNotes"
+        rows={4}
+        value=""
+      />
+      <p className="-mt-2 text-xs leading-5 text-zinc-500">
+        These notes are sent to the model as input and are not saved.
+      </p>
+      <div className="flex justify-end">
+        <AdminGeneratePlatformCopyButton
+          apiPath={apiPath}
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+          contentId={contentId}
+          descriptionFieldName={descriptionFieldName}
+          disabled={disabled}
+          label={generateLabel}
+          titleFieldName={titleFieldName}
+        />
+      </div>
+    </AiActionsDrawer>
+  );
+}
+
+function AiActionsDrawer({
+  children,
+  description,
+  title,
+}: {
+  children: ReactNode;
+  description: string;
+  title: string;
+}) {
+  return (
+    <aside className="pointer-events-none fixed top-28 right-0 z-40">
+      <details className="group pointer-events-auto w-12 overflow-hidden rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur transition-[width] open:w-[min(380px,calc(100vw-1rem))]">
+        <summary className="flex h-40 w-12 cursor-pointer select-none list-none items-center justify-center gap-2 p-3 marker:hidden group-open:h-auto group-open:w-full group-open:items-start group-open:justify-start group-open:p-4 [&::-webkit-details-marker]:hidden">
+          <span className="flex items-center gap-2 [writing-mode:vertical-rl] group-open:[writing-mode:horizontal-tb]">
+            <Sparkles className="h-4 w-4 shrink-0" />
+            <span className="text-xs font-medium uppercase text-zinc-400">
+              AI Actions
+            </span>
+          </span>
+          <span className="hidden group-open:block">
+            <span className="block text-base font-semibold text-zinc-100">
+              {title}
+            </span>
+            <span className="mt-1 block text-sm leading-6 text-zinc-400">
+              {description}
+            </span>
+          </span>
+        </summary>
+        <div className="grid gap-4 border-t border-zinc-800 p-4">
+          {children}
+        </div>
+      </details>
+    </aside>
+  );
+}
+
 function getTextRows(value: string | null | undefined, minimumRows: number) {
   const lineCount = value ? value.split(/\r\n|\r|\n/).length : 0;
   return Math.max(minimumRows, lineCount + 2);
@@ -1127,9 +2348,7 @@ function getDistributionReview(work?: AdminMusicWork) {
     work?.vkTitle || work?.vkDescription ? "VK Video copy" : null,
     work?.pixivTitle || work?.pixivDescription ? "Pixiv copy" : null,
   ].filter(Boolean);
-  const youtubeLocales = SITE_LOCALES.filter((locale) =>
-    isYoutubeLocalizationFilled(work, locale),
-  );
+  const youtubeLocales = getFilledYoutubeLocalizationLocales(work);
 
   if (youtubeLocales.length > 0) {
     items.push(`YouTube copy: ${youtubeLocales.join(", ")}`);
@@ -1142,15 +2361,39 @@ function getDistributionReview(work?: AdminMusicWork) {
 }
 
 function MusicWorkForm({
+  bilibiliPrompts,
   currentStep,
+  descriptionPrompts,
+  relatedPrompts,
+  vkPrompts,
   work,
+  youtubeBatchPrompts,
+  youtubeLocaleConfig,
+  youtubePrompts,
   youtubePublicationStatus,
 }: {
+  bilibiliPrompts: AdminPromptOption[];
   currentStep: AdminEditorStep;
+  descriptionPrompts: AdminPromptOption[];
+  relatedPrompts: AdminPromptOption[];
+  vkPrompts: AdminPromptOption[];
   work?: AdminMusicWork;
+  youtubeBatchPrompts: AdminPromptOption[];
+  youtubeLocaleConfig: AdminYoutubeLocaleOption[];
+  youtubePrompts: AdminPromptOption[];
   youtubePublicationStatus: YouTubePublicationStatus;
 }) {
-  const youtubeReadyLocales = SITE_LOCALES.filter((locale) =>
+  const youtubeEditorLocaleOptions = getYoutubeEditorLocaleOptions(
+    youtubeLocaleConfig,
+    work,
+  );
+  const youtubeLocales = youtubeEditorLocaleOptions.map(
+    (option) => option.locale,
+  );
+  const youtubeLocaleLabels = Object.fromEntries(
+    youtubeEditorLocaleOptions.map((option) => [option.locale, option.label]),
+  );
+  const youtubeReadyLocales = youtubeLocales.filter((locale) =>
     isYoutubeLocalizationFilled(work, locale),
   );
   const subtitleReadyLocales = SITE_LOCALES.filter((locale) =>
@@ -1284,32 +2527,45 @@ function MusicWorkForm({
     case "description":
       return (
         <StepForm step="description" work={work}>
-          <Section id="description" index={4} title="Description">
-            <Field
-              label="Short description"
-              name="shortDescription"
-              value={work?.shortDescription}
-            />
-            <TextArea
-              label="Intro text"
-              name="introText"
-              rows={5}
-              value={work?.introText}
-            />
-            <TextArea
-              label="Production notes"
-              name="productionNotes"
-              rows={5}
-              value={work?.productionNotes}
-            />
-            <StepSaveButton label="Save description" />
+          <Section id="description" index={5} title="Description">
+            <div className="grid gap-4">
+              <Field
+                label="Short description"
+                name="shortDescription"
+                value={work?.shortDescription}
+              />
+              <TextArea
+                label="Intro text"
+                name="introText"
+                rows={5}
+                value={work?.introText}
+              />
+              <TextArea
+                label="Production notes"
+                name="productionNotes"
+                rows={5}
+                value={work?.productionNotes}
+              />
+              <div className="flex justify-end">
+                <Button className={PRIMARY_BUTTON_CLASS} type="submit">
+                  <Save className="mr-2 h-4 w-4" />
+                  Save description
+                </Button>
+              </div>
+            </div>
+            {work ? (
+              <DescriptionAiActions
+                contentId={work.contentId}
+                prompts={descriptionPrompts}
+              />
+            ) : null}
           </Section>
         </StepForm>
       );
     case "lyrics":
       return (
         <StepForm step="lyrics" work={work}>
-          <Section id="lyrics" index={5} title="Lyrics">
+          <Section id="lyrics" index={4} title="Lyrics">
             <TextArea
               label="Lyrics"
               name="lyrics"
@@ -1324,13 +2580,26 @@ function MusicWorkForm({
       return (
         <StepForm step="related" work={work}>
           <Section id="related" index={6} title="Related">
-            <TextArea
-              label="Related content UIDs"
-              name="relatedWorkUids"
-              rows={4}
-              value={work?.relatedWorkUids}
-            />
-            <StepSaveButton label="Save related" />
+            <div className="grid gap-4">
+              <TextArea
+                label="Related content UIDs"
+                name="relatedWorkUids"
+                placeholder={"251\n2o1\nmusic-work-uid"}
+                rows={4}
+                value={work?.relatedWorkUids}
+              />
+              <p className="-mt-2 text-xs leading-5 text-zinc-500">
+                Use one UID per line. Commas, spaces, and pasted lists are also
+                accepted and will be saved as a newline list.
+              </p>
+              <StepSaveButton label="Save related" />
+            </div>
+            {work ? (
+              <RelatedAiActions
+                contentId={work.contentId}
+                prompts={relatedPrompts}
+              />
+            ) : null}
           </Section>
         </StepForm>
       );
@@ -1365,17 +2634,26 @@ function MusicWorkForm({
                 warning="id"
               />
               <AdminLocalePanels
-                labels={SITE_LOCALE_LABELS}
-                locales={SITE_LOCALES}
+                labels={youtubeLocaleLabels}
+                locales={youtubeLocales}
+                primaryLocaleInputName="youtubePrimaryLocale"
                 readyLocales={youtubeReadyLocales}
               >
-                {SITE_LOCALES.map((locale) => (
+                {youtubeLocales.map((locale) => (
                   <div data-locale={locale} key={locale}>
                     <YoutubeEditor locale={locale} work={work} />
                   </div>
                 ))}
               </AdminLocalePanels>
             </DistributionPanel>
+            {work ? (
+              <YoutubeAiActions
+                batchPrompts={youtubeBatchPrompts}
+                contentId={work.contentId}
+                prompts={youtubePrompts}
+                youtubeId={work.u2bId}
+              />
+            ) : null}
             <StepSaveButton label="Save YouTube" />
           </Section>
         </StepForm>
@@ -1393,7 +2671,11 @@ function MusicWorkForm({
               />
               <div className="grid gap-4 lg:grid-cols-2">
                 <PlatformReference
-                  content={getYoutubeLocalizationContent(work, "zh-CN")}
+                  content={getFirstYoutubeLocalizationContent(work, [
+                    "zh",
+                    "zh-CN",
+                    "zh-Hans",
+                  ])}
                   label="YouTube Chinese"
                 />
                 <PlatformTextFields
@@ -1404,6 +2686,20 @@ function MusicWorkForm({
                 />
               </div>
             </DistributionPanel>
+            {work ? (
+              <PlatformAiActions
+                apiPath="generate-bilibili-copy"
+                contentId={work.contentId}
+                description="Use metadata, source, lyrics, description, related works, and Chinese YouTube copy to generate BiliBili title and description."
+                descriptionFieldName="bilibiliDescription"
+                disabledReason="BiliBili ID is required before generating BiliBili copy."
+                generateLabel="Generate BiliBili copy"
+                platformId={work.bilibiliId}
+                prompts={bilibiliPrompts}
+                title="Generate BiliBili copy"
+                titleFieldName="bilibiliTitle"
+              />
+            ) : null}
             <StepSaveButton label="Save BiliBili" />
           </Section>
         </StepForm>
@@ -1421,7 +2717,10 @@ function MusicWorkForm({
               />
               <div className="grid gap-4 lg:grid-cols-2">
                 <PlatformReference
-                  content={getYoutubeLocalizationContent(work, "ru-RU")}
+                  content={getFirstYoutubeLocalizationContent(work, [
+                    "ru",
+                    "ru-RU",
+                  ])}
                   label="YouTube Russian"
                 />
                 <PlatformTextFields
@@ -1432,6 +2731,20 @@ function MusicWorkForm({
                 />
               </div>
             </DistributionPanel>
+            {work ? (
+              <PlatformAiActions
+                apiPath="generate-vk-copy"
+                contentId={work.contentId}
+                description="Use metadata, source, lyrics, description, related works, and Russian YouTube copy to generate VK title and description."
+                descriptionFieldName="vkDescription"
+                disabledReason="VK ID is required before generating VK copy."
+                generateLabel="Generate VK copy"
+                platformId={work.vkId}
+                prompts={vkPrompts}
+                title="Generate VK copy"
+                titleFieldName="vkTitle"
+              />
+            ) : null}
             <StepSaveButton label="Save VK Video" />
           </Section>
         </StepForm>
@@ -1465,7 +2778,7 @@ function YoutubeEditor({
   locale,
   work,
 }: {
-  locale: SiteLocale;
+  locale: string;
   work?: AdminMusicWork;
 }) {
   const content = getYoutubeLocalizationContent(work, locale);
@@ -1479,7 +2792,7 @@ function YoutubeEditor({
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="font-semibold text-zinc-100">
-            {SITE_LOCALE_LABELS[locale]}
+            {getYoutubeLocaleLabel(locale)}
           </h3>
           <p className="text-xs text-zinc-500">{locale}</p>
         </div>
@@ -1646,23 +2959,77 @@ function ReviewItem({
 
 function getYoutubeLocalizationContent(
   work: AdminMusicWork | undefined,
-  locale: SiteLocale,
+  locale: string,
 ) {
   return work?.youtubeLocalization?.[locale] ?? {};
 }
 
+function getFirstYoutubeLocalizationContent(
+  work: AdminMusicWork | undefined,
+  locales: string[],
+) {
+  for (const locale of locales) {
+    const content = getYoutubeLocalizationContent(work, locale);
+    if (content.title || content.description) {
+      return content;
+    }
+  }
+
+  return {};
+}
+
 function isYoutubeLocalizationFilled(
   work: AdminMusicWork | undefined,
-  locale: SiteLocale,
+  locale: string,
 ) {
   const content = getYoutubeLocalizationContent(work, locale);
   return Boolean(content.title || content.description);
+}
+
+function getFilledYoutubeLocalizationLocales(work: AdminMusicWork | undefined) {
+  return Object.keys(work?.youtubeLocalization ?? {}).filter((locale) =>
+    isYoutubeLocalizationFilled(work, locale),
+  );
+}
+
+function getYoutubeEditorLocaleOptions(
+  configuredLocales: AdminYoutubeLocaleOption[],
+  work: AdminMusicWork | undefined,
+) {
+  const options = configuredLocales.map((locale) => ({
+    label: locale.label,
+    locale: locale.locale,
+  }));
+  const configuredSet = new Set(options.map((option) => option.locale));
+
+  for (const locale of getFilledYoutubeLocalizationLocales(work)) {
+    if (!configuredSet.has(locale)) {
+      options.push({
+        label: getYoutubeLocaleLabel(locale),
+        locale,
+      });
+    }
+  }
+
+  return options.length
+    ? options
+    : [
+        {
+          label: getYoutubeLocaleLabel("en"),
+          locale: "en",
+        },
+      ];
+}
+
+function getYoutubeLocaleLabel(locale: string) {
+  return SITE_LOCALE_LABELS[locale as SiteLocale] ?? locale;
 }
 
 function Field({
   label,
   name,
   placeholder,
+  readOnly,
   required,
   type = "text",
   value,
@@ -1671,13 +3038,14 @@ function Field({
   label: string;
   name: string;
   placeholder?: string;
+  readOnly?: boolean;
   required?: boolean;
   type?: string;
   value?: string | null;
   warning?: "id";
 }) {
   return (
-    <div className={FIELD_STATE_CLASS} data-admin-field-name={name}>
+    <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
       <FieldLabel label={label} />
       <Input
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
@@ -1686,6 +3054,7 @@ function Field({
         key={name}
         name={name}
         placeholder={placeholder}
+        readOnly={readOnly}
         required={required}
         type={type}
       />
@@ -1707,7 +3076,7 @@ function CheckboxField({
   const id = `admin-field-${name}`;
 
   return (
-    <div className={FIELD_STATE_CLASS} data-admin-field-name={name}>
+    <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
       <Label
         className="flex items-center justify-between gap-2 text-xs font-medium normal-case tracking-normal text-zinc-300"
         htmlFor={id}
@@ -1794,27 +3163,29 @@ function SelectField({
   return (
     <div
       className={FIELD_STATE_CLASS}
-      data-admin-field-name={name}
+      data-admin-db-field-name={name}
       data-admin-initial-value={value ?? ""}
     >
       <FieldLabel label={label} />
-      <Select
-        defaultValue={value ?? undefined}
+      <select
+        className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+        defaultValue={value ?? ""}
         key={name}
         name={name}
         required={required}
+        suppressHydrationWarning
       >
-        <SelectTrigger className="w-full border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none focus-visible:ring-zinc-500">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        {placeholder ? (
+          <option disabled value="">
+            {placeholder}
+          </option>
+        ) : null}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
@@ -1822,22 +3193,25 @@ function SelectField({
 function TextArea({
   label,
   name,
+  placeholder,
   rows = 8,
   value,
 }: {
   label: string;
   name: string;
+  placeholder?: string;
   rows?: number;
   value?: string | null;
 }) {
   return (
-    <div className={FIELD_STATE_CLASS} data-admin-field-name={name}>
+    <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
       <FieldLabel label={label} />
       <Textarea
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
         key={name}
         name={name}
+        placeholder={placeholder}
         rows={rows}
       />
     </div>

@@ -10,6 +10,11 @@ import type {
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
+  DEFAULT_PROMPT_VARIANT,
+  deleteAdminPromptByKey,
+  upsertAdminPrompt,
+} from "./data/admin-prompts";
+import {
   clearAdminSession,
   createPasswordAdminSession,
   requireAdminSession,
@@ -21,6 +26,11 @@ import {
   listAdminMusicWorks,
   saveMusicWork,
 } from "./data/music-admin";
+import { getYoutubeLanguageCatalogLabel } from "./data/youtube-language-catalog";
+import {
+  deleteAdminYoutubeLocale,
+  upsertAdminYoutubeLocale,
+} from "./data/youtube-locales";
 import {
   assertValidFullMusicWorkForm,
   assertValidMusicWorkStepForm,
@@ -44,6 +54,11 @@ function getString(formData: FormData, key: string) {
 
 function getBoolean(formData: FormData, key: string) {
   return formData.get(key) === "on";
+}
+
+function getFormString(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value : "";
 }
 
 function getActionErrorMessage(error: unknown, fallback: string) {
@@ -72,8 +87,12 @@ function redirectWithActionMessage(
   status: "error" | "success",
 ): never {
   const separator = path.includes("?") ? "&" : "?";
+  const safeMessage =
+    message.length > 1000
+      ? `${message.slice(0, 1000)}... [message truncated]`
+      : message;
   redirect(
-    `${path}${separator}message=${encodeURIComponent(message)}&status=${status}`,
+    `${path}${separator}message=${encodeURIComponent(safeMessage)}&status=${status}`,
   );
 }
 
@@ -85,6 +104,18 @@ function getEditorErrorPath(contentId?: string, step?: string) {
   return step ? `${base}?step=${encodeURIComponent(step)}` : base;
 }
 
+function getPromptErrorPath() {
+  return "/admin/prompts";
+}
+
+function getPromptEditorPath(key: string) {
+  return `/admin/prompts/${encodeURIComponent(key)}`;
+}
+
+function getYoutubeI18nPath() {
+  return "/admin/yt-i18n";
+}
+
 const YOUTUBE_LOCALIZATION_FIELDS = [
   "title",
   "description",
@@ -92,10 +123,19 @@ const YOUTUBE_LOCALIZATION_FIELDS = [
 
 function parseYoutubeLocalization(formData: FormData) {
   const youtubeLocalization: MusicWorkYoutubeLocalization = {};
+  const renderedLocales = new Set<string>();
 
-  for (const locale of SITE_LOCALES) {
+  for (const key of formData.keys()) {
+    const match = /^youtubeLocalization\.([^.]*)\.(title|description)$/.exec(
+      key,
+    );
+    if (match?.[1]) {
+      renderedLocales.add(match[1]);
+    }
+  }
+
+  for (const locale of renderedLocales) {
     const content: YoutubeLocalizationContent = {};
-
     for (const field of YOUTUBE_LOCALIZATION_FIELDS) {
       const value = getOptionalString(
         formData,
@@ -111,7 +151,23 @@ function parseYoutubeLocalization(formData: FormData) {
     }
   }
 
-  return youtubeLocalization;
+  return { renderedLocales, youtubeLocalization };
+}
+
+function mergeYoutubeLocalization(
+  existing: MusicWorkYoutubeLocalization | null | undefined,
+  parsed: ReturnType<typeof parseYoutubeLocalization>,
+) {
+  const merged: MusicWorkYoutubeLocalization = { ...(existing ?? {}) };
+
+  for (const locale of parsed.renderedLocales) {
+    delete merged[locale];
+  }
+
+  return {
+    ...merged,
+    ...parsed.youtubeLocalization,
+  };
 }
 
 function parseSubtitleTracks(formData: FormData) {
@@ -137,6 +193,18 @@ function parseStringTags(formData: FormData, key: string) {
     .filter(Boolean);
 
   return items.length ? items : null;
+}
+
+function getUidListString(formData: FormData, key: string) {
+  const value = getOptionalString(formData, key);
+  if (!value) return undefined;
+
+  const items = value
+    .split(/[\s,;]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  return items.length ? Array.from(new Set(items)).join("\n") : undefined;
 }
 
 function matchOption<T extends readonly string[]>(
@@ -362,14 +430,17 @@ function applyStepDraft(
       draft.lyrics = getString(formData, "lyrics");
       break;
     case "related":
-      draft.relatedWorkUids = getOptionalString(formData, "relatedWorkUids");
+      draft.relatedWorkUids = getUidListString(formData, "relatedWorkUids");
       break;
     case "subtitles":
       draft.subtitleTracks = parseSubtitleTracks(formData);
       break;
     case "youtube":
       draft.u2bId = getOptionalString(formData, "u2bId");
-      draft.youtubeLocalization = parseYoutubeLocalization(formData);
+      draft.youtubeLocalization = mergeYoutubeLocalization(
+        draft.youtubeLocalization,
+        parseYoutubeLocalization(formData),
+      );
       break;
     case "bilibili":
       draft.bilibiliId = getOptionalString(formData, "bilibiliId");
@@ -427,7 +498,8 @@ export async function saveMusicWorkAction(formData: FormData) {
   const songTitle =
     getOptionalString(formData, "songTitle") ??
     getOptionalString(formData, "title");
-  const youtubeLocalization = parseYoutubeLocalization(formData);
+  const youtubeLocalization =
+    parseYoutubeLocalization(formData).youtubeLocalization;
   const subtitleTracks = parseSubtitleTracks(formData);
   const fromType = getOptionalString(formData, "fromType")
     ? matchOption(getString(formData, "fromType"), FROM_TYPES)
@@ -495,7 +567,7 @@ export async function saveMusicWorkAction(formData: FormData) {
         pixivTitle: getOptionalString(formData, "pixivTitle"),
         pixivDescription: getOptionalString(formData, "pixivDescription"),
         productionNotes: getString(formData, "productionNotes"),
-        relatedWorkUids: getOptionalString(formData, "relatedWorkUids"),
+        relatedWorkUids: getUidListString(formData, "relatedWorkUids"),
         shortDescription: getOptionalString(formData, "shortDescription"),
         subtitleTracks,
         vkId: getOptionalString(formData, "vkId"),
@@ -638,4 +710,135 @@ export async function clearMusicWorkStepAction(formData: FormData) {
   }
 
   redirectWithActionSuccess(redirectPath, `Cleared ${step}.`);
+}
+
+export async function saveAdminPromptAction(formData: FormData) {
+  await requireAdminSession();
+
+  const errorPath = getString(formData, "errorPath") || getPromptErrorPath();
+  const currentKey = getOptionalString(formData, "currentKey");
+  const task = getString(formData, "task");
+  const variant = getString(formData, "variant") || DEFAULT_PROMPT_VARIANT;
+  const key = `${task}.${variant}`;
+  const title = getString(formData, "title");
+  const model = getString(formData, "model") || "gpt-5";
+  const content = getFormString(formData, "content").trim();
+  const description = getOptionalString(formData, "description");
+  const enabled = getBoolean(formData, "enabled");
+  const isDefault = getBoolean(formData, "isDefault");
+
+  try {
+    if (!task) throw new Error("Prompt task is required.");
+    if (!/^[a-z0-9][a-z0-9._-]*$/i.test(task)) {
+      throw new Error(
+        "Prompt task may only contain letters, numbers, dots, underscores, and dashes.",
+      );
+    }
+    if (!variant) throw new Error("Prompt variant is required.");
+    if (!/^[a-z0-9][a-z0-9._-]*$/i.test(variant)) {
+      throw new Error(
+        "Prompt variant may only contain letters, numbers, dots, underscores, and dashes.",
+      );
+    }
+    if (!title) throw new Error("Prompt title is required.");
+    if (!model) throw new Error("Model is required.");
+    if (!content) throw new Error("Prompt content is required.");
+
+    await upsertAdminPrompt({
+      content,
+      currentKey,
+      description,
+      enabled,
+      isDefault,
+      key,
+      model,
+      task,
+      title,
+      variant,
+    });
+  } catch (error) {
+    console.error(
+      "Failed to save admin prompt.",
+      getActionErrorMessage(error, ""),
+    );
+    redirectWithActionError(errorPath, error, "Database error.");
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/prompts");
+  redirectWithActionSuccess(getPromptEditorPath(key), "Prompt saved.");
+}
+
+export async function deleteAdminPromptAction(formData: FormData) {
+  await requireAdminSession();
+
+  const key = getString(formData, "key");
+
+  try {
+    if (!key) throw new Error("Prompt key is required.");
+    await deleteAdminPromptByKey(key);
+  } catch (error) {
+    console.error("Failed to delete admin prompt.", error);
+    redirectWithActionError(getPromptErrorPath(), error, "Database error.");
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/prompts");
+  redirectWithActionSuccess(getPromptErrorPath(), "Prompt deleted.");
+}
+
+export async function saveAdminYoutubeLocaleAction(formData: FormData) {
+  await requireAdminSession();
+
+  const locale = getString(formData, "locale");
+  const label =
+    getOptionalString(formData, "label") ??
+    getYoutubeLanguageCatalogLabel(locale);
+  const position = Number.parseInt(getString(formData, "position"), 10) || 0;
+  const enabled = getBoolean(formData, "enabled");
+
+  try {
+    if (!locale) throw new Error("Locale is required.");
+    if (!/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/i.test(locale)) {
+      throw new Error("Locale must look like en-US, zh-CN, ja-JP, or ru-RU.");
+    }
+    if (!label) throw new Error("Label is required.");
+
+    await upsertAdminYoutubeLocale({
+      enabled,
+      label,
+      locale,
+      position,
+    });
+  } catch (error) {
+    console.error("Failed to save YouTube localization language.", error);
+    redirectWithActionError(getYoutubeI18nPath(), error, "Database error.");
+  }
+
+  revalidatePath("/admin");
+  revalidatePath(getYoutubeI18nPath());
+  revalidatePath("/admin/content");
+  redirectWithActionSuccess(getYoutubeI18nPath(), "YouTube language saved.");
+}
+
+export async function deleteAdminYoutubeLocaleAction(formData: FormData) {
+  await requireAdminSession();
+
+  const locale = getString(formData, "locale");
+
+  try {
+    if (!locale) throw new Error("Locale is required.");
+    await deleteAdminYoutubeLocale(locale);
+  } catch (error) {
+    console.error("Failed to delete YouTube localization language.", error);
+    redirectWithActionError(getYoutubeI18nPath(), error, "Database error.");
+  }
+
+  revalidatePath("/admin");
+  revalidatePath(getYoutubeI18nPath());
+  revalidatePath("/admin/content");
+  redirectWithActionSuccess(
+    getYoutubeI18nPath(),
+    "YouTube language removed from the default editor list. Existing per-work localizations were not deleted.",
+  );
 }

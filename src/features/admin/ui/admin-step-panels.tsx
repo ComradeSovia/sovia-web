@@ -2,11 +2,13 @@
 
 import {
   type FormEvent,
+  type MouseEvent,
   type ReactNode,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { useFormStatus } from "react-dom";
 
 type FieldState = "changed" | "database" | "empty" | "invalid" | "warning";
 
@@ -91,6 +93,7 @@ export function AdminDirtyForm({
         onChange={() => setDirty(true)}
         onSubmit={handleSubmit}
         ref={formRef}
+        suppressHydrationWarning
       >
         {children}
       </form>
@@ -166,6 +169,610 @@ export function AdminConfirmForm({
   );
 }
 
+export function AdminSubmitStatusButton({
+  children,
+  className,
+  disabled,
+  formAction,
+  pendingLabel,
+}: {
+  children: ReactNode;
+  className?: string;
+  disabled?: boolean;
+  formAction: (formData: FormData) => void | Promise<void>;
+  pendingLabel: ReactNode;
+}) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      className={className}
+      disabled={disabled || pending}
+      formAction={formAction}
+      type="submit"
+    >
+      {pending ? pendingLabel : children}
+    </button>
+  );
+}
+
+export function AdminFormPendingMessage({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const { pending } = useFormStatus();
+  if (!pending) return null;
+
+  return <p className={className}>{children}</p>;
+}
+
+export function AdminGenerateDescriptionButton({
+  className,
+  contentId,
+  disabled,
+}: {
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    setError(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/generate-description`,
+        {
+          body: JSON.stringify({
+            generationNotes: getFormControlValue(form, "generationNotes"),
+            promptKey: getFormControlValue(form, "promptKey"),
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        introText?: string;
+        message?: string;
+        productionNotes?: string;
+        shortDescription?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(payload.message || "Description generation failed.");
+      }
+
+      setFormControlValue(form, "shortDescription", payload.shortDescription);
+      setFormControlValue(form, "introText", payload.introText);
+      setFormControlValue(form, "productionNotes", payload.productionNotes);
+    } catch (generationError) {
+      setError(
+        generationError instanceof Error
+          ? generationError.message
+          : "Description generation failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Generating..." : "Generate description"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Generating description with the selected prompt...
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function AdminSuggestRelatedButton({
+  className,
+  contentId,
+  disabled,
+}: {
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [candidates, setCandidates] = useState<
+    { reason: string; uid: string }[]
+  >([]);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    setError(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/suggest-related`,
+        {
+          body: JSON.stringify({
+            generationNotes: getFormControlValue(form, "generationNotes"),
+            promptKey: getFormControlValue(form, "promptKey"),
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        candidates?: { reason: string; uid: string }[];
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(payload.message || "Related suggestion failed.");
+      }
+
+      setCandidates(payload.candidates ?? []);
+    } catch (suggestionError) {
+      setError(
+        suggestionError instanceof Error
+          ? suggestionError.message
+          : "Related suggestion failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  function addCandidate(event: MouseEvent<HTMLButtonElement>, uid: string) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const currentValue = getFormControlValue(form, "relatedWorkUids") ?? "";
+    const items = currentValue
+      .split(/\s+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+    if (!items.includes(uid)) {
+      items.push(uid);
+    }
+    setFormControlValue(form, "relatedWorkUids", items.join("\n"));
+  }
+
+  return (
+    <div className="grid gap-3">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Suggesting..." : "Suggest related"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Finding related candidates...
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+      {candidates.length ? (
+        <div className="grid gap-2">
+          {candidates.map((candidate) => (
+            <div
+              className="rounded-md border border-zinc-800 bg-zinc-950 p-3"
+              key={candidate.uid}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-mono text-sm text-zinc-100">
+                  {candidate.uid}
+                </span>
+                <button
+                  className="rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-100 hover:bg-zinc-700"
+                  onClick={(event) => addCandidate(event, candidate.uid)}
+                  type="button"
+                >
+                  Add
+                </button>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-zinc-400">
+                {candidate.reason}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function AdminGenerateYoutubeLocalizationButton({
+  className,
+  contentId,
+  disabled,
+}: {
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const locale = getFormControlValue(form, "youtubePrimaryLocale");
+    if (!locale) {
+      setError("Select a primary YouTube language first.");
+      return;
+    }
+
+    setError(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/generate-youtube-localization`,
+        {
+          body: JSON.stringify({
+            generationNotes: getFormControlValue(form, "generationNotes"),
+            locale,
+            promptKey: getFormControlValue(
+              form,
+              "youtubeLocalizationPromptKey",
+            ),
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        description?: string;
+        message?: string;
+        title?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          payload.message || "YouTube localization generation failed.",
+        );
+      }
+
+      setFormControlValue(
+        form,
+        `youtubeLocalization.${locale}.title`,
+        payload.title,
+      );
+      setFormControlValue(
+        form,
+        `youtubeLocalization.${locale}.description`,
+        payload.description,
+      );
+    } catch (generationError) {
+      setError(
+        generationError instanceof Error
+          ? generationError.message
+          : "YouTube localization generation failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Generating..." : "Generate YouTube copy"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Generating YouTube copy for the primary language...
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function AdminGenerateYoutubeLocalizationBatchButton({
+  className,
+  contentId,
+  disabled,
+}: {
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const sourceLocale = getFormControlValue(form, "youtubePrimaryLocale");
+    if (!sourceLocale) {
+      setError("Select a primary YouTube language first.");
+      return;
+    }
+
+    const locales = getYoutubeLocalizationLocales(form);
+    const targetLocales = locales.filter((locale) => locale !== sourceLocale);
+    setError(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/generate-youtube-localization-batch`,
+        {
+          body: JSON.stringify({
+            generationNotes: getFormControlValue(form, "generationNotes"),
+            promptKey: getFormControlValue(
+              form,
+              "youtubeLocalizationBatchPromptKey",
+            ),
+            sourceLocale,
+            targetLocales,
+            youtubeLocalization: getYoutubeLocalizationValues(form, locales),
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        localizations?: {
+          description: string;
+          locale: string;
+          title: string;
+        }[];
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          payload.message || "YouTube localization batch generation failed.",
+        );
+      }
+
+      for (const item of payload.localizations ?? []) {
+        setFormControlValue(
+          form,
+          `youtubeLocalization.${item.locale}.title`,
+          item.title,
+        );
+        setFormControlValue(
+          form,
+          `youtubeLocalization.${item.locale}.description`,
+          item.description,
+        );
+      }
+    } catch (generationError) {
+      setError(
+        generationError instanceof Error
+          ? generationError.message
+          : "YouTube localization batch generation failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Translating..." : "Translate all locales"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Translating all other YouTube languages from the primary language...
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function AdminGeneratePlatformCopyButton({
+  apiPath,
+  className,
+  contentId,
+  disabled,
+  label,
+  titleFieldName,
+  descriptionFieldName,
+}: {
+  apiPath: "generate-bilibili-copy" | "generate-vk-copy";
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+  label: string;
+  titleFieldName: string;
+  descriptionFieldName: string;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    setError(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/${apiPath}`,
+        {
+          body: JSON.stringify({
+            generationNotes: getFormControlValue(form, "generationNotes"),
+            promptKey: getFormControlValue(form, "platformCopyPromptKey"),
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        description?: string;
+        message?: string;
+        title?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(payload.message || `${label} generation failed.`);
+      }
+
+      setFormControlValue(form, titleFieldName, payload.title);
+      setFormControlValue(form, descriptionFieldName, payload.description);
+    } catch (generationError) {
+      setError(
+        generationError instanceof Error
+          ? generationError.message
+          : `${label} generation failed.`,
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Generating..." : label}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Generating platform copy with the selected prompt...
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function getFormControlValue(form: HTMLFormElement, name: string) {
+  const control = form.elements.namedItem(name);
+  if (
+    control instanceof HTMLInputElement ||
+    control instanceof HTMLTextAreaElement ||
+    control instanceof HTMLSelectElement
+  ) {
+    return control.value;
+  }
+
+  return undefined;
+}
+
+function getYoutubeLocalizationLocales(form: HTMLFormElement) {
+  const locales = new Set<string>();
+
+  for (const element of Array.from(form.elements)) {
+    if (
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLTextAreaElement ||
+      element instanceof HTMLSelectElement
+    ) {
+      const match = /^youtubeLocalization\.([^.]*)\.(title|description)$/.exec(
+        element.name,
+      );
+      if (match?.[1]) {
+        locales.add(match[1]);
+      }
+    }
+  }
+
+  return Array.from(locales);
+}
+
+function getYoutubeLocalizationValues(
+  form: HTMLFormElement,
+  locales: string[],
+) {
+  return Object.fromEntries(
+    locales.map((locale) => [
+      locale,
+      {
+        description: getFormControlValue(
+          form,
+          `youtubeLocalization.${locale}.description`,
+        ),
+        title: getFormControlValue(form, `youtubeLocalization.${locale}.title`),
+      },
+    ]),
+  );
+}
+
+function setFormControlValue(
+  form: HTMLFormElement,
+  name: string,
+  value: string | undefined,
+) {
+  const control = form.elements.namedItem(name);
+  if (
+    !(
+      control instanceof HTMLInputElement ||
+      control instanceof HTMLTextAreaElement
+    ) ||
+    value === undefined
+  ) {
+    return;
+  }
+
+  control.value = value;
+  control.dispatchEvent(new Event("input", { bubbles: true }));
+  control.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
 function AdminConfirmDialog({
   confirmLabel,
   message,
@@ -222,11 +829,11 @@ function AdminConfirmDialog({
 
 function updateFieldStates(form: HTMLFormElement) {
   const fields = Array.from(
-    form.querySelectorAll<HTMLElement>("[data-admin-field-name]"),
+    form.querySelectorAll<HTMLElement>("[data-admin-db-field-name]"),
   );
 
   for (const field of fields) {
-    const name = field.dataset.adminFieldName;
+    const name = field.dataset.adminDbFieldName;
     if (!name) continue;
 
     const element = getNamedControl(form, name);
