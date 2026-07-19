@@ -11,6 +11,7 @@ import {
   getEnabledAdminPromptByKey,
   PIXIV_COPY_PROMPT_TASK,
   RELATED_SUGGESTION_PROMPT_TASK,
+  SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
   VK_COPY_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_PROMPT_TASK,
@@ -50,6 +51,14 @@ const youtubeLocalizationBatchSchema = z.object({
     }),
   ),
 });
+const subtitleLocalizationBatchSchema = z.object({
+  localizations: z.array(
+    z.object({
+      locale: z.string(),
+      srt: z.string(),
+    }),
+  ),
+});
 
 export type GeneratedMusicWorkDescription = z.infer<
   typeof generatedDescriptionSchema
@@ -63,6 +72,9 @@ export type GeneratedYouTubeLocalization = z.infer<
 export type GeneratedPlatformCopy = z.infer<typeof platformCopySchema>;
 export type GeneratedYouTubeLocalizationBatch = z.infer<
   typeof youtubeLocalizationBatchSchema
+>;
+export type GeneratedSubtitleLocalizationBatch = z.infer<
+  typeof subtitleLocalizationBatchSchema
 >;
 
 export async function generateMusicWorkDescription({
@@ -525,6 +537,159 @@ export async function generateYouTubeLocalizationBatch({
   };
 }
 
+export async function generateSubtitleLocalizationBatch({
+  contentId,
+  generationNotes,
+  promptKey,
+  sourceLocale,
+  subtitleTracks,
+  targetLocales,
+}: {
+  contentId: string;
+  generationNotes?: string | null;
+  promptKey?: string | null;
+  sourceLocale: string;
+  subtitleTracks: Record<string, string | null | undefined>;
+  targetLocales: string[];
+}) {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY is not configured.");
+  }
+
+  const [prompt, work] = await Promise.all([
+    promptKey
+      ? getEnabledAdminPromptByKey(
+          promptKey,
+          SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
+        )
+      : getDefaultAdminPromptForTask(SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK),
+    getAdminMusicWork(contentId),
+  ]);
+
+  if (!prompt) {
+    throw new Error(
+      promptKey
+        ? "Selected prompt is disabled, missing, or belongs to a different task."
+        : `Create an enabled prompt for task "${SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK}" first.`,
+    );
+  }
+  if (!work) {
+    throw new Error("Content record could not be loaded.");
+  }
+  if (!sourceLocale) {
+    throw new Error("Select a primary subtitle language first.");
+  }
+  const sourceSrt = subtitleTracks[sourceLocale]?.trim();
+  if (!sourceSrt) {
+    throw new Error(
+      "Primary subtitle language needs SRT content before translating all subtitle locales.",
+    );
+  }
+  const uniqueTargetLocales = Array.from(
+    new Set(
+      targetLocales.filter((locale) => locale && locale !== sourceLocale),
+    ),
+  );
+  if (!uniqueTargetLocales.length) {
+    throw new Error("No target subtitle languages are available.");
+  }
+
+  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const response = await client.responses.create({
+    input: [
+      {
+        content: prompt.content,
+        role: "developer",
+      },
+      {
+        content: JSON.stringify({
+          contentId: work.contentId,
+          description: {
+            introText: work.introText,
+            productionNotes: work.productionNotes,
+            shortDescription: work.shortDescription,
+          },
+          extraInstructions: generationNotes,
+          from: {
+            artists: work.fromArtists,
+            details: work.fromDetails,
+            ip: work.fromIp,
+            series: work.fromSeries,
+            session: work.fromSession,
+            sourceUrl: work.fromSource,
+            title: work.fromTitle,
+            type: work.fromType,
+          },
+          metadata: {
+            contentId: work.contentId,
+            path: work.path,
+            publishedAt: work.publishedAt,
+            songTitle: work.songTitle ?? work.title,
+            title: work.title,
+            workType: work.workType,
+            youtubeId: work.u2bId,
+          },
+          requiredOutputLocales: uniqueTargetLocales,
+          sourceLanguage: {
+            label: getLanguageLabel(sourceLocale),
+            locale: sourceLocale,
+          },
+          sourceSrt,
+          targetLanguages: uniqueTargetLocales.map((locale) => ({
+            existingSrt: subtitleTracks[locale],
+            label: getLanguageLabel(locale),
+            locale,
+          })),
+        }),
+        role: "user",
+      },
+    ],
+    model: prompt.model,
+    text: {
+      format: {
+        name: "music_subtitle_localization_batch",
+        schema: {
+          additionalProperties: false,
+          properties: {
+            localizations: {
+              items: {
+                additionalProperties: false,
+                properties: {
+                  locale: { enum: uniqueTargetLocales, type: "string" },
+                  srt: { type: "string" },
+                },
+                required: ["locale", "srt"],
+                type: "object",
+              },
+              type: "array",
+            },
+          },
+          required: ["localizations"],
+          type: "object",
+        },
+        strict: true,
+        type: "json_schema",
+      },
+    },
+  });
+
+  const parsed = parseSubtitleLocalizationBatch(response.output_text);
+  const localizations = parsed.localizations.filter((item) =>
+    uniqueTargetLocales.includes(item.locale),
+  );
+  if (!localizations.length) {
+    const returnedLocales = parsed.localizations
+      .map((item) => item.locale)
+      .filter(Boolean)
+      .join(", ");
+    throw new Error(
+      `The model returned no subtitles for the requested locales. Requested: ${uniqueTargetLocales.join(", ")}. Returned: ${returnedLocales || "none"}.`,
+    );
+  }
+
+  return { localizations };
+}
+
 export async function generateBilibiliCopy({
   contentId,
   generationNotes,
@@ -863,6 +1028,17 @@ function parseYouTubeLocalizationBatch(outputText: string) {
   }
 }
 
+function parseSubtitleLocalizationBatch(outputText: string) {
+  try {
+    return normalizeSubtitleLocalizationBatch(JSON.parse(outputText));
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      throw new Error("The model response was not valid JSON.");
+    }
+    throw error;
+  }
+}
+
 function parsePlatformCopy(outputText: string) {
   try {
     return normalizePlatformCopy(JSON.parse(outputText));
@@ -910,6 +1086,17 @@ function normalizeYouTubeLocalizationBatch(value: unknown) {
   if (!result.success) {
     throw new Error(
       "The model response did not include YouTube localizations.",
+    );
+  }
+
+  return result.data;
+}
+
+function normalizeSubtitleLocalizationBatch(value: unknown) {
+  const result = subtitleLocalizationBatchSchema.safeParse(value);
+  if (!result.success) {
+    throw new Error(
+      "The model response did not include subtitle localizations.",
     );
   }
 

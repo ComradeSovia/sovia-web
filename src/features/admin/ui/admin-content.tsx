@@ -1,8 +1,4 @@
-import {
-  SITE_LOCALE_LABELS,
-  SITE_LOCALES,
-  type SiteLocale,
-} from "@sovia/shared/i18n/site-locale";
+import { SITE_LOCALE_LABELS } from "@sovia/shared/i18n/site-locale";
 import type { YoutubeLocalizationContent } from "@sovia/sound/model/music";
 import {
   checkYouTubeVideoPublished,
@@ -69,6 +65,7 @@ import {
   listEnabledAdminPromptsForTask,
   PIXIV_COPY_PROMPT_TASK,
   RELATED_SUGGESTION_PROMPT_TASK,
+  SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
   VK_COPY_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_PROMPT_TASK,
@@ -92,9 +89,11 @@ import {
 import { AdminLocalePanels } from "./admin-locale-panels";
 import {
   AdminConfirmForm,
+  AdminCopyFieldButton,
   AdminDirtyForm,
   AdminGenerateDescriptionButton,
   AdminGeneratePlatformCopyButton,
+  AdminGenerateSubtitleLocalizationBatchButton,
   AdminGenerateYoutubeLocalizationBatchButton,
   AdminGenerateYoutubeLocalizationButton,
   AdminSuggestRelatedButton,
@@ -722,6 +721,55 @@ function PromptContractPanel() {
   "title": "Localized YouTube title",
   "description": "Full localized YouTube description, including final hashtags at the end."
 }`;
+  const subtitleBatchInputExample = `{
+  "contentId": "123",
+  "metadata": {
+    "contentId": "123",
+    "path": "123",
+    "workType": "R",
+    "songTitle": "Song title",
+    "title": "Original imported title",
+    "youtubeId": "dQw4w9WgXcQ",
+    "publishedAt": "2026-07-01T00:00:00.000Z"
+  },
+  "from": {
+    "type": "Anime",
+    "title": "Original song title",
+    "artists": ["Artist name"],
+    "sourceUrl": "https://example.com",
+    "ip": "Source IP",
+    "series": "Series name",
+    "session": "Season 2",
+    "details": "OP"
+  },
+  "description": {
+    "shortDescription": "Short internal description.",
+    "introText": "Intro text from the Description step.",
+    "productionNotes": "Production notes from the Description step."
+  },
+  "sourceLanguage": {
+    "locale": "en-US",
+    "label": "English"
+  },
+  "sourceSrt": "1\\n00:00:00,000 --> 00:00:02,000\\nSubtitle text",
+  "targetLanguages": [
+    {
+      "locale": "zh-CN",
+      "label": "Simplified Chinese",
+      "existingSrt": ""
+    }
+  ],
+  "requiredOutputLocales": ["zh-CN"],
+  "extraInstructions": "Manual instructions for this generation only."
+}`;
+  const subtitleBatchOutputExample = `{
+  "localizations": [
+    {
+      "locale": "zh-CN",
+      "srt": "1\\n00:00:00,000 --> 00:00:02,000\\n翻译后的字幕"
+    }
+  ]
+}`;
   const platformInputExample = `{
   "platform": {
     "name": "bilibili",
@@ -806,6 +854,12 @@ function PromptContractPanel() {
             notes="Return YouTube title and the complete description in the target language.locale. Put all final hashtags at the end of description; do not output a separate hashtags field."
             outputExample={youtubeOutputExample}
             task={YOUTUBE_LOCALIZATION_PROMPT_TASK}
+          />
+          <PromptContractBlock
+            inputExample={subtitleBatchInputExample}
+            notes="Return complete translated SRT tracks. Preserve cue numbers, timestamps, and SRT structure exactly; translate only subtitle text."
+            outputExample={subtitleBatchOutputExample}
+            task={SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK}
           />
           <PromptContractBlock
             inputExample={platformInputExample}
@@ -1818,6 +1872,12 @@ async function ContentEditor({
     step === "pixiv"
       ? await listEnabledAdminPromptsForTask(PIXIV_COPY_PROMPT_TASK)
       : [];
+  const subtitleBatchPrompts =
+    step === "subtitles"
+      ? await listEnabledAdminPromptsForTask(
+          SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
+        )
+      : [];
   const youtubePrompts =
     step === "youtube"
       ? await listEnabledAdminPromptsForTask(YOUTUBE_LOCALIZATION_PROMPT_TASK)
@@ -1829,7 +1889,9 @@ async function ContentEditor({
         )
       : [];
   const youtubeLocaleConfig =
-    step === "youtube" ? await listEnabledAdminYoutubeLocales() : [];
+    step === "youtube" || step === "subtitles"
+      ? await listEnabledAdminYoutubeLocales()
+      : [];
   const youtubePublicationStatus = await checkYouTubeVideoPublished(
     work?.u2bId,
   );
@@ -1908,6 +1970,7 @@ async function ContentEditor({
               descriptionPrompts={descriptionPrompts}
               pixivPrompts={pixivPrompts}
               relatedPrompts={relatedPrompts}
+              subtitleBatchPrompts={subtitleBatchPrompts}
               vkPrompts={vkPrompts}
               work={work}
               youtubeBatchPrompts={youtubeBatchPrompts}
@@ -2207,6 +2270,57 @@ function YoutubeAiActions({
   );
 }
 
+function SubtitleAiActions({
+  contentId,
+  prompts,
+}: {
+  contentId: string;
+  prompts: AdminPromptOption[];
+}) {
+  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
+  const disabled = !prompts.length;
+
+  return (
+    <AiActionsDrawer
+      description="Use the primary SRT subtitle track as source and translate it into every other subtitle language."
+      title="Translate subtitles"
+    >
+      <PromptSelect
+        label="Batch subtitle prompt"
+        name="subtitleLocalizationBatchPromptKey"
+        options={prompts.map((prompt) => ({
+          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+          value: prompt.key,
+        }))}
+        placeholder="Use default subtitle prompt"
+        value={defaultPrompt?.key}
+      />
+      {!prompts.length ? (
+        <p className="-mt-2 text-xs leading-5 text-red-300">
+          No enabled subtitle batch prompts are available for this task.
+        </p>
+      ) : null}
+      <PromptTextarea
+        label="Generation notes"
+        name="subtitleGenerationNotes"
+        rows={4}
+        value=""
+      />
+      <p className="-mt-2 text-xs leading-5 text-zinc-500">
+        The selected primary subtitle language is used as source. Generated SRT
+        is applied to the form first and is not saved until you save subtitles.
+      </p>
+      <div className="flex justify-end">
+        <AdminGenerateSubtitleLocalizationBatchButton
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+          contentId={contentId}
+          disabled={disabled}
+        />
+      </div>
+    </AiActionsDrawer>
+  );
+}
+
 function PlatformAiActions({
   apiPath,
   contentId,
@@ -2371,7 +2485,7 @@ function ContentReviewHeader({ work }: { work?: AdminMusicWork }) {
         label="Subtitles"
         value={
           subtitleTrackCount
-            ? `${subtitleTrackCount} / ${SITE_LOCALES.length} subtitle locale(s) ready`
+            ? `${subtitleTrackCount} subtitle locale(s) ready`
             : "Empty"
         }
       />
@@ -2409,6 +2523,7 @@ function MusicWorkForm({
   descriptionPrompts,
   pixivPrompts,
   relatedPrompts,
+  subtitleBatchPrompts,
   vkPrompts,
   work,
   youtubeBatchPrompts,
@@ -2421,6 +2536,7 @@ function MusicWorkForm({
   descriptionPrompts: AdminPromptOption[];
   pixivPrompts: AdminPromptOption[];
   relatedPrompts: AdminPromptOption[];
+  subtitleBatchPrompts: AdminPromptOption[];
   vkPrompts: AdminPromptOption[];
   work?: AdminMusicWork;
   youtubeBatchPrompts: AdminPromptOption[];
@@ -2441,7 +2557,7 @@ function MusicWorkForm({
   const youtubeReadyLocales = youtubeLocales.filter((locale) =>
     isYoutubeLocalizationFilled(work, locale),
   );
-  const subtitleReadyLocales = SITE_LOCALES.filter((locale) =>
+  const subtitleReadyLocales = youtubeLocales.filter((locale) =>
     Boolean(work?.subtitleTracks?.[locale]),
   );
 
@@ -2653,16 +2769,23 @@ function MusicWorkForm({
         <StepForm step="subtitles" work={work}>
           <Section id="subtitles" index={11} title="Subtitles">
             <AdminLocalePanels
-              labels={SITE_LOCALE_LABELS}
-              locales={SITE_LOCALES}
+              labels={youtubeLocaleLabels}
+              locales={youtubeLocales}
+              primaryLocaleInputName="subtitlePrimaryLocale"
               readyLocales={subtitleReadyLocales}
             >
-              {SITE_LOCALES.map((locale) => (
+              {youtubeLocales.map((locale) => (
                 <div data-locale={locale} key={locale}>
                   <SubtitleEditor locale={locale} work={work} />
                 </div>
               ))}
             </AdminLocalePanels>
+            {work ? (
+              <SubtitleAiActions
+                contentId={work.contentId}
+                prompts={subtitleBatchPrompts}
+              />
+            ) : null}
             <StepSaveButton label="Save subtitles" />
           </Section>
         </StepForm>
@@ -2978,7 +3101,7 @@ function SubtitleEditor({
   locale,
   work,
 }: {
-  locale: SiteLocale;
+  locale: string;
   work?: AdminMusicWork;
 }) {
   const value = work?.subtitleTracks?.[locale] ?? "";
@@ -2992,7 +3115,7 @@ function SubtitleEditor({
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="font-semibold text-zinc-100">
-            {SITE_LOCALE_LABELS[locale]}
+            {getYoutubeLocaleLabel(locale)}
           </h3>
           <p className="text-xs text-zinc-500">{locale}</p>
         </div>
@@ -3107,7 +3230,7 @@ function getYoutubeEditorLocaleOptions(
 }
 
 function getYoutubeLocaleLabel(locale: string) {
-  return SITE_LOCALE_LABELS[locale as SiteLocale] ?? locale;
+  return (SITE_LOCALE_LABELS as Record<string, string>)[locale] ?? locale;
 }
 
 function Field({
@@ -3131,7 +3254,7 @@ function Field({
 }) {
   return (
     <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
-      <FieldLabel label={label} />
+      <FieldLabel copyName={name} label={label} />
       <Input
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         data-admin-warning={warning}
@@ -3251,7 +3374,7 @@ function SelectField({
       data-admin-db-field-name={name}
       data-admin-initial-value={value ?? ""}
     >
-      <FieldLabel label={label} />
+      <FieldLabel copyName={name} label={label} />
       <select
         className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
@@ -3290,7 +3413,7 @@ function TextArea({
 }) {
   return (
     <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
-      <FieldLabel label={label} />
+      <FieldLabel copyName={name} label={label} />
       <Textarea
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
@@ -3303,11 +3426,14 @@ function TextArea({
   );
 }
 
-function FieldLabel({ label }: { label: string }) {
+function FieldLabel({ copyName, label }: { copyName?: string; label: string }) {
   return (
     <Label className="flex items-center justify-between gap-2 text-xs font-medium normal-case tracking-normal text-zinc-300">
       <span>{label}</span>
-      <FieldStatus />
+      <span className="flex items-center gap-1.5">
+        {copyName ? <AdminCopyFieldButton name={copyName} /> : null}
+        <FieldStatus />
+      </span>
     </Label>
   );
 }

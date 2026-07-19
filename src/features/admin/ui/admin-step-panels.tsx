@@ -1,5 +1,6 @@
 "use client";
 
+import { Check, Copy } from "lucide-react";
 import {
   type FormEvent,
   type MouseEvent,
@@ -207,6 +208,52 @@ export function AdminFormPendingMessage({
   if (!pending) return null;
 
   return <p className={className}>{children}</p>;
+}
+
+export function AdminCopyFieldButton({ name }: { name: string }) {
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(false);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const value = getFormControlValue(form, name) ?? "";
+    if (!value) {
+      setCopied(false);
+      setError(true);
+      window.setTimeout(() => setError(false), 1400);
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      setError(false);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    } catch {
+      setCopied(false);
+      setError(true);
+      window.setTimeout(() => setError(false), 1400);
+    }
+  }
+
+  const Icon = copied ? Check : Copy;
+
+  return (
+    <button
+      aria-label={`Copy ${name}`}
+      className="inline-grid h-5 w-5 place-items-center rounded-sm border border-zinc-800 bg-zinc-950 text-zinc-500 transition-colors hover:border-zinc-600 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 group-data-[field-state=changed]:border-yellow-400/30 group-data-[field-state=changed]:text-yellow-200 group-data-[field-state=database]:border-sky-500/30 group-data-[field-state=database]:text-sky-200 group-data-[field-state=invalid]:border-red-500/30 group-data-[field-state=invalid]:text-red-200 group-data-[field-state=warning]:border-orange-500/30 group-data-[field-state=warning]:text-orange-200"
+      onClick={handleClick}
+      title={error ? "Nothing to copy" : copied ? "Copied" : "Copy value"}
+      type="button"
+    >
+      <Icon className="h-3 w-3" />
+    </button>
+  );
 }
 
 export function AdminGenerateDescriptionButton({
@@ -738,6 +785,135 @@ export function AdminSyncYoutubeVideoButton({
   );
 }
 
+export function AdminGenerateSubtitleLocalizationBatchButton({
+  className,
+  contentId,
+  disabled,
+}: {
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [translatedCount, setTranslatedCount] = useState<number | null>(null);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const sourceLocale = getFormControlValue(form, "subtitlePrimaryLocale");
+    if (!sourceLocale) {
+      setError("Select a primary subtitle language first.");
+      return;
+    }
+
+    const locales = getSubtitleLocales(form);
+    const targetLocales = locales.filter((locale) => locale !== sourceLocale);
+    const subtitleTracks = getSubtitleTrackValues(form, locales);
+    const sourceSrt = subtitleTracks[sourceLocale];
+    if (!sourceSrt?.trim()) {
+      setError(
+        "Primary subtitle language needs SRT content before translating all subtitle locales.",
+      );
+      return;
+    }
+    if (!targetLocales.length) {
+      setError("No other subtitle languages are available to translate.");
+      return;
+    }
+
+    setError(null);
+    setTranslatedCount(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/generate-subtitle-localization-batch`,
+        {
+          body: JSON.stringify({
+            generationNotes: getFormControlValue(
+              form,
+              "subtitleGenerationNotes",
+            ),
+            promptKey: getFormControlValue(
+              form,
+              "subtitleLocalizationBatchPromptKey",
+            ),
+            sourceLocale,
+            subtitleTracks,
+            targetLocales,
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        localizations?: {
+          locale: string;
+          srt: string;
+        }[];
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          payload.message || "Subtitle localization batch generation failed.",
+        );
+      }
+
+      const localizations = payload.localizations ?? [];
+      if (!localizations.length) {
+        throw new Error(
+          "The model returned no subtitle translations. Check that the subtitle prompt returns locales exactly as requested.",
+        );
+      }
+
+      for (const item of localizations) {
+        setFormControlValue(form, `subtitleTracks.${item.locale}`, item.srt);
+      }
+      setTranslatedCount(localizations.length);
+    } catch (generationError) {
+      setError(
+        generationError instanceof Error
+          ? generationError.message
+          : "Subtitle localization batch generation failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Translating..." : "Translate all subtitles"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Translating SRT subtitles into all other subtitle languages...
+        </p>
+      ) : null}
+      {translatedCount !== null ? (
+        <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
+          Translated {translatedCount} subtitle locale
+          {translatedCount === 1 ? "" : "s"} and applied them to the form.
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 export function AdminGeneratePlatformCopyButton({
   apiPath,
   className,
@@ -881,6 +1057,34 @@ function getYoutubeLocalizationValues(
         ),
         title: getFormControlValue(form, `youtubeLocalization.${locale}.title`),
       },
+    ]),
+  );
+}
+
+function getSubtitleLocales(form: HTMLFormElement) {
+  const locales = new Set<string>();
+
+  for (const element of Array.from(form.elements)) {
+    if (
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLTextAreaElement ||
+      element instanceof HTMLSelectElement
+    ) {
+      const match = /^subtitleTracks\.([^.]*)$/.exec(element.name);
+      if (match?.[1]) {
+        locales.add(match[1]);
+      }
+    }
+  }
+
+  return Array.from(locales);
+}
+
+function getSubtitleTrackValues(form: HTMLFormElement, locales: string[]) {
+  return Object.fromEntries(
+    locales.map((locale) => [
+      locale,
+      getFormControlValue(form, `subtitleTracks.${locale}`),
     ]),
   );
 }

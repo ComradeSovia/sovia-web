@@ -7,6 +7,8 @@ export const YOUTUBE_LOCALIZATION_PROMPT_TASK =
   "music.youtube.localization.generate";
 export const YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK =
   "music.youtube.localization.batch.generate";
+export const SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK =
+  "music.subtitles.localization.batch.generate";
 export const BILIBILI_COPY_PROMPT_TASK = "music.bilibili.copy.generate";
 export const VK_COPY_PROMPT_TASK = "music.vk.copy.generate";
 export const PIXIV_COPY_PROMPT_TASK = "music.pixiv.copy.generate";
@@ -27,6 +29,10 @@ export const ADMIN_PROMPT_TASK_OPTIONS = [
   {
     label: "YouTube localization batch generator",
     value: YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
+  },
+  {
+    label: "Subtitle localization batch generator",
+    value: SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
   },
   {
     label: "BiliBili copy generator",
