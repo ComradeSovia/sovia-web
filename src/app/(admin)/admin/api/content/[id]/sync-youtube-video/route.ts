@@ -1,5 +1,6 @@
 import { requireAdminSession } from "@sovia/admin/data/auth";
 import { getAdminMusicWork } from "@sovia/admin/data/music-admin";
+import { getAdminYoutubeCredentials } from "@sovia/admin/data/youtube-connection";
 import { syncYouTubeVideoMetadata } from "@sovia/youtube-api";
 import { NextResponse } from "next/server";
 
@@ -31,7 +32,9 @@ export async function POST(
     );
     const localizations = getLocalizations(body.localizations);
 
+    const credentials = await getAdminYoutubeCredentials();
     const result = await syncYouTubeVideoMetadata({
+      credentials,
       description,
       localizations,
       title,

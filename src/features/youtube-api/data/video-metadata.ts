@@ -28,6 +28,11 @@ type YouTubeApiError = {
 };
 
 type SyncYouTubeVideoMetadataInput = {
+  credentials: {
+    clientId: string;
+    clientSecret: string;
+    refreshToken: string;
+  };
   description: string;
   localizations?: Record<string, { description: string; title: string }>;
   title: string;
@@ -38,12 +43,13 @@ const YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3";
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 
 export async function syncYouTubeVideoMetadata({
+  credentials,
   description,
   localizations,
   title,
   videoId,
 }: SyncYouTubeVideoMetadataInput) {
-  const accessToken = await getYouTubeAccessToken();
+  const accessToken = await getYouTubeAccessToken(credentials);
   const current = await getYouTubeVideo(videoId, accessToken);
 
   if (!current.snippet.title || !current.snippet.categoryId) {
@@ -124,10 +130,11 @@ async function getYouTubeVideo(videoId: string, accessToken: string) {
   return { localizations: video.localizations, snippet };
 }
 
-async function getYouTubeAccessToken() {
-  const clientId = getRequiredEnv("YOUTUBE_DATA_API_CLIENT_ID");
-  const clientSecret = getRequiredEnv("YOUTUBE_DATA_API_CLIENT_SECRET");
-  const refreshToken = getRequiredEnv("YOUTUBE_DATA_API_REFRESH_TOKEN");
+async function getYouTubeAccessToken({
+  clientId,
+  clientSecret,
+  refreshToken,
+}: SyncYouTubeVideoMetadataInput["credentials"]) {
   const body = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
@@ -154,15 +161,6 @@ async function getYouTubeAccessToken() {
   }
 
   return payload.access_token;
-}
-
-function getRequiredEnv(name: string) {
-  const value = process.env[name]?.trim();
-  if (!value) {
-    throw new Error(`${name} is not configured.`);
-  }
-
-  return value;
 }
 
 function getYouTubeApiErrorMessage(error: YouTubeApiError | undefined) {

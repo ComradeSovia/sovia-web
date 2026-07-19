@@ -13,6 +13,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function AdminRoute() {
-  return <AdminDashboardPage />;
+export default async function AdminRoute({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    youtubeMessage?: string;
+    youtubeStatus?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  return (
+    <AdminDashboardPage
+      youtubeMessage={params.youtubeMessage}
+      youtubeStatus={params.youtubeStatus}
+    />
+  );
 }

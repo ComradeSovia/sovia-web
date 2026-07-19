@@ -76,6 +76,10 @@ import {
   getAdminMusicWork,
   listAdminMusicWorks,
 } from "../data/music-admin";
+import {
+  getAdminYoutubeConnection,
+  getYoutubeOAuthConfig,
+} from "../data/youtube-connection";
 import { YOUTUBE_LANGUAGE_CATALOG } from "../data/youtube-language-catalog";
 import {
   listAdminYoutubeLocales,
@@ -190,7 +194,13 @@ function DatabaseError({
   );
 }
 
-export async function AdminDashboardPage() {
+export async function AdminDashboardPage({
+  youtubeMessage,
+  youtubeStatus,
+}: {
+  youtubeMessage?: string;
+  youtubeStatus?: string;
+} = {}) {
   return (
     <AdminGate>
       <section className="space-y-5">
@@ -208,6 +218,10 @@ export async function AdminDashboardPage() {
             </CardDescription>
           </CardHeader>
         </Card>
+        <AdminActionToast
+          message={youtubeMessage}
+          status={matchActionStatus(youtubeStatus)}
+        />
         <DashboardStatus />
       </section>
     </AdminGate>
@@ -1152,6 +1166,10 @@ function PromptSelect({
 async function DashboardStatus() {
   const databaseStatus = await getAdminDatabaseStatus();
   const works = await listAdminMusicWorks();
+  const youtubeConfig = getYoutubeOAuthConfig();
+  const youtubeConnection = databaseStatus.ok
+    ? await getAdminYoutubeConnection()
+    : null;
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -1168,6 +1186,42 @@ async function DashboardStatus() {
             {databaseStatus.message}
           </CardDescription>
         </CardHeader>
+      </Card>
+      <Card className={CARD_CLASS}>
+        <CardHeader>
+          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
+            <Video className="h-4 w-4" />
+            YouTube content management
+          </div>
+          <CardTitle className={CARD_TITLE_CLASS}>
+            {youtubeConnection
+              ? youtubeConnection.channelTitle
+              : "Not connected"}
+          </CardTitle>
+          <CardDescription className={CARD_DESCRIPTION_CLASS}>
+            {youtubeConnection
+              ? `Channel ${youtubeConnection.channelId} · connected ${youtubeConnection.connectedAt.toLocaleDateString("en-US")}`
+              : youtubeConfig.ok
+                ? "Authorize a YouTube channel to sync video metadata."
+                : `Missing configuration: ${youtubeConfig.missing.join(", ")}`}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          {youtubeConfig.ok ? (
+            <Button asChild className={PRIMARY_BUTTON_CLASS}>
+              <Link href="/admin/youtube/connect">
+                {youtubeConnection ? "Reconnect YouTube" : "Connect YouTube"}
+              </Link>
+            </Button>
+          ) : null}
+          {youtubeConnection ? (
+            <form action="/admin/youtube/disconnect" method="post">
+              <Button className={SECONDARY_BUTTON_CLASS} type="submit">
+                Disconnect
+              </Button>
+            </form>
+          ) : null}
+        </CardContent>
       </Card>
       <Card className={CARD_CLASS}>
         <CardHeader>

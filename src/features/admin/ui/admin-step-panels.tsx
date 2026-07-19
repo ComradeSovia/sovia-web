@@ -708,6 +708,7 @@ export function AdminSyncYoutubeVideoButton({
   const [pending, setPending] = useState(false);
   const [synced, setSynced] = useState(false);
   const [selectedLocales, setSelectedLocales] = useState<string[]>([]);
+  const primaryLocaleRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     const form = document.querySelector<HTMLFormElement>(
@@ -717,6 +718,8 @@ export function AdminSyncYoutubeVideoButton({
 
     const updateSelection = () => {
       const primaryLocale = getFormControlValue(form, "youtubePrimaryLocale");
+      if (primaryLocaleRef.current === primaryLocale) return;
+      primaryLocaleRef.current = primaryLocale;
       setSelectedLocales(locales.filter((locale) => locale !== primaryLocale));
     };
     updateSelection();
