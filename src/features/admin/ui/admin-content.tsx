@@ -7,6 +7,7 @@ import {
 import {
   AlertCircle,
   ArrowDown,
+  ArrowRightToLine,
   ArrowUp,
   CheckCircle2,
   Circle,
@@ -2505,7 +2506,7 @@ function AiActionsDrawer({
   return (
     <aside className="pointer-events-none fixed top-28 right-0 z-40">
       <details className="group pointer-events-auto w-12 overflow-hidden rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur transition-[width] open:w-[min(380px,calc(100vw-1rem))]">
-        <summary className="flex h-40 w-12 cursor-pointer select-none list-none items-center justify-center gap-2 p-3 marker:hidden group-open:h-auto group-open:w-full group-open:items-start group-open:justify-start group-open:p-4 [&::-webkit-details-marker]:hidden">
+        <summary className="relative flex h-40 w-12 cursor-pointer select-none list-none items-center justify-center gap-2 p-3 marker:hidden group-open:h-auto group-open:w-full group-open:items-start group-open:justify-start group-open:p-4 group-open:pr-12 [&::-webkit-details-marker]:hidden">
           <span className="flex items-center gap-2 [writing-mode:vertical-rl] group-open:[writing-mode:horizontal-tb]">
             <Sparkles className="h-4 w-4 shrink-0" />
             <span className="text-xs font-medium uppercase text-zinc-400">
@@ -2520,6 +2521,12 @@ function AiActionsDrawer({
               {description}
             </span>
           </span>
+          <span
+            aria-hidden="true"
+            className="absolute top-4 right-4 hidden h-7 w-7 place-items-center rounded-md border border-zinc-700 text-zinc-400 transition-colors group-open:grid group-hover:border-zinc-500 group-hover:text-zinc-100"
+          >
+            <ArrowRightToLine className="h-4 w-4" />
+          </span>
         </summary>
         <div className="grid gap-4 border-t border-zinc-800 p-4">
           {children}
@@ -2533,9 +2540,15 @@ function ActionsDrawer({ children }: { children: ReactNode }) {
   return (
     <aside className="pointer-events-none fixed top-[19rem] right-0 z-40">
       <details className="group pointer-events-auto w-12 overflow-hidden rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur transition-[width] open:w-[min(380px,calc(100vw-1rem))]">
-        <summary className="flex h-32 w-12 cursor-pointer select-none list-none items-center justify-center p-3 marker:hidden group-open:h-auto group-open:w-full group-open:justify-start group-open:p-4 [&::-webkit-details-marker]:hidden">
+        <summary className="relative flex h-32 w-12 cursor-pointer select-none list-none items-center justify-center p-3 marker:hidden group-open:h-auto group-open:w-full group-open:justify-start group-open:p-4 group-open:pr-12 [&::-webkit-details-marker]:hidden">
           <span className="text-xs font-medium uppercase text-zinc-400 [writing-mode:vertical-rl] group-open:[writing-mode:horizontal-tb]">
             Actions
+          </span>
+          <span
+            aria-hidden="true"
+            className="absolute top-3 right-4 hidden h-7 w-7 place-items-center rounded-md border border-zinc-700 text-zinc-400 transition-colors group-open:grid group-hover:border-zinc-500 group-hover:text-zinc-100"
+          >
+            <ArrowRightToLine className="h-4 w-4" />
           </span>
         </summary>
         <div className="grid gap-4 border-t border-zinc-800 p-4">
