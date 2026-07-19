@@ -67,6 +67,7 @@ import {
   getAdminPromptByKey,
   listAdminPrompts,
   listEnabledAdminPromptsForTask,
+  PIXIV_COPY_PROMPT_TASK,
   RELATED_SUGGESTION_PROMPT_TASK,
   VK_COPY_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
@@ -770,6 +771,11 @@ function PromptContractPanel() {
   "title": "Platform title",
   "description": "Platform description"
 }`;
+  const pixivOutputExample = `{
+  "title": "Pixiv title",
+  "description": "Pixiv description",
+  "tags": ["#ComradeSovia", "#anime", "#song"]
+}`;
 
   return (
     <aside className="space-y-4">
@@ -819,6 +825,28 @@ function PromptContractPanel() {
             notes="Return platform-native title and description for VK in Russian. Use referenceYoutubeLocalization when available."
             outputExample={platformOutputExample}
             task={VK_COPY_PROMPT_TASK}
+          />
+          <PromptContractBlock
+            inputExample={platformInputExample
+              .replace(
+                '"name": "bilibili",\n    "id": "BV1xx411c7mD"',
+                '"name": "pixiv",\n    "id": "123456789"',
+              )
+              .replace(
+                '"locale": "zh",\n    "label": "Chinese"',
+                '"locale": "en",\n    "label": "English"',
+              )
+              .replace(
+                '"locale": "zh",\n    "title": "Reference YouTube title"',
+                '"locale": "en",\n    "title": "Reference YouTube title"',
+              )
+              .replace(
+                '"description": "Current platform description"',
+                '"description": "Current platform description",\n    "tags": "#ComradeSovia, #anime, #song"',
+              )}
+            notes="Return Pixiv title, description, and tags. Tags must be an array of strings such as #ComradeSovia."
+            outputExample={pixivOutputExample}
+            task={PIXIV_COPY_PROMPT_TASK}
           />
         </CardContent>
       </Card>
@@ -1199,6 +1227,7 @@ async function ContentList({
         work.pixivId,
         work.pixivTitle,
         work.pixivDescription,
+        work.pixivTags,
         work.shortDescription,
         work.introText,
         work.productionNotes,
@@ -1784,6 +1813,10 @@ async function ContentEditor({
     step === "vk"
       ? await listEnabledAdminPromptsForTask(VK_COPY_PROMPT_TASK)
       : [];
+  const pixivPrompts =
+    step === "pixiv"
+      ? await listEnabledAdminPromptsForTask(PIXIV_COPY_PROMPT_TASK)
+      : [];
   const youtubePrompts =
     step === "youtube"
       ? await listEnabledAdminPromptsForTask(YOUTUBE_LOCALIZATION_PROMPT_TASK)
@@ -1872,6 +1905,7 @@ async function ContentEditor({
               currentStep={step}
               bilibiliPrompts={bilibiliPrompts}
               descriptionPrompts={descriptionPrompts}
+              pixivPrompts={pixivPrompts}
               relatedPrompts={relatedPrompts}
               vkPrompts={vkPrompts}
               work={work}
@@ -2181,10 +2215,14 @@ function PlatformAiActions({
   generateLabel,
   platformId,
   prompts,
+  tagsFieldName,
   title,
   titleFieldName,
 }: {
-  apiPath: "generate-bilibili-copy" | "generate-vk-copy";
+  apiPath:
+    | "generate-bilibili-copy"
+    | "generate-pixiv-copy"
+    | "generate-vk-copy";
   contentId: string;
   description: string;
   descriptionFieldName: string;
@@ -2192,6 +2230,7 @@ function PlatformAiActions({
   generateLabel: string;
   platformId?: string | null;
   prompts: AdminPromptOption[];
+  tagsFieldName?: string;
   title: string;
   titleFieldName: string;
 }) {
@@ -2235,6 +2274,7 @@ function PlatformAiActions({
           descriptionFieldName={descriptionFieldName}
           disabled={disabled}
           label={generateLabel}
+          tagsFieldName={tagsFieldName}
           titleFieldName={titleFieldName}
         />
       </div>
@@ -2346,7 +2386,9 @@ function getDistributionReview(work?: AdminMusicWork) {
     work?.pixivId ? "Pixiv ID" : null,
     work?.bilibiliTitle || work?.bilibiliDescription ? "BiliBili copy" : null,
     work?.vkTitle || work?.vkDescription ? "VK Video copy" : null,
-    work?.pixivTitle || work?.pixivDescription ? "Pixiv copy" : null,
+    work?.pixivTitle || work?.pixivDescription || work?.pixivTags
+      ? "Pixiv copy"
+      : null,
   ].filter(Boolean);
   const youtubeLocales = getFilledYoutubeLocalizationLocales(work);
 
@@ -2364,6 +2406,7 @@ function MusicWorkForm({
   bilibiliPrompts,
   currentStep,
   descriptionPrompts,
+  pixivPrompts,
   relatedPrompts,
   vkPrompts,
   work,
@@ -2375,6 +2418,7 @@ function MusicWorkForm({
   bilibiliPrompts: AdminPromptOption[];
   currentStep: AdminEditorStep;
   descriptionPrompts: AdminPromptOption[];
+  pixivPrompts: AdminPromptOption[];
   relatedPrompts: AdminPromptOption[];
   vkPrompts: AdminPromptOption[];
   work?: AdminMusicWork;
@@ -2766,7 +2810,28 @@ function MusicWorkForm({
                 titleName="pixivTitle"
                 titleValue={work?.pixivTitle}
               />
+              <Field
+                label="Tags"
+                name="pixivTags"
+                placeholder="#ComradeSovia, #anime, #song"
+                value={work?.pixivTags}
+              />
             </DistributionPanel>
+            {work ? (
+              <PlatformAiActions
+                apiPath="generate-pixiv-copy"
+                contentId={work.contentId}
+                description="Use metadata, source, lyrics, description, related works, and English YouTube copy to generate Pixiv title, description, and tags."
+                descriptionFieldName="pixivDescription"
+                disabledReason="Pixiv post ID is required before generating Pixiv copy."
+                generateLabel="Generate Pixiv copy"
+                platformId={work.pixivId}
+                prompts={pixivPrompts}
+                tagsFieldName="pixivTags"
+                title="Generate Pixiv copy"
+                titleFieldName="pixivTitle"
+              />
+            ) : null}
             <StepSaveButton label="Save Pixiv" />
           </Section>
         </StepForm>

@@ -144,6 +144,7 @@ function toWorkRecord(value: MusicWorkRecordSource): MusicWorkRecord {
     pixivId: pixivPlatform?.platformId,
     pixivTitle: pixivPlatform?.title,
     pixivDescription: pixivPlatform?.description,
+    pixivTags: normalizePixivTags(pixivPlatform?.metadata),
     productionNotes: content?.productionNotes,
     relatedWorkUids: content?.relatedWorkUids,
     shortDescription: content?.shortDescription,
@@ -231,6 +232,34 @@ function normalizeStringArray(value: unknown) {
   return null;
 }
 
+function normalizePixivTags(value: unknown) {
+  if (!isPlainRecord(value)) return null;
+
+  const tags = value.tags;
+  const items = Array.isArray(tags)
+    ? tags
+        .filter((tag): tag is string => typeof tag === "string")
+        .map((tag) => tag.trim())
+        .filter(Boolean)
+    : typeof tags === "string"
+      ? parseTagString(tags)
+      : [];
+
+  return items.length ? items.join(", ") : null;
+}
+
+function parseTagString(value: string | null | undefined) {
+  return (value ?? "")
+    .split(/[,\n\r]+/)
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+function toPixivMetadata(tags: string | null | undefined) {
+  const items = parseTagString(tags);
+  return items.length ? { tags: items } : {};
+}
+
 function findPlatform(platforms: MusicWorkPlatformSection[], platform: string) {
   return platforms.find((item) => item.platform === platform);
 }
@@ -306,6 +335,7 @@ function toWorkWithContent(row: MusicWorkRecord): MusicWorkWithContent {
     pixivId: work.pixivId,
     pixivTitle: work.pixivTitle,
     pixivDescription: work.pixivDescription,
+    pixivTags: work.pixivTags,
     productionNotes: work.productionNotes,
     relatedWorkUids: work.relatedWorkUids,
     shortDescription: work.shortDescription,
@@ -474,6 +504,7 @@ export async function upsertMusicWork(
       platform: "pixiv",
       ...toPlatformPayload({
         description: work.pixivDescription,
+        metadata: toPixivMetadata(work.pixivTags),
         platformId: work.pixivId,
         title: work.pixivTitle,
       }),

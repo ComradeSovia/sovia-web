@@ -50,6 +50,7 @@ export interface MusicWork {
   pixivId?: string | null;
   pixivTitle?: string | null;
   pixivDescription?: string | null;
+  pixivTags?: string | null;
   productionNotes?: string | null;
   relatedWorkUids?: string | null;
   shortDescription?: string | null;

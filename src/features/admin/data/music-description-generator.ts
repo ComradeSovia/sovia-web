@@ -9,6 +9,7 @@ import {
   DESCRIPTION_GENERATOR_PROMPT_TASK,
   getDefaultAdminPromptForTask,
   getEnabledAdminPromptByKey,
+  PIXIV_COPY_PROMPT_TASK,
   RELATED_SUGGESTION_PROMPT_TASK,
   VK_COPY_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
@@ -37,6 +38,7 @@ const youtubeLocalizationSchema = z.object({
 });
 const platformCopySchema = z.object({
   description: z.string(),
+  tags: z.array(z.string()).optional(),
   title: z.string(),
 });
 const youtubeLocalizationBatchSchema = z.object({
@@ -550,6 +552,30 @@ export async function generateVkCopy({
   });
 }
 
+export async function generatePixivCopy({
+  contentId,
+  generationNotes,
+  promptKey,
+}: {
+  contentId: string;
+  generationNotes?: string | null;
+  promptKey?: string | null;
+}) {
+  return generatePlatformCopy({
+    contentId,
+    generationNotes,
+    platform: {
+      idField: "pixivId",
+      idLabel: "Pixiv post ID",
+      name: "pixiv",
+      promptTask: PIXIV_COPY_PROMPT_TASK,
+      referenceLocales: ["en", "en-US"],
+      targetLanguage: { label: "English", locale: "en" },
+    },
+    promptKey,
+  });
+}
+
 async function generatePlatformCopy({
   contentId,
   generationNotes,
@@ -559,9 +585,9 @@ async function generatePlatformCopy({
   contentId: string;
   generationNotes?: string | null;
   platform: {
-    idField: "bilibiliId" | "vkId";
+    idField: "bilibiliId" | "pixivId" | "vkId";
     idLabel: string;
-    name: "bilibili" | "vk";
+    name: "bilibili" | "pixiv" | "vk";
     promptTask: string;
     referenceLocales: string[];
     targetLanguage: { label: string; locale: string };
@@ -599,6 +625,24 @@ async function generatePlatformCopy({
   const relatedWorks = works
     .filter((candidate) => relatedUidSet.has(candidate.contentId))
     .map(toRelatedCandidateInput);
+  const outputProperties =
+    platform.name === "pixiv"
+      ? {
+          description: { type: "string" },
+          tags: {
+            items: { type: "string" },
+            type: "array",
+          },
+          title: { type: "string" },
+        }
+      : {
+          description: { type: "string" },
+          title: { type: "string" },
+        };
+  const outputRequired =
+    platform.name === "pixiv"
+      ? ["title", "description", "tags"]
+      : ["title", "description"];
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
@@ -621,10 +665,16 @@ async function generatePlatformCopy({
                   description: work.bilibiliDescription,
                   title: work.bilibiliTitle,
                 }
-              : {
-                  description: work.vkDescription,
-                  title: work.vkTitle,
-                },
+              : platform.name === "pixiv"
+                ? {
+                    description: work.pixivDescription,
+                    tags: work.pixivTags,
+                    title: work.pixivTitle,
+                  }
+                : {
+                    description: work.vkDescription,
+                    title: work.vkTitle,
+                  },
           extraInstructions: generationNotes,
           from: {
             artists: work.fromArtists,
@@ -666,11 +716,8 @@ async function generatePlatformCopy({
         name: `music_${platform.name}_copy`,
         schema: {
           additionalProperties: false,
-          properties: {
-            description: { type: "string" },
-            title: { type: "string" },
-          },
-          required: ["title", "description"],
+          properties: outputProperties,
+          required: outputRequired,
           type: "object",
         },
         strict: true,

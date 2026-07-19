@@ -243,6 +243,7 @@ function getValidationValue(formData: FormData) {
     path: getString(formData, "path"),
     pixivDescription: getString(formData, "pixivDescription"),
     pixivId: getString(formData, "pixivId"),
+    pixivTags: getString(formData, "pixivTags"),
     pixivTitle: getString(formData, "pixivTitle"),
     productionNotes: getString(formData, "productionNotes"),
     publishedAt: getString(formData, "publishedAt"),
@@ -296,6 +297,7 @@ function toDraft(
     pixivId: work.pixivId,
     pixivTitle: work.pixivTitle,
     pixivDescription: work.pixivDescription,
+    pixivTags: work.pixivTags,
     productionNotes: work.productionNotes,
     relatedWorkUids: work.relatedWorkUids,
     shortDescription: work.shortDescription,
@@ -459,6 +461,7 @@ function applyStepDraft(
       draft.pixivId = getOptionalString(formData, "pixivId");
       draft.pixivTitle = getOptionalString(formData, "pixivTitle");
       draft.pixivDescription = getOptionalString(formData, "pixivDescription");
+      draft.pixivTags = getOptionalString(formData, "pixivTags");
       break;
   }
 
@@ -566,6 +569,7 @@ export async function saveMusicWorkAction(formData: FormData) {
         pixivId: getOptionalString(formData, "pixivId"),
         pixivTitle: getOptionalString(formData, "pixivTitle"),
         pixivDescription: getOptionalString(formData, "pixivDescription"),
+        pixivTags: getOptionalString(formData, "pixivTags"),
         productionNotes: getString(formData, "productionNotes"),
         relatedWorkUids: getUidListString(formData, "relatedWorkUids"),
         shortDescription: getOptionalString(formData, "shortDescription"),

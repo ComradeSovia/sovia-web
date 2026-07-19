@@ -107,6 +107,7 @@ const vkSchema = z.object({
 const pixivSchema = z.object({
   pixivDescription: trimmedOptional,
   pixivId: trimmedOptional,
+  pixivTags: trimmedOptional,
   pixivTitle: trimmedOptional,
 });
 

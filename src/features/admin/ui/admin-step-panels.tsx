@@ -620,14 +620,19 @@ export function AdminGeneratePlatformCopyButton({
   contentId,
   disabled,
   label,
+  tagsFieldName,
   titleFieldName,
   descriptionFieldName,
 }: {
-  apiPath: "generate-bilibili-copy" | "generate-vk-copy";
+  apiPath:
+    | "generate-bilibili-copy"
+    | "generate-pixiv-copy"
+    | "generate-vk-copy";
   className?: string;
   contentId: string;
   disabled?: boolean;
   label: string;
+  tagsFieldName?: string;
   titleFieldName: string;
   descriptionFieldName: string;
 }) {
@@ -656,6 +661,7 @@ export function AdminGeneratePlatformCopyButton({
       const payload = (await response.json()) as {
         description?: string;
         message?: string;
+        tags?: string[];
         title?: string;
       };
 
@@ -665,6 +671,9 @@ export function AdminGeneratePlatformCopyButton({
 
       setFormControlValue(form, titleFieldName, payload.title);
       setFormControlValue(form, descriptionFieldName, payload.description);
+      if (tagsFieldName && Array.isArray(payload.tags)) {
+        setFormControlValue(form, tagsFieldName, payload.tags.join(", "));
+      }
     } catch (generationError) {
       setError(
         generationError instanceof Error
