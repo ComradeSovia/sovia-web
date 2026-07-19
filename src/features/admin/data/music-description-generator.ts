@@ -518,7 +518,6 @@ export async function generateBilibiliCopy({
     generationNotes,
     platform: {
       idField: "bilibiliId",
-      idLabel: "BiliBili ID",
       name: "bilibili",
       promptTask: BILIBILI_COPY_PROMPT_TASK,
       referenceLocales: ["zh", "zh-CN", "zh-Hans"],
@@ -542,7 +541,6 @@ export async function generateVkCopy({
     generationNotes,
     platform: {
       idField: "vkId",
-      idLabel: "VK ID",
       name: "vk",
       promptTask: VK_COPY_PROMPT_TASK,
       referenceLocales: ["ru", "ru-RU"],
@@ -566,7 +564,6 @@ export async function generatePixivCopy({
     generationNotes,
     platform: {
       idField: "pixivId",
-      idLabel: "Pixiv post ID",
       name: "pixiv",
       promptTask: PIXIV_COPY_PROMPT_TASK,
       referenceLocales: ["en", "en-US"],
@@ -586,7 +583,6 @@ async function generatePlatformCopy({
   generationNotes?: string | null;
   platform: {
     idField: "bilibiliId" | "pixivId" | "vkId";
-    idLabel: string;
     name: "bilibili" | "pixiv" | "vk";
     promptTask: string;
     referenceLocales: string[];
@@ -616,10 +612,10 @@ async function generatePlatformCopy({
   if (!work) {
     throw new Error("Content record could not be loaded.");
   }
-  const platformId = work[platform.idField];
-  if (!platformId) {
-    throw new Error(`${platform.idLabel} is required before generating copy.`);
+  if (!work.u2bId) {
+    throw new Error("YouTube ID is required before generating platform copy.");
   }
+  const platformId = work[platform.idField];
 
   const relatedUidSet = new Set(parseRelatedWorkUids(work.relatedWorkUids));
   const relatedWorks = works

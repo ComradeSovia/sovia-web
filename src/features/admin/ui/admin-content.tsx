@@ -2213,11 +2213,11 @@ function PlatformAiActions({
   descriptionFieldName,
   disabledReason,
   generateLabel,
-  platformId,
   prompts,
   tagsFieldName,
   title,
   titleFieldName,
+  youtubeId,
 }: {
   apiPath:
     | "generate-bilibili-copy"
@@ -2228,14 +2228,14 @@ function PlatformAiActions({
   descriptionFieldName: string;
   disabledReason: string;
   generateLabel: string;
-  platformId?: string | null;
   prompts: AdminPromptOption[];
   tagsFieldName?: string;
   title: string;
   titleFieldName: string;
+  youtubeId?: string | null;
 }) {
   const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
-  const disabled = !prompts.length || !platformId;
+  const disabled = !prompts.length || !youtubeId;
 
   return (
     <AiActionsDrawer description={description} title={title}>
@@ -2254,7 +2254,7 @@ function PlatformAiActions({
           No enabled prompts are available for this task.
         </p>
       ) : null}
-      {!platformId ? (
+      {!youtubeId ? (
         <p className="-mt-2 text-xs leading-5 text-red-300">{disabledReason}</p>
       ) : null}
       <PromptTextarea
@@ -2713,7 +2713,7 @@ function MusicWorkForm({
                 value={work?.bilibiliId}
                 warning="id"
               />
-              <div className="grid gap-4 lg:grid-cols-2">
+              <div className="grid items-start gap-4 lg:grid-cols-2">
                 <PlatformReference
                   content={getFirstYoutubeLocalizationContent(work, [
                     "zh",
@@ -2736,12 +2736,12 @@ function MusicWorkForm({
                 contentId={work.contentId}
                 description="Use metadata, source, lyrics, description, related works, and Chinese YouTube copy to generate BiliBili title and description."
                 descriptionFieldName="bilibiliDescription"
-                disabledReason="BiliBili ID is required before generating BiliBili copy."
+                disabledReason="YouTube ID is required before generating BiliBili copy."
                 generateLabel="Generate BiliBili copy"
-                platformId={work.bilibiliId}
                 prompts={bilibiliPrompts}
                 title="Generate BiliBili copy"
                 titleFieldName="bilibiliTitle"
+                youtubeId={work.u2bId}
               />
             ) : null}
             <StepSaveButton label="Save BiliBili" />
@@ -2759,7 +2759,7 @@ function MusicWorkForm({
                 value={work?.vkId}
                 warning="id"
               />
-              <div className="grid gap-4 lg:grid-cols-2">
+              <div className="grid items-start gap-4 lg:grid-cols-2">
                 <PlatformReference
                   content={getFirstYoutubeLocalizationContent(work, [
                     "ru",
@@ -2781,12 +2781,12 @@ function MusicWorkForm({
                 contentId={work.contentId}
                 description="Use metadata, source, lyrics, description, related works, and Russian YouTube copy to generate VK title and description."
                 descriptionFieldName="vkDescription"
-                disabledReason="VK ID is required before generating VK copy."
+                disabledReason="YouTube ID is required before generating VK copy."
                 generateLabel="Generate VK copy"
-                platformId={work.vkId}
                 prompts={vkPrompts}
                 title="Generate VK copy"
                 titleFieldName="vkTitle"
+                youtubeId={work.u2bId}
               />
             ) : null}
             <StepSaveButton label="Save VK Video" />
@@ -2823,13 +2823,13 @@ function MusicWorkForm({
                 contentId={work.contentId}
                 description="Use metadata, source, lyrics, description, related works, and English YouTube copy to generate Pixiv title, description, and tags."
                 descriptionFieldName="pixivDescription"
-                disabledReason="Pixiv post ID is required before generating Pixiv copy."
+                disabledReason="YouTube ID is required before generating Pixiv copy."
                 generateLabel="Generate Pixiv copy"
-                platformId={work.pixivId}
                 prompts={pixivPrompts}
                 tagsFieldName="pixivTags"
                 title="Generate Pixiv copy"
                 titleFieldName="pixivTitle"
+                youtubeId={work.u2bId}
               />
             ) : null}
             <StepSaveButton label="Save Pixiv" />
