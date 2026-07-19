@@ -1,0 +1,13 @@
+model AdminYoutubeConnection {
+  id                    String   @id @default("primary")
+  channelId             String
+  channelTitle          String
+  encryptedRefreshToken String
+  tokenIv               String
+  tokenAuthTag          String
+  scopes                String
+  connectedAt           DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("admin_youtube_connections")
+}
