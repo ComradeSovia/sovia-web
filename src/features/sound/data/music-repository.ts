@@ -1,4 +1,3 @@
-import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
 import type {
   MusicWorkDraft,
   MusicWorkRecord,
@@ -202,8 +201,7 @@ function normalizeSubtitleTracks(value: unknown): MusicWorkSubtitleTracks {
 
   const subtitleTracks: MusicWorkSubtitleTracks = {};
 
-  for (const locale of SITE_LOCALES) {
-    const track = value[locale];
+  for (const [locale, track] of Object.entries(value)) {
     if (typeof track === "string" && track.trim()) {
       subtitleTracks[locale] = track;
     }

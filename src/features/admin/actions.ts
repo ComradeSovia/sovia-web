@@ -1,6 +1,5 @@
 "use server";
 
-import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
 import type {
   MusicWorkDraft,
   MusicWorkSubtitleTracks,
@@ -173,8 +172,12 @@ function mergeYoutubeLocalization(
 function parseSubtitleTracks(formData: FormData) {
   const subtitleTracks: MusicWorkSubtitleTracks = {};
 
-  for (const locale of SITE_LOCALES) {
-    const value = getOptionalString(formData, `subtitleTracks.${locale}`);
+  for (const key of formData.keys()) {
+    const match = /^subtitleTracks\.([^.]*)$/.exec(key);
+    const locale = match?.[1];
+    if (!locale) continue;
+
+    const value = getOptionalString(formData, key);
     if (value) {
       subtitleTracks[locale] = value;
     }

@@ -1,5 +1,3 @@
-import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
-
 export type YoutubeLocalizationContent = {
   title?: string | null;
   description?: string | null;
@@ -9,7 +7,7 @@ export type MusicWorkYoutubeLocalization = Partial<
   Record<string, YoutubeLocalizationContent>
 >;
 
-export type MusicWorkSubtitleTracks = Partial<Record<SiteLocale, string>>;
+export type MusicWorkSubtitleTracks = Partial<Record<string, string>>;
 
 export type MusicWorkType = "C" | "CO" | "LC" | "O" | "R";
 export type MusicWorkFromType = "Anime" | "Game" | "Meme" | "Original" | "Pop";
