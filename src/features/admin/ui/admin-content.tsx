@@ -95,6 +95,7 @@ import {
   AdminConfirmForm,
   AdminCopyFieldButton,
   AdminDirtyForm,
+  AdminDownloadSubtitlesButton,
   AdminGenerateDescriptionButton,
   AdminGeneratePlatformCopyButton,
   AdminGenerateSubtitleLocalizationBatchButton,
@@ -2341,52 +2342,64 @@ function YoutubeAiActions({
 
 function SubtitleAiActions({
   contentId,
+  locales,
   prompts,
 }: {
   contentId: string;
+  locales: readonly string[];
   prompts: AdminPromptOption[];
 }) {
   const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
   const disabled = !prompts.length;
 
   return (
-    <AiActionsDrawer
-      description="Use the primary SRT subtitle track as source and translate it into every other subtitle language."
-      title="Translate subtitles"
-    >
-      <PromptSelect
-        label="Batch subtitle prompt"
-        name="subtitleLocalizationBatchPromptKey"
-        options={prompts.map((prompt) => ({
-          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
-          value: prompt.key,
-        }))}
-        placeholder="Use default subtitle prompt"
-        value={defaultPrompt?.key}
-      />
-      {!prompts.length ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          No enabled subtitle batch prompts are available for this task.
-        </p>
-      ) : null}
-      <PromptTextarea
-        label="Generation notes"
-        name="subtitleGenerationNotes"
-        rows={4}
-        value=""
-      />
-      <p className="-mt-2 text-xs leading-5 text-zinc-500">
-        The selected primary subtitle language is used as source. Generated SRT
-        is applied to the form first and is not saved until you save subtitles.
-      </p>
-      <div className="flex justify-end">
-        <AdminGenerateSubtitleLocalizationBatchButton
-          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-          contentId={contentId}
-          disabled={disabled}
+    <>
+      <AiActionsDrawer
+        description="Use the primary SRT subtitle track as source and translate it into every other subtitle language."
+        title="Translate subtitles"
+      >
+        <PromptSelect
+          label="Batch subtitle prompt"
+          name="subtitleLocalizationBatchPromptKey"
+          options={prompts.map((prompt) => ({
+            label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+            value: prompt.key,
+          }))}
+          placeholder="Use default subtitle prompt"
+          value={defaultPrompt?.key}
         />
-      </div>
-    </AiActionsDrawer>
+        {!prompts.length ? (
+          <p className="-mt-2 text-xs leading-5 text-red-300">
+            No enabled subtitle batch prompts are available for this task.
+          </p>
+        ) : null}
+        <PromptTextarea
+          label="Generation notes"
+          name="subtitleGenerationNotes"
+          rows={4}
+          value=""
+        />
+        <p className="-mt-2 text-xs leading-5 text-zinc-500">
+          The selected primary subtitle language is used as source. Generated
+          SRT is applied to the form first and is not saved until you save
+          subtitles.
+        </p>
+        <div className="flex justify-end">
+          <AdminGenerateSubtitleLocalizationBatchButton
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+            contentId={contentId}
+            disabled={disabled}
+          />
+        </div>
+      </AiActionsDrawer>
+      <ActionsDrawer>
+        <AdminDownloadSubtitlesButton
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium`}
+          contentId={contentId}
+          locales={locales}
+        />
+      </ActionsDrawer>
+    </>
   );
 }
 
@@ -2870,6 +2883,7 @@ function MusicWorkForm({
             {work ? (
               <SubtitleAiActions
                 contentId={work.contentId}
+                locales={youtubeLocales}
                 prompts={subtitleBatchPrompts}
               />
             ) : null}

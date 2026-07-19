@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Download } from "lucide-react";
 import {
   type FormEvent,
   type MouseEvent,
@@ -986,6 +986,145 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
   );
 }
 
+export function AdminDownloadSubtitlesButton({
+  className,
+  contentId,
+  locales,
+}: {
+  className?: string;
+  contentId: string;
+  locales: readonly string[];
+}) {
+  const [error, setError] = useState<string | null>(null);
+
+  function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const safeContentId = sanitizeFilenamePart(contentId);
+    const files = locales.flatMap((locale) => {
+      const srt = getFormControlValue(form, `subtitleTracks.${locale}`)?.trim();
+      return srt
+        ? [
+            {
+              data: new TextEncoder().encode(`${srt}\n`),
+              name: `sovia_${safeContentId}_${sanitizeFilenamePart(locale)}.srt`,
+            },
+          ]
+        : [];
+    });
+
+    if (!files.length) {
+      setError("Add at least one subtitle track before downloading.");
+      return;
+    }
+
+    setError(null);
+    const zip = createStoredZip(files);
+    const url = URL.createObjectURL(
+      new Blob([zip], { type: "application/zip" }),
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `sovia_${safeContentId}_captions.zip`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button className={className} onClick={handleClick} type="button">
+        <Download className="mr-2 h-4 w-4" />
+        Download all subtitles
+      </button>
+      <p className="text-xs leading-5 text-zinc-500">
+        Downloads every non-empty subtitle track as UTF-8 SRT in one ZIP file.
+      </p>
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function sanitizeFilenamePart(value: string) {
+  return value.trim().replace(/[^a-zA-Z0-9._-]+/g, "_") || "unknown";
+}
+
+function createStoredZip(files: { data: Uint8Array; name: string }[]) {
+  const encoder = new TextEncoder();
+  const localParts: Uint8Array[] = [];
+  const centralParts: Uint8Array[] = [];
+  let offset = 0;
+
+  for (const file of files) {
+    const name = encoder.encode(file.name);
+    const checksum = crc32(file.data);
+    const local = new Uint8Array(30 + name.length + file.data.length);
+    const localView = new DataView(local.buffer);
+    localView.setUint32(0, 0x04034b50, true);
+    localView.setUint16(4, 20, true);
+    localView.setUint16(6, 0x0800, true);
+    localView.setUint16(8, 0, true);
+    localView.setUint32(14, checksum, true);
+    localView.setUint32(18, file.data.length, true);
+    localView.setUint32(22, file.data.length, true);
+    localView.setUint16(26, name.length, true);
+    local.set(name, 30);
+    local.set(file.data, 30 + name.length);
+    localParts.push(local);
+
+    const central = new Uint8Array(46 + name.length);
+    const centralView = new DataView(central.buffer);
+    centralView.setUint32(0, 0x02014b50, true);
+    centralView.setUint16(4, 20, true);
+    centralView.setUint16(6, 20, true);
+    centralView.setUint16(8, 0x0800, true);
+    centralView.setUint16(10, 0, true);
+    centralView.setUint32(16, checksum, true);
+    centralView.setUint32(20, file.data.length, true);
+    centralView.setUint32(24, file.data.length, true);
+    centralView.setUint16(28, name.length, true);
+    centralView.setUint32(42, offset, true);
+    central.set(name, 46);
+    centralParts.push(central);
+    offset += local.length;
+  }
+
+  const centralSize = centralParts.reduce(
+    (size, part) => size + part.length,
+    0,
+  );
+  const end = new Uint8Array(22);
+  const endView = new DataView(end.buffer);
+  endView.setUint32(0, 0x06054b50, true);
+  endView.setUint16(8, files.length, true);
+  endView.setUint16(10, files.length, true);
+  endView.setUint32(12, centralSize, true);
+  endView.setUint32(16, offset, true);
+
+  const result = new Uint8Array(offset + centralSize + end.length);
+  let cursor = 0;
+  for (const part of [...localParts, ...centralParts, end]) {
+    result.set(part, cursor);
+    cursor += part.length;
+  }
+  return result;
+}
+
+function crc32(data: Uint8Array) {
+  let crc = 0xffffffff;
+  for (const byte of data) {
+    crc ^= byte;
+    for (let bit = 0; bit < 8; bit += 1) {
+      crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+    }
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
 export function AdminGeneratePlatformCopyButton({
   apiPath,
   className,
@@ -1340,7 +1479,7 @@ function hasSoftWarning(control: FieldControl, value: string) {
   if (
     control instanceof HTMLInputElement &&
     control.type === "date" &&
-    value > new Date().toISOString().slice(0, 10)
+    value > getLocalDateInputValue(new Date())
   ) {
     return true;
   }
@@ -1350,4 +1489,11 @@ function hasSoftWarning(control: FieldControl, value: string) {
     control.dataset.adminWarning === "id" &&
     /^https?:\/\//i.test(value)
   );
+}
+
+function getLocalDateInputValue(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
