@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Download } from "lucide-react";
+import { Check, Copy, Download, Upload } from "lucide-react";
 import {
   type FormEvent,
   type MouseEvent,
@@ -1040,6 +1040,130 @@ export function AdminDownloadSubtitlesButton({
       <p className="text-xs leading-5 text-zinc-500">
         Downloads every non-empty subtitle track as UTF-8 SRT in one ZIP file.
       </p>
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function AdminSyncYoutubeCaptionsButton({
+  className,
+  contentId,
+  disabled,
+  locales,
+}: {
+  className?: string;
+  contentId: string;
+  disabled?: boolean;
+  locales: readonly string[];
+}) {
+  const [confirmed, setConfirmed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [synced, setSynced] = useState<{
+    count: number;
+    estimatedQuotaUnits: number;
+  } | null>(null);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const tracks = getSubtitleTrackValues(form, [...locales]);
+    const nonEmptyTracks = Object.fromEntries(
+      Object.entries(tracks).filter(([, srt]) => srt?.trim()),
+    ) as Record<string, string>;
+
+    if (!Object.keys(nonEmptyTracks).length) {
+      setError("Add at least one subtitle track before syncing.");
+      return;
+    }
+    if (!confirmed) {
+      setError("Confirm the high quota cost before syncing captions.");
+      return;
+    }
+
+    setError(null);
+    setSynced(null);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/sync-youtube-captions`,
+        {
+          body: JSON.stringify({
+            confirmHighCost: true,
+            tracks: nonEmptyTracks,
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        estimatedQuotaUnits?: number;
+        message?: string;
+        synced?: { language: string }[];
+      };
+
+      if (!response.ok) {
+        throw new Error(payload.message || "YouTube captions sync failed.");
+      }
+
+      setSynced({
+        count: payload.synced?.length ?? Object.keys(nonEmptyTracks).length,
+        estimatedQuotaUnits: payload.estimatedQuotaUnits ?? 0,
+      });
+      setConfirmed(false);
+    } catch (syncError) {
+      setError(
+        syncError instanceof Error
+          ? syncError.message
+          : "YouTube captions sync failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2 border-t border-zinc-800 pt-3">
+      <label className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 p-3 text-sm leading-5 text-amber-100">
+        <input
+          checked={confirmed}
+          className="mt-0.5 h-4 w-4 accent-amber-200"
+          disabled={disabled || pending}
+          onChange={(event) => setConfirmed(event.target.checked)}
+          type="checkbox"
+        />
+        <span>
+          I understand this uses YouTube Data API quota: 50 units to inspect
+          captions, then 400 units for each new track or 450 units for each
+          updated track.
+        </span>
+      </label>
+      <button
+        className={className}
+        disabled={disabled || pending || !confirmed}
+        onClick={handleClick}
+        type="button"
+      >
+        <Upload className="mr-2 h-4 w-4" />
+        {pending ? "Syncing captions..." : "Sync subtitles to YouTube"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Uploading every non-empty SRT subtitle track to YouTube captions...
+        </p>
+      ) : null}
+      {synced ? (
+        <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
+          Synced {synced.count} subtitle track{synced.count === 1 ? "" : "s"}.
+          Estimated quota: {synced.estimatedQuotaUnits} units.
+        </p>
+      ) : null}
       {error ? (
         <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
           {error}

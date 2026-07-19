@@ -102,6 +102,7 @@ import {
   AdminGenerateYoutubeLocalizationBatchButton,
   AdminGenerateYoutubeLocalizationButton,
   AdminSuggestRelatedButton,
+  AdminSyncYoutubeCaptionsButton,
   AdminSyncYoutubeVideoButton,
 } from "./admin-step-panels";
 import { AdminLogin } from "./login-form";
@@ -2344,10 +2345,12 @@ function SubtitleAiActions({
   contentId,
   locales,
   prompts,
+  youtubeId,
 }: {
   contentId: string;
   locales: readonly string[];
   prompts: AdminPromptOption[];
+  youtubeId?: string | null;
 }) {
   const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
   const disabled = !prompts.length;
@@ -2396,6 +2399,17 @@ function SubtitleAiActions({
         <AdminDownloadSubtitlesButton
           className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium`}
           contentId={contentId}
+          locales={locales}
+        />
+        {!youtubeId ? (
+          <p className="-mt-1 text-xs leading-5 text-red-300">
+            YouTube ID is required before syncing subtitles to YouTube.
+          </p>
+        ) : null}
+        <AdminSyncYoutubeCaptionsButton
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+          contentId={contentId}
+          disabled={!youtubeId}
           locales={locales}
         />
       </ActionsDrawer>
@@ -2885,6 +2899,7 @@ function MusicWorkForm({
                 contentId={work.contentId}
                 locales={youtubeLocales}
                 prompts={subtitleBatchPrompts}
+                youtubeId={work.u2bId}
               />
             ) : null}
             <StepSaveButton label="Save subtitles" />

@@ -1,3 +1,4 @@
+export { syncYouTubeCaptions } from "./data/captions";
 export {
   checkYouTubeVideoPublished,
   type YouTubePublicationStatus,

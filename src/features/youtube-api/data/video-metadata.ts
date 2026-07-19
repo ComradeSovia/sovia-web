@@ -22,9 +22,15 @@ type YouTubeTokenResponse = {
   error_description?: string;
 };
 
-type YouTubeApiError = {
+export type YouTubeApiError = {
   error_description?: string;
   message?: string;
+};
+
+export type YouTubeCredentials = {
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
 };
 
 type SyncYouTubeVideoMetadataInput = {
@@ -130,11 +136,11 @@ async function getYouTubeVideo(videoId: string, accessToken: string) {
   return { localizations: video.localizations, snippet };
 }
 
-async function getYouTubeAccessToken({
+export async function getYouTubeAccessToken({
   clientId,
   clientSecret,
   refreshToken,
-}: SyncYouTubeVideoMetadataInput["credentials"]) {
+}: YouTubeCredentials) {
   const body = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
@@ -163,7 +169,7 @@ async function getYouTubeAccessToken({
   return payload.access_token;
 }
 
-function getYouTubeApiErrorMessage(error: YouTubeApiError | undefined) {
+export function getYouTubeApiErrorMessage(error: YouTubeApiError | undefined) {
   return error?.message || error?.error_description;
 }
 
