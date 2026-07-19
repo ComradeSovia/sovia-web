@@ -8,3 +8,4 @@ export {
   getYouTubeThumbnailCachePath,
   readYouTubeThumbnailBlurDataUrl,
 } from "./data/thumbnail-cache";
+export { syncYouTubeVideoMetadata } from "./data/video-metadata";

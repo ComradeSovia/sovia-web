@@ -98,6 +98,7 @@ import {
   AdminGenerateYoutubeLocalizationBatchButton,
   AdminGenerateYoutubeLocalizationButton,
   AdminSuggestRelatedButton,
+  AdminSyncYoutubeVideoButton,
 } from "./admin-step-panels";
 import { AdminLogin } from "./login-form";
 
@@ -2685,7 +2686,11 @@ function MusicWorkForm({
               >
                 {youtubeLocales.map((locale) => (
                   <div data-locale={locale} key={locale}>
-                    <YoutubeEditor locale={locale} work={work} />
+                    <YoutubeEditor
+                      contentId={work?.contentId}
+                      locale={locale}
+                      work={work}
+                    />
                   </div>
                 ))}
               </AdminLocalePanels>
@@ -2840,14 +2845,18 @@ function MusicWorkForm({
 }
 
 function YoutubeEditor({
+  contentId,
   locale,
   work,
 }: {
+  contentId?: string;
   locale: string;
   work?: AdminMusicWork;
 }) {
   const content = getYoutubeLocalizationContent(work, locale);
   const filled = isYoutubeLocalizationFilled(work, locale);
+  const titleFieldName = `youtubeLocalization.${locale}.title`;
+  const descriptionFieldName = `youtubeLocalization.${locale}.description`;
 
   return (
     <section
@@ -2876,12 +2885,23 @@ function YoutubeEditor({
       <div className="grid gap-4">
         <Field
           label="YouTube title"
-          name={`youtubeLocalization.${locale}.title`}
+          name={titleFieldName}
           value={content.title}
         />
+        {contentId ? (
+          <div className="flex justify-end">
+            <AdminSyncYoutubeVideoButton
+              className={`${SECONDARY_BUTTON_CLASS} inline-flex h-9 items-center justify-center rounded-md border px-3 py-2 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+              contentId={contentId}
+              descriptionFieldName={descriptionFieldName}
+              disabled={!work?.u2bId}
+              titleFieldName={titleFieldName}
+            />
+          </div>
+        ) : null}
         <TextArea
           label="YouTube description"
-          name={`youtubeLocalization.${locale}.description`}
+          name={descriptionFieldName}
           rows={getTextRows(content.description, 14)}
           value={content.description}
         />

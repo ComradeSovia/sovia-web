@@ -1,0 +1,167 @@
+type YouTubeSnippet = {
+  categoryId?: string;
+  defaultAudioLanguage?: string;
+  defaultLanguage?: string;
+  description?: string;
+  tags?: string[];
+  title?: string;
+};
+
+type YouTubeVideoListResponse = {
+  error?: YouTubeApiError;
+  items?: {
+    id?: string;
+    snippet?: YouTubeSnippet;
+  }[];
+};
+
+type YouTubeTokenResponse = {
+  access_token?: string;
+  error?: string;
+  error_description?: string;
+};
+
+type YouTubeApiError = {
+  error_description?: string;
+  message?: string;
+};
+
+type SyncYouTubeVideoMetadataInput = {
+  description: string;
+  title: string;
+  videoId: string;
+};
+
+const YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3";
+const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
+
+export async function syncYouTubeVideoMetadata({
+  description,
+  title,
+  videoId,
+}: SyncYouTubeVideoMetadataInput) {
+  const accessToken = await getYouTubeAccessToken();
+  const current = await getYouTubeVideoSnippet(videoId, accessToken);
+
+  if (!current.title || !current.categoryId) {
+    throw new Error(
+      "YouTube video metadata is missing title or categoryId, so it cannot be safely updated.",
+    );
+  }
+
+  const snippet = removeUndefinedValues({
+    categoryId: current.categoryId,
+    defaultAudioLanguage: current.defaultAudioLanguage,
+    defaultLanguage: current.defaultLanguage,
+    description,
+    tags: current.tags,
+    title,
+  });
+
+  const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?part=snippet`, {
+    body: JSON.stringify({
+      id: videoId,
+      snippet,
+    }),
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    method: "PUT",
+  });
+  const payload = (await response
+    .json()
+    .catch(() => null)) as YouTubeVideoListResponse | null;
+
+  if (!response.ok) {
+    throw new Error(
+      getYouTubeApiErrorMessage(payload?.error) ||
+        "YouTube video metadata could not be updated.",
+    );
+  }
+
+  return {
+    description,
+    title,
+    videoId,
+  };
+}
+
+async function getYouTubeVideoSnippet(videoId: string, accessToken: string) {
+  const params = new URLSearchParams({
+    id: videoId,
+    part: "snippet",
+  });
+  const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?${params}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    method: "GET",
+  });
+  const payload = (await response
+    .json()
+    .catch(() => null)) as YouTubeVideoListResponse | null;
+
+  if (!response.ok) {
+    throw new Error(
+      getYouTubeApiErrorMessage(payload?.error) ||
+        "YouTube video metadata could not be loaded.",
+    );
+  }
+
+  const snippet = payload?.items?.[0]?.snippet;
+  if (!snippet) {
+    throw new Error("YouTube video was not found for this account.");
+  }
+
+  return snippet;
+}
+
+async function getYouTubeAccessToken() {
+  const clientId = getRequiredEnv("YOUTUBE_DATA_API_CLIENT_ID");
+  const clientSecret = getRequiredEnv("YOUTUBE_DATA_API_CLIENT_SECRET");
+  const refreshToken = getRequiredEnv("YOUTUBE_DATA_API_REFRESH_TOKEN");
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    grant_type: "refresh_token",
+    refresh_token: refreshToken,
+  });
+  const response = await fetch(GOOGLE_TOKEN_URL, {
+    body,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+  });
+  const payload = (await response
+    .json()
+    .catch(() => null)) as YouTubeTokenResponse | null;
+
+  if (!response.ok || !payload?.access_token) {
+    throw new Error(
+      payload?.error_description ||
+        payload?.error ||
+        "YouTube Data API OAuth token could not be refreshed.",
+    );
+  }
+
+  return payload.access_token;
+}
+
+function getRequiredEnv(name: string) {
+  const value = process.env[name]?.trim();
+  if (!value) {
+    throw new Error(`${name} is not configured.`);
+  }
+
+  return value;
+}
+
+function getYouTubeApiErrorMessage(error: YouTubeApiError | undefined) {
+  return error?.message || error?.error_description;
+}
+
+function removeUndefinedValues<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, item]) => item !== undefined),
+  ) as Partial<T>;
+}

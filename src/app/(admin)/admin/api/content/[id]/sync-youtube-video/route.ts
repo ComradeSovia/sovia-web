@@ -1,0 +1,55 @@
+import { requireAdminSession } from "@sovia/admin/data/auth";
+import { getAdminMusicWork } from "@sovia/admin/data/music-admin";
+import { syncYouTubeVideoMetadata } from "@sovia/youtube-api";
+import { NextResponse } from "next/server";
+
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    await requireAdminSession();
+
+    const { id } = await params;
+    const work = await getAdminMusicWork(id);
+    if (!work) {
+      throw new Error("Content record could not be loaded.");
+    }
+    if (!work.u2bId) {
+      throw new Error("YouTube ID is required before syncing video metadata.");
+    }
+
+    const body = (await request.json()) as {
+      description?: unknown;
+      title?: unknown;
+    };
+    const title = getRequiredString(body.title, "YouTube title");
+    const description = getRequiredString(
+      body.description,
+      "YouTube description",
+    );
+
+    const result = await syncYouTubeVideoMetadata({
+      description,
+      title,
+      videoId: work.u2bId,
+    });
+
+    return NextResponse.json(result);
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "YouTube video metadata sync failed.";
+
+    return NextResponse.json({ message }, { status: 400 });
+  }
+}
+
+function getRequiredString(value: unknown, label: string) {
+  if (typeof value !== "string" || !value.trim()) {
+    throw new Error(`${label} is required.`);
+  }
+
+  return value.trim();
+}

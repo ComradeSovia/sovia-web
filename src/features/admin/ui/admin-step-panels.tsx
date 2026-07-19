@@ -518,6 +518,7 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
 }) {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [translatedCount, setTranslatedCount] = useState<number | null>(null);
 
   async function handleClick(event: MouseEvent<HTMLButtonElement>) {
     const form = event.currentTarget.form;
@@ -531,7 +532,22 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
 
     const locales = getYoutubeLocalizationLocales(form);
     const targetLocales = locales.filter((locale) => locale !== sourceLocale);
+    const sourceContent = getYoutubeLocalizationValues(form, [sourceLocale])[
+      sourceLocale
+    ];
+    if (!sourceContent?.title?.trim() || !sourceContent.description?.trim()) {
+      setError(
+        "Primary YouTube language needs both title and description before translating all locales.",
+      );
+      return;
+    }
+    if (!targetLocales.length) {
+      setError("No other YouTube languages are available to translate.");
+      return;
+    }
+
     setError(null);
+    setTranslatedCount(null);
     setPending(true);
 
     try {
@@ -567,7 +583,14 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
         );
       }
 
-      for (const item of payload.localizations ?? []) {
+      const localizations = payload.localizations ?? [];
+      if (!localizations.length) {
+        throw new Error(
+          "The model returned no translations. Check that the batch prompt returns locales exactly as requested.",
+        );
+      }
+
+      for (const item of localizations) {
         setFormControlValue(
           form,
           `youtubeLocalization.${item.locale}.title`,
@@ -579,6 +602,7 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
           item.description,
         );
       }
+      setTranslatedCount(localizations.length);
     } catch (generationError) {
       setError(
         generationError instanceof Error
@@ -603,6 +627,106 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
       {pending ? (
         <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
           Translating all other YouTube languages from the primary language...
+        </p>
+      ) : null}
+      {translatedCount !== null ? (
+        <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
+          Translated {translatedCount} YouTube locale
+          {translatedCount === 1 ? "" : "s"} and applied them to the form.
+        </p>
+      ) : null}
+      {error ? (
+        <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function AdminSyncYoutubeVideoButton({
+  className,
+  contentId,
+  descriptionFieldName,
+  disabled,
+  titleFieldName,
+}: {
+  className?: string;
+  contentId: string;
+  descriptionFieldName: string;
+  disabled?: boolean;
+  titleFieldName: string;
+}) {
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [synced, setSynced] = useState(false);
+
+  async function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const title = getFormControlValue(form, titleFieldName);
+    const description = getFormControlValue(form, descriptionFieldName);
+    if (!title?.trim()) {
+      setError("YouTube title is required before syncing.");
+      return;
+    }
+    if (!description?.trim()) {
+      setError("YouTube description is required before syncing.");
+      return;
+    }
+
+    setError(null);
+    setSynced(false);
+    setPending(true);
+
+    try {
+      const response = await fetch(
+        `/admin/api/content/${encodeURIComponent(contentId)}/sync-youtube-video`,
+        {
+          body: JSON.stringify({ description, title }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      const payload = (await response.json()) as {
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(payload.message || "YouTube video sync failed.");
+      }
+
+      setSynced(true);
+    } catch (syncError) {
+      setError(
+        syncError instanceof Error
+          ? syncError.message
+          : "YouTube video sync failed.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="grid gap-2">
+      <button
+        className={className}
+        disabled={disabled || pending}
+        onClick={handleClick}
+        type="button"
+      >
+        {pending ? "Syncing..." : "Sync to YouTube video"}
+      </button>
+      {pending ? (
+        <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+          Updating the YouTube video title and description...
+        </p>
+      ) : null}
+      {synced ? (
+        <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
+          Synced to YouTube video metadata.
         </p>
       ) : null}
       {error ? (

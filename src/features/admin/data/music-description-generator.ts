@@ -400,6 +400,15 @@ export async function generateYouTubeLocalizationBatch({
   if (!sourceLocale) {
     throw new Error("Select a primary YouTube language first.");
   }
+  const sourceYoutubeLocalization = youtubeLocalization[sourceLocale];
+  if (
+    !sourceYoutubeLocalization?.title?.trim() ||
+    !sourceYoutubeLocalization.description?.trim()
+  ) {
+    throw new Error(
+      "Primary YouTube language needs both title and description before translating all locales.",
+    );
+  }
   const uniqueTargetLocales = Array.from(
     new Set(
       targetLocales.filter((locale) => locale && locale !== sourceLocale),
@@ -455,7 +464,8 @@ export async function generateYouTubeLocalizationBatch({
             youtubeId: work.u2bId,
           },
           relatedWorks,
-          sourceYoutubeLocalization: youtubeLocalization[sourceLocale],
+          requiredOutputLocales: uniqueTargetLocales,
+          sourceYoutubeLocalization,
           targetLanguages: uniqueTargetLocales.map((locale) => ({
             existingYoutubeLocalization: youtubeLocalization[locale],
             label: getLanguageLabel(locale),
@@ -478,7 +488,7 @@ export async function generateYouTubeLocalizationBatch({
                 additionalProperties: false,
                 properties: {
                   description: { type: "string" },
-                  locale: { type: "string" },
+                  locale: { enum: uniqueTargetLocales, type: "string" },
                   title: { type: "string" },
                 },
                 required: ["locale", "title", "description"],
@@ -497,10 +507,21 @@ export async function generateYouTubeLocalizationBatch({
   });
 
   const parsed = parseYouTubeLocalizationBatch(response.output_text);
+  const localizations = parsed.localizations.filter((item) =>
+    uniqueTargetLocales.includes(item.locale),
+  );
+  if (!localizations.length) {
+    const returnedLocales = parsed.localizations
+      .map((item) => item.locale)
+      .filter(Boolean)
+      .join(", ");
+    throw new Error(
+      `The model returned no translations for the requested YouTube locales. Requested: ${uniqueTargetLocales.join(", ")}. Returned: ${returnedLocales || "none"}.`,
+    );
+  }
+
   return {
-    localizations: parsed.localizations.filter((item) =>
-      uniqueTargetLocales.includes(item.locale),
-    ),
+    localizations,
   };
 }
 
