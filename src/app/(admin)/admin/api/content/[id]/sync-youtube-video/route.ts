@@ -21,6 +21,7 @@ export async function POST(
 
     const body = (await request.json()) as {
       description?: unknown;
+      localizations?: unknown;
       title?: unknown;
     };
     const title = getRequiredString(body.title, "YouTube title");
@@ -28,9 +29,11 @@ export async function POST(
       body.description,
       "YouTube description",
     );
+    const localizations = getLocalizations(body.localizations);
 
     const result = await syncYouTubeVideoMetadata({
       description,
+      localizations,
       title,
       videoId: work.u2bId,
     });
@@ -44,6 +47,35 @@ export async function POST(
 
     return NextResponse.json({ message }, { status: 400 });
   }
+}
+
+function getLocalizations(value: unknown) {
+  if (value === undefined) return undefined;
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("YouTube localizations are invalid.");
+  }
+
+  return Object.fromEntries(
+    Object.entries(value).map(([locale, content]) => {
+      if (!content || typeof content !== "object" || Array.isArray(content)) {
+        throw new Error(`YouTube localization ${locale} is invalid.`);
+      }
+      const localization = content as Record<string, unknown>;
+      return [
+        locale,
+        {
+          description: getRequiredString(
+            localization.description,
+            `${locale} YouTube description`,
+          ),
+          title: getRequiredString(
+            localization.title,
+            `${locale} YouTube title`,
+          ),
+        },
+      ];
+    }),
+  );
 }
 
 function getRequiredString(value: unknown, label: string) {

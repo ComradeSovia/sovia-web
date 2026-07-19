@@ -2190,11 +2190,15 @@ function YoutubeAiActions({
   batchPrompts,
   contentId,
   prompts,
+  localeLabels,
+  locales,
   youtubeId,
 }: {
   batchPrompts: AdminPromptOption[];
   contentId: string;
   prompts: AdminPromptOption[];
+  localeLabels: Record<string, string>;
+  locales: readonly string[];
   youtubeId?: string | null;
 }) {
   const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
@@ -2203,70 +2207,81 @@ function YoutubeAiActions({
   const batchDisabled = !batchPrompts.length || !youtubeId;
 
   return (
-    <AiActionsDrawer
-      description="Use metadata, source, lyrics, and description fields to generate copy for the primary language."
-      title="Generate YouTube copy"
-    >
-      <PromptSelect
-        label="Current language prompt"
-        name="youtubeLocalizationPromptKey"
-        options={prompts.map((prompt) => ({
-          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
-          value: prompt.key,
-        }))}
-        placeholder="Use default prompt"
-        value={defaultPrompt?.key}
-      />
-      {!prompts.length ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          No enabled prompts are available for this task.
+    <>
+      <AiActionsDrawer
+        description="Use metadata, source, lyrics, and description fields to generate copy for the primary language."
+        title="Generate YouTube copy"
+      >
+        <PromptSelect
+          label="Current language prompt"
+          name="youtubeLocalizationPromptKey"
+          options={prompts.map((prompt) => ({
+            label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+            value: prompt.key,
+          }))}
+          placeholder="Use default prompt"
+          value={defaultPrompt?.key}
+        />
+        {!prompts.length ? (
+          <p className="-mt-2 text-xs leading-5 text-red-300">
+            No enabled prompts are available for this task.
+          </p>
+        ) : null}
+        <PromptSelect
+          label="Batch translation prompt"
+          name="youtubeLocalizationBatchPromptKey"
+          options={batchPrompts.map((prompt) => ({
+            label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
+            value: prompt.key,
+          }))}
+          placeholder="Use default batch prompt"
+          value={defaultBatchPrompt?.key}
+        />
+        {!batchPrompts.length ? (
+          <p className="-mt-2 text-xs leading-5 text-red-300">
+            No enabled batch prompts are available for this task.
+          </p>
+        ) : null}
+        {!youtubeId ? (
+          <p className="-mt-2 text-xs leading-5 text-red-300">
+            YouTube ID is required before generating YouTube copy.
+          </p>
+        ) : null}
+        <PromptTextarea
+          label="Generation notes"
+          name="generationNotes"
+          rows={4}
+          value=""
+        />
+        <p className="-mt-2 text-xs leading-5 text-zinc-500">
+          The selected primary language is sent as the target language and is
+          not saved separately.
         </p>
-      ) : null}
-      <PromptSelect
-        label="Batch translation prompt"
-        name="youtubeLocalizationBatchPromptKey"
-        options={batchPrompts.map((prompt) => ({
-          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
-          value: prompt.key,
-        }))}
-        placeholder="Use default batch prompt"
-        value={defaultBatchPrompt?.key}
-      />
-      {!batchPrompts.length ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          No enabled batch prompts are available for this task.
-        </p>
-      ) : null}
-      {!youtubeId ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          YouTube ID is required before generating YouTube copy.
-        </p>
-      ) : null}
-      <PromptTextarea
-        label="Generation notes"
-        name="generationNotes"
-        rows={4}
-        value=""
-      />
-      <p className="-mt-2 text-xs leading-5 text-zinc-500">
-        The selected primary language is sent as the target language and is not
-        saved separately.
-      </p>
-      <div className="flex justify-end">
-        <div className="grid gap-2">
-          <AdminGenerateYoutubeLocalizationButton
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-            contentId={contentId}
-            disabled={disabled}
-          />
-          <AdminGenerateYoutubeLocalizationBatchButton
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-            contentId={contentId}
-            disabled={batchDisabled}
-          />
+        <div className="flex justify-end">
+          <div className="grid gap-2">
+            <AdminGenerateYoutubeLocalizationButton
+              className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+              contentId={contentId}
+              disabled={disabled}
+            />
+            <AdminGenerateYoutubeLocalizationBatchButton
+              className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+              contentId={contentId}
+              disabled={batchDisabled}
+            />
+          </div>
         </div>
-      </div>
-    </AiActionsDrawer>
+      </AiActionsDrawer>
+      <ActionsDrawer>
+        <AdminSyncYoutubeVideoButton
+          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
+          contentId={contentId}
+          disabled={!youtubeId}
+          labels={localeLabels}
+          locales={locales}
+        />
+      </ActionsDrawer>
+    </>
   );
 }
 
@@ -2423,6 +2438,23 @@ function AiActionsDrawer({
             <span className="mt-1 block text-sm leading-6 text-zinc-400">
               {description}
             </span>
+          </span>
+        </summary>
+        <div className="grid gap-4 border-t border-zinc-800 p-4">
+          {children}
+        </div>
+      </details>
+    </aside>
+  );
+}
+
+function ActionsDrawer({ children }: { children: ReactNode }) {
+  return (
+    <aside className="pointer-events-none fixed top-[19rem] right-0 z-40">
+      <details className="group pointer-events-auto w-12 overflow-hidden rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur transition-[width] open:w-[min(380px,calc(100vw-1rem))]">
+        <summary className="flex h-32 w-12 cursor-pointer select-none list-none items-center justify-center p-3 marker:hidden group-open:h-auto group-open:w-full group-open:justify-start group-open:p-4 [&::-webkit-details-marker]:hidden">
+          <span className="text-xs font-medium uppercase text-zinc-400 [writing-mode:vertical-rl] group-open:[writing-mode:horizontal-tb]">
+            Actions
           </span>
         </summary>
         <div className="grid gap-4 border-t border-zinc-800 p-4">
@@ -2769,6 +2801,7 @@ function MusicWorkForm({
         <StepForm step="subtitles" work={work}>
           <Section id="subtitles" index={11} title="Subtitles">
             <AdminLocalePanels
+              initialPrimaryLocale={work?.subtitlePrimaryLocale ?? "ru"}
               labels={youtubeLocaleLabels}
               locales={youtubeLocales}
               primaryLocaleInputName="subtitlePrimaryLocale"
@@ -2802,6 +2835,7 @@ function MusicWorkForm({
                 warning="id"
               />
               <AdminLocalePanels
+                initialPrimaryLocale={work?.youtubePrimaryLocale ?? "en"}
                 labels={youtubeLocaleLabels}
                 locales={youtubeLocales}
                 primaryLocaleInputName="youtubePrimaryLocale"
@@ -2809,11 +2843,7 @@ function MusicWorkForm({
               >
                 {youtubeLocales.map((locale) => (
                   <div data-locale={locale} key={locale}>
-                    <YoutubeEditor
-                      contentId={work?.contentId}
-                      locale={locale}
-                      work={work}
-                    />
+                    <YoutubeEditor locale={locale} work={work} />
                   </div>
                 ))}
               </AdminLocalePanels>
@@ -2822,6 +2852,8 @@ function MusicWorkForm({
               <YoutubeAiActions
                 batchPrompts={youtubeBatchPrompts}
                 contentId={work.contentId}
+                localeLabels={youtubeLocaleLabels}
+                locales={youtubeLocales}
                 prompts={youtubePrompts}
                 youtubeId={work.u2bId}
               />
@@ -2968,11 +3000,9 @@ function MusicWorkForm({
 }
 
 function YoutubeEditor({
-  contentId,
   locale,
   work,
 }: {
-  contentId?: string;
   locale: string;
   work?: AdminMusicWork;
 }) {
@@ -3011,17 +3041,6 @@ function YoutubeEditor({
           name={titleFieldName}
           value={content.title}
         />
-        {contentId ? (
-          <div className="flex justify-end">
-            <AdminSyncYoutubeVideoButton
-              className={`${SECONDARY_BUTTON_CLASS} inline-flex h-9 items-center justify-center rounded-md border px-3 py-2 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-              contentId={contentId}
-              descriptionFieldName={descriptionFieldName}
-              disabled={!work?.u2bId}
-              titleFieldName={titleFieldName}
-            />
-          </div>
-        ) : null}
         <TextArea
           label="YouTube description"
           name={descriptionFieldName}

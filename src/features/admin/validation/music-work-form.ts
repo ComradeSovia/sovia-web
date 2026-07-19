@@ -90,6 +90,7 @@ const relatedSchema = z.object({
 
 const youtubeSchema = z.object({
   u2bId: trimmedOptional,
+  youtubePrimaryLocale: trimmedOptional,
 });
 
 const bilibiliSchema = z.object({
@@ -111,7 +112,9 @@ const pixivSchema = z.object({
   pixivTitle: trimmedOptional,
 });
 
-const subtitlesSchema = z.object({});
+const subtitlesSchema = z.object({
+  subtitlePrimaryLocale: trimmedOptional,
+});
 
 const stepSchemas = {
   bilibili: bilibiliSchema,

@@ -11,6 +11,7 @@ type YouTubeVideoListResponse = {
   error?: YouTubeApiError;
   items?: {
     id?: string;
+    localizations?: Record<string, { description: string; title: string }>;
     snippet?: YouTubeSnippet;
   }[];
 };
@@ -28,6 +29,7 @@ type YouTubeApiError = {
 
 type SyncYouTubeVideoMetadataInput = {
   description: string;
+  localizations?: Record<string, { description: string; title: string }>;
   title: string;
   videoId: string;
 };
@@ -37,30 +39,35 @@ const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 
 export async function syncYouTubeVideoMetadata({
   description,
+  localizations,
   title,
   videoId,
 }: SyncYouTubeVideoMetadataInput) {
   const accessToken = await getYouTubeAccessToken();
-  const current = await getYouTubeVideoSnippet(videoId, accessToken);
+  const current = await getYouTubeVideo(videoId, accessToken);
 
-  if (!current.title || !current.categoryId) {
+  if (!current.snippet.title || !current.snippet.categoryId) {
     throw new Error(
       "YouTube video metadata is missing title or categoryId, so it cannot be safely updated.",
     );
   }
 
   const snippet = removeUndefinedValues({
-    categoryId: current.categoryId,
-    defaultAudioLanguage: current.defaultAudioLanguage,
-    defaultLanguage: current.defaultLanguage,
+    categoryId: current.snippet.categoryId,
+    defaultAudioLanguage: current.snippet.defaultAudioLanguage,
+    defaultLanguage: current.snippet.defaultLanguage,
     description,
-    tags: current.tags,
+    tags: current.snippet.tags,
     title,
   });
 
-  const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?part=snippet`, {
+  const parts = localizations ? "snippet,localizations" : "snippet";
+  const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?part=${parts}`, {
     body: JSON.stringify({
       id: videoId,
+      localizations: localizations
+        ? { ...current.localizations, ...localizations }
+        : undefined,
       snippet,
     }),
     headers: {
@@ -82,15 +89,16 @@ export async function syncYouTubeVideoMetadata({
 
   return {
     description,
+    localizations,
     title,
     videoId,
   };
 }
 
-async function getYouTubeVideoSnippet(videoId: string, accessToken: string) {
+async function getYouTubeVideo(videoId: string, accessToken: string) {
   const params = new URLSearchParams({
     id: videoId,
-    part: "snippet",
+    part: "snippet,localizations",
   });
   const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?${params}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -107,12 +115,13 @@ async function getYouTubeVideoSnippet(videoId: string, accessToken: string) {
     );
   }
 
-  const snippet = payload?.items?.[0]?.snippet;
+  const video = payload?.items?.[0];
+  const snippet = video?.snippet;
   if (!snippet) {
     throw new Error("YouTube video was not found for this account.");
   }
 
-  return snippet;
+  return { localizations: video.localizations, snippet };
 }
 
 async function getYouTubeAccessToken() {

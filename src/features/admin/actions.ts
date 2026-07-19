@@ -253,6 +253,8 @@ function getValidationValue(formData: FormData) {
     relatedWorkUids: getString(formData, "relatedWorkUids"),
     shortDescription: getString(formData, "shortDescription"),
     u2bId: getString(formData, "u2bId"),
+    youtubePrimaryLocale: getString(formData, "youtubePrimaryLocale"),
+    subtitlePrimaryLocale: getString(formData, "subtitlePrimaryLocale"),
     visible: getBoolean(formData, "visible"),
     vkDescription: getString(formData, "vkDescription"),
     vkId: getString(formData, "vkId"),
@@ -309,6 +311,8 @@ function toDraft(
     vkTitle: work.vkTitle,
     vkDescription: work.vkDescription,
     youtubeLocalization: work.youtubeLocalization,
+    youtubePrimaryLocale: work.youtubePrimaryLocale,
+    subtitlePrimaryLocale: work.subtitlePrimaryLocale,
   } satisfies MusicWorkDraft;
 }
 
@@ -438,10 +442,18 @@ function applyStepDraft(
       draft.relatedWorkUids = getUidListString(formData, "relatedWorkUids");
       break;
     case "subtitles":
+      draft.subtitlePrimaryLocale = getOptionalString(
+        formData,
+        "subtitlePrimaryLocale",
+      );
       draft.subtitleTracks = parseSubtitleTracks(formData);
       break;
     case "youtube":
       draft.u2bId = getOptionalString(formData, "u2bId");
+      draft.youtubePrimaryLocale = getOptionalString(
+        formData,
+        "youtubePrimaryLocale",
+      );
       draft.youtubeLocalization = mergeYoutubeLocalization(
         draft.youtubeLocalization,
         parseYoutubeLocalization(formData),
@@ -580,6 +592,14 @@ export async function saveMusicWorkAction(formData: FormData) {
         vkId: getOptionalString(formData, "vkId"),
         vkTitle: getOptionalString(formData, "vkTitle"),
         vkDescription: getOptionalString(formData, "vkDescription"),
+        youtubePrimaryLocale: getOptionalString(
+          formData,
+          "youtubePrimaryLocale",
+        ),
+        subtitlePrimaryLocale: getOptionalString(
+          formData,
+          "subtitlePrimaryLocale",
+        ),
         youtubeLocalization,
       },
     });

@@ -694,26 +694,49 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
 export function AdminSyncYoutubeVideoButton({
   className,
   contentId,
-  descriptionFieldName,
   disabled,
-  titleFieldName,
+  labels,
+  locales,
 }: {
   className?: string;
   contentId: string;
-  descriptionFieldName: string;
   disabled?: boolean;
-  titleFieldName: string;
+  labels: Record<string, string>;
+  locales: readonly string[];
 }) {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [synced, setSynced] = useState(false);
+  const [selectedLocales, setSelectedLocales] = useState<string[]>([]);
+
+  useEffect(() => {
+    const form = document.querySelector<HTMLFormElement>(
+      `form:has(input[name="youtubePrimaryLocale"])`,
+    );
+    if (!form) return;
+
+    const updateSelection = () => {
+      const primaryLocale = getFormControlValue(form, "youtubePrimaryLocale");
+      setSelectedLocales(locales.filter((locale) => locale !== primaryLocale));
+    };
+    updateSelection();
+    form.addEventListener("change", updateSelection);
+    return () => form.removeEventListener("change", updateSelection);
+  }, [locales]);
 
   async function handleClick(event: MouseEvent<HTMLButtonElement>) {
     const form = event.currentTarget.form;
     if (!form) return;
 
-    const title = getFormControlValue(form, titleFieldName);
-    const description = getFormControlValue(form, descriptionFieldName);
+    const primaryLocale = getFormControlValue(form, "youtubePrimaryLocale");
+    const title = getFormControlValue(
+      form,
+      `youtubeLocalization.${primaryLocale}.title`,
+    );
+    const description = getFormControlValue(
+      form,
+      `youtubeLocalization.${primaryLocale}.description`,
+    );
     if (!title?.trim()) {
       setError("YouTube title is required before syncing.");
       return;
@@ -731,7 +754,25 @@ export function AdminSyncYoutubeVideoButton({
       const response = await fetch(
         `/admin/api/content/${encodeURIComponent(contentId)}/sync-youtube-video`,
         {
-          body: JSON.stringify({ description, title }),
+          body: JSON.stringify({
+            description,
+            localizations: Object.fromEntries(
+              selectedLocales.map((locale) => [
+                locale,
+                {
+                  description: getFormControlValue(
+                    form,
+                    `youtubeLocalization.${locale}.description`,
+                  ),
+                  title: getFormControlValue(
+                    form,
+                    `youtubeLocalization.${locale}.title`,
+                  ),
+                },
+              ]),
+            ),
+            title,
+          }),
           headers: { "Content-Type": "application/json" },
           method: "POST",
         },
@@ -758,9 +799,36 @@ export function AdminSyncYoutubeVideoButton({
 
   return (
     <div className="grid gap-2">
+      <div className="grid gap-2">
+        <span className="text-xs font-medium text-zinc-300">Languages</span>
+        <div className="grid max-h-52 gap-2 overflow-y-auto rounded-md border border-zinc-800 bg-zinc-950 p-3">
+          {locales.map((locale) => (
+            <label
+              className="flex items-center gap-2 text-sm text-zinc-300"
+              key={locale}
+            >
+              <input
+                checked={selectedLocales.includes(locale)}
+                className="h-4 w-4 accent-zinc-100"
+                onChange={(event) =>
+                  setSelectedLocales((current) =>
+                    event.target.checked
+                      ? [...current, locale]
+                      : current.filter((item) => item !== locale),
+                  )
+                }
+                type="checkbox"
+              />
+              <span>
+                {locale} · {labels[locale] ?? locale}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
       <button
         className={className}
-        disabled={disabled || pending}
+        disabled={disabled || pending || !selectedLocales.length}
         onClick={handleClick}
         type="button"
       >
@@ -773,7 +841,8 @@ export function AdminSyncYoutubeVideoButton({
       ) : null}
       {synced ? (
         <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">
-          Synced to YouTube video metadata.
+          Synced the primary metadata and {selectedLocales.length}{" "}
+          localization(s) to YouTube.
         </p>
       ) : null}
       {error ? (

@@ -7,6 +7,15 @@ export type MusicWorkYoutubeLocalization = Partial<
   Record<string, YoutubeLocalizationContent>
 >;
 
+export type MusicWorkYoutubeAdminMetadata = {
+  subtitlePrimaryLocale?: string | null;
+  youtubePrimaryLocale?: string | null;
+};
+
+export type MusicWorkYoutubePlatformMetadata = MusicWorkYoutubeLocalization & {
+  __admin?: MusicWorkYoutubeAdminMetadata;
+};
+
 export type MusicWorkSubtitleTracks = Partial<Record<string, string>>;
 
 export type MusicWorkType = "C" | "CO" | "LC" | "O" | "R";
@@ -57,6 +66,8 @@ export interface MusicWork {
   vkTitle?: string | null;
   vkDescription?: string | null;
   youtubeLocalization?: MusicWorkYoutubeLocalization | null;
+  youtubePrimaryLocale?: string | null;
+  subtitlePrimaryLocale?: string | null;
 }
 
 export interface MusicWorkWithContent extends MusicWork {}

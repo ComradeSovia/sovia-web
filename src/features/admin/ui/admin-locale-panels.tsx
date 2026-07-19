@@ -18,21 +18,40 @@ type LocalePanelElement = ReactElement<{
 type AdminLocalePanelsProps = {
   labels: Record<string, string>;
   locales: readonly string[];
+  initialPrimaryLocale?: string | null;
   primaryLocaleInputName?: string;
   readyLocales: readonly string[];
   children: ReactNode;
 };
 
-function getInitialPrimaryLocale(locales: readonly string[]) {
+function getInitialPrimaryLocale(
+  locales: readonly string[],
+  preferredLocale?: string | null,
+) {
+  if (preferredLocale && locales.includes(preferredLocale)) {
+    return preferredLocale;
+  }
   if (locales.includes("en")) return "en";
   if (locales.includes("en-US")) return "en-US";
   return locales[0] ?? "";
 }
 
-function getInitialCompareLocale(locales: readonly string[]) {
-  const primaryLocale = getInitialPrimaryLocale(locales);
-  if (primaryLocale !== "ru" && locales.includes("ru")) return "ru";
-  if (primaryLocale !== "ru-RU" && locales.includes("ru-RU")) return "ru-RU";
+function getInitialCompareLocale(
+  locales: readonly string[],
+  preferredPrimaryLocale?: string | null,
+) {
+  const primaryLocale = getInitialPrimaryLocale(
+    locales,
+    preferredPrimaryLocale,
+  );
+  const preferredCompareLocales = primaryLocale.startsWith("ru")
+    ? ["en", "en-US"]
+    : ["ru", "ru-RU"];
+
+  for (const locale of preferredCompareLocales) {
+    if (primaryLocale !== locale && locales.includes(locale)) return locale;
+  }
+
   return locales.find((locale) => locale !== primaryLocale) ?? primaryLocale;
 }
 
@@ -63,16 +82,17 @@ function setStoredLocale(key: string, value: string) {
 
 export function AdminLocalePanels({
   children,
+  initialPrimaryLocale,
   labels,
   locales,
   primaryLocaleInputName,
   readyLocales,
 }: AdminLocalePanelsProps) {
   const [primaryLocale, setPrimaryLocale] = useState<string>(
-    getInitialPrimaryLocale(locales),
+    getInitialPrimaryLocale(locales, initialPrimaryLocale),
   );
   const [compareLocale, setCompareLocale] = useState<string>(
-    getInitialCompareLocale(locales),
+    getInitialCompareLocale(locales, initialPrimaryLocale),
   );
   const readySet = useMemo(() => new Set(readyLocales), [readyLocales]);
   const childArray = useMemo(() => Children.toArray(children), [children]);
@@ -100,6 +120,8 @@ export function AdminLocalePanels({
   );
 
   useEffect(() => {
+    if (initialPrimaryLocale) return;
+
     const storedPrimaryLocale = getStoredLocale(
       `${storagePrefix}:primary`,
       locales,
@@ -115,7 +137,16 @@ export function AdminLocalePanels({
     if (storedCompareLocale) {
       setCompareLocale(storedCompareLocale);
     }
-  }, [locales, storagePrefix]);
+  }, [initialPrimaryLocale, locales, storagePrefix]);
+
+  useEffect(() => {
+    if (!initialPrimaryLocale || !locales.includes(initialPrimaryLocale)) {
+      return;
+    }
+
+    setPrimaryLocale(initialPrimaryLocale);
+    setCompareLocale(getInitialCompareLocale(locales, initialPrimaryLocale));
+  }, [initialPrimaryLocale, locales]);
 
   useEffect(() => {
     if (!primaryLocale) return;

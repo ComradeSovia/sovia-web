@@ -3,7 +3,9 @@ import type {
   MusicWorkRecord,
   MusicWorkSubtitleTracks,
   MusicWorkWithContent,
+  MusicWorkYoutubeAdminMetadata,
   MusicWorkYoutubeLocalization,
+  MusicWorkYoutubePlatformMetadata,
   YoutubeLocalizationContent,
 } from "../model/music";
 import { getFriendlyDatabaseError } from "./database-errors";
@@ -14,6 +16,7 @@ const YOUTUBE_LOCALIZATION_FIELDS = [
   "title",
   "description",
 ] as const satisfies (keyof YoutubeLocalizationContent)[];
+const YOUTUBE_ADMIN_METADATA_KEY = "__admin";
 
 const MUSIC_WORK_INCLUDE = {
   content: true,
@@ -154,6 +157,14 @@ function toWorkRecord(value: MusicWorkRecordSource): MusicWorkRecord {
     youtubeLocalization: normalizeYoutubeLocalization(
       youtubePlatform?.metadata,
     ),
+    youtubePrimaryLocale: normalizeYoutubeAdminLocale(
+      youtubePlatform?.metadata,
+      "youtubePrimaryLocale",
+    ),
+    subtitlePrimaryLocale: normalizeYoutubeAdminLocale(
+      youtubePlatform?.metadata,
+      "subtitlePrimaryLocale",
+    ),
     createdAt:
       value.createdAt instanceof Date
         ? value.createdAt.toISOString()
@@ -194,6 +205,18 @@ function normalizeYoutubeLocalization(
   }
 
   return youtubeLocalization;
+}
+
+function normalizeYoutubeAdminLocale(
+  value: unknown,
+  key: keyof MusicWorkYoutubeAdminMetadata,
+) {
+  if (!isPlainRecord(value)) return null;
+  const admin = value[YOUTUBE_ADMIN_METADATA_KEY];
+  if (!isPlainRecord(admin)) return null;
+
+  const locale = admin[key];
+  return typeof locale === "string" && locale.trim() ? locale : null;
 }
 
 function normalizeSubtitleTracks(value: unknown): MusicWorkSubtitleTracks {
@@ -256,6 +279,26 @@ function parseTagString(value: string | null | undefined) {
 function toPixivMetadata(tags: string | null | undefined) {
   const items = parseTagString(tags);
   return items.length ? { tags: items } : {};
+}
+
+function toYoutubeMetadata(
+  localization: MusicWorkYoutubeLocalization | null | undefined,
+  youtubePrimaryLocale: string | null | undefined,
+  subtitlePrimaryLocale: string | null | undefined,
+) {
+  const metadata: MusicWorkYoutubePlatformMetadata = {
+    ...(localization ?? {}),
+  };
+  const admin = withoutEmptyValues({
+    subtitlePrimaryLocale: normalizeOptional(subtitlePrimaryLocale),
+    youtubePrimaryLocale: normalizeOptional(youtubePrimaryLocale),
+  }) satisfies MusicWorkYoutubeAdminMetadata;
+
+  if (Object.keys(admin).length > 0) {
+    metadata[YOUTUBE_ADMIN_METADATA_KEY] = admin;
+  }
+
+  return metadata;
 }
 
 function findPlatform(platforms: MusicWorkPlatformSection[], platform: string) {
@@ -342,6 +385,8 @@ function toWorkWithContent(row: MusicWorkRecord): MusicWorkWithContent {
     vkTitle: work.vkTitle,
     vkDescription: work.vkDescription,
     youtubeLocalization: work.youtubeLocalization,
+    youtubePrimaryLocale: work.youtubePrimaryLocale,
+    subtitlePrimaryLocale: work.subtitlePrimaryLocale,
   };
 }
 
@@ -478,7 +523,11 @@ export async function upsertMusicWork(
     {
       platform: "youtube",
       ...toPlatformPayload({
-        metadata: work.youtubeLocalization ?? {},
+        metadata: toYoutubeMetadata(
+          work.youtubeLocalization,
+          work.youtubePrimaryLocale,
+          work.subtitlePrimaryLocale,
+        ),
         platformId: work.u2bId,
       }),
     },
