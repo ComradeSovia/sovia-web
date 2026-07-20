@@ -8,21 +8,13 @@ import {
   getGoogleOAuthStateCookieOptions,
   isMatchingGoogleOAuthState,
 } from "@sovia/admin/data/auth";
-import { siteUrl } from "@sovia/shared";
+import { getGoogleAdminRedirectUri } from "@sovia/admin/data/google-oauth";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_TOKENINFO_URL = "https://oauth2.googleapis.com/tokeninfo";
-
-function getGoogleRedirectUri(request: NextRequest) {
-  if (process.env.NODE_ENV !== "production") {
-    return new URL("/admin/login/google/callback", request.url).toString();
-  }
-
-  return siteUrl("/admin/login/google/callback");
-}
 
 type EnabledGoogleConfig = Extract<
   ReturnType<typeof getGoogleAdminConfig>,
@@ -154,7 +146,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const redirectUri = getGoogleRedirectUri(request);
+    const redirectUri = getGoogleAdminRedirectUri(request);
     const idToken = await exchangeCodeForIdToken(
       code,
       redirectUri,

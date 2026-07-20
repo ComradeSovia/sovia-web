@@ -5,18 +5,10 @@ import {
   getGoogleAdminConfig,
   getGoogleOAuthStateCookieOptions,
 } from "@sovia/admin/data/auth";
-import { siteUrl } from "@sovia/shared";
+import { getGoogleAdminRedirectUri } from "@sovia/admin/data/google-oauth";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
-function getGoogleRedirectUri(request: NextRequest) {
-  if (process.env.NODE_ENV !== "production") {
-    return new URL("/admin/login/google/callback", request.url).toString();
-  }
-
-  return siteUrl("/admin/login/google/callback");
-}
 
 export async function GET(request: NextRequest) {
   const authStatus = getAdminAuthStatus();
@@ -33,7 +25,7 @@ export async function GET(request: NextRequest) {
   const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
 
   authUrl.searchParams.set("client_id", googleConfig.clientId);
-  authUrl.searchParams.set("redirect_uri", getGoogleRedirectUri(request));
+  authUrl.searchParams.set("redirect_uri", getGoogleAdminRedirectUri(request));
   authUrl.searchParams.set("response_type", "code");
   authUrl.searchParams.set("scope", "openid email");
   authUrl.searchParams.set("state", state);
