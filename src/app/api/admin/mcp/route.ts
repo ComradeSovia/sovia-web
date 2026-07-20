@@ -16,6 +16,7 @@ import {
   isMcpOAuthConfigured,
   isValidMcpOAuthAccessToken,
 } from "@sovia/admin/data/mcp-oauth";
+import { syncAdminYoutubeAnalytics } from "@sovia/admin/data/youtube-analytics";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -28,6 +29,7 @@ type JsonRpcRequest = {
 };
 
 type ToolDefinition = {
+  annotations?: Record<string, unknown>;
   description: string;
   inputSchema: {
     additionalProperties?: boolean;
@@ -219,6 +221,29 @@ const tools: ToolDefinition[] = [
     inputSchema: { additionalProperties: false, type: "object" },
     name: "content_list_missing_fields",
   },
+  {
+    annotations: {
+      destructiveHint: false,
+      idempotentHint: false,
+      openWorldHint: true,
+      readOnlyHint: false,
+    },
+    description:
+      "Write tool: actively sync Sovia YouTube analytics data from YouTube Data API and YouTube Analytics API into the database. This consumes YouTube API quota and requires confirmQuotaUse=true.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        confirmQuotaUse: {
+          description:
+            "Must be true to confirm the caller understands this consumes YouTube API quota.",
+          type: "boolean",
+        },
+      },
+      required: ["confirmQuotaUse"],
+      type: "object",
+    },
+    name: "analytics_sync_youtube",
+  },
 ];
 
 export async function OPTIONS() {
@@ -234,8 +259,13 @@ export async function GET() {
     message:
       "Sovia Admin MCP is a JSON-RPC MCP endpoint. Send POST requests with MCP methods such as initialize, tools/list, and tools/call.",
     oauth: getMcpOAuthServerInfo(),
-    readonly: true,
+    readonlyTools: tools
+      .filter((tool) => tool.annotations?.readOnlyHint !== false)
+      .map((tool) => tool.name),
     tools: tools.map((tool) => tool.name),
+    writableTools: tools
+      .filter((tool) => tool.annotations?.readOnlyHint === false)
+      .map((tool) => tool.name),
   });
 }
 
@@ -366,6 +396,14 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
 
       case "content_list_missing_fields":
         return makeToolResult(id, await listAdminMcpMissingContentFields());
+
+      case "analytics_sync_youtube":
+        if (args.confirmQuotaUse !== true) {
+          throw new Error(
+            "analytics_sync_youtube requires confirmQuotaUse=true because it consumes YouTube API quota.",
+          );
+        }
+        return makeToolResult(id, await syncAdminYoutubeAnalytics());
 
       default:
         return makeJsonRpcError(
