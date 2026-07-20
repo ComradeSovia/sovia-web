@@ -1,0 +1,38 @@
+model AdminYoutubeAnalyticsSync {
+  id        String   @id
+  startedAt DateTime @default(now())
+  syncedAt  DateTime?
+  startDate String
+  endDate   String
+  videoCount Int     @default(0)
+  status    String
+  message   String?
+
+  @@map("admin_youtube_analytics_syncs")
+}
+
+model AdminYoutubeVideoAnalyticsSnapshot {
+  id                         String   @id @default(cuid())
+  contentId                  String
+  videoId                    String
+  periodDays                 Int
+  startDate                  String
+  endDate                    String
+  views                      Int      @default(0)
+  estimatedMinutesWatched    Float?
+  averageViewDuration        Float?
+  averageViewPercentage      Float?
+  subscribersGained          Int      @default(0)
+  likes                      Int      @default(0)
+  comments                   Int      @default(0)
+  shares                     Int      @default(0)
+  impressions                Int?
+  impressionClickThroughRate Float?
+  syncedAt                   DateTime @default(now())
+  work                       MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@unique([videoId, periodDays, endDate])
+  @@index([contentId])
+  @@index([periodDays, endDate])
+  @@map("admin_youtube_video_analytics_snapshots")
+}

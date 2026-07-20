@@ -92,7 +92,12 @@ export async function GET(request: NextRequest) {
       channelTitle: channel.snippet.title,
       refreshToken: tokens.refresh_token,
       scopes:
-        tokens.scope ?? "https://www.googleapis.com/auth/youtube.force-ssl",
+        tokens.scope ??
+        [
+          "https://www.googleapis.com/auth/youtube.force-ssl",
+          "https://www.googleapis.com/auth/yt-analytics.readonly",
+          "https://www.googleapis.com/auth/youtube.readonly",
+        ].join(" "),
     });
     return redirect(request, "success", `Connected ${channel.snippet.title}.`);
   } catch (error) {

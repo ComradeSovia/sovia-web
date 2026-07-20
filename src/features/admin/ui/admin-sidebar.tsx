@@ -2,6 +2,7 @@
 
 import {
   ArrowLeft,
+  BarChart3,
   Eye,
   FileText,
   GitBranch,
@@ -223,39 +224,65 @@ export function AdminSidebar({
 
       <SidebarContent>
         {!isContentEditor ? (
-          <SidebarGroup>
-            <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <AdminNavMenu
-                items={[
-                  {
-                    active: pathname === "/admin",
-                    href: "/admin",
-                    icon: LayoutDashboard,
-                    label: "Dashboard",
-                  },
-                  {
-                    active: pathname.startsWith("/admin/content"),
-                    href: "/admin/content",
-                    icon: ListMusic,
-                    label: "Content",
-                  },
-                  {
-                    active: pathname.startsWith("/admin/prompts"),
-                    href: "/admin/prompts",
-                    icon: Sparkles,
-                    label: "Prompts",
-                  },
-                  {
-                    active: pathname.startsWith("/admin/yt-i18n"),
-                    href: "/admin/yt-i18n",
-                    icon: Globe2,
-                    label: "YouTube i18n",
-                  },
-                ]}
-              />
-            </SidebarGroupContent>
-          </SidebarGroup>
+          <>
+            <SidebarGroup>
+              <SidebarGroupLabel>Overview</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <AdminNavMenu
+                  items={[
+                    {
+                      active: pathname === "/admin",
+                      href: "/admin",
+                      icon: LayoutDashboard,
+                      label: "Dashboard",
+                    },
+                  ]}
+                />
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Content</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <AdminNavMenu
+                  items={[
+                    {
+                      active: pathname.startsWith("/admin/content"),
+                      href: "/admin/content",
+                      icon: ListMusic,
+                      label: "Works",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/analytics"),
+                      href: "/admin/analytics",
+                      icon: BarChart3,
+                      label: "Analytics",
+                    },
+                  ]}
+                />
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Settings</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <AdminNavMenu
+                  items={[
+                    {
+                      active: pathname.startsWith("/admin/prompts"),
+                      href: "/admin/prompts",
+                      icon: Sparkles,
+                      label: "Prompts",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/yt-i18n"),
+                      href: "/admin/yt-i18n",
+                      icon: Globe2,
+                      label: "YouTube i18n",
+                    },
+                  ]}
+                />
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
         ) : isContentEditor ? (
           <>
             <SidebarGroup>
