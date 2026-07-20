@@ -2352,11 +2352,13 @@ function YoutubeAiActions({
 
 function SubtitleAiActions({
   contentId,
+  localeLabels,
   locales,
   prompts,
   youtubeId,
 }: {
   contentId: string;
+  localeLabels: Record<string, string>;
   locales: readonly string[];
   prompts: AdminPromptOption[];
   youtubeId?: string | null;
@@ -2419,6 +2421,7 @@ function SubtitleAiActions({
           className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
           contentId={contentId}
           disabled={!youtubeId}
+          labels={localeLabels}
           locales={locales}
         />
       </ActionsDrawer>
@@ -2918,6 +2921,7 @@ function MusicWorkForm({
             {work ? (
               <SubtitleAiActions
                 contentId={work.contentId}
+                localeLabels={youtubeLocaleLabels}
                 locales={youtubeLocales}
                 prompts={subtitleBatchPrompts}
                 youtubeId={work.u2bId}

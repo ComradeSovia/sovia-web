@@ -1053,32 +1053,70 @@ export function AdminSyncYoutubeCaptionsButton({
   className,
   contentId,
   disabled,
+  labels,
   locales,
 }: {
   className?: string;
   contentId: string;
   disabled?: boolean;
+  labels: Record<string, string>;
   locales: readonly string[];
 }) {
   const [confirmed, setConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [readyLocales, setReadyLocales] = useState<string[]>([]);
+  const [selectedLocales, setSelectedLocales] = useState<string[]>([]);
   const [synced, setSynced] = useState<{
     count: number;
     estimatedQuotaUnits: number;
   } | null>(null);
+  const initializedRef = useRef(false);
+
+  useEffect(() => {
+    const form = document.querySelector<HTMLFormElement>(
+      `form:has(input[name="subtitlePrimaryLocale"])`,
+    );
+    if (!form) return;
+
+    const updateSelection = () => {
+      const readyLocales = locales.filter((locale) =>
+        getFormControlValue(form, `subtitleTracks.${locale}`)?.trim(),
+      );
+      setReadyLocales(readyLocales);
+
+      setSelectedLocales((current) => {
+        if (!initializedRef.current) {
+          initializedRef.current = true;
+          return readyLocales;
+        }
+        return current.filter((locale) => readyLocales.includes(locale));
+      });
+    };
+
+    updateSelection();
+    form.addEventListener("change", updateSelection);
+    form.addEventListener("input", updateSelection);
+    return () => {
+      form.removeEventListener("change", updateSelection);
+      form.removeEventListener("input", updateSelection);
+    };
+  }, [locales]);
 
   async function handleClick(event: MouseEvent<HTMLButtonElement>) {
     const form = event.currentTarget.form;
     if (!form) return;
 
     const tracks = getSubtitleTrackValues(form, [...locales]);
+    const selectedTracks = Object.fromEntries(
+      selectedLocales.map((locale) => [locale, tracks[locale]]),
+    );
     const nonEmptyTracks = Object.fromEntries(
-      Object.entries(tracks).filter(([, srt]) => srt?.trim()),
+      Object.entries(selectedTracks).filter(([, srt]) => srt?.trim()),
     ) as Record<string, string>;
 
     if (!Object.keys(nonEmptyTracks).length) {
-      setError("Add at least one subtitle track before syncing.");
+      setError("Select at least one non-empty subtitle track before syncing.");
       return;
     }
     if (!confirmed) {
@@ -1130,6 +1168,43 @@ export function AdminSyncYoutubeCaptionsButton({
 
   return (
     <div className="grid gap-2 border-t border-zinc-800 pt-3">
+      <div className="grid gap-2">
+        <span className="text-xs font-medium text-zinc-300">
+          Subtitle tracks
+        </span>
+        <div className="grid max-h-52 gap-2 overflow-y-auto rounded-md border border-zinc-800 bg-zinc-950 p-3">
+          {locales.map((locale) => {
+            const hasTrack = readyLocales.includes(locale);
+            return (
+              <label
+                className="flex items-center gap-2 text-sm text-zinc-300 has-disabled:text-zinc-600"
+                key={locale}
+              >
+                <input
+                  checked={selectedLocales.includes(locale)}
+                  className="h-4 w-4 accent-zinc-100 disabled:accent-zinc-700"
+                  disabled={disabled || pending || !hasTrack}
+                  onChange={(event) =>
+                    setSelectedLocales((current) =>
+                      event.target.checked
+                        ? [...current, locale]
+                        : current.filter((item) => item !== locale),
+                    )
+                  }
+                  type="checkbox"
+                />
+                <span>
+                  {locale} · {labels[locale] ?? locale}
+                  {hasTrack ? "" : " · No SRT"}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+        <p className="text-xs leading-5 text-zinc-500">
+          Only selected non-empty SRT tracks will be uploaded to YouTube.
+        </p>
+      </div>
       <label className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 p-3 text-sm leading-5 text-amber-100">
         <input
           checked={confirmed}
@@ -1146,7 +1221,7 @@ export function AdminSyncYoutubeCaptionsButton({
       </label>
       <button
         className={className}
-        disabled={disabled || pending || !confirmed}
+        disabled={disabled || pending || !confirmed || !selectedLocales.length}
         onClick={handleClick}
         type="button"
       >
@@ -1155,7 +1230,7 @@ export function AdminSyncYoutubeCaptionsButton({
       </button>
       {pending ? (
         <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
-          Uploading every non-empty SRT subtitle track to YouTube captions...
+          Uploading selected SRT subtitle tracks to YouTube captions...
         </p>
       ) : null}
       {synced ? (
