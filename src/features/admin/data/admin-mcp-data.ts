@@ -9,13 +9,13 @@ type Snapshot = Awaited<
 >[number];
 type Work = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
 
-type GptWorkRow = {
+type McpWorkRow = {
   analytics: ReturnType<typeof serializeSnapshot>;
   diagnosis: ReturnType<typeof getDiagnosis>;
   work: ReturnType<typeof serializeWork>;
 };
 
-export async function getGptAnalyticsData() {
+export async function getAdminMcpAnalyticsData() {
   const [works, snapshots, syncStatus] = await Promise.all([
     listAdminMusicWorks(),
     listLatestYoutubeAnalyticsSnapshots(),
@@ -49,8 +49,8 @@ export async function getGptAnalyticsData() {
   };
 }
 
-export async function getGptAnalyticsOverview() {
-  const data = await getGptAnalyticsData();
+export async function getAdminMcpAnalyticsOverview() {
+  const data = await getAdminMcpAnalyticsData();
   return {
     baseline: data.baseline,
     coreQuestions: [
@@ -71,14 +71,14 @@ export async function getGptAnalyticsOverview() {
   };
 }
 
-export async function listGptAnalyticsWorks({
+export async function listAdminMcpAnalyticsWorks({
   limit = 50,
   offset = 0,
 }: {
   limit?: number;
   offset?: number;
 }) {
-  const data = await getGptAnalyticsData();
+  const data = await getAdminMcpAnalyticsData();
   const safeLimit = Math.min(Math.max(limit, 1), 100);
   const safeOffset = Math.max(offset, 0);
   return {
@@ -89,8 +89,8 @@ export async function listGptAnalyticsWorks({
   };
 }
 
-export async function getGptAnalyticsWork(id: string) {
-  const data = await getGptAnalyticsData();
+export async function getAdminMcpAnalyticsWork(id: string) {
+  const data = await getAdminMcpAnalyticsData();
   const item = data.rows.find(
     (row) =>
       row.work.contentId === id ||
@@ -100,9 +100,9 @@ export async function getGptAnalyticsWork(id: string) {
   return item ?? null;
 }
 
-export async function getGptAnalyticsCompare() {
-  const data = await getGptAnalyticsData();
-  const groups = new Map<string, GptWorkRow[]>();
+export async function getAdminMcpAnalyticsCompare() {
+  const data = await getAdminMcpAnalyticsData();
+  const groups = new Map<string, McpWorkRow[]>();
   for (const row of data.rows) {
     const current = groups.get(row.diagnosis.label) ?? [];
     current.push(row);
@@ -124,6 +124,36 @@ export async function getGptAnalyticsCompare() {
       lowClickLowRetention: "Topic or overall direction needs review.",
     },
   };
+}
+
+export async function listAdminMcpContentWorks({
+  limit = 50,
+  offset = 0,
+}: {
+  limit?: number;
+  offset?: number;
+}) {
+  const works = await listAdminMusicWorks();
+  const safeLimit = Math.min(Math.max(limit, 1), 100);
+  const safeOffset = Math.max(offset, 0);
+  return {
+    count: works.length,
+    items: works
+      .slice(safeOffset, safeOffset + safeLimit)
+      .map((work) => serializeWork(work, work.contentId)),
+    limit: safeLimit,
+    offset: safeOffset,
+  };
+}
+
+export async function getAdminMcpContentWork(id: string) {
+  const work =
+    (await listAdminMusicWorks()).find(
+      (item) => item.contentId === id || item.path === id || item.u2bId === id,
+    ) ?? null;
+
+  if (!work) return null;
+  return serializeWork(work, work.contentId);
 }
 
 function serializeWork(work: Work | undefined, contentId: string) {
