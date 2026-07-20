@@ -1191,6 +1191,7 @@ export function AdminSyncYoutubeCaptionsButton({
                         : current.filter((item) => item !== locale),
                     )
                   }
+                  suppressHydrationWarning
                   type="checkbox"
                 />
                 <span>
@@ -1211,6 +1212,7 @@ export function AdminSyncYoutubeCaptionsButton({
           className="mt-0.5 h-4 w-4 accent-amber-200"
           disabled={disabled || pending}
           onChange={(event) => setConfirmed(event.target.checked)}
+          suppressHydrationWarning
           type="checkbox"
         />
         <span>
