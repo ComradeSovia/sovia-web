@@ -9,7 +9,9 @@ export const SITE_DESCRIPTION = copy.site.description;
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
-  "https://sovia.work";
+  (process.env.NODE_ENV === "production"
+    ? "https://sovia.work"
+    : "http://localhost:3000");
 
 export const SITE_URL = rawSiteUrl.replace(/\/$/, "");
 
