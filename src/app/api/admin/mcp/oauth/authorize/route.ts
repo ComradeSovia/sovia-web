@@ -1,3 +1,4 @@
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import { isAdminAuthenticated } from "@sovia/admin/data/auth";
 import { authorizeMcpOAuthRequest } from "@sovia/admin/data/mcp-oauth";
 import type { NextRequest } from "next/server";
@@ -7,7 +8,7 @@ export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
   if (!(await isAdminAuthenticated())) {
-    const url = new URL("/admin", request.url);
+    const url = getAdminUrl("/admin", request);
     url.searchParams.set(
       "next",
       `${request.nextUrl.pathname}${request.nextUrl.search}`,

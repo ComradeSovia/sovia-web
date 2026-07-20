@@ -6,6 +6,7 @@ import { getAdminRequestOrigin } from "./admin-url";
 const AUTHORIZATION_CODE_TTL_SECONDS = 60 * 10;
 const ACCESS_TOKEN_TTL_SECONDS = 60 * 60;
 const REFRESH_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 30;
+const DEFAULT_MCP_OAUTH_CLIENT_ID = "chatgpt-mcp";
 const MCP_OAUTH_SCOPE = "mcp:read";
 
 type OAuthTokenKind = "access" | "code" | "refresh";
@@ -55,6 +56,13 @@ function getOAuthConfig(): OAuthConfig {
   }
 
   return { ok: true, secret };
+}
+
+function getMcpOAuthClientId() {
+  return (
+    getOptionalEnv("SOVIA_ADMIN_MCP_OAUTH_CLIENT_ID") ||
+    DEFAULT_MCP_OAUTH_CLIENT_ID
+  );
 }
 
 function getCurrentTimestamp() {
@@ -145,7 +153,13 @@ function normalizeScope(scope: string | null) {
 function isAllowedRedirectUri(value: string) {
   try {
     const url = new URL(value);
-    if (url.protocol === "https:") return true;
+    if (
+      url.protocol === "https:" &&
+      url.hostname === "chatgpt.com" &&
+      url.pathname.startsWith("/connector/oauth/")
+    ) {
+      return true;
+    }
     return (
       url.protocol === "http:" &&
       (url.hostname === "localhost" || url.hostname.startsWith("127."))
@@ -153,6 +167,10 @@ function isAllowedRedirectUri(value: string) {
   } catch {
     return false;
   }
+}
+
+function isAllowedClientId(value: string) {
+  return value === getMcpOAuthClientId();
 }
 
 function getCodeChallenge(verifier: string) {
@@ -236,7 +254,16 @@ export function authorizeMcpOAuthRequest(request: NextRequest) {
   }
 
   const clientId =
-    request.nextUrl.searchParams.get("client_id") || "chatgpt-mcp";
+    request.nextUrl.searchParams.get("client_id") || getMcpOAuthClientId();
+  if (!isAllowedClientId(clientId)) {
+    return jsonResponse(
+      {
+        error: "unauthorized_client",
+        error_description: "OAuth client_id is not allowed.",
+      },
+      { status: 400 },
+    );
+  }
   const responseType = request.nextUrl.searchParams.get("response_type");
   if (responseType !== "code") {
     return redirectWithOAuthError(
@@ -346,7 +373,7 @@ function exchangeAuthorizationCode(formData: FormData, secret: string) {
   }
 
   const clientId = getFormString(formData, "client_id") || payload.clientId;
-  if (payload.clientId !== clientId) {
+  if (payload.clientId !== clientId || !isAllowedClientId(clientId)) {
     return jsonResponse({ error: "invalid_grant" }, { status: 400 });
   }
 
@@ -365,7 +392,7 @@ function exchangeAuthorizationCode(formData: FormData, secret: string) {
 function exchangeRefreshToken(formData: FormData, secret: string) {
   const refreshToken = getFormString(formData, "refresh_token");
   const payload = readSignedPayload(refreshToken, "refresh", secret);
-  if (!payload) {
+  if (!payload || !isAllowedClientId(payload.clientId)) {
     return jsonResponse({ error: "invalid_grant" }, { status: 400 });
   }
 
@@ -410,7 +437,10 @@ export function isValidMcpOAuthAccessToken(token: string) {
   if (!config.ok) return false;
 
   const payload = readSignedPayload(token, "access", config.secret);
-  return payload?.scope.split(/\s+/).includes(MCP_OAUTH_SCOPE) ?? false;
+  return (
+    payload?.scope.split(/\s+/).includes(MCP_OAUTH_SCOPE) === true &&
+    isAllowedClientId(payload.clientId)
+  );
 }
 
 export function isMcpOAuthConfigured() {
@@ -419,6 +449,7 @@ export function isMcpOAuthConfigured() {
 
 export function getMcpOAuthServerInfo() {
   return {
+    clientId: getMcpOAuthClientId(),
     name: SITE_NAME,
     scopes: [MCP_OAUTH_SCOPE, "offline_access"],
   };
