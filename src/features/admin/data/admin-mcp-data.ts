@@ -28,6 +28,27 @@ type ContentSearchFilters = {
   workType?: string;
 };
 
+type DuplicateCheckInput = {
+  artist?: string;
+  ip?: string;
+  limit?: number;
+  q?: string;
+  sourceTitle?: string;
+  title?: string;
+};
+
+type CohortCompareInput = {
+  cohort?: "recent" | "sameLanguage" | "sameSourceIp" | "sameStyle";
+  id: string;
+  limit?: number;
+};
+
+type VersionCompareInput = {
+  ids?: string[];
+  limit?: number;
+  q?: string;
+};
+
 export async function getAdminMcpAnalyticsData() {
   const [works, snapshots, syncStatus] = await Promise.all([
     listAdminMusicWorks(),
@@ -188,6 +209,63 @@ export async function searchAdminMcpContentWorks(
   };
 }
 
+export async function getAdminMcpRecentWorks({
+  hasYoutube,
+  limit,
+  offset,
+}: {
+  hasYoutube?: boolean;
+  limit?: number;
+  offset?: number;
+}) {
+  const works = (await listAdminMusicWorks())
+    .map((work) => serializeWork(work, work.contentId))
+    .filter((work) =>
+      typeof hasYoutube === "boolean"
+        ? Boolean(work.youtube) === hasYoutube
+        : true,
+    )
+    .sort((a, b) => getPublishedTime(b) - getPublishedTime(a));
+  const safeLimit = getSafeLimit(limit);
+  const safeOffset = getSafeOffset(offset);
+
+  return {
+    count: works.length,
+    items: works.slice(safeOffset, safeOffset + safeLimit),
+    limit: safeLimit,
+    offset: safeOffset,
+  };
+}
+
+export async function checkAdminMcpContentDuplicate(
+  input: DuplicateCheckInput,
+) {
+  const works = (await listAdminMusicWorks()).map((work) =>
+    serializeWork(work, work.contentId),
+  );
+  const safeLimit = getSafeLimit(input.limit ?? 20);
+  const candidates = works
+    .map((work) => ({
+      match: getDuplicateMatch(work, input),
+      work,
+    }))
+    .filter((item) => item.match.score > 0)
+    .sort((a, b) => b.match.score - a.match.score)
+    .slice(0, safeLimit);
+
+  return {
+    count: candidates.length,
+    input: normalizeDuplicateInput(input),
+    items: candidates,
+    verdict:
+      candidates[0]?.match.score && candidates[0].match.score >= 80
+        ? "likely_duplicate_or_existing_version"
+        : candidates.length
+          ? "possible_related_or_partial_match"
+          : "no_match_found",
+  };
+}
+
 export async function getAdminMcpWorkInsight(id: string) {
   const data = await getAdminMcpAnalyticsData();
   const row =
@@ -240,6 +318,93 @@ export async function getAdminMcpWorkInsight(id: string) {
     strengths,
     summary: getInsightSummary(row, data.baseline, work, missingData),
     work,
+  };
+}
+
+export async function compareAdminMcpAnalyticsCohort(
+  input: CohortCompareInput,
+) {
+  const data = await getAdminMcpAnalyticsData();
+  const target = findRow(data.rows, input.id);
+  if (!target) return null;
+
+  const safeLimit = getSafeLimit(input.limit ?? 10);
+  const cohortType = input.cohort ?? "recent";
+  const candidates = getCohortRows(data.rows, target, cohortType)
+    .filter((row) => row.work.contentId !== target.work.contentId)
+    .slice(0, safeLimit);
+  const cohortRows = candidates.length ? candidates : data.rows;
+  const baseline = getRowBaseline(cohortRows);
+
+  return {
+    baseline,
+    cohort: cohortType,
+    comparisons: getMetricComparisons(target, baseline),
+    comparableWorks: candidates.map(toOutlierSummary),
+    notes: [
+      "This compares stored lifetime snapshots, not same-age first-day curves.",
+      "Use sameStyle, sameLanguage, sameSourceIp, or recent to avoid comparing totally unrelated works.",
+    ],
+    target,
+  };
+}
+
+export async function compareAdminMcpVersions(input: VersionCompareInput) {
+  const data = await getAdminMcpAnalyticsData();
+  const works = (await listAdminMusicWorks()).map((work) =>
+    serializeWork(work, work.contentId),
+  );
+  const rowsByContentId = new Map(
+    data.rows.map((row) => [row.work.contentId, row]),
+  );
+  const safeLimit = getSafeLimit(input.limit ?? 10);
+  const selectedWorks = input.ids?.length
+    ? input.ids
+        .map((id) => works.find((work) => isWorkIdMatch(work, id)))
+        .filter((work): work is ReturnType<typeof serializeWork> =>
+          Boolean(work),
+        )
+    : works
+        .map((work) => ({
+          match: getDuplicateMatch(work, { q: input.q, title: input.q }),
+          work,
+        }))
+        .filter((item) => item.match.score > 0)
+        .sort((a, b) => b.match.score - a.match.score)
+        .map((item) => item.work);
+  const versions = selectedWorks
+    .sort((a, b) => getPublishedTime(a) - getPublishedTime(b))
+    .slice(0, safeLimit)
+    .map((work) => ({
+      analytics: rowsByContentId.get(work.contentId)?.analytics ?? null,
+      contentId: work.contentId,
+      diagnosis: rowsByContentId.get(work.contentId)?.diagnosis ?? null,
+      differences: null,
+      publishedAt: work.publishedAt,
+      title: work.title,
+      work,
+    }));
+
+  return {
+    count: versions.length,
+    input: {
+      ids: input.ids,
+      q: input.q,
+    },
+    notes: [
+      "Versions are ordered by publish date.",
+      "Use explicit ids for precise old-vs-remake comparison.",
+    ],
+    summary: getVersionComparisonSummary(versions),
+    versions: versions.map((version, index) => ({
+      ...version,
+      differences:
+        index === 0
+          ? {
+              label: "baseline version",
+            }
+          : getVersionDifferences(versions[0].work, version.work),
+    })),
   };
 }
 
@@ -489,6 +654,11 @@ function getSafeOffset(offset: number | undefined) {
   return Math.max(offset ?? 0, 0);
 }
 
+function getPublishedTime(work: ReturnType<typeof serializeWork>) {
+  const time = Date.parse(work.publishedAt ?? "");
+  return Number.isFinite(time) ? time : 0;
+}
+
 function normalizeContentSearchFilters(filters: ContentSearchFilters) {
   return {
     hasLyrics: filters.hasLyrics,
@@ -599,6 +769,233 @@ function getWorkLanguages(work: ReturnType<typeof serializeWork>) {
       ].filter((locale): locale is string => Boolean(locale)),
     ),
   );
+}
+
+function isWorkIdMatch(work: ReturnType<typeof serializeWork>, id: string) {
+  return work.contentId === id || work.path === id || work.youtube?.id === id;
+}
+
+function normalizeDuplicateInput(input: DuplicateCheckInput) {
+  return {
+    artist: input.artist?.trim() || undefined,
+    ip: input.ip?.trim() || undefined,
+    q: input.q?.trim() || undefined,
+    sourceTitle: input.sourceTitle?.trim() || undefined,
+    title: input.title?.trim() || undefined,
+  };
+}
+
+function getDuplicateMatch(
+  work: ReturnType<typeof serializeWork>,
+  input: DuplicateCheckInput,
+) {
+  const normalized = normalizeDuplicateInput(input);
+  const reasons: string[] = [];
+  let score = 0;
+
+  const titleQuery = normalizeText(normalized.title || normalized.q);
+  const sourceTitleQuery = normalizeText(
+    normalized.sourceTitle || normalized.q,
+  );
+  const artistQuery = normalizeText(normalized.artist);
+  const ipQuery = normalizeText(normalized.ip);
+  const searchQuery = normalizeText(normalized.q);
+
+  if (titleQuery && normalizeText(work.title).includes(titleQuery)) {
+    score += 45;
+    reasons.push("title match");
+  }
+  if (
+    sourceTitleQuery &&
+    normalizeText(work.source.title).includes(sourceTitleQuery)
+  ) {
+    score += 35;
+    reasons.push("source title match");
+  }
+  if (ipQuery && normalizeText(work.source.ip).includes(ipQuery)) {
+    score += 20;
+    reasons.push("source IP match");
+  }
+  if (
+    artistQuery &&
+    work.source.artists?.some((artist) =>
+      normalizeText(artist).includes(artistQuery),
+    )
+  ) {
+    score += 20;
+    reasons.push("artist match");
+  }
+  if (searchQuery && getSearchText(work).includes(searchQuery)) {
+    score += 15;
+    reasons.push("full text match");
+  }
+  if (titleQuery && normalizeText(work.path).includes(titleQuery)) {
+    score += 10;
+    reasons.push("path match");
+  }
+
+  return {
+    reasons,
+    score: Math.min(score, 100),
+  };
+}
+
+function normalizeText(value: string | null | undefined) {
+  return (value ?? "")
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+function findRow(rows: McpWorkRow[], id: string) {
+  return (
+    rows.find(
+      (row) =>
+        row.work.contentId === id ||
+        row.work.path === id ||
+        row.work.youtube?.id === id,
+    ) ?? null
+  );
+}
+
+function getCohortRows(
+  rows: McpWorkRow[],
+  target: McpWorkRow,
+  cohort: NonNullable<CohortCompareInput["cohort"]>,
+) {
+  if (cohort === "recent") {
+    return rows
+      .filter((row) => row.work.publishedAt)
+      .sort((a, b) => getPublishedTime(b.work) - getPublishedTime(a.work));
+  }
+  if (cohort === "sameStyle") {
+    return rows.filter(
+      (row) =>
+        row.work.style.musicStyle &&
+        row.work.style.musicStyle === target.work.style.musicStyle,
+    );
+  }
+  if (cohort === "sameSourceIp") {
+    return rows.filter(
+      (row) =>
+        row.work.source.ip && row.work.source.ip === target.work.source.ip,
+    );
+  }
+  const targetLanguages = new Set(getWorkLanguages(target.work));
+  return rows.filter((row) =>
+    getWorkLanguages(row.work).some((locale) => targetLanguages.has(locale)),
+  );
+}
+
+function getRowBaseline(rows: McpWorkRow[]) {
+  return {
+    averageViewDurationSeconds: median(
+      rows.flatMap((row) =>
+        row.analytics.averageViewDurationSeconds === null
+          ? []
+          : [row.analytics.averageViewDurationSeconds],
+      ),
+    ),
+    averageViewPercentage: median(
+      rows.flatMap((row) =>
+        row.analytics.averageViewPercentage === null
+          ? []
+          : [row.analytics.averageViewPercentage],
+      ),
+    ),
+    subscribersPer1000Views: median(
+      rows.flatMap((row) =>
+        row.analytics.subscribersPer1000Views === null
+          ? []
+          : [row.analytics.subscribersPer1000Views],
+      ),
+    ),
+    views: median(rows.map((row) => row.analytics.views)),
+  };
+}
+
+function getMetricComparisons(
+  target: McpWorkRow,
+  baseline: ReturnType<typeof getRowBaseline>,
+) {
+  return {
+    averageViewDurationSeconds: compareMetric(
+      target.analytics.averageViewDurationSeconds,
+      baseline.averageViewDurationSeconds,
+    ),
+    averageViewPercentage: compareMetric(
+      target.analytics.averageViewPercentage,
+      baseline.averageViewPercentage,
+    ),
+    subscribersPer1000Views: compareMetric(
+      target.analytics.subscribersPer1000Views,
+      baseline.subscribersPer1000Views,
+    ),
+    views: compareMetric(target.analytics.views, baseline.views),
+  };
+}
+
+function compareMetric(value: number | null, baseline: number) {
+  if (value === null || baseline === 0) {
+    return {
+      baseline,
+      deltaPercent: null,
+      value,
+    };
+  }
+
+  return {
+    baseline,
+    deltaPercent: ((value - baseline) / baseline) * 100,
+    value,
+  };
+}
+
+function getVersionDifferences(
+  baseline: ReturnType<typeof serializeWork>,
+  version: ReturnType<typeof serializeWork>,
+) {
+  return {
+    descriptionChanged:
+      baseline.description.shortDescription !==
+      version.description.shortDescription,
+    lyricsChanged: baseline.lyrics !== version.lyrics,
+    sourceChanged:
+      baseline.source.title !== version.source.title ||
+      baseline.source.ip !== version.source.ip,
+    styleChanged:
+      baseline.style.musicStyle !== version.style.musicStyle ||
+      baseline.style.workType !== version.style.workType,
+    subtitleLanguagesAdded: version.subtitles.languages.filter(
+      (locale) => !baseline.subtitles.languages.includes(locale),
+    ),
+    titleChanged: baseline.title !== version.title,
+    youtubeLocalizationLanguagesAdded: Object.keys(
+      version.youtube?.localizations ?? {},
+    ).filter(
+      (locale) =>
+        !Object.keys(baseline.youtube?.localizations ?? {}).includes(locale),
+    ),
+  };
+}
+
+function getVersionComparisonSummary(
+  versions: {
+    analytics: ReturnType<typeof serializeSnapshot> | null;
+    contentId: string;
+    publishedAt: string | null;
+    title: string;
+    work: ReturnType<typeof serializeWork>;
+  }[],
+) {
+  if (versions.length < 2) {
+    return "Not enough versions were found. Provide explicit ids or a more specific query.";
+  }
+
+  const first = versions[0];
+  const latest = versions[versions.length - 1];
+  return `${versions.length} possible version(s) found. Earliest is ${first.title} (${first.contentId}, ${first.publishedAt ?? "unknown date"}); latest is ${latest.title} (${latest.contentId}, ${latest.publishedAt ?? "unknown date"}).`;
 }
 
 function getComparableReasons(

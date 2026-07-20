@@ -1,9 +1,13 @@
 import {
+  checkAdminMcpContentDuplicate,
+  compareAdminMcpAnalyticsCohort,
+  compareAdminMcpVersions,
   findAdminMcpAnalyticsOutliers,
   getAdminMcpAnalyticsCompare,
   getAdminMcpAnalyticsOverview,
   getAdminMcpAnalyticsWork,
   getAdminMcpContentWork,
+  getAdminMcpRecentWorks,
   getAdminMcpWorkInsight,
   listAdminMcpAnalyticsWorks,
   listAdminMcpContentWorks,
@@ -179,6 +183,73 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
+      "Check whether a song/source has already been made by Sovia. Returns likely duplicate, version, same-IP, and partial matches with scores and reasons.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        artist: {
+          description: "Original artist or performer name to match.",
+          type: "string",
+        },
+        ip: {
+          description: "Source IP or franchise name to match.",
+          type: "string",
+        },
+        limit: {
+          default: 20,
+          description: "Maximum number of matches to return. 1-100.",
+          maximum: 100,
+          minimum: 1,
+          type: "integer",
+        },
+        q: {
+          description:
+            "General query across titles, source fields, lyrics, descriptions, and platform metadata.",
+          type: "string",
+        },
+        sourceTitle: {
+          description: "Original source song/work title to match.",
+          type: "string",
+        },
+        title: {
+          description: "Sovia song title or candidate title to match.",
+          type: "string",
+        },
+      },
+      type: "object",
+    },
+    name: "content_check_duplicate",
+  },
+  {
+    description:
+      "List recent Sovia works sorted by publishedAt descending. Useful before recommending new song candidates.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        hasYoutube: {
+          description: "Filter works by whether a YouTube video ID is present.",
+          type: "boolean",
+        },
+        limit: {
+          default: 20,
+          description: "Maximum number of works to return. 1-100.",
+          maximum: 100,
+          minimum: 1,
+          type: "integer",
+        },
+        offset: {
+          default: 0,
+          description: "Pagination offset.",
+          minimum: 0,
+          type: "integer",
+        },
+      },
+      type: "object",
+    },
+    name: "content_get_recent_works",
+  },
+  {
+    description:
       "Get read-only Sovia content data for one work. Accepts contentId, path, or YouTube video ID.",
     inputSchema: {
       additionalProperties: false,
@@ -214,6 +285,64 @@ const tools: ToolDefinition[] = [
       "Find analytics outliers, including strong overall works, retention issues, low-reach high-retention works, subscriber converters, and missing analytics depth.",
     inputSchema: { additionalProperties: false, type: "object" },
     name: "analytics_find_outliers",
+  },
+  {
+    description:
+      "Compare one work against a cohort using existing lifetime analytics snapshots. Cohorts: recent, sameLanguage, sameStyle, sameSourceIp.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        cohort: {
+          description:
+            "Cohort strategy: recent, sameLanguage, sameStyle, or sameSourceIp.",
+          enum: ["recent", "sameLanguage", "sameStyle", "sameSourceIp"],
+          type: "string",
+        },
+        id: {
+          description: "Content ID, path, or YouTube video ID.",
+          type: "string",
+        },
+        limit: {
+          default: 10,
+          description: "Maximum number of comparable works to return. 1-100.",
+          maximum: 100,
+          minimum: 1,
+          type: "integer",
+        },
+      },
+      required: ["id"],
+      type: "object",
+    },
+    name: "analytics_compare_cohort",
+  },
+  {
+    description:
+      "Compare old/remake/version candidates by explicit ids or a search query, including analytics and content differences.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        ids: {
+          description:
+            "Explicit content IDs, paths, or YouTube video IDs to compare.",
+          items: { type: "string" },
+          type: "array",
+        },
+        limit: {
+          default: 10,
+          description: "Maximum number of versions to return. 1-100.",
+          maximum: 100,
+          minimum: 1,
+          type: "integer",
+        },
+        q: {
+          description:
+            "Search query to find possible versions when ids are not provided.",
+          type: "string",
+        },
+      },
+      type: "object",
+    },
+    name: "analysis_compare_versions",
   },
   {
     description:
@@ -368,6 +497,18 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
       case "analytics_find_outliers":
         return makeToolResult(id, await findAdminMcpAnalyticsOutliers());
 
+      case "analytics_compare_cohort": {
+        const comparison = await compareAdminMcpAnalyticsCohort({
+          cohort: getCohortArg(args.cohort),
+          id: getRequiredString(args, "id"),
+          limit: toInteger(args.limit, 10),
+        });
+        return makeToolResult(
+          id,
+          comparison ?? { error: "Work analytics not found." },
+        );
+      }
+
       case "content_list_works":
         return makeToolResult(
           id,
@@ -378,6 +519,22 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
         return makeToolResult(
           id,
           await searchAdminMcpContentWorks(getContentSearchArgs(args)),
+        );
+
+      case "content_check_duplicate":
+        return makeToolResult(
+          id,
+          await checkAdminMcpContentDuplicate(getDuplicateCheckArgs(args)),
+        );
+
+      case "content_get_recent_works":
+        return makeToolResult(
+          id,
+          await getAdminMcpRecentWorks({
+            hasYoutube: toOptionalBoolean(args.hasYoutube),
+            limit: toInteger(args.limit, 20),
+            offset: toInteger(args.offset, 0),
+          }),
         );
 
       case "content_get_work": {
@@ -393,6 +550,12 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
         );
         return makeToolResult(id, insight ?? { error: "Work not found." });
       }
+
+      case "analysis_compare_versions":
+        return makeToolResult(
+          id,
+          await compareAdminMcpVersions(getVersionCompareArgs(args)),
+        );
 
       case "content_list_missing_fields":
         return makeToolResult(id, await listAdminMcpMissingContentFields());
@@ -470,6 +633,36 @@ function getContentSearchArgs(args: Record<string, unknown>) {
     visible: toOptionalBoolean(args.visible),
     workType: toOptionalString(args.workType),
   };
+}
+
+function getDuplicateCheckArgs(args: Record<string, unknown>) {
+  return {
+    artist: toOptionalString(args.artist),
+    ip: toOptionalString(args.ip),
+    limit: toInteger(args.limit, 20),
+    q: toOptionalString(args.q),
+    sourceTitle: toOptionalString(args.sourceTitle),
+    title: toOptionalString(args.title),
+  };
+}
+
+function getVersionCompareArgs(args: Record<string, unknown>) {
+  return {
+    ids: Array.isArray(args.ids)
+      ? args.ids.filter((item): item is string => typeof item === "string")
+      : undefined,
+    limit: toInteger(args.limit, 10),
+    q: toOptionalString(args.q),
+  };
+}
+
+function getCohortArg(value: unknown) {
+  return value === "recent" ||
+    value === "sameLanguage" ||
+    value === "sameSourceIp" ||
+    value === "sameStyle"
+    ? value
+    : undefined;
 }
 
 function getRequiredString(args: Record<string, unknown>, key: string) {
