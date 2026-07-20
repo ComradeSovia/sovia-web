@@ -15,6 +15,7 @@ export const dynamic = "force-dynamic";
 
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_TOKENINFO_URL = "https://oauth2.googleapis.com/tokeninfo";
+const ADMIN_GOOGLE_NEXT_COOKIE_NAME = "sovia-admin-google-next";
 
 type EnabledGoogleConfig = Extract<
   ReturnType<typeof getGoogleAdminConfig>,
@@ -49,8 +50,16 @@ function redirectToAdmin(request: NextRequest, reason?: string) {
     ...getGoogleOAuthStateCookieOptions(),
     maxAge: 0,
   });
+  response.cookies.set(ADMIN_GOOGLE_NEXT_COOKIE_NAME, "", {
+    ...getGoogleOAuthStateCookieOptions(),
+    maxAge: 0,
+  });
 
   return response;
+}
+
+function getSafeAdminReturnPath(value: string | undefined) {
+  return value?.startsWith("/") && !value.startsWith("//") ? value : "/admin";
 }
 
 async function exchangeCodeForIdToken(
@@ -165,13 +174,20 @@ export async function GET(request: NextRequest) {
     }
 
     const sessionCookie = createGoogleAdminSessionCookieValue(identity);
-    const response = NextResponse.redirect(new URL("/admin", request.url));
+    const returnTo = getSafeAdminReturnPath(
+      request.cookies.get(ADMIN_GOOGLE_NEXT_COOKIE_NAME)?.value,
+    );
+    const response = NextResponse.redirect(new URL(returnTo, request.url));
     response.cookies.set(
       ADMIN_SESSION_COOKIE_NAME,
       sessionCookie,
       getAdminSessionCookieOptions(),
     );
     response.cookies.set(ADMIN_GOOGLE_STATE_COOKIE_NAME, "", {
+      ...getGoogleOAuthStateCookieOptions(),
+      maxAge: 0,
+    });
+    response.cookies.set(ADMIN_GOOGLE_NEXT_COOKIE_NAME, "", {
       ...getGoogleOAuthStateCookieOptions(),
       maxAge: 0,
     });

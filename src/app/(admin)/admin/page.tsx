@@ -17,6 +17,7 @@ export default async function AdminRoute({
   searchParams,
 }: {
   searchParams: Promise<{
+    next?: string;
     youtubeMessage?: string;
     youtubeStatus?: string;
   }>;
@@ -24,6 +25,7 @@ export default async function AdminRoute({
   const params = await searchParams;
   return (
     <AdminDashboardPage
+      returnTo={params.next}
       youtubeMessage={params.youtubeMessage}
       youtubeStatus={params.youtubeStatus}
     />

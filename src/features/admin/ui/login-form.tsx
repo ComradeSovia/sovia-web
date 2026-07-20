@@ -14,8 +14,10 @@ import type { AdminAuthMode } from "../data/auth";
 
 export function AdminLogin({
   mode,
+  returnTo,
 }: {
   mode: Exclude<AdminAuthMode, "disabled">;
+  returnTo?: string;
 }) {
   return (
     <section className="flex min-h-[calc(100vh-7rem)] items-center lg:min-h-[calc(100vh-2.5rem)]">
@@ -28,6 +30,9 @@ export function AdminLogin({
         <CardContent>
           {mode === "password" ? (
             <form action={loginAdmin} className="grid gap-5">
+              {returnTo ? (
+                <input name="returnTo" type="hidden" value={returnTo} />
+              ) : null}
               <div className="grid gap-2">
                 <Label htmlFor="admin-password">Password</Label>
                 <Input
@@ -42,7 +47,15 @@ export function AdminLogin({
             </form>
           ) : (
             <Button asChild className="w-full">
-              <Link href="/admin/login/google">Continue with Google</Link>
+              <Link
+                href={
+                  returnTo
+                    ? `/admin/login/google?next=${encodeURIComponent(returnTo)}`
+                    : "/admin/login/google"
+                }
+              >
+                Continue with Google
+              </Link>
             </Button>
           )}
         </CardContent>

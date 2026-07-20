@@ -144,7 +144,13 @@ function matchActionStatus(value?: string): ActionStatus {
   return value === "success" ? "success" : "error";
 }
 
-async function AdminGate({ children }: { children: ReactNode }) {
+async function AdminGate({
+  children,
+  returnTo,
+}: {
+  children: ReactNode;
+  returnTo?: string;
+}) {
   const authStatus = getAdminAuthStatus();
 
   if (!authStatus.enabled) {
@@ -163,7 +169,7 @@ async function AdminGate({ children }: { children: ReactNode }) {
   }
 
   if (!(await isAdminAuthenticated())) {
-    return <AdminLogin mode={authStatus.mode} />;
+    return <AdminLogin mode={authStatus.mode} returnTo={returnTo} />;
   }
 
   return <>{children}</>;
@@ -198,14 +204,16 @@ function DatabaseError({
 }
 
 export async function AdminDashboardPage({
+  returnTo,
   youtubeMessage,
   youtubeStatus,
 }: {
+  returnTo?: string;
   youtubeMessage?: string;
   youtubeStatus?: string;
 } = {}) {
   return (
-    <AdminGate>
+    <AdminGate returnTo={returnTo}>
       <section className="space-y-5">
         <Card className={CARD_CLASS}>
           <CardHeader>

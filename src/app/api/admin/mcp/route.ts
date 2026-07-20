@@ -6,6 +6,12 @@ import {
   listAdminMcpAnalyticsWorks,
   listAdminMcpContentWorks,
 } from "@sovia/admin/data/admin-mcp-data";
+import {
+  getMcpOAuthServerInfo,
+  getMcpUnauthorizedHeaders,
+  isMcpOAuthConfigured,
+  isValidMcpOAuthAccessToken,
+} from "@sovia/admin/data/mcp-oauth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -137,6 +143,7 @@ export async function GET() {
     endpoint: "/api/admin/mcp",
     message:
       "Sovia Admin MCP is a JSON-RPC MCP endpoint. Send POST requests with MCP methods such as initialize, tools/list, and tools/call.",
+    oauth: getMcpOAuthServerInfo(),
     readonly: true,
     tools: tools.map((tool) => tool.name),
   });
@@ -269,20 +276,31 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
 
 function getAuthError(request: Request) {
   const configuredKey = process.env.SOVIA_ADMIN_MCP_API_KEY?.trim();
-  if (!configuredKey) {
+  const authorization = request.headers.get("authorization") ?? "";
+  const token = authorization.replace(/^Bearer\s+/i, "").trim();
+
+  if (token && isValidMcpOAuthAccessToken(token)) {
+    return null;
+  }
+
+  if (configuredKey && token === configuredKey) {
+    return null;
+  }
+
+  if (!configuredKey && !isMcpOAuthConfigured()) {
     return jsonResponse(
-      { message: "SOVIA_ADMIN_MCP_API_KEY is not configured." },
+      {
+        message:
+          "Unauthorized. Configure OAuth or set SOVIA_ADMIN_MCP_API_KEY for static Bearer access.",
+      },
       { status: 503 },
     );
   }
 
-  const authorization = request.headers.get("authorization") ?? "";
-  const token = authorization.replace(/^Bearer\s+/i, "").trim();
-  if (token !== configuredKey) {
-    return jsonResponse({ message: "Unauthorized." }, { status: 401 });
-  }
-
-  return null;
+  return jsonResponse(
+    { message: "Unauthorized." },
+    { headers: getMcpUnauthorizedHeaders(request), status: 401 },
+  );
 }
 
 function getPaginationArgs(args: Record<string, unknown>) {

@@ -60,6 +60,10 @@ function getFormString(formData: FormData, key: string) {
   return typeof value === "string" ? value : "";
 }
 
+function getSafeAdminReturnPath(value: string) {
+  return value.startsWith("/") && !value.startsWith("//") ? value : "/admin";
+}
+
 function getActionErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error && error.message ? error.message : fallback;
 }
@@ -492,8 +496,9 @@ function applyStepDraft(
 
 export async function loginAdmin(formData: FormData) {
   const password = getString(formData, "password");
+  const returnTo = getSafeAdminReturnPath(getString(formData, "returnTo"));
   await createPasswordAdminSession(password);
-  redirect("/admin");
+  redirect(returnTo);
 }
 
 export async function logoutAdmin() {
