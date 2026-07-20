@@ -35,6 +35,14 @@ type VideoMetricRow = {
   views: number;
 };
 
+type VideoTrafficSourceRow = {
+  engagedViews: number;
+  estimatedMinutesWatched?: number;
+  sourceType: string;
+  videoId: string;
+  views: number;
+};
+
 type VideoPublicStats = {
   comments: number;
   likes: number;
@@ -48,6 +56,15 @@ const SYNC_ID = "primary";
 const LIFETIME_PERIOD_DAYS = 0;
 const LIFETIME_START_DATE = "2005-01-01";
 const PERIOD_DAYS = [LIFETIME_PERIOD_DAYS, 7, 28, 90] as const;
+const EARLY_PERFORMANCE_WINDOWS_HOURS = [24, 72, 168] as const;
+const EARLY_PERFORMANCE_SYNC_LIMIT = 50;
+const EARLY_PERFORMANCE_GRANULARITY = "calendar_day";
+const TRAFFIC_SOURCE_PERIOD_DAYS = 90;
+const TRAFFIC_SOURCE_METRICS = [
+  "views",
+  "estimatedMinutesWatched",
+  "engagedViews",
+].join(",");
 const CORE_METRICS = [
   "views",
   "estimatedMinutesWatched",
@@ -79,6 +96,42 @@ export async function listLatestYoutubeAnalyticsSnapshots(
   return prisma.adminYoutubeVideoAnalyticsSnapshot.findMany({
     orderBy: [{ views: "desc" }, { contentId: "asc" }],
     where: { endDate: latest.endDate, periodDays },
+  });
+}
+
+export async function listLatestYoutubeEarlyPerformanceSnapshots(
+  contentId?: string,
+) {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+
+  return prisma.adminYoutubeVideoEarlyPerformanceSnapshot.findMany({
+    orderBy: [{ contentId: "asc" }, { elapsedHours: "asc" }],
+    where: contentId ? { contentId } : undefined,
+  });
+}
+
+export async function listLatestYoutubeTrafficSourceSnapshots(
+  contentId?: string,
+  periodDays = TRAFFIC_SOURCE_PERIOD_DAYS,
+) {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+
+  const latest = await prisma.adminYoutubeVideoTrafficSourceSnapshot.findFirst({
+    orderBy: { syncedAt: "desc" },
+    select: { endDate: true },
+    where: { periodDays, ...(contentId ? { contentId } : {}) },
+  });
+  if (!latest) return [];
+
+  return prisma.adminYoutubeVideoTrafficSourceSnapshot.findMany({
+    orderBy: [{ views: "desc" }, { sourceType: "asc" }],
+    where: {
+      endDate: latest.endDate,
+      periodDays,
+      ...(contentId ? { contentId } : {}),
+    },
   });
 }
 
@@ -198,6 +251,30 @@ export async function syncAdminYoutubeAnalytics() {
         });
       }
     }
+    const earlyPerformanceRows = await syncEarlyPerformanceSnapshots({
+      accessToken,
+      endDate,
+      works,
+    }).catch((error) => {
+      warnings.add(
+        error instanceof Error
+          ? `Early performance sync skipped: ${error.message}`
+          : "Early performance sync skipped.",
+      );
+      return 0;
+    });
+    const trafficSourceRows = await syncTrafficSourceSnapshots({
+      accessToken,
+      endDate,
+      works,
+    }).catch((error) => {
+      warnings.add(
+        error instanceof Error
+          ? `Traffic source sync skipped: ${error.message}`
+          : "Traffic source sync skipped.",
+      );
+      return 0;
+    });
     if (lifetimeAnalyticsRows === 0) {
       warnings.add(
         "Lifetime Analytics returned no rows; synced Data API totals only.",
@@ -210,6 +287,8 @@ export async function syncAdminYoutubeAnalytics() {
           warnings,
           publicStats.size,
           lifetimeAnalyticsRows,
+          earlyPerformanceRows,
+          trafficSourceRows,
         ),
         status: "success",
         syncedAt: new Date(),
@@ -222,6 +301,8 @@ export async function syncAdminYoutubeAnalytics() {
         warnings,
         publicStats.size,
         lifetimeAnalyticsRows,
+        earlyPerformanceRows,
+        trafficSourceRows,
       ),
       synced: works.length,
     };
@@ -234,6 +315,144 @@ export async function syncAdminYoutubeAnalytics() {
     });
     throw new Error(message);
   }
+}
+
+async function syncEarlyPerformanceSnapshots({
+  accessToken,
+  endDate,
+  works,
+}: {
+  accessToken: string;
+  endDate: string;
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>;
+}) {
+  const prisma = getPrismaClient();
+  if (!prisma) throw new Error("Database is unavailable.");
+
+  const publishedWorks = works
+    .filter((work) => work.u2bId && getDateOnly(work.publishedAt))
+    .sort(
+      (a, b) =>
+        Date.parse(`${getDateOnly(b.publishedAt)}T00:00:00.000Z`) -
+        Date.parse(`${getDateOnly(a.publishedAt)}T00:00:00.000Z`),
+    )
+    .slice(0, EARLY_PERFORMANCE_SYNC_LIMIT);
+  let syncedRows = 0;
+
+  for (const work of publishedWorks) {
+    if (!work.u2bId) continue;
+    const publishedDate = getDateOnly(work.publishedAt);
+    if (!publishedDate) continue;
+
+    for (const elapsedHours of EARLY_PERFORMANCE_WINDOWS_HOURS) {
+      const elapsedDays = elapsedHours / 24;
+      const windowEndDate = minDate(
+        shiftDate(publishedDate, elapsedDays - 1),
+        endDate,
+      );
+      if (windowEndDate < publishedDate) continue;
+
+      const rows = await queryVideoMetrics({
+        accessToken,
+        endDate: windowEndDate,
+        metrics: CORE_METRICS,
+        startDate: publishedDate,
+        videoIds: [work.u2bId],
+      });
+      const core = rows.get(work.u2bId);
+      if (!core) continue;
+
+      await prisma.adminYoutubeVideoEarlyPerformanceSnapshot.upsert({
+        create: {
+          contentId: work.contentId,
+          elapsedHours,
+          endDate: windowEndDate,
+          granularity: EARLY_PERFORMANCE_GRANULARITY,
+          startDate: publishedDate,
+          videoId: work.u2bId,
+          ...getEarlyPerformanceData(core),
+        },
+        update: {
+          endDate: windowEndDate,
+          granularity: EARLY_PERFORMANCE_GRANULARITY,
+          startDate: publishedDate,
+          syncedAt: new Date(),
+          ...getEarlyPerformanceData(core),
+        },
+        where: {
+          videoId_elapsedHours: {
+            elapsedHours,
+            videoId: work.u2bId,
+          },
+        },
+      });
+      syncedRows += 1;
+    }
+  }
+
+  return syncedRows;
+}
+
+async function syncTrafficSourceSnapshots({
+  accessToken,
+  endDate,
+  works,
+}: {
+  accessToken: string;
+  endDate: string;
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>;
+}) {
+  const prisma = getPrismaClient();
+  if (!prisma) throw new Error("Database is unavailable.");
+
+  const videoIdToWork = new Map(
+    works.flatMap((work) => (work.u2bId ? [[work.u2bId, work] as const] : [])),
+  );
+  const videoIds = Array.from(videoIdToWork.keys());
+  const startDate = shiftDate(endDate, -(TRAFFIC_SOURCE_PERIOD_DAYS - 1));
+  let syncedRows = 0;
+
+  for (const chunk of chunkItems(videoIds, 25)) {
+    const rows = await queryTrafficSourceMetrics({
+      accessToken,
+      endDate,
+      startDate,
+      videoIds: chunk,
+    });
+
+    for (const row of rows) {
+      const work = videoIdToWork.get(row.videoId);
+      if (!work) continue;
+      await prisma.adminYoutubeVideoTrafficSourceSnapshot.upsert({
+        create: {
+          contentId: work.contentId,
+          endDate,
+          periodDays: TRAFFIC_SOURCE_PERIOD_DAYS,
+          sourceType: row.sourceType,
+          startDate,
+          videoId: row.videoId,
+          ...getTrafficSourceData(row),
+        },
+        update: {
+          endDate,
+          startDate,
+          syncedAt: new Date(),
+          ...getTrafficSourceData(row),
+        },
+        where: {
+          videoId_periodDays_endDate_sourceType: {
+            endDate,
+            periodDays: TRAFFIC_SOURCE_PERIOD_DAYS,
+            sourceType: row.sourceType,
+            videoId: row.videoId,
+          },
+        },
+      });
+      syncedRows += 1;
+    }
+  }
+
+  return syncedRows;
 }
 
 async function queryYouTubeVideoPublicStats({
@@ -323,6 +542,57 @@ async function queryVideoMetrics({
   return parseVideoMetricRows(payload);
 }
 
+async function queryTrafficSourceMetrics({
+  accessToken,
+  endDate,
+  startDate,
+  videoIds,
+}: {
+  accessToken: string;
+  endDate: string;
+  startDate: string;
+  videoIds: string[];
+}) {
+  const rows: VideoTrafficSourceRow[] = [];
+  let startIndex = 1;
+
+  while (true) {
+    const params = new URLSearchParams({
+      dimensions: "video,insightTrafficSourceType",
+      endDate,
+      filters: `video==${videoIds.join(",")}`,
+      ids: "channel==MINE",
+      maxResults: "500",
+      metrics: TRAFFIC_SOURCE_METRICS,
+      sort: "-views",
+      startDate,
+      startIndex: String(startIndex),
+    });
+    const response = await fetch(`${ANALYTICS_API_URL}?${params}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      method: "GET",
+    });
+    const payload = (await response
+      .json()
+      .catch(() => null)) as AnalyticsResponse | null;
+
+    if (!response.ok) {
+      throw new Error(
+        payload?.error?.message ||
+          payload?.error?.error_description ||
+          "YouTube traffic source report could not be loaded.",
+      );
+    }
+
+    const pageRows = parseTrafficSourceRows(payload);
+    rows.push(...pageRows);
+    if (pageRows.length < 500) break;
+    startIndex += pageRows.length;
+  }
+
+  return rows;
+}
+
 function parseVideoMetricRows(payload: AnalyticsResponse | null) {
   const headers = payload?.columnHeaders?.map((header) => header.name) ?? [];
   const rows = new Map<string, VideoMetricRow>();
@@ -350,6 +620,33 @@ function parseVideoMetricRows(payload: AnalyticsResponse | null) {
   return rows;
 }
 
+function parseTrafficSourceRows(payload: AnalyticsResponse | null) {
+  const headers = payload?.columnHeaders?.map((header) => header.name) ?? [];
+  const rows: VideoTrafficSourceRow[] = [];
+
+  for (const row of payload?.rows ?? []) {
+    const record = Object.fromEntries(
+      headers.map((header, index) => [header, row[index]]),
+    );
+    const videoId = typeof record.video === "string" ? record.video : null;
+    const sourceType =
+      typeof record.insightTrafficSourceType === "string"
+        ? record.insightTrafficSourceType
+        : null;
+    if (!videoId || !sourceType) continue;
+
+    rows.push({
+      engagedViews: toInteger(record.engagedViews),
+      estimatedMinutesWatched: toOptionalNumber(record.estimatedMinutesWatched),
+      sourceType,
+      videoId,
+      views: toInteger(record.views),
+    });
+  }
+
+  return rows;
+}
+
 function getSnapshotData(
   core: VideoMetricRow | undefined,
   stats: VideoPublicStats | undefined,
@@ -368,12 +665,35 @@ function getSnapshotData(
   };
 }
 
+function getEarlyPerformanceData(core: VideoMetricRow) {
+  return {
+    averageViewDuration: core.averageViewDuration,
+    averageViewPercentage: core.averageViewPercentage,
+    comments: core.comments,
+    estimatedMinutesWatched: core.estimatedMinutesWatched,
+    likes: core.likes,
+    shares: core.shares,
+    subscribersGained: core.subscribersGained,
+    views: core.views,
+  };
+}
+
+function getTrafficSourceData(row: VideoTrafficSourceRow) {
+  return {
+    engagedViews: row.engagedViews,
+    estimatedMinutesWatched: row.estimatedMinutesWatched,
+    views: row.views,
+  };
+}
+
 function getSyncMessage(
   warnings: Set<string>,
   publicStatsCount: number,
   lifetimeAnalyticsRows: number,
+  earlyPerformanceRows: number,
+  trafficSourceRows: number,
 ) {
-  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s).`;
+  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), and ${trafficSourceRows} traffic source row(s).`;
   const warning = Array.from(warnings)[0];
   return warning ? `${base} ${warning}` : base;
 }
@@ -388,6 +708,15 @@ function chunkItems<T>(items: T[], size: number) {
 
 function getAnalyticsEndDate() {
   return shiftDate(new Date().toISOString().slice(0, 10), -1);
+}
+
+function getDateOnly(value: string | null | undefined) {
+  const date = value?.slice(0, 10);
+  return date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : undefined;
+}
+
+function minDate(left: string, right: string) {
+  return left < right ? left : right;
 }
 
 function shiftDate(dateValue: string, days: number) {

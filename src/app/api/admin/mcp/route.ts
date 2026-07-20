@@ -7,7 +7,9 @@ import {
   getAdminMcpAnalyticsOverview,
   getAdminMcpAnalyticsWork,
   getAdminMcpContentWork,
+  getAdminMcpEarlyPerformance,
   getAdminMcpRecentWorks,
+  getAdminMcpTrafficSources,
   getAdminMcpWorkInsight,
   listAdminMcpAnalyticsWorks,
   listAdminMcpContentWorks,
@@ -317,6 +319,43 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
+      "Get synced early performance windows for a work or all synced works. Uses publish-date calendar windows: 24h, 72h, and 168h where available.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        id: {
+          description:
+            "Optional content ID, path, or YouTube video ID. Omit to list all synced early performance snapshots.",
+          type: "string",
+        },
+      },
+      type: "object",
+    },
+    name: "analytics_get_early_performance",
+  },
+  {
+    description:
+      "Get synced YouTube traffic source analytics by insightTrafficSourceType for a work or all works. Defaults to the latest 90-day traffic source sync.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        id: {
+          description:
+            "Optional content ID, path, or YouTube video ID. Omit to list all synced traffic source snapshots.",
+          type: "string",
+        },
+        periodDays: {
+          default: 90,
+          description: "Traffic source period in days. Currently synced as 90.",
+          type: "integer",
+        },
+      },
+      type: "object",
+    },
+    name: "analytics_get_traffic_sources",
+  },
+  {
+    description:
       "Compare old/remake/version candidates by explicit ids or a search query, including analytics and content differences.",
     inputSchema: {
       additionalProperties: false,
@@ -508,6 +547,23 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           comparison ?? { error: "Work analytics not found." },
         );
       }
+
+      case "analytics_get_early_performance":
+        return makeToolResult(
+          id,
+          await getAdminMcpEarlyPerformance({
+            id: toOptionalString(args.id),
+          }),
+        );
+
+      case "analytics_get_traffic_sources":
+        return makeToolResult(
+          id,
+          await getAdminMcpTrafficSources({
+            id: toOptionalString(args.id),
+            periodDays: toInteger(args.periodDays, 90),
+          }),
+        );
 
       case "content_list_works":
         return makeToolResult(

@@ -36,3 +36,48 @@ model AdminYoutubeVideoAnalyticsSnapshot {
   @@index([periodDays, endDate])
   @@map("admin_youtube_video_analytics_snapshots")
 }
+
+model AdminYoutubeVideoEarlyPerformanceSnapshot {
+  id                      String    @id @default(cuid())
+  contentId               String
+  videoId                 String
+  elapsedHours            Int
+  granularity             String
+  startDate               String
+  endDate                 String
+  views                   Int       @default(0)
+  estimatedMinutesWatched Float?
+  averageViewDuration     Float?
+  averageViewPercentage   Float?
+  subscribersGained       Int       @default(0)
+  likes                   Int       @default(0)
+  comments                Int       @default(0)
+  shares                  Int       @default(0)
+  syncedAt                DateTime  @default(now())
+  work                    MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@unique([videoId, elapsedHours])
+  @@index([contentId])
+  @@index([elapsedHours])
+  @@map("admin_youtube_video_early_performance_snapshots")
+}
+
+model AdminYoutubeVideoTrafficSourceSnapshot {
+  id                      String    @id @default(cuid())
+  contentId               String
+  videoId                 String
+  periodDays              Int
+  startDate               String
+  endDate                 String
+  sourceType              String
+  views                   Int       @default(0)
+  estimatedMinutesWatched Float?
+  engagedViews            Int       @default(0)
+  syncedAt                DateTime  @default(now())
+  work                    MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@unique([videoId, periodDays, endDate, sourceType])
+  @@index([contentId])
+  @@index([periodDays, endDate])
+  @@map("admin_youtube_video_traffic_source_snapshots")
+}

@@ -2,12 +2,20 @@ import { listAdminMusicWorks } from "./music-admin";
 import {
   getYoutubeAnalyticsSyncStatus,
   listLatestYoutubeAnalyticsSnapshots,
+  listLatestYoutubeEarlyPerformanceSnapshots,
+  listLatestYoutubeTrafficSourceSnapshots,
 } from "./youtube-analytics";
 
 type Snapshot = Awaited<
   ReturnType<typeof listLatestYoutubeAnalyticsSnapshots>
 >[number];
 type Work = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
+type EarlyPerformanceSnapshot = Awaited<
+  ReturnType<typeof listLatestYoutubeEarlyPerformanceSnapshots>
+>[number];
+type TrafficSourceSnapshot = Awaited<
+  ReturnType<typeof listLatestYoutubeTrafficSourceSnapshots>
+>[number];
 
 type McpWorkRow = {
   analytics: ReturnType<typeof serializeSnapshot>;
@@ -408,6 +416,45 @@ export async function compareAdminMcpVersions(input: VersionCompareInput) {
   };
 }
 
+export async function getAdminMcpEarlyPerformance({ id }: { id?: string }) {
+  const work = id ? await getAdminMcpContentWork(id) : null;
+  const snapshots = await listLatestYoutubeEarlyPerformanceSnapshots(
+    work?.contentId ?? id,
+  );
+
+  return {
+    granularity: "calendar_day",
+    items: snapshots.map(serializeEarlyPerformanceSnapshot),
+    notes: [
+      "YouTube Analytics API data is date-window based here, not exact clock-hour data.",
+      "24h means publish-date calendar day; 72h means publish date plus two days; 168h means publish date plus six days.",
+      "The sync currently backfills the most recent 50 published YouTube works to stay quota-conscious.",
+    ],
+    work,
+  };
+}
+
+export async function getAdminMcpTrafficSources({
+  id,
+  periodDays = 90,
+}: {
+  id?: string;
+  periodDays?: number;
+}) {
+  const work = id ? await getAdminMcpContentWork(id) : null;
+  const snapshots = await listLatestYoutubeTrafficSourceSnapshots(
+    work?.contentId ?? id,
+    periodDays,
+  );
+
+  return {
+    items: snapshots.map(serializeTrafficSourceSnapshot),
+    periodDays,
+    sourceTypes: getTrafficSourceTypeDescriptions(),
+    work,
+  };
+}
+
 export async function findAdminMcpAnalyticsOutliers() {
   const data = await getAdminMcpAnalyticsData();
   const rows = data.rows;
@@ -624,6 +671,66 @@ function serializeSnapshot(snapshot: Snapshot) {
     views: snapshot.views,
     watchTimePerImpressionSeconds: null,
   };
+}
+
+function serializeEarlyPerformanceSnapshot(snapshot: EarlyPerformanceSnapshot) {
+  return {
+    averageViewDurationSeconds: snapshot.averageViewDuration,
+    averageViewPercentage: snapshot.averageViewPercentage,
+    comments: snapshot.comments,
+    elapsedHours: snapshot.elapsedHours,
+    endDate: snapshot.endDate,
+    estimatedMinutesWatched: snapshot.estimatedMinutesWatched,
+    granularity: snapshot.granularity,
+    likes: snapshot.likes,
+    shares: snapshot.shares,
+    startDate: snapshot.startDate,
+    subscribersGained: snapshot.subscribersGained,
+    syncedAt: snapshot.syncedAt.toISOString(),
+    videoId: snapshot.videoId,
+    views: snapshot.views,
+  };
+}
+
+function serializeTrafficSourceSnapshot(snapshot: TrafficSourceSnapshot) {
+  return {
+    engagedViews: snapshot.engagedViews,
+    endDate: snapshot.endDate,
+    estimatedMinutesWatched: snapshot.estimatedMinutesWatched,
+    periodDays: snapshot.periodDays,
+    sourceType: snapshot.sourceType,
+    sourceTypeDescription:
+      getTrafficSourceTypeDescriptions()[snapshot.sourceType] ?? "Unknown",
+    startDate: snapshot.startDate,
+    syncedAt: snapshot.syncedAt.toISOString(),
+    videoId: snapshot.videoId,
+    views: snapshot.views,
+  };
+}
+
+function getTrafficSourceTypeDescriptions() {
+  return {
+    ADVERTISING: "YouTube advertising",
+    ANNOTATION: "Annotation",
+    CAMPAIGN_CARD: "Campaign card",
+    END_SCREEN: "End screen",
+    EXT_URL: "External websites or apps",
+    HASHTAGS: "Hashtag pages",
+    LIVE_REDIRECT: "Live redirect",
+    NO_LINK_EMBEDDED: "Embedded player without link",
+    NO_LINK_OTHER: "Direct or unknown",
+    NOTIFICATION: "Notifications",
+    PLAYLIST: "Playlist",
+    PRODUCT_PAGE: "Product page",
+    PROMOTED: "Promoted",
+    RELATED_VIDEO: "Suggested/related video",
+    SHORTS: "Shorts feed",
+    SOUND_PAGE: "Sound page",
+    SUBSCRIBER: "Subscriptions feed",
+    YT_CHANNEL: "Channel page",
+    YT_OTHER_PAGE: "Other YouTube page",
+    YT_SEARCH: "YouTube search",
+  } as Record<string, string>;
 }
 
 function getTotals(snapshots: Snapshot[]) {

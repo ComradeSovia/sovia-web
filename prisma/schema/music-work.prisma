@@ -9,7 +9,9 @@ model MusicWork {
   source    MusicWorkSource?
   status    MusicWorkStatus?
   subtitles MusicWorkSubtitles?
-  youtubeAnalyticsSnapshots AdminYoutubeVideoAnalyticsSnapshot[]
+  youtubeAnalyticsSnapshots         AdminYoutubeVideoAnalyticsSnapshot[]
+  youtubeEarlyPerformanceSnapshots AdminYoutubeVideoEarlyPerformanceSnapshot[]
+  youtubeTrafficSourceSnapshots    AdminYoutubeVideoTrafficSourceSnapshot[]
 
   @@map("music_works")
 }
