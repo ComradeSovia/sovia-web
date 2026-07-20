@@ -1,3 +1,4 @@
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import { requireAdminSession } from "@sovia/admin/data/auth";
 import {
   deleteAdminYoutubeConnection,
@@ -17,12 +18,12 @@ export async function POST(request: NextRequest) {
       },
     ).catch(() => undefined);
     await deleteAdminYoutubeConnection();
-    const url = new URL("/admin", request.url);
+    const url = getAdminUrl("/admin", request);
     url.searchParams.set("youtubeStatus", "success");
     url.searchParams.set("youtubeMessage", "YouTube channel disconnected.");
     return NextResponse.redirect(url, 303);
   } catch (error) {
-    const url = new URL("/admin", request.url);
+    const url = getAdminUrl("/admin", request);
     url.searchParams.set("youtubeStatus", "error");
     url.searchParams.set(
       "youtubeMessage",

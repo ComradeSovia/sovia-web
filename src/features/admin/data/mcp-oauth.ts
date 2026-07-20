@@ -1,6 +1,7 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
-import { SITE_NAME, siteUrl } from "@sovia/shared";
+import { SITE_NAME } from "@sovia/shared";
 import type { NextRequest } from "next/server";
+import { getAdminRequestOrigin } from "./admin-url";
 
 const AUTHORIZATION_CODE_TTL_SECONDS = 60 * 10;
 const ACCESS_TOKEN_TTL_SECONDS = 60 * 60;
@@ -60,45 +61,8 @@ function getCurrentTimestamp() {
   return Math.floor(Date.now() / 1000);
 }
 
-function firstHeaderValue(value: string | null) {
-  return value?.split(",")[0]?.trim() || undefined;
-}
-
 function getRequestOrigin(request: NextRequest) {
-  const configuredSiteUrl =
-    getOptionalEnv("SITE_URL") || getOptionalEnv("NEXT_PUBLIC_SITE_URL");
-  if (configuredSiteUrl) {
-    try {
-      return new URL(configuredSiteUrl).origin;
-    } catch {
-      // Fall through to request headers.
-    }
-  }
-
-  const forwardedHost = firstHeaderValue(
-    request.headers.get("x-forwarded-host"),
-  );
-  const forwardedProto = firstHeaderValue(
-    request.headers.get("x-forwarded-proto"),
-  );
-  const host = forwardedHost || request.headers.get("host");
-  if (!host) return new URL(siteUrl("/")).origin;
-
-  const protocol =
-    forwardedProto ||
-    (process.env.NODE_ENV === "production"
-      ? "https"
-      : request.nextUrl.protocol.replace(/:$/, ""));
-
-  try {
-    const origin = new URL(`${protocol}://${host}`);
-    if (origin.hostname === "0.0.0.0" || origin.hostname === "::") {
-      origin.hostname = "localhost";
-    }
-    return origin.origin;
-  } catch {
-    return new URL(siteUrl("/")).origin;
-  }
+  return getAdminRequestOrigin(request);
 }
 
 function signValue(value: string, secret: string) {
@@ -242,9 +206,9 @@ export function getMcpProtectedResourceMetadata(request: NextRequest) {
 }
 
 export function getMcpUnauthorizedHeaders(request: Request) {
-  const url = new URL(request.url);
+  const origin = getAdminRequestOrigin(request);
   return {
-    "WWW-Authenticate": `Bearer resource_metadata="${url.origin}/.well-known/oauth-protected-resource"`,
+    "WWW-Authenticate": `Bearer resource_metadata="${origin}/.well-known/oauth-protected-resource"`,
   };
 }
 

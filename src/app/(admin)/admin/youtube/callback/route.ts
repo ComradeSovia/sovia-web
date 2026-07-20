@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import { requireAdminSession } from "@sovia/admin/data/auth";
 import {
   getYoutubeOAuthConfig,
@@ -29,7 +30,7 @@ function statesMatch(left?: string, right?: string) {
 }
 
 function redirect(request: NextRequest, status: string, message: string) {
-  const url = new URL("/admin", request.url);
+  const url = getAdminUrl("/admin", request);
   url.searchParams.set("youtubeStatus", status);
   url.searchParams.set("youtubeMessage", message);
   const response = NextResponse.redirect(url);
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
     const config = getYoutubeOAuthConfig();
     if (!config.ok)
       throw new Error("YouTube OAuth configuration is incomplete.");
-    const callbackUrl = new URL("/admin/youtube/callback", request.url);
+    const callbackUrl = getAdminUrl("/admin/youtube/callback", request);
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       body: new URLSearchParams({
         client_id: config.clientId,

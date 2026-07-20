@@ -1,9 +1,10 @@
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import { requireAdminSession } from "@sovia/admin/data/auth";
 import { syncAdminYoutubeAnalytics } from "@sovia/admin/data/youtube-analytics";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const url = new URL("/admin/analytics", request.url);
+  const url = getAdminUrl("/admin/analytics", request);
 
   try {
     await requireAdminSession();
@@ -18,5 +19,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(url, 303);
 }

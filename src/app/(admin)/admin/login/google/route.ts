@@ -1,3 +1,4 @@
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import {
   ADMIN_GOOGLE_STATE_COOKIE_NAME,
   createGoogleOAuthState,
@@ -19,12 +20,12 @@ function getSafeAdminReturnPath(value: string | null) {
 export async function GET(request: NextRequest) {
   const authStatus = getAdminAuthStatus();
   if (authStatus.mode !== "google") {
-    return NextResponse.redirect(new URL("/admin", request.url));
+    return NextResponse.redirect(getAdminUrl("/admin", request));
   }
 
   const googleConfig = getGoogleAdminConfig();
   if (!googleConfig.ok) {
-    return NextResponse.redirect(new URL("/admin", request.url));
+    return NextResponse.redirect(getAdminUrl("/admin", request));
   }
 
   const state = createGoogleOAuthState();

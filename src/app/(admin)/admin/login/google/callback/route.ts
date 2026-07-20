@@ -1,3 +1,4 @@
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import {
   ADMIN_GOOGLE_STATE_COOKIE_NAME,
   ADMIN_SESSION_COOKIE_NAME,
@@ -40,7 +41,7 @@ type GoogleTokenInfo = {
 };
 
 function redirectToAdmin(request: NextRequest, reason?: string) {
-  const url = new URL("/admin", request.url);
+  const url = getAdminUrl("/admin", request);
   if (reason) {
     url.searchParams.set("auth", reason);
   }
@@ -129,7 +130,7 @@ async function getVerifiedGoogleIdentity(idToken: string, clientId: string) {
 export async function GET(request: NextRequest) {
   const authStatus = getAdminAuthStatus();
   if (authStatus.mode !== "google") {
-    return NextResponse.redirect(new URL("/admin", request.url));
+    return NextResponse.redirect(getAdminUrl("/admin", request));
   }
 
   const googleConfig = getGoogleAdminConfig();
@@ -177,7 +178,7 @@ export async function GET(request: NextRequest) {
     const returnTo = getSafeAdminReturnPath(
       request.cookies.get(ADMIN_GOOGLE_NEXT_COOKIE_NAME)?.value,
     );
-    const response = NextResponse.redirect(new URL(returnTo, request.url));
+    const response = NextResponse.redirect(getAdminUrl(returnTo, request));
     response.cookies.set(
       ADMIN_SESSION_COOKIE_NAME,
       sessionCookie,

@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { getAdminUrl } from "@sovia/admin/data/admin-url";
 import { requireAdminSession } from "@sovia/admin/data/auth";
 import { getYoutubeOAuthConfig } from "@sovia/admin/data/youtube-connection";
 import { type NextRequest, NextResponse } from "next/server";
@@ -14,7 +15,7 @@ export async function GET(request: NextRequest) {
     if (!config.ok) throw new Error(`Missing: ${config.missing.join(", ")}`);
 
     const state = randomBytes(32).toString("base64url");
-    const callbackUrl = new URL("/admin/youtube/callback", request.url);
+    const callbackUrl = getAdminUrl("/admin/youtube/callback", request);
     const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
     authUrl.searchParams.set("client_id", config.clientId);
     authUrl.searchParams.set("redirect_uri", callbackUrl.toString());
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
     });
     return response;
   } catch (error) {
-    const url = new URL("/admin", request.url);
+    const url = getAdminUrl("/admin", request);
     url.searchParams.set(
       "youtube",
       error instanceof Error ? error.message : "YouTube connection failed.",
