@@ -15,6 +15,19 @@ type McpWorkRow = {
   work: ReturnType<typeof serializeWork>;
 };
 
+type ContentSearchFilters = {
+  hasLyrics?: boolean;
+  hasSubtitles?: boolean;
+  hasYoutube?: boolean;
+  language?: string;
+  limit?: number;
+  musicStyle?: string;
+  offset?: number;
+  q?: string;
+  visible?: boolean;
+  workType?: string;
+};
+
 export async function getAdminMcpAnalyticsData() {
   const [works, snapshots, syncStatus] = await Promise.all([
     listAdminMusicWorks(),
@@ -156,6 +169,197 @@ export async function getAdminMcpContentWork(id: string) {
   return serializeWork(work, work.contentId);
 }
 
+export async function searchAdminMcpContentWorks(
+  filters: ContentSearchFilters,
+) {
+  const works = await listAdminMusicWorks();
+  const safeLimit = getSafeLimit(filters.limit);
+  const safeOffset = getSafeOffset(filters.offset);
+  const matched = works
+    .map((work) => serializeWork(work, work.contentId))
+    .filter((work) => matchesContentFilters(work, filters));
+
+  return {
+    count: matched.length,
+    filters: normalizeContentSearchFilters(filters),
+    items: matched.slice(safeOffset, safeOffset + safeLimit),
+    limit: safeLimit,
+    offset: safeOffset,
+  };
+}
+
+export async function getAdminMcpWorkInsight(id: string) {
+  const data = await getAdminMcpAnalyticsData();
+  const row =
+    data.rows.find(
+      (item) =>
+        item.work.contentId === id ||
+        item.work.path === id ||
+        item.work.youtube?.id === id,
+    ) ?? null;
+  const work = row?.work ?? (await getAdminMcpContentWork(id));
+  if (!work) return null;
+
+  const comparableWorks = data.rows
+    .filter((item) => item.work.contentId !== work.contentId)
+    .map((item) => ({
+      reasons: getComparableReasons(work, item.work),
+      row: item,
+    }))
+    .filter((item) => item.reasons.length)
+    .sort((a, b) => b.reasons.length - a.reasons.length)
+    .slice(0, 5)
+    .map((item) => ({
+      analytics: item.row.analytics,
+      contentId: item.row.work.contentId,
+      diagnosis: item.row.diagnosis,
+      reasons: item.reasons,
+      title: item.row.work.title,
+      youtube: item.row.work.youtube,
+    }));
+
+  const missingData = getMissingFields(work, row?.analytics ?? null);
+  const strengths = getInsightStrengths(row, data.baseline, work);
+  const risks = getInsightRisks(row, data.baseline, work, missingData);
+
+  return {
+    analytics: row?.analytics ?? null,
+    comparableWorks,
+    diagnosis: row?.diagnosis ?? {
+      label: "no_analytics",
+      summary: "No stored YouTube Analytics snapshot is available.",
+    },
+    missingData,
+    recommendedQuestionsForAI: [
+      "Does the title and thumbnail promise match the opening of the song?",
+      "Does the first 30 seconds make the Sovia concept clear quickly enough?",
+      "Is this work mostly riding source-IP demand, or does it build Sovia audience identity?",
+      "Which comparable work suggests the next title, thumbnail, or arrangement test?",
+    ],
+    risks,
+    strengths,
+    summary: getInsightSummary(row, data.baseline, work, missingData),
+    work,
+  };
+}
+
+export async function findAdminMcpAnalyticsOutliers() {
+  const data = await getAdminMcpAnalyticsData();
+  const rows = data.rows;
+  const subscriberRates = rows.flatMap((row) =>
+    row.analytics.subscribersPer1000Views === null
+      ? []
+      : [row.analytics.subscribersPer1000Views],
+  );
+  const subscriberBaseline = median(subscriberRates);
+
+  return {
+    baseline: {
+      ...data.baseline,
+      subscribersPer1000Views: subscriberBaseline,
+    },
+    groups: {
+      highSubscribersPer1000Views: rows
+        .filter(
+          (row) =>
+            row.analytics.subscribersPer1000Views !== null &&
+            row.analytics.subscribersPer1000Views >
+              Math.max(subscriberBaseline, 0) &&
+            row.analytics.views >= Math.max(data.baseline.views * 0.25, 1),
+        )
+        .slice(0, 20)
+        .map(toOutlierSummary),
+      lowReachHighRetention: rows
+        .filter(
+          (row) =>
+            row.analytics.views < data.baseline.views &&
+            row.analytics.averageViewPercentage !== null &&
+            row.analytics.averageViewPercentage >=
+              data.baseline.averageViewPercentage,
+        )
+        .slice(0, 20)
+        .map(toOutlierSummary),
+      missingAnalyticsDepth: rows
+        .filter((row) => row.analytics.averageViewPercentage === null)
+        .slice(0, 20)
+        .map(toOutlierSummary),
+      retentionIssue: rows
+        .filter(
+          (row) =>
+            row.analytics.views >= data.baseline.views &&
+            row.analytics.averageViewPercentage !== null &&
+            row.analytics.averageViewPercentage <
+              data.baseline.averageViewPercentage,
+        )
+        .slice(0, 20)
+        .map(toOutlierSummary),
+      strongOverall: rows
+        .filter(
+          (row) =>
+            row.analytics.views >= data.baseline.views &&
+            row.analytics.averageViewPercentage !== null &&
+            row.analytics.averageViewPercentage >=
+              data.baseline.averageViewPercentage,
+        )
+        .slice(0, 20)
+        .map(toOutlierSummary),
+    },
+    notes: [
+      "CTR, impressions, and retention checkpoints are not available in the stored dataset yet.",
+      "Outliers use current stored lifetime Analytics snapshots and median baselines.",
+    ],
+  };
+}
+
+export async function listAdminMcpMissingContentFields() {
+  const [works, snapshots] = await Promise.all([
+    listAdminMusicWorks(),
+    listLatestYoutubeAnalyticsSnapshots(),
+  ]);
+  const analyticsContentIds = new Set(
+    snapshots.map((snapshot) => snapshot.contentId),
+  );
+  const serializedWorks = works.map((work) =>
+    serializeWork(work, work.contentId),
+  );
+  const items = serializedWorks
+    .map((work) => ({
+      contentId: work.contentId,
+      missing: getMissingFields(
+        work,
+        analyticsContentIds.has(work.contentId) ? {} : null,
+      ),
+      path: work.path,
+      title: work.title,
+      youtube: work.youtube,
+    }))
+    .filter((item) => item.missing.length);
+
+  return {
+    count: items.length,
+    groups: {
+      missingAnalytics: items.filter((item) =>
+        item.missing.includes("analytics"),
+      ),
+      missingContentBasics: items.filter((item) =>
+        item.missing.some((field) =>
+          ["path", "publishedAt", "title", "visible"].includes(field),
+        ),
+      ),
+      missingSubtitles: items.filter((item) =>
+        item.missing.some((field) => field.startsWith("subtitles.")),
+      ),
+      missingYoutube: items.filter((item) =>
+        item.missing.some((field) => field.startsWith("youtube.")),
+      ),
+      missingStyle: items.filter((item) =>
+        item.missing.some((field) => field.startsWith("style.")),
+      ),
+    },
+    items,
+  };
+}
+
 function serializeWork(work: Work | undefined, contentId: string) {
   const youtubeId = work?.u2bId ?? null;
 
@@ -275,6 +479,288 @@ function getTotals(snapshots: Snapshot[]) {
       views: 0,
     },
   );
+}
+
+function getSafeLimit(limit: number | undefined) {
+  return Math.min(Math.max(limit ?? 50, 1), 100);
+}
+
+function getSafeOffset(offset: number | undefined) {
+  return Math.max(offset ?? 0, 0);
+}
+
+function normalizeContentSearchFilters(filters: ContentSearchFilters) {
+  return {
+    hasLyrics: filters.hasLyrics,
+    hasSubtitles: filters.hasSubtitles,
+    hasYoutube: filters.hasYoutube,
+    language: filters.language?.trim() || undefined,
+    musicStyle: filters.musicStyle?.trim() || undefined,
+    q: filters.q?.trim() || undefined,
+    visible: filters.visible,
+    workType: filters.workType?.trim() || undefined,
+  };
+}
+
+function matchesContentFilters(
+  work: ReturnType<typeof serializeWork>,
+  filters: ContentSearchFilters,
+) {
+  const query = filters.q?.trim().toLowerCase();
+  if (query && !getSearchText(work).includes(query)) return false;
+
+  const language = filters.language?.trim().toLowerCase();
+  if (
+    language &&
+    !getWorkLanguages(work).some((locale) => locale.toLowerCase() === language)
+  ) {
+    return false;
+  }
+
+  if (
+    filters.workType &&
+    work.style.workType?.toLowerCase() !== filters.workType.toLowerCase()
+  ) {
+    return false;
+  }
+  if (
+    filters.musicStyle &&
+    work.style.musicStyle?.toLowerCase() !== filters.musicStyle.toLowerCase()
+  ) {
+    return false;
+  }
+  if (
+    typeof filters.hasYoutube === "boolean" &&
+    Boolean(work.youtube) !== filters.hasYoutube
+  ) {
+    return false;
+  }
+  if (
+    typeof filters.hasLyrics === "boolean" &&
+    Boolean(work.lyrics?.trim()) !== filters.hasLyrics
+  ) {
+    return false;
+  }
+  if (
+    typeof filters.hasSubtitles === "boolean" &&
+    Boolean(work.subtitles.languages.length) !== filters.hasSubtitles
+  ) {
+    return false;
+  }
+  if (
+    typeof filters.visible === "boolean" &&
+    Boolean(work.visible) !== filters.visible
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+function getSearchText(work: ReturnType<typeof serializeWork>) {
+  return [
+    work.contentId,
+    work.path,
+    work.title,
+    work.lyrics,
+    work.description.introText,
+    work.description.productionNotes,
+    work.description.shortDescription,
+    work.source.title,
+    work.source.type,
+    work.source.ip,
+    work.source.series,
+    work.source.details,
+    work.source.artists?.join(" "),
+    work.style.workType,
+    work.style.musicType,
+    work.style.musicStyle,
+    work.youtube?.id,
+    work.youtube?.url,
+    ...Object.values(work.youtube?.localizations ?? {}).flatMap((value) =>
+      value && typeof value === "object"
+        ? Object.values(value as Record<string, unknown>)
+        : [],
+    ),
+  ]
+    .filter((value): value is string => typeof value === "string")
+    .join("\n")
+    .toLowerCase();
+}
+
+function getWorkLanguages(work: ReturnType<typeof serializeWork>) {
+  return Array.from(
+    new Set(
+      [
+        work.subtitles.primaryLocale,
+        ...work.subtitles.languages,
+        work.youtube?.primaryLocale,
+        ...Object.keys(work.youtube?.localizations ?? {}),
+      ].filter((locale): locale is string => Boolean(locale)),
+    ),
+  );
+}
+
+function getComparableReasons(
+  work: ReturnType<typeof serializeWork>,
+  other: ReturnType<typeof serializeWork>,
+) {
+  const reasons: string[] = [];
+  if (work.style.workType && work.style.workType === other.style.workType) {
+    reasons.push("same work type");
+  }
+  if (
+    work.style.musicStyle &&
+    work.style.musicStyle === other.style.musicStyle
+  ) {
+    reasons.push("same music style");
+  }
+  if (work.source.ip && work.source.ip === other.source.ip) {
+    reasons.push("same source IP");
+  }
+  if (work.source.type && work.source.type === other.source.type) {
+    reasons.push("same source type");
+  }
+  const languages = new Set(getWorkLanguages(work));
+  if (getWorkLanguages(other).some((locale) => languages.has(locale))) {
+    reasons.push("shared language");
+  }
+  return reasons;
+}
+
+function getInsightStrengths(
+  row: McpWorkRow | null,
+  baseline: ReturnType<typeof getBaseline>,
+  work: ReturnType<typeof serializeWork>,
+) {
+  const strengths: string[] = [];
+  if (!row) return strengths;
+  if (row.analytics.views >= baseline.views) {
+    strengths.push("Reach is at or above the current median baseline.");
+  }
+  if (
+    row.analytics.averageViewPercentage !== null &&
+    row.analytics.averageViewPercentage >= baseline.averageViewPercentage
+  ) {
+    strengths.push("Average viewed percentage is at or above baseline.");
+  }
+  if (
+    row.analytics.subscribersPer1000Views !== null &&
+    row.analytics.subscribersPer1000Views > 0
+  ) {
+    strengths.push("The work converts some viewers into subscribers.");
+  }
+  if (
+    work.youtube?.localizations &&
+    Object.keys(work.youtube.localizations).length
+  ) {
+    strengths.push("YouTube localization data exists for multiple languages.");
+  }
+  return strengths;
+}
+
+function getInsightRisks(
+  row: McpWorkRow | null,
+  baseline: ReturnType<typeof getBaseline>,
+  work: ReturnType<typeof serializeWork>,
+  missingData: string[],
+) {
+  const risks: string[] = [];
+  if (!row) {
+    risks.push(
+      "No analytics snapshot is available, so performance diagnosis is limited.",
+    );
+  } else {
+    if (
+      row.analytics.views >= baseline.views &&
+      row.analytics.averageViewPercentage !== null &&
+      row.analytics.averageViewPercentage < baseline.averageViewPercentage
+    ) {
+      risks.push("Reach is decent, but retention is below baseline.");
+    }
+    if (
+      row.analytics.views < baseline.views &&
+      row.analytics.averageViewPercentage !== null &&
+      row.analytics.averageViewPercentage >= baseline.averageViewPercentage
+    ) {
+      risks.push("Retention looks healthy, but reach is below baseline.");
+    }
+  }
+  if (!work.youtube) risks.push("No YouTube ID is attached.");
+  if (!work.subtitles.languages.length)
+    risks.push("No subtitle tracks are stored.");
+  if (missingData.length) {
+    risks.push(`Missing data may limit analysis: ${missingData.join(", ")}.`);
+  }
+  return risks;
+}
+
+function getInsightSummary(
+  row: McpWorkRow | null,
+  baseline: ReturnType<typeof getBaseline>,
+  work: ReturnType<typeof serializeWork>,
+  missingData: string[],
+) {
+  if (!row) {
+    return `${work.title} has content metadata, but no stored YouTube Analytics snapshot yet. Fill missing fields and sync analytics before judging performance.`;
+  }
+
+  const retention =
+    row.analytics.averageViewPercentage === null
+      ? "unknown retention"
+      : row.analytics.averageViewPercentage >= baseline.averageViewPercentage
+        ? "above-baseline retention"
+        : "below-baseline retention";
+  const reach =
+    row.analytics.views >= baseline.views
+      ? "above-baseline reach"
+      : "below-baseline reach";
+  const caveat = missingData.length
+    ? ` Missing data: ${missingData.join(", ")}.`
+    : "";
+
+  return `${work.title} currently shows ${reach} and ${retention}. ${row.diagnosis.summary}${caveat}`;
+}
+
+function getMissingFields(
+  work: ReturnType<typeof serializeWork>,
+  analytics:
+    | ReturnType<typeof serializeSnapshot>
+    | Record<string, never>
+    | null,
+) {
+  const missing: string[] = [];
+  if (!work.title) missing.push("title");
+  if (!work.path) missing.push("path");
+  if (work.visible === null) missing.push("visible");
+  if (!work.publishedAt) missing.push("publishedAt");
+  if (!work.source.title) missing.push("source.title");
+  if (!work.source.type) missing.push("source.type");
+  if (!work.style.workType) missing.push("style.workType");
+  if (!work.style.musicStyle) missing.push("style.musicStyle");
+  if (!work.youtube) {
+    missing.push("youtube.id");
+  } else {
+    if (!work.youtube.primaryLocale) missing.push("youtube.primaryLocale");
+    if (!Object.keys(work.youtube.localizations ?? {}).length) {
+      missing.push("youtube.localizations");
+    }
+  }
+  if (!work.subtitles.primaryLocale) missing.push("subtitles.primaryLocale");
+  if (!work.subtitles.languages.length) missing.push("subtitles.tracks");
+  if (analytics === null) missing.push("analytics");
+  return missing;
+}
+
+function toOutlierSummary(row: McpWorkRow) {
+  return {
+    analytics: row.analytics,
+    contentId: row.work.contentId,
+    diagnosis: row.diagnosis,
+    path: row.work.path,
+    title: row.work.title,
+    youtube: row.work.youtube,
+  };
 }
 
 function getBaseline(snapshots: Snapshot[]) {

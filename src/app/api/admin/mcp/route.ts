@@ -1,10 +1,14 @@
 import {
+  findAdminMcpAnalyticsOutliers,
   getAdminMcpAnalyticsCompare,
   getAdminMcpAnalyticsOverview,
   getAdminMcpAnalyticsWork,
   getAdminMcpContentWork,
+  getAdminMcpWorkInsight,
   listAdminMcpAnalyticsWorks,
   listAdminMcpContentWorks,
+  listAdminMcpMissingContentFields,
+  searchAdminMcpContentWorks,
 } from "@sovia/admin/data/admin-mcp-data";
 import {
   getMcpOAuthServerInfo,
@@ -115,6 +119,64 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
+      "Search read-only Sovia content data by text, language, work type, music style, YouTube presence, lyrics, subtitles, and visibility.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        hasLyrics: {
+          description: "Filter works by whether lyrics are present.",
+          type: "boolean",
+        },
+        hasSubtitles: {
+          description: "Filter works by whether subtitle tracks are present.",
+          type: "boolean",
+        },
+        hasYoutube: {
+          description: "Filter works by whether a YouTube video ID is present.",
+          type: "boolean",
+        },
+        language: {
+          description:
+            "Exact locale filter, such as ru, en, ja, zh-Hans, or zh-Hant.",
+          type: "string",
+        },
+        limit: {
+          default: 50,
+          description: "Maximum number of works to return. 1-100.",
+          maximum: 100,
+          minimum: 1,
+          type: "integer",
+        },
+        musicStyle: {
+          description: "Exact music style filter.",
+          type: "string",
+        },
+        offset: {
+          default: 0,
+          description: "Pagination offset.",
+          minimum: 0,
+          type: "integer",
+        },
+        q: {
+          description:
+            "Case-insensitive text query across titles, IDs, source fields, lyrics, descriptions, and YouTube localizations.",
+          type: "string",
+        },
+        visible: {
+          description: "Filter works by public visibility.",
+          type: "boolean",
+        },
+        workType: {
+          description: "Exact work type filter.",
+          type: "string",
+        },
+      },
+      type: "object",
+    },
+    name: "content_search_works",
+  },
+  {
+    description:
       "Get read-only Sovia content data for one work. Accepts contentId, path, or YouTube video ID.",
     inputSchema: {
       additionalProperties: false,
@@ -128,6 +190,34 @@ const tools: ToolDefinition[] = [
       type: "object",
     },
     name: "content_get_work",
+  },
+  {
+    description:
+      "Get an AI-analysis-friendly insight package for one Sovia work, including strengths, risks, comparable works, missing data, and suggested questions.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        id: {
+          description: "Content ID, path, or YouTube video ID.",
+          type: "string",
+        },
+      },
+      required: ["id"],
+      type: "object",
+    },
+    name: "analysis_get_work_insight",
+  },
+  {
+    description:
+      "Find analytics outliers, including strong overall works, retention issues, low-reach high-retention works, subscriber converters, and missing analytics depth.",
+    inputSchema: { additionalProperties: false, type: "object" },
+    name: "analytics_find_outliers",
+  },
+  {
+    description:
+      "List content records with missing fields that limit analytics or AI analysis, grouped by missing YouTube, subtitles, style, basics, and analytics.",
+    inputSchema: { additionalProperties: false, type: "object" },
+    name: "content_list_missing_fields",
   },
 ];
 
@@ -245,10 +335,19 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
       case "analytics_compare":
         return makeToolResult(id, await getAdminMcpAnalyticsCompare());
 
+      case "analytics_find_outliers":
+        return makeToolResult(id, await findAdminMcpAnalyticsOutliers());
+
       case "content_list_works":
         return makeToolResult(
           id,
           await listAdminMcpContentWorks(getPaginationArgs(args)),
+        );
+
+      case "content_search_works":
+        return makeToolResult(
+          id,
+          await searchAdminMcpContentWorks(getContentSearchArgs(args)),
         );
 
       case "content_get_work": {
@@ -257,6 +356,16 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
         );
         return makeToolResult(id, work ?? { error: "Work not found." });
       }
+
+      case "analysis_get_work_insight": {
+        const insight = await getAdminMcpWorkInsight(
+          getRequiredString(args, "id"),
+        );
+        return makeToolResult(id, insight ?? { error: "Work not found." });
+      }
+
+      case "content_list_missing_fields":
+        return makeToolResult(id, await listAdminMcpMissingContentFields());
 
       default:
         return makeJsonRpcError(
@@ -310,6 +419,21 @@ function getPaginationArgs(args: Record<string, unknown>) {
   };
 }
 
+function getContentSearchArgs(args: Record<string, unknown>) {
+  return {
+    hasLyrics: toOptionalBoolean(args.hasLyrics),
+    hasSubtitles: toOptionalBoolean(args.hasSubtitles),
+    hasYoutube: toOptionalBoolean(args.hasYoutube),
+    language: toOptionalString(args.language),
+    limit: toInteger(args.limit, 50),
+    musicStyle: toOptionalString(args.musicStyle),
+    offset: toInteger(args.offset, 0),
+    q: toOptionalString(args.q),
+    visible: toOptionalBoolean(args.visible),
+    workType: toOptionalString(args.workType),
+  };
+}
+
 function getRequiredString(args: Record<string, unknown>, key: string) {
   const value = args[key];
   if (typeof value !== "string" || !value.trim()) {
@@ -321,6 +445,14 @@ function getRequiredString(args: Record<string, unknown>, key: string) {
 function toInteger(value: unknown, fallback: number) {
   if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
   return Math.trunc(value);
+}
+
+function toOptionalBoolean(value: unknown) {
+  return typeof value === "boolean" ? value : undefined;
+}
+
+function toOptionalString(value: unknown) {
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
 function makeToolResult(id: JsonRpcRequest["id"], data: unknown) {
