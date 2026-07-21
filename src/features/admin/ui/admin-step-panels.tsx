@@ -914,23 +914,23 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
     );
 
     // Translating every locale in one request exceeds Cloudflare's ~100s proxy
-    // limit and returns a 504. Instead we translate a few locales per request
-    // and apply each result as it lands. Each request re-sends the same prompt +
-    // source SRT prefix, which OpenAI's automatic prompt caching discounts, so
-    // smaller batches stay cheap.
-    const SUBTITLE_LOCALES_PER_REQUEST = 3;
+    // limit and returns a 504. Long Suno lyric subtitles need a smaller batch
+    // so every target has enough output-token headroom.
+    const subtitleLocalesPerRequest = getSubtitleLocalesPerRequest(
+      sourceSrt.length,
+    );
     // Batches after the first run with a small concurrency pool to speed things
     // up; the first batch runs alone to warm the shared prompt cache so the
     // concurrent ones are cache hits rather than all missing at once.
-    const SUBTITLE_REQUEST_CONCURRENCY = 2;
+    const subtitleRequestConcurrency = subtitleLocalesPerRequest === 1 ? 1 : 2;
     const batches: string[][] = [];
     for (
       let index = 0;
       index < targetLocales.length;
-      index += SUBTITLE_LOCALES_PER_REQUEST
+      index += subtitleLocalesPerRequest
     ) {
       batches.push(
-        targetLocales.slice(index, index + SUBTITLE_LOCALES_PER_REQUEST),
+        targetLocales.slice(index, index + subtitleLocalesPerRequest),
       );
     }
 
@@ -1022,7 +1022,7 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
       }
       await Promise.all(
         Array.from(
-          { length: Math.min(SUBTITLE_REQUEST_CONCURRENCY, batches.length - 1) },
+          { length: Math.min(subtitleRequestConcurrency, batches.length - 1) },
           () => worker(),
         ),
       );
@@ -1556,6 +1556,12 @@ function getYoutubeLocalizationValues(
       },
     ]),
   );
+}
+
+function getSubtitleLocalesPerRequest(sourceSrtLength: number) {
+  if (sourceSrtLength > 4_500) return 1;
+  if (sourceSrtLength > 2_500) return 2;
+  return 3;
 }
 
 function getSubtitleLocales(form: HTMLFormElement) {

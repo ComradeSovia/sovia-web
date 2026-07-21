@@ -18,6 +18,13 @@ import {
 } from "./admin-prompts";
 import { getAdminMusicWork, listAdminMusicWorks } from "./music-admin";
 
+const MAX_LYRICS_CONTEXT_CHARS = 8_000;
+const MAX_RELATED_CANDIDATES = 60;
+const MAX_RELATED_DETAILS_CONTEXT_CHARS = 800;
+const MAX_GENERATION_NOTES_CHARS = 2_000;
+const MAX_SOURCE_DETAILS_CONTEXT_CHARS = 2_400;
+const MAX_DESCRIPTION_FIELD_CONTEXT_CHARS = 2_000;
+
 const generatedDescriptionSchema = z.object({
   introText: z.string(),
   productionNotes: z.string(),
@@ -110,6 +117,12 @@ export async function generateMusicWorkDescription({
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
+    ...getResponseOptimizationOptions({
+      contentId,
+      maxOutputTokens: 1_200,
+      model: prompt.model,
+      task: DESCRIPTION_GENERATOR_PROMPT_TASK,
+    }),
     input: [
       {
         content: prompt.content,
@@ -118,18 +131,9 @@ export async function generateMusicWorkDescription({
       {
         content: JSON.stringify({
           contentId: work.contentId,
-          extraInstructions: generationNotes,
-          from: {
-            artists: work.fromArtists,
-            details: work.fromDetails,
-            ip: work.fromIp,
-            series: work.fromSeries,
-            session: work.fromSession,
-            sourceUrl: work.fromSource,
-            title: work.fromTitle,
-            type: work.fromType,
-          },
-          lyrics: work.lyrics,
+          extraInstructions: compactGenerationNotes(generationNotes),
+          from: toSourceInput(work),
+          lyrics: compactLyrics(work.lyrics),
           songTitle: work.songTitle ?? work.title,
           workType: work.workType,
         }),
@@ -156,6 +160,12 @@ export async function generateMusicWorkDescription({
     },
   });
 
+  logAiUsage({
+    contentId,
+    model: prompt.model,
+    response,
+    task: DESCRIPTION_GENERATOR_PROMPT_TASK,
+  });
   return parseGeneratedDescription(response.output_text);
 }
 
@@ -197,9 +207,16 @@ export async function generateRelatedSuggestions({
       .map((item) => item.trim())
       .filter(Boolean),
   );
+  const candidates = selectRelatedCandidates(work, works, existingRelated);
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
+    ...getResponseOptimizationOptions({
+      contentId,
+      maxOutputTokens: 600,
+      model: prompt.model,
+      task: RELATED_SUGGESTION_PROMPT_TASK,
+    }),
     input: [
       {
         content: prompt.content,
@@ -208,11 +225,9 @@ export async function generateRelatedSuggestions({
       {
         content: JSON.stringify({
           currentWork: toRelatedCurrentWorkInput(work),
-          extraInstructions: generationNotes,
+          extraInstructions: compactGenerationNotes(generationNotes),
           existingRelatedUids: Array.from(existingRelated),
-          candidates: works
-            .filter((candidate) => candidate.contentId !== work.contentId)
-            .map(toRelatedCandidateInput),
+          candidates,
         }),
         role: "user",
       },
@@ -248,6 +263,12 @@ export async function generateRelatedSuggestions({
     },
   });
 
+  logAiUsage({
+    contentId,
+    model: prompt.model,
+    response,
+    task: RELATED_SUGGESTION_PROMPT_TASK,
+  });
   return parseRelatedSuggestions(response.output_text);
 }
 
@@ -294,6 +315,12 @@ export async function generateYouTubeLocalization({
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
+    ...getResponseOptimizationOptions({
+      contentId,
+      maxOutputTokens: 1_800,
+      model: prompt.model,
+      task: YOUTUBE_LOCALIZATION_PROMPT_TASK,
+    }),
     input: [
       {
         content: prompt.content,
@@ -302,28 +329,15 @@ export async function generateYouTubeLocalization({
       {
         content: JSON.stringify({
           contentId: work.contentId,
-          description: {
-            introText: work.introText,
-            productionNotes: work.productionNotes,
-            shortDescription: work.shortDescription,
-          },
+          description: toDescriptionInput(work),
           existingYoutubeLocalization: work.youtubeLocalization?.[locale],
-          extraInstructions: generationNotes,
-          from: {
-            artists: work.fromArtists,
-            details: work.fromDetails,
-            ip: work.fromIp,
-            series: work.fromSeries,
-            session: work.fromSession,
-            sourceUrl: work.fromSource,
-            title: work.fromTitle,
-            type: work.fromType,
-          },
+          extraInstructions: compactGenerationNotes(generationNotes),
+          from: toSourceInput(work),
           language: {
             label: getLanguageLabel(locale),
             locale,
           },
-          lyrics: work.lyrics,
+          lyrics: compactLyrics(work.lyrics),
           metadata: {
             contentId: work.contentId,
             path: work.path,
@@ -357,6 +371,12 @@ export async function generateYouTubeLocalization({
     },
   });
 
+  logAiUsage({
+    contentId,
+    model: prompt.model,
+    response,
+    task: YOUTUBE_LOCALIZATION_PROMPT_TASK,
+  });
   return parseYouTubeLocalization(response.output_text);
 }
 
@@ -437,6 +457,12 @@ export async function generateYouTubeLocalizationBatch({
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
+    ...getResponseOptimizationOptions({
+      contentId,
+      maxOutputTokens: getLocalizationOutputLimit(uniqueTargetLocales.length),
+      model: prompt.model,
+      task: YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
+    }),
     input: [
       {
         content: prompt.content,
@@ -445,27 +471,14 @@ export async function generateYouTubeLocalizationBatch({
       {
         content: JSON.stringify({
           contentId: work.contentId,
-          description: {
-            introText: work.introText,
-            productionNotes: work.productionNotes,
-            shortDescription: work.shortDescription,
-          },
-          extraInstructions: generationNotes,
-          from: {
-            artists: work.fromArtists,
-            details: work.fromDetails,
-            ip: work.fromIp,
-            series: work.fromSeries,
-            session: work.fromSession,
-            sourceUrl: work.fromSource,
-            title: work.fromTitle,
-            type: work.fromType,
-          },
+          description: toDescriptionInput(work),
+          extraInstructions: compactGenerationNotes(generationNotes),
+          from: toSourceInput(work),
           language: {
             label: getLanguageLabel(sourceLocale),
             locale: sourceLocale,
           },
-          lyrics: work.lyrics,
+          lyrics: compactLyrics(work.lyrics),
           metadata: {
             contentId: work.contentId,
             path: work.path,
@@ -483,7 +496,6 @@ export async function generateYouTubeLocalizationBatch({
             label: getLanguageLabel(locale),
             locale,
           })),
-          youtubeLocalization,
         }),
         role: "user",
       },
@@ -518,6 +530,12 @@ export async function generateYouTubeLocalizationBatch({
     },
   });
 
+  logAiUsage({
+    contentId,
+    model: prompt.model,
+    response,
+    task: YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
+  });
   const parsed = parseYouTubeLocalizationBatch(response.output_text);
   const localizations = parsed.localizations.filter((item) =>
     uniqueTargetLocales.includes(item.locale),
@@ -596,6 +614,15 @@ export async function generateSubtitleLocalizationBatch({
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
+    ...getResponseOptimizationOptions({
+      contentId,
+      maxOutputTokens: getSubtitleOutputLimit(
+        sourceSrt,
+        uniqueTargetLocales.length,
+      ),
+      model: prompt.model,
+      task: SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
+    }),
     input: [
       {
         content: prompt.content,
@@ -610,22 +637,9 @@ export async function generateSubtitleLocalizationBatch({
         // invalidate the cached prefix.
         content: JSON.stringify({
           contentId: work.contentId,
-          description: {
-            introText: work.introText,
-            productionNotes: work.productionNotes,
-            shortDescription: work.shortDescription,
-          },
-          extraInstructions: generationNotes,
-          from: {
-            artists: work.fromArtists,
-            details: work.fromDetails,
-            ip: work.fromIp,
-            series: work.fromSeries,
-            session: work.fromSession,
-            sourceUrl: work.fromSource,
-            title: work.fromTitle,
-            type: work.fromType,
-          },
+          description: toDescriptionInput(work),
+          extraInstructions: compactGenerationNotes(generationNotes),
+          from: toSourceInput(work),
           metadata: {
             contentId: work.contentId,
             path: work.path,
@@ -680,6 +694,12 @@ export async function generateSubtitleLocalizationBatch({
     },
   });
 
+  logAiUsage({
+    contentId,
+    model: prompt.model,
+    response,
+    task: SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
+  });
   const parsed = parseSubtitleLocalizationBatch(response.output_text);
   const localizations = parsed.localizations.filter((item) =>
     uniqueTargetLocales.includes(item.locale),
@@ -835,6 +855,12 @@ async function generatePlatformCopy({
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.responses.create({
+    ...getResponseOptimizationOptions({
+      contentId,
+      maxOutputTokens: platform.name === "pixiv" ? 1_600 : 1_200,
+      model: prompt.model,
+      task: platform.promptTask,
+    }),
     input: [
       {
         content: prompt.content,
@@ -843,11 +869,7 @@ async function generatePlatformCopy({
       {
         content: JSON.stringify({
           contentId: work.contentId,
-          description: {
-            introText: work.introText,
-            productionNotes: work.productionNotes,
-            shortDescription: work.shortDescription,
-          },
+          description: toDescriptionInput(work),
           existingPlatformCopy:
             platform.name === "bilibili"
               ? {
@@ -864,18 +886,9 @@ async function generatePlatformCopy({
                     description: work.vkDescription,
                     title: work.vkTitle,
                   },
-          extraInstructions: generationNotes,
-          from: {
-            artists: work.fromArtists,
-            details: work.fromDetails,
-            ip: work.fromIp,
-            series: work.fromSeries,
-            session: work.fromSession,
-            sourceUrl: work.fromSource,
-            title: work.fromTitle,
-            type: work.fromType,
-          },
-          lyrics: work.lyrics,
+          extraInstructions: compactGenerationNotes(generationNotes),
+          from: toSourceInput(work),
+          lyrics: compactLyrics(work.lyrics),
           metadata: {
             contentId: work.contentId,
             path: work.path,
@@ -915,7 +928,207 @@ async function generatePlatformCopy({
     },
   });
 
+  logAiUsage({
+    contentId,
+    model: prompt.model,
+    response,
+    task: platform.promptTask,
+  });
   return parsePlatformCopy(response.output_text);
+}
+
+function getResponseOptimizationOptions({
+  contentId,
+  maxOutputTokens,
+  model,
+  task,
+}: {
+  contentId: string;
+  maxOutputTokens: number;
+  model: string;
+  task: string;
+}) {
+  const supportsReasoningEffort = model.startsWith("gpt-5");
+
+  return {
+    max_output_tokens: maxOutputTokens,
+    prompt_cache_key: getPromptCacheKey(task, contentId),
+    ...(supportsReasoningEffort
+      ? { reasoning: { effort: "low" as const } }
+      : {}),
+  };
+}
+
+function getPromptCacheKey(task: string, contentId: string) {
+  return `sovia:${task.slice(0, 16)}:${contentId}`;
+}
+
+function getLocalizationOutputLimit(targetLocaleCount: number) {
+  return Math.min(8_000, Math.max(2_000, 800 + targetLocaleCount * 1_000));
+}
+
+function getSubtitleOutputLimit(sourceSrt: string, targetLocaleCount: number) {
+  // SRT translations into CJK languages can approach one token per character.
+  // Reserve enough space for every requested target instead of estimating from
+  // English-like token density, which truncates long Suno lyric subtitles.
+  const estimatedOutputTokens = sourceSrt.length * targetLocaleCount + 500;
+
+  return Math.min(20_000, Math.max(4_000, estimatedOutputTokens));
+}
+
+function compactLyrics(value: string | null | undefined) {
+  return compactText(
+    value,
+    MAX_LYRICS_CONTEXT_CHARS,
+    "lyrics omitted for context size",
+  );
+}
+
+function compactGenerationNotes(value: string | null | undefined) {
+  return compactText(
+    value,
+    MAX_GENERATION_NOTES_CHARS,
+    "additional instructions omitted for context size",
+  );
+}
+
+function compactText(
+  value: string | null | undefined,
+  maxLength: number,
+  omissionLabel: string,
+) {
+  if (!value || value.length <= maxLength) return value;
+
+  const headLength = Math.floor(maxLength * 0.75);
+  const tailLength = maxLength - headLength;
+
+  return `${value.slice(0, headLength)}\n\n[... ${omissionLabel} ...]\n\n${value.slice(-tailLength)}`;
+}
+
+function toDescriptionInput(
+  work: NonNullable<Awaited<ReturnType<typeof getAdminMusicWork>>>,
+) {
+  return {
+    introText: compactText(
+      work.introText,
+      MAX_DESCRIPTION_FIELD_CONTEXT_CHARS,
+      "description context omitted for size",
+    ),
+    productionNotes: compactText(
+      work.productionNotes,
+      MAX_DESCRIPTION_FIELD_CONTEXT_CHARS,
+      "description context omitted for size",
+    ),
+    shortDescription: compactText(
+      work.shortDescription,
+      MAX_DESCRIPTION_FIELD_CONTEXT_CHARS,
+      "description context omitted for size",
+    ),
+  };
+}
+
+function toSourceInput(
+  work: NonNullable<Awaited<ReturnType<typeof getAdminMusicWork>>>,
+) {
+  return {
+    artists: work.fromArtists,
+    details: compactText(
+      work.fromDetails,
+      MAX_SOURCE_DETAILS_CONTEXT_CHARS,
+      "source details omitted for context size",
+    ),
+    ip: work.fromIp,
+    series: work.fromSeries,
+    session: work.fromSession,
+    sourceUrl: work.fromSource,
+    title: work.fromTitle,
+    type: work.fromType,
+  };
+}
+
+function selectRelatedCandidates(
+  work: NonNullable<Awaited<ReturnType<typeof getAdminMusicWork>>>,
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>,
+  existingRelated: Set<string>,
+) {
+  return works
+    .filter(
+      (candidate) =>
+        candidate.contentId !== work.contentId &&
+        !existingRelated.has(candidate.contentId),
+    )
+    .map((candidate, index) => ({
+      candidate,
+      index,
+      score: getRelatedCandidateScore(work, candidate),
+    }))
+    .sort((left, right) => right.score - left.score || left.index - right.index)
+    .slice(0, MAX_RELATED_CANDIDATES)
+    .map(({ candidate }) => toRelatedCandidateInput(candidate));
+}
+
+function getRelatedCandidateScore(
+  work: NonNullable<Awaited<ReturnType<typeof getAdminMusicWork>>>,
+  candidate: Awaited<ReturnType<typeof listAdminMusicWorks>>[number],
+) {
+  return (
+    (sameString(work.fromIp, candidate.fromIp) ? 8 : 0) +
+    (sameString(work.fromSeries, candidate.fromSeries) ? 5 : 0) +
+    (work.workType === candidate.workType ? 3 : 0) +
+    (sameString(work.fromType, candidate.fromType) ? 2 : 0) +
+    (sameStringList(work.fromArtists, candidate.fromArtists) ? 2 : 0)
+  );
+}
+
+function sameString(
+  left: string | null | undefined,
+  right: string | null | undefined,
+) {
+  return Boolean(left && right && left === right);
+}
+
+function sameStringList(
+  left: string[] | null | undefined,
+  right: string[] | null | undefined,
+) {
+  return Boolean(
+    left?.length &&
+      right?.length &&
+      left.length === right.length &&
+      left.every((value, index) => value === right[index]),
+  );
+}
+
+function logAiUsage({
+  contentId,
+  model,
+  response,
+  task,
+}: {
+  contentId: string;
+  model: string;
+  response: {
+    usage?: {
+      input_tokens: number;
+      input_tokens_details?: { cached_tokens: number };
+      output_tokens: number;
+      output_tokens_details?: { reasoning_tokens: number };
+    } | null;
+  };
+  task: string;
+}) {
+  const usage = response.usage;
+  if (!usage) return;
+
+  console.info("OpenAI response usage", {
+    cachedInputTokens: usage.input_tokens_details?.cached_tokens ?? 0,
+    contentId,
+    inputTokens: usage.input_tokens,
+    model,
+    outputTokens: usage.output_tokens,
+    reasoningTokens: usage.output_tokens_details?.reasoning_tokens ?? 0,
+    task,
+  });
 }
 
 function getLanguageLabel(locale: string) {
@@ -968,7 +1181,11 @@ function toRelatedCandidateInput(
 ) {
   return {
     contentId: work.contentId,
-    details: work.fromDetails,
+    details: compactText(
+      work.fromDetails,
+      MAX_RELATED_DETAILS_CONTEXT_CHARS,
+      "candidate details omitted for context size",
+    ),
     distributionIds: toDistributionIdsInput(work),
     fromTitle: work.fromTitle,
     ip: work.fromIp,
