@@ -73,10 +73,23 @@ import {
 } from "../data/admin-prompts";
 import { getAdminAuthStatus, isAdminAuthenticated } from "../data/auth";
 import {
+  getContentSearchScore,
+  getContentSearchSemanticQuery,
+  matchesContentSearchStructuredFilters,
+} from "../data/content-search-query";
+import {
   getAdminDatabaseStatus,
   getAdminMusicWork,
   listAdminMusicWorks,
 } from "../data/music-admin";
+import {
+  getMusicSearchCosineSimilarity,
+  getMusicSearchEmbeddingText,
+} from "../data/music-search-documents";
+import {
+  getSearchEmbeddings,
+  getSearchQueryEmbedding,
+} from "../data/music-search-embeddings";
 import {
   getAdminYoutubeConnection,
   getYoutubeOAuthConfig,
@@ -87,6 +100,10 @@ import {
   listEnabledAdminYoutubeLocales,
 } from "../data/youtube-locales";
 import { AdminActionToast } from "./admin-action-toast";
+import {
+  ContentSearchInput,
+  type ContentSearchSuggestions,
+} from "./admin-content-search";
 import {
   type AdminEditorStep,
   matchAdminEditorStep,
@@ -1315,53 +1332,43 @@ async function ContentList({
 }) {
   const databaseStatus = await getAdminDatabaseStatus();
 
-  const normalizedQuery = query?.trim().toLowerCase() ?? "";
   const contentSort = matchContentSort(sort);
   const contentSortOrder = matchContentSortOrder(order);
   const currentPage = Math.max(1, Number.parseInt(page ?? "1", 10) || 1);
-  const filteredWorks = (await listAdminMusicWorks())
-    .filter((work) =>
-      [
-        work.path,
-        work.contentId,
-        work.storageSource,
-        work.visible ? "visible" : "hidden",
-        work.publishedAt,
-        work.songTitle,
-        work.title,
-        work.fromTitle,
-        work.fromArtists?.join(", "),
-        work.fromSource,
-        work.fromType,
-        work.fromIp,
-        work.fromSeries,
-        work.fromSession,
-        work.fromDetails,
-        work.u2bId,
-        work.vkId,
-        work.vkTitle,
-        work.vkDescription,
-        work.bilibiliId,
-        work.bilibiliTitle,
-        work.bilibiliDescription,
-        work.pixivId,
-        work.pixivTitle,
-        work.pixivDescription,
-        work.pixivTags,
-        work.shortDescription,
-        work.introText,
-        work.productionNotes,
-        work.lyrics,
-        ...Object.values(work.youtubeLocalization ?? {}).flatMap((content) => [
-          content?.title,
-          content?.description,
-        ]),
-        ...Object.values(work.subtitleTracks ?? {}),
-      ].some((value) => value?.toLowerCase().includes(normalizedQuery)),
+  const allWorks = await listAdminMusicWorks();
+  const structuredWorks = allWorks.filter((work) =>
+    matchesContentSearchStructuredFilters(work, query),
+  );
+  const semanticScores = await getContentSemanticScores(structuredWorks, query);
+  const filteredWorks = structuredWorks
+    .map((work) => ({
+      lexicalScore: getContentSearchScore(work, query),
+      semanticScore: semanticScores?.get(work.contentId) ?? 0,
+      work,
+    }))
+    .filter(
+      (
+        item,
+      ): item is {
+        lexicalScore: number | null;
+        semanticScore: number;
+        work: AdminMusicWork;
+      } =>
+        item.lexicalScore !== null ||
+        (semanticScores !== null && item.semanticScore >= 0.45),
     )
-    .sort((first, second) =>
-      compareContentWorks(first, second, contentSort, contentSortOrder),
-    );
+    .sort(
+      (first, second) =>
+        getCombinedContentSearchScore(second) -
+          getCombinedContentSearchScore(first) ||
+        compareContentWorks(
+          first.work,
+          second.work,
+          contentSort,
+          contentSortOrder,
+        ),
+    )
+    .map((item) => item.work);
   const totalPages = Math.max(
     1,
     Math.ceil(filteredWorks.length / CONTENT_PAGE_SIZE),
@@ -1422,28 +1429,13 @@ async function ContentList({
           <form action="/admin/content" className="grid gap-3">
             <input name="sort" type="hidden" value={contentSort} />
             <input name="order" type="hidden" value={contentSortOrder} />
-            <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_14rem_auto] md:items-end">
+            <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
               <div className="grid gap-2">
                 <Label htmlFor="admin-content-search">Search</Label>
-                <Input
-                  className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
+                <ContentSearchInput
                   defaultValue={query ?? ""}
-                  id="admin-content-search"
-                  name="q"
-                  placeholder="Search title, path, series, YouTube ID"
+                  suggestions={getContentSearchSuggestions(allWorks)}
                 />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="admin-content-type">Category</Label>
-                <select
-                  className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
-                  defaultValue="music"
-                  id="admin-content-type"
-                  name="type"
-                  suppressHydrationWarning
-                >
-                  <option value="music">Music</option>
-                </select>
               </div>
               <Button
                 className={SECONDARY_BUTTON_CLASS}
@@ -1470,6 +1462,87 @@ async function ContentList({
       </Card>
     </section>
   );
+}
+
+async function getContentSemanticScores(
+  works: AdminMusicWork[],
+  query?: string,
+) {
+  const semanticQuery = getContentSearchSemanticQuery(query);
+  if (!semanticQuery || !works.length) return null;
+
+  try {
+    const embeddings = await getSearchEmbeddings(
+      works.map((work) => ({
+        contentId: work.contentId,
+        text: getMusicSearchEmbeddingText({
+          artists: work.fromArtists,
+          introText: work.introText,
+          musicStyle: work.musicStyle,
+          musicType: work.musicType,
+          productionNotes: work.productionNotes,
+          series: work.fromSeries,
+          shortDescription: work.shortDescription,
+          sourceIp: work.fromIp,
+          sourceTitle: work.fromTitle,
+          title: work.songTitle || work.title || work.contentId,
+          workType: work.workType,
+        }),
+      })),
+    );
+    if (!embeddings.available) return null;
+
+    const queryEmbedding = await getSearchQueryEmbedding(semanticQuery);
+    if (!queryEmbedding) return null;
+
+    return new Map(
+      works.map((work) => [
+        work.contentId,
+        getMusicSearchCosineSimilarity(
+          queryEmbedding,
+          embeddings.vectors.get(work.contentId),
+        ),
+      ]),
+    );
+  } catch (error) {
+    console.warn("Content semantic search unavailable; using fuzzy search.", {
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return null;
+  }
+}
+
+function getCombinedContentSearchScore({
+  lexicalScore,
+  semanticScore,
+}: {
+  lexicalScore: number | null;
+  semanticScore: number;
+}) {
+  return Math.max(lexicalScore ?? 0, Math.round(semanticScore * 80));
+}
+
+function getContentSearchSuggestions(
+  works: AdminMusicWork[],
+): ContentSearchSuggestions {
+  return {
+    artists: getUniqueSearchValues(
+      works.flatMap((work) => work.fromArtists ?? []),
+    ),
+    contentIds: getUniqueSearchValues(works.map((work) => work.contentId)),
+    ips: getUniqueSearchValues(works.map((work) => work.fromIp ?? "")),
+    series: getUniqueSearchValues(works.map((work) => work.fromSeries ?? "")),
+    tags: getUniqueSearchValues(
+      works.flatMap((work) => work.pixivTags?.split(",") ?? []),
+    ),
+    workTypes: getUniqueSearchValues(works.map((work) => work.workType)),
+  };
+}
+
+function getUniqueSearchValues(values: string[]) {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))]
+    .sort((first, second) => first.localeCompare(second))
+    .slice(0, 100);
 }
 
 function matchContentSort(value?: string): ContentSort {
@@ -1626,9 +1699,7 @@ function ContentTable({
                     <ContentSongLabel work={work} />
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-1">
-                    <StorageSourceBadge source={work.storageSource} />
                     <WorkVisibilityBadge visible={Boolean(work.visible)} />
-                    <SubtitleBadges work={work} />
                   </div>
                 </Link>
               </TableCell>
@@ -1804,55 +1875,6 @@ function WorkVisibilityBadge({ visible }: { visible?: boolean }) {
   );
 }
 
-function StorageSourceBadge({
-  source,
-}: {
-  source?: AdminMusicWork["storageSource"];
-}) {
-  const label =
-    source === "db+file" ? "DB + file" : source === "db" ? "DB" : "Unknown";
-  const className =
-    source === "db+file"
-      ? "border-amber-700 bg-amber-950 text-amber-100"
-      : source === "db"
-        ? "border-emerald-700 bg-emerald-950 text-emerald-100"
-        : "border-zinc-700 bg-transparent text-zinc-400";
-
-  return (
-    <Badge className={className} variant="outline">
-      {label}
-    </Badge>
-  );
-}
-
-function SubtitleBadges({ work }: { work: AdminMusicWork }) {
-  const languages = Object.keys(work.subtitleTracks ?? {});
-
-  if (!languages.length) {
-    return (
-      <Badge
-        className="border-zinc-700 bg-transparent text-zinc-400"
-        variant="outline"
-      >
-        empty
-      </Badge>
-    );
-  }
-
-  return (
-    <div className="flex max-w-56 flex-wrap gap-1">
-      {languages.map((locale) => (
-        <Badge
-          className="border-zinc-700 bg-zinc-800 text-zinc-100"
-          key={locale}
-        >
-          {locale}
-        </Badge>
-      ))}
-    </div>
-  );
-}
-
 function PlatformBadges({ work }: { work: AdminMusicWork }) {
   const platforms = [
     work.u2bId ? "YouTube" : null,
@@ -1996,9 +2018,6 @@ async function ContentEditor({
                     "Create a structured music content record."
                   )}
                 </CardDescription>
-                {work ? (
-                  <StorageSourceBadge source={work.storageSource} />
-                ) : null}
               </div>
             </div>
             {work ? (

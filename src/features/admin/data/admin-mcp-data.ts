@@ -1,5 +1,9 @@
 import { listAdminMusicWorks } from "./music-admin";
 import {
+  getMusicSearchCosineSimilarity,
+  getMusicSearchEmbeddingText,
+} from "./music-search-documents";
+import {
   getSearchEmbeddings,
   getSearchQueryEmbedding,
 } from "./music-search-embeddings";
@@ -889,7 +893,7 @@ async function rankContentSearchWorks(
         semanticScores = new Map(
           works.map((work) => [
             work.contentId,
-            getCosineSimilarity(
+            getMusicSearchCosineSimilarity(
               queryEmbedding,
               storedEmbeddings.vectors.get(work.contentId),
             ),
@@ -1077,35 +1081,19 @@ function serializeContentSearchResult(
 }
 
 function getSearchEmbeddingText(work: ReturnType<typeof serializeWork>) {
-  return [
-    `Sovia title: ${work.title}`,
-    `Source title: ${work.source.title ?? ""}`,
-    `Artists: ${work.source.artists?.join(", ") ?? ""}`,
-    `Source IP: ${work.source.ip ?? ""}`,
-    `Series: ${work.source.series ?? ""}`,
-    `Work type: ${work.style.workType ?? ""}`,
-    `Music type: ${work.style.musicType ?? ""}`,
-    `Music style: ${work.style.musicStyle ?? ""}`,
-    `Short description: ${work.description.shortDescription ?? ""}`,
-    `Introduction: ${work.description.introText ?? ""}`,
-    `Production notes: ${work.description.productionNotes ?? ""}`,
-  ].join("\n");
-}
-
-function getCosineSimilarity(left: number[], right: number[] | undefined) {
-  if (!right || left.length !== right.length) return 0;
-
-  let dotProduct = 0;
-  let leftMagnitude = 0;
-  let rightMagnitude = 0;
-  for (let index = 0; index < left.length; index += 1) {
-    dotProduct += left[index] * right[index];
-    leftMagnitude += left[index] ** 2;
-    rightMagnitude += right[index] ** 2;
-  }
-
-  if (!leftMagnitude || !rightMagnitude) return 0;
-  return Math.max(0, dotProduct / Math.sqrt(leftMagnitude * rightMagnitude));
+  return getMusicSearchEmbeddingText({
+    artists: work.source.artists,
+    introText: work.description.introText,
+    musicStyle: work.style.musicStyle,
+    musicType: work.style.musicType,
+    productionNotes: work.description.productionNotes,
+    series: work.source.series,
+    shortDescription: work.description.shortDescription,
+    sourceIp: work.source.ip,
+    sourceTitle: work.source.title,
+    title: work.title,
+    workType: work.style.workType,
+  });
 }
 
 function getCombinedSearchScore(
