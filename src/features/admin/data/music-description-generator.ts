@@ -602,6 +602,12 @@ export async function generateSubtitleLocalizationBatch({
         role: "developer",
       },
       {
+        // Field order matters for OpenAI prompt caching: everything that stays
+        // identical across per-batch requests for the same content (prompt,
+        // metadata, and the large `sourceSrt`) is emitted first so it forms a
+        // stable, cacheable prefix. The only fields that vary per request
+        // (`requiredOutputLocales`, `targetLanguages`) come last so they never
+        // invalidate the cached prefix.
         content: JSON.stringify({
           contentId: work.contentId,
           description: {
@@ -629,12 +635,13 @@ export async function generateSubtitleLocalizationBatch({
             workType: work.workType,
             youtubeId: work.u2bId,
           },
-          requiredOutputLocales: uniqueTargetLocales,
           sourceLanguage: {
             label: getLanguageLabel(sourceLocale),
             locale: sourceLocale,
           },
           sourceSrt,
+          // --- per-request varying fields below (keep last for caching) ---
+          requiredOutputLocales: uniqueTargetLocales,
           targetLanguages: uniqueTargetLocales.map((locale) => ({
             existingSrt: subtitleTracks[locale],
             label: getLanguageLabel(locale),

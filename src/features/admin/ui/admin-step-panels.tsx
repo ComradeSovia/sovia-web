@@ -869,6 +869,10 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [translatedCount, setTranslatedCount] = useState<number | null>(null);
+  const [progress, setProgress] = useState<{
+    done: number;
+    total: number;
+  } | null>(null);
 
   async function handleClick(event: MouseEvent<HTMLButtonElement>) {
     const form = event.currentTarget.form;
@@ -897,61 +901,140 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
 
     setError(null);
     setTranslatedCount(null);
+    setProgress({ done: 0, total: targetLocales.length });
     setPending(true);
 
+    const generationNotes = getFormControlValue(
+      form,
+      "subtitleGenerationNotes",
+    );
+    const promptKey = getFormControlValue(
+      form,
+      "subtitleLocalizationBatchPromptKey",
+    );
+
+    // Translating every locale in one request exceeds Cloudflare's ~100s proxy
+    // limit and returns a 504. Instead we translate a few locales per request
+    // and apply each result as it lands. Each request re-sends the same prompt +
+    // source SRT prefix, which OpenAI's automatic prompt caching discounts, so
+    // smaller batches stay cheap.
+    const SUBTITLE_LOCALES_PER_REQUEST = 3;
+    // Batches after the first run with a small concurrency pool to speed things
+    // up; the first batch runs alone to warm the shared prompt cache so the
+    // concurrent ones are cache hits rather than all missing at once.
+    const SUBTITLE_REQUEST_CONCURRENCY = 2;
+    const batches: string[][] = [];
+    for (
+      let index = 0;
+      index < targetLocales.length;
+      index += SUBTITLE_LOCALES_PER_REQUEST
+    ) {
+      batches.push(
+        targetLocales.slice(index, index + SUBTITLE_LOCALES_PER_REQUEST),
+      );
+    }
+
+    let translated = 0;
+    const failedLocales: string[] = [];
+
+    // Capture control-flow-narrowed values so the nested closure keeps them
+    // non-nullable.
+    const activeForm = form;
+    const activeSourceLocale = sourceLocale;
+
+    async function runBatch(batch: string[]) {
+      try {
+        const response = await fetch(
+          `/admin/api/content/${encodeURIComponent(contentId)}/generate-subtitle-localization-batch`,
+          {
+            body: JSON.stringify({
+              generationNotes,
+              promptKey,
+              sourceLocale: activeSourceLocale,
+              subtitleTracks: {
+                [activeSourceLocale]: sourceSrt,
+                ...Object.fromEntries(
+                  batch.map((locale) => [locale, subtitleTracks[locale]]),
+                ),
+              },
+              targetLocales: batch,
+            }),
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+          },
+        );
+
+        if (response.status === 504) {
+          throw new Error(
+            "Timed out while translating these locales. Try fewer subtitle languages, or the SRT may be too long.",
+          );
+        }
+
+        const payload = (await response.json()) as {
+          localizations?: {
+            locale: string;
+            srt: string;
+          }[];
+          message?: string;
+        };
+
+        if (!response.ok) {
+          throw new Error(
+            payload.message || "Subtitle localization batch generation failed.",
+          );
+        }
+
+        const localizations = payload.localizations ?? [];
+        for (const locale of batch) {
+          const item = localizations.find((entry) => entry.locale === locale);
+          if (item) {
+            setFormControlValue(
+              activeForm,
+              `subtitleTracks.${item.locale}`,
+              item.srt,
+            );
+            translated += 1;
+          } else {
+            failedLocales.push(locale);
+          }
+        }
+      } catch {
+        failedLocales.push(...batch);
+      }
+      setProgress({
+        done: translated + failedLocales.length,
+        total: targetLocales.length,
+      });
+    }
+
     try {
-      const response = await fetch(
-        `/admin/api/content/${encodeURIComponent(contentId)}/generate-subtitle-localization-batch`,
-        {
-          body: JSON.stringify({
-            generationNotes: getFormControlValue(
-              form,
-              "subtitleGenerationNotes",
-            ),
-            promptKey: getFormControlValue(
-              form,
-              "subtitleLocalizationBatchPromptKey",
-            ),
-            sourceLocale,
-            subtitleTracks,
-            targetLocales,
-          }),
-          headers: { "Content-Type": "application/json" },
-          method: "POST",
-        },
+      // Warm the prompt cache with the first batch, then fan out the rest.
+      if (batches.length) {
+        await runBatch(batches[0]);
+      }
+      let cursor = 1;
+      async function worker() {
+        while (cursor < batches.length) {
+          const index = cursor;
+          cursor += 1;
+          await runBatch(batches[index]);
+        }
+      }
+      await Promise.all(
+        Array.from(
+          { length: Math.min(SUBTITLE_REQUEST_CONCURRENCY, batches.length - 1) },
+          () => worker(),
+        ),
       );
-      const payload = (await response.json()) as {
-        localizations?: {
-          locale: string;
-          srt: string;
-        }[];
-        message?: string;
-      };
 
-      if (!response.ok) {
-        throw new Error(
-          payload.message || "Subtitle localization batch generation failed.",
+      setTranslatedCount(translated);
+      if (failedLocales.length) {
+        setError(
+          `Translated ${translated} of ${targetLocales.length} locales. Failed: ${failedLocales.join(", ")}. Retry to translate the remaining locales.`,
         );
       }
-
-      const localizations = payload.localizations ?? [];
-      if (!localizations.length) {
-        throw new Error(
-          "The model returned no subtitle translations. Check that the subtitle prompt returns locales exactly as requested.",
-        );
-      }
-
-      for (const item of localizations) {
-        setFormControlValue(form, `subtitleTracks.${item.locale}`, item.srt);
-      }
-      setTranslatedCount(localizations.length);
-    } catch (generationError) {
-      setError(
-        generationError instanceof Error
-          ? generationError.message
-          : "Subtitle localization batch generation failed.",
-      );
     } finally {
+      setProgress(null);
       setPending(false);
     }
   }
@@ -968,7 +1051,9 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
       </button>
       {pending ? (
         <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
-          Translating SRT subtitles into all other subtitle languages...
+          {progress
+            ? `Translating subtitle languages... ${progress.done}/${progress.total}`
+            : "Translating SRT subtitles into all other subtitle languages..."}
         </p>
       ) : null}
       {translatedCount !== null ? (
