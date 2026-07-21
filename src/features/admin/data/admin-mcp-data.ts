@@ -1,5 +1,9 @@
 import { listAdminMusicWorks } from "./music-admin";
 import {
+  getSearchEmbeddings,
+  getSearchQueryEmbedding,
+} from "./music-search-embeddings";
+import {
   getYoutubeAnalyticsSyncStatus,
   listLatestYoutubeAnalyticsSnapshots,
   listLatestYoutubeEarlyPerformanceSnapshots,
@@ -29,6 +33,7 @@ type ContentSearchFilters = {
   hasYoutube?: boolean;
   language?: string;
   limit?: number;
+  matchMode?: "hybrid" | "lexical" | "semantic";
   musicStyle?: string;
   offset?: number;
   q?: string;
@@ -204,16 +209,31 @@ export async function searchAdminMcpContentWorks(
   const works = await listAdminMusicWorks();
   const safeLimit = getSafeLimit(filters.limit);
   const safeOffset = getSafeOffset(filters.offset);
-  const matched = works
+  const candidates = works
     .map((work) => serializeWork(work, work.contentId))
-    .filter((work) => matchesContentFilters(work, filters));
+    .filter((work) => matchesContentFilters(work, filters, false));
+  const search = filters.q?.trim()
+    ? await rankContentSearchWorks(candidates, filters.q, filters.matchMode)
+    : {
+        generatedEmbeddingCount: 0,
+        items: candidates,
+        mode: filters.matchMode ?? "hybrid",
+        semanticAvailable: false,
+      };
 
   return {
-    count: matched.length,
+    count: search.items.length,
     filters: normalizeContentSearchFilters(filters),
-    items: matched.slice(safeOffset, safeOffset + safeLimit),
+    items: search.items
+      .slice(safeOffset, safeOffset + safeLimit)
+      .map(serializeContentSearchResult),
     limit: safeLimit,
     offset: safeOffset,
+    search: {
+      generatedEmbeddingCount: search.generatedEmbeddingCount,
+      mode: search.mode,
+      semanticAvailable: search.semanticAvailable,
+    },
   };
 }
 
@@ -772,6 +792,7 @@ function normalizeContentSearchFilters(filters: ContentSearchFilters) {
     hasSubtitles: filters.hasSubtitles,
     hasYoutube: filters.hasYoutube,
     language: filters.language?.trim() || undefined,
+    matchMode: filters.matchMode ?? "hybrid",
     musicStyle: filters.musicStyle?.trim() || undefined,
     q: filters.q?.trim() || undefined,
     visible: filters.visible,
@@ -782,9 +803,12 @@ function normalizeContentSearchFilters(filters: ContentSearchFilters) {
 function matchesContentFilters(
   work: ReturnType<typeof serializeWork>,
   filters: ContentSearchFilters,
+  includeQuery = true,
 ) {
   const query = filters.q?.trim().toLowerCase();
-  if (query && !getSearchText(work).includes(query)) return false;
+  if (includeQuery && query && !getSearchText(work).includes(query)) {
+    return false;
+  }
 
   const language = filters.language?.trim().toLowerCase();
   if (
@@ -832,6 +856,291 @@ function matchesContentFilters(
   }
 
   return true;
+}
+
+async function rankContentSearchWorks(
+  works: ReturnType<typeof serializeWork>[],
+  query: string,
+  requestedMode: ContentSearchFilters["matchMode"],
+) {
+  const mode = requestedMode ?? "hybrid";
+  const lexicalMatches = new Map(
+    works.map((work) => [work.contentId, getLexicalSearchMatch(work, query)]),
+  );
+  let generatedEmbeddingCount = 0;
+  let semanticAvailable = false;
+  let semanticScores = new Map<string, number>();
+
+  if (mode !== "lexical") {
+    try {
+      const documents = works.map((work) => ({
+        contentId: work.contentId,
+        text: getSearchEmbeddingText(work),
+      }));
+      const [storedEmbeddings, queryEmbedding] = await Promise.all([
+        getSearchEmbeddings(documents),
+        getSearchQueryEmbedding(query),
+      ]);
+      generatedEmbeddingCount = storedEmbeddings.generatedCount;
+      semanticAvailable =
+        storedEmbeddings.available && Boolean(queryEmbedding?.length);
+
+      if (queryEmbedding) {
+        semanticScores = new Map(
+          works.map((work) => [
+            work.contentId,
+            getCosineSimilarity(
+              queryEmbedding,
+              storedEmbeddings.vectors.get(work.contentId),
+            ),
+          ]),
+        );
+      }
+    } catch (error) {
+      console.warn(
+        "OpenAI semantic search unavailable; using lexical search.",
+        {
+          message: error instanceof Error ? error.message : String(error),
+        },
+      );
+    }
+  }
+
+  return {
+    generatedEmbeddingCount,
+    items: works
+      .map((work) => {
+        const lexical =
+          lexicalMatches.get(work.contentId) ?? EMPTY_SEARCH_MATCH;
+        const semanticScore = semanticScores.get(work.contentId) ?? 0;
+        const score = getCombinedSearchScore(
+          mode,
+          lexical.score,
+          semanticScore,
+        );
+
+        return {
+          ...work,
+          searchMatch: {
+            confidence: getSearchConfidence(lexical.score, semanticScore),
+            lexicalScore: toSearchScore(lexical.score),
+            matchedFields: lexical.matchedFields,
+            requiresConfirmation: !lexical.isExactIdentifier,
+            score: toSearchScore(score),
+            semanticScore: semanticAvailable
+              ? toSearchScore(semanticScore)
+              : null,
+          },
+        };
+      })
+      .filter((work) =>
+        isSearchMatch(mode, work.searchMatch, semanticAvailable),
+      )
+      .sort(
+        (left, right) =>
+          right.searchMatch.score - left.searchMatch.score ||
+          left.title.localeCompare(right.title),
+      ),
+    mode,
+    semanticAvailable,
+  };
+}
+
+const EMPTY_SEARCH_MATCH = {
+  isExactIdentifier: false,
+  matchedFields: [] as string[],
+  score: 0,
+};
+
+function getLexicalSearchMatch(
+  work: ReturnType<typeof serializeWork>,
+  query: string,
+) {
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery) return EMPTY_SEARCH_MATCH;
+
+  const fields = getSearchFields(work);
+  const queryTerms = normalizedQuery.split(/\s+/).filter(Boolean);
+  const matchedFields = fields
+    .filter((field) => normalizeText(field.value).includes(normalizedQuery))
+    .map((field) => field.name);
+  const allTermsMatch = queryTerms.every((term) =>
+    fields.some((field) => normalizeText(field.value).includes(term)),
+  );
+  const exactIdentifier = fields.some(
+    (field) =>
+      field.isIdentifier && normalizeText(field.value) === normalizedQuery,
+  );
+  const exactTitle = fields.some(
+    (field) => field.isTitle && normalizeText(field.value) === normalizedQuery,
+  );
+  const phraseTitleMatch = fields.some(
+    (field) =>
+      field.isTitle && normalizeText(field.value).includes(normalizedQuery),
+  );
+  const score = exactIdentifier
+    ? 1
+    : exactTitle
+      ? 0.95
+      : phraseTitleMatch
+        ? 0.8
+        : matchedFields.length
+          ? 0.65
+          : allTermsMatch
+            ? 0.5
+            : 0;
+
+  return { isExactIdentifier: exactIdentifier, matchedFields, score };
+}
+
+function getSearchFields(work: ReturnType<typeof serializeWork>) {
+  return [
+    {
+      isIdentifier: true,
+      isTitle: false,
+      name: "contentId",
+      value: work.contentId,
+    },
+    { isIdentifier: true, isTitle: false, name: "path", value: work.path },
+    {
+      isIdentifier: true,
+      isTitle: false,
+      name: "youtubeId",
+      value: work.youtube?.id,
+    },
+    { isIdentifier: false, isTitle: true, name: "title", value: work.title },
+    {
+      isIdentifier: false,
+      isTitle: true,
+      name: "sourceTitle",
+      value: work.source.title,
+    },
+    {
+      isIdentifier: false,
+      isTitle: false,
+      name: "sourceIp",
+      value: work.source.ip,
+    },
+    {
+      isIdentifier: false,
+      isTitle: false,
+      name: "sourceSeries",
+      value: work.source.series,
+    },
+    {
+      isIdentifier: false,
+      isTitle: false,
+      name: "artists",
+      value: work.source.artists?.join(" "),
+    },
+    { isIdentifier: false, isTitle: false, name: "lyrics", value: work.lyrics },
+    {
+      isIdentifier: false,
+      isTitle: false,
+      name: "description",
+      value: getSearchText(work),
+    },
+  ].filter(
+    (field): field is typeof field & { value: string } =>
+      typeof field.value === "string",
+  );
+}
+
+function serializeContentSearchResult(
+  work: ReturnType<typeof serializeWork> & {
+    searchMatch?: {
+      confidence: "high" | "low" | "medium";
+      lexicalScore: number;
+      matchedFields: string[];
+      requiresConfirmation: boolean;
+      score: number;
+      semanticScore: number | null;
+    };
+  },
+) {
+  return {
+    contentId: work.contentId,
+    description: work.description.shortDescription,
+    path: work.path,
+    searchMatch: work.searchMatch ?? null,
+    source: {
+      artists: work.source.artists,
+      ip: work.source.ip,
+      series: work.source.series,
+      title: work.source.title,
+    },
+    style: work.style,
+    subtitleLanguages: work.subtitles.languages,
+    title: work.title,
+    youtubeId: work.youtube?.id ?? null,
+  };
+}
+
+function getSearchEmbeddingText(work: ReturnType<typeof serializeWork>) {
+  return [
+    `Sovia title: ${work.title}`,
+    `Source title: ${work.source.title ?? ""}`,
+    `Artists: ${work.source.artists?.join(", ") ?? ""}`,
+    `Source IP: ${work.source.ip ?? ""}`,
+    `Series: ${work.source.series ?? ""}`,
+    `Work type: ${work.style.workType ?? ""}`,
+    `Music type: ${work.style.musicType ?? ""}`,
+    `Music style: ${work.style.musicStyle ?? ""}`,
+    `Short description: ${work.description.shortDescription ?? ""}`,
+    `Introduction: ${work.description.introText ?? ""}`,
+    `Production notes: ${work.description.productionNotes ?? ""}`,
+  ].join("\n");
+}
+
+function getCosineSimilarity(left: number[], right: number[] | undefined) {
+  if (!right || left.length !== right.length) return 0;
+
+  let dotProduct = 0;
+  let leftMagnitude = 0;
+  let rightMagnitude = 0;
+  for (let index = 0; index < left.length; index += 1) {
+    dotProduct += left[index] * right[index];
+    leftMagnitude += left[index] ** 2;
+    rightMagnitude += right[index] ** 2;
+  }
+
+  if (!leftMagnitude || !rightMagnitude) return 0;
+  return Math.max(0, dotProduct / Math.sqrt(leftMagnitude * rightMagnitude));
+}
+
+function getCombinedSearchScore(
+  mode: NonNullable<ContentSearchFilters["matchMode"]>,
+  lexicalScore: number,
+  semanticScore: number,
+) {
+  if (mode === "lexical") return lexicalScore;
+  if (mode === "semantic") return semanticScore;
+  return Math.max(lexicalScore, semanticScore * 0.8);
+}
+
+function isSearchMatch(
+  mode: NonNullable<ContentSearchFilters["matchMode"]>,
+  match: {
+    lexicalScore: number;
+    semanticScore: number | null;
+  },
+  semanticAvailable: boolean,
+) {
+  if (mode === "lexical" || !semanticAvailable) {
+    return match.lexicalScore > 0;
+  }
+  if (mode === "semantic") return (match.semanticScore ?? 0) >= 35;
+  return match.lexicalScore > 0 || (match.semanticScore ?? 0) >= 45;
+}
+
+function getSearchConfidence(lexicalScore: number, semanticScore: number) {
+  if (lexicalScore >= 0.95) return "high";
+  if (lexicalScore >= 0.5 || semanticScore >= 0.7) return "medium";
+  return "low";
+}
+
+function toSearchScore(value: number) {
+  return Math.round(value * 100);
 }
 
 function getSearchText(work: ReturnType<typeof serializeWork>) {

@@ -127,7 +127,7 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
-      "Search read-only Sovia content data by text, language, work type, music style, YouTube presence, lyrics, subtitles, and visibility.",
+      "Search read-only Sovia content with lexical, semantic, or hybrid matching. Returns compact candidates with confidence; use content_get_work with contentId to confirm and read full content.",
     inputSchema: {
       additionalProperties: false,
       properties: {
@@ -155,6 +155,13 @@ const tools: ToolDefinition[] = [
           minimum: 1,
           type: "integer",
         },
+        matchMode: {
+          default: "hybrid",
+          description:
+            "hybrid combines lexical and semantic matching; lexical is best for names and IDs; semantic is best for themes and concepts.",
+          enum: ["hybrid", "lexical", "semantic"],
+          type: "string",
+        },
         musicStyle: {
           description: "Exact music style filter.",
           type: "string",
@@ -167,7 +174,7 @@ const tools: ToolDefinition[] = [
         },
         q: {
           description:
-            "Case-insensitive text query across titles, IDs, source fields, lyrics, descriptions, and YouTube localizations.",
+            "Text query across titles, IDs, source fields, lyrics, descriptions, and YouTube localizations. Use the returned contentId with content_get_work to confirm a candidate.",
           type: "string",
         },
         visible: {
@@ -672,8 +679,15 @@ function getAuthError(request: Request) {
 function getPaginationArgs(args: Record<string, unknown>) {
   return {
     limit: toInteger(args.limit, 50),
+    matchMode: getSearchMatchMode(args.matchMode),
     offset: toInteger(args.offset, 0),
   };
+}
+
+function getSearchMatchMode(value: unknown) {
+  return value === "lexical" || value === "semantic" || value === "hybrid"
+    ? value
+    : undefined;
 }
 
 function getContentSearchArgs(args: Record<string, unknown>) {
