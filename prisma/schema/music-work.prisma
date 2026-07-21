@@ -9,6 +9,7 @@ model MusicWork {
   source    MusicWorkSource?
   status    MusicWorkStatus?
   subtitles MusicWorkSubtitles?
+  searchEmbedding MusicWorkSearchEmbedding?
   youtubeAnalyticsSnapshots         AdminYoutubeVideoAnalyticsSnapshot[]
   youtubeEarlyPerformanceSnapshots AdminYoutubeVideoEarlyPerformanceSnapshot[]
   youtubeTrafficSourceSnapshots    AdminYoutubeVideoTrafficSourceSnapshot[]

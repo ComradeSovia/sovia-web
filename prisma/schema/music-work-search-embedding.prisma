@@ -1,0 +1,10 @@
+model MusicWorkSearchEmbedding {
+  contentId   String    @id
+  model       String
+  contentHash String
+  embedding   Json
+  updatedAt   DateTime  @updatedAt
+  work        MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@map("music_work_search_embeddings")
+}
