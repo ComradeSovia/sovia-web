@@ -2,7 +2,7 @@
 
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { SoundCopy } from "../i18n/copy";
 import { filterMusic } from "../lib/filter-music";
@@ -21,40 +21,52 @@ export function SoundClient({
   locale: SiteLocale;
   musicWorks: MusicWork[];
 }) {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const searchParamsString = searchParams.toString();
 
-  const query = searchParams.get("q") ?? "";
-  const page = Math.max(1, Number(searchParams.get("page") ?? 1));
+  const urlQuery = searchParams.get("q") ?? "";
+  const urlPage = Math.max(1, Number(searchParams.get("page") ?? 1));
 
-  // Local input state for debounce
-  const [inputValue, setInputValue] = useState(query);
+  const [inputValue, setInputValue] = useState(urlQuery);
+  const [isComposing, setIsComposing] = useState(false);
+  const [page, setPage] = useState(urlPage);
 
-  // Sync input when URL changes (back/forward navigation)
+  // Keep local search state in sync with browser back/forward navigation.
   useEffect(() => {
-    setInputValue(query);
-  }, [query]);
+    setInputValue(urlQuery);
+    setPage(urlPage);
+  }, [urlPage, urlQuery]);
+
+  useEffect(() => {
+    function syncFromBrowserHistory() {
+      const params = new URLSearchParams(window.location.search);
+      setInputValue(params.get("q") ?? "");
+      setPage(Math.max(1, Number(params.get("page") ?? 1)));
+    }
+
+    window.addEventListener("popstate", syncFromBrowserHistory);
+    return () => window.removeEventListener("popstate", syncFromBrowserHistory);
+  }, []);
 
   const filtered = useMemo(() => {
-    const matchedWorks = filterMusic(musicWorks, query).filter((work) =>
+    const matchedWorks = filterMusic(musicWorks, inputValue).filter((work) =>
       Boolean(work.u2bId),
     );
-    return query.trim() ? matchedWorks : [...matchedWorks].reverse();
-  }, [query, musicWorks]);
+    return inputValue.trim() ? matchedWorks : [...matchedWorks].reverse();
+  }, [inputValue, musicWorks]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
   const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  // Debounced URL update
+  // Update the address bar without a Next.js navigation, so IME composition
+  // and the controlled input stay mounted while search results update locally.
   useEffect(() => {
-    if (inputValue === query) {
+    if (isComposing || typeof window === "undefined") {
       return;
     }
 
     const timer = setTimeout(() => {
-      const params = new URLSearchParams(searchParamsString);
+      const params = new URLSearchParams(window.location.search);
 
       if (inputValue) {
         params.set("q", inputValue);
@@ -66,17 +78,26 @@ export function SoundClient({
 
       const nextSearch = params.toString();
 
-      if (nextSearch !== searchParamsString) {
-        router.replace(`?${nextSearch}`, { scroll: false });
+      if (nextSearch !== window.location.search.slice(1)) {
+        const nextUrl = `${window.location.pathname}${
+          nextSearch ? `?${nextSearch}` : ""
+        }${window.location.hash}`;
+        window.history.pushState(null, "", nextUrl);
       }
     }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [inputValue, query, router, searchParamsString]);
+  }, [inputValue, isComposing]);
 
   function getPageHref(nextPage: number) {
     const params = new URLSearchParams(searchParams.toString());
     const safePage = Math.min(Math.max(1, nextPage), totalPages);
+
+    if (inputValue) {
+      params.set("q", inputValue);
+    } else {
+      params.delete("q");
+    }
 
     if (safePage <= 1) {
       params.delete("page");
@@ -97,8 +118,11 @@ export function SoundClient({
           className="w-full border-[3px] border-ink bg-paper px-4 py-3 font-black uppercase tracking-[0.08em] text-ink placeholder:text-[rgb(var(--ink)/0.45)] shadow-[6px_6px_0_rgb(var(--red))] focus:outline-none focus:ring-4 focus:ring-[rgb(var(--yellow))]"
           placeholder={copy.search.placeholder}
           value={inputValue}
+          onCompositionEnd={() => setIsComposing(false)}
+          onCompositionStart={() => setIsComposing(true)}
           onChange={(e) => {
             setInputValue(e.target.value);
+            setPage(1);
           }}
         />
       </div>
