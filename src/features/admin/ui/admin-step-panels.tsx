@@ -1074,15 +1074,18 @@ export function AdminGenerateSubtitleLocalizationBatchButton({
 export function AdminDownloadSubtitlesButton({
   className,
   contentId,
+  labels,
   locales,
 }: {
   className?: string;
   contentId: string;
+  labels: Record<string, string>;
   locales: readonly string[];
 }) {
   const [error, setError] = useState<string | null>(null);
+  const [selectedLocale, setSelectedLocale] = useState("");
 
-  function handleClick(event: MouseEvent<HTMLButtonElement>) {
+  function handleDownloadAll(event: MouseEvent<HTMLButtonElement>) {
     const form = event.currentTarget.form;
     if (!form) return;
 
@@ -1116,15 +1119,66 @@ export function AdminDownloadSubtitlesButton({
     window.setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
+  function handleDownloadSelected(event: MouseEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    if (!form || !selectedLocale) return;
+
+    const srt = getFormControlValue(
+      form,
+      `subtitleTracks.${selectedLocale}`,
+    )?.trim();
+    if (!srt) {
+      setError(`Add SRT content for ${selectedLocale} before downloading.`);
+      return;
+    }
+
+    setError(null);
+    const safeContentId = sanitizeFilenamePart(contentId);
+    const safeLocale = sanitizeFilenamePart(selectedLocale);
+    const url = URL.createObjectURL(
+      new Blob([new TextEncoder().encode(`${srt}\n`)], {
+        type: "application/x-subrip;charset=utf-8",
+      }),
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `sovia_${safeContentId}_${safeLocale}.srt`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
   return (
     <div className="grid gap-2">
-      <button className={className} onClick={handleClick} type="button">
+      <button className={className} onClick={handleDownloadAll} type="button">
         <Download className="mr-2 h-4 w-4" />
         Download all subtitles
       </button>
       <p className="text-xs leading-5 text-zinc-500">
         Downloads every non-empty subtitle track as UTF-8 SRT in one ZIP file.
       </p>
+      <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
+        <select
+          className="h-10 min-w-0 rounded-md border border-zinc-700 bg-zinc-950 px-3 text-sm text-zinc-100 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+          onChange={(event) => setSelectedLocale(event.target.value)}
+          value={selectedLocale}
+        >
+          <option value="">Select subtitle language</option>
+          {locales.map((locale) => (
+            <option key={locale} value={locale}>
+              {locale} - {labels[locale] ?? locale}
+            </option>
+          ))}
+        </select>
+        <button
+          className={className}
+          disabled={!selectedLocale}
+          onClick={handleDownloadSelected}
+          type="button"
+        >
+          <Download className="mr-2 h-4 w-4" />
+          Download subtitle
+        </button>
+      </div>
       {error ? (
         <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-100">
           {error}
