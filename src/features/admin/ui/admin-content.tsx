@@ -12,6 +12,8 @@ import {
   CheckCircle2,
   Circle,
   Database,
+  Eye,
+  EyeOff,
   Globe2,
   LayoutDashboard,
   ListMusic,
@@ -1335,7 +1337,10 @@ async function ContentList({
   const contentSort = matchContentSort(sort);
   const contentSortOrder = matchContentSortOrder(order);
   const currentPage = Math.max(1, Number.parseInt(page ?? "1", 10) || 1);
-  const allWorks = await listAdminMusicWorks();
+  const [allWorks, subtitleLocales] = await Promise.all([
+    listAdminMusicWorks(),
+    listEnabledAdminYoutubeLocales(),
+  ]);
   const structuredWorks = allWorks.filter((work) =>
     matchesContentSearchStructuredFilters(work, query),
   );
@@ -1454,6 +1459,7 @@ async function ContentList({
             page={safePage}
             query={query}
             sort={contentSort}
+            subtitleTargetCount={subtitleLocales.length}
             totalCount={filteredWorks.length}
             totalPages={totalPages}
             works={works}
@@ -1624,6 +1630,7 @@ function ContentTable({
   page,
   query,
   sort,
+  subtitleTargetCount,
   totalCount,
   totalPages,
   works,
@@ -1632,6 +1639,7 @@ function ContentTable({
   page: number;
   query?: string;
   sort: ContentSort;
+  subtitleTargetCount: number;
   totalCount: number;
   totalPages: number;
   works: AdminMusicWork[];
@@ -1700,6 +1708,10 @@ function ContentTable({
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-1">
                     <WorkVisibilityBadge visible={Boolean(work.visible)} />
+                    <SubtitleCoverageBadge
+                      subtitleTargetCount={subtitleTargetCount}
+                      work={work}
+                    />
                   </div>
                 </Link>
               </TableCell>
@@ -1875,31 +1887,36 @@ function WorkVisibilityBadge({ visible }: { visible?: boolean }) {
   );
 }
 
-function PlatformBadges({ work }: { work: AdminMusicWork }) {
-  const platforms = [
-    work.u2bId ? "YouTube" : null,
-    work.bilibiliId ? "Bilibili" : null,
-    work.vkId ? "VK" : null,
-    work.pixivId ? "Pixiv" : null,
-  ].filter(Boolean);
-
-  if (!platforms.length) {
-    return <span className="text-xs text-zinc-500">No platform IDs</span>;
-  }
+function SubtitleCoverageBadge({
+  subtitleTargetCount,
+  work,
+}: {
+  subtitleTargetCount: number;
+  work: AdminMusicWork;
+}) {
+  const subtitleTrackCount = Object.values(work.subtitleTracks ?? {}).filter(
+    Boolean,
+  ).length;
+  const complete =
+    subtitleTargetCount > 0 && subtitleTrackCount >= subtitleTargetCount;
 
   return (
-    <div className="flex max-w-60 flex-wrap gap-1">
-      {platforms.map((platform) => (
-        <Badge
-          className="border-zinc-700 bg-transparent text-zinc-300"
-          key={platform}
-          variant="outline"
-        >
-          {platform}
-        </Badge>
-      ))}
-    </div>
+    <Badge
+      className={
+        complete
+          ? "border-emerald-700 bg-emerald-950 text-emerald-100"
+          : "border-zinc-700 bg-transparent text-zinc-400"
+      }
+      title="Completed subtitle tracks / enabled subtitle languages"
+      variant="outline"
+    >
+      Subtitles {subtitleTrackCount}/{subtitleTargetCount}
+    </Badge>
   );
+}
+
+function PlatformBadges({ work }: { work: AdminMusicWork }) {
+  return <DistributionBadges work={work} />;
 }
 
 export async function AdminContentEditorPage({
@@ -1975,10 +1992,13 @@ async function ContentEditor({
           YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
         )
       : [];
-  const youtubeLocaleConfig =
-    step === "youtube" || step === "subtitles"
-      ? await listEnabledAdminYoutubeLocales()
-      : [];
+  const youtubeLocaleConfig = await listEnabledAdminYoutubeLocales();
+  const relatedWorkIds = getRelatedWorkIds(work?.relatedWorkUids);
+  const relatedWorks = relatedWorkIds.length
+    ? (await listAdminMusicWorks()).filter((item) =>
+        relatedWorkIds.includes(item.contentId),
+      )
+    : [];
   const youtubePublicationStatus = await checkYouTubeVideoPublished(
     work?.u2bId,
   );
@@ -1997,28 +2017,39 @@ async function ContentEditor({
 
       <Card className={CARD_CLASS}>
         <CardHeader className="space-y-5">
-          <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
+          <div className="grid gap-4 md:grid-cols-[10rem_1fr_auto] md:items-start">
+            <ContentHeaderThumbnail work={work} />
             <div>
               <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
                 <Video className="h-4 w-4 text-zinc-500" />
                 content editor
               </div>
-              <CardTitle className={`text-3xl ${CARD_TITLE_CLASS}`}>
-                {work?.songTitle || work?.contentId || "New music content"}
+              <CardTitle
+                className={`flex items-center gap-3 text-3xl ${CARD_TITLE_CLASS}`}
+              >
+                {work ? (
+                  <span
+                    className={
+                      work.visible ? "text-emerald-400" : "text-zinc-500"
+                    }
+                    title={work.visible ? "Visible" : "Hidden"}
+                  >
+                    {work.visible ? (
+                      <Eye aria-hidden="true" className="h-6 w-6" />
+                    ) : (
+                      <EyeOff aria-hidden="true" className="h-6 w-6" />
+                    )}
+                  </span>
+                ) : null}
+                <span className="min-w-0 break-words">
+                  {work?.songTitle || work?.contentId || "New music content"}
+                </span>
               </CardTitle>
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <CardDescription className={CARD_DESCRIPTION_CLASS}>
-                  {work ? (
-                    <>
-                      <span className="font-mono">{work.contentId}</span>
-                      {" / "}
-                      <span className="font-mono">{work.path}</span>
-                    </>
-                  ) : (
-                    "Create a structured music content record."
-                  )}
+              {!work ? (
+                <CardDescription className={`mt-2 ${CARD_DESCRIPTION_CLASS}`}>
+                  Create a structured music content record.
                 </CardDescription>
-              </div>
+              ) : null}
             </div>
             {work ? (
               <AdminConfirmForm
@@ -2039,7 +2070,11 @@ async function ContentEditor({
               </AdminConfirmForm>
             ) : null}
           </div>
-          <ContentReviewHeader work={work} />
+          <ContentReviewHeader
+            relatedWorks={relatedWorks}
+            subtitleTargetCount={youtubeLocaleConfig.length}
+            work={work}
+          />
         </CardHeader>
         <CardContent>
           {id && !work ? (
@@ -2601,7 +2636,219 @@ function getTextRows(value: string | null | undefined, minimumRows: number) {
   return Math.max(minimumRows, lineCount + 2);
 }
 
-function ContentReviewHeader({ work }: { work?: AdminMusicWork }) {
+function ContentHeaderThumbnail({ work }: { work?: AdminMusicWork }) {
+  if (!work?.u2bId) {
+    return (
+      <div className="grid aspect-video w-full place-items-center rounded-md border border-zinc-800 bg-zinc-950 text-xs text-zinc-500">
+        No Data
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      alt=""
+      className="aspect-video w-full rounded-md border border-zinc-800 bg-zinc-950 object-cover"
+      height={90}
+      src={`/api/u2b-thumbnail?id=${encodeURIComponent(work.u2bId)}`}
+      unoptimized
+      width={160}
+    />
+  );
+}
+
+function ContentReviewHeader({
+  relatedWorks,
+  subtitleTargetCount,
+  work,
+}: {
+  relatedWorks: AdminMusicWork[];
+  subtitleTargetCount: number;
+  work?: AdminMusicWork;
+}) {
+  const subtitleTrackCount = Object.values(work?.subtitleTracks ?? {}).filter(
+    Boolean,
+  ).length;
+  const subtitlesComplete =
+    subtitleTargetCount > 0 && subtitleTrackCount >= subtitleTargetCount;
+
+  return (
+    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+      <ReviewItem
+        complete={Boolean(work?.contentId && work?.path && work?.publishedAt)}
+        label="Basic"
+        value={
+          <HeaderValueLines
+            values={[
+              `CID: ${work?.contentId ?? "No Data"}`,
+              `Path: ${work?.path ?? "No Data"}`,
+              `Published: ${work?.publishedAt ?? "No Data"}`,
+            ]}
+          />
+        }
+      />
+      <ReviewItem
+        complete={Boolean(
+          work?.fromType && work?.fromTitle && work?.fromArtists?.length,
+        )}
+        label="From"
+        value={getFromHeaderValue(work)}
+      />
+      <ReviewItem
+        complete={relatedWorks.length > 0}
+        label="Related"
+        value={getRelatedHeaderValue(relatedWorks, work?.relatedWorkUids)}
+      />
+      <ReviewItem
+        label="Dist"
+        value={<DistributionBadges work={work} />}
+      />
+      <ReviewItem
+        complete={subtitlesComplete}
+        label="Subtitles"
+        successTone
+        value={`${subtitleTrackCount} / ${subtitleTargetCount}`}
+      />
+    </div>
+  );
+}
+
+function HeaderValueLines({ values }: { values: string[] }) {
+  return (
+    <div className="grid gap-1 break-words font-mono text-xs leading-5 text-zinc-300">
+      {values.map((value) => (
+        <span key={value}>{value}</span>
+      ))}
+    </div>
+  );
+}
+
+function getFromHeaderValue(work?: AdminMusicWork) {
+  const values = [work?.fromType, work?.fromTitle, work?.fromArtists?.join(", ")]
+    .map((value) => value?.trim())
+    .filter(Boolean);
+
+  return values.length ? values.join(" / ") : "No Data";
+}
+
+function getRelatedWorkIds(value?: string | null) {
+  return (value ?? "")
+    .split(/\s+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function getRelatedHeaderValue(
+  relatedWorks: AdminMusicWork[],
+  relatedWorkUids?: string | null,
+) {
+  if (relatedWorks.length) {
+    return relatedWorks
+      .map((relatedWork) =>
+        [relatedWork.title, relatedWork.songTitle ?? relatedWork.title].join(" - "),
+      )
+      .join(" / ");
+  }
+
+  return relatedWorkUids ? "No Data" : "No related works";
+}
+
+type DistributionStatus = "complete" | "empty" | "id-only" | "missing-id";
+
+function DistributionBadges({ work }: { work?: AdminMusicWork }) {
+  const youtubeLocales = getFilledYoutubeLocalizationLocales(work);
+  const platforms = [
+    {
+      completeInfo: youtubeLocales.length > 0,
+      hasId: Boolean(work?.u2bId),
+      hasInfo: youtubeLocales.length > 0,
+      label: "YouTube",
+    },
+    {
+      completeInfo: Boolean(work?.bilibiliTitle && work?.bilibiliDescription),
+      hasId: Boolean(work?.bilibiliId),
+      hasInfo: Boolean(work?.bilibiliTitle || work?.bilibiliDescription),
+      label: "Bilibili",
+    },
+    {
+      completeInfo: Boolean(work?.vkTitle && work?.vkDescription),
+      hasId: Boolean(work?.vkId),
+      hasInfo: Boolean(work?.vkTitle || work?.vkDescription),
+      label: "VK Video",
+    },
+    {
+      completeInfo: Boolean(
+        work?.pixivTitle && work?.pixivDescription && work?.pixivTags,
+      ),
+      hasId: Boolean(work?.pixivId),
+      hasInfo: Boolean(
+        work?.pixivTitle || work?.pixivDescription || work?.pixivTags,
+      ),
+      label: "Pixiv",
+    },
+  ];
+
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {platforms.map((platform) => {
+        const status = getDistributionStatus(platform);
+        return (
+          <Badge
+            className={getDistributionBadgeClass(status)}
+            key={platform.label}
+            title={getDistributionStatusLabel(status)}
+            variant="outline"
+          >
+            {platform.label}
+          </Badge>
+        );
+      })}
+    </div>
+  );
+}
+
+function getDistributionStatus({
+  completeInfo,
+  hasId,
+  hasInfo,
+}: {
+  completeInfo: boolean;
+  hasId: boolean;
+  hasInfo: boolean;
+}): DistributionStatus {
+  if (hasId && completeInfo) return "complete";
+  if (hasId) return "id-only";
+  if (hasInfo) return "missing-id";
+  return "empty";
+}
+
+function getDistributionBadgeClass(status: DistributionStatus) {
+  switch (status) {
+    case "complete":
+      return "border-emerald-700 bg-emerald-950 text-emerald-100";
+    case "id-only":
+      return "border-orange-700 bg-orange-950 text-orange-100";
+    case "missing-id":
+      return "border-red-700 bg-red-950 text-red-100";
+    default:
+      return "border-zinc-700 bg-transparent text-zinc-500";
+  }
+}
+
+function getDistributionStatusLabel(status: DistributionStatus) {
+  switch (status) {
+    case "complete":
+      return "Complete information";
+    case "id-only":
+      return "ID only or incomplete information";
+    case "missing-id":
+      return "Information exists but the ID is missing";
+    default:
+      return "No data";
+  }
+}
+
+function _LegacyContentReviewHeader({ work }: { work?: AdminMusicWork }) {
   const subtitleTrackCount = Object.keys(work?.subtitleTracks ?? {}).length;
   const distributionReview = getDistributionReview(work);
 
@@ -3297,23 +3544,35 @@ function SubtitleEditor({
 function ReviewItem({
   complete,
   label,
+  successTone = false,
   value,
 }: {
-  complete: boolean;
+  complete?: boolean;
   label: string;
-  value: string;
+  successTone?: boolean;
+  value: ReactNode;
 }) {
   return (
     <div className="rounded-md border border-zinc-800 bg-zinc-950 p-3">
       <div className="mb-2 flex items-center gap-2 text-xs font-medium text-zinc-500">
-        {complete ? (
-          <CheckCircle2 className="h-4 w-4 text-zinc-300" />
+        {complete === undefined ? null : complete ? (
+          <CheckCircle2
+            className={`h-4 w-4 ${
+              successTone ? "text-emerald-400" : "text-zinc-300"
+            }`}
+          />
         ) : (
           <Circle className="h-4 w-4 text-zinc-600" />
         )}
         {label}
       </div>
-      <div className="text-sm text-zinc-100">{value}</div>
+      <div
+        className={`text-sm ${
+          complete && successTone ? "text-emerald-300" : "text-zinc-100"
+        }`}
+      >
+        {value}
+      </div>
     </div>
   );
 }
