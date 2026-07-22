@@ -5,7 +5,7 @@
     "openGraphDescription": "Смотрите аниме- и игровые музыкальные адаптации товарища Совии в советском стиле."
   },
   "search": {
-    "placeholder": "Искать название, серию..."
+    "placeholder": "Поиск песен, работ, авторов, описаний или ID платформ..."
   },
   "pagination": {
     "previous": "Назад",
@@ -15,6 +15,8 @@
     "adaptedFrom": "Адаптировано из {{original}}",
     "originalWork": "Оригинал",
     "details": "Подробнее",
-    "watchYoutube": "Смотреть YouTube"
+    "watchYoutube": "Смотреть YouTube",
+    "watchBilibili": "Смотреть на Bili",
+    "watchVk": "Смотреть в VK"
   }
 }

@@ -5,7 +5,7 @@
     "openGraphDescription": "瀏覽蘇維雅同志的蘇維埃風格動漫與遊戲音樂改編。"
   },
   "search": {
-    "placeholder": "搜尋標題、系列..."
+    "placeholder": "搜尋歌曲、作品、作者、簡介或平台 ID..."
   },
   "pagination": {
     "previous": "上一頁",
@@ -15,6 +15,8 @@
     "adaptedFrom": "改編自 {{original}}",
     "originalWork": "原作",
     "details": "查看詳情",
-    "watchYoutube": "觀看 YouTube"
+    "watchYoutube": "觀看 YouTube",
+    "watchBilibili": "在嗶哩嗶哩觀看",
+    "watchVk": "在 VK 觀看"
   }
 }

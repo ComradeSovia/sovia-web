@@ -5,7 +5,7 @@
     "openGraphDescription": "Browse Soviet-style anime and game music adaptations from Comrade Sovia."
   },
   "search": {
-    "placeholder": "Search title, series..."
+    "placeholder": "Search songs, works, artists, descriptions, or platform IDs..."
   },
   "pagination": {
     "previous": "Prev",
@@ -15,6 +15,8 @@
     "adaptedFrom": "Adapted from {{original}}",
     "originalWork": "Original work",
     "details": "View Details",
-    "watchYoutube": "Watch YouTube"
+    "watchYoutube": "Watch YouTube",
+    "watchBilibili": "View on Bili",
+    "watchVk": "View on VK"
   }
 }

@@ -6,7 +6,9 @@ import {
 import { createMusicRecordingSchema } from "@sovia/shared/seo/schema";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
+import { getSoundCopy } from "../i18n/copy";
 import { getWorkDescription, getWorkTitle } from "../lib/metadata";
+import { getBilibiliVideoUrl, getVkVideoUrl } from "../lib/platform-urls";
 import type { MusicWorkWithContent } from "../model/music";
 import { U2BThumbnail } from "./u2b-thumbnail";
 
@@ -17,6 +19,7 @@ export function SoundDetail({
   locale?: SiteLocale;
   work: MusicWorkWithContent;
 }) {
+  const copy = getSoundCopy(locale);
   const title = getWorkTitle(work);
   const hasDescription = Boolean(work.introText || work.productionNotes);
   const jsonLd = createMusicRecordingSchema({
@@ -58,16 +61,38 @@ export function SoundDetail({
 
         {work.shortDescription ? <p>{work.shortDescription}</p> : null}
 
-        {work.u2bId && (
-          <a
-            href={`https://www.youtube.com/watch?v=${work.u2bId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary inline-flex"
-          >
-            Watch on YouTube
-          </a>
-        )}
+        <div className="flex flex-wrap gap-3 pt-2">
+          {work.u2bId ? (
+            <a
+              href={`https://www.youtube.com/watch?v=${work.u2bId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary inline-flex"
+            >
+              {copy.card.watchYoutube}
+            </a>
+          ) : null}
+          {work.bilibiliId ? (
+            <a
+              href={getBilibiliVideoUrl(work.bilibiliId)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+            >
+              {copy.card.watchBilibili}
+            </a>
+          ) : null}
+          {work.vkId ? (
+            <a
+              href={getVkVideoUrl(work.vkId)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+            >
+              {copy.card.watchVk}
+            </a>
+          ) : null}
+        </div>
       </header>
 
       {hasDescription && (

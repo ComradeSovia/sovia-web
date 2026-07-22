@@ -2,6 +2,7 @@ import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Link from "next/link";
 import type { SoundCopy } from "../i18n/copy";
+import { getBilibiliVideoUrl, getVkVideoUrl } from "../lib/platform-urls";
 import type { MusicWork } from "../model/music";
 import { U2BThumbnail } from "./u2b-thumbnail";
 
@@ -51,6 +52,26 @@ export function SoundCard({
         >
           {copy.card.watchYoutube}
         </a>
+        {work.bilibiliId ? (
+          <a
+            href={getBilibiliVideoUrl(work.bilibiliId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline"
+          >
+            {copy.card.watchBilibili}
+          </a>
+        ) : null}
+        {work.vkId ? (
+          <a
+            href={getVkVideoUrl(work.vkId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline"
+          >
+            {copy.card.watchVk}
+          </a>
+        ) : null}
       </div>
     </div>
   );

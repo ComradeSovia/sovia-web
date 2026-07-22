@@ -37,7 +37,10 @@ export function SoundClient({
   }, [query]);
 
   const filtered = useMemo(() => {
-    return [...filterMusic(musicWorks, query).filter((m) => m.u2bId)].reverse();
+    const matchedWorks = filterMusic(musicWorks, query).filter((work) =>
+      Boolean(work.u2bId),
+    );
+    return query.trim() ? matchedWorks : [...matchedWorks].reverse();
   }, [query, musicWorks]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
