@@ -2692,7 +2692,7 @@ function ContentReviewHeader({
           work?.fromType && work?.fromTitle && work?.fromArtists?.length,
         )}
         label="From"
-        value={getFromHeaderValue(work)}
+        value={<HeaderValueLines values={getFromHeaderValues(work)} />}
       />
       <ReviewItem
         complete={relatedWorks.length > 0}
@@ -2723,12 +2723,15 @@ function HeaderValueLines({ values }: { values: string[] }) {
   );
 }
 
-function getFromHeaderValue(work?: AdminMusicWork) {
-  const values = [work?.fromType, work?.fromTitle, work?.fromArtists?.join(", ")]
-    .map((value) => value?.trim())
-    .filter(Boolean);
-
-  return values.length ? values.join(" / ") : "No Data";
+function getFromHeaderValues(work?: AdminMusicWork) {
+  return [
+    `Type: ${work?.fromType ?? "No Data"}`,
+    `IP: ${work?.fromIp ?? "No Data"}`,
+    `Series: ${work?.fromSeries ?? "No Data"}`,
+    `Part: ${work?.fromSession ?? "No Data"}`,
+    `Song: ${work?.fromTitle ?? "No Data"}`,
+    `Artists: ${work?.fromArtists?.join(", ") || "No Data"}`,
+  ];
 }
 
 function getRelatedWorkIds(value?: string | null) {
@@ -2744,9 +2747,11 @@ function getRelatedHeaderValue(
 ) {
   if (relatedWorks.length) {
     return relatedWorks
-      .map((relatedWork) =>
-        [relatedWork.title, relatedWork.songTitle ?? relatedWork.title].join(" - "),
-      )
+      .map((relatedWork) => {
+        const originalTitle = relatedWork.fromTitle ?? "No Data";
+        const songTitle = relatedWork.songTitle ?? relatedWork.title;
+        return `${originalTitle} - ${songTitle}`;
+      })
       .join(" / ");
   }
 
