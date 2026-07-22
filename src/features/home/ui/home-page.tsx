@@ -35,7 +35,7 @@ export function HomePage({
 
       <div className="hr" />
 
-      <HomeManifesto copy={copy} />
+      <HomeManifesto copy={copy} locale={locale} />
     </section>
   );
 }

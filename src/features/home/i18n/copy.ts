@@ -8,8 +8,8 @@ import zhTW from "./zh-TW.json";
 
 export type HomeCopy = typeof enUS;
 
-const fallbackCopy = enUS;
-const getDictionary = createDictionaryGetter(fallbackCopy, {
+const fallbackCopy: HomeCopy = enUS;
+const getDictionary = createDictionaryGetter<HomeCopy>(fallbackCopy, {
   "en-US": enUS,
   "zh-CN": zhCN,
   "zh-TW": zhTW,

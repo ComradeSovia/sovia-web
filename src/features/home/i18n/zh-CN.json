@@ -13,7 +13,8 @@
     "titleLines": ["关于", "苏维雅"],
     "text": "苏维雅・菈波琪娃收集熟悉的歌曲，并把它们送入另一个世界的机器。这不是复制，也不只是玩笑。这是重构。",
     "strongTerms": ["熟悉的歌曲", "另一个世界的机器", "重构"],
-    "actionLabel": "关于苏维雅"
+    "actionLabel": "关于苏维雅",
+    "sovietAnimeActionLabel": "Soviet Anime 风格"
   },
   "about": {
     "metadataTitle": "关于苏维雅 | 苏维雅同志",
@@ -144,6 +145,46 @@
       "pageIntro": "面向讨论、更新、地区帖子和来自不同平台的苏维雅档案关注者的社区空间。"
     }
   ],
+  "sovietAnime": {
+    "metadataTitle": "Soviet Anime 风格 | 苏维雅同志",
+    "metadataDescription": "了解苏维雅同志的 Soviet anime 风格：音乐改编、角色设计、视觉档案、歌词与创作世界。",
+    "eyebrow": "风格档案",
+    "serial": "06",
+    "titleLines": ["Soviet", "Anime", "风格"],
+    "intro": "苏维雅同志是一个受 Soviet anime 启发的音乐与视觉档案：熟悉的旋律、虚构的官僚系统、角色驱动的图像，以及像来自另一个流行文化共和国的视频。",
+    "sections": [
+      {
+        "title": "音乐重构",
+        "text": "声音部分从熟悉的歌曲开始，再通过苏维埃式节奏、合唱、语言与档案逻辑重新建造。"
+      },
+      {
+        "title": "动漫角色方向",
+        "text": "视觉部分把苏维雅・菈波琪娃作为动漫角色处理：制服、海报、缩略图和舞台化文件共同支撑这个世界。"
+      },
+      {
+        "title": "创作档案",
+        "text": "歌词、发布页面、图像材料、社区链接和实验房间都收集在这里，方便从官方网站探索整个项目。"
+      }
+    ],
+    "linksTitle": "探索档案",
+    "links": [
+      {
+        "label": "歌曲",
+        "href": "/sound",
+        "description": "浏览音乐改编和歌曲记录。"
+      },
+      {
+        "label": "概念设计",
+        "href": "/concept-design",
+        "description": "打开 Soviet anime 视觉设计频道。"
+      },
+      {
+        "label": "歌词库",
+        "href": "/lyrics-library",
+        "description": "阅读歌词、笔记和档案条目。"
+      }
+    ]
+  },
   "cardPage": {
     "eyebrow": "外部办公室",
     "openChannel": "打开频道",

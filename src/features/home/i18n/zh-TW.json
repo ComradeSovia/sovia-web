@@ -13,7 +13,8 @@
     "titleLines": ["關於", "蘇維雅"],
     "text": "蘇維雅・菈波琪娃收集熟悉的歌曲，並把它們送入另一個世界的機器。這不是複製，也不只是玩笑。這是重構。",
     "strongTerms": ["熟悉的歌曲", "另一個世界的機器", "重構"],
-    "actionLabel": "關於蘇維雅"
+    "actionLabel": "關於蘇維雅",
+    "sovietAnimeActionLabel": "Soviet Anime 風格"
   },
   "about": {
     "metadataTitle": "關於蘇維雅 | 蘇維雅同志",
@@ -144,6 +145,46 @@
       "pageIntro": "面向討論、更新、地區貼文和來自不同平台的蘇維雅檔案關注者的社群空間。"
     }
   ],
+  "sovietAnime": {
+    "metadataTitle": "Soviet Anime 風格 | 蘇維雅同志",
+    "metadataDescription": "了解蘇維雅同志的 Soviet anime 風格：音樂改編、角色設計、視覺檔案、歌詞與創作世界。",
+    "eyebrow": "風格檔案",
+    "serial": "06",
+    "titleLines": ["Soviet", "Anime", "風格"],
+    "intro": "蘇維雅同志是一個受 Soviet anime 啟發的音樂與視覺檔案：熟悉的旋律、虛構的官僚系統、角色驅動的圖像，以及像來自另一個流行文化共和國的影片。",
+    "sections": [
+      {
+        "title": "音樂重構",
+        "text": "聲音部分從熟悉的歌曲開始，再透過蘇維埃式節奏、合唱、語言與檔案邏輯重新建造。"
+      },
+      {
+        "title": "動漫角色方向",
+        "text": "視覺部分把蘇維雅・菈波琪娃作為動漫角色處理：制服、海報、縮圖和舞台化文件共同支撐這個世界。"
+      },
+      {
+        "title": "創作檔案",
+        "text": "歌詞、發行頁面、圖像材料、社群連結和實驗房間都收集在這裡，方便從官方網站探索整個專案。"
+      }
+    ],
+    "linksTitle": "探索檔案",
+    "links": [
+      {
+        "label": "歌曲",
+        "href": "/sound",
+        "description": "瀏覽音樂改編和歌曲記錄。"
+      },
+      {
+        "label": "概念設計",
+        "href": "/concept-design",
+        "description": "打開 Soviet anime 視覺設計頻道。"
+      },
+      {
+        "label": "歌詞庫",
+        "href": "/lyrics-library",
+        "description": "閱讀歌詞、筆記和檔案條目。"
+      }
+    ]
+  },
   "cardPage": {
     "eyebrow": "外部辦公室",
     "openChannel": "開啟頻道",

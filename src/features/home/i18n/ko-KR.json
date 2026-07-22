@@ -13,7 +13,8 @@
     "titleLines": ["소비아", "소개"],
     "text": "소비아 라보체바는 익숙한 노래를 모아 다른 세계의 기계 속으로 보냅니다. 이것은 복제가 아니며, 단순한 농담도 아닙니다. 이것은 재구성입니다.",
     "strongTerms": ["익숙한 노래", "다른 세계의 기계", "재구성"],
-    "actionLabel": "소비아 소개"
+    "actionLabel": "소비아 소개",
+    "sovietAnimeActionLabel": "Soviet Anime 스타일"
   },
   "about": {
     "metadataTitle": "소비아 소개 | 소비아 동지",
@@ -144,6 +145,46 @@
       "pageIntro": "토론, 업데이트, 지역 게시물, 여러 플랫폼에서 소비아 아카이브를 따르는 사람들을 위한 커뮤니티 공간입니다."
     }
   ],
+  "sovietAnime": {
+    "metadataTitle": "Soviet Anime Style | Comrade Sovia",
+    "metadataDescription": "Comrade Sovia의 Soviet anime 스타일을 소개합니다. 음악 각색, 캐릭터 디자인, 비주얼 아카이브, 가사와 창작 세계를 함께 둘러볼 수 있습니다.",
+    "eyebrow": "스타일 파일",
+    "serial": "06",
+    "titleLines": ["Soviet", "Anime", "Style"],
+    "intro": "Comrade Sovia는 Soviet anime에서 영감을 받은 음악 및 비주얼 아카이브입니다. 익숙한 멜로디, 가상의 관료 체계, 캐릭터 중심의 이미지, 그리고 다른 대중문화 공화국에서 온 듯한 영상으로 구성됩니다.",
+    "sections": [
+      {
+        "title": "음악 재구성",
+        "text": "사운드는 익숙한 노래에서 출발해 소비에트식 리듬, 합창, 언어, 아카이브 논리로 다시 만들어집니다."
+      },
+      {
+        "title": "애니메이션 캐릭터 방향",
+        "text": "비주얼은 Sovia Rabocheva를 제복, 포스터, 썸네일, 연출된 문서를 가진 애니메이션 캐릭터로 다룹니다."
+      },
+      {
+        "title": "창작 아카이브",
+        "text": "가사, 발매 페이지, 이미지 자료, 커뮤니티 링크, 실험적인 공간을 모아 공식 사이트에서 프로젝트 전체를 탐색할 수 있게 합니다."
+      }
+    ],
+    "linksTitle": "아카이브 둘러보기",
+    "links": [
+      {
+        "label": "Songs",
+        "href": "/sound",
+        "description": "음악 각색과 곡 기록을 둘러봅니다."
+      },
+      {
+        "label": "Concept Design",
+        "href": "/concept-design",
+        "description": "Soviet anime 비주얼 디자인 채널을 엽니다."
+      },
+      {
+        "label": "Lyrics Library",
+        "href": "/lyrics-library",
+        "description": "가사, 노트, 아카이브 항목을 읽습니다."
+      }
+    ]
+  },
   "cardPage": {
     "eyebrow": "외부 사무소",
     "openChannel": "채널 열기",

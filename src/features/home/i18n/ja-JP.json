@@ -13,7 +13,8 @@
     "titleLines": ["ソヴィア", "について"],
     "text": "ソヴィア・ラボチェワは、なじみある歌を集め、別世界の機械へ通します。これは複製ではなく、ただの冗談でもありません。これは再構成です。",
     "strongTerms": ["なじみある歌", "別世界の機械", "再構成"],
-    "actionLabel": "ソヴィアについて"
+    "actionLabel": "ソヴィアについて",
+    "sovietAnimeActionLabel": "Soviet Anime スタイル"
   },
   "about": {
     "metadataTitle": "ソヴィアについて | ソヴィア同志",
@@ -144,6 +145,46 @@
       "pageIntro": "議論、更新、地域投稿、さまざまな平台からソヴィアアーカイブを追う人々のためのコミュニティスペースです。"
     }
   ],
+  "sovietAnime": {
+    "metadataTitle": "Soviet Anime Style | Comrade Sovia",
+    "metadataDescription": "Comrade Sovia の Soviet anime スタイルを紹介する案内ページ。音楽アレンジ、キャラクターデザイン、ビジュアルアーカイブ、歌詞、創作世界をまとめています。",
+    "eyebrow": "スタイル資料",
+    "serial": "06",
+    "titleLines": ["Soviet", "Anime", "Style"],
+    "intro": "Comrade Sovia は Soviet anime に着想を得た音楽とビジュアルのアーカイブです。なじみのあるメロディ、架空の官僚機構、キャラクター中心のアート、そして別のポップカルチャー共和国から届いたような映像で構成されています。",
+    "sections": [
+      {
+        "title": "音楽の再構成",
+        "text": "サウンド面では、なじみのある歌を出発点に、ソビエト風のリズム、合唱、言語、アーカイブの論理で組み直します。"
+      },
+      {
+        "title": "アニメキャラクター設計",
+        "text": "ビジュアル面では、Sovia Rabocheva を制服、ポスター、サムネイル、演出された書類を持つアニメキャラクターとして扱います。"
+      },
+      {
+        "title": "創作アーカイブ",
+        "text": "歌詞、リリースページ、画像素材、コミュニティリンク、実験的な小部屋を集め、公式サイトからプロジェクト全体を辿れるようにしています。"
+      }
+    ],
+    "linksTitle": "アーカイブを見る",
+    "links": [
+      {
+        "label": "Songs",
+        "href": "/sound",
+        "description": "音楽アレンジと楽曲記録を閲覧します。"
+      },
+      {
+        "label": "Concept Design",
+        "href": "/concept-design",
+        "description": "Soviet anime のビジュアル設計チャンネルを開きます。"
+      },
+      {
+        "label": "Lyrics Library",
+        "href": "/lyrics-library",
+        "description": "歌詞、ノート、アーカイブ項目を読みます。"
+      }
+    ]
+  },
   "cardPage": {
     "eyebrow": "外部オフィス",
     "openChannel": "チャンネルを開く",

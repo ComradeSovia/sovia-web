@@ -1,4 +1,6 @@
 import { Routes } from "@sovia/shared";
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Link from "next/link";
 import type { HomeCopy } from "../i18n/copy";
 
@@ -14,7 +16,13 @@ function renderHighlightedText(text: string, strongTerms: readonly string[]) {
   });
 }
 
-export function HomeManifesto({ copy }: { copy: HomeCopy }) {
+export function HomeManifesto({
+  copy,
+  locale,
+}: {
+  copy: HomeCopy;
+  locale: SiteLocale;
+}) {
   return (
     <div className="manifesto grid gap-8 md:grid-cols-[14rem_1fr]">
       <div className="space-y-4">
@@ -39,9 +47,20 @@ export function HomeManifesto({ copy }: { copy: HomeCopy }) {
             copy.manifesto.strongTerms,
           )}
         </p>
-        <Link className="btn-primary" href={Routes.About.href}>
-          {copy.manifesto.actionLabel}
-        </Link>
+        <div className="flex flex-wrap gap-4">
+          <Link
+            className="btn-primary"
+            href={getSiteLocalizedPath(Routes.About.href, locale)}
+          >
+            {copy.manifesto.actionLabel}
+          </Link>
+          <Link
+            className="btn-outline"
+            href={getSiteLocalizedPath("/soviet-anime", locale)}
+          >
+            {copy.manifesto.sovietAnimeActionLabel}
+          </Link>
+        </div>
       </div>
     </div>
   );

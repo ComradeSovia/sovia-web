@@ -42,3 +42,16 @@ export function getHomeCardPageMetadata(
     },
   });
 }
+
+export function getSovietAnimePageMetadata(copy: HomeCopy, locale: SiteLocale) {
+  return createSiteMetadata({
+    locale,
+    path: "/soviet-anime",
+    title: copy.sovietAnime.metadataTitle,
+    description: copy.sovietAnime.metadataDescription,
+    openGraph: {
+      title: copy.sovietAnime.metadataTitle,
+      description: copy.sovietAnime.metadataDescription,
+    },
+  });
+}

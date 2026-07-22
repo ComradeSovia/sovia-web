@@ -22,6 +22,7 @@ const STATIC_PATHS = [
   "/lyrics-library",
   "/music-release",
   "/concept-design",
+  "/soviet-anime",
   "/video-images",
   "/community",
   "/tools",

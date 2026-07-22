@@ -1,9 +1,9 @@
 {
   "hero": {
-    "eyebrow": "Department of stylistic reconstruction",
+    "eyebrow": "Department of Soviet anime reconstruction",
     "titleLineOne": "COMRADE",
     "titleLineTwo": "SOVIA",
-    "statement": "Rhythm of labor, archive of voices, reconstruction of familiar sound.",
+    "statement": "Soviet anime-inspired music, visual work, and reconstruction of familiar sound.",
     "unitLabel": "Video Unit",
     "unitLines": ["Watch", "videos", "across", "YouTube", "VK", "Bilibili."]
   },
@@ -11,17 +11,19 @@
     "eyebrow": "About Our Department",
     "serial": "00",
     "titleLines": ["About", "Sovia"],
-    "text": "Sovia Rabocheva collects familiar songs and sends them through the machinery of another world. This is not replication, and not only comedy. This is reconstruction.",
+    "text": "Sovia Rabocheva collects familiar songs and sends them through a Soviet anime-inspired machinery of another world. This is not replication, and not only comedy. This is reconstruction.",
     "strongTerms": [
       "familiar songs",
+      "Soviet anime-inspired",
       "machinery of another world",
       "reconstruction"
     ],
-    "actionLabel": "About Sovia"
+    "actionLabel": "About Sovia",
+    "sovietAnimeActionLabel": "Soviet Anime Style"
   },
   "about": {
     "metadataTitle": "About Sovia | Comrade Sovia",
-    "metadataDescription": "About Sovia Rabocheva and the reconstruction of familiar songs through another world.",
+    "metadataDescription": "About Sovia Rabocheva and the Soviet anime-inspired reconstruction of familiar songs through another world.",
     "eyebrow": "About Our Department",
     "serial": "00",
     "titleLines": ["About", "Sovia"],
@@ -128,10 +130,10 @@
     },
     {
       "id": "concept-design",
-      "title": "Concept Design",
+      "title": "Soviet Anime Concept Design",
       "subTitle": "Anime & Realism Styles",
-      "description": "Anime-styled visual work lives on X, while realistic images and polished visual updates live on IG.",
-      "pageIntro": "Visual design channels for the Sovia project, split between anime-styled development, realism studies, and polished public updates."
+      "description": "Soviet anime-styled visual work lives on X, while realistic images and polished visual updates live on IG.",
+      "pageIntro": "Visual design channels for the Sovia project, split between Soviet anime-styled development, realism studies, and polished public updates."
     },
     {
       "id": "video-images",
@@ -148,6 +150,46 @@
       "pageIntro": "Community spaces for discussion, updates, regional posts, and people following the Sovia archive from different platforms."
     }
   ],
+  "sovietAnime": {
+    "metadataTitle": "Soviet Anime Style | Comrade Sovia",
+    "metadataDescription": "A Soviet anime-inspired guide to Comrade Sovia's music adaptations, character design, visual archive, lyrics, and creative world.",
+    "eyebrow": "Style File",
+    "serial": "06",
+    "titleLines": ["Soviet", "Anime", "Style"],
+    "intro": "Comrade Sovia is a Soviet anime-inspired music and visual archive: familiar melodies, fictional bureaucracy, character-driven artwork, and videos arranged as if they came from another republic of pop culture.",
+    "sections": [
+      {
+        "title": "Music Reconstruction",
+        "text": "The sound side begins with familiar songs and rebuilds them through Soviet-style rhythm, chorus, language, and archive logic."
+      },
+      {
+        "title": "Anime Character Direction",
+        "text": "The visual side treats Sovia Rabocheva as an anime character with uniforms, posters, thumbnails, and staged documents that hold the world together."
+      },
+      {
+        "title": "Creative Archive",
+        "text": "Lyrics, release pages, image materials, community links, and experiment rooms are gathered here so the project can be explored from one official site."
+      }
+    ],
+    "linksTitle": "Explore the archive",
+    "links": [
+      {
+        "label": "Songs",
+        "href": "/sound",
+        "description": "Browse music adaptations and song records."
+      },
+      {
+        "label": "Concept Design",
+        "href": "/concept-design",
+        "description": "Open the Soviet anime visual design channels."
+      },
+      {
+        "label": "Lyrics Library",
+        "href": "/lyrics-library",
+        "description": "Read lyrics, notes, and archive entries."
+      }
+    ]
+  },
   "cardPage": {
     "eyebrow": "External Office",
     "openChannel": "Open Channel",
