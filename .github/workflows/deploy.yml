@@ -61,12 +61,24 @@ jobs:
     needs: docker
 
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload deployment helpers
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: deploy
+          key: ${{ secrets.PROD_SSH_KEY }}
+          source: deploy.sh,compose.logging.yml
+          target: /opt/sovia-web
+          overwrite: true
+
       - uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.PROD_HOST }}
           username: deploy
           key: ${{ secrets.PROD_SSH_KEY }}
+          script_stop: true
           script: |
-            cd /opt/sovia-web
-            docker compose pull
-            docker compose up -d
+            chmod +x /opt/sovia-web/deploy.sh
+            /opt/sovia-web/deploy.sh
