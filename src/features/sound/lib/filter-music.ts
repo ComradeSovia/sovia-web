@@ -26,6 +26,9 @@ type SearchField = {
   weight: number;
 };
 
+const CJK_CHARACTER_PATTERN =
+  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
+
 function getMusicSearchScore(work: MusicWork, queryTerms: string[]) {
   const fields = getSearchFields(work);
   const scores: number[] = [];
@@ -80,8 +83,55 @@ function getSearchFields(work: MusicWork): SearchField[] {
 function getFieldTermScore(queryTerm: string, field: SearchField) {
   if (field.text.includes(queryTerm)) return Math.round(100 * field.weight);
 
-  const similarity = getBestFuzzySimilarity(queryTerm, field.text.split(" "));
+  const similarity = CJK_CHARACTER_PATTERN.test(queryTerm)
+    ? getCjkFuzzySimilarity(queryTerm, field.text)
+    : getBestFuzzySimilarity(queryTerm, field.text.split(" "));
   return similarity === null ? null : Math.round(similarity * field.weight);
+}
+
+function getCjkFuzzySimilarity(queryTerm: string, fieldText: string) {
+  const queryLength = Array.from(queryTerm).length;
+  if (queryLength < 2) return null;
+
+  const maxDistance =
+    queryLength <= 4 ? 1 : Math.max(1, Math.floor(queryLength * 0.25));
+  let bestSimilarity: number | null = null;
+
+  // CJK titles are commonly written without word separators. Compare the query
+  // to short character windows instead of treating a whole title as one word.
+  for (const candidate of fieldText.split(" ")) {
+    if (!CJK_CHARACTER_PATTERN.test(candidate)) continue;
+
+    const characters = Array.from(candidate);
+    const maximumCandidateLength = Math.min(
+      characters.length,
+      queryLength + maxDistance,
+    );
+
+    for (
+      let candidateLength = queryLength;
+      candidateLength <= maximumCandidateLength;
+      candidateLength += 1
+    ) {
+      for (
+        let start = 0;
+        start <= characters.length - candidateLength;
+        start += 1
+      ) {
+        const window = characters.slice(start, start + candidateLength).join("");
+        const distance = getLevenshteinDistance(queryTerm, window);
+        if (distance > maxDistance) continue;
+
+        const similarity = 100 - (distance / queryLength) * 100;
+        bestSimilarity =
+          bestSimilarity === null
+            ? similarity
+            : Math.max(bestSimilarity, similarity);
+      }
+    }
+  }
+
+  return bestSimilarity;
 }
 
 function getBestFuzzySimilarity(queryTerm: string, candidates: string[]) {
