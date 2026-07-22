@@ -2675,8 +2675,9 @@ function ContentReviewHeader({
   return (
     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
       <ReviewItem
-        complete={Boolean(work?.contentId && work?.path && work?.publishedAt)}
+        complete={isBasicHeaderComplete(work)}
         label="Basic"
+        successTone
         value={
           <HeaderValueLines
             values={[
@@ -2688,19 +2689,21 @@ function ContentReviewHeader({
         }
       />
       <ReviewItem
-        complete={Boolean(
-          work?.fromType && work?.fromTitle && work?.fromArtists?.length,
-        )}
+        complete={isFromHeaderComplete(work)}
         label="From"
+        successTone
         value={<HeaderValueLines values={getFromHeaderValues(work)} />}
       />
       <ReviewItem
-        complete={relatedWorks.length > 0}
+        complete={getRelatedWorkIds(work?.relatedWorkUids).length >= 3}
         label="Related"
+        successTone
         value={getRelatedHeaderValue(relatedWorks, work?.relatedWorkUids)}
       />
       <ReviewItem
+        complete={isDistributionComplete(work)}
         label="Dist"
+        successTone
         value={<DistributionBadges work={work} />}
       />
       <ReviewItem
@@ -2728,10 +2731,38 @@ function getFromHeaderValues(work?: AdminMusicWork) {
     `Type: ${work?.fromType ?? "No Data"}`,
     `IP: ${work?.fromIp ?? "No Data"}`,
     `Series: ${work?.fromSeries ?? "No Data"}`,
-    `Part: ${work?.fromSession ?? "No Data"}`,
+    `Details: ${work?.fromDetails ?? "No Data"}`,
     `Song: ${work?.fromTitle ?? "No Data"}`,
     `Artists: ${work?.fromArtists?.join(", ") || "No Data"}`,
   ];
+}
+
+function isBasicHeaderComplete(work?: AdminMusicWork) {
+  return Boolean(
+    work?.contentId?.trim() &&
+      work.path?.trim() &&
+      work.workType?.trim() &&
+      work.songTitle?.trim() &&
+      work.publishedAt &&
+      work.visible !== undefined &&
+      work.visible !== null,
+  );
+}
+
+function isFromHeaderComplete(work?: AdminMusicWork) {
+  const hasRequiredBasics = Boolean(
+    work?.fromType?.trim() &&
+      work.fromTitle?.trim() &&
+      work.fromArtists?.length,
+  );
+  if (!hasRequiredBasics) return false;
+  if (work?.fromType === "Original") return true;
+
+  return Boolean(
+    work?.fromIp?.trim() &&
+      work.fromSeries?.trim() &&
+      work.fromDetails?.trim(),
+  );
 }
 
 function getRelatedWorkIds(value?: string | null) {
@@ -2761,8 +2792,30 @@ function getRelatedHeaderValue(
 type DistributionStatus = "complete" | "empty" | "id-only" | "missing-id";
 
 function DistributionBadges({ work }: { work?: AdminMusicWork }) {
+  const platforms = getDistributionPlatforms(work);
+
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {platforms.map((platform) => {
+        const status = getDistributionStatus(platform);
+        return (
+          <Badge
+            className={getDistributionBadgeClass(status)}
+            key={platform.label}
+            title={getDistributionStatusLabel(status)}
+            variant="outline"
+          >
+            {platform.label}
+          </Badge>
+        );
+      })}
+    </div>
+  );
+}
+
+function getDistributionPlatforms(work?: AdminMusicWork) {
   const youtubeLocales = getFilledYoutubeLocalizationLocales(work);
-  const platforms = [
+  return [
     {
       completeInfo: youtubeLocales.length > 0,
       hasId: Boolean(work?.u2bId),
@@ -2792,23 +2845,11 @@ function DistributionBadges({ work }: { work?: AdminMusicWork }) {
       label: "Pixiv",
     },
   ];
+}
 
-  return (
-    <div className="flex flex-wrap gap-1.5">
-      {platforms.map((platform) => {
-        const status = getDistributionStatus(platform);
-        return (
-          <Badge
-            className={getDistributionBadgeClass(status)}
-            key={platform.label}
-            title={getDistributionStatusLabel(status)}
-            variant="outline"
-          >
-            {platform.label}
-          </Badge>
-        );
-      })}
-    </div>
+function isDistributionComplete(work?: AdminMusicWork) {
+  return getDistributionPlatforms(work).every(
+    (platform) => getDistributionStatus(platform) === "complete",
   );
 }
 
