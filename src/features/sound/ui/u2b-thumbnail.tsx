@@ -15,6 +15,7 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
   const [resolvedBlurDataURL, setResolvedBlurDataURL] = useState(
     blurDataURL ?? null,
   );
+  const [imageUnavailable, setImageUnavailable] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [shouldRenderImage, setShouldRenderImage] = useState(
     Boolean(blurDataURL),
@@ -28,6 +29,7 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
     setNearViewport(Boolean(blurDataURL));
     setResolvedBlurDataURL(blurDataURL ?? null);
     setShouldRenderImage(Boolean(blurDataURL));
+    setImageUnavailable(false);
     setImageLoaded(false);
   }, [blurDataURL, u2bId]);
 
@@ -110,13 +112,18 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
         />
       )}
 
-      {shouldRenderImage ? (
+      {imageUnavailable ? (
+        <div className="absolute inset-0 grid place-items-center bg-paper px-4 text-center font-mono text-sm text-ink">
+          Unreachable
+        </div>
+      ) : shouldRenderImage ? (
         <Image
           alt={alt}
           className={`object-cover transition-opacity duration-500 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
           fill
+          onError={() => setImageUnavailable(true)}
           onLoad={() => setImageLoaded(true)}
           sizes="(min-width: 768px) 50vw, 100vw"
           src={`/api/u2b-thumbnail?id=${u2bId}`}
