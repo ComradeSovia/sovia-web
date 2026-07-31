@@ -8,6 +8,9 @@ export {
   getYouTubeThumbnailBlurCachePath,
   getYouTubeThumbnailCachePath,
   readYouTubeThumbnailBlurDataUrl,
+  readYouTubeThumbnailCacheEntries,
+  type YouTubeThumbnailCacheEntry,
+  type YouTubeThumbnailCacheStatus,
 } from "./data/thumbnail-cache";
 export {
   getYouTubeAccessToken,

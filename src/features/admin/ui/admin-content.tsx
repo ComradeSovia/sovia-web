@@ -3758,13 +3758,13 @@ function getYouTubePublicationLabel(status: YouTubePublicationStatus) {
 
 function getYouTubePublicationDescription(status: YouTubePublicationStatus) {
   if (status.reason === "no-video-id") return "No YouTube ID has been saved.";
-  if (status.reason === "thumbnail-found") {
-    return "Detected by the shared YouTube thumbnail probe.";
+  if (status.reason === "video-public") {
+    return "The latest YouTube availability check confirmed that the video is publicly accessible.";
   }
-  if (status.reason === "thumbnail-missing") {
-    return "A YouTube ID is saved, but no public thumbnail could be loaded. The video may be unpublished, private, unavailable, or the ID may be invalid.";
+  if (status.reason === "video-unavailable") {
+    return "YouTube reported that the saved video is not publicly accessible. It may be private, removed, unavailable, or the ID may be invalid.";
   }
-  return "A YouTube ID is saved, but the shared YouTube probe could not be reached.";
+  return "A YouTube ID is saved, but the latest availability check failed or is still pending.";
 }
 
 function SelectField({

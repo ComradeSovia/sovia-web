@@ -1,0 +1,36 @@
+model YoutubeThumbnailCache {
+  videoId       String    @id
+  status        String    @default("pending")
+  sourceVariant String?
+  storageKey    String?
+  blurDataUrl   String?
+  contentType   String?
+  byteSize      Int?
+  width         Int?
+  height        Int?
+  etag          String?
+  lastModified  String?
+  httpStatus    Int?
+  failureReason String?
+  attemptCount  Int       @default(0)
+  checkedAt     DateTime?
+  downloadedAt  DateTime?
+  failedAt      DateTime?
+  nextRetryAt   DateTime?
+  leaseUntil    DateTime?
+  leaseToken    String?
+  availabilityStatus        String   @default("unknown")
+  availabilityAttemptCount  Int      @default(0)
+  availabilityCheckedAt     DateTime?
+  availabilityNextCheckAt   DateTime?
+  availabilityHttpStatus    Int?
+  availabilityFailureReason String?
+  availabilityLeaseUntil    DateTime?
+  availabilityLeaseToken    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([status, nextRetryAt])
+  @@index([availabilityStatus, availabilityNextCheckAt])
+  @@map("youtube_thumbnail_caches")
+}
