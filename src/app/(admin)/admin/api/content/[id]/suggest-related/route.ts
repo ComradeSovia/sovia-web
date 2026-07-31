@@ -1,4 +1,5 @@
 import { requireAdminSession } from "@sovia/admin/data/auth";
+import { listAdminMusicWorkOptions } from "@sovia/admin/data/music-admin";
 import { generateRelatedSuggestions } from "@sovia/admin/data/music-description-generator";
 import { NextResponse } from "next/server";
 
@@ -24,8 +25,22 @@ export async function POST(
       promptKey:
         typeof body.promptKey === "string" ? body.promptKey : undefined,
     });
+    const workOptions = await listAdminMusicWorkOptions();
+    const workByContentId = new Map(
+      workOptions.map((work) => [work.contentId, work]),
+    );
 
-    return NextResponse.json(result);
+    return NextResponse.json({
+      ...result,
+      candidates: result.candidates.map((candidate) => {
+        const work = workByContentId.get(candidate.uid);
+        return {
+          ...candidate,
+          path: work?.path ?? null,
+          title: work?.title ?? null,
+        };
+      }),
+    });
   } catch (error) {
     const message =
       error instanceof Error && error.message

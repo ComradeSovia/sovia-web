@@ -22,15 +22,32 @@ export async function POST(
 
     const body = (await request.json()) as {
       description?: unknown;
+      locales?: unknown;
       localizations?: unknown;
+      primaryLocale?: unknown;
       title?: unknown;
     };
-    const title = getRequiredString(body.title, "YouTube title");
-    const description = getRequiredString(
-      body.description,
-      "YouTube description",
+    const primaryLocale =
+      typeof body.primaryLocale === "string" && body.primaryLocale
+        ? body.primaryLocale
+        : work.youtubePrimaryLocale;
+    if (!primaryLocale) {
+      throw new Error("Select and save a primary YouTube locale first.");
+    }
+    const primaryLocalization = work.youtubeLocalization?.[primaryLocale];
+    const title = getRequiredString(
+      body.title ?? primaryLocalization?.title,
+      `${primaryLocale} YouTube title`,
     );
-    const localizations = getLocalizations(body.localizations);
+    const description = getRequiredString(
+      body.description ?? primaryLocalization?.description,
+      `${primaryLocale} YouTube description`,
+    );
+    const localizations = getLocalizations(
+      body.locales,
+      getLocalizationSource(body.localizations, work.youtubeLocalization),
+      primaryLocale,
+    );
 
     const credentials = await getAdminYoutubeCredentials();
     const result = await syncYouTubeVideoMetadata({
@@ -52,27 +69,66 @@ export async function POST(
   }
 }
 
-function getLocalizations(value: unknown) {
-  if (value === undefined) return undefined;
+function getLocalizationSource(
+  value: unknown,
+  fallback:
+    | Record<
+        string,
+        { description?: string | null; title?: string | null } | undefined
+      >
+    | null
+    | undefined,
+) {
+  if (value === undefined) return fallback;
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw new Error("YouTube localizations are invalid.");
   }
+  return value as Record<
+    string,
+    { description?: string | null; title?: string | null } | undefined
+  >;
+}
+
+function getLocalizations(
+  value: unknown,
+  available:
+    | Record<
+        string,
+        { description?: string | null; title?: string | null } | undefined
+      >
+    | null
+    | undefined,
+  primaryLocale: string,
+) {
+  if (!Array.isArray(value)) {
+    throw new Error("Select at least one YouTube localization to sync.");
+  }
+  const locales = Array.from(
+    new Set(
+      value.filter(
+        (locale): locale is string =>
+          typeof locale === "string" && locale !== primaryLocale,
+      ),
+    ),
+  );
+  if (!locales.length) {
+    throw new Error(
+      "Select at least one locale other than the primary locale.",
+    );
+  }
 
   return Object.fromEntries(
-    Object.entries(value).map(([locale, content]) => {
-      if (!content || typeof content !== "object" || Array.isArray(content)) {
-        throw new Error(`YouTube localization ${locale} is invalid.`);
-      }
-      const localization = content as Record<string, unknown>;
+    locales.map((locale) => {
+      const localization = available?.[locale];
       return [
         locale,
         {
           description: getRequiredString(
-            localization.description,
+            localization?.description,
             `${locale} YouTube description`,
           ),
           title: getRequiredString(
-            localization.title,
+            localization?.title,
             `${locale} YouTube title`,
           ),
         },

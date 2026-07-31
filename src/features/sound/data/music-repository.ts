@@ -338,9 +338,7 @@ function withoutEmptyValues<T extends Record<string, unknown>>(value: T) {
   ) as Partial<T>;
 }
 
-function toWorkWithContent(row: MusicWorkRecord): MusicWorkWithContent {
-  const work = toWorkRecord(row);
-
+function toWorkWithContent(work: MusicWorkRecord): MusicWorkWithContent {
   return {
     path: work.path,
     contentId: work.contentId,
@@ -457,6 +455,27 @@ export async function listMusicWorks() {
 
 export async function listMusicWorksWithContent() {
   return listMusicWorks();
+}
+
+export async function listMusicWorkOptions() {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+
+  return withDatabaseTimeout(
+    prisma.musicWork.findMany({
+      select: {
+        content: { select: { songTitle: true } },
+        contentId: true,
+        path: true,
+      },
+    }),
+  ).then((works) =>
+    works.map((work) => ({
+      contentId: work.contentId,
+      path: work.path,
+      title: work.content?.songTitle ?? null,
+    })),
+  );
 }
 
 export async function getMusicWorkByPath(workPath: string) {

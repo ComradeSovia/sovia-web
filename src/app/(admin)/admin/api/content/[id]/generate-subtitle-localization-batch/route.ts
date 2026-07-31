@@ -1,5 +1,7 @@
 import { requireAdminSession } from "@sovia/admin/data/auth";
+import { getAdminMusicWork } from "@sovia/admin/data/music-admin";
 import { generateSubtitleLocalizationBatch } from "@sovia/admin/data/music-description-generator";
+import { listEnabledAdminYoutubeLocales } from "@sovia/admin/data/youtube-locales";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -17,12 +19,18 @@ export async function POST(
       subtitleTracks?: unknown;
       targetLocales?: unknown;
     };
-    const sourceLocale =
+    const work = await getAdminMusicWork(id);
+    if (!work) {
+      throw new Error("Content record could not be loaded.");
+    }
+
+    const requestedSourceLocale =
       typeof body.sourceLocale === "string" &&
       isSubtitleLocale(body.sourceLocale)
         ? body.sourceLocale
         : null;
-    const targetLocales = Array.isArray(body.targetLocales)
+    const sourceLocale = requestedSourceLocale ?? work.subtitlePrimaryLocale;
+    const requestedTargetLocales = Array.isArray(body.targetLocales)
       ? body.targetLocales.filter(
           (locale): locale is string =>
             typeof locale === "string" && isSubtitleLocale(locale),
@@ -33,6 +41,10 @@ export async function POST(
       throw new Error("Select a valid primary subtitle language first.");
     }
 
+    const targetLocales = requestedTargetLocales.length
+      ? requestedTargetLocales
+      : (await listEnabledAdminYoutubeLocales()).map((locale) => locale.locale);
+
     const result = await generateSubtitleLocalizationBatch({
       contentId: id,
       generationNotes:
@@ -42,7 +54,10 @@ export async function POST(
       promptKey:
         typeof body.promptKey === "string" ? body.promptKey : undefined,
       sourceLocale,
-      subtitleTracks: parseSubtitleTracks(body.subtitleTracks),
+      subtitleTracks: parseSubtitleTracks(
+        body.subtitleTracks,
+        work.subtitleTracks,
+      ),
       targetLocales,
     });
 
@@ -61,14 +76,18 @@ function isSubtitleLocale(value: string) {
   return /^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/i.test(value);
 }
 
-function parseSubtitleTracks(value: unknown) {
+function parseSubtitleTracks(
+  value: unknown,
+  fallback: Record<string, string | null | undefined> | null | undefined,
+) {
   const tracks: Record<string, string | null> = {};
 
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
+  const source = value === undefined ? fallback : value;
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
     return tracks;
   }
 
-  for (const [locale, srt] of Object.entries(value)) {
+  for (const [locale, srt] of Object.entries(source)) {
     if (!isSubtitleLocale(locale)) continue;
     tracks[locale] = typeof srt === "string" ? srt : null;
   }

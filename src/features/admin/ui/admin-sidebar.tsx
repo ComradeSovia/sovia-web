@@ -207,7 +207,6 @@ export function AdminSidebar({
       label: "Subtitles",
     },
   ];
-
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -235,6 +234,12 @@ export function AdminSidebar({
                       href: "/admin",
                       icon: LayoutDashboard,
                       label: "Dashboard",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/actions"),
+                      href: "/admin/actions",
+                      icon: SlidersHorizontal,
+                      label: "Actions",
                     },
                   ]}
                 />

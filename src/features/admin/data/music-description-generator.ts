@@ -393,12 +393,14 @@ export async function generateYouTubeLocalizationBatch({
   promptKey?: string | null;
   sourceLocale: string;
   targetLocales: string[];
-  youtubeLocalization: Record<
-    string,
-    {
-      description?: string | null;
-      title?: string | null;
-    }
+  youtubeLocalization: Partial<
+    Record<
+      string,
+      {
+        description?: string | null;
+        title?: string | null;
+      }
+    >
   >;
 }) {
   if (!process.env.OPENAI_API_KEY) {
@@ -701,8 +703,9 @@ export async function generateSubtitleLocalizationBatch({
     task: SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
   });
   const parsed = parseSubtitleLocalizationBatch(response.output_text);
-  const localizations = parsed.localizations.filter((item) =>
-    uniqueTargetLocales.includes(item.locale),
+  const localizations = parsed.localizations.filter(
+    (item) =>
+      uniqueTargetLocales.includes(item.locale) && Boolean(item.srt.trim()),
   );
   if (!localizations.length) {
     const returnedLocales = parsed.localizations

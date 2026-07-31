@@ -7,7 +7,6 @@ import {
 import {
   AlertCircle,
   ArrowDown,
-  ArrowRightToLine,
   ArrowUp,
   CheckCircle2,
   Circle,
@@ -21,6 +20,7 @@ import {
   Plus,
   Save,
   Search,
+  SlidersHorizontal,
   Sparkles,
   Trash2,
   Video,
@@ -101,7 +101,9 @@ import {
   listAdminYoutubeLocales,
   listEnabledAdminYoutubeLocales,
 } from "../data/youtube-locales";
+import { AdminActionModal } from "./admin-action-modal";
 import { AdminActionToast } from "./admin-action-toast";
+import { AdminActionsCatalog } from "./admin-actions-catalog";
 import {
   ContentSearchInput,
   type ContentSearchSuggestions,
@@ -116,12 +118,9 @@ import {
   AdminCopyFieldButton,
   AdminDirtyForm,
   AdminDownloadSubtitlesButton,
-  AdminGenerateDescriptionButton,
-  AdminGeneratePlatformCopyButton,
   AdminGenerateSubtitleLocalizationBatchButton,
   AdminGenerateYoutubeLocalizationBatchButton,
   AdminGenerateYoutubeLocalizationButton,
-  AdminSuggestRelatedButton,
   AdminSyncYoutubeCaptionsButton,
   AdminSyncYoutubeVideoButton,
 } from "./admin-step-panels";
@@ -253,6 +252,43 @@ export async function AdminDashboardPage({
           status={matchActionStatus(youtubeStatus)}
         />
         <DashboardStatus />
+      </section>
+    </AdminGate>
+  );
+}
+
+export async function AdminActionsPage() {
+  const databaseStatus = await getAdminDatabaseStatus();
+
+  return (
+    <AdminGate>
+      <section className="space-y-5">
+        {!databaseStatus.ok ? (
+          <DatabaseError
+            message={`${databaseStatus.message}\n\nActions that need content data are unavailable until the database connection is restored.`}
+            summary="Database is not fully available. Content actions may not load."
+            title="database warning"
+          />
+        ) : null}
+
+        <Card className={CARD_CLASS}>
+          <CardHeader>
+            <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
+              <SlidersHorizontal className="h-4 w-4" />
+              operations
+            </div>
+            <CardTitle className={`text-3xl ${CARD_TITLE_CLASS}`}>
+              Actions
+            </CardTitle>
+            <CardDescription className={CARD_DESCRIPTION_CLASS}>
+              Search every registered action. Content actions ask for a CID when
+              one is not already in the URL.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AdminActionsCatalog />
+          </CardContent>
+        </Card>
       </section>
     </AdminGate>
   );
@@ -1920,11 +1956,13 @@ function PlatformBadges({ work }: { work: AdminMusicWork }) {
 }
 
 export async function AdminContentEditorPage({
+  action,
   id,
   message,
   status,
   step,
 }: {
+  action?: string;
   id?: string;
   message?: string;
   status?: string;
@@ -1933,6 +1971,7 @@ export async function AdminContentEditorPage({
   return (
     <AdminGate>
       <ContentEditor
+        action={action}
         id={id}
         message={message}
         status={matchActionStatus(status)}
@@ -1943,11 +1982,13 @@ export async function AdminContentEditorPage({
 }
 
 async function ContentEditor({
+  action,
   id,
   message,
   status,
   step,
 }: {
+  action?: string;
   id?: string;
   message?: string;
   status: ActionStatus;
@@ -2084,6 +2125,7 @@ async function ContentEditor({
             />
           ) : (
             <MusicWorkForm
+              action={action}
               currentStep={step}
               bilibiliPrompts={bilibiliPrompts}
               descriptionPrompts={descriptionPrompts}
@@ -2207,107 +2249,26 @@ function StepSaveButton({ label }: { label: string }) {
   );
 }
 
-function DescriptionAiActions({
-  contentId,
-  prompts,
-}: {
+function DescriptionAiActions(_props: {
   contentId: string;
+  initialOpen?: boolean;
   prompts: AdminPromptOption[];
 }) {
-  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
-
-  return (
-    <AiActionsDrawer
-      description="Use a prompt variant and optional one-time notes."
-      title="Generate description"
-    >
-      <PromptSelect
-        label="Prompt"
-        name="promptKey"
-        options={prompts.map((prompt) => ({
-          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
-          value: prompt.key,
-        }))}
-        placeholder="Use default prompt"
-        value={defaultPrompt?.key}
-      />
-      {!prompts.length ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          No enabled prompts are available for this task.
-        </p>
-      ) : null}
-      <PromptTextarea
-        label="Generation notes"
-        name="generationNotes"
-        rows={4}
-        value=""
-      />
-      <p className="-mt-2 text-xs leading-5 text-zinc-500">
-        These notes are sent to the model as input and are not saved.
-      </p>
-      <div className="flex justify-end">
-        <AdminGenerateDescriptionButton
-          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-          contentId={contentId}
-          disabled={!prompts.length}
-        />
-      </div>
-    </AiActionsDrawer>
-  );
+  return null;
 }
 
-function RelatedAiActions({
-  contentId,
-  prompts,
-}: {
+function RelatedAiActions(_props: {
   contentId: string;
+  initialOpen?: boolean;
   prompts: AdminPromptOption[];
 }) {
-  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
-
-  return (
-    <AiActionsDrawer
-      description="Use this work and the content list to suggest 3 candidates."
-      title="Suggest related"
-    >
-      <PromptSelect
-        label="Prompt"
-        name="promptKey"
-        options={prompts.map((prompt) => ({
-          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
-          value: prompt.key,
-        }))}
-        placeholder="Use default prompt"
-        value={defaultPrompt?.key}
-      />
-      {!prompts.length ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          No enabled prompts are available for this task.
-        </p>
-      ) : null}
-      <PromptTextarea
-        label="Generation notes"
-        name="generationNotes"
-        rows={4}
-        value=""
-      />
-      <p className="-mt-2 text-xs leading-5 text-zinc-500">
-        These notes are sent to the model as input and are not saved.
-      </p>
-      <div className="flex justify-end">
-        <AdminSuggestRelatedButton
-          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-          contentId={contentId}
-          disabled={!prompts.length}
-        />
-      </div>
-    </AiActionsDrawer>
-  );
+  return null;
 }
 
 function YoutubeAiActions({
   batchPrompts,
   contentId,
+  initialAction,
   prompts,
   localeLabels,
   locales,
@@ -2315,6 +2276,7 @@ function YoutubeAiActions({
 }: {
   batchPrompts: AdminPromptOption[];
   contentId: string;
+  initialAction?: string;
   prompts: AdminPromptOption[];
   localeLabels: Record<string, string>;
   locales: readonly string[];
@@ -2327,9 +2289,11 @@ function YoutubeAiActions({
 
   return (
     <>
-      <AiActionsDrawer
+      <AdminActionModal
         description="Use metadata, source, lyrics, and description fields to generate copy for the primary language."
+        initialOpen={initialAction === "generate-youtube-copy"}
         title="Generate YouTube copy"
+        type="ai"
       >
         <PromptSelect
           label="Current language prompt"
@@ -2390,8 +2354,11 @@ function YoutubeAiActions({
             />
           </div>
         </div>
-      </AiActionsDrawer>
-      <ActionsDrawer>
+      </AdminActionModal>
+      <AdminActionModal
+        initialOpen={initialAction === "sync-youtube-video"}
+        title="Sync YouTube video"
+      >
         <AdminSyncYoutubeVideoButton
           className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
           contentId={contentId}
@@ -2399,19 +2366,21 @@ function YoutubeAiActions({
           labels={localeLabels}
           locales={locales}
         />
-      </ActionsDrawer>
+      </AdminActionModal>
     </>
   );
 }
 
 function SubtitleAiActions({
   contentId,
+  initialAction,
   localeLabels,
   locales,
   prompts,
   youtubeId,
 }: {
   contentId: string;
+  initialAction?: string;
   localeLabels: Record<string, string>;
   locales: readonly string[];
   prompts: AdminPromptOption[];
@@ -2422,9 +2391,11 @@ function SubtitleAiActions({
 
   return (
     <>
-      <AiActionsDrawer
+      <AdminActionModal
         description="Use the primary SRT subtitle track as source and translate it into every other subtitle language."
+        initialOpen={initialAction === "translate-subtitles"}
         title="Translate subtitles"
+        type="ai"
       >
         <PromptSelect
           label="Batch subtitle prompt"
@@ -2459,8 +2430,14 @@ function SubtitleAiActions({
             disabled={disabled}
           />
         </div>
-      </AiActionsDrawer>
-      <ActionsDrawer>
+      </AdminActionModal>
+      <AdminActionModal
+        initialOpen={
+          initialAction === "download-subtitles" ||
+          initialAction === "sync-youtube-captions"
+        }
+        title="Subtitle files"
+      >
         <AdminDownloadSubtitlesButton
           className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium`}
           contentId={contentId}
@@ -2479,24 +2456,12 @@ function SubtitleAiActions({
           labels={localeLabels}
           locales={locales}
         />
-      </ActionsDrawer>
+      </AdminActionModal>
     </>
   );
 }
 
-function PlatformAiActions({
-  apiPath,
-  contentId,
-  description,
-  descriptionFieldName,
-  disabledReason,
-  generateLabel,
-  prompts,
-  tagsFieldName,
-  title,
-  titleFieldName,
-  youtubeId,
-}: {
+function PlatformAiActions(_props: {
   apiPath:
     | "generate-bilibili-copy"
     | "generate-pixiv-copy"
@@ -2506,128 +2471,126 @@ function PlatformAiActions({
   descriptionFieldName: string;
   disabledReason: string;
   generateLabel: string;
+  initialOpen?: boolean;
   prompts: AdminPromptOption[];
   tagsFieldName?: string;
   title: string;
   titleFieldName: string;
   youtubeId?: string | null;
 }) {
-  const defaultPrompt = prompts.find((prompt) => prompt.isDefault);
-  const disabled = !prompts.length || !youtubeId;
-
-  return (
-    <AiActionsDrawer description={description} title={title}>
-      <PromptSelect
-        label="Prompt"
-        name="platformCopyPromptKey"
-        options={prompts.map((prompt) => ({
-          label: `${prompt.isDefault ? "[default] " : ""}${prompt.title} (${prompt.variant})`,
-          value: prompt.key,
-        }))}
-        placeholder="Use default prompt"
-        value={defaultPrompt?.key}
-      />
-      {!prompts.length ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">
-          No enabled prompts are available for this task.
-        </p>
-      ) : null}
-      {!youtubeId ? (
-        <p className="-mt-2 text-xs leading-5 text-red-300">{disabledReason}</p>
-      ) : null}
-      <PromptTextarea
-        label="Generation notes"
-        name="generationNotes"
-        rows={4}
-        value=""
-      />
-      <p className="-mt-2 text-xs leading-5 text-zinc-500">
-        These notes are sent to the model as input and are not saved.
-      </p>
-      <div className="flex justify-end">
-        <AdminGeneratePlatformCopyButton
-          apiPath={apiPath}
-          className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-          contentId={contentId}
-          descriptionFieldName={descriptionFieldName}
-          disabled={disabled}
-          label={generateLabel}
-          tagsFieldName={tagsFieldName}
-          titleFieldName={titleFieldName}
-        />
-      </div>
-    </AiActionsDrawer>
-  );
+  return null;
 }
 
-function AiActionsDrawer({
-  children,
-  description,
-  title,
+function _WorkActionsCenter({
+  action,
+  bilibiliPrompts,
+  contentId,
+  descriptionPrompts,
+  pixivPrompts,
+  relatedPrompts,
+  subtitleBatchPrompts,
+  vkPrompts,
+  work,
+  youtubeBatchPrompts,
+  youtubeLocaleLabels,
+  youtubeLocales,
+  youtubePrompts,
 }: {
-  children: ReactNode;
-  description: string;
-  title: string;
+  action?: string;
+  bilibiliPrompts: AdminPromptOption[];
+  contentId: string;
+  descriptionPrompts: AdminPromptOption[];
+  pixivPrompts: AdminPromptOption[];
+  relatedPrompts: AdminPromptOption[];
+  subtitleBatchPrompts: AdminPromptOption[];
+  vkPrompts: AdminPromptOption[];
+  work: AdminMusicWork;
+  youtubeBatchPrompts: AdminPromptOption[];
+  youtubeLocaleLabels: Record<string, string>;
+  youtubeLocales: readonly string[];
+  youtubePrompts: AdminPromptOption[];
 }) {
   return (
-    <aside className="pointer-events-none fixed top-28 right-0 z-40">
-      <details
-        className="group pointer-events-auto w-12 overflow-hidden rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur transition-[width] open:w-[min(380px,calc(100vw-1rem))]"
-        suppressHydrationWarning
-      >
-        <summary className="relative flex h-40 w-12 cursor-pointer select-none list-none items-center justify-center gap-2 p-3 marker:hidden group-open:h-auto group-open:w-full group-open:items-start group-open:justify-start group-open:p-4 group-open:pr-12 [&::-webkit-details-marker]:hidden">
-          <span className="flex items-center gap-2 [writing-mode:vertical-rl] group-open:[writing-mode:horizontal-tb]">
-            <Sparkles className="h-4 w-4 shrink-0" />
-            <span className="text-xs font-medium uppercase text-zinc-400">
-              AI Actions
-            </span>
-          </span>
-          <span className="hidden group-open:block">
-            <span className="block text-base font-semibold text-zinc-100">
-              {title}
-            </span>
-            <span className="mt-1 block text-sm leading-6 text-zinc-400">
-              {description}
-            </span>
-          </span>
-          <span
-            aria-hidden="true"
-            className="absolute top-4 right-4 hidden h-7 w-7 place-items-center rounded-md border border-zinc-700 text-zinc-400 transition-colors group-open:grid group-hover:border-zinc-500 group-hover:text-zinc-100"
-          >
-            <ArrowRightToLine className="h-4 w-4" />
-          </span>
-        </summary>
-        <div className="grid gap-4 border-t border-zinc-800 p-4">
-          {children}
-        </div>
-      </details>
-    </aside>
-  );
-}
+    <div className="grid gap-5">
+      <div className="rounded-md border border-zinc-800 bg-zinc-900/40 p-4">
+        <div className="text-sm font-semibold text-zinc-100">Action center</div>
+        <p className="mt-2 text-sm leading-6 text-zinc-400">
+          Open any one-time action for this content record. AI actions are
+          marked with the inspiration icon and apply generated output to the
+          current form first.
+        </p>
+      </div>
 
-function ActionsDrawer({ children }: { children: ReactNode }) {
-  return (
-    <aside className="pointer-events-none fixed top-[19rem] right-0 z-40">
-      <details
-        className="group pointer-events-auto w-12 overflow-hidden rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-2xl shadow-black/30 backdrop-blur transition-[width] open:w-[min(380px,calc(100vw-1rem))]"
-        suppressHydrationWarning
-      >
-        <summary className="relative flex h-32 w-12 cursor-pointer select-none list-none items-center justify-center p-3 marker:hidden group-open:h-auto group-open:w-full group-open:justify-start group-open:p-4 group-open:pr-12 [&::-webkit-details-marker]:hidden">
-          <span className="text-xs font-medium uppercase text-zinc-400 [writing-mode:vertical-rl] group-open:[writing-mode:horizontal-tb]">
-            Actions
-          </span>
-          <span
-            aria-hidden="true"
-            className="absolute top-3 right-4 hidden h-7 w-7 place-items-center rounded-md border border-zinc-700 text-zinc-400 transition-colors group-open:grid group-hover:border-zinc-500 group-hover:text-zinc-100"
-          >
-            <ArrowRightToLine className="h-4 w-4" />
-          </span>
-        </summary>
-        <div className="grid gap-4 border-t border-zinc-800 p-4">
-          {children}
-        </div>
-      </details>
-    </aside>
+      <div className="grid items-start gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <DescriptionAiActions
+          contentId={contentId}
+          initialOpen={action === "generate-description"}
+          prompts={descriptionPrompts}
+        />
+        <RelatedAiActions
+          contentId={contentId}
+          initialOpen={action === "suggest-related"}
+          prompts={relatedPrompts}
+        />
+        <YoutubeAiActions
+          batchPrompts={youtubeBatchPrompts}
+          contentId={contentId}
+          initialAction={action}
+          localeLabels={youtubeLocaleLabels}
+          locales={youtubeLocales}
+          prompts={youtubePrompts}
+          youtubeId={work.u2bId}
+        />
+        <SubtitleAiActions
+          contentId={contentId}
+          initialAction={action}
+          localeLabels={youtubeLocaleLabels}
+          locales={youtubeLocales}
+          prompts={subtitleBatchPrompts}
+          youtubeId={work.u2bId}
+        />
+        <PlatformAiActions
+          apiPath="generate-bilibili-copy"
+          contentId={contentId}
+          description="Use metadata, source, lyrics, description, related works, and Chinese YouTube copy to generate BiliBili title and description."
+          descriptionFieldName="bilibiliDescription"
+          disabledReason="YouTube ID is required before generating BiliBili copy."
+          generateLabel="Generate BiliBili copy"
+          initialOpen={action === "generate-bilibili-copy"}
+          prompts={bilibiliPrompts}
+          title="Generate BiliBili copy"
+          titleFieldName="bilibiliTitle"
+          youtubeId={work.u2bId}
+        />
+        <PlatformAiActions
+          apiPath="generate-vk-copy"
+          contentId={contentId}
+          description="Use metadata, source, lyrics, description, related works, and Russian YouTube copy to generate VK title and description."
+          descriptionFieldName="vkDescription"
+          disabledReason="YouTube ID is required before generating VK copy."
+          generateLabel="Generate VK copy"
+          initialOpen={action === "generate-vk-copy"}
+          prompts={vkPrompts}
+          title="Generate VK copy"
+          titleFieldName="vkTitle"
+          youtubeId={work.u2bId}
+        />
+        <PlatformAiActions
+          apiPath="generate-pixiv-copy"
+          contentId={contentId}
+          description="Use metadata, source, lyrics, description, related works, and English YouTube copy to generate Pixiv title, description, and tags."
+          descriptionFieldName="pixivDescription"
+          disabledReason="YouTube ID is required before generating Pixiv copy."
+          generateLabel="Generate Pixiv copy"
+          initialOpen={action === "generate-pixiv-copy"}
+          prompts={pixivPrompts}
+          tagsFieldName="pixivTags"
+          title="Generate Pixiv copy"
+          titleFieldName="pixivTitle"
+          youtubeId={work.u2bId}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -2759,9 +2722,7 @@ function isFromHeaderComplete(work?: AdminMusicWork) {
   if (work?.fromType === "Original") return true;
 
   return Boolean(
-    work?.fromIp?.trim() &&
-      work.fromSeries?.trim() &&
-      work.fromDetails?.trim(),
+    work?.fromIp?.trim() && work.fromSeries?.trim() && work.fromDetails?.trim(),
   );
 }
 
@@ -2974,19 +2935,21 @@ function getDistributionReview(work?: AdminMusicWork) {
 }
 
 function MusicWorkForm({
+  action,
   bilibiliPrompts,
   currentStep,
   descriptionPrompts,
   pixivPrompts,
   relatedPrompts,
-  subtitleBatchPrompts,
+  subtitleBatchPrompts: _subtitleBatchPrompts,
   vkPrompts,
   work,
-  youtubeBatchPrompts,
+  youtubeBatchPrompts: _youtubeBatchPrompts,
   youtubeLocaleConfig,
-  youtubePrompts,
+  youtubePrompts: _youtubePrompts,
   youtubePublicationStatus,
 }: {
+  action?: string;
   bilibiliPrompts: AdminPromptOption[];
   currentStep: AdminEditorStep;
   descriptionPrompts: AdminPromptOption[];
@@ -3173,6 +3136,7 @@ function MusicWorkForm({
             {work ? (
               <DescriptionAiActions
                 contentId={work.contentId}
+                initialOpen={action === "generate-description"}
                 prompts={descriptionPrompts}
               />
             ) : null}
@@ -3214,6 +3178,7 @@ function MusicWorkForm({
             {work ? (
               <RelatedAiActions
                 contentId={work.contentId}
+                initialOpen={action === "suggest-related"}
                 prompts={relatedPrompts}
               />
             ) : null}
@@ -3237,15 +3202,6 @@ function MusicWorkForm({
                 </div>
               ))}
             </AdminLocalePanels>
-            {work ? (
-              <SubtitleAiActions
-                contentId={work.contentId}
-                localeLabels={youtubeLocaleLabels}
-                locales={youtubeLocales}
-                prompts={subtitleBatchPrompts}
-                youtubeId={work.u2bId}
-              />
-            ) : null}
             <StepSaveButton label="Save subtitles" />
           </Section>
         </StepForm>
@@ -3261,6 +3217,13 @@ function MusicWorkForm({
                 value={work?.u2bId}
                 warning="id"
               />
+              <ReadOnlyField
+                description={getYouTubePublicationDescription(
+                  youtubePublicationStatus,
+                )}
+                label="YouTube availability"
+                value={getYouTubePublicationLabel(youtubePublicationStatus)}
+              />
               <AdminLocalePanels
                 initialPrimaryLocale={work?.youtubePrimaryLocale ?? "en"}
                 labels={youtubeLocaleLabels}
@@ -3275,16 +3238,6 @@ function MusicWorkForm({
                 ))}
               </AdminLocalePanels>
             </DistributionPanel>
-            {work ? (
-              <YoutubeAiActions
-                batchPrompts={youtubeBatchPrompts}
-                contentId={work.contentId}
-                localeLabels={youtubeLocaleLabels}
-                locales={youtubeLocales}
-                prompts={youtubePrompts}
-                youtubeId={work.u2bId}
-              />
-            ) : null}
             <StepSaveButton label="Save YouTube" />
           </Section>
         </StepForm>
@@ -3325,6 +3278,7 @@ function MusicWorkForm({
                 descriptionFieldName="bilibiliDescription"
                 disabledReason="YouTube ID is required before generating BiliBili copy."
                 generateLabel="Generate BiliBili copy"
+                initialOpen={action === "generate-bilibili-copy"}
                 prompts={bilibiliPrompts}
                 title="Generate BiliBili copy"
                 titleFieldName="bilibiliTitle"
@@ -3370,6 +3324,7 @@ function MusicWorkForm({
                 descriptionFieldName="vkDescription"
                 disabledReason="YouTube ID is required before generating VK copy."
                 generateLabel="Generate VK copy"
+                initialOpen={action === "generate-vk-copy"}
                 prompts={vkPrompts}
                 title="Generate VK copy"
                 titleFieldName="vkTitle"
@@ -3412,6 +3367,7 @@ function MusicWorkForm({
                 descriptionFieldName="pixivDescription"
                 disabledReason="YouTube ID is required before generating Pixiv copy."
                 generateLabel="Generate Pixiv copy"
+                initialOpen={action === "generate-pixiv-copy"}
                 prompts={pixivPrompts}
                 tagsFieldName="pixivTags"
                 title="Generate Pixiv copy"
@@ -3795,9 +3751,9 @@ function ReadOnlyField({
 }
 
 function getYouTubePublicationLabel(status: YouTubePublicationStatus) {
-  if (status.status === "published") return "Yes";
-  if (status.status === "not-published") return "No";
-  return "Unknown";
+  if (status.reason === "no-video-id") return "Not set";
+  if (status.status === "published") return "Reachable";
+  return "Unreachable";
 }
 
 function getYouTubePublicationDescription(status: YouTubePublicationStatus) {
@@ -3806,9 +3762,9 @@ function getYouTubePublicationDescription(status: YouTubePublicationStatus) {
     return "Detected by the shared YouTube thumbnail probe.";
   }
   if (status.reason === "thumbnail-missing") {
-    return "The shared YouTube thumbnail probe did not find a public video.";
+    return "A YouTube ID is saved, but no public thumbnail could be loaded. The video may be unpublished, private, unavailable, or the ID may be invalid.";
   }
-  return "The shared YouTube probe could not be reached.";
+  return "A YouTube ID is saved, but the shared YouTube probe could not be reached.";
 }
 
 function SelectField({

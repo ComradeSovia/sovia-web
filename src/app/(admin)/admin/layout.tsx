@@ -1,6 +1,7 @@
 import { logoutAdmin } from "@sovia/admin/actions";
 import { isAdminAuthenticated } from "@sovia/admin/data/auth";
 import { getAdminDatabaseStatus } from "@sovia/admin/data/music-admin";
+import { AdminActionHost } from "@sovia/admin/ui/admin-action-host";
 import { AdminSidebar } from "@sovia/admin/ui/admin-sidebar";
 import type { ReactNode } from "react";
 import {
@@ -38,6 +39,7 @@ export default async function AdminLayout({
             <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
               {children}
             </div>
+            <AdminActionHost enabled={authenticated} />
           </SidebarInset>
         </SidebarProvider>
       </TooltipProvider>

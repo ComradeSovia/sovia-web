@@ -22,6 +22,7 @@ export async function POST(
 
     const body = (await request.json()) as {
       confirmHighCost?: unknown;
+      locales?: unknown;
       tracks?: unknown;
     };
     if (body.confirmHighCost !== true) {
@@ -31,7 +32,7 @@ export async function POST(
     const credentials = await getAdminYoutubeCredentials();
     const result = await syncYouTubeCaptions({
       credentials,
-      tracks: getSubtitleTracks(body.tracks),
+      tracks: getSubtitleTracks(body.tracks, body.locales, work.subtitleTracks),
       videoId: work.u2bId,
     });
 
@@ -46,13 +47,37 @@ export async function POST(
   }
 }
 
-function getSubtitleTracks(value: unknown) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
+function getSubtitleTracks(
+  value: unknown,
+  localesValue: unknown,
+  fallback: Partial<Record<string, string>> | null | undefined,
+) {
+  const tracks =
+    value === undefined
+      ? fallback
+      : !value || typeof value !== "object" || Array.isArray(value)
+        ? null
+        : value;
+  if (!tracks || typeof tracks !== "object" || Array.isArray(tracks)) {
     throw new Error("Subtitle tracks are invalid.");
+  }
+  if (!Array.isArray(localesValue)) {
+    throw new Error("Select at least one subtitle track to sync.");
+  }
+  const locales = Array.from(
+    new Set(
+      localesValue.filter(
+        (locale): locale is string => typeof locale === "string",
+      ),
+    ),
+  );
+  if (!locales.length) {
+    throw new Error("Select at least one subtitle track to sync.");
   }
 
   return Object.fromEntries(
-    Object.entries(value).map(([locale, srt]) => {
+    locales.map((locale) => {
+      const srt = (tracks as Record<string, unknown>)[locale];
       if (typeof srt !== "string" || !srt.trim()) {
         throw new Error(`${locale} subtitle track is empty.`);
       }

@@ -5,6 +5,7 @@ export {
   AdminAnalyticsWorksPage,
 } from "./ui/admin-analytics";
 export {
+  AdminActionsPage,
   AdminContentEditorPage,
   AdminContentListPage,
   AdminDashboardPage,

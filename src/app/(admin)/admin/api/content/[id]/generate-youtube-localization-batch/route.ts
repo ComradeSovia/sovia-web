@@ -1,5 +1,7 @@
 import { requireAdminSession } from "@sovia/admin/data/auth";
+import { getAdminMusicWork } from "@sovia/admin/data/music-admin";
 import { generateYouTubeLocalizationBatch } from "@sovia/admin/data/music-description-generator";
+import { listEnabledAdminYoutubeLocales } from "@sovia/admin/data/youtube-locales";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -17,17 +19,28 @@ export async function POST(
       targetLocales?: unknown;
       youtubeLocalization?: unknown;
     };
+    const work = await getAdminMusicWork(id);
+    if (!work) throw new Error("Content record could not be loaded.");
     const sourceLocale =
       typeof body.sourceLocale === "string" &&
       isYoutubeLocale(body.sourceLocale)
         ? body.sourceLocale
-        : null;
-    const targetLocales = Array.isArray(body.targetLocales)
+        : work.youtubePrimaryLocale;
+    const requestedTargetLocales = Array.isArray(body.targetLocales)
       ? body.targetLocales.filter(
           (locale): locale is string =>
             typeof locale === "string" && isYoutubeLocale(locale),
         )
       : [];
+    const targetLocales = requestedTargetLocales.length
+      ? requestedTargetLocales
+      : (await listEnabledAdminYoutubeLocales()).map((locale) => locale.locale);
+    const requestedLocalization = parseYoutubeLocalization(
+      body.youtubeLocalization,
+    );
+    const youtubeLocalization = Object.keys(requestedLocalization).length
+      ? requestedLocalization
+      : (work.youtubeLocalization ?? {});
 
     if (!sourceLocale) {
       throw new Error("Select a valid primary YouTube language first.");
@@ -43,7 +56,7 @@ export async function POST(
         typeof body.promptKey === "string" ? body.promptKey : undefined,
       sourceLocale,
       targetLocales,
-      youtubeLocalization: parseYoutubeLocalization(body.youtubeLocalization),
+      youtubeLocalization,
     });
 
     return NextResponse.json(result);

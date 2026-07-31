@@ -1,0 +1,38 @@
+"use client";
+
+import type { ComponentType, ReactNode } from "react";
+import type { AdminActionFormOutput } from "./form-output";
+import type {
+  AdminActionDefinition,
+  AdminActionInput,
+  AdminActionRun,
+} from "./types";
+
+export type AdminActionViewProps = {
+  action: AdminActionDefinition;
+  busy: boolean;
+  consumeOutput: boolean;
+  execute: () => void;
+  fillCurrentForm: (fields?: readonly AdminActionFormOutput[]) => void;
+  formOutput: readonly AdminActionFormOutput[];
+  renderInput: (input: AdminActionInput) => ReactNode;
+  run: AdminActionRun;
+  saveOutput: () => void;
+  togglePreview: () => void;
+};
+
+const ADMIN_ACTION_VIEWS: Record<
+  string,
+  ComponentType<AdminActionViewProps>
+> = {};
+
+export function getAdminActionView(action: AdminActionDefinition) {
+  if (
+    action.presentation.type !== "custom" &&
+    action.presentation.type !== "wizard"
+  ) {
+    return null;
+  }
+
+  return ADMIN_ACTION_VIEWS[action.presentation.view] ?? null;
+}

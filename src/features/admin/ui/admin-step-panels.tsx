@@ -10,6 +10,11 @@ import {
   useState,
 } from "react";
 import { useFormStatus } from "react-dom";
+import {
+  type AdminActionFormOutput,
+  getAdminActionFormOutput,
+} from "../actions/form-output";
+import type { AdminActionFormOutputTarget } from "../actions/types";
 
 type FieldState = "changed" | "database" | "empty" | "invalid" | "warning";
 
@@ -50,6 +55,57 @@ export function AdminDirtyForm({
       form.removeEventListener("input", update);
       form.removeEventListener("invalid", update, true);
     };
+  }, []);
+
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const applyActionOutput = (event: Event) => {
+      const detail = (
+        event as CustomEvent<{
+          input?: Record<string, unknown>;
+          output?: unknown;
+          formOutput?: readonly AdminActionFormOutput[];
+          target?: AdminActionFormOutputTarget;
+        }>
+      ).detail;
+      if (!detail?.target) return;
+      const values =
+        detail.formOutput ??
+        getAdminActionFormOutput({
+          input: detail.input,
+          output: detail.output,
+          target: detail.target,
+        });
+      let changed = false;
+
+      for (const { name, operation, value } of values) {
+        const control = getNamedControl(form, name);
+        if (!isFieldControl(control) || control.value === value) continue;
+        const nextValue =
+          operation === "append"
+            ? appendFormControlValue(control.value, value)
+            : value;
+        if (control.value === nextValue) continue;
+        control.value = nextValue;
+        control.dispatchEvent(new Event("input", { bubbles: true }));
+        control.dispatchEvent(new Event("change", { bubbles: true }));
+        changed = true;
+      }
+
+      if (changed) {
+        updateFieldStates(form);
+        setDirty(true);
+      }
+    };
+
+    window.addEventListener("sovia-admin-action-output", applyActionOutput);
+    return () =>
+      window.removeEventListener(
+        "sovia-admin-action-output",
+        applyActionOutput,
+      );
   }, []);
 
   useEffect(() => {
@@ -1760,6 +1816,15 @@ function isFieldControl(value: unknown): value is FieldControl {
 }
 
 type FieldControl = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
+function appendFormControlValue(currentValue: string, value: string) {
+  const values = currentValue
+    .split(/\s+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+  if (!values.includes(value)) values.push(value);
+  return values.join("\n");
+}
 
 function getFieldState(field: HTMLElement, control: FieldControl): FieldState {
   const currentValue = normalizeFieldValue(getCurrentValue(control));

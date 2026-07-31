@@ -16,13 +16,19 @@ export default async function AdminContentDetailRoute({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ message?: string; status?: string; step?: string }>;
+  searchParams: Promise<{
+    action?: string;
+    message?: string;
+    status?: string;
+    step?: string;
+  }>;
 }) {
   const { id } = await params;
-  const { message, status, step } = await searchParams;
+  const { action, message, status, step } = await searchParams;
 
   return (
     <AdminContentEditorPage
+      action={action}
       id={decodeURIComponent(id)}
       message={message}
       status={status}
