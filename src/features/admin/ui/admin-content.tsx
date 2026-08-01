@@ -4,6 +4,7 @@ import {
   checkYouTubeVideoPublished,
   type YouTubePublicationStatus,
 } from "@sovia/youtube-api";
+import { getYouTubeThumbnailApiUrl } from "@sovia/youtube-api/lib/thumbnail-url";
 import {
   AlertCircle,
   ArrowDown,
@@ -1901,7 +1902,7 @@ function ContentThumbnail({ work }: { work: AdminMusicWork }) {
       className="aspect-video w-24 rounded-md border border-zinc-800 bg-zinc-950 object-cover"
       height={54}
       loading="lazy"
-      src={`/api/u2b-thumbnail?id=${encodeURIComponent(work.u2bId)}`}
+      src={getYouTubeThumbnailApiUrl(work.u2bId)}
       unoptimized
       width={96}
     />
@@ -2613,7 +2614,7 @@ function ContentHeaderThumbnail({ work }: { work?: AdminMusicWork }) {
       alt=""
       className="aspect-video w-full rounded-md border border-zinc-800 bg-zinc-950 object-cover"
       height={90}
-      src={`/api/u2b-thumbnail?id=${encodeURIComponent(work.u2bId)}`}
+      src={getYouTubeThumbnailApiUrl(work.u2bId)}
       unoptimized
       width={160}
     />

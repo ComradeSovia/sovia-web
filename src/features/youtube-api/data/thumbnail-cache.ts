@@ -244,7 +244,12 @@ export async function ensureYouTubeThumbnailCache(
         },
       );
       lastHttpStatus = response.status;
-      if (!response.ok) continue;
+      if (!response.ok) {
+        if (response.status === 404 || response.status === 410) continue;
+        throw new Error(
+          `YouTube thumbnail ${sourceVariant} returned ${response.status}.`,
+        );
+      }
 
       const bytes = Buffer.from(await response.arrayBuffer());
       const blurDataUrl = await writeThumbnailCache(videoId, bytes);
@@ -269,7 +274,12 @@ export async function ensureYouTubeThumbnailCache(
       status: "missing",
     };
   } catch (error) {
-    await recordFailedThumbnail(videoId, error, cached?.attemptCount ?? 0);
+    await recordFailedThumbnail(
+      videoId,
+      error,
+      cached?.attemptCount ?? 0,
+      lastHttpStatus,
+    );
     return {
       blurDataUrl: null,
       bytes: null,
@@ -443,6 +453,7 @@ async function recordFailedThumbnail(
   videoId: string,
   error: unknown,
   previousAttemptCount: number,
+  httpStatus: number | null,
 ) {
   const prisma = getPrismaClient();
   if (!prisma) return;
@@ -459,6 +470,7 @@ async function recordFailedThumbnail(
         checkedAt: now,
         failedAt: now,
         failureReason: getErrorMessage(error),
+        httpStatus,
         nextRetryAt: new Date(now.getTime() + retryMs),
         status: "failed",
         videoId,
@@ -467,6 +479,7 @@ async function recordFailedThumbnail(
         checkedAt: now,
         failedAt: now,
         failureReason: getErrorMessage(error),
+        httpStatus,
         leaseUntil: null,
         leaseToken: null,
         nextRetryAt: new Date(now.getTime() + retryMs),

@@ -16,3 +16,4 @@ export {
   getYouTubeAccessToken,
   syncYouTubeVideoMetadata,
 } from "./data/video-metadata";
+export { getYouTubeThumbnailApiUrl } from "./lib/thumbnail-url";

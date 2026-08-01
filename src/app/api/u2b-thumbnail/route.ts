@@ -7,18 +7,28 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 const CACHE_CONTROL = "public, max-age=604800, stale-while-revalidate=2592000";
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store, max-age=0",
+  "Cloudflare-CDN-Cache-Control": "no-store",
+};
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const videoId = searchParams.get("id");
   const format = searchParams.get("format");
 
-  if (!videoId || !/^[\w-]+$/.test(videoId)) {
-    return new NextResponse("Missing video id", { status: 400 });
+  if (!videoId || !/^[\w-]{11}$/.test(videoId)) {
+    return new NextResponse("Missing or invalid video id", {
+      headers: NO_STORE_HEADERS,
+      status: 400,
+    });
   }
 
   if (format && format !== "blur") {
-    return new NextResponse("Unsupported thumbnail format", { status: 400 });
+    return new NextResponse("Unsupported thumbnail format", {
+      headers: NO_STORE_HEADERS,
+      status: 400,
+    });
   }
 
   if (format === "blur") {
@@ -45,7 +55,9 @@ export async function GET(request: Request) {
         ? "Thumbnail is temporarily unavailable"
         : "Thumbnail not found",
       {
-        headers: retryable ? { "Retry-After": "300" } : undefined,
+        headers: retryable
+          ? { ...NO_STORE_HEADERS, "Retry-After": "300" }
+          : NO_STORE_HEADERS,
         status: retryable ? 503 : 404,
       },
     );

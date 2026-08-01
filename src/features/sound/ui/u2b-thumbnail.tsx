@@ -1,5 +1,6 @@
 "use client";
 
+import { getYouTubeThumbnailApiUrl } from "@sovia/youtube-api/lib/thumbnail-url";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -66,7 +67,7 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
 
     const controller = new AbortController();
 
-    fetch(`/api/u2b-thumbnail?id=${u2bId}&format=blur`, {
+    fetch(getYouTubeThumbnailApiUrl(u2bId, "blur"), {
       signal: controller.signal,
     })
       .then((response) => {
@@ -126,7 +127,7 @@ export function U2BThumbnail({ u2bId, alt, blurDataURL }: Props) {
           onError={() => setImageUnavailable(true)}
           onLoad={() => setImageLoaded(true)}
           sizes="(min-width: 768px) 50vw, 100vw"
-          src={`/api/u2b-thumbnail?id=${u2bId}`}
+          src={getYouTubeThumbnailApiUrl(u2bId)}
           unoptimized
         />
       ) : (
