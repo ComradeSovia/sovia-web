@@ -12,7 +12,6 @@ const THUMBNAIL_SOURCES = [
   "mqdefault.jpg",
 ] as const;
 const DOWNLOAD_LEASE_MS = 2 * 60 * 1000;
-const MISSING_RETRY_MS = 24 * 60 * 60 * 1000;
 const FAILED_RETRY_BASE_MS = 5 * 60 * 1000;
 const FAILED_RETRY_MAX_MS = 12 * 60 * 60 * 1000;
 
@@ -198,7 +197,7 @@ export async function ensureYouTubeThumbnailCache(
   const now = new Date();
   if (
     cached &&
-    (cached.status === "missing" || cached.status === "failed") &&
+    cached.status === "failed" &&
     cached.nextRetryAt &&
     cached.nextRetryAt > now
   ) {
@@ -266,7 +265,7 @@ export async function ensureYouTubeThumbnailCache(
       return { blurDataUrl, bytes, exists: true, status: "available" };
     }
 
-    await recordMissingThumbnail(videoId, lastHttpStatus);
+    await releaseMissingThumbnailClaim(videoId, lastHttpStatus);
     return {
       blurDataUrl: null,
       bytes: null,
@@ -414,7 +413,7 @@ async function recordAvailableThumbnail({
   } catch {}
 }
 
-async function recordMissingThumbnail(
+async function releaseMissingThumbnailClaim(
   videoId: string,
   httpStatus: number | null,
 ) {
@@ -423,28 +422,18 @@ async function recordMissingThumbnail(
 
   const now = new Date();
   try {
-    await prisma.youtubeThumbnailCache.upsert({
-      create: {
-        attemptCount: 1,
+    await prisma.youtubeThumbnailCache.updateMany({
+      data: {
         checkedAt: now,
-        failedAt: now,
-        failureReason: "No YouTube thumbnail variant was available.",
-        httpStatus,
-        nextRetryAt: new Date(now.getTime() + MISSING_RETRY_MS),
-        status: "missing",
-        videoId,
-      },
-      update: {
-        checkedAt: now,
-        failedAt: now,
+        failedAt: null,
         failureReason: "No YouTube thumbnail variant was available.",
         httpStatus,
         leaseUntil: null,
         leaseToken: null,
-        nextRetryAt: new Date(now.getTime() + MISSING_RETRY_MS),
-        status: "missing",
+        nextRetryAt: null,
+        status: "pending",
       },
-      where: { videoId },
+      where: { videoId, status: "pending" },
     });
   } catch {}
 }
