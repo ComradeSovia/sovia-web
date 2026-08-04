@@ -12,6 +12,7 @@ import {
   listLatestYoutubeAnalyticsSnapshots,
   listLatestYoutubeEarlyPerformanceSnapshots,
   listLatestYoutubeTrafficSourceSnapshots,
+  listYoutubeRetentionSnapshots,
 } from "./youtube-analytics";
 
 type Snapshot = Awaited<
@@ -23,6 +24,9 @@ type EarlyPerformanceSnapshot = Awaited<
 >[number];
 type TrafficSourceSnapshot = Awaited<
   ReturnType<typeof listLatestYoutubeTrafficSourceSnapshots>
+>[number];
+type RetentionSnapshot = Awaited<
+  ReturnType<typeof listYoutubeRetentionSnapshots>
 >[number];
 
 type McpWorkRow = {
@@ -102,7 +106,9 @@ export async function getAdminMcpAnalyticsData() {
 
 export async function getAdminMcpAnalyticsOverview() {
   const data = await getAdminMcpAnalyticsData();
+  const hasReach = data.rows.some((row) => row.analytics.impressions !== null);
   return {
+    availableMetrics: hasReach ? ["impressions", "ctr"] : [],
     baseline: data.baseline,
     coreQuestions: [
       "Did the title and thumbnail earn the click?",
@@ -110,8 +116,7 @@ export async function getAdminMcpAnalyticsOverview() {
       "Did the work build the Sovia audience?",
     ],
     missingMetrics: [
-      "impressions",
-      "ctr",
+      ...(hasReach ? [] : ["impressions", "ctr"]),
       "retention10s",
       "retention30s",
       "retention60s",
@@ -452,6 +457,7 @@ export async function getAdminMcpEarlyPerformance({ id }: { id?: string }) {
     notes: [
       "YouTube Analytics API data is date-window based here, not exact clock-hour data.",
       "24h means publish-date calendar day; 72h means publish date plus two days; 168h means publish date plus six days.",
+      "672h means the completed publish-date 28-day window.",
       "The sync currently backfills the most recent 50 published YouTube works to stay quota-conscious.",
     ],
     work,
@@ -475,6 +481,37 @@ export async function getAdminMcpTrafficSources({
     items: snapshots.map(serializeTrafficSourceSnapshot),
     periodDays,
     sourceTypes: getTrafficSourceTypeDescriptions(),
+    work,
+  };
+}
+
+export async function getAdminMcpRetention({
+  elapsedHours,
+  id,
+}: {
+  elapsedHours?: number;
+  id?: string;
+}) {
+  const work = id ? await getAdminMcpContentWork(id) : null;
+  const snapshots = await listYoutubeRetentionSnapshots(
+    work?.contentId ?? id,
+    elapsedHours,
+  );
+  const groups = new Map<string, RetentionSnapshot[]>();
+  for (const snapshot of snapshots) {
+    const key = `${snapshot.contentId}:${snapshot.elapsedHours}`;
+    const current = groups.get(key) ?? [];
+    current.push(snapshot);
+    groups.set(key, current);
+  }
+
+  return {
+    items: Array.from(groups.values()).map(serializeRetentionWindow),
+    notes: [
+      "Retention is audienceWatchRatio at each percentage of elapsed video time, not seven-day returning-viewer cohort retention.",
+      "Ratios above 1 can indicate rewatches of that segment.",
+      "Only completed 24h, 72h, 168h, and 672h publish-date windows are stored.",
+    ],
     work,
   };
 }
@@ -541,7 +578,8 @@ export async function findAdminMcpAnalyticsOutliers() {
         .map(toOutlierSummary),
     },
     notes: [
-      "CTR, impressions, and retention checkpoints are not available in the stored dataset yet.",
+      "CTR and impressions are available after the Reporting API creates and imports its first daily Reach report.",
+      "Playback-position retention checkpoints are available through analytics_get_retention.",
       "Outliers use current stored lifetime Analytics snapshots and median baselines.",
     ],
   };
@@ -677,10 +715,12 @@ function serializeSnapshot(snapshot: Snapshot) {
     comments: snapshot.comments,
     endDate: snapshot.endDate,
     estimatedMinutesWatched: snapshot.estimatedMinutesWatched,
+    impressionClickThroughRate: snapshot.impressionClickThroughRate,
+    impressions: snapshot.impressions,
     likes: snapshot.likes,
     missingCoreMetrics: [
-      "impressions",
-      "ctr",
+      ...(snapshot.impressions === null ? ["impressions"] : []),
+      ...(snapshot.impressionClickThroughRate === null ? ["ctr"] : []),
       "retention10s",
       "retention30s",
       "retention60s",
@@ -689,11 +729,16 @@ function serializeSnapshot(snapshot: Snapshot) {
     shares: snapshot.shares,
     startDate: snapshot.startDate,
     subscribersGained: snapshot.subscribersGained,
+    subscribersLost: snapshot.subscribersLost,
+    netSubscribers: snapshot.subscribersGained - snapshot.subscribersLost,
     subscribersPer1000Views,
     syncedAt: snapshot.syncedAt.toISOString(),
     videoId: snapshot.videoId,
     views: snapshot.views,
-    watchTimePerImpressionSeconds: null,
+    watchTimePerImpressionSeconds:
+      snapshot.impressions && snapshot.estimatedMinutesWatched !== null
+        ? (snapshot.estimatedMinutesWatched * 60) / snapshot.impressions
+        : null,
   };
 }
 
@@ -706,13 +751,93 @@ function serializeEarlyPerformanceSnapshot(snapshot: EarlyPerformanceSnapshot) {
     endDate: snapshot.endDate,
     estimatedMinutesWatched: snapshot.estimatedMinutesWatched,
     granularity: snapshot.granularity,
+    impressionClickThroughRate: snapshot.impressionClickThroughRate,
+    impressions: snapshot.impressions,
     likes: snapshot.likes,
     shares: snapshot.shares,
     startDate: snapshot.startDate,
     subscribersGained: snapshot.subscribersGained,
+    subscribersLost: snapshot.subscribersLost,
+    netSubscribers: snapshot.subscribersGained - snapshot.subscribersLost,
     syncedAt: snapshot.syncedAt.toISOString(),
     videoId: snapshot.videoId,
     views: snapshot.views,
+  };
+}
+
+function serializeRetentionWindow(rows: RetentionSnapshot[]) {
+  const ordered = [...rows].sort(
+    (left, right) =>
+      left.elapsedVideoTimePercent - right.elapsedVideoTimePercent,
+  );
+  const first = ordered[0];
+  const checkpoint = (percent: number) => {
+    const nearest = ordered.reduce<RetentionSnapshot | undefined>(
+      (best, row) =>
+        !best ||
+        Math.abs(row.elapsedVideoTimePercent - percent) <
+          Math.abs(best.elapsedVideoTimePercent - percent)
+          ? row
+          : best,
+      undefined,
+    );
+    return nearest
+      ? {
+          audienceWatchRatio: nearest.audienceWatchRatio,
+          elapsedVideoTimePercent: nearest.elapsedVideoTimePercent,
+          relativeRetentionPerformance: nearest.relativeRetentionPerformance,
+        }
+      : null;
+  };
+  const largestDrop = ordered.slice(1).reduce<
+    | {
+        drop: number;
+        fromPercent: number;
+        toPercent: number;
+      }
+    | undefined
+  >((largest, row, index) => {
+    const previous = ordered[index];
+    const candidate = {
+      drop: previous.audienceWatchRatio - row.audienceWatchRatio,
+      fromPercent: previous.elapsedVideoTimePercent,
+      toPercent: row.elapsedVideoTimePercent,
+    };
+    return !largest || candidate.drop > largest.drop ? candidate : largest;
+  }, undefined);
+  const replayPeak = ordered.reduce<RetentionSnapshot | undefined>(
+    (peak, row) =>
+      !peak || row.audienceWatchRatio > peak.audienceWatchRatio ? row : peak,
+    undefined,
+  );
+
+  return {
+    checkpoints: {
+      percent10: checkpoint(10),
+      percent25: checkpoint(25),
+      percent50: checkpoint(50),
+      percent75: checkpoint(75),
+      percent100: checkpoint(100),
+    },
+    contentId: first?.contentId ?? null,
+    curve: ordered.map((row) => ({
+      audienceWatchRatio: row.audienceWatchRatio,
+      elapsedVideoTimePercent: row.elapsedVideoTimePercent,
+      relativeRetentionPerformance: row.relativeRetentionPerformance,
+    })),
+    elapsedHours: first?.elapsedHours ?? null,
+    endDate: first?.endDate ?? null,
+    largestDrop: largestDrop && largestDrop.drop > 0 ? largestDrop : null,
+    replayPeak:
+      replayPeak && replayPeak.audienceWatchRatio > 1
+        ? {
+            audienceWatchRatio: replayPeak.audienceWatchRatio,
+            elapsedVideoTimePercent: replayPeak.elapsedVideoTimePercent,
+          }
+        : null,
+    startDate: first?.startDate ?? null,
+    syncedAt: first?.syncedAt.toISOString() ?? null,
+    videoId: first?.videoId ?? null,
   };
 }
 
@@ -1578,6 +1703,18 @@ function getBaseline(snapshots: Snapshot[]) {
         snapshot.averageViewPercentage === null
           ? []
           : [snapshot.averageViewPercentage],
+      ),
+    ),
+    impressionClickThroughRate: median(
+      snapshots.flatMap((snapshot) =>
+        snapshot.impressionClickThroughRate === null
+          ? []
+          : [snapshot.impressionClickThroughRate],
+      ),
+    ),
+    impressions: median(
+      snapshots.flatMap((snapshot) =>
+        snapshot.impressions === null ? [] : [snapshot.impressions],
       ),
     ),
     views: median(snapshots.map((snapshot) => snapshot.views)),

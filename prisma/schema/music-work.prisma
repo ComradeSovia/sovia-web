@@ -13,6 +13,8 @@ model MusicWork {
   youtubeAnalyticsSnapshots         AdminYoutubeVideoAnalyticsSnapshot[]
   youtubeEarlyPerformanceSnapshots AdminYoutubeVideoEarlyPerformanceSnapshot[]
   youtubeTrafficSourceSnapshots    AdminYoutubeVideoTrafficSourceSnapshot[]
+  youtubeRetentionSnapshots        AdminYoutubeVideoRetentionSnapshot[]
+  youtubeReachDaily                AdminYoutubeVideoReachDaily[]
 
   @@map("music_works")
 }

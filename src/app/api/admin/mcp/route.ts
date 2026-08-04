@@ -9,6 +9,7 @@ import {
   getAdminMcpContentWork,
   getAdminMcpEarlyPerformance,
   getAdminMcpRecentWorks,
+  getAdminMcpRetention,
   getAdminMcpTrafficSources,
   getAdminMcpWorkInsight,
   listAdminMcpAnalyticsWorks,
@@ -326,7 +327,7 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
-      "Get synced early performance windows for a work or all synced works. Uses publish-date calendar windows: 24h, 72h, and 168h where available.",
+      "Get synced early performance windows for a work or all synced works. Uses publish-date calendar windows: 24h, 72h, 168h, and 672h where available.",
     inputSchema: {
       additionalProperties: false,
       properties: {
@@ -360,6 +361,27 @@ const tools: ToolDefinition[] = [
       type: "object",
     },
     name: "analytics_get_traffic_sources",
+  },
+  {
+    description:
+      "Get YouTube audience-retention curves and summaries for completed 24h, 72h, 7d, and 28d windows. This is playback-position retention, not returning-viewer cohort retention.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        elapsedHours: {
+          description: "Optional completed window: 24, 72, 168, or 672 hours.",
+          enum: [24, 72, 168, 672],
+          type: "integer",
+        },
+        id: {
+          description:
+            "Optional content ID, path, or YouTube video ID. Omit to list all synced retention windows.",
+          type: "string",
+        },
+      },
+      type: "object",
+    },
+    name: "analytics_get_retention",
   },
   {
     description:
@@ -569,6 +591,17 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           await getAdminMcpTrafficSources({
             id: toOptionalString(args.id),
             periodDays: toInteger(args.periodDays, 90),
+          }),
+        );
+
+      case "analytics_get_retention":
+        return makeToolResult(
+          id,
+          await getAdminMcpRetention({
+            elapsedHours: args.elapsedHours
+              ? toInteger(args.elapsedHours, 168)
+              : undefined,
+            id: toOptionalString(args.id),
           }),
         );
 

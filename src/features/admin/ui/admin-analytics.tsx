@@ -118,7 +118,7 @@ export async function AdminAnalyticsPage({
             </CardHeader>
             <CardContent className="grid gap-3 md:grid-cols-3">
               <DiagnosisCard
-                description="Needs impressions and CTR from Reporting API reach reports."
+                description="Uses impressions and weighted CTR after the daily Reporting API Reach report is available."
                 title="Do title and thumbnail earn clicks?"
               />
               <DiagnosisCard

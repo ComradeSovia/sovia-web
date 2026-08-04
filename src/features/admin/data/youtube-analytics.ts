@@ -2,6 +2,7 @@ import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { getYouTubeAccessToken } from "@sovia/youtube-api";
 import { listAdminMusicWorks } from "./music-admin";
 import { getAdminYoutubeCredentials } from "./youtube-connection";
+import { syncYoutubeReachReports } from "./youtube-reporting";
 
 type AnalyticsValue = number | string | null;
 
@@ -31,8 +32,15 @@ type VideoMetricRow = {
   likes: number;
   shares: number;
   subscribersGained: number;
+  subscribersLost: number;
   videoId: string;
   views: number;
+};
+
+type VideoRetentionRow = {
+  audienceWatchRatio: number;
+  elapsedVideoTimePercent: number;
+  relativeRetentionPerformance?: number;
 };
 
 type VideoTrafficSourceRow = {
@@ -56,7 +64,9 @@ const SYNC_ID = "primary";
 const LIFETIME_PERIOD_DAYS = 0;
 const LIFETIME_START_DATE = "2005-01-01";
 const PERIOD_DAYS = [LIFETIME_PERIOD_DAYS, 7, 28, 90] as const;
-const EARLY_PERFORMANCE_WINDOWS_HOURS = [24, 72, 168] as const;
+const EARLY_PERFORMANCE_WINDOWS_HOURS = [24, 72, 168, 672] as const;
+const RETENTION_WINDOWS_HOURS = [24, 72, 168, 672] as const;
+const RETENTION_SYNC_LIMIT = 20;
 const EARLY_PERFORMANCE_SYNC_LIMIT = 50;
 const EARLY_PERFORMANCE_GRANULARITY = "calendar_day";
 const TRAFFIC_SOURCE_PERIOD_DAYS = 90;
@@ -71,6 +81,7 @@ const CORE_METRICS = [
   "averageViewDuration",
   "averageViewPercentage",
   "subscribersGained",
+  "subscribersLost",
   "likes",
   "comments",
   "shares",
@@ -131,6 +142,26 @@ export async function listLatestYoutubeTrafficSourceSnapshots(
       endDate: latest.endDate,
       periodDays,
       ...(contentId ? { contentId } : {}),
+    },
+  });
+}
+
+export async function listYoutubeRetentionSnapshots(
+  contentId?: string,
+  elapsedHours?: number,
+) {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+
+  return prisma.adminYoutubeVideoRetentionSnapshot.findMany({
+    orderBy: [
+      { contentId: "asc" },
+      { elapsedHours: "asc" },
+      { elapsedVideoTimePercent: "asc" },
+    ],
+    where: {
+      ...(contentId ? { contentId } : {}),
+      ...(elapsedHours ? { elapsedHours } : {}),
     },
   });
 }
@@ -275,6 +306,33 @@ export async function syncAdminYoutubeAnalytics() {
       );
       return 0;
     });
+    const retentionRows = await syncRetentionSnapshots({
+      accessToken,
+      endDate,
+      works,
+    }).catch((error) => {
+      warnings.add(
+        error instanceof Error
+          ? `Audience retention sync skipped: ${error.message}`
+          : "Audience retention sync skipped.",
+      );
+      return 0;
+    });
+    const reach = await syncYoutubeReachReports({
+      accessToken,
+      videoIdToContentId: new Map(
+        works.flatMap((work) =>
+          work.u2bId ? [[work.u2bId, work.contentId] as const] : [],
+        ),
+      ),
+    }).catch((error) => {
+      warnings.add(
+        error instanceof Error
+          ? `Reach report sync skipped: ${error.message}`
+          : "Reach report sync skipped.",
+      );
+      return null;
+    });
     if (lifetimeAnalyticsRows === 0) {
       warnings.add(
         "Lifetime Analytics returned no rows; synced Data API totals only.",
@@ -289,6 +347,8 @@ export async function syncAdminYoutubeAnalytics() {
           lifetimeAnalyticsRows,
           earlyPerformanceRows,
           trafficSourceRows,
+          retentionRows,
+          reach,
         ),
         status: "success",
         syncedAt: new Date(),
@@ -303,6 +363,8 @@ export async function syncAdminYoutubeAnalytics() {
         lifetimeAnalyticsRows,
         earlyPerformanceRows,
         trafficSourceRows,
+        retentionRows,
+        reach,
       ),
       synced: works.length,
     };
@@ -315,6 +377,80 @@ export async function syncAdminYoutubeAnalytics() {
     });
     throw new Error(message);
   }
+}
+
+async function syncRetentionSnapshots({
+  accessToken,
+  endDate,
+  works,
+}: {
+  accessToken: string;
+  endDate: string;
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>;
+}) {
+  const prisma = getPrismaClient();
+  if (!prisma) throw new Error("Database is unavailable.");
+
+  const publishedWorks = works
+    .filter((work) => work.u2bId && getDateOnly(work.publishedAt))
+    .sort(
+      (a, b) =>
+        Date.parse(`${getDateOnly(b.publishedAt)}T00:00:00.000Z`) -
+        Date.parse(`${getDateOnly(a.publishedAt)}T00:00:00.000Z`),
+    )
+    .slice(0, RETENTION_SYNC_LIMIT);
+  let syncedRows = 0;
+
+  for (const work of publishedWorks) {
+    if (!work.u2bId) continue;
+    const publishedDate = getDateOnly(work.publishedAt);
+    if (!publishedDate) continue;
+
+    for (const elapsedHours of RETENTION_WINDOWS_HOURS) {
+      const windowEndDate = shiftDate(publishedDate, elapsedHours / 24 - 1);
+      if (windowEndDate > endDate) continue;
+
+      const existing = await prisma.adminYoutubeVideoRetentionSnapshot.count({
+        where: { elapsedHours, videoId: work.u2bId },
+      });
+      if (existing >= 90) continue;
+
+      const rows = await queryRetentionMetrics({
+        accessToken,
+        endDate: windowEndDate,
+        startDate: publishedDate,
+        videoId: work.u2bId,
+      });
+      for (const row of rows) {
+        await prisma.adminYoutubeVideoRetentionSnapshot.upsert({
+          create: {
+            ...row,
+            contentId: work.contentId,
+            elapsedHours,
+            endDate: windowEndDate,
+            startDate: publishedDate,
+            videoId: work.u2bId,
+          },
+          update: {
+            ...row,
+            endDate: windowEndDate,
+            startDate: publishedDate,
+            syncedAt: new Date(),
+          },
+          where: {
+            videoId_elapsedHours_elapsedVideoTimePercent: {
+              elapsedHours,
+              elapsedVideoTimePercent: row.elapsedVideoTimePercent,
+              videoId: work.u2bId,
+            },
+          },
+        });
+        syncedRows += 1;
+      }
+    }
+  }
+
+  return syncedRows;
 }
 
 async function syncEarlyPerformanceSnapshots({
@@ -593,6 +729,62 @@ async function queryTrafficSourceMetrics({
   return rows;
 }
 
+async function queryRetentionMetrics({
+  accessToken,
+  endDate,
+  startDate,
+  videoId,
+}: {
+  accessToken: string;
+  endDate: string;
+  startDate: string;
+  videoId: string;
+}) {
+  const params = new URLSearchParams({
+    dimensions: "elapsedVideoTimeRatio",
+    endDate,
+    filters: `video==${videoId}`,
+    ids: "channel==MINE",
+    metrics: "audienceWatchRatio,relativeRetentionPerformance",
+    startDate,
+  });
+  const response = await fetch(`${ANALYTICS_API_URL}?${params}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    method: "GET",
+  });
+  const payload = (await response
+    .json()
+    .catch(() => null)) as AnalyticsResponse | null;
+
+  if (!response.ok) {
+    throw new Error(
+      payload?.error?.message ||
+        payload?.error?.error_description ||
+        "YouTube audience retention report could not be loaded.",
+    );
+  }
+
+  const headers = payload?.columnHeaders?.map((header) => header.name) ?? [];
+  return (payload?.rows ?? []).flatMap((row) => {
+    const record = Object.fromEntries(
+      headers.map((header, index) => [header, row[index]]),
+    );
+    const elapsedRatio = toOptionalNumber(record.elapsedVideoTimeRatio);
+    const audienceWatchRatio = toOptionalNumber(record.audienceWatchRatio);
+    if (elapsedRatio === undefined || audienceWatchRatio === undefined)
+      return [];
+    return [
+      {
+        audienceWatchRatio,
+        elapsedVideoTimePercent: Math.round(elapsedRatio * 100),
+        relativeRetentionPerformance: toOptionalNumber(
+          record.relativeRetentionPerformance,
+        ),
+      } satisfies VideoRetentionRow,
+    ];
+  });
+}
+
 function parseVideoMetricRows(payload: AnalyticsResponse | null) {
   const headers = payload?.columnHeaders?.map((header) => header.name) ?? [];
   const rows = new Map<string, VideoMetricRow>();
@@ -612,6 +804,7 @@ function parseVideoMetricRows(payload: AnalyticsResponse | null) {
       likes: toInteger(record.likes),
       shares: toInteger(record.shares),
       subscribersGained: toInteger(record.subscribersGained),
+      subscribersLost: toInteger(record.subscribersLost),
       videoId,
       views: toInteger(record.views),
     });
@@ -656,11 +849,10 @@ function getSnapshotData(
     averageViewPercentage: core?.averageViewPercentage,
     comments: stats?.comments ?? core?.comments ?? 0,
     estimatedMinutesWatched: core?.estimatedMinutesWatched,
-    impressionClickThroughRate: null,
-    impressions: null,
     likes: stats?.likes ?? core?.likes ?? 0,
     shares: core?.shares ?? 0,
     subscribersGained: core?.subscribersGained ?? 0,
+    subscribersLost: core?.subscribersLost ?? 0,
     views: stats?.views ?? core?.views ?? 0,
   };
 }
@@ -674,6 +866,7 @@ function getEarlyPerformanceData(core: VideoMetricRow) {
     likes: core.likes,
     shares: core.shares,
     subscribersGained: core.subscribersGained,
+    subscribersLost: core.subscribersLost,
     views: core.views,
   };
 }
@@ -692,8 +885,15 @@ function getSyncMessage(
   lifetimeAnalyticsRows: number,
   earlyPerformanceRows: number,
   trafficSourceRows: number,
+  retentionRows: number,
+  reach: Awaited<ReturnType<typeof syncYoutubeReachReports>> | null,
 ) {
-  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), and ${trafficSourceRows} traffic source row(s).`;
+  const reachMessage = reach
+    ? reach.pendingGeneration
+      ? " Reach job is ready; YouTube has not generated its first daily CSV yet."
+      : ` Imported ${reach.importedReports} Reach report(s), ${reach.importedRows} daily row(s), and updated ${reach.updatedSnapshots} snapshot(s).`
+    : "";
+  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), ${trafficSourceRows} traffic source row(s), and ${retentionRows} retention point(s).${reachMessage}`;
   const warning = Array.from(warnings)[0];
   return warning ? `${base} ${warning}` : base;
 }

@@ -23,6 +23,7 @@ model AdminYoutubeVideoAnalyticsSnapshot {
   averageViewDuration        Float?
   averageViewPercentage      Float?
   subscribersGained          Int      @default(0)
+  subscribersLost            Int      @default(0)
   likes                      Int      @default(0)
   comments                   Int      @default(0)
   shares                     Int      @default(0)
@@ -50,6 +51,9 @@ model AdminYoutubeVideoEarlyPerformanceSnapshot {
   averageViewDuration     Float?
   averageViewPercentage   Float?
   subscribersGained       Int       @default(0)
+  subscribersLost         Int       @default(0)
+  impressions             Int?
+  impressionClickThroughRate Float?
   likes                   Int       @default(0)
   comments                Int       @default(0)
   shares                  Int       @default(0)
@@ -60,6 +64,53 @@ model AdminYoutubeVideoEarlyPerformanceSnapshot {
   @@index([contentId])
   @@index([elapsedHours])
   @@map("admin_youtube_video_early_performance_snapshots")
+}
+
+model AdminYoutubeVideoRetentionSnapshot {
+  id                           String    @id @default(cuid())
+  contentId                    String
+  videoId                      String
+  elapsedHours                 Int
+  elapsedVideoTimePercent      Int
+  startDate                    String
+  endDate                      String
+  audienceWatchRatio           Float
+  relativeRetentionPerformance Float?
+  syncedAt                     DateTime  @default(now())
+  work                         MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@unique([videoId, elapsedHours, elapsedVideoTimePercent])
+  @@index([contentId, elapsedHours])
+  @@map("admin_youtube_video_retention_snapshots")
+}
+
+model AdminYoutubeVideoReachDaily {
+  id                         String    @id @default(cuid())
+  contentId                  String
+  videoId                    String
+  date                       String
+  impressions                Int
+  impressionClickThroughRate Float?
+  reportId                   String
+  syncedAt                   DateTime  @default(now())
+  work                       MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@unique([videoId, date])
+  @@index([contentId, date])
+  @@map("admin_youtube_video_reach_daily")
+}
+
+model AdminYoutubeReportingImport {
+  reportId  String   @id
+  jobId     String
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime
+  importedAt DateTime @default(now())
+  rowCount  Int      @default(0)
+
+  @@index([jobId, createdAt])
+  @@map("admin_youtube_reporting_imports")
 }
 
 model AdminYoutubeVideoTrafficSourceSnapshot {
