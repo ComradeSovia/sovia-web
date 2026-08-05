@@ -100,6 +100,21 @@ model AdminYoutubeVideoReachDaily {
   @@map("admin_youtube_video_reach_daily")
 }
 
+model AdminYoutubeVideoRealtimeSnapshot {
+  id              String    @id @default(cuid())
+  contentId       String
+  videoId         String
+  views           Int
+  likes           Int       @default(0)
+  comments        Int       @default(0)
+  observedAt      DateTime  @default(now())
+  work            MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@index([contentId, observedAt])
+  @@index([videoId, observedAt])
+  @@map("admin_youtube_video_realtime_snapshots")
+}
+
 model AdminYoutubeReportingImport {
   reportId  String   @id
   jobId     String

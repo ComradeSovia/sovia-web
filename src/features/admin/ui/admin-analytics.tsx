@@ -26,6 +26,11 @@ import {
 import {
   getYoutubeAnalyticsSyncStatus,
   listLatestYoutubeAnalyticsSnapshots,
+  listLatestYoutubeEarlyPerformanceSnapshots,
+  listYoutubeRealtimeSnapshots,
+  listYoutubeReportingImports,
+  listYoutubeRetentionSnapshots,
+  listYoutubeTrafficSourceSnapshotsByPeriods,
 } from "../data/youtube-analytics";
 import {
   getAdminYoutubeConnection,
@@ -60,10 +65,32 @@ type Snapshot = Awaited<
   ReturnType<typeof listLatestYoutubeAnalyticsSnapshots>
 >[number];
 type Work = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
+type EarlySnapshot = Awaited<
+  ReturnType<typeof listLatestYoutubeEarlyPerformanceSnapshots>
+>[number];
+type RetentionSnapshot = Awaited<
+  ReturnType<typeof listYoutubeRetentionSnapshots>
+>[number];
+type TrafficSnapshot = Awaited<
+  ReturnType<typeof listYoutubeTrafficSourceSnapshotsByPeriods>
+>[number];
+type RealtimeSnapshot = Awaited<
+  ReturnType<typeof listYoutubeRealtimeSnapshots>
+>[number];
 type AnalyticsRow = {
   snapshot: Snapshot;
   verdict: ReturnType<typeof getVerdict>;
   work: Work | undefined;
+};
+type ReleaseRow = {
+  availableWindows: number[];
+  early: EarlySnapshot | undefined;
+  reachCoverage: ReturnType<typeof getReachCoverage>;
+  retention: RetentionSnapshot[];
+  topTraffic: TrafficSnapshot | undefined;
+  velocity: ReturnType<typeof getReleaseVelocity>;
+  verdict: ReturnType<typeof getReleaseVerdict>;
+  work: Work;
 };
 
 function matchActionStatus(value?: string): ActionStatus {
@@ -91,44 +118,67 @@ export async function AdminAnalyticsPage({
 }) {
   return (
     <AdminAnalyticsFrame message={message} status={status}>
-      {async ({ rows, snapshots, syncStatus, totals, youtubeConfig }) => (
+      {async ({ releaseRows, syncStatus, youtubeConfig }) => (
         <>
           <div className="grid gap-4 md:grid-cols-4">
-            <MetricCard label="Views" value={formatInteger(totals.views)} />
-            <MetricCard label="Likes" value={formatInteger(totals.likes)} />
             <MetricCard
-              label="Comments"
-              value={formatInteger(totals.comments)}
+              label="Recent releases"
+              value={formatInteger(releaseRows.length)}
             />
             <MetricCard
-              label="Synced videos"
-              value={formatInteger(snapshots.length)}
+              label="With 7-day window"
+              value={formatInteger(
+                releaseRows.filter((row) => row.availableWindows.includes(168))
+                  .length,
+              )}
+            />
+            <MetricCard
+              label="CTR coverage"
+              value={formatCoverage(
+                releaseRows.filter(
+                  (row) => row.reachCoverage.status === "complete",
+                ).length,
+                releaseRows.length,
+              )}
+            />
+            <MetricCard
+              label="Retention coverage"
+              value={formatCoverage(
+                releaseRows.filter((row) => row.retention.length > 0).length,
+                releaseRows.length,
+              )}
             />
           </div>
 
           <Card className={CARD_CLASS}>
             <CardHeader>
-              <CardTitle className={CARD_TITLE_CLASS}>
-                AI Diagnosis Focus
-              </CardTitle>
+              <CardTitle className={CARD_TITLE_CLASS}>Launch Monitor</CardTitle>
               <CardDescription className={CARD_DESCRIPTION_CLASS}>
-                The dashboard is intentionally narrow: packaging, retention, and
-                Sovia audience conversion.
+                Live observation deltas for releases from the last seven days.
+                Values appear after at least two automated syncs.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-3 md:grid-cols-3">
-              <DiagnosisCard
-                description="Uses impressions and weighted CTR after the daily Reporting API Reach report is available."
-                title="Do title and thumbnail earn clicks?"
+            <CardContent>
+              <LaunchMonitorTable
+                rows={releaseRows.filter(
+                  (row) => getReleaseAgeHours(row.work) <= 168,
+                )}
               />
-              <DiagnosisCard
-                description="Uses 10s/30s/60s retention and average percentage viewed."
-                title="Does the song keep viewers?"
-              />
-              <DiagnosisCard
-                description="Uses subscribers per 1,000 views to separate IP traffic from Sovia audience growth."
-                title="Does this build Sovia's audience?"
-              />
+            </CardContent>
+          </Card>
+
+          <Card className={CARD_CLASS}>
+            <CardHeader>
+              <CardTitle className={CARD_TITLE_CLASS}>
+                Recent Release Decisions
+              </CardTitle>
+              <CardDescription className={CARD_DESCRIPTION_CLASS}>
+                Each work uses its latest completed publish window. Lifetime
+                totals are kept only as historical context.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <RecentReleaseTable rows={releaseRows.slice(0, 12)} />
             </CardContent>
           </Card>
 
@@ -148,15 +198,19 @@ export async function AdminAnalyticsPage({
                 <Link href="/admin/analytics/works">Open Works</Link>
               </Button>
             </CardHeader>
-            <CardContent className="grid gap-3 md:grid-cols-4">
-              {rows.slice(0, 4).map((row) => (
-                <WorkSummaryCard key={row.snapshot.id} row={row} />
-              ))}
-              {!rows.length ? (
-                <div className="rounded-md border border-zinc-800 bg-zinc-950 p-3 text-sm text-zinc-500">
-                  No synced analytics yet.
-                </div>
-              ) : null}
+            <CardContent className="grid gap-3 md:grid-cols-3">
+              <DiagnosisCard
+                description="CTR comes from the daily Reach report and is weighted by impressions. Missing means the report is not generated yet."
+                title="Packaging"
+              />
+              <DiagnosisCard
+                description="Average viewed and the 10%/50%/end curve show whether viewers stay after clicking."
+                title="Retention"
+              />
+              <DiagnosisCard
+                description="Net subscribers and the leading traffic source distinguish audience growth from temporary external traffic."
+                title="Audience quality"
+              />
             </CardContent>
           </Card>
 
@@ -235,7 +289,13 @@ export async function AdminAnalyticsWorksPage({
 export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
   return (
     <AdminAnalyticsFrame>
-      {async ({ rows }) => {
+      {async ({
+        availableReachDates,
+        earlySnapshots,
+        retentionSnapshots,
+        rows,
+        trafficSnapshots,
+      }) => {
         const row = rows.find(
           (item) =>
             item.snapshot.contentId === id ||
@@ -276,23 +336,47 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
               </Button>
             </CardHeader>
             <CardContent className="space-y-5">
-              <div className="grid gap-3 md:grid-cols-4">
-                <MetricCard
-                  label="Views"
-                  value={formatInteger(row.snapshot.views)}
+              <div>
+                <div className="mb-3 text-sm font-medium text-zinc-100">
+                  Publish-window performance
+                </div>
+                <WindowPerformanceTable
+                  earlySnapshots={earlySnapshots.filter(
+                    (snapshot) => snapshot.contentId === row.snapshot.contentId,
+                  )}
+                  retentionSnapshots={retentionSnapshots.filter(
+                    (snapshot) => snapshot.contentId === row.snapshot.contentId,
+                  )}
+                  availableReachDates={availableReachDates}
+                  trafficSnapshots={trafficSnapshots.filter(
+                    (snapshot) => snapshot.contentId === row.snapshot.contentId,
+                  )}
                 />
-                <MetricCard
-                  label="Avg viewed"
-                  value={formatPercent(row.snapshot.averageViewPercentage)}
-                />
-                <MetricCard
-                  label="Watch time"
-                  value={formatMinutes(row.snapshot.estimatedMinutesWatched)}
-                />
-                <MetricCard
-                  label="Subs / 1k views"
-                  value={formatNumber(getSubscribersPer1000Views(row.snapshot))}
-                />
+              </div>
+              <div className="border-t border-zinc-800 pt-5">
+                <div className="mb-3 text-sm font-medium text-zinc-100">
+                  Lifetime context
+                </div>
+                <div className="grid gap-3 md:grid-cols-4">
+                  <MetricCard
+                    label="Views"
+                    value={formatInteger(row.snapshot.views)}
+                  />
+                  <MetricCard
+                    label="Avg viewed"
+                    value={formatPercent(row.snapshot.averageViewPercentage)}
+                  />
+                  <MetricCard
+                    label="Watch time"
+                    value={formatMinutes(row.snapshot.estimatedMinutesWatched)}
+                  />
+                  <MetricCard
+                    label="Subs / 1k views"
+                    value={formatNumber(
+                      getSubscribersPer1000Views(row.snapshot),
+                    )}
+                  />
+                </div>
               </div>
               <div className="rounded-md border border-zinc-800 bg-zinc-950 p-4">
                 <div className="text-sm font-medium text-zinc-100">Reading</div>
@@ -487,14 +571,31 @@ function AnalyticsNav() {
 async function loadAnalyticsData() {
   const databaseStatus = await getAdminDatabaseStatus();
   const youtubeConfig = getYoutubeOAuthConfig();
-  const [works, snapshots, syncStatus, youtubeConnection] = databaseStatus.ok
+  const [
+    works,
+    snapshots,
+    earlySnapshots,
+    retentionSnapshots,
+    trafficSnapshots,
+    realtimeSnapshots,
+    reportingImports,
+    syncStatus,
+    youtubeConnection,
+  ] = databaseStatus.ok
     ? await Promise.all([
         listAdminMusicWorks(),
         listLatestYoutubeAnalyticsSnapshots(),
+        listLatestYoutubeEarlyPerformanceSnapshots(),
+        listYoutubeRetentionSnapshots(),
+        listYoutubeTrafficSourceSnapshotsByPeriods([1, 3, 7, 28]),
+        listYoutubeRealtimeSnapshots({
+          since: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+        }),
+        listYoutubeReportingImports(),
         getYoutubeAnalyticsSyncStatus(),
         getAdminYoutubeConnection(),
       ])
-    : [[], [], null, null];
+    : [[], [], [], [], [], [], [], null, null];
   const workByContentId = new Map(works.map((work) => [work.contentId, work]));
   const baseline = getBaseline(snapshots);
   const rows = snapshots.map((snapshot) => ({
@@ -502,17 +603,358 @@ async function loadAnalyticsData() {
     work: workByContentId.get(snapshot.contentId),
     verdict: getVerdict(snapshot, baseline),
   }));
+  const recentWorks = works
+    .filter(
+      (work) =>
+        work.u2bId &&
+        work.publishedAt &&
+        Date.parse(work.publishedAt) >= Date.now() - 120 * 24 * 60 * 60 * 1000,
+    )
+    .sort(
+      (left, right) =>
+        Date.parse(right.publishedAt ?? "") -
+        Date.parse(left.publishedAt ?? ""),
+    );
+  const earlyByContentId = groupByContentId(earlySnapshots);
+  const retentionByContentId = groupByContentId(retentionSnapshots);
+  const trafficByContentId = groupByContentId(trafficSnapshots);
+  const realtimeByContentId = groupByContentId(realtimeSnapshots);
+  const availableReachDates = new Set(
+    reportingImports.map((item) => item.startTime.toISOString().slice(0, 10)),
+  );
+  const releaseInputs = recentWorks.map((work) => {
+    const completed = (earlyByContentId.get(work.contentId) ?? []).sort(
+      (left, right) => right.elapsedHours - left.elapsedHours,
+    );
+    const early = completed[0];
+    const retention = (retentionByContentId.get(work.contentId) ?? []).filter(
+      (item) => item.elapsedHours === early?.elapsedHours,
+    );
+    const topTraffic = (trafficByContentId.get(work.contentId) ?? [])
+      .filter((item) => item.periodDays === (early?.elapsedHours ?? 0) / 24)
+      .sort((left, right) => right.views - left.views)[0];
+    return {
+      availableWindows: completed.map((item) => item.elapsedHours),
+      early,
+      reachCoverage: getReachCoverage(early, availableReachDates),
+      retention,
+      topTraffic,
+      velocity: getReleaseVelocity(
+        realtimeByContentId.get(work.contentId) ?? [],
+      ),
+      work,
+    };
+  });
+  const releaseBaselines = new Map(
+    [24, 72, 168, 672].map((elapsedHours) => [
+      elapsedHours,
+      getReleaseBaseline(
+        earlySnapshots
+          .filter((early) => early.elapsedHours === elapsedHours)
+          .map((early) => ({
+            early,
+            reachCoverage: getReachCoverage(early, availableReachDates),
+            retention: (retentionByContentId.get(early.contentId) ?? []).filter(
+              (item) => item.elapsedHours === elapsedHours,
+            ),
+          })),
+      ),
+    ]),
+  );
+  const releaseRows: ReleaseRow[] = releaseInputs.map((row) => ({
+    ...row,
+    verdict: getReleaseVerdict(
+      row,
+      releaseBaselines.get(row.early?.elapsedHours ?? 0) ??
+        getReleaseBaseline([]),
+    ),
+  }));
 
   return {
     baseline,
+    availableReachDates,
     databaseStatus,
+    earlySnapshots,
     rows,
+    releaseRows,
+    retentionSnapshots,
     snapshots,
     syncStatus,
     totals: getTotals(snapshots),
+    trafficSnapshots,
     youtubeConfig,
     youtubeConnection,
   };
+}
+
+function RecentReleaseTable({ rows }: { rows: ReleaseRow[] }) {
+  return (
+    <div className="overflow-x-auto">
+      <Table className="min-w-[1100px]">
+        <TableHeader>
+          <TableRow className="border-zinc-800">
+            <TableHead className="w-[18rem] text-zinc-400">Release</TableHead>
+            <TableHead className="text-right text-zinc-400">Window</TableHead>
+            <TableHead className="text-right text-zinc-400">Views</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Impressions
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">CTR</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Reach coverage
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Avg viewed
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">
+              50% retention
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">Net subs</TableHead>
+            <TableHead className="w-36 text-zinc-400">Top source</TableHead>
+            <TableHead className="w-48 text-zinc-400">Decision</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow className="border-zinc-800" key={row.work.contentId}>
+              <TableCell className="align-top">
+                <Link
+                  className="block truncate font-medium text-zinc-100 underline-offset-4 hover:underline"
+                  href={`/admin/analytics/works/${encodeURIComponent(row.work.contentId)}`}
+                >
+                  {getWorkDisplayTitle(row.work)}
+                </Link>
+                <div className="mt-1 text-xs text-zinc-500">
+                  {formatDate(row.work.publishedAt)}
+                </div>
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-300">
+                {formatWindow(row.early?.elapsedHours)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {formatOptionalInteger(row.early?.views)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {formatOptionalInteger(row.early?.impressions)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {formatPercent(row.early?.impressionClickThroughRate)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-300">
+                {formatReachCoverage(row.reachCoverage)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {formatPercent(row.early?.averageViewPercentage)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {formatRatioAsPercent(
+                  getRetentionCheckpoint(row.retention, 50),
+                )}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {row.early
+                  ? formatSignedInteger(
+                      row.early.subscribersGained - row.early.subscribersLost,
+                    )
+                  : "n/a"}
+              </TableCell>
+              <TableCell className="align-top text-xs text-zinc-400">
+                {formatTrafficSource(row.topTraffic?.sourceType)}
+              </TableCell>
+              <TableCell className="align-top">
+                <Badge className={row.verdict.className}>
+                  {row.verdict.label}
+                </Badge>
+                <div className="mt-1 text-xs leading-5 text-zinc-500">
+                  {row.verdict.description}
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+          {!rows.length ? (
+            <TableRow className="border-zinc-800">
+              <TableCell
+                className="py-8 text-center text-zinc-500"
+                colSpan={11}
+              >
+                No YouTube releases were published in the last 120 days.
+              </TableCell>
+            </TableRow>
+          ) : null}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+function LaunchMonitorTable({ rows }: { rows: ReleaseRow[] }) {
+  return (
+    <div className="overflow-x-auto">
+      <Table className="min-w-[900px]">
+        <TableHeader>
+          <TableRow className="border-zinc-800">
+            <TableHead className="w-[18rem] text-zinc-400">Release</TableHead>
+            <TableHead className="text-right text-zinc-400">Age</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Views now
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">Last 1h</TableHead>
+            <TableHead className="text-right text-zinc-400">Last 3h</TableHead>
+            <TableHead className="text-right text-zinc-400">Last 24h</TableHead>
+            <TableHead className="text-right text-zinc-400">Views/h</TableHead>
+            <TableHead className="w-28 text-zinc-400">Trend</TableHead>
+            <TableHead className="w-40 text-zinc-400">Observed</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow className="border-zinc-800" key={row.work.contentId}>
+              <TableCell>
+                <Link
+                  className="block truncate font-medium text-zinc-100 underline-offset-4 hover:underline"
+                  href={`/admin/analytics/works/${encodeURIComponent(row.work.contentId)}`}
+                >
+                  {getWorkDisplayTitle(row.work)}
+                </Link>
+              </TableCell>
+              <TableCell className="text-right text-zinc-300">
+                {formatAge(getReleaseAgeHours(row.work))}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatOptionalInteger(row.velocity.latestViews)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatSignedOptionalInteger(row.velocity.delta1h)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatSignedOptionalInteger(row.velocity.delta3h)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatSignedOptionalInteger(row.velocity.delta24h)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatNumber(row.velocity.viewsPerHour3h)}
+              </TableCell>
+              <TableCell>
+                <Badge className={getTrendClassName(row.velocity.trend)}>
+                  {row.velocity.trend}
+                </Badge>
+              </TableCell>
+              <TableCell className="text-xs text-zinc-500">
+                {row.velocity.observedAt
+                  ? row.velocity.observedAt.toLocaleString("en-US")
+                  : "waiting for sync"}
+              </TableCell>
+            </TableRow>
+          ))}
+          {!rows.length ? (
+            <TableRow className="border-zinc-800">
+              <TableCell className="py-8 text-center text-zinc-500" colSpan={9}>
+                No releases in the first seven days of launch.
+              </TableCell>
+            </TableRow>
+          ) : null}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+function WindowPerformanceTable({
+  availableReachDates,
+  earlySnapshots,
+  retentionSnapshots,
+  trafficSnapshots,
+}: {
+  availableReachDates: Set<string>;
+  earlySnapshots: EarlySnapshot[];
+  retentionSnapshots: RetentionSnapshot[];
+  trafficSnapshots: TrafficSnapshot[];
+}) {
+  const rows = [...earlySnapshots].sort(
+    (left, right) => left.elapsedHours - right.elapsedHours,
+  );
+  return (
+    <div className="overflow-x-auto rounded-md border border-zinc-800">
+      <Table className="min-w-[760px]">
+        <TableHeader>
+          <TableRow className="border-zinc-800">
+            <TableHead className="text-zinc-400">Window</TableHead>
+            <TableHead className="text-right text-zinc-400">Views</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Impressions
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">CTR</TableHead>
+            <TableHead className="text-right text-zinc-400">Coverage</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Avg viewed
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">
+              50% retention
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">Net subs</TableHead>
+            <TableHead className="text-zinc-400">Top source</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow className="border-zinc-800" key={row.id}>
+              <TableCell className="text-zinc-300">
+                {formatWindow(row.elapsedHours)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatInteger(row.views)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatOptionalInteger(row.impressions)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatPercent(row.impressionClickThroughRate)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-300">
+                {formatReachCoverage(
+                  getReachCoverage(row, availableReachDates),
+                )}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatPercent(row.averageViewPercentage)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatRatioAsPercent(
+                  getRetentionCheckpoint(
+                    retentionSnapshots.filter(
+                      (item) => item.elapsedHours === row.elapsedHours,
+                    ),
+                    50,
+                  ),
+                )}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatSignedInteger(
+                  row.subscribersGained - row.subscribersLost,
+                )}
+              </TableCell>
+              <TableCell className="text-xs text-zinc-400">
+                {formatTrafficSource(
+                  trafficSnapshots
+                    .filter((item) => item.periodDays === row.elapsedHours / 24)
+                    .sort((left, right) => right.views - left.views)[0]
+                    ?.sourceType,
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+          {!rows.length ? (
+            <TableRow className="border-zinc-800">
+              <TableCell className="py-6 text-center text-zinc-500" colSpan={9}>
+                No completed publish-window snapshots yet.
+              </TableCell>
+            </TableRow>
+          ) : null}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }
 
 function WorksTable({
@@ -754,23 +1196,6 @@ function getSortableMetric(snapshot: Snapshot, sort: AnalyticsSort) {
   }
 }
 
-function WorkSummaryCard({ row }: { row: AnalyticsRow }) {
-  return (
-    <Link
-      className="block rounded-md border border-zinc-800 bg-zinc-950 p-3 hover:border-zinc-700"
-      href={`/admin/analytics/works/${encodeURIComponent(row.snapshot.contentId)}`}
-    >
-      <div className="truncate text-sm font-medium text-zinc-100">
-        {getWorkTitle(row)}
-      </div>
-      <div className="mt-2 text-2xl font-semibold text-zinc-100">
-        {formatInteger(row.snapshot.views)}
-      </div>
-      <div className="mt-1 text-xs text-zinc-500">views</div>
-    </Link>
-  );
-}
-
 function DiagnosisCard({
   description,
   title,
@@ -929,6 +1354,292 @@ function getWorkTitle(row: AnalyticsRow) {
   return row.work?.songTitle || row.work?.title || row.snapshot.contentId;
 }
 
+function getWorkDisplayTitle(work: Work) {
+  return work.songTitle || work.title || work.contentId;
+}
+
+function groupByContentId<T extends { contentId: string }>(items: T[]) {
+  const groups = new Map<string, T[]>();
+  for (const item of items) {
+    const current = groups.get(item.contentId) ?? [];
+    current.push(item);
+    groups.set(item.contentId, current);
+  }
+  return groups;
+}
+
+function getReleaseBaseline(
+  rows: {
+    early: EarlySnapshot | undefined;
+    reachCoverage?: ReturnType<typeof getReachCoverage>;
+    retention: RetentionSnapshot[];
+  }[],
+) {
+  return {
+    averageViewPercentage: getDistribution(
+      rows.flatMap((row) =>
+        row.early?.averageViewPercentage === null ||
+        row.early?.averageViewPercentage === undefined ||
+        row.early.views < 100 ||
+        row.retention.length === 0
+          ? []
+          : [row.early.averageViewPercentage],
+      ),
+    ),
+    ctr: getDistribution(
+      rows.flatMap((row) =>
+        row.early?.impressionClickThroughRate === null ||
+        row.early?.impressionClickThroughRate === undefined ||
+        (row.early.impressions ?? 0) < 1000 ||
+        row.reachCoverage?.status !== "complete"
+          ? []
+          : [row.early.impressionClickThroughRate],
+      ),
+    ),
+  };
+}
+
+function getReleaseVerdict(
+  row: {
+    early: EarlySnapshot | undefined;
+    reachCoverage: ReturnType<typeof getReachCoverage>;
+    retention: RetentionSnapshot[];
+  },
+  baseline: ReturnType<typeof getReleaseBaseline>,
+) {
+  if (!row.early) {
+    return {
+      className: "border-zinc-700 bg-zinc-950 text-zinc-300",
+      description: "Waiting for the first completed publish window.",
+      label: "waiting",
+    };
+  }
+  const ctr = row.early.impressionClickThroughRate;
+  const retention = row.early.averageViewPercentage;
+  if (
+    ctr === null ||
+    retention === null ||
+    row.reachCoverage.status !== "complete" ||
+    row.retention.length === 0
+  ) {
+    return {
+      className: "border-violet-500/30 bg-violet-500/10 text-violet-100",
+      description:
+        row.reachCoverage.status !== "complete"
+          ? `Reach coverage is ${row.reachCoverage.coveredDays}/${row.reachCoverage.expectedDays} days; do not judge packaging yet.`
+          : row.retention.length === 0
+            ? "Detailed retention is incomplete; wait before judging the song structure."
+            : "A required CTR or retention metric is unavailable.",
+      label: "data incomplete",
+    };
+  }
+  if ((row.early.impressions ?? 0) < 1000) {
+    return {
+      className: "border-violet-500/30 bg-violet-500/10 text-violet-100",
+      description:
+        "Fewer than 1,000 impressions; signal is too noisy for action.",
+      label: "insufficient sample",
+    };
+  }
+  if (baseline.ctr.count < 4 || baseline.averageViewPercentage.count < 4) {
+    return {
+      className: "border-violet-500/30 bg-violet-500/10 text-violet-100",
+      description: "Fewer than four comparable works in this publish window.",
+      label: "baseline limited",
+    };
+  }
+  const highCtr = ctr >= baseline.ctr.p75;
+  const lowCtr = ctr <= baseline.ctr.p25;
+  const highRetention = retention >= baseline.averageViewPercentage.p75;
+  const lowRetention = retention <= baseline.averageViewPercentage.p25;
+  if (highCtr && highRetention) {
+    return {
+      className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-100",
+      description:
+        "CTR and viewing quality are both in the top quartile for this window.",
+      label: "strong signals",
+    };
+  }
+  if (highCtr && lowRetention) {
+    return {
+      className: "border-amber-500/30 bg-amber-500/10 text-amber-100",
+      description:
+        "The package earns clicks; review the opening and drop-off curve.",
+      label: "retention issue",
+    };
+  }
+  if (lowCtr && highRetention) {
+    return {
+      className: "border-sky-500/30 bg-sky-500/10 text-sky-100",
+      description:
+        "Viewers stay; improve thumbnail, title, topic, or release timing.",
+      label: "packaging issue",
+    };
+  }
+  if (lowCtr && lowRetention)
+    return {
+      className: "border-zinc-700 bg-zinc-950 text-zinc-300",
+      description: "CTR and viewing quality are both in the bottom quartile.",
+      label: "review",
+    };
+  return {
+    className: "border-zinc-700 bg-zinc-950 text-zinc-300",
+    description:
+      "Signals are within the normal historical range; keep monitoring.",
+    label: "monitor",
+  };
+}
+
+function getReachCoverage(
+  early: EarlySnapshot | undefined,
+  availableDates: Set<string>,
+) {
+  if (!early) {
+    return { coveredDays: 0, expectedDays: 0, status: "waiting" as const };
+  }
+  const dates = enumerateDates(early.startDate, early.endDate);
+  const coveredDays = dates.filter((date) => availableDates.has(date)).length;
+  return {
+    coveredDays,
+    expectedDays: dates.length,
+    status:
+      coveredDays >= dates.length
+        ? ("complete" as const)
+        : coveredDays > 0
+          ? ("partial" as const)
+          : ("missing" as const),
+  };
+}
+
+function enumerateDates(startDate: string, endDate: string) {
+  const dates: string[] = [];
+  const current = new Date(`${startDate}T00:00:00.000Z`);
+  const end = new Date(`${endDate}T00:00:00.000Z`);
+  while (current <= end) {
+    dates.push(current.toISOString().slice(0, 10));
+    current.setUTCDate(current.getUTCDate() + 1);
+  }
+  return dates;
+}
+
+function getReleaseVelocity(rows: RealtimeSnapshot[]) {
+  const ordered = [...rows].sort(
+    (left, right) => left.observedAt.getTime() - right.observedAt.getTime(),
+  );
+  const latest = ordered.at(-1);
+  if (!latest) {
+    return {
+      delta1h: null,
+      delta3h: null,
+      delta24h: null,
+      latestViews: null,
+      observedAt: null,
+      trend: "collecting",
+      viewsPerHour3h: null,
+    };
+  }
+  const delta = (targetHours: number) => {
+    const target = latest.observedAt.getTime() - targetHours * 60 * 60 * 1000;
+    const candidates = ordered.filter(
+      (row) => row.observedAt.getTime() < latest.observedAt.getTime(),
+    );
+    const baseline = candidates.reduce<RealtimeSnapshot | undefined>(
+      (nearest, row) =>
+        !nearest ||
+        Math.abs(row.observedAt.getTime() - target) <
+          Math.abs(nearest.observedAt.getTime() - target)
+          ? row
+          : nearest,
+      undefined,
+    );
+    if (!baseline) return null;
+    const elapsedHours =
+      (latest.observedAt.getTime() - baseline.observedAt.getTime()) /
+      (60 * 60 * 1000);
+    if (elapsedHours < targetHours * 0.5 || elapsedHours > targetHours * 1.75) {
+      return null;
+    }
+    const value = Math.max(0, latest.views - baseline.views);
+    return { rate: value / elapsedHours, value };
+  };
+  const oneHour = delta(1);
+  const threeHours = delta(3);
+  const day = delta(24);
+  const trend =
+    !oneHour || !threeHours
+      ? "collecting"
+      : oneHour.rate > threeHours.rate * 1.25
+        ? "accelerating"
+        : oneHour.rate < threeHours.rate * 0.75
+          ? "slowing"
+          : "stable";
+  return {
+    delta1h: oneHour?.value ?? null,
+    delta3h: threeHours?.value ?? null,
+    delta24h: day?.value ?? null,
+    latestViews: latest.views,
+    observedAt: latest.observedAt,
+    trend,
+    viewsPerHour3h: threeHours?.rate ?? null,
+  };
+}
+
+function getDistribution(values: number[]) {
+  const sorted = values
+    .filter((value) => Number.isFinite(value))
+    .sort((left, right) => left - right);
+  return {
+    count: sorted.length,
+    median: percentile(sorted, 0.5),
+    p25: percentile(sorted, 0.25),
+    p75: percentile(sorted, 0.75),
+  };
+}
+
+function percentile(sorted: number[], ratio: number) {
+  if (!sorted.length) return 0;
+  const index = (sorted.length - 1) * ratio;
+  const lower = Math.floor(index);
+  const upper = Math.ceil(index);
+  if (lower === upper) return sorted[lower];
+  return sorted[lower] + (sorted[upper] - sorted[lower]) * (index - lower);
+}
+
+function getRetentionCheckpoint(rows: RetentionSnapshot[], percent: number) {
+  return rows.reduce<RetentionSnapshot | undefined>(
+    (nearest, row) =>
+      !nearest ||
+      Math.abs(row.elapsedVideoTimePercent - percent) <
+        Math.abs(nearest.elapsedVideoTimePercent - percent)
+        ? row
+        : nearest,
+    undefined,
+  )?.audienceWatchRatio;
+}
+
+function formatWindow(hours: number | undefined) {
+  if (!hours) return "waiting";
+  if (hours === 24) return "24h";
+  if (hours === 72) return "72h";
+  if (hours === 168) return "7d";
+  if (hours === 672) return "28d";
+  return `${hours}h`;
+}
+
+function formatTrafficSource(value: string | undefined) {
+  const labels: Record<string, string> = {
+    EXT_URL: "External",
+    NOTIFICATION: "Notifications",
+    PLAYLIST: "Playlist",
+    RELATED_VIDEO: "Suggested",
+    SHORTS: "Shorts feed",
+    SUBSCRIBER: "Subscriptions",
+    YT_CHANNEL: "Channel page",
+    YT_SEARCH: "YouTube search",
+  };
+  return value ? (labels[value] ?? value) : "n/a";
+}
+
 function median(values: number[]) {
   const sorted = values
     .filter((value) => Number.isFinite(value))
@@ -942,6 +1653,63 @@ function median(values: number[]) {
 
 function formatInteger(value: number) {
   return new Intl.NumberFormat("en-US").format(Math.round(value));
+}
+
+function formatOptionalInteger(value: number | null | undefined) {
+  return value === null || value === undefined ? "n/a" : formatInteger(value);
+}
+
+function formatSignedOptionalInteger(value: number | null | undefined) {
+  return value === null || value === undefined
+    ? "n/a"
+    : formatSignedInteger(value);
+}
+
+function formatCoverage(covered: number, total: number) {
+  return total > 0 ? `${covered}/${total}` : "0/0";
+}
+
+function formatDate(value: string | null | undefined) {
+  if (!value) return "publish date unknown";
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime())
+    ? value
+    : new Intl.DateTimeFormat("en-CA", { dateStyle: "medium" }).format(parsed);
+}
+
+function formatRatioAsPercent(value: number | null | undefined) {
+  return value === null || value === undefined
+    ? "n/a"
+    : `${(value * 100).toFixed(1)}%`;
+}
+
+function formatReachCoverage(coverage: ReturnType<typeof getReachCoverage>) {
+  if (!coverage.expectedDays) return "waiting";
+  return `${coverage.coveredDays}/${coverage.expectedDays} ${coverage.status}`;
+}
+
+function getReleaseAgeHours(work: Work) {
+  if (!work.publishedAt) return Number.POSITIVE_INFINITY;
+  const publishedAt = Date.parse(work.publishedAt);
+  return Number.isFinite(publishedAt)
+    ? Math.max(0, (Date.now() - publishedAt) / (60 * 60 * 1000))
+    : Number.POSITIVE_INFINITY;
+}
+
+function formatAge(hours: number) {
+  if (!Number.isFinite(hours)) return "unknown";
+  if (hours < 48) return `${Math.floor(hours)}h`;
+  return `${Math.floor(hours / 24)}d`;
+}
+
+function getTrendClassName(trend: string) {
+  if (trend === "accelerating") {
+    return "border-emerald-500/30 bg-emerald-500/10 text-emerald-100";
+  }
+  if (trend === "slowing") {
+    return "border-amber-500/30 bg-amber-500/10 text-amber-100";
+  }
+  return "border-zinc-700 bg-zinc-950 text-zinc-300";
 }
 
 function formatSignedInteger(value: number) {

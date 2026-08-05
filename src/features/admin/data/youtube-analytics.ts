@@ -70,6 +70,8 @@ const RETENTION_SYNC_LIMIT = 20;
 const EARLY_PERFORMANCE_SYNC_LIMIT = 50;
 const EARLY_PERFORMANCE_GRANULARITY = "calendar_day";
 const TRAFFIC_SOURCE_PERIOD_DAYS = 90;
+const EARLY_TRAFFIC_WINDOWS_HOURS = [24, 72, 168, 672] as const;
+const EARLY_TRAFFIC_SYNC_LIMIT = 20;
 const TRAFFIC_SOURCE_METRICS = [
   "views",
   "estimatedMinutesWatched",
@@ -146,6 +148,21 @@ export async function listLatestYoutubeTrafficSourceSnapshots(
   });
 }
 
+export async function listYoutubeTrafficSourceSnapshotsByPeriods(
+  periodDays: number[],
+  contentIds?: string[],
+) {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+  return prisma.adminYoutubeVideoTrafficSourceSnapshot.findMany({
+    orderBy: [{ contentId: "asc" }, { periodDays: "asc" }, { views: "desc" }],
+    where: {
+      periodDays: { in: periodDays },
+      ...(contentIds?.length ? { contentId: { in: contentIds } } : {}),
+    },
+  });
+}
+
 export async function listYoutubeRetentionSnapshots(
   contentId?: string,
   elapsedHours?: number,
@@ -166,6 +183,41 @@ export async function listYoutubeRetentionSnapshots(
   });
 }
 
+export async function listYoutubeReachDaily(contentIds?: string[]) {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+  return prisma.adminYoutubeVideoReachDaily.findMany({
+    orderBy: [{ contentId: "asc" }, { date: "asc" }],
+    where: contentIds?.length ? { contentId: { in: contentIds } } : undefined,
+  });
+}
+
+export async function listYoutubeReportingImports() {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+  return prisma.adminYoutubeReportingImport.findMany({
+    orderBy: { startTime: "asc" },
+  });
+}
+
+export async function listYoutubeRealtimeSnapshots({
+  contentIds,
+  since,
+}: {
+  contentIds?: string[];
+  since?: Date;
+} = {}) {
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+  return prisma.adminYoutubeVideoRealtimeSnapshot.findMany({
+    orderBy: [{ contentId: "asc" }, { observedAt: "asc" }],
+    where: {
+      ...(contentIds?.length ? { contentId: { in: contentIds } } : {}),
+      ...(since ? { observedAt: { gte: since } } : {}),
+    },
+  });
+}
+
 export async function getYoutubeAnalyticsSyncStatus() {
   const prisma = getPrismaClient();
   if (!prisma) return null;
@@ -175,25 +227,33 @@ export async function getYoutubeAnalyticsSyncStatus() {
   });
 }
 
-export async function syncAdminYoutubeAnalytics() {
+export async function syncAdminYoutubeAnalytics({
+  dueOnly = false,
+}: {
+  dueOnly?: boolean;
+} = {}) {
   const prisma = getPrismaClient();
   if (!prisma) throw new Error("Database is unavailable.");
 
-  const credentials = await getAdminYoutubeCredentials();
-  const accessToken = await getYouTubeAccessToken(credentials);
-  const works = (await listAdminMusicWorks()).filter((work) => work.u2bId);
+  const allWorks = (await listAdminMusicWorks()).filter((work) => work.u2bId);
+  const works = dueOnly ? await listDueAnalyticsWorks(allWorks) : allWorks;
   const endDate = getAnalyticsEndDate();
   const startDate = shiftDate(endDate, -89);
+  const staleBefore = new Date(Date.now() - 20 * 60 * 1000);
 
   await prisma.adminYoutubeAnalyticsSync.upsert({
     create: {
       id: SYNC_ID,
       startDate,
       endDate,
-      status: "running",
+      status: "idle",
       videoCount: works.length,
     },
-    update: {
+    update: {},
+    where: { id: SYNC_ID },
+  });
+  const claim = await prisma.adminYoutubeAnalyticsSync.updateMany({
+    data: {
       message: null,
       startedAt: new Date(),
       startDate,
@@ -202,22 +262,40 @@ export async function syncAdminYoutubeAnalytics() {
       syncedAt: null,
       videoCount: works.length,
     },
-    where: { id: SYNC_ID },
+    where: {
+      id: SYNC_ID,
+      OR: [
+        { status: { not: "running" } },
+        { status: "running", startedAt: { lt: staleBefore } },
+      ],
+    },
   });
+  if (claim.count === 0) {
+    throw new Error("A YouTube analytics sync is already running.");
+  }
 
   if (!works.length) {
     await prisma.adminYoutubeAnalyticsSync.update({
       data: {
-        message: "No content records have a YouTube ID.",
+        message: dueOnly
+          ? "No YouTube analytics works are due."
+          : "No content records have a YouTube ID.",
         status: "success",
         syncedAt: new Date(),
       },
       where: { id: SYNC_ID },
     });
-    return { message: "No YouTube videos to sync.", synced: 0 };
+    return {
+      message: dueOnly
+        ? "No YouTube analytics works are due."
+        : "No YouTube videos to sync.",
+      synced: 0,
+    };
   }
 
   try {
+    const credentials = await getAdminYoutubeCredentials();
+    const accessToken = await getYouTubeAccessToken(credentials);
     const videoIds = works
       .map((work) => work.u2bId)
       .filter((id): id is string => Boolean(id));
@@ -225,6 +303,7 @@ export async function syncAdminYoutubeAnalytics() {
       accessToken,
       videoIds,
     });
+    await recordRealtimeSnapshots({ publicStats, works });
     const warnings = new Set<string>();
     let lifetimeAnalyticsRows = 0;
 
@@ -306,6 +385,18 @@ export async function syncAdminYoutubeAnalytics() {
       );
       return 0;
     });
+    const earlyTrafficSourceRows = await syncEarlyTrafficSourceSnapshots({
+      accessToken,
+      endDate,
+      works,
+    }).catch((error) => {
+      warnings.add(
+        error instanceof Error
+          ? `Early traffic source sync skipped: ${error.message}`
+          : "Early traffic source sync skipped.",
+      );
+      return 0;
+    });
     const retentionRows = await syncRetentionSnapshots({
       accessToken,
       endDate,
@@ -321,7 +412,7 @@ export async function syncAdminYoutubeAnalytics() {
     const reach = await syncYoutubeReachReports({
       accessToken,
       videoIdToContentId: new Map(
-        works.flatMap((work) =>
+        allWorks.flatMap((work) =>
           work.u2bId ? [[work.u2bId, work.contentId] as const] : [],
         ),
       ),
@@ -347,6 +438,7 @@ export async function syncAdminYoutubeAnalytics() {
           lifetimeAnalyticsRows,
           earlyPerformanceRows,
           trafficSourceRows,
+          earlyTrafficSourceRows,
           retentionRows,
           reach,
         ),
@@ -363,6 +455,7 @@ export async function syncAdminYoutubeAnalytics() {
         lifetimeAnalyticsRows,
         earlyPerformanceRows,
         trafficSourceRows,
+        earlyTrafficSourceRows,
         retentionRows,
         reach,
       ),
@@ -377,6 +470,71 @@ export async function syncAdminYoutubeAnalytics() {
     });
     throw new Error(message);
   }
+}
+
+async function recordRealtimeSnapshots({
+  publicStats,
+  works,
+}: {
+  publicStats: Map<string, VideoPublicStats>;
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>;
+}) {
+  const prisma = getPrismaClient();
+  if (!prisma) return;
+  const rows = works.flatMap((work) => {
+    const stats = work.u2bId ? publicStats.get(work.u2bId) : undefined;
+    if (!stats) return [];
+    return [
+      {
+        comments: stats.comments,
+        contentId: work.contentId,
+        likes: stats.likes,
+        videoId: stats.videoId,
+        views: stats.views,
+      },
+    ];
+  });
+  if (rows.length) {
+    await prisma.adminYoutubeVideoRealtimeSnapshot.createMany({ data: rows });
+  }
+}
+
+async function listDueAnalyticsWorks(
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>,
+) {
+  const prisma = getPrismaClient();
+  if (!prisma || !works.length) return [];
+  const latestRows = await prisma.adminYoutubeVideoRealtimeSnapshot.findMany({
+    distinct: ["contentId"],
+    orderBy: [{ contentId: "asc" }, { observedAt: "desc" }],
+    select: { contentId: true, observedAt: true },
+    where: { contentId: { in: works.map((work) => work.contentId) } },
+  });
+  const latestByContentId = new Map(
+    latestRows.map((row) => [row.contentId, row.observedAt]),
+  );
+  const now = Date.now();
+  return works.filter((work) => {
+    const lastObservedAt = latestByContentId.get(work.contentId);
+    if (!lastObservedAt) return true;
+    const publishedAt = work.publishedAt
+      ? Date.parse(work.publishedAt)
+      : Number.NaN;
+    const ageHours = Number.isFinite(publishedAt)
+      ? Math.max(0, (now - publishedAt) / (60 * 60 * 1000))
+      : Number.POSITIVE_INFINITY;
+    const intervalHours =
+      ageHours <= 24
+        ? 0.5
+        : ageHours <= 72
+          ? 1
+          : ageHours <= 168
+            ? 3
+            : ageHours <= 24 * 90
+              ? 24
+              : 24 * 7;
+    return now - lastObservedAt.getTime() >= intervalHours * 60 * 60 * 1000;
+  });
 }
 
 async function syncRetentionSnapshots({
@@ -588,6 +746,83 @@ async function syncTrafficSourceSnapshots({
     }
   }
 
+  return syncedRows;
+}
+
+async function syncEarlyTrafficSourceSnapshots({
+  accessToken,
+  endDate,
+  works,
+}: {
+  accessToken: string;
+  endDate: string;
+  works: Awaited<ReturnType<typeof listAdminMusicWorks>>;
+}) {
+  const prisma = getPrismaClient();
+  if (!prisma) throw new Error("Database is unavailable.");
+  const publishedWorks = works
+    .filter((work) => work.u2bId && getDateOnly(work.publishedAt))
+    .sort(
+      (left, right) =>
+        Date.parse(`${getDateOnly(right.publishedAt)}T00:00:00.000Z`) -
+        Date.parse(`${getDateOnly(left.publishedAt)}T00:00:00.000Z`),
+    )
+    .slice(0, EARLY_TRAFFIC_SYNC_LIMIT);
+  let syncedRows = 0;
+
+  for (const work of publishedWorks) {
+    if (!work.u2bId) continue;
+    const publishedDate = getDateOnly(work.publishedAt);
+    if (!publishedDate) continue;
+    for (const elapsedHours of EARLY_TRAFFIC_WINDOWS_HOURS) {
+      const periodDays = elapsedHours / 24;
+      const windowEndDate = shiftDate(publishedDate, periodDays - 1);
+      if (windowEndDate > endDate) continue;
+      const existing =
+        await prisma.adminYoutubeVideoTrafficSourceSnapshot.count({
+          where: {
+            endDate: windowEndDate,
+            periodDays,
+            videoId: work.u2bId,
+          },
+        });
+      if (existing > 0 && differenceInDays(endDate, windowEndDate) >= 7) {
+        continue;
+      }
+      const rows = await queryTrafficSourceMetrics({
+        accessToken,
+        endDate: windowEndDate,
+        startDate: publishedDate,
+        videoIds: [work.u2bId],
+      });
+      for (const row of rows) {
+        await prisma.adminYoutubeVideoTrafficSourceSnapshot.upsert({
+          create: {
+            contentId: work.contentId,
+            endDate: windowEndDate,
+            periodDays,
+            sourceType: row.sourceType,
+            startDate: publishedDate,
+            videoId: row.videoId,
+            ...getTrafficSourceData(row),
+          },
+          update: {
+            ...getTrafficSourceData(row),
+            syncedAt: new Date(),
+          },
+          where: {
+            videoId_periodDays_endDate_sourceType: {
+              endDate: windowEndDate,
+              periodDays,
+              sourceType: row.sourceType,
+              videoId: row.videoId,
+            },
+          },
+        });
+        syncedRows += 1;
+      }
+    }
+  }
   return syncedRows;
 }
 
@@ -885,6 +1120,7 @@ function getSyncMessage(
   lifetimeAnalyticsRows: number,
   earlyPerformanceRows: number,
   trafficSourceRows: number,
+  earlyTrafficSourceRows: number,
   retentionRows: number,
   reach: Awaited<ReturnType<typeof syncYoutubeReachReports>> | null,
 ) {
@@ -893,7 +1129,7 @@ function getSyncMessage(
       ? " Reach job is ready; YouTube has not generated its first daily CSV yet."
       : ` Imported ${reach.importedReports} Reach report(s), ${reach.importedRows} daily row(s), and updated ${reach.updatedSnapshots} snapshot(s).`
     : "";
-  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), ${trafficSourceRows} traffic source row(s), and ${retentionRows} retention point(s).${reachMessage}`;
+  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), ${trafficSourceRows} rolling traffic row(s), ${earlyTrafficSourceRows} publish-window traffic row(s), and ${retentionRows} retention point(s).${reachMessage}`;
   const warning = Array.from(warnings)[0];
   return warning ? `${base} ${warning}` : base;
 }
@@ -917,6 +1153,14 @@ function getDateOnly(value: string | null | undefined) {
 
 function minDate(left: string, right: string) {
   return left < right ? left : right;
+}
+
+function differenceInDays(later: string, earlier: string) {
+  return Math.floor(
+    (Date.parse(`${later}T00:00:00.000Z`) -
+      Date.parse(`${earlier}T00:00:00.000Z`)) /
+      (24 * 60 * 60 * 1000),
+  );
 }
 
 function shiftDate(dateValue: string, days: number) {
