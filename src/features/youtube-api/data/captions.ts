@@ -34,6 +34,8 @@ type SyncedYouTubeCaption = {
 
 const YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3";
 const YOUTUBE_UPLOAD_BASE_URL = "https://www.googleapis.com/upload/youtube/v3";
+// YouTube requires a name when inserting a caption track. Existing tracks are
+// matched by language so tracks created or edited in Studio are reused too.
 const CAPTION_TRACK_NAME = "Sovia";
 
 export async function syncYouTubeCaptions({
@@ -58,7 +60,6 @@ export async function syncYouTubeCaptions({
       (caption) =>
         caption.id &&
         caption.snippet?.language === track.language &&
-        caption.snippet?.name === CAPTION_TRACK_NAME &&
         caption.snippet?.trackKind !== "ASR",
     );
 
