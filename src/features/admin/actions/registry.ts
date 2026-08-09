@@ -337,6 +337,23 @@ export const ADMIN_ACTIONS = [
     title: "Sync YouTube analytics",
     type: "default",
   },
+  {
+    availability: {},
+    description:
+      "Incrementally sync top-level audience comments channel-wide. Each page costs 1 YouTube quota unit; incremental runs stop at the previous newest comment and use at most 3 pages.",
+    execution: {
+      endpoint: "/admin/analytics/comments/sync",
+      method: "POST",
+      type: "form",
+    },
+    id: "analytics.sync-youtube-comments",
+    inputs: [],
+    output: noOutput,
+    presentation: standard,
+    scope: "global",
+    title: "Sync YouTube comments",
+    type: "default",
+  },
 ] as const satisfies readonly AdminActionDefinition[];
 
 export function getAdminAction(id: string) {

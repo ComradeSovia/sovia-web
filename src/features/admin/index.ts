@@ -1,4 +1,5 @@
 export {
+  AdminAnalyticsCommentsPage,
   AdminAnalyticsComparePage,
   AdminAnalyticsPage,
   AdminAnalyticsWorkDetailPage,

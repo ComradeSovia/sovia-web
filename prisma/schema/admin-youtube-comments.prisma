@@ -1,0 +1,36 @@
+model AdminYoutubeCommentSync {
+  id                     String    @id @default("primary")
+  channelId              String
+  status                 String    @default("idle")
+  message                String?
+  lastCommentPublishedAt DateTime?
+  pagesFetched           Int       @default(0)
+  commentsSynced         Int       @default(0)
+  quotaUnits             Int       @default(0)
+  startedAt              DateTime?
+  syncedAt               DateTime?
+
+  @@map("admin_youtube_comment_syncs")
+}
+
+model AdminYoutubeComment {
+  id                    String    @id
+  threadId              String
+  contentId             String
+  videoId               String
+  authorChannelId       String?
+  authorDisplayName     String
+  authorProfileImageUrl String?
+  text                  String
+  likeCount             Int       @default(0)
+  replyCount            Int       @default(0)
+  publishedAt           DateTime
+  updatedAt             DateTime
+  syncedAt              DateTime  @default(now())
+  work                  MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@index([contentId, publishedAt])
+  @@index([videoId, publishedAt])
+  @@index([publishedAt])
+  @@map("admin_youtube_comments")
+}

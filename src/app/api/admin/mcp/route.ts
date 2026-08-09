@@ -12,6 +12,7 @@ import {
   getAdminMcpRetention,
   getAdminMcpTrafficSources,
   getAdminMcpWorkInsight,
+  getAdminMcpYoutubeComments,
   listAdminMcpAnalyticsWorks,
   listAdminMcpContentWorks,
   listAdminMcpMissingContentFields,
@@ -24,6 +25,7 @@ import {
   isValidMcpOAuthAccessToken,
 } from "@sovia/admin/data/mcp-oauth";
 import { syncAdminYoutubeAnalytics } from "@sovia/admin/data/youtube-analytics";
+import { syncAdminYoutubeComments } from "@sovia/admin/data/youtube-comments";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -364,6 +366,39 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
+      "List stored top-level YouTube audience comments for one work or the whole channel. Supports text/viewer search and pagination. Replies are represented by replyCount and are not individually fetched.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        id: {
+          description: "Optional content ID, path, or YouTube video ID.",
+          type: "string",
+        },
+        limit: {
+          default: 20,
+          description:
+            "Maximum comments to return. 1-50; keep this small to control MCP context usage.",
+          maximum: 50,
+          minimum: 1,
+          type: "integer",
+        },
+        offset: {
+          default: 0,
+          description: "Pagination offset.",
+          minimum: 0,
+          type: "integer",
+        },
+        q: {
+          description: "Optional comment text, viewer, or video ID search.",
+          type: "string",
+        },
+      },
+      type: "object",
+    },
+    name: "analytics_list_youtube_comments",
+  },
+  {
+    description:
       "Get YouTube audience-retention curves and summaries for completed 24h, 72h, 7d, and 28d windows. This is playback-position retention, not returning-viewer cohort retention.",
     inputSchema: {
       additionalProperties: false,
@@ -440,6 +475,36 @@ const tools: ToolDefinition[] = [
       type: "object",
     },
     name: "analytics_sync_youtube",
+  },
+  {
+    annotations: {
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+      readOnlyHint: false,
+    },
+    description:
+      "Write tool: incrementally sync channel-wide top-level YouTube comments. Each page contains up to 100 threads and costs 1 YouTube quota unit. Existing syncs stop after reaching the previous newest comment.",
+    inputSchema: {
+      additionalProperties: false,
+      properties: {
+        confirmQuotaUse: {
+          description:
+            "Must be true to confirm the caller understands this consumes YouTube API quota.",
+          type: "boolean",
+        },
+        maxPages: {
+          description:
+            "Optional hard cap from 1-25 pages. Defaults to 3 for incremental sync or 10 for the initial backfill.",
+          maximum: 25,
+          minimum: 1,
+          type: "integer",
+        },
+      },
+      required: ["confirmQuotaUse"],
+      type: "object",
+    },
+    name: "analytics_sync_youtube_comments",
   },
 ];
 
@@ -594,6 +659,17 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           }),
         );
 
+      case "analytics_list_youtube_comments":
+        return makeToolResult(
+          id,
+          await getAdminMcpYoutubeComments({
+            id: toOptionalString(args.id),
+            limit: toInteger(args.limit, 20),
+            offset: toInteger(args.offset, 0),
+            q: toOptionalString(args.q),
+          }),
+        );
+
       case "analytics_get_retention":
         return makeToolResult(
           id,
@@ -663,6 +739,19 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           );
         }
         return makeToolResult(id, await syncAdminYoutubeAnalytics());
+
+      case "analytics_sync_youtube_comments":
+        if (args.confirmQuotaUse !== true) {
+          throw new Error(
+            "analytics_sync_youtube_comments requires confirmQuotaUse=true because it consumes YouTube API quota.",
+          );
+        }
+        return makeToolResult(
+          id,
+          await syncAdminYoutubeComments({
+            maxPages: args.maxPages ? toInteger(args.maxPages, 3) : undefined,
+          }),
+        );
 
       default:
         return makeJsonRpcError(

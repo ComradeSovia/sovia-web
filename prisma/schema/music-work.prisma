@@ -16,6 +16,7 @@ model MusicWork {
   youtubeRetentionSnapshots        AdminYoutubeVideoRetentionSnapshot[]
   youtubeReachDaily                AdminYoutubeVideoReachDaily[]
   youtubeRealtimeSnapshots         AdminYoutubeVideoRealtimeSnapshot[]
+  youtubeComments                  AdminYoutubeComment[]
 
   @@map("music_works")
 }

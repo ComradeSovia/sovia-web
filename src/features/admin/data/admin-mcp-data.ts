@@ -14,6 +14,10 @@ import {
   listLatestYoutubeTrafficSourceSnapshots,
   listYoutubeRetentionSnapshots,
 } from "./youtube-analytics";
+import {
+  getAdminYoutubeCommentSyncStatus,
+  listAdminYoutubeComments,
+} from "./youtube-comments";
 
 type Snapshot = Awaited<
   ReturnType<typeof listLatestYoutubeAnalyticsSnapshots>
@@ -481,6 +485,64 @@ export async function getAdminMcpTrafficSources({
     items: snapshots.map(serializeTrafficSourceSnapshot),
     periodDays,
     sourceTypes: getTrafficSourceTypeDescriptions(),
+    work,
+  };
+}
+
+export async function getAdminMcpYoutubeComments({
+  id,
+  limit = 20,
+  offset = 0,
+  q,
+}: {
+  id?: string;
+  limit?: number;
+  offset?: number;
+  q?: string;
+}) {
+  const boundedLimit = Math.min(50, Math.max(1, limit));
+  const work = id ? await getAdminMcpContentWork(id) : null;
+  const [{ items, total }, sync] = await Promise.all([
+    listAdminYoutubeComments({
+      contentId: work?.contentId ?? id,
+      limit: boundedLimit,
+      offset,
+      q,
+    }),
+    getAdminYoutubeCommentSyncStatus(),
+  ]);
+
+  return {
+    items: items.map((comment) => ({
+      authorChannelId: comment.authorChannelId,
+      authorDisplayName: comment.authorDisplayName,
+      contentId: comment.contentId,
+      id: comment.id,
+      likeCount: comment.likeCount,
+      publishedAt: comment.publishedAt.toISOString(),
+      replyCount: comment.replyCount,
+      text: comment.text,
+      threadId: comment.threadId,
+      updatedAt: comment.updatedAt.toISOString(),
+      videoId: comment.videoId,
+    })),
+    limit: boundedLimit,
+    notes: [
+      "Only top-level audience comments are stored; replyCount is stored without fetching every reply.",
+      "Channel-wide incremental sync uses 1 YouTube quota unit per page of up to 100 comment threads.",
+    ],
+    offset,
+    sync: sync
+      ? {
+          commentsSynced: sync.commentsSynced,
+          message: sync.message,
+          pagesFetched: sync.pagesFetched,
+          quotaUnits: sync.quotaUnits,
+          status: sync.status,
+          syncedAt: sync.syncedAt?.toISOString() ?? null,
+        }
+      : null,
+    total,
     work,
   };
 }
