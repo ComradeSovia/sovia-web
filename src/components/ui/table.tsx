@@ -1,20 +1,68 @@
 "use client";
 
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
+  const topScrollerRef = React.useRef<HTMLDivElement>(null);
+  const tableScrollerRef = React.useRef<HTMLDivElement>(null);
+  const [scrollWidth, setScrollWidth] = React.useState(0);
+  const [hasHorizontalOverflow, setHasHorizontalOverflow] =
+    React.useState(false);
+
+  React.useEffect(() => {
+    const scroller = tableScrollerRef.current;
+    if (!scroller) return;
+
+    const updateOverflow = () => {
+      setScrollWidth(scroller.scrollWidth);
+      setHasHorizontalOverflow(scroller.scrollWidth > scroller.clientWidth + 1);
+    };
+    const observer = new ResizeObserver(updateOverflow);
+    observer.observe(scroller);
+    const table = scroller.querySelector("table");
+    if (table) observer.observe(table);
+    updateOverflow();
+
+    return () => observer.disconnect();
+  }, []);
+
+  const syncScroll = (
+    source: React.RefObject<HTMLDivElement | null>,
+    target: React.RefObject<HTMLDivElement | null>,
+  ) => {
+    if (source.current && target.current) {
+      target.current.scrollLeft = source.current.scrollLeft;
+    }
+  };
+
   return (
-    <div
-      data-slot="table-container"
-      className="relative w-full overflow-x-auto"
-    >
-      <table
-        data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
-        {...props}
-      />
+    <div className="relative w-full">
+      <div
+        aria-hidden="true"
+        data-slot="table-top-scrollbar"
+        className={cn(
+          "mb-2 h-3 w-full overflow-x-auto overflow-y-hidden",
+          !hasHorizontalOverflow && "hidden",
+        )}
+        onScroll={() => syncScroll(topScrollerRef, tableScrollerRef)}
+        ref={topScrollerRef}
+      >
+        <div className="h-px" style={{ width: scrollWidth }} />
+      </div>
+      <div
+        data-slot="table-container"
+        className="relative w-full overflow-x-auto"
+        onScroll={() => syncScroll(tableScrollerRef, topScrollerRef)}
+        ref={tableScrollerRef}
+      >
+        <table
+          data-slot="table"
+          className={cn("w-full caption-bottom text-sm", className)}
+          {...props}
+        />
+      </div>
     </div>
   );
 }

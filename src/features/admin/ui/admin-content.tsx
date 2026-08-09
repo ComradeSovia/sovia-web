@@ -392,7 +392,7 @@ async function PromptManager({
         </CardHeader>
         <CardContent>
           {prompts.length ? (
-            <div className="overflow-x-auto">
+            <div>
               <Table>
                 <TableHeader>
                   <TableRow className="border-zinc-800">

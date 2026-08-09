@@ -716,7 +716,7 @@ async function loadAnalyticsData() {
 
 function RecentReleaseTable({ rows }: { rows: ReleaseRow[] }) {
   return (
-    <div className="overflow-x-auto">
+    <div>
       <Table className="min-w-[1100px]">
         <TableHeader>
           <TableRow className="border-zinc-800">
@@ -816,7 +816,7 @@ function RecentReleaseTable({ rows }: { rows: ReleaseRow[] }) {
 
 function LaunchMonitorTable({ rows }: { rows: ReleaseRow[] }) {
   return (
-    <div className="overflow-x-auto">
+    <div>
       <Table className="min-w-[900px]">
         <TableHeader>
           <TableRow className="border-zinc-800">
@@ -902,7 +902,7 @@ function WindowPerformanceTable({
     (left, right) => left.elapsedHours - right.elapsedHours,
   );
   return (
-    <div className="overflow-x-auto rounded-md border border-zinc-800">
+    <div className="rounded-md border border-zinc-800">
       <Table className="min-w-[760px]">
         <TableHeader>
           <TableRow className="border-zinc-800">
@@ -998,7 +998,7 @@ function PeriodPerformanceTable({ snapshots }: { snapshots: Snapshot[] }) {
   );
 
   return (
-    <div className="overflow-x-auto rounded-md border border-zinc-800">
+    <div className="rounded-md border border-zinc-800">
       <Table className="min-w-[920px]">
         <TableHeader>
           <TableRow className="border-zinc-800">
@@ -1060,7 +1060,7 @@ function TrafficSourcesTable({ snapshots }: { snapshots: TrafficSnapshot[] }) {
   const totalViews = rows.reduce((sum, row) => sum + row.views, 0);
 
   return (
-    <div className="overflow-x-auto rounded-md border border-zinc-800">
+    <div className="rounded-md border border-zinc-800">
       <Table className="min-w-[640px]">
         <TableHeader>
           <TableRow className="border-zinc-800">
@@ -1252,7 +1252,7 @@ function WorksTable({
   rows: AnalyticsRow[];
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div>
       <Table className="min-w-[1220px] table-fixed">
         <TableHeader>
           <TableRow className="border-zinc-800">
