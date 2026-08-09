@@ -99,16 +99,10 @@ export async function listLatestYoutubeAnalyticsSnapshots(
   const prisma = getPrismaClient();
   if (!prisma) return [];
 
-  const latest = await prisma.adminYoutubeVideoAnalyticsSnapshot.findFirst({
-    orderBy: { syncedAt: "desc" },
-    select: { endDate: true },
-    where: { periodDays },
-  });
-  if (!latest) return [];
-
   return prisma.adminYoutubeVideoAnalyticsSnapshot.findMany({
-    orderBy: [{ views: "desc" }, { contentId: "asc" }],
-    where: { endDate: latest.endDate, periodDays },
+    distinct: ["contentId"],
+    orderBy: [{ contentId: "asc" }, { syncedAt: "desc" }],
+    where: { periodDays },
   });
 }
 

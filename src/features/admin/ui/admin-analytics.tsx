@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -46,7 +47,7 @@ const PRIMARY_BUTTON_CLASS =
   "border-zinc-100 bg-zinc-100 text-zinc-950 shadow-none hover:bg-white";
 const SECONDARY_BUTTON_CLASS =
   "border-zinc-700 bg-zinc-900 text-zinc-100 shadow-none hover:bg-zinc-800";
-const ANALYTICS_PAGE_SIZE = 25;
+const ANALYTICS_PAGE_SIZE = 50;
 const ANALYTICS_SORTS = [
   "views",
   "watchTime",
@@ -111,14 +112,22 @@ function matchSortOrder(value?: string): SortOrder {
 
 export async function AdminAnalyticsPage({
   message,
+  order,
+  page,
+  q,
+  sort,
   status,
 }: {
   message?: string;
+  order?: string;
+  page?: string;
+  q?: string;
+  sort?: string;
   status?: string;
 }) {
   return (
     <AdminAnalyticsFrame message={message} status={status}>
-      {async ({ releaseRows, syncStatus, youtubeConfig }) => (
+      {async ({ releaseRows, rows, syncStatus, youtubeConfig }) => (
         <>
           <div className="grid gap-4 md:grid-cols-4">
             <MetricCard
@@ -214,6 +223,16 @@ export async function AdminAnalyticsPage({
             </CardContent>
           </Card>
 
+          <AnalyticsWorksCard
+            basePath="/admin/analytics"
+            order={order}
+            page={page}
+            q={q}
+            rows={rows}
+            sort={sort}
+            title="All Works"
+          />
+
           {!youtubeConfig.ok ? (
             <Alert className="border-amber-500/30 bg-amber-500/10 text-amber-100">
               <AlertTitle>YouTube configuration incomplete</AlertTitle>
@@ -231,57 +250,27 @@ export async function AdminAnalyticsPage({
 export async function AdminAnalyticsWorksPage({
   order,
   page,
+  q,
   sort,
 }: {
   order?: string;
   page?: string;
+  q?: string;
   sort?: string;
 }) {
   return (
     <AdminAnalyticsFrame>
-      {async ({ rows }) => {
-        const analyticsSort = matchAnalyticsSort(sort);
-        const sortOrder = matchSortOrder(order);
-        const currentPage = Math.max(1, Number.parseInt(page ?? "1", 10) || 1);
-        const sortedRows = [...rows].sort((first, second) =>
-          compareAnalyticsRows(first, second, analyticsSort, sortOrder),
-        );
-        const totalPages = Math.max(
-          1,
-          Math.ceil(sortedRows.length / ANALYTICS_PAGE_SIZE),
-        );
-        const safePage = Math.min(currentPage, totalPages);
-        const pageRows = sortedRows.slice(
-          (safePage - 1) * ANALYTICS_PAGE_SIZE,
-          safePage * ANALYTICS_PAGE_SIZE,
-        );
-
-        return (
-          <Card className={CARD_CLASS}>
-            <CardHeader>
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <CardTitle className={CARD_TITLE_CLASS}>Works</CardTitle>
-                  <CardDescription className={CARD_DESCRIPTION_CLASS}>
-                    Sortable work diagnosis table for AI-ready analytics.
-                  </CardDescription>
-                </div>
-                <div className="text-sm text-zinc-500">
-                  Page {safePage} / {totalPages} · {sortedRows.length} works
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <WorksTable
-                activeSort={analyticsSort}
-                order={sortOrder}
-                rows={pageRows}
-              />
-              <PaginationControls page={safePage} totalPages={totalPages} />
-            </CardContent>
-          </Card>
-        );
-      }}
+      {async ({ rows }) => (
+        <AnalyticsWorksCard
+          basePath="/admin/analytics/works"
+          order={order}
+          page={page}
+          q={q}
+          rows={rows}
+          sort={sort}
+          title="Works"
+        />
+      )}
     </AdminAnalyticsFrame>
   );
 }
@@ -292,6 +281,7 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
       {async ({
         availableReachDates,
         earlySnapshots,
+        periodSnapshots,
         retentionSnapshots,
         rows,
         trafficSnapshots,
@@ -350,6 +340,34 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
                   availableReachDates={availableReachDates}
                   trafficSnapshots={trafficSnapshots.filter(
                     (snapshot) => snapshot.contentId === row.snapshot.contentId,
+                  )}
+                />
+              </div>
+              <div className="border-t border-zinc-800 pt-5">
+                <div className="mb-3 text-sm font-medium text-zinc-100">
+                  Historical performance
+                </div>
+                <PeriodPerformanceTable
+                  snapshots={[
+                    ...periodSnapshots.filter(
+                      (snapshot) =>
+                        snapshot.contentId === row.snapshot.contentId,
+                    ),
+                    row.snapshot,
+                  ]}
+                />
+              </div>
+              <div className="border-t border-zinc-800 pt-5">
+                <div className="mb-3 text-sm font-medium text-zinc-100">
+                  Traffic sources · latest 90d
+                </div>
+                <TrafficSourcesTable
+                  snapshots={getLatestTrafficRows(
+                    trafficSnapshots.filter(
+                      (snapshot) =>
+                        snapshot.contentId === row.snapshot.contentId &&
+                        snapshot.periodDays === 90,
+                    ),
                   )}
                 />
               </div>
@@ -440,7 +458,9 @@ export async function AdminAnalyticsComparePage() {
               <CardContent>
                 <WorksTable
                   activeSort="views"
+                  basePath="/admin/analytics/works"
                   order="desc"
+                  query=""
                   rows={rows.slice(0, 10)}
                 />
               </CardContent>
@@ -574,6 +594,7 @@ async function loadAnalyticsData() {
   const [
     works,
     snapshots,
+    periodSnapshots,
     earlySnapshots,
     retentionSnapshots,
     trafficSnapshots,
@@ -585,9 +606,14 @@ async function loadAnalyticsData() {
     ? await Promise.all([
         listAdminMusicWorks(),
         listLatestYoutubeAnalyticsSnapshots(),
+        Promise.all(
+          [7, 28, 90].map((periodDays) =>
+            listLatestYoutubeAnalyticsSnapshots(periodDays),
+          ),
+        ).then((periods) => periods.flat()),
         listLatestYoutubeEarlyPerformanceSnapshots(),
         listYoutubeRetentionSnapshots(),
-        listYoutubeTrafficSourceSnapshotsByPeriods([1, 3, 7, 28]),
+        listYoutubeTrafficSourceSnapshotsByPeriods([1, 3, 7, 28, 90]),
         listYoutubeRealtimeSnapshots({
           since: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
         }),
@@ -595,7 +621,7 @@ async function loadAnalyticsData() {
         getYoutubeAnalyticsSyncStatus(),
         getAdminYoutubeConnection(),
       ])
-    : [[], [], [], [], [], [], [], null, null];
+    : [[], [], [], [], [], [], [], [], null, null];
   const workByContentId = new Map(works.map((work) => [work.contentId, work]));
   const baseline = getBaseline(snapshots);
   const rows = snapshots.map((snapshot) => ({
@@ -675,6 +701,7 @@ async function loadAnalyticsData() {
     availableReachDates,
     databaseStatus,
     earlySnapshots,
+    periodSnapshots,
     rows,
     releaseRows,
     retentionSnapshots,
@@ -720,7 +747,7 @@ function RecentReleaseTable({ rows }: { rows: ReleaseRow[] }) {
               <TableCell className="align-top">
                 <Link
                   className="block truncate font-medium text-zinc-100 underline-offset-4 hover:underline"
-                  href={`/admin/analytics/works/${encodeURIComponent(row.work.contentId)}`}
+                  href={`/admin/analytics/${encodeURIComponent(row.work.contentId)}`}
                 >
                   {getWorkDisplayTitle(row.work)}
                 </Link>
@@ -812,7 +839,7 @@ function LaunchMonitorTable({ rows }: { rows: ReleaseRow[] }) {
               <TableCell>
                 <Link
                   className="block truncate font-medium text-zinc-100 underline-offset-4 hover:underline"
-                  href={`/admin/analytics/works/${encodeURIComponent(row.work.contentId)}`}
+                  href={`/admin/analytics/${encodeURIComponent(row.work.contentId)}`}
                 >
                   {getWorkDisplayTitle(row.work)}
                 </Link>
@@ -957,65 +984,346 @@ function WindowPerformanceTable({
   );
 }
 
+function PeriodPerformanceTable({ snapshots }: { snapshots: Snapshot[] }) {
+  const periodOrder = new Map([
+    [7, 0],
+    [28, 1],
+    [90, 2],
+    [0, 3],
+  ]);
+  const rows = [...snapshots].sort(
+    (left, right) =>
+      (periodOrder.get(left.periodDays) ?? 99) -
+      (periodOrder.get(right.periodDays) ?? 99),
+  );
+
+  return (
+    <div className="overflow-x-auto rounded-md border border-zinc-800">
+      <Table className="min-w-[920px]">
+        <TableHeader>
+          <TableRow className="border-zinc-800">
+            <TableHead className="text-zinc-400">Period</TableHead>
+            <TableHead className="text-right text-zinc-400">Views</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Watch time
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Avg viewed
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">Likes</TableHead>
+            <TableHead className="text-right text-zinc-400">Comments</TableHead>
+            <TableHead className="text-right text-zinc-400">Net subs</TableHead>
+            <TableHead className="text-zinc-400">Synced</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((snapshot) => (
+            <TableRow className="border-zinc-800" key={snapshot.id}>
+              <TableCell className="text-zinc-300">
+                {formatAnalyticsPeriod(snapshot.periodDays)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatInteger(snapshot.views)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatMinutes(snapshot.estimatedMinutesWatched)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatPercent(snapshot.averageViewPercentage)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatInteger(snapshot.likes)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatInteger(snapshot.comments)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatSignedInteger(
+                  snapshot.subscribersGained - snapshot.subscribersLost,
+                )}
+              </TableCell>
+              <TableCell className="text-xs text-zinc-500">
+                {snapshot.syncedAt.toLocaleString("en-US")}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+function TrafficSourcesTable({ snapshots }: { snapshots: TrafficSnapshot[] }) {
+  const rows = [...snapshots]
+    .sort((left, right) => right.views - left.views)
+    .slice(0, 10);
+  const totalViews = rows.reduce((sum, row) => sum + row.views, 0);
+
+  return (
+    <div className="overflow-x-auto rounded-md border border-zinc-800">
+      <Table className="min-w-[640px]">
+        <TableHeader>
+          <TableRow className="border-zinc-800">
+            <TableHead className="text-zinc-400">Source</TableHead>
+            <TableHead className="text-right text-zinc-400">Views</TableHead>
+            <TableHead className="text-right text-zinc-400">Share</TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Watch time
+            </TableHead>
+            <TableHead className="text-right text-zinc-400">
+              Engaged views
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((snapshot) => (
+            <TableRow className="border-zinc-800" key={snapshot.id}>
+              <TableCell className="text-zinc-300">
+                {formatTrafficSource(snapshot.sourceType)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatInteger(snapshot.views)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatPercent(
+                  totalViews > 0 ? (snapshot.views / totalViews) * 100 : null,
+                )}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatMinutes(snapshot.estimatedMinutesWatched)}
+              </TableCell>
+              <TableCell className="text-right text-zinc-100">
+                {formatInteger(snapshot.engagedViews)}
+              </TableCell>
+            </TableRow>
+          ))}
+          {!rows.length ? (
+            <TableRow className="border-zinc-800">
+              <TableCell className="py-6 text-center text-zinc-500" colSpan={5}>
+                No rolling 90-day traffic source data yet.
+              </TableCell>
+            </TableRow>
+          ) : null}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+function getLatestTrafficRows(rows: TrafficSnapshot[]) {
+  const latestEndDate = rows.reduce(
+    (latest, row) => (row.endDate > latest ? row.endDate : latest),
+    "",
+  );
+  return rows.filter((row) => row.endDate === latestEndDate);
+}
+
+function formatAnalyticsPeriod(periodDays: number) {
+  return periodDays === 0 ? "Lifetime" : `${periodDays}d`;
+}
+
+function AnalyticsWorksCard({
+  basePath,
+  order,
+  page,
+  q,
+  rows,
+  sort,
+  title,
+}: {
+  basePath: string;
+  order?: string;
+  page?: string;
+  q?: string;
+  rows: AnalyticsRow[];
+  sort?: string;
+  title: string;
+}) {
+  const analyticsSort = matchAnalyticsSort(sort);
+  const sortOrder = matchSortOrder(order);
+  const query = q?.trim() ?? "";
+  const filteredRows = query
+    ? rows.filter((row) => matchesAnalyticsSearch(row, query))
+    : rows;
+  const currentPage = Math.max(1, Number.parseInt(page ?? "1", 10) || 1);
+  const sortedRows = [...filteredRows].sort((first, second) =>
+    compareAnalyticsRows(first, second, analyticsSort, sortOrder),
+  );
+  const totalPages = Math.max(
+    1,
+    Math.ceil(sortedRows.length / ANALYTICS_PAGE_SIZE),
+  );
+  const safePage = Math.min(currentPage, totalPages);
+  const pageRows = sortedRows.slice(
+    (safePage - 1) * ANALYTICS_PAGE_SIZE,
+    safePage * ANALYTICS_PAGE_SIZE,
+  );
+
+  return (
+    <Card className={CARD_CLASS}>
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <CardTitle className={CARD_TITLE_CLASS}>{title}</CardTitle>
+            <CardDescription className={CARD_DESCRIPTION_CLASS}>
+              Search by title, source, content ID, path, or YouTube video ID.
+            </CardDescription>
+          </div>
+          <div className="text-sm text-zinc-500">
+            Page {safePage} / {totalPages} · {sortedRows.length}
+            {query ? ` of ${rows.length}` : ""} works
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <form
+          action={basePath}
+          className="flex flex-col gap-2 sm:flex-row"
+          method="get"
+        >
+          <Input
+            aria-label="Search analytics works"
+            className="h-10 border-zinc-700 bg-zinc-950 text-zinc-100 placeholder:text-zinc-600"
+            defaultValue={query}
+            name="q"
+            placeholder="Search title, source, content ID, path, or YouTube ID"
+            type="search"
+          />
+          <input name="sort" type="hidden" value={analyticsSort} />
+          <input name="order" type="hidden" value={sortOrder} />
+          <Button className={PRIMARY_BUTTON_CLASS} type="submit">
+            Search
+          </Button>
+          {query ? (
+            <Button
+              asChild
+              className={SECONDARY_BUTTON_CLASS}
+              type="button"
+              variant="outline"
+            >
+              <Link
+                href={getAnalyticsWorksHref({
+                  basePath,
+                  order: sortOrder,
+                  sort: analyticsSort,
+                })}
+              >
+                Clear
+              </Link>
+            </Button>
+          ) : null}
+        </form>
+        <WorksTable
+          activeSort={analyticsSort}
+          basePath={basePath}
+          emptyMessage={
+            query ? `No analytics works match “${query}”.` : undefined
+          }
+          order={sortOrder}
+          query={query}
+          rows={pageRows}
+        />
+        <PaginationControls
+          basePath={basePath}
+          order={sortOrder}
+          page={safePage}
+          query={query}
+          sort={analyticsSort}
+          totalPages={totalPages}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 function WorksTable({
   activeSort,
+  basePath,
+  emptyMessage,
   order,
+  query,
   rows,
 }: {
   activeSort: AnalyticsSort;
+  basePath: string;
+  emptyMessage?: string;
   order: SortOrder;
+  query: string;
   rows: AnalyticsRow[];
 }) {
   return (
     <div className="overflow-x-auto">
-      <Table className="min-w-[980px] table-fixed">
+      <Table className="min-w-[1220px] table-fixed">
         <TableHeader>
           <TableRow className="border-zinc-800">
             <TableHead className="w-[22rem] text-zinc-400">
               <SortLink
                 activeSort={activeSort}
+                basePath={basePath}
                 label="Work"
                 order={order}
+                query={query}
                 sort="work"
               />
             </TableHead>
+            <TableHead className="w-32 text-zinc-400">Published</TableHead>
             <TableHead className="w-28 text-right text-zinc-400">
               <SortLink
                 activeSort={activeSort}
+                basePath={basePath}
                 label="Views"
                 order={order}
+                query={query}
                 sort="views"
               />
             </TableHead>
             <TableHead className="w-32 text-right text-zinc-400">
               <SortLink
                 activeSort={activeSort}
+                basePath={basePath}
                 label="Watch time"
                 order={order}
+                query={query}
                 sort="watchTime"
               />
             </TableHead>
             <TableHead className="w-24 text-right text-zinc-400">
               <SortLink
                 activeSort={activeSort}
+                basePath={basePath}
                 label="Likes"
                 order={order}
+                query={query}
                 sort="likes"
+              />
+            </TableHead>
+            <TableHead className="w-24 text-right text-zinc-400">
+              <SortLink
+                activeSort={activeSort}
+                basePath={basePath}
+                label="Comments"
+                order={order}
+                query={query}
+                sort="comments"
               />
             </TableHead>
             <TableHead className="w-28 text-right text-zinc-400">
               <SortLink
                 activeSort={activeSort}
+                basePath={basePath}
                 label="Avg viewed"
                 order={order}
+                query={query}
                 sort="avgViewed"
               />
             </TableHead>
             <TableHead className="w-24 text-right text-zinc-400">
               <SortLink
                 activeSort={activeSort}
+                basePath={basePath}
                 label="Subs"
                 order={order}
+                query={query}
                 sort="subs"
               />
             </TableHead>
@@ -1028,13 +1336,16 @@ function WorksTable({
               <TableCell className="align-top">
                 <Link
                   className="block truncate font-medium text-zinc-100 underline-offset-4 hover:underline"
-                  href={`/admin/analytics/works/${encodeURIComponent(row.snapshot.contentId)}`}
+                  href={`/admin/analytics/${encodeURIComponent(row.snapshot.contentId)}`}
                 >
                   {getWorkTitle(row)}
                 </Link>
                 <div className="mt-1 truncate text-xs text-zinc-500">
                   {row.snapshot.videoId}
                 </div>
+              </TableCell>
+              <TableCell className="align-top text-zinc-400">
+                {formatDate(row.work?.publishedAt)}
               </TableCell>
               <TableCell className="text-right align-top text-zinc-100">
                 {formatInteger(row.snapshot.views)}
@@ -1044,6 +1355,9 @@ function WorksTable({
               </TableCell>
               <TableCell className="text-right align-top text-zinc-100">
                 {formatInteger(row.snapshot.likes)}
+              </TableCell>
+              <TableCell className="text-right align-top text-zinc-100">
+                {formatInteger(row.snapshot.comments)}
               </TableCell>
               <TableCell className="text-right align-top text-zinc-100">
                 {formatPercent(row.snapshot.averageViewPercentage)}
@@ -1063,8 +1377,8 @@ function WorksTable({
           ))}
           {!rows.length ? (
             <TableRow className="border-zinc-800">
-              <TableCell className="py-8 text-center text-zinc-500" colSpan={7}>
-                No synced analytics yet.
+              <TableCell className="py-8 text-center text-zinc-500" colSpan={9}>
+                {emptyMessage ?? "No synced analytics yet."}
               </TableCell>
             </TableRow>
           ) : null}
@@ -1076,13 +1390,17 @@ function WorksTable({
 
 function SortLink({
   activeSort,
+  basePath,
   label,
   order,
+  query,
   sort,
 }: {
   activeSort: AnalyticsSort;
+  basePath: string;
   label: string;
   order: SortOrder;
+  query: string;
   sort: AnalyticsSort;
 }) {
   const nextOrder = activeSort === sort && order === "desc" ? "asc" : "desc";
@@ -1091,7 +1409,13 @@ function SortLink({
   return (
     <Link
       className="inline-flex items-center justify-end gap-1 underline-offset-4 hover:text-zinc-100 hover:underline"
-      href={getAnalyticsWorksHref({ order: nextOrder, page: 1, sort })}
+      href={getAnalyticsWorksHref({
+        basePath,
+        order: nextOrder,
+        page: 1,
+        q: query,
+        sort,
+      })}
     >
       {label}
       {indicator}
@@ -1100,10 +1424,18 @@ function SortLink({
 }
 
 function PaginationControls({
+  basePath,
+  order,
   page,
+  query,
+  sort,
   totalPages,
 }: {
+  basePath: string;
+  order: SortOrder;
   page: number;
+  query: string;
+  sort: AnalyticsSort;
   totalPages: number;
 }) {
   return (
@@ -1119,7 +1451,13 @@ function PaginationControls({
         >
           <Link
             aria-disabled={page <= 1}
-            href={getAnalyticsWorksHref({ page: Math.max(1, page - 1) })}
+            href={getAnalyticsWorksHref({
+              basePath,
+              order,
+              page: Math.max(1, page - 1),
+              q: query,
+              sort,
+            })}
           >
             Previous
           </Link>
@@ -1132,7 +1470,11 @@ function PaginationControls({
           <Link
             aria-disabled={page >= totalPages}
             href={getAnalyticsWorksHref({
+              basePath,
+              order,
               page: Math.min(totalPages, page + 1),
+              q: query,
+              sort,
             })}
           >
             Next
@@ -1144,20 +1486,43 @@ function PaginationControls({
 }
 
 function getAnalyticsWorksHref({
+  basePath = "/admin/analytics/works",
   order,
   page,
+  q,
   sort,
 }: {
+  basePath?: string;
   order?: SortOrder;
   page?: number;
+  q?: string;
   sort?: AnalyticsSort;
 }) {
   const params = new URLSearchParams();
+  if (q) params.set("q", q);
   if (sort) params.set("sort", sort);
   if (order) params.set("order", order);
   if (page && page > 1) params.set("page", String(page));
   const query = params.toString();
-  return query ? `/admin/analytics/works?${query}` : "/admin/analytics/works";
+  return query ? `${basePath}?${query}` : basePath;
+}
+
+function matchesAnalyticsSearch(row: AnalyticsRow, query: string) {
+  const normalizedQuery = query.toLocaleLowerCase();
+  const work = row.work;
+  return [
+    getWorkTitle(row),
+    row.snapshot.contentId,
+    row.snapshot.videoId,
+    work?.path,
+    work?.title,
+    work?.songTitle,
+    work?.fromTitle,
+    work?.fromSource,
+    work?.fromIp,
+    work?.fromSeries,
+    ...(work?.fromArtists ?? []),
+  ].some((value) => value?.toLocaleLowerCase().includes(normalizedQuery));
 }
 
 function compareAnalyticsRows(

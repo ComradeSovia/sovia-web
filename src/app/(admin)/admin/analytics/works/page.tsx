@@ -17,9 +17,12 @@ export default async function AdminAnalyticsWorksRoute({
   searchParams: Promise<{
     order?: string;
     page?: string;
+    q?: string;
     sort?: string;
   }>;
 }) {
-  const { order, page, sort } = await searchParams;
-  return <AdminAnalyticsWorksPage order={order} page={page} sort={sort} />;
+  const { order, page, q, sort } = await searchParams;
+  return (
+    <AdminAnalyticsWorksPage order={order} page={page} q={q} sort={sort} />
+  );
 }
