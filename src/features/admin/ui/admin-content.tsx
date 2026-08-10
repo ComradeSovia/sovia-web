@@ -1496,7 +1496,7 @@ async function ContentList({
             page={safePage}
             query={query}
             sort={contentSort}
-            subtitleTargetCount={subtitleLocales.length}
+            subtitleLocales={subtitleLocales.map((locale) => locale.locale)}
             totalCount={filteredWorks.length}
             totalPages={totalPages}
             works={works}
@@ -1667,7 +1667,7 @@ function ContentTable({
   page,
   query,
   sort,
-  subtitleTargetCount,
+  subtitleLocales,
   totalCount,
   totalPages,
   works,
@@ -1676,7 +1676,7 @@ function ContentTable({
   page: number;
   query?: string;
   sort: ContentSort;
-  subtitleTargetCount: number;
+  subtitleLocales: readonly string[];
   totalCount: number;
   totalPages: number;
   works: AdminMusicWork[];
@@ -1746,7 +1746,7 @@ function ContentTable({
                   <div className="mt-2 flex flex-wrap items-center gap-1">
                     <WorkVisibilityBadge visible={Boolean(work.visible)} />
                     <SubtitleCoverageBadge
-                      subtitleTargetCount={subtitleTargetCount}
+                      subtitleLocales={subtitleLocales}
                       work={work}
                     />
                   </div>
@@ -1925,17 +1925,21 @@ function WorkVisibilityBadge({ visible }: { visible?: boolean }) {
 }
 
 function SubtitleCoverageBadge({
-  subtitleTargetCount,
+  subtitleLocales,
   work,
 }: {
-  subtitleTargetCount: number;
+  subtitleLocales: readonly string[];
   work: AdminMusicWork;
 }) {
-  const subtitleTrackCount = Object.values(work.subtitleTracks ?? {}).filter(
-    Boolean,
+  const enabledLocaleSet = new Set(subtitleLocales);
+  const subtitleTrackCount = subtitleLocales.filter((locale) =>
+    Boolean(work.subtitleTracks?.[locale]),
+  ).length;
+  const otherTrackCount = Object.entries(work.subtitleTracks ?? {}).filter(
+    ([locale, track]) => Boolean(track) && !enabledLocaleSet.has(locale),
   ).length;
   const complete =
-    subtitleTargetCount > 0 && subtitleTrackCount >= subtitleTargetCount;
+    subtitleLocales.length > 0 && subtitleTrackCount >= subtitleLocales.length;
 
   return (
     <Badge
@@ -1944,10 +1948,11 @@ function SubtitleCoverageBadge({
           ? "border-emerald-700 bg-emerald-950 text-emerald-100"
           : "border-zinc-700 bg-transparent text-zinc-400"
       }
-      title="Completed subtitle tracks / enabled subtitle languages"
+      title="Completed enabled subtitle languages, followed by preserved other languages"
       variant="outline"
     >
-      Subtitles {subtitleTrackCount}/{subtitleTargetCount}
+      Subtitles {subtitleTrackCount}/{subtitleLocales.length}
+      {otherTrackCount ? ` +${otherTrackCount} other` : ""}
     </Badge>
   );
 }
@@ -2114,7 +2119,7 @@ async function ContentEditor({
           </div>
           <ContentReviewHeader
             relatedWorks={relatedWorks}
-            subtitleTargetCount={youtubeLocaleConfig.length}
+            subtitleLocales={youtubeLocaleConfig.map((locale) => locale.locale)}
             work={work}
           />
         </CardHeader>
@@ -2623,18 +2628,22 @@ function ContentHeaderThumbnail({ work }: { work?: AdminMusicWork }) {
 
 function ContentReviewHeader({
   relatedWorks,
-  subtitleTargetCount,
+  subtitleLocales,
   work,
 }: {
   relatedWorks: AdminMusicWork[];
-  subtitleTargetCount: number;
+  subtitleLocales: readonly string[];
   work?: AdminMusicWork;
 }) {
-  const subtitleTrackCount = Object.values(work?.subtitleTracks ?? {}).filter(
-    Boolean,
+  const enabledLocaleSet = new Set(subtitleLocales);
+  const subtitleTrackCount = subtitleLocales.filter((locale) =>
+    Boolean(work?.subtitleTracks?.[locale]),
+  ).length;
+  const otherTrackCount = Object.entries(work?.subtitleTracks ?? {}).filter(
+    ([locale, track]) => Boolean(track) && !enabledLocaleSet.has(locale),
   ).length;
   const subtitlesComplete =
-    subtitleTargetCount > 0 && subtitleTrackCount >= subtitleTargetCount;
+    subtitleLocales.length > 0 && subtitleTrackCount >= subtitleLocales.length;
 
   return (
     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
@@ -2674,7 +2683,9 @@ function ContentReviewHeader({
         complete={subtitlesComplete}
         label="Subtitles"
         successTone
-        value={`${subtitleTrackCount} / ${subtitleTargetCount}`}
+        value={`${subtitleTrackCount} / ${subtitleLocales.length}${
+          otherTrackCount ? ` +${otherTrackCount} other` : ""
+        }`}
       />
     </div>
   );
@@ -2974,10 +2985,30 @@ function MusicWorkForm({
   const youtubeLocaleLabels = Object.fromEntries(
     youtubeEditorLocaleOptions.map((option) => [option.locale, option.label]),
   );
+  const enabledSubtitleLocales = youtubeLocaleConfig.length
+    ? youtubeLocaleConfig.map((option) => option.locale)
+    : ["en"];
+  const enabledSubtitleLocaleSet = new Set(enabledSubtitleLocales);
+  const otherSubtitleLocales = Object.entries(work?.subtitleTracks ?? {})
+    .filter(
+      ([locale, track]) =>
+        Boolean(track) && !enabledSubtitleLocaleSet.has(locale),
+    )
+    .map(([locale]) => locale)
+    .sort((a, b) => a.localeCompare(b));
+  const subtitleLocaleLabels = {
+    ...youtubeLocaleLabels,
+    ...Object.fromEntries(
+      otherSubtitleLocales.map((locale) => [
+        locale,
+        getYoutubeLocaleLabel(locale),
+      ]),
+    ),
+  };
   const youtubeReadyLocales = youtubeLocales.filter((locale) =>
     isYoutubeLocalizationFilled(work, locale),
   );
-  const subtitleReadyLocales = youtubeLocales.filter((locale) =>
+  const subtitleReadyLocales = enabledSubtitleLocales.filter((locale) =>
     Boolean(work?.subtitleTracks?.[locale]),
   );
 
@@ -3192,17 +3223,34 @@ function MusicWorkForm({
           <Section id="subtitles" index={11} title="Subtitles">
             <AdminLocalePanels
               initialPrimaryLocale={work?.subtitlePrimaryLocale ?? "ru"}
-              labels={youtubeLocaleLabels}
-              locales={youtubeLocales}
+              labels={subtitleLocaleLabels}
+              locales={enabledSubtitleLocales}
               primaryLocaleInputName="subtitlePrimaryLocale"
               readyLocales={subtitleReadyLocales}
             >
-              {youtubeLocales.map((locale) => (
+              {enabledSubtitleLocales.map((locale) => (
                 <div data-locale={locale} key={locale}>
                   <SubtitleEditor locale={locale} work={work} />
                 </div>
               ))}
             </AdminLocalePanels>
+            {otherSubtitleLocales.length ? (
+              <div className="grid gap-4">
+                <h3 className="text-sm font-semibold text-zinc-300">
+                  Other subtitle languages
+                </h3>
+                <div className="grid gap-4 xl:grid-cols-2">
+                  {otherSubtitleLocales.map((locale) => (
+                    <SubtitleEditor
+                      key={locale}
+                      locale={locale}
+                      unconfigured
+                      work={work}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
             {work ? (
               <div className="grid gap-3 rounded-md border border-zinc-800 bg-zinc-900/50 p-4">
                 <div>
@@ -3217,8 +3265,8 @@ function MusicWorkForm({
                 <AdminDownloadSubtitlesButton
                   className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
                   contentId={work.contentId}
-                  labels={youtubeLocaleLabels}
-                  locales={youtubeLocales}
+                  labels={subtitleLocaleLabels}
+                  locales={[...enabledSubtitleLocales, ...otherSubtitleLocales]}
                 />
               </div>
             ) : null}
@@ -3521,9 +3569,11 @@ function PlatformTextFields({
 
 function SubtitleEditor({
   locale,
+  unconfigured = false,
   work,
 }: {
   locale: string;
+  unconfigured?: boolean;
   work?: AdminMusicWork;
 }) {
   const value = work?.subtitleTracks?.[locale] ?? "";
@@ -3531,7 +3581,12 @@ function SubtitleEditor({
 
   return (
     <section
-      className="scroll-mt-5 rounded-md border border-zinc-800 bg-zinc-900 p-4"
+      className={`scroll-mt-5 rounded-md border p-4 ${
+        unconfigured
+          ? "border-dashed border-zinc-600 bg-zinc-950/50"
+          : "border-zinc-800 bg-zinc-900"
+      }`}
+      data-subtitle-locale-state={unconfigured ? "not-enabled" : "enabled"}
       id={`subtitle-${locale}`}
     >
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -3541,16 +3596,26 @@ function SubtitleEditor({
           </h3>
           <p className="text-xs text-zinc-500">{locale}</p>
         </div>
-        <Badge
-          className={
-            filled
-              ? "border-zinc-700 bg-zinc-100 text-zinc-950"
-              : "border-zinc-700 bg-transparent text-zinc-400"
-          }
-          variant={filled ? "default" : "outline"}
-        >
-          {filled ? "has SRT" : "empty"}
-        </Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          {unconfigured ? (
+            <Badge
+              className="border-dashed border-zinc-600 bg-transparent text-zinc-400"
+              variant="outline"
+            >
+              Not enabled
+            </Badge>
+          ) : null}
+          <Badge
+            className={
+              filled
+                ? "border-zinc-700 bg-zinc-100 text-zinc-950"
+                : "border-zinc-700 bg-transparent text-zinc-400"
+            }
+            variant={filled ? "default" : "outline"}
+          >
+            {filled ? "has SRT" : "empty"}
+          </Badge>
+        </div>
       </div>
 
       <TextArea
