@@ -26,6 +26,13 @@ const MUSIC_WORK_INCLUDE = {
   subtitles: true,
 } as const;
 
+const MUSIC_WORK_LIST_INCLUDE = {
+  content: true,
+  platforms: true,
+  source: true,
+  status: true,
+} as const;
+
 type MusicWorkSourceSection = {
   sourceType?: string | null;
   title?: string | null;
@@ -437,7 +444,7 @@ async function listDatabaseMusicWorks() {
 
   return (
     await withDatabaseTimeout(
-      prisma.musicWork.findMany({ include: MUSIC_WORK_INCLUDE }),
+      prisma.musicWork.findMany({ include: MUSIC_WORK_LIST_INCLUDE }),
     )
   ).map((work) =>
     toWorkRecord({
@@ -454,7 +461,23 @@ export async function listMusicWorks() {
 }
 
 export async function listMusicWorksWithContent() {
-  return listMusicWorks();
+  const prisma = getPrismaClient();
+  if (!prisma) return [];
+
+  return (
+    await withDatabaseTimeout(
+      prisma.musicWork.findMany({ include: MUSIC_WORK_INCLUDE }),
+    )
+  )
+    .map((work) =>
+      toWorkRecord({
+        ...work,
+        storageSource: "db",
+      }),
+    )
+    .sort((a, b) =>
+      a.contentId.localeCompare(b.contentId, undefined, { numeric: true }),
+    );
 }
 
 export async function listMusicWorkOptions() {
