@@ -101,7 +101,7 @@ export type AdminActionDefinition = {
   inputs: readonly AdminActionInput[];
   output: AdminActionOutput;
   presentation: AdminActionPresentation;
-  scope: "content" | "global";
+  scope: "content" | "global" | "todo";
   title: string;
   type: "ai" | "default";
 };

@@ -17,6 +17,7 @@ model MusicWork {
   youtubeReachDaily                AdminYoutubeVideoReachDaily[]
   youtubeRealtimeSnapshots         AdminYoutubeVideoRealtimeSnapshot[]
   youtubeComments                  AdminYoutubeComment[]
+  todo                            AdminMusicTodo?
 
   @@map("music_works")
 }

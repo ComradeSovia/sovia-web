@@ -70,6 +70,7 @@ import {
   PIXIV_COPY_PROMPT_TASK,
   RELATED_SUGGESTION_PROMPT_TASK,
   SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
+  TODO_PROPOSAL_ANALYSIS_PROMPT_TASK,
   VK_COPY_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_PROMPT_TASK,
@@ -93,6 +94,7 @@ import {
   getSearchEmbeddings,
   getSearchQueryEmbedding,
 } from "../data/music-search-embeddings";
+import { getAdminMusicTodo } from "../data/music-todos";
 import {
   getAdminYoutubeConnection,
   getYoutubeOAuthConfig,
@@ -128,6 +130,9 @@ import {
 import { AdminLogin } from "./login-form";
 
 type AdminMusicWork = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
+type AdminMusicTodo = NonNullable<
+  Awaited<ReturnType<typeof getAdminMusicTodo>>
+>;
 type AdminPromptOption = Awaited<
   ReturnType<typeof listEnabledAdminPromptsForTask>
 >[number];
@@ -163,7 +168,7 @@ function matchActionStatus(value?: string): ActionStatus {
   return value === "success" ? "success" : "error";
 }
 
-async function AdminGate({
+export async function AdminGate({
   children,
   returnTo,
 }: {
@@ -906,6 +911,20 @@ function PromptContractPanel() {
   "description": "Pixiv description",
   "tags": ["#ComradeSovia", "#anime", "#song"]
 }`;
+  const todoProposalInputExample = `{
+  "sourceText": "Audience comments, requests, links, or arbitrary notes"
+}`;
+  const todoProposalOutputExample = `{
+  "proposals": [
+    {
+      "title": "Song to adapt",
+      "from": "Anime, game, film, series, or album",
+      "sourceArtists": "Original artist or author",
+      "sourceUrl": "YouTube, Spotify, or Apple Music URL",
+      "notes": "Requested adaptation idea and direction"
+    }
+  ]
+}`;
 
   return (
     <aside className="space-y-4">
@@ -918,6 +937,12 @@ function PromptContractPanel() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 text-sm text-zinc-400">
+          <PromptContractBlock
+            inputExample={todoProposalInputExample}
+            notes="Song title is the song to adapt; From is the work it comes from; Source artists identifies the original creator; Source URL is a music reference; Notes contains the adaptation concept and direction. Return 1–20 proposals."
+            outputExample={todoProposalOutputExample}
+            task={TODO_PROPOSAL_ANALYSIS_PROMPT_TASK}
+          />
           <PromptContractBlock
             inputExample={descriptionInputExample}
             notes="Return concise copy for the Description step."
@@ -1967,12 +1992,14 @@ export async function AdminContentEditorPage({
   message,
   status,
   step,
+  todoId,
 }: {
   action?: string;
   id?: string;
   message?: string;
   status?: string;
   step?: string;
+  todoId?: string;
 }) {
   return (
     <AdminGate>
@@ -1982,6 +2009,7 @@ export async function AdminContentEditorPage({
         message={message}
         status={matchActionStatus(status)}
         step={matchAdminEditorStep(step)}
+        todoId={todoId}
       />
     </AdminGate>
   );
@@ -1993,16 +2021,22 @@ async function ContentEditor({
   message,
   status,
   step,
+  todoId,
 }: {
   action?: string;
   id?: string;
   message?: string;
   status: ActionStatus;
   step: AdminEditorStep;
+  todoId?: string;
 }) {
   const databaseStatus = await getAdminDatabaseStatus();
 
   const work = id ? ((await getAdminMusicWork(id)) ?? undefined) : undefined;
+  const todo =
+    !id && todoId
+      ? ((await getAdminMusicTodo(todoId)) ?? undefined)
+      : undefined;
   const descriptionPrompts =
     step === "description"
       ? await listEnabledAdminPromptsForTask(DESCRIPTION_GENERATOR_PROMPT_TASK)
@@ -2089,7 +2123,10 @@ async function ContentEditor({
                   </span>
                 ) : null}
                 <span className="min-w-0 break-words">
-                  {work?.songTitle || work?.contentId || "New music content"}
+                  {work?.songTitle ||
+                    work?.contentId ||
+                    todo?.title ||
+                    "New music content"}
                 </span>
               </CardTitle>
               {!work ? (
@@ -2140,6 +2177,7 @@ async function ContentEditor({
               subtitleBatchPrompts={subtitleBatchPrompts}
               vkPrompts={vkPrompts}
               work={work}
+              todo={todo}
               youtubeBatchPrompts={youtubeBatchPrompts}
               youtubeLocaleConfig={youtubeLocaleConfig}
               youtubePrompts={youtubePrompts}
@@ -2183,6 +2221,7 @@ function StepForm({
   children,
   step,
   work,
+  todoId,
 }: {
   children: ReactNode;
   step:
@@ -2198,6 +2237,7 @@ function StepForm({
     | "pixiv"
     | "subtitles";
   work?: AdminMusicWork;
+  todoId?: string;
 }) {
   return (
     <AdminDirtyForm
@@ -2209,13 +2249,16 @@ function StepForm({
       {work ? (
         <input name="currentContentId" type="hidden" value={work.contentId} />
       ) : null}
+      {!work && todoId ? (
+        <input name="todoId" type="hidden" value={todoId} />
+      ) : null}
       <FieldStateGuide />
       {children}
     </AdminDirtyForm>
   );
 }
 
-function FieldStateGuide() {
+export function FieldStateGuide() {
   const items = [
     ["border-zinc-700 bg-zinc-900/40", "Empty"],
     ["border-sky-500 bg-sky-500/10", "Database"],
@@ -2956,6 +2999,7 @@ function MusicWorkForm({
   subtitleBatchPrompts: _subtitleBatchPrompts,
   vkPrompts,
   work,
+  todo,
   youtubeBatchPrompts: _youtubeBatchPrompts,
   youtubeLocaleConfig,
   youtubePrompts: _youtubePrompts,
@@ -2970,6 +3014,7 @@ function MusicWorkForm({
   subtitleBatchPrompts: AdminPromptOption[];
   vkPrompts: AdminPromptOption[];
   work?: AdminMusicWork;
+  todo?: AdminMusicTodo;
   youtubeBatchPrompts: AdminPromptOption[];
   youtubeLocaleConfig: AdminYoutubeLocaleOption[];
   youtubePrompts: AdminPromptOption[];
@@ -3015,7 +3060,7 @@ function MusicWorkForm({
   switch (currentStep) {
     case "metadata":
       return (
-        <StepForm step="metadata" work={work}>
+        <StepForm step="metadata" todoId={todo?.id} work={work}>
           <Section id="metadata" index={1} title="Metadata">
             <div className="grid gap-4 md:grid-cols-2">
               <Field
@@ -3037,7 +3082,7 @@ function MusicWorkForm({
                 label="Song title"
                 name="songTitle"
                 placeholder="Optional station title"
-                value={work?.songTitle}
+                value={work?.songTitle ?? todo?.title}
               />
             </div>
             <StepSaveButton label="Save metadata" />
@@ -3075,7 +3120,7 @@ function MusicWorkForm({
       );
     case "from":
       return (
-        <StepForm step="from" work={work}>
+        <StepForm step="from" todoId={todo?.id} work={work}>
           <Section id="from" index={3} title="From">
             <div className="grid gap-4 md:grid-cols-2">
               <SelectField
@@ -3092,20 +3137,20 @@ function MusicWorkForm({
                 label="Title"
                 name="fromTitle"
                 placeholder="Original song or source work title"
-                value={work?.fromTitle}
+                value={work?.fromTitle ?? todo?.from}
               />
               <Field
                 label="Artist tags"
                 name="fromArtists"
                 placeholder="T.M.Revolution, See-Saw"
-                value={work?.fromArtists?.join(", ")}
+                value={work?.fromArtists?.join(", ") ?? todo?.sourceArtists}
               />
               <Field
                 label="Source"
                 name="fromSource"
                 placeholder="YouTube, Bilibili, wiki, official site..."
                 type="url"
-                value={work?.fromSource}
+                value={work?.fromSource ?? todo?.sourceUrl}
               />
               <Field
                 label="IP"
@@ -3732,7 +3777,7 @@ function getYoutubeLocaleLabel(locale: string) {
   return (SITE_LOCALE_LABELS as Record<string, string>)[locale] ?? locale;
 }
 
-function Field({
+export function Field({
   label,
   name,
   placeholder,
@@ -3852,7 +3897,7 @@ function getYouTubePublicationDescription(status: YouTubePublicationStatus) {
   return "A YouTube ID is saved, but the latest availability check failed or is still pending.";
 }
 
-function SelectField({
+export function SelectField({
   label,
   name,
   options,
@@ -3897,7 +3942,7 @@ function SelectField({
   );
 }
 
-function TextArea({
+export function TextArea({
   label,
   name,
   placeholder,

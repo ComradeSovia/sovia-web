@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   Link2,
   ListMusic,
+  ListTodo,
   LogOut,
   Plus,
   SlidersHorizontal,
@@ -119,7 +120,12 @@ export function AdminSidebar({
   const isContentEditor =
     pathname === "/admin/content/new" || pathname.startsWith("/admin/content/");
 
-  const getStepHref = (step: AdminEditorStep) => `${pathname}?step=${step}`;
+  const getStepHref = (step: AdminEditorStep) => {
+    const params = new URLSearchParams({ step });
+    const todoId = searchParams.get("todoId");
+    if (todoId) params.set("todoId", todoId);
+    return `${pathname}?${params.toString()}`;
+  };
   const title = isContentEditor ? "Content editor" : "Sovia Admin";
   const subtitle = isContentEditor ? "Structured record" : "control room";
   const basicItems: AdminFlowItem[] = [
@@ -255,6 +261,12 @@ export function AdminSidebar({
                       href: "/admin/content",
                       icon: ListMusic,
                       label: "Works",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/todo"),
+                      href: "/admin/todo",
+                      icon: ListTodo,
+                      label: "Todo",
                     },
                     {
                       active: pathname.startsWith("/admin/analytics"),

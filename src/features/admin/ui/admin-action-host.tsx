@@ -2,7 +2,11 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getAdminAction, getAdminPageActions } from "../actions/registry";
+import {
+  getAdminAction,
+  getAdminPageActions,
+  getAdminTodoPageActions,
+} from "../actions/registry";
 import type {
   AdminActionDefinition,
   AdminActionInputValues,
@@ -44,7 +48,9 @@ export function AdminActionHost({ enabled }: { enabled: boolean }) {
     : undefined;
   const pageActions = contentId
     ? getAdminPageActions(searchParams.get("step"))
-    : [];
+    : pathname === "/admin/todo"
+      ? getAdminTodoPageActions()
+      : [];
   const selectedAction = getAdminAction(searchParams.get("action") ?? "");
   const activeAction =
     pendingAction ??

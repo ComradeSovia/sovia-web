@@ -25,6 +25,7 @@ import {
   listAdminMusicWorks,
   saveMusicWork,
 } from "./data/music-admin";
+import { completeAdminMusicTodo, getAdminMusicTodo } from "./data/music-todos";
 import { getYoutubeLanguageCatalogLabel } from "./data/youtube-language-catalog";
 import {
   deleteAdminYoutubeLocale,
@@ -99,12 +100,19 @@ function redirectWithActionMessage(
   );
 }
 
-function getEditorErrorPath(contentId?: string, step?: string) {
+function getEditorErrorPath(
+  contentId?: string,
+  step?: string,
+  todoId?: string,
+) {
   const base = contentId
     ? `/admin/content/${encodeURIComponent(contentId)}`
     : "/admin/content/new";
-
-  return step ? `${base}?step=${encodeURIComponent(step)}` : base;
+  const params = new URLSearchParams();
+  if (step) params.set("step", step);
+  if (!contentId && todoId) params.set("todoId", todoId);
+  const search = params.toString();
+  return search ? `${base}?${search}` : base;
 }
 
 function getPromptErrorPath() {
@@ -635,6 +643,9 @@ export async function saveMusicWorkStepAction(formData: FormData) {
 
   const stepValue = getString(formData, "adminStep");
   const currentContentId = getOptionalString(formData, "currentContentId");
+  const todoId = currentContentId
+    ? undefined
+    : getOptionalString(formData, "todoId");
   let step: MusicWorkStep;
   let draft: MusicWorkDraft;
 
@@ -652,15 +663,37 @@ export async function saveMusicWorkStepAction(formData: FormData) {
       formData,
       step,
     );
+    const todo = todoId ? await getAdminMusicTodo(todoId) : null;
+    if (todoId && !todo) throw new Error("Todo could not be found.");
+    if (todo?.contentId) {
+      throw new Error("Todo is already linked to a Content record.");
+    }
+    if (todo) {
+      const artists = todo.sourceArtists
+        ?.split(",")
+        .map((value) => value.trim())
+        .filter(Boolean);
+      draft.songTitle ??= todo.title;
+      draft.title = draft.songTitle ?? draft.title;
+      draft.musicStyle = draft.workType;
+      draft.fromTitle ??= todo.from;
+      draft.fromArtists ??= artists?.length ? artists : undefined;
+      draft.fromSource ??= todo.sourceUrl;
+      draft.original ??= draft.fromTitle;
+      draft.inspiredByTitle ??= draft.fromTitle;
+      draft.inspiredByAuthor ??= draft.fromArtists?.join(", ");
+      draft.inspiredByDetail ??= draft.fromSource;
+    }
     await assertUniqueContentId(draft.contentId, currentContentId);
     await saveMusicWork({
       currentContentId,
       work: draft,
     });
+    if (todoId) await completeAdminMusicTodo(todoId, draft.contentId);
   } catch (error) {
     console.error("Failed to save music work step.", error);
     redirectWithActionError(
-      getEditorErrorPath(currentContentId, stepValue || undefined),
+      getEditorErrorPath(currentContentId, stepValue || undefined, todoId),
       error,
       "Database error.",
     );
@@ -668,6 +701,7 @@ export async function saveMusicWorkStepAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/admin/content");
+  revalidatePath("/admin/todo");
   revalidatePath("/sound");
   if (draft.path) {
     revalidatePath(`/sound/${draft.path}`);

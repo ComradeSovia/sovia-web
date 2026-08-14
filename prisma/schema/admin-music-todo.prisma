@@ -1,0 +1,26 @@
+enum AdminMusicTodoStatus {
+  PROPOSED
+  PLANNING
+  COMPLETED
+}
+
+model AdminMusicTodo {
+  id            String               @id @default(cuid())
+  title         String
+  status        AdminMusicTodoStatus @default(PROPOSED)
+  from          String?
+  sourceArtists String?
+  sourceUrl     String?
+  notes         String?
+  heatScore     Float                @default(0)
+  voteCount     Int                  @default(0)
+  lastVotedAt   DateTime?
+  contentId     String?              @unique
+  completedAt   DateTime?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  content       MusicWork?           @relation(fields: [contentId], references: [contentId], onDelete: Restrict)
+
+  @@index([status, heatScore])
+  @@map("admin_music_todos")
+}

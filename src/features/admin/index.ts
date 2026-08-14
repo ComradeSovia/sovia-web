@@ -14,3 +14,4 @@ export {
   AdminPromptsPage,
   AdminYoutubeI18nPage,
 } from "./ui/admin-content";
+export { AdminTodoPage } from "./ui/admin-todo";

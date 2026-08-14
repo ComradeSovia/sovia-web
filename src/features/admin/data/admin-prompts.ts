@@ -12,6 +12,7 @@ export const SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK =
 export const BILIBILI_COPY_PROMPT_TASK = "music.bilibili.copy.generate";
 export const VK_COPY_PROMPT_TASK = "music.vk.copy.generate";
 export const PIXIV_COPY_PROMPT_TASK = "music.pixiv.copy.generate";
+export const TODO_PROPOSAL_ANALYSIS_PROMPT_TASK = "todo.proposal.analyze";
 export const DEFAULT_PROMPT_VARIANT = "default";
 export const ADMIN_PROMPT_TASK_OPTIONS = [
   {
@@ -45,6 +46,10 @@ export const ADMIN_PROMPT_TASK_OPTIONS = [
   {
     label: "Pixiv copy generator",
     value: PIXIV_COPY_PROMPT_TASK,
+  },
+  {
+    label: "Todo proposal analysis",
+    value: TODO_PROPOSAL_ANALYSIS_PROMPT_TASK,
   },
 ] as const;
 

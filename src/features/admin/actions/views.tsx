@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentType, ReactNode } from "react";
+import { AdminTodoProposalActionView } from "../ui/admin-todo-proposal-panel";
 import type { AdminActionFormOutput } from "./form-output";
 import type {
   AdminActionDefinition,
@@ -24,7 +25,9 @@ export type AdminActionViewProps = {
 const ADMIN_ACTION_VIEWS: Record<
   string,
   ComponentType<AdminActionViewProps>
-> = {};
+> = {
+  "todo-proposal-analysis": AdminTodoProposalActionView,
+};
 
 export function getAdminActionView(action: AdminActionDefinition) {
   if (

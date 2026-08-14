@@ -14,11 +14,21 @@ export const metadata: Metadata = {
 export default async function AdminNewContentRoute({
   searchParams,
 }: {
-  searchParams: Promise<{ message?: string; status?: string; step?: string }>;
+  searchParams: Promise<{
+    message?: string;
+    status?: string;
+    step?: string;
+    todoId?: string;
+  }>;
 }) {
-  const { message, status, step } = await searchParams;
+  const { message, status, step, todoId } = await searchParams;
 
   return (
-    <AdminContentEditorPage message={message} status={status} step={step} />
+    <AdminContentEditorPage
+      message={message}
+      status={status}
+      step={step}
+      todoId={todoId}
+    />
   );
 }

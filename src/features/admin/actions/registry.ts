@@ -25,6 +25,7 @@ const PROMPT_TASK = {
   pixiv: "music.pixiv.copy.generate",
   related: "music.related.suggest",
   subtitles: "music.subtitles.localization.batch.generate",
+  todoProposals: "todo.proposal.analyze",
   vk: "music.vk.copy.generate",
   youtube: "music.youtube.localization.generate",
   youtubeBatch: "music.youtube.localization.batch.generate",
@@ -47,6 +48,35 @@ const preview = { mode: "preview" } as const;
 const noOutput = { mode: "none" } as const;
 
 export const ADMIN_ACTIONS = [
+  {
+    availability: {},
+    closeOn: [],
+    description:
+      "Analyze audience comments or any free-form text and turn concrete music requests into editable Todo proposals.",
+    execution: {
+      endpoint: "/admin/api/todo/analyze-proposals",
+      method: "POST",
+      type: "http",
+    },
+    id: "todo.analyze-proposals",
+    inputs: [
+      {
+        description:
+          "Paste audience comments, messages, notes, or any other source text. This input is not saved.",
+        key: "sourceText",
+        label: "Source text",
+        required: true,
+        type: "textarea",
+        url: "omit",
+      },
+      promptInput(PROMPT_TASK.todoProposals),
+    ],
+    output: noOutput,
+    presentation: { type: "custom", view: "todo-proposal-analysis" },
+    scope: "todo",
+    title: "Analysis Proposal",
+    type: "ai",
+  },
   {
     availability: { pageSteps: ["description"] },
     description:
@@ -366,6 +396,10 @@ export function getAdminPageActions(step?: string | null) {
       action.scope === "content" &&
       hasPageStep(action.availability.pageSteps, step),
   );
+}
+
+export function getAdminTodoPageActions() {
+  return ADMIN_ACTIONS.filter((action) => action.scope === "todo");
 }
 
 function hasPageStep(

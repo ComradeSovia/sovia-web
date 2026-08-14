@@ -177,11 +177,13 @@ export function AdminConfirmForm({
   action,
   children,
   className,
+  confirmLabel = "Clear data",
   message,
 }: {
   action: (formData: FormData) => void | Promise<void>;
   children: ReactNode;
   className?: string;
+  confirmLabel?: string;
   message: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -210,7 +212,7 @@ export function AdminConfirmForm({
         {children}
       </form>
       <AdminConfirmDialog
-        confirmLabel="Clear data"
+        confirmLabel={confirmLabel}
         message={message}
         onCancel={() => setOpen(false)}
         onConfirm={() => {
