@@ -49,6 +49,61 @@ const noOutput = { mode: "none" } as const;
 
 export const ADMIN_ACTIONS = [
   {
+    after: { onCompleted: [{ type: "refresh-context" as const }] },
+    availability: {},
+    description: "Add one music adaptation idea to the Todo list.",
+    execution: {
+      endpoint: "/admin/api/todo",
+      method: "POST",
+      type: "http",
+    },
+    id: "todo.create",
+    inputs: [
+      {
+        description: "The song you want to adapt.",
+        key: "title",
+        label: "Song title",
+        required: true,
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "The work this song comes from.",
+        key: "from",
+        label: "From",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "The original artist, composer, performer, or author.",
+        key: "sourceArtists",
+        label: "Source artists",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description:
+          "A YouTube, Spotify, Apple Music, or similar reference URL.",
+        key: "sourceUrl",
+        label: "Source URL",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "Adaptation ideas, changes, mood, style, or direction.",
+        key: "notes",
+        label: "Notes",
+        type: "textarea",
+        url: "omit",
+      },
+    ],
+    output: noOutput,
+    presentation: standard,
+    scope: "todo",
+    title: "Add Todo",
+    type: "default",
+  },
+  {
     availability: {},
     closeOn: [],
     description:

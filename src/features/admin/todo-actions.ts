@@ -6,7 +6,6 @@ import { requireAdminSession } from "./data/auth";
 import {
   ADMIN_MUSIC_TODO_STATUSES,
   type AdminMusicTodoStatus,
-  createAdminMusicTodo,
   createAdminMusicTodos,
   deleteAdminMusicTodo,
   returnAdminMusicTodoToPlanning,
@@ -67,20 +66,6 @@ function getErrorMessage(error: unknown) {
   return error instanceof Error && error.message
     ? error.message
     : "Todo action failed.";
-}
-
-export async function createAdminMusicTodoAction(formData: FormData) {
-  await requireAdminSession();
-  const returnTo = getTodoReturnPath(formData);
-
-  try {
-    await createAdminMusicTodo(getTodoInput(formData));
-  } catch (error) {
-    redirectWithMessage(returnTo, getErrorMessage(error), "error");
-  }
-
-  revalidatePath("/admin/todo");
-  redirectWithMessage(returnTo, "Todo added.", "success");
 }
 
 export async function createAdminMusicTodoBatchAction(formData: FormData) {

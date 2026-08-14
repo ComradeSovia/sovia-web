@@ -23,7 +23,6 @@ import {
   listAdminMusicTodos,
 } from "../data/music-todos";
 import {
-  createAdminMusicTodoAction,
   deleteAdminMusicTodoAction,
   returnAdminMusicTodoToPlanningAction,
   updateAdminMusicTodoAction,
@@ -64,6 +63,12 @@ function getFilterHref(filter: TodoFilter) {
 
 function getReturnPath(filter: TodoFilter) {
   return getFilterHref(filter);
+}
+
+function getActionHref(filter: TodoFilter, action: string) {
+  const path = getFilterHref(filter);
+  const separator = path.includes("?") ? "&" : "?";
+  return `${path}${separator}action=${encodeURIComponent(action)}`;
 }
 
 function getStatusLabel(status: AdminMusicTodoStatus) {
@@ -118,8 +123,6 @@ async function TodoList({
       allTodos.filter((todo) => todo.status === option.value).length,
     ]),
   ) as Record<AdminMusicTodoStatus, number>;
-  const returnTo = getReturnPath(filter);
-
   return (
     <section className="space-y-5">
       <AdminActionToast message={message} status={status} />
@@ -132,73 +135,36 @@ async function TodoList({
           </div>
           <CardTitle className="text-3xl text-zinc-100">Todo</CardTitle>
           <CardDescription className="text-zinc-400">
-            Capture song ideas, move them into planning, then create Content
-            when they are ready.
+            Add ideas from Actions, move them into planning, then create Content
+            when they are ready. AI can analyze audience feedback into multiple
+            proposals.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <AdminDirtyForm
-            action={createAdminMusicTodoAction}
-            className="grid gap-4 rounded-md border border-zinc-800 bg-zinc-950 p-4"
-          >
-            <input name="returnTo" type="hidden" value={returnTo} />
-            <input name="todoStatus" type="hidden" value="PROPOSED" />
-            <FieldStateGuide />
-            <div className="grid gap-4 md:grid-cols-2">
-              <Field
-                label="Song title"
-                name="title"
-                placeholder="Song you want to adapt"
-                required
-              />
-              <Field
-                label="From"
-                name="from"
-                placeholder="Work this song comes from"
-              />
-              <Field
-                label="Source artists"
-                name="sourceArtists"
-                placeholder="Original artist or author"
-              />
-              <Field
-                label="Source URL"
-                name="sourceUrl"
-                placeholder="YouTube, Spotify, or Apple Music URL"
-                type="url"
-              />
-              <TextArea
-                label="Notes"
-                name="notes"
-                placeholder="Adaptation ideas and direction"
-                rows={3}
-              />
-            </div>
-            <div className="flex justify-end">
-              <Button className={PRIMARY_BUTTON_CLASS} type="submit">
-                <Plus className="mr-2 h-4 w-4" />
-                Add proposal
-              </Button>
-            </div>
-          </AdminDirtyForm>
-        </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-2">
-        <Button asChild variant={filter === "ALL" ? "default" : "outline"}>
-          <Link href={getFilterHref("ALL")}>All {allTodos.length}</Link>
-        </Button>
-        {STATUS_OPTIONS.map((option) => (
-          <Button
-            asChild
-            key={option.value}
-            variant={filter === option.value ? "default" : "outline"}
-          >
-            <Link href={getFilterHref(option.value)}>
-              {option.label} {counts[option.value]}
-            </Link>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap gap-2">
+          <Button asChild variant={filter === "ALL" ? "default" : "outline"}>
+            <Link href={getFilterHref("ALL")}>All {allTodos.length}</Link>
           </Button>
-        ))}
+          {STATUS_OPTIONS.map((option) => (
+            <Button
+              asChild
+              key={option.value}
+              variant={filter === option.value ? "default" : "outline"}
+            >
+              <Link href={getFilterHref(option.value)}>
+                {option.label} {counts[option.value]}
+              </Link>
+            </Button>
+          ))}
+        </div>
+        <Button asChild className={PRIMARY_BUTTON_CLASS}>
+          <Link href={getActionHref(filter, "todo.create")}>
+            <Plus className="size-4" />
+            Add Todo
+          </Link>
+        </Button>
       </div>
 
       {todos.length ? (
