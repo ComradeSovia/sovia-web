@@ -1,19 +1,8 @@
-import {
-  CheckCircle2,
-  CircleDot,
-  Flame,
-  ListTodo,
-  Plus,
-  Save,
-  Trash2,
-  Wrench,
-} from "lucide-react";
+import { ListTodo, Plus, Save, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -71,23 +60,19 @@ function getActionHref(filter: TodoFilter, action: string) {
   return `${path}${separator}action=${encodeURIComponent(action)}`;
 }
 
-function getStatusLabel(status: AdminMusicTodoStatus) {
-  return (
-    STATUS_OPTIONS.find((option) => option.value === status)?.label ?? status
-  );
-}
-
-function getStatusIcon(status: AdminMusicTodoStatus) {
-  if (status === "COMPLETED") return CheckCircle2;
-  if (status === "PLANNING") return Wrench;
-  return CircleDot;
+function getEditHref(filter: TodoFilter, todoId: string) {
+  const path = getFilterHref(filter);
+  const separator = path.includes("?") ? "&" : "?";
+  return `${path}${separator}edit=${encodeURIComponent(todoId)}`;
 }
 
 export async function AdminTodoPage({
+  edit,
   filter,
   message,
   status,
 }: {
+  edit?: string;
   filter?: string;
   message?: string;
   status?: string;
@@ -95,6 +80,7 @@ export async function AdminTodoPage({
   return (
     <AdminGate returnTo="/admin/todo">
       <TodoList
+        editId={edit}
         filter={matchFilter(filter)}
         message={message}
         status={status === "success" ? "success" : "error"}
@@ -104,10 +90,12 @@ export async function AdminTodoPage({
 }
 
 async function TodoList({
+  editId,
   filter,
   message,
   status,
 }: {
+  editId?: string;
   filter: TodoFilter;
   message?: string;
   status: "error" | "success";
@@ -168,9 +156,14 @@ async function TodoList({
       </div>
 
       {todos.length ? (
-        <div className="grid gap-4">
+        <div className="divide-y divide-zinc-800 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
           {todos.map((todo) => (
-            <TodoCard filter={filter} key={todo.id} todo={todo} />
+            <TodoRow
+              editing={editId === todo.id}
+              filter={filter}
+              key={todo.id}
+              todo={todo}
+            />
           ))}
         </div>
       ) : (
@@ -182,70 +175,74 @@ async function TodoList({
   );
 }
 
-function TodoCard({
+function TodoRow({
+  editing,
   filter,
   todo,
 }: {
+  editing: boolean;
   filter: TodoFilter;
   todo: AdminMusicTodo;
 }) {
-  const StatusIcon = getStatusIcon(todo.status);
   const returnTo = getReturnPath(filter);
   const completed = todo.status === "COMPLETED";
+  const startHref =
+    completed && todo.contentId
+      ? `/admin/content/${encodeURIComponent(todo.contentId)}`
+      : `/admin/content/new?todoId=${encodeURIComponent(todo.id)}`;
+  const songAndArtist = todo.sourceArtists
+    ? `${todo.title} - ${todo.sourceArtists}`
+    : todo.title;
 
   return (
-    <Card className={CARD_CLASS}>
-      <CardHeader className="gap-4 md:flex-row md:items-start md:justify-between">
-        <div className="min-w-0">
-          <div className="mb-2 flex flex-wrap items-center gap-2">
-            <Badge className="border-zinc-700 bg-zinc-950 text-zinc-200">
-              <StatusIcon className="mr-1 h-3.5 w-3.5" />
-              {getStatusLabel(todo.status)}
-            </Badge>
-            <Badge
-              className="border-zinc-700 bg-transparent text-zinc-400"
-              variant="outline"
-            >
-              <Flame className="mr-1 h-3.5 w-3.5" />
-              {todo.heatScore.toFixed(1)} · {todo.voteCount} votes
-            </Badge>
-          </div>
-          <CardTitle className="break-words text-xl text-zinc-100">
-            {todo.title}
-          </CardTitle>
-          <CardDescription className="mt-2 text-zinc-400">
-            {[todo.from, todo.sourceArtists].filter(Boolean).join(" · ") ||
-              "No source details"}
-          </CardDescription>
-        </div>
-        <div className="flex shrink-0 flex-wrap gap-2">
-          {completed && todo.contentId ? (
-            <Button asChild className={PRIMARY_BUTTON_CLASS}>
-              <Link
-                href={`/admin/content/${encodeURIComponent(todo.contentId)}`}
-              >
-                Open Content · {todo.contentId}
-              </Link>
-            </Button>
+    <article>
+      <div className="flex items-start justify-between gap-5 px-4 py-4 sm:px-5">
+        <div className="min-w-0 space-y-1.5">
+          <h2 className="break-words font-medium text-zinc-100">
+            {songAndArtist}
+          </h2>
+          {todo.from || todo.sourceUrl ? (
+            <p className="break-words text-sm text-zinc-400">
+              {todo.sourceUrl ? (
+                <a
+                  className="underline decoration-zinc-600 underline-offset-4 hover:text-zinc-200"
+                  href={todo.sourceUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {todo.from || "Reference link"}
+                </a>
+              ) : (
+                todo.from
+              )}
+            </p>
+          ) : null}
+          {todo.notes ? (
+            <p className="max-w-4xl whitespace-pre-wrap text-sm leading-6 text-zinc-500">
+              {todo.notes}
+            </p>
           ) : (
-            <Button asChild className={PRIMARY_BUTTON_CLASS}>
-              <Link
-                href={`/admin/content/new?todoId=${encodeURIComponent(todo.id)}`}
-              >
-                Create Content
-              </Link>
-            </Button>
+            <p className="text-sm text-zinc-600">No notes</p>
           )}
         </div>
-      </CardHeader>
-      <CardContent>
-        <details className="rounded-md border border-zinc-800 bg-zinc-950 p-4">
-          <summary className="cursor-pointer text-sm font-medium text-zinc-200">
-            Edit details
-          </summary>
+        <div className="flex shrink-0 items-center gap-1 text-sm">
+          <Button asChild size="sm" variant="ghost">
+            <Link href={editing ? returnTo : getEditHref(filter, todo.id)}>
+              {editing ? "Close" : "Edit"}
+            </Link>
+          </Button>
+          <span className="text-zinc-700">|</span>
+          <Button asChild size="sm" variant="ghost">
+            <Link href={startHref}>Start</Link>
+          </Button>
+        </div>
+      </div>
+
+      {editing ? (
+        <div className="border-t border-zinc-800 bg-zinc-950 p-4 sm:p-5">
           <AdminDirtyForm
             action={updateAdminMusicTodoAction}
-            className="mt-4 grid gap-4"
+            className="grid gap-4"
           >
             <input name="returnTo" type="hidden" value={returnTo} />
             <input name="todoId" type="hidden" value={todo.id} />
@@ -332,8 +329,8 @@ function TodoCard({
               </AdminConfirmForm>
             )}
           </div>
-        </details>
-      </CardContent>
-    </Card>
+        </div>
+      ) : null}
+    </article>
   );
 }
