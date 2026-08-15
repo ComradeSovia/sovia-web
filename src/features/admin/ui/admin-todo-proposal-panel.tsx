@@ -2,13 +2,17 @@
 
 import { Sparkles, Trash2 } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { AdminActionViewProps } from "../actions/views";
-import { createAdminMusicTodoBatchAction } from "../todo-actions";
+import {
+  createAdminMusicTodoBatchAction,
+  deleteAdminMusicTodoAction,
+} from "../todo-actions";
+import { AdminConfirmForm } from "./admin-step-panels";
 
 const BUTTON_CLASS =
   "border-zinc-700 bg-zinc-800 text-zinc-100 shadow-none hover:bg-zinc-700";
@@ -22,6 +26,111 @@ type ProposalDraft = {
   sourceUrl: string;
   title: string;
 };
+
+export function AdminTodoEditActionView({
+  action,
+  busy,
+  execute,
+  renderInput,
+  run,
+  setInputValue,
+}: AdminActionViewProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const todoId = typeof run.input.todoId === "string" ? run.input.todoId : "";
+  const setInputValueRef = useRef(setInputValue);
+  setInputValueRef.current = setInputValue;
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const returnTo = getTodoReturnTo(pathname, searchParams);
+
+  useEffect(() => {
+    if (!todoId) {
+      setLoading(false);
+      setLoadError("Todo ID is required.");
+      return;
+    }
+
+    const controller = new AbortController();
+    async function loadTodo() {
+      setLoading(true);
+      setLoadError(null);
+      try {
+        const response = await fetch(
+          `/admin/api/todo/${encodeURIComponent(todoId)}`,
+          { signal: controller.signal },
+        );
+        const payload = (await response.json()) as Record<string, unknown> & {
+          message?: string;
+        };
+        if (!response.ok) {
+          throw new Error(payload.message || "Todo could not be loaded.");
+        }
+        for (const key of [
+          "title",
+          "from",
+          "sourceArtists",
+          "sourceUrl",
+          "notes",
+        ]) {
+          setInputValueRef.current(key, getString(payload[key]));
+        }
+        setStatus(getString(payload.status));
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        setLoadError(
+          error instanceof Error ? error.message : "Todo could not be loaded.",
+        );
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }
+
+    void loadTodo();
+    return () => controller.abort();
+  }, [todoId]);
+
+  return (
+    <div className="grid gap-4">
+      {loading ? (
+        <p className="text-sm text-zinc-400">Loading Todo...</p>
+      ) : null}
+      {!loading && !loadError ? action.inputs.map(renderInput) : null}
+      {loadError || run.error ? (
+        <p className="text-sm text-red-300">{loadError || run.error}</p>
+      ) : null}
+      {!loading && !loadError ? (
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800 pt-4">
+          {status !== "COMPLETED" ? (
+            <AdminConfirmForm
+              action={deleteAdminMusicTodoAction}
+              confirmLabel="Delete Todo"
+              message="Delete this Todo? This cannot be undone."
+            >
+              <input name="returnTo" type="hidden" value={returnTo} />
+              <input name="todoId" type="hidden" value={todoId} />
+              <Button type="submit" variant="destructive">
+                <Trash2 className="size-4" />
+                Delete
+              </Button>
+            </AdminConfirmForm>
+          ) : (
+            <span />
+          )}
+          <Button
+            className={BUTTON_CLASS}
+            disabled={busy}
+            onClick={execute}
+            type="button"
+          >
+            {busy ? "Saving..." : "Save changes"}
+          </Button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export function AdminTodoProposalActionView({
   action,
@@ -39,11 +148,7 @@ export function AdminTodoProposalActionView({
   }, [run.output]);
 
   const selected = proposals.filter((proposal) => proposal.selected);
-  const filter = searchParams.get("filter");
-  const returnTo =
-    pathname === "/admin/todo" && filter
-      ? `/admin/todo?filter=${encodeURIComponent(filter)}`
-      : "/admin/todo";
+  const returnTo = getTodoReturnTo(pathname, searchParams);
 
   function updateProposal(
     id: string,
@@ -251,4 +356,11 @@ function parseProposalOutput(output: unknown): ProposalDraft[] {
 
 function getString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
+}
+
+function getTodoReturnTo(pathname: string, searchParams: URLSearchParams) {
+  const filter = searchParams.get("filter");
+  return pathname === "/admin/todo" && filter
+    ? `/admin/todo?filter=${encodeURIComponent(filter)}`
+    : "/admin/todo";
 }

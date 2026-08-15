@@ -115,6 +115,67 @@ export async function completeAdminMusicTodo(id: string, contentId: string) {
   });
 }
 
+export async function startAdminMusicTodo({
+  contentId,
+  id,
+  workType,
+}: {
+  contentId: string;
+  id: string;
+  workType: string;
+}) {
+  const prisma = requirePrisma();
+
+  return prisma.$transaction(async (tx) => {
+    const [todo, existingContent] = await Promise.all([
+      tx.adminMusicTodo.findUnique({ where: { id } }),
+      tx.musicWork.findUnique({ where: { contentId } }),
+    ]);
+    if (!todo) throw new Error("Todo could not be found.");
+    if (todo.contentId) {
+      throw new Error("Todo is already linked to a Content record.");
+    }
+    if (existingContent) throw new Error("Content ID must be unique.");
+
+    const artists = (todo.sourceArtists ?? "")
+      .split(",")
+      .map((artist) => artist.trim())
+      .filter(Boolean);
+    await tx.musicWork.create({
+      data: {
+        content: {
+          create: {
+            introText: "",
+            lyrics: "",
+            productionNotes: "",
+            songTitle: todo.title,
+          },
+        },
+        contentId,
+        source: {
+          create: {
+            artists,
+            sourceUrl: todo.sourceUrl,
+            title: todo.from,
+          },
+        },
+        status: { create: { visible: false } },
+        subtitles: { create: { tracks: {} } },
+        workType,
+      },
+    });
+
+    await tx.adminMusicTodo.update({
+      data: {
+        completedAt: new Date(),
+        contentId,
+        status: "COMPLETED",
+      },
+      where: { id },
+    });
+  });
+}
+
 export async function returnAdminMusicTodoToPlanning(id: string) {
   return requirePrisma().adminMusicTodo.update({
     data: { completedAt: null, contentId: null, status: "PLANNING" },

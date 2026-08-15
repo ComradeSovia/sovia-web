@@ -1,7 +1,10 @@
 "use client";
 
 import type { ComponentType, ReactNode } from "react";
-import { AdminTodoProposalActionView } from "../ui/admin-todo-proposal-panel";
+import {
+  AdminTodoEditActionView,
+  AdminTodoProposalActionView,
+} from "../ui/admin-todo-proposal-panel";
 import type { AdminActionFormOutput } from "./form-output";
 import type {
   AdminActionDefinition,
@@ -19,6 +22,7 @@ export type AdminActionViewProps = {
   renderInput: (input: AdminActionInput) => ReactNode;
   run: AdminActionRun;
   saveOutput: () => void;
+  setInputValue: (key: string, value: string | boolean) => void;
   togglePreview: () => void;
 };
 
@@ -26,6 +30,7 @@ const ADMIN_ACTION_VIEWS: Record<
   string,
   ComponentType<AdminActionViewProps>
 > = {
+  "todo-edit": AdminTodoEditActionView,
   "todo-proposal-analysis": AdminTodoProposalActionView,
 };
 

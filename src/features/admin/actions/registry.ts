@@ -46,6 +46,13 @@ function promptInput(promptTask: string): AdminActionInput {
 const standard = { type: "standard" } as const;
 const preview = { mode: "preview" } as const;
 const noOutput = { mode: "none" } as const;
+const WORK_TYPE_OPTIONS = [
+  { label: "[O] Original", value: "O" },
+  { label: "[CO] Concept Original", value: "CO" },
+  { label: "[R] Reimagining", value: "R" },
+  { label: "[LC] Lyric Rework Cover", value: "LC" },
+  { label: "[C] Faithful Cover", value: "C" },
+] as const;
 
 export const ADMIN_ACTIONS = [
   {
@@ -58,6 +65,7 @@ export const ADMIN_ACTIONS = [
       type: "http",
     },
     id: "todo.create",
+    executeLabel: "Add Todo",
     inputs: [
       {
         description: "The song you want to adapt.",
@@ -101,6 +109,127 @@ export const ADMIN_ACTIONS = [
     presentation: standard,
     scope: "todo",
     title: "Add Todo",
+    type: "default",
+  },
+  {
+    after: { onCompleted: [{ type: "refresh-context" as const }] },
+    availability: { contextualOnly: true },
+    description: "Edit the selected Todo and save its planning details.",
+    execution: {
+      endpoint: "/admin/api/todo/:todoId",
+      method: "POST",
+      type: "http",
+    },
+    id: "todo.edit",
+    inputs: [
+      {
+        key: "todoId",
+        label: "Todo ID",
+        required: true,
+        type: "hidden",
+        url: "sync",
+        urlKey: "todo",
+      },
+      {
+        description: "The song you want to adapt.",
+        key: "title",
+        label: "Song title",
+        required: true,
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "The work this song comes from.",
+        key: "from",
+        label: "From",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "The original artist, composer, performer, or author.",
+        key: "sourceArtists",
+        label: "Source artists",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description:
+          "A YouTube, Spotify, Apple Music, or similar reference URL.",
+        key: "sourceUrl",
+        label: "Source URL",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "Adaptation ideas, changes, mood, style, or direction.",
+        key: "notes",
+        label: "Notes",
+        type: "textarea",
+        url: "omit",
+      },
+    ],
+    output: noOutput,
+    presentation: { type: "custom", view: "todo-edit" },
+    scope: "todo",
+    title: "Edit Todo",
+    type: "default",
+  },
+  {
+    after: {
+      onCompleted: [
+        {
+          path: "/admin/content/:contentId",
+          type: "navigate-output" as const,
+          valueKey: "contentId",
+        },
+      ],
+    },
+    availability: { contextualOnly: true },
+    closeOn: [],
+    description:
+      "Create a Content record from this Todo, mark it completed, and open the new Content editor.",
+    execution: {
+      endpoint: "/admin/api/todo/:todoId/start",
+      method: "POST",
+      type: "http",
+    },
+    id: "todo.start",
+    executeLabel: "Start",
+    inputs: [
+      {
+        key: "todoId",
+        label: "Todo ID",
+        required: true,
+        type: "hidden",
+        url: "sync",
+        urlKey: "todo",
+      },
+      {
+        description: "Unique ID for the new Content record.",
+        key: "contentId",
+        label: "Content ID / UID",
+        required: true,
+        type: "text",
+        url: "omit",
+      },
+      {
+        description: "How this adaptation relates to the source song.",
+        key: "workType",
+        label: "Work type",
+        options: WORK_TYPE_OPTIONS,
+        required: true,
+        type: "select",
+        url: "omit",
+      },
+    ],
+    output: noOutput,
+    presentation: {
+      confirmation:
+        "Starting creates and links a new Content record, then marks this Todo completed.",
+      type: "confirm",
+    },
+    scope: "todo",
+    title: "Start Todo",
     type: "default",
   },
   {
@@ -454,7 +583,10 @@ export function getAdminPageActions(step?: string | null) {
 }
 
 export function getAdminTodoPageActions() {
-  return ADMIN_ACTIONS.filter((action) => action.scope === "todo");
+  return ADMIN_ACTIONS.filter(
+    (action) =>
+      action.scope === "todo" && !("contextualOnly" in action.availability),
+  );
 }
 
 function hasPageStep(

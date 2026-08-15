@@ -1,8 +1,10 @@
 export type AdminActionInputType =
   | "checkbox"
   | "content"
+  | "hidden"
   | "json"
   | "prompt"
+  | "select"
   | "text"
   | "textarea"
   | "subtitleLocales"
@@ -19,6 +21,7 @@ export type AdminActionInput = {
   key: string;
   label: string;
   maxUrlLength?: number;
+  options?: readonly { label: string; value: string }[];
   promptTask?: string;
   required?: boolean;
   selectAllByDefault?: boolean;
@@ -65,6 +68,7 @@ export type AdminActionCompletionEffect =
   | { message: string; type: "toast" }
   | { target: string; type: "consume-output" }
   | { type: "refresh-context" }
+  | { path: string; type: "navigate-output"; valueKey: string }
   | { href: string; type: "navigate" };
 
 export type AdminActionPresentation =
@@ -82,6 +86,7 @@ export type AdminActionDefinition = {
     >
   >;
   availability: {
+    contextualOnly?: boolean;
     pageSteps?: readonly string[];
   };
   closeOn?: readonly AdminActionCloseEvent[];
@@ -97,6 +102,7 @@ export type AdminActionDefinition = {
     method: "POST";
     type: "form" | "http";
   };
+  executeLabel?: string;
   id: string;
   inputs: readonly AdminActionInput[];
   output: AdminActionOutput;

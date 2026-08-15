@@ -115,6 +115,20 @@ export function AdminActionLauncher({
     for (const effect of action.after?.[phase] ?? []) {
       if (effect.type === "refresh-context") router.refresh();
       if (effect.type === "navigate") router.push(effect.href);
+      if (effect.type === "navigate-output") {
+        const value =
+          output && typeof output === "object" && !Array.isArray(output)
+            ? (output as Record<string, unknown>)[effect.valueKey]
+            : undefined;
+        if (typeof value === "string" && value) {
+          router.push(
+            effect.path.replace(
+              `:${effect.valueKey}`,
+              encodeURIComponent(value),
+            ),
+          );
+        }
+      }
       if (effect.type === "toast") setNotice(effect.message);
       if (effect.type === "consume-output") {
         window.dispatchEvent(
@@ -173,7 +187,10 @@ export function AdminActionLauncher({
           applyEffects("onFailed");
           return;
         }
-      } else if (input.key !== "contentId" && value !== undefined) {
+      } else if (
+        (input.key !== "contentId" || action.scope !== "content") &&
+        value !== undefined
+      ) {
         body[input.key] = value;
       }
     }
@@ -208,11 +225,9 @@ export function AdminActionLauncher({
 
     setRun((current) => ({ ...current, status: "running" }));
     try {
-      const endpoint = action.execution.endpoint.replace(
-        ":contentId",
-        encodeURIComponent(
-          typeof contentId === "string" ? contentId.trim() : "",
-        ),
+      const endpoint = resolveActionEndpoint(
+        action.execution.endpoint,
+        run.input,
       );
       const result = action.execution.batch
         ? await executeBatchedHttpAction({
@@ -371,6 +386,7 @@ export function AdminActionLauncher({
             renderInput={renderInput}
             run={run}
             saveOutput={saveOutput}
+            setInputValue={updateValue}
             togglePreview={() => setResultOpen((current) => !current)}
           />
         ) : (
@@ -460,7 +476,7 @@ function StandardActionFooter({
             : "Running..."
           : run.status === "failed"
             ? "Retry action"
-            : "Run action"}
+            : (action.executeLabel ?? "Run action")}
       </Button>
     </>
   );
@@ -646,6 +662,8 @@ function ActionInput({
   value: string | boolean | undefined;
   values: AdminActionInputValues;
 }) {
+  if (input.type === "hidden") return null;
+
   const id = `admin-action-input-${input.key}`;
   const description = input.description ? (
     <p className="-mt-1 text-xs leading-5 text-zinc-500">{input.description}</p>
@@ -669,6 +687,34 @@ function ActionInput({
           {description}
         </span>
       </label>
+    );
+  }
+
+  if (input.type === "select") {
+    return (
+      <div className="grid gap-2">
+        <Label className="text-xs font-medium normal-case tracking-normal text-zinc-300">
+          {input.label}
+        </Label>
+        <Select
+          onValueChange={(nextValue) => onChange(input.key, nextValue)}
+          value={typeof value === "string" ? value : undefined}
+        >
+          <SelectTrigger className="w-full border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none focus-visible:ring-zinc-500">
+            <SelectValue
+              placeholder={`Select ${input.label.toLowerCase()}...`}
+            />
+          </SelectTrigger>
+          <SelectContent className="border-zinc-700 bg-zinc-950 text-zinc-100">
+            {input.options?.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {description}
+      </div>
     );
   }
 
@@ -1288,6 +1334,18 @@ function getSelectedLocales(value: string) {
 
 function getStringInputValue(value: string | boolean | undefined) {
   return typeof value === "string" ? value : undefined;
+}
+
+function resolveActionEndpoint(
+  endpoint: string,
+  input: AdminActionInputValues,
+) {
+  return endpoint.replace(/:([A-Za-z][A-Za-z0-9_]*)/g, (match, key) => {
+    const value = input[key];
+    return typeof value === "string" && value.trim()
+      ? encodeURIComponent(value.trim())
+      : match;
+  });
 }
 
 function getFormControlStringValue(form: HTMLFormElement, name: string) {

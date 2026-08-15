@@ -1,4 +1,4 @@
-import { ListTodo, Plus, Save, Trash2 } from "lucide-react";
+import { ListTodo, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,29 +8,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   type AdminMusicTodoStatus,
   listAdminMusicTodos,
 } from "../data/music-todos";
-import {
-  deleteAdminMusicTodoAction,
-  returnAdminMusicTodoToPlanningAction,
-  updateAdminMusicTodoAction,
-} from "../todo-actions";
 import { AdminActionToast } from "./admin-action-toast";
-import {
-  AdminGate,
-  Field,
-  FieldStateGuide,
-  SelectField,
-  TextArea,
-} from "./admin-content";
-import { AdminConfirmForm, AdminDirtyForm } from "./admin-step-panels";
+import { AdminGate } from "./admin-content";
 
 const CARD_CLASS = "border-zinc-800 bg-zinc-900 text-zinc-100 shadow-none";
 const PRIMARY_BUTTON_CLASS =
   "border-zinc-950 bg-zinc-950 text-white shadow-none hover:bg-zinc-800";
-const SECONDARY_BUTTON_CLASS =
-  "border-zinc-700 bg-zinc-800 text-zinc-100 shadow-none hover:bg-zinc-700";
 const STATUS_OPTIONS = [
   { label: "Proposed", value: "PROPOSED" },
   { label: "Planning", value: "PLANNING" },
@@ -50,29 +44,22 @@ function getFilterHref(filter: TodoFilter) {
   return filter === "ALL" ? "/admin/todo" : `/admin/todo?filter=${filter}`;
 }
 
-function getReturnPath(filter: TodoFilter) {
-  return getFilterHref(filter);
-}
-
-function getActionHref(filter: TodoFilter, action: string) {
+function getActionHref(
+  filter: TodoFilter,
+  action: string,
+  values: Record<string, string> = {},
+) {
   const path = getFilterHref(filter);
   const separator = path.includes("?") ? "&" : "?";
-  return `${path}${separator}action=${encodeURIComponent(action)}`;
-}
-
-function getEditHref(filter: TodoFilter, todoId: string) {
-  const path = getFilterHref(filter);
-  const separator = path.includes("?") ? "&" : "?";
-  return `${path}${separator}edit=${encodeURIComponent(todoId)}`;
+  const params = new URLSearchParams({ action, ...values });
+  return `${path}${separator}${params.toString()}`;
 }
 
 export async function AdminTodoPage({
-  edit,
   filter,
   message,
   status,
 }: {
-  edit?: string;
   filter?: string;
   message?: string;
   status?: string;
@@ -80,7 +67,6 @@ export async function AdminTodoPage({
   return (
     <AdminGate returnTo="/admin/todo">
       <TodoList
-        editId={edit}
         filter={matchFilter(filter)}
         message={message}
         status={status === "success" ? "success" : "error"}
@@ -90,12 +76,10 @@ export async function AdminTodoPage({
 }
 
 async function TodoList({
-  editId,
   filter,
   message,
   status,
 }: {
-  editId?: string;
   filter: TodoFilter;
   message?: string;
   status: "error" | "success";
@@ -156,15 +140,22 @@ async function TodoList({
       </div>
 
       {todos.length ? (
-        <div className="divide-y divide-zinc-800 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
-          {todos.map((todo) => (
-            <TodoRow
-              editing={editId === todo.id}
-              filter={filter}
-              key={todo.id}
-              todo={todo}
-            />
-          ))}
+        <div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-zinc-800 hover:bg-transparent">
+                <TableHead className="text-zinc-400">Todo</TableHead>
+                <TableHead className="w-40 text-right text-zinc-400">
+                  Actions
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {todos.map((todo) => (
+                <TodoRow filter={filter} key={todo.id} todo={todo} />
+              ))}
+            </TableBody>
+          </Table>
         </div>
       ) : (
         <div className="rounded-md border border-dashed border-zinc-700 px-4 py-10 text-center text-sm text-zinc-400">
@@ -176,33 +167,26 @@ async function TodoList({
 }
 
 function TodoRow({
-  editing,
   filter,
   todo,
 }: {
-  editing: boolean;
   filter: TodoFilter;
   todo: AdminMusicTodo;
 }) {
-  const returnTo = getReturnPath(filter);
   const completed = todo.status === "COMPLETED";
-  const startHref =
-    completed && todo.contentId
-      ? `/admin/content/${encodeURIComponent(todo.contentId)}`
-      : `/admin/content/new?todoId=${encodeURIComponent(todo.id)}`;
   const songAndArtist = todo.sourceArtists
     ? `${todo.title} - ${todo.sourceArtists}`
     : todo.title;
 
   return (
-    <article>
-      <div className="flex items-start justify-between gap-5 px-4 py-4 sm:px-5">
-        <div className="min-w-0 space-y-1.5">
-          <h2 className="break-words font-medium text-zinc-100">
+    <TableRow className="border-zinc-800 hover:bg-zinc-800/30">
+      <TableCell className="min-w-0 whitespace-normal py-3 align-top">
+        <div className="min-w-0 space-y-1">
+          <div className="break-words text-sm font-medium text-zinc-100">
             {songAndArtist}
-          </h2>
+          </div>
           {todo.from || todo.sourceUrl ? (
-            <p className="break-words text-sm text-zinc-400">
+            <div className="break-words text-xs text-zinc-400">
               {todo.sourceUrl ? (
                 <a
                   className="underline decoration-zinc-600 underline-offset-4 hover:text-zinc-200"
@@ -215,122 +199,38 @@ function TodoRow({
               ) : (
                 todo.from
               )}
-            </p>
+            </div>
           ) : null}
           {todo.notes ? (
-            <p className="max-w-4xl whitespace-pre-wrap text-sm leading-6 text-zinc-500">
+            <div className="max-w-4xl whitespace-pre-wrap text-xs leading-5 text-zinc-500">
               {todo.notes}
-            </p>
+            </div>
           ) : (
-            <p className="text-sm text-zinc-600">No notes</p>
+            <div className="text-xs text-zinc-600">No notes</div>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-1 text-sm">
+      </TableCell>
+      <TableCell className="py-3 text-right align-top">
+        <div className="inline-flex items-center gap-1 text-sm">
           <Button asChild size="sm" variant="ghost">
-            <Link href={editing ? returnTo : getEditHref(filter, todo.id)}>
-              {editing ? "Close" : "Edit"}
+            <Link href={getActionHref(filter, "todo.edit", { todo: todo.id })}>
+              Edit
             </Link>
           </Button>
           <span className="text-zinc-700">|</span>
           <Button asChild size="sm" variant="ghost">
-            <Link href={startHref}>Start</Link>
+            <Link
+              href={
+                completed && todo.contentId
+                  ? `/admin/content/${encodeURIComponent(todo.contentId)}`
+                  : getActionHref(filter, "todo.start", { todo: todo.id })
+              }
+            >
+              {completed ? "Open" : "Start"}
+            </Link>
           </Button>
         </div>
-      </div>
-
-      {editing ? (
-        <div className="border-t border-zinc-800 bg-zinc-950 p-4 sm:p-5">
-          <AdminDirtyForm
-            action={updateAdminMusicTodoAction}
-            className="grid gap-4"
-          >
-            <input name="returnTo" type="hidden" value={returnTo} />
-            <input name="todoId" type="hidden" value={todo.id} />
-            <FieldStateGuide />
-            <div className="grid gap-4 md:grid-cols-2">
-              <Field
-                label="Song title"
-                name="title"
-                placeholder="Song you want to adapt"
-                required
-                value={todo.title}
-              />
-              <SelectField
-                label="Status"
-                name="todoStatus"
-                options={
-                  completed ? [STATUS_OPTIONS[2]] : STATUS_OPTIONS.slice(0, 2)
-                }
-                value={todo.status}
-              />
-              <Field
-                label="From"
-                name="from"
-                placeholder="Work this song comes from"
-                value={todo.from}
-              />
-              <Field
-                label="Source artists"
-                name="sourceArtists"
-                placeholder="Original artist or author"
-                value={todo.sourceArtists}
-              />
-              <Field
-                label="Source URL"
-                name="sourceUrl"
-                placeholder="YouTube, Spotify, or Apple Music URL"
-                type="url"
-                value={todo.sourceUrl}
-              />
-              <TextArea
-                label="Notes"
-                name="notes"
-                placeholder="Adaptation ideas and direction"
-                rows={4}
-                value={todo.notes}
-              />
-            </div>
-            <div className="flex justify-end">
-              <Button className={PRIMARY_BUTTON_CLASS} type="submit">
-                <Save className="mr-2 h-4 w-4" />
-                Save Todo
-              </Button>
-            </div>
-          </AdminDirtyForm>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {completed ? (
-              <AdminConfirmForm
-                action={returnAdminMusicTodoToPlanningAction}
-                confirmLabel="Return to planning"
-                message="Return this Todo to planning and remove its Content link? The Content itself will not be deleted."
-              >
-                <input name="returnTo" type="hidden" value={returnTo} />
-                <input name="todoId" type="hidden" value={todo.id} />
-                <Button
-                  className={SECONDARY_BUTTON_CLASS}
-                  type="submit"
-                  variant="outline"
-                >
-                  Return to planning
-                </Button>
-              </AdminConfirmForm>
-            ) : (
-              <AdminConfirmForm
-                action={deleteAdminMusicTodoAction}
-                confirmLabel="Delete Todo"
-                message="Delete this Todo? This cannot be undone."
-              >
-                <input name="returnTo" type="hidden" value={returnTo} />
-                <input name="todoId" type="hidden" value={todo.id} />
-                <Button type="submit" variant="destructive">
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
-                </Button>
-              </AdminConfirmForm>
-            )}
-          </div>
-        </div>
-      ) : null}
-    </article>
+      </TableCell>
+    </TableRow>
   );
 }
