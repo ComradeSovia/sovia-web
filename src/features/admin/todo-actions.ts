@@ -48,7 +48,13 @@ function getTodoInput(formData: FormData) {
     sourceUrl,
     status: getStatus(getString(formData, "todoStatus") || "PROPOSED"),
     title: getString(formData, "title"),
+    visible: getFormBoolean(formData, "visible"),
   };
+}
+
+function getFormBoolean(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return value === "on" || value === "true" || value === "1";
 }
 
 function redirectWithMessage(

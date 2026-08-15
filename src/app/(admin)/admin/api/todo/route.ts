@@ -18,6 +18,7 @@ export async function POST(request: Request) {
       sourceUrl: sourceUrl || undefined,
       status: "PROPOSED",
       title: getString(body.title, 300),
+      visible: body.visible === true,
     });
 
     return NextResponse.json({ id: todo.id });

@@ -4,6 +4,7 @@ CREATE TABLE "admin_music_todos" (
   "id" TEXT NOT NULL,
   "title" TEXT NOT NULL,
   "status" "AdminMusicTodoStatus" NOT NULL DEFAULT 'PROPOSED',
+  "visible" BOOLEAN NOT NULL DEFAULT false,
   "from" TEXT,
   "sourceArtists" TEXT,
   "sourceUrl" TEXT,

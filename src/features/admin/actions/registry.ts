@@ -104,6 +104,14 @@ export const ADMIN_ACTIONS = [
         type: "textarea",
         url: "omit",
       },
+      {
+        description:
+          "Allow this Todo to be considered for future public display.",
+        key: "visible",
+        label: "Visible",
+        type: "checkbox",
+        url: "omit",
+      },
     ],
     output: noOutput,
     presentation: standard,
@@ -165,6 +173,14 @@ export const ADMIN_ACTIONS = [
         key: "notes",
         label: "Notes",
         type: "textarea",
+        url: "omit",
+      },
+      {
+        description:
+          "Allow this Todo to be considered for future public display.",
+        key: "visible",
+        label: "Visible",
+        type: "checkbox",
         url: "omit",
       },
     ],

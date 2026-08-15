@@ -42,6 +42,7 @@ export async function POST(
       sourceUrl: sourceUrl || undefined,
       status: current.status,
       title: getString(body.title, 300),
+      visible: body.visible === true,
     });
     return NextResponse.json({ id });
   } catch (error) {

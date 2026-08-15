@@ -145,6 +145,7 @@ async function TodoList({
             <TableHeader>
               <TableRow className="border-zinc-800 hover:bg-transparent">
                 <TableHead className="text-zinc-400">Todo</TableHead>
+                <TableHead className="w-24 text-zinc-400">Visibility</TableHead>
                 <TableHead className="w-40 text-right text-zinc-400">
                   Actions
                 </TableHead>
@@ -209,6 +210,17 @@ function TodoRow({
             <div className="text-xs text-zinc-600">No notes</div>
           )}
         </div>
+      </TableCell>
+      <TableCell className="py-3 align-top">
+        <span
+          className={`inline-flex rounded-full border px-2 py-0.5 text-xs ${
+            todo.visible
+              ? "border-emerald-700/70 bg-emerald-950/30 text-emerald-300"
+              : "border-zinc-700 text-zinc-500"
+          }`}
+        >
+          {todo.visible ? "Visible" : "Hidden"}
+        </span>
       </TableCell>
       <TableCell className="py-3 text-right align-top">
         <div className="inline-flex items-center gap-1 text-sm">

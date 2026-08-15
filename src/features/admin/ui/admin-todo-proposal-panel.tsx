@@ -76,6 +76,7 @@ export function AdminTodoEditActionView({
         ]) {
           setInputValueRef.current(key, getString(payload[key]));
         }
+        setInputValueRef.current("visible", payload.visible === true);
         setStatus(getString(payload.status));
       } catch (error) {
         if (controller.signal.aborted) return;

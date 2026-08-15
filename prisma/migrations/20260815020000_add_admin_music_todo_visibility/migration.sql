@@ -1,0 +1,2 @@
+ALTER TABLE "admin_music_todos"
+  ADD COLUMN IF NOT EXISTS "visible" BOOLEAN NOT NULL DEFAULT false;

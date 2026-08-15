@@ -16,6 +16,7 @@ export type AdminMusicTodoInput = {
   sourceUrl?: string | null;
   status: AdminMusicTodoStatus;
   title: string;
+  visible?: boolean;
 };
 
 function requirePrisma() {
@@ -213,5 +214,6 @@ function normalizeTodoInput(input: AdminMusicTodoInput) {
     sourceUrl: input.sourceUrl?.trim() || null,
     status: input.status,
     title: input.title.trim(),
+    visible: input.visible ?? false,
   };
 }

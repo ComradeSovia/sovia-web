@@ -8,6 +8,7 @@ model AdminMusicTodo {
   id            String               @id @default(cuid())
   title         String
   status        AdminMusicTodoStatus @default(PROPOSED)
+  visible       Boolean              @default(false)
   from          String?
   sourceArtists String?
   sourceUrl     String?
