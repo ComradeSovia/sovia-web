@@ -693,7 +693,7 @@ export async function deleteMusicWorkByContentId(contentId: string) {
   try {
     await prisma.$transaction([
       prisma.adminMusicTodo.updateMany({
-        data: { completedAt: null, contentId: null, status: "PLANNING" },
+        data: { completedAt: null, contentId: null, status: "PROPOSED" },
         where: { contentId },
       }),
       prisma.musicWork.deleteMany({ where: { contentId } }),

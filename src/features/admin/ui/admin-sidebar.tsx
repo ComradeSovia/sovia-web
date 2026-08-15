@@ -371,7 +371,7 @@ export function AdminSidebar({
                           action={deleteMusicWorkAction}
                           className="w-full"
                           confirmLabel="Delete Content"
-                          message={`Delete Content "${contentId}"? This permanently removes the Content record. A linked Todo will return to Planning.`}
+                          message={`Delete Content "${contentId}"? This permanently removes the Content record. A linked Todo will return to Proposed.`}
                           title="Delete Content?"
                         >
                           <input

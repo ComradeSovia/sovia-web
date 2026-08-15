@@ -25,7 +25,11 @@ import {
   listAdminMusicWorks,
   saveMusicWork,
 } from "./data/music-admin";
-import { completeAdminMusicTodo, getAdminMusicTodo } from "./data/music-todos";
+import {
+  completeAdminMusicTodo,
+  getAdminMusicTodo,
+  syncAdminMusicTodoPublicationStatus,
+} from "./data/music-todos";
 import { getYoutubeLanguageCatalogLabel } from "./data/youtube-language-catalog";
 import {
   deleteAdminYoutubeLocale,
@@ -616,6 +620,10 @@ export async function saveMusicWorkAction(formData: FormData) {
         youtubeLocalization,
       },
     });
+    await syncAdminMusicTodoPublicationStatus(
+      contentId,
+      Boolean(getOptionalString(formData, "publishedAt")),
+    );
   } catch (error) {
     console.error("Failed to save music work.", error);
     redirectWithActionError(
@@ -690,6 +698,10 @@ export async function saveMusicWorkStepAction(formData: FormData) {
       work: draft,
     });
     if (todoId) await completeAdminMusicTodo(todoId, draft.contentId);
+    await syncAdminMusicTodoPublicationStatus(
+      draft.contentId,
+      Boolean(draft.publishedAt),
+    );
   } catch (error) {
     console.error("Failed to save music work step.", error);
     redirectWithActionError(

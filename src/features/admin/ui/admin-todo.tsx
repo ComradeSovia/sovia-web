@@ -173,7 +173,7 @@ function TodoRow({
   filter: TodoFilter;
   todo: AdminMusicTodo;
 }) {
-  const completed = todo.status === "COMPLETED";
+  const hasContent = Boolean(todo.contentId);
   const songAndArtist = todo.sourceArtists
     ? `${todo.title} - ${todo.sourceArtists}`
     : todo.title;
@@ -221,12 +221,12 @@ function TodoRow({
           <Button asChild size="sm" variant="ghost">
             <Link
               href={
-                completed && todo.contentId
+                hasContent && todo.contentId
                   ? `/admin/content/${encodeURIComponent(todo.contentId)}`
                   : getActionHref(filter, "todo.start", { todo: todo.id })
               }
             >
-              {completed ? "Open" : "Start"}
+              {hasContent ? "Open" : "Start"}
             </Link>
           </Button>
         </div>

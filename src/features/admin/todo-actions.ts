@@ -122,7 +122,7 @@ export async function returnAdminMusicTodoToPlanningAction(formData: FormData) {
   }
 
   revalidatePath("/admin/todo");
-  redirectWithMessage(returnTo, "Todo returned to planning.", "success");
+  redirectWithMessage(returnTo, "Todo returned to proposed.", "success");
 }
 
 export async function deleteAdminMusicTodoAction(formData: FormData) {

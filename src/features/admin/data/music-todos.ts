@@ -106,9 +106,9 @@ export async function completeAdminMusicTodo(id: string, contentId: string) {
 
     return tx.adminMusicTodo.update({
       data: {
-        completedAt: new Date(),
+        completedAt: null,
         contentId,
-        status: "COMPLETED",
+        status: "PLANNING",
       },
       where: { id },
     });
@@ -167,18 +167,30 @@ export async function startAdminMusicTodo({
 
     await tx.adminMusicTodo.update({
       data: {
-        completedAt: new Date(),
+        completedAt: null,
         contentId,
-        status: "COMPLETED",
+        status: "PLANNING",
       },
       where: { id },
     });
   });
 }
 
+export async function syncAdminMusicTodoPublicationStatus(
+  contentId: string,
+  published: boolean,
+) {
+  return requirePrisma().adminMusicTodo.updateMany({
+    data: published
+      ? { completedAt: new Date(), status: "COMPLETED" }
+      : { completedAt: null, status: "PLANNING" },
+    where: { contentId },
+  });
+}
+
 export async function returnAdminMusicTodoToPlanning(id: string) {
   return requirePrisma().adminMusicTodo.update({
-    data: { completedAt: null, contentId: null, status: "PLANNING" },
+    data: { completedAt: null, contentId: null, status: "PROPOSED" },
     where: { id },
   });
 }

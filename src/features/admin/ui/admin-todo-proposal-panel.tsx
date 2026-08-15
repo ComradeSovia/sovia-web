@@ -106,7 +106,7 @@ export function AdminTodoEditActionView({
             <AdminConfirmForm
               action={deleteAdminMusicTodoAction}
               confirmLabel="Delete Todo"
-              message="Delete this Todo? This cannot be undone."
+              message="Delete this Todo? This cannot be undone. Any linked Content record will remain unchanged."
             >
               <input name="returnTo" type="hidden" value={returnTo} />
               <input name="todoId" type="hidden" value={todoId} />
