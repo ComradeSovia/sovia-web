@@ -691,7 +691,13 @@ export async function deleteMusicWorkByContentId(contentId: string) {
   }
 
   try {
-    await prisma.musicWork.deleteMany({ where: { contentId } });
+    await prisma.$transaction([
+      prisma.adminMusicTodo.updateMany({
+        data: { completedAt: null, contentId: null, status: "PLANNING" },
+        where: { contentId },
+      }),
+      prisma.musicWork.deleteMany({ where: { contentId } }),
+    ]);
   } catch (error) {
     throw new Error(getFriendlyDatabaseError(error));
   }

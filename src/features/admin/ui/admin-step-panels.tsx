@@ -179,12 +179,14 @@ export function AdminConfirmForm({
   className,
   confirmLabel = "Clear data",
   message,
+  title = "Clear step data?",
 }: {
   action: (formData: FormData) => void | Promise<void>;
   children: ReactNode;
   className?: string;
   confirmLabel?: string;
   message: string;
+  title?: string;
 }) {
   const [open, setOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -221,7 +223,7 @@ export function AdminConfirmForm({
           formRef.current?.requestSubmit();
         }}
         open={open}
-        title="Clear step data?"
+        title={title}
         variant="danger"
       />
     </>

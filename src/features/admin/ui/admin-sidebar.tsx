@@ -15,6 +15,7 @@ import {
   Plus,
   SlidersHorizontal,
   Sparkles,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -35,10 +36,12 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { deleteMusicWorkAction } from "../actions";
 import {
   type AdminEditorStep,
   matchAdminEditorStep,
 } from "./admin-editor-steps";
+import { AdminConfirmForm } from "./admin-step-panels";
 
 type AdminSidebarProps = {
   authenticated: boolean;
@@ -119,6 +122,11 @@ export function AdminSidebar({
   const currentStep = matchAdminEditorStep(searchParams.get("step"));
   const isContentEditor =
     pathname === "/admin/content/new" || pathname.startsWith("/admin/content/");
+  const contentMatch = /^\/admin\/content\/([^/]+)$/.exec(pathname);
+  const contentId =
+    contentMatch?.[1] && contentMatch[1] !== "new"
+      ? decodeURIComponent(contentMatch[1])
+      : undefined;
 
   const getStepHref = (step: AdminEditorStep) => {
     const params = new URLSearchParams({ step });
@@ -349,6 +357,45 @@ export function AdminSidebar({
                 <AdminFlowMenu items={subtitleItems} />
               </SidebarGroupContent>
             </SidebarGroup>
+            {contentId ? (
+              <>
+                <SidebarSeparator />
+                <SidebarGroup>
+                  <SidebarGroupLabel className="text-destructive">
+                    Danger Zone
+                  </SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <AdminConfirmForm
+                          action={deleteMusicWorkAction}
+                          className="w-full"
+                          confirmLabel="Delete Content"
+                          message={`Delete Content "${contentId}"? This permanently removes the Content record. A linked Todo will return to Planning.`}
+                          title="Delete Content?"
+                        >
+                          <input
+                            name="contentId"
+                            type="hidden"
+                            value={contentId}
+                          />
+                          <SidebarMenuButton
+                            asChild
+                            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                            tooltip="Delete Content"
+                          >
+                            <button type="submit">
+                              <Trash2 />
+                              <span>Delete Content</span>
+                            </button>
+                          </SidebarMenuButton>
+                        </AdminConfirmForm>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </>
+            ) : null}
           </>
         ) : (
           <>
