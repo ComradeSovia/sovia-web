@@ -95,10 +95,14 @@ export type AdminActionDefinition = {
     batch?: {
       inputKey: string;
       outputKey: string;
-      strategy: "subtitle-localizations";
+      strategy: "subtitle-localizations" | "youtube-localizations";
     };
     endpoint: string;
-    formContext?: "subtitle-translation" | "youtube-captions" | "youtube-sync";
+    formContext?:
+      | "subtitle-translation"
+      | "youtube-captions"
+      | "youtube-sync"
+      | "youtube-translation";
     method: "POST";
     type: "form" | "http";
   };

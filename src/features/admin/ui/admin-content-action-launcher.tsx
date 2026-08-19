@@ -518,7 +518,7 @@ async function executeBatchedHttpAction({
   onProgress: (message: string | null) => void;
 }) {
   const batch = action.execution.batch;
-  if (!batch || batch.strategy !== "subtitle-localizations") {
+  if (!batch) {
     return {
       payload: await requestAction(endpoint, body, action.title),
       warning: null,
@@ -539,14 +539,25 @@ async function executeBatchedHttpAction({
 
   const sourceLocale =
     typeof body.sourceLocale === "string" ? body.sourceLocale : "";
-  const subtitleTracks = isRecord(body.subtitleTracks)
-    ? body.subtitleTracks
-    : {};
-  const sourceSrt =
-    typeof subtitleTracks[sourceLocale] === "string"
-      ? subtitleTracks[sourceLocale]
-      : "";
-  const batchSize = getSubtitleBatchSize(sourceSrt.length);
+  const isSubtitleBatch = batch.strategy === "subtitle-localizations";
+  const localizedContent = isSubtitleBatch
+    ? isRecord(body.subtitleTracks)
+      ? body.subtitleTracks
+      : {}
+    : isRecord(body.youtubeLocalization)
+      ? body.youtubeLocalization
+      : {};
+  const sourceValue = localizedContent[sourceLocale];
+  const sourceLength = isSubtitleBatch
+    ? typeof sourceValue === "string"
+      ? sourceValue.length
+      : 0
+    : isRecord(sourceValue) && typeof sourceValue.description === "string"
+      ? sourceValue.description.length
+      : 0;
+  const batchSize = isSubtitleBatch
+    ? getSubtitleBatchSize(sourceLength)
+    : getYoutubeBatchSize(sourceLength);
   const batches = chunkValues(targets, batchSize);
   const outputByLocale = new Map<string, Record<string, unknown>>();
   const failedLocales = new Set<string>();
@@ -558,13 +569,24 @@ async function executeBatchedHttpAction({
         ...body,
         [batchInputKey]: targetLocales,
       };
-      if (sourceLocale && sourceSrt) {
+      if (isSubtitleBatch && sourceLocale && typeof sourceValue === "string") {
         batchBody.subtitleTracks = {
-          [sourceLocale]: sourceSrt,
+          [sourceLocale]: sourceValue,
           ...Object.fromEntries(
             targetLocales.flatMap((locale) =>
-              typeof subtitleTracks[locale] === "string"
-                ? [[locale, subtitleTracks[locale]]]
+              typeof localizedContent[locale] === "string"
+                ? [[locale, localizedContent[locale]]]
+                : [],
+            ),
+          ),
+        };
+      } else if (!isSubtitleBatch && sourceLocale && isRecord(sourceValue)) {
+        batchBody.youtubeLocalization = {
+          [sourceLocale]: sourceValue,
+          ...Object.fromEntries(
+            targetLocales.flatMap((locale) =>
+              isRecord(localizedContent[locale])
+                ? [[locale, localizedContent[locale]]]
                 : [],
             ),
           ),
@@ -578,8 +600,12 @@ async function executeBatchedHttpAction({
           (candidate) =>
             isRecord(candidate) &&
             candidate.locale === locale &&
-            typeof candidate.srt === "string" &&
-            candidate.srt.trim(),
+            (isSubtitleBatch
+              ? typeof candidate.srt === "string" && candidate.srt.trim()
+              : typeof candidate.title === "string" &&
+                candidate.title.trim() &&
+                typeof candidate.description === "string" &&
+                candidate.description.trim()),
         );
         if (isRecord(item)) {
           outputByLocale.set(locale, item);
@@ -618,7 +644,7 @@ async function executeBatchedHttpAction({
   });
   if (!localizations.length) {
     throw new Error(
-      `Subtitle translation failed for: ${Array.from(failedLocales).join(", ") || targets.join(", ")}.`,
+      `${isSubtitleBatch ? "Subtitle" : "YouTube"} translation failed for: ${Array.from(failedLocales).join(", ") || targets.join(", ")}.`,
     );
   }
 
@@ -628,6 +654,14 @@ async function executeBatchedHttpAction({
       ? `Translated ${localizations.length} of ${targets.length}. Failed: ${Array.from(failedLocales).join(", ")}.`
       : `Translated all ${localizations.length} target languages.`,
   };
+}
+
+function getYoutubeBatchSize(sourceDescriptionLength: number) {
+  // Global Actions do not load saved localization text until the server handles
+  // the request, so use one locale per request when its size is unknown.
+  if (!sourceDescriptionLength || sourceDescriptionLength > 2_500) return 1;
+  if (sourceDescriptionLength > 1_200) return 2;
+  return 3;
 }
 
 function getSubtitleBatchSize(sourceSrtLength: number) {

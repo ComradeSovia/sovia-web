@@ -409,8 +409,14 @@ export const ADMIN_ACTIONS = [
     description:
       "Translate the saved primary YouTube localization into every other enabled YouTube locale.",
     execution: {
+      batch: {
+        inputKey: "targetLocales",
+        outputKey: "localizations",
+        strategy: "youtube-localizations",
+      },
       endpoint:
         "/admin/api/content/:contentId/generate-youtube-localization-batch",
+      formContext: "youtube-translation",
       method: "POST",
       type: "http",
     },
@@ -418,14 +424,22 @@ export const ADMIN_ACTIONS = [
     inputs: [
       CONTENT_ID_INPUT,
       {
-        allowDefault: true,
-        defaultOptionLabel: "Use saved primary YouTube locale",
+        defaultFromFormField: "youtubePrimaryLocale",
         description:
-          "Leave empty to use the content record's saved primary YouTube locale.",
+          "Defaults to the current form's primary YouTube locale when available.",
         key: "sourceLocale",
         label: "Source locale",
+        required: true,
         type: "youtubeLocale",
         url: "sync",
+      },
+      {
+        excludeInputKey: "sourceLocale",
+        key: "targetLocales",
+        label: "Target locales",
+        required: true,
+        selectAllByDefault: true,
+        type: "youtubeLocales",
       },
       promptInput(PROMPT_TASK.youtubeBatch),
       NOTES_INPUT,

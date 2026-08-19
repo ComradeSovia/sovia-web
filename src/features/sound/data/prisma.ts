@@ -8,6 +8,9 @@ const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
+const DATABASE_CONNECTION_TIMEOUT_MS = 30_000;
+const DATABASE_QUERY_TIMEOUT_MS = 30_000;
+
 function isBuildPhase() {
   return process.env.NEXT_PHASE === "phase-production-build";
 }
@@ -59,7 +62,13 @@ export function getPrismaClient() {
   }
 
   if (!globalForPrisma.prisma) {
-    const adapter = new PrismaPg({ connectionString: databaseUrl });
+    const adapter = new PrismaPg({
+      connectionString: databaseUrl,
+      connectionTimeoutMillis: DATABASE_CONNECTION_TIMEOUT_MS,
+      max: 5,
+      query_timeout: DATABASE_QUERY_TIMEOUT_MS,
+      statement_timeout: DATABASE_QUERY_TIMEOUT_MS,
+    });
     globalForPrisma.prisma = new PrismaClient({ adapter });
   }
 

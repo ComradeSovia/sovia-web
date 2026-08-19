@@ -625,6 +625,10 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
 }) {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [progress, setProgress] = useState<{
+    done: number;
+    total: number;
+  } | null>(null);
   const [translatedCount, setTranslatedCount] = useState<number | null>(null);
 
   async function handleClick(event: MouseEvent<HTMLButtonElement>) {
@@ -655,61 +659,136 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
 
     setError(null);
     setTranslatedCount(null);
+    setProgress({ done: 0, total: targetLocales.length });
     setPending(true);
 
+    const generationNotes = getFormControlValue(form, "generationNotes");
+    const promptKey = getFormControlValue(
+      form,
+      "youtubeLocalizationBatchPromptKey",
+    );
+    const youtubeLocalization = getYoutubeLocalizationValues(form, locales);
+    const localesPerRequest = getYoutubeLocalesPerRequest(
+      sourceContent.description.length,
+    );
+    const requestConcurrency = localesPerRequest === 1 ? 1 : 2;
+    // Preserve the validation narrowing inside the async batch closure.
+    const activeForm = form;
+    const activeSourceLocale = sourceLocale;
+    const batches: string[][] = [];
+    for (
+      let index = 0;
+      index < targetLocales.length;
+      index += localesPerRequest
+    ) {
+      batches.push(targetLocales.slice(index, index + localesPerRequest));
+    }
+
+    let processed = 0;
+    let translated = 0;
+    const failedLocales = new Set<string>();
+
+    async function runBatch(batch: string[]) {
+      try {
+        const response = await fetch(
+          `/admin/api/content/${encodeURIComponent(contentId)}/generate-youtube-localization-batch`,
+          {
+            body: JSON.stringify({
+              generationNotes,
+              promptKey,
+              sourceLocale: activeSourceLocale,
+              targetLocales: batch,
+              youtubeLocalization: {
+                [activeSourceLocale]: sourceContent,
+                ...Object.fromEntries(
+                  batch.map((locale) => [locale, youtubeLocalization[locale]]),
+                ),
+              },
+            }),
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+          },
+        );
+        const payload = (await response.json()) as {
+          localizations?: {
+            description: string;
+            locale: string;
+            title: string;
+          }[];
+          message?: string;
+        };
+
+        if (!response.ok) {
+          throw new Error(
+            response.status === 504
+              ? "This batch timed out."
+              : payload.message ||
+                  "YouTube localization batch generation failed.",
+          );
+        }
+
+        const localizations = payload.localizations ?? [];
+        for (const locale of batch) {
+          const item = localizations.find(
+            (candidate) =>
+              candidate.locale === locale &&
+              candidate.title.trim() &&
+              candidate.description.trim(),
+          );
+          if (!item) {
+            failedLocales.add(locale);
+            continue;
+          }
+          setFormControlValue(
+            activeForm,
+            `youtubeLocalization.${locale}.title`,
+            item.title,
+          );
+          setFormControlValue(
+            activeForm,
+            `youtubeLocalization.${locale}.description`,
+            item.description,
+          );
+          translated += 1;
+        }
+      } catch {
+        for (const locale of batch) failedLocales.add(locale);
+      } finally {
+        processed += batch.length;
+        setProgress({ done: processed, total: targetLocales.length });
+      }
+    }
+
     try {
-      const response = await fetch(
-        `/admin/api/content/${encodeURIComponent(contentId)}/generate-youtube-localization-batch`,
-        {
-          body: JSON.stringify({
-            generationNotes: getFormControlValue(form, "generationNotes"),
-            promptKey: getFormControlValue(
-              form,
-              "youtubeLocalizationBatchPromptKey",
-            ),
-            sourceLocale,
-            targetLocales,
-            youtubeLocalization: getYoutubeLocalizationValues(form, locales),
-          }),
-          headers: { "Content-Type": "application/json" },
-          method: "POST",
-        },
+      // Warm the shared prompt cache before starting the small worker pool.
+      if (batches.length) await runBatch(batches[0]);
+      let cursor = 1;
+      async function worker() {
+        while (cursor < batches.length) {
+          const index = cursor;
+          cursor += 1;
+          await runBatch(batches[index]);
+        }
+      }
+      await Promise.all(
+        Array.from(
+          { length: Math.min(requestConcurrency, batches.length - 1) },
+          () => worker(),
+        ),
       );
-      const payload = (await response.json()) as {
-        localizations?: {
-          description: string;
-          locale: string;
-          title: string;
-        }[];
-        message?: string;
-      };
 
-      if (!response.ok) {
-        throw new Error(
-          payload.message || "YouTube localization batch generation failed.",
+      if (!translated) {
+        setError(
+          `YouTube translation failed for: ${Array.from(failedLocales).join(", ") || targetLocales.join(", ")}.`,
         );
+      } else {
+        setTranslatedCount(translated);
+        if (failedLocales.size) {
+          setError(
+            `Translated ${translated} of ${targetLocales.length} locales. Failed: ${Array.from(failedLocales).join(", ")}. Retry to translate the remaining locales.`,
+          );
+        }
       }
-
-      const localizations = payload.localizations ?? [];
-      if (!localizations.length) {
-        throw new Error(
-          "The model returned no translations. Check that the batch prompt returns locales exactly as requested.",
-        );
-      }
-
-      for (const item of localizations) {
-        setFormControlValue(
-          form,
-          `youtubeLocalization.${item.locale}.title`,
-          item.title,
-        );
-        setFormControlValue(
-          form,
-          `youtubeLocalization.${item.locale}.description`,
-          item.description,
-        );
-      }
-      setTranslatedCount(localizations.length);
     } catch (generationError) {
       setError(
         generationError instanceof Error
@@ -717,6 +796,7 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
           : "YouTube localization batch generation failed.",
       );
     } finally {
+      setProgress(null);
       setPending(false);
     }
   }
@@ -733,7 +813,8 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
       </button>
       {pending ? (
         <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
-          Translating all other YouTube languages from the primary language...
+          Translating YouTube languages from the primary language
+          {progress ? ` (${progress.done}/${progress.total})` : ""}...
         </p>
       ) : null}
       {translatedCount !== null ? (
@@ -1675,6 +1756,12 @@ function getYoutubeLocalizationValues(
 function getSubtitleLocalesPerRequest(sourceSrtLength: number) {
   if (sourceSrtLength > 4_500) return 1;
   if (sourceSrtLength > 2_500) return 2;
+  return 3;
+}
+
+function getYoutubeLocalesPerRequest(sourceDescriptionLength: number) {
+  if (sourceDescriptionLength > 2_500) return 1;
+  if (sourceDescriptionLength > 1_200) return 2;
   return 3;
 }
 

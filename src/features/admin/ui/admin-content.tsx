@@ -2030,71 +2030,62 @@ async function ContentEditor({
   step: AdminEditorStep;
   todoId?: string;
 }) {
-  const databaseStatus = await getAdminDatabaseStatus();
-
-  const work = id ? ((await getAdminMusicWork(id)) ?? undefined) : undefined;
-  const todo =
+  // These reads are independent. Loading them together avoids multiplying a
+  // remote PostgreSQL cold-start delay across the whole editor render.
+  const [
+    work,
+    todo,
+    descriptionPrompts,
+    relatedPrompts,
+    bilibiliPrompts,
+    vkPrompts,
+    pixivPrompts,
+    subtitleBatchPrompts,
+    youtubePrompts,
+    youtubeBatchPrompts,
+    youtubeLocaleConfig,
+  ] = await Promise.all([
+    id ? getAdminMusicWork(id).then((value) => value ?? undefined) : undefined,
     !id && todoId
-      ? ((await getAdminMusicTodo(todoId)) ?? undefined)
-      : undefined;
-  const descriptionPrompts =
+      ? getAdminMusicTodo(todoId).then((value) => value ?? undefined)
+      : undefined,
     step === "description"
-      ? await listEnabledAdminPromptsForTask(DESCRIPTION_GENERATOR_PROMPT_TASK)
-      : [];
-  const relatedPrompts =
+      ? listEnabledAdminPromptsForTask(DESCRIPTION_GENERATOR_PROMPT_TASK)
+      : [],
     step === "related"
-      ? await listEnabledAdminPromptsForTask(RELATED_SUGGESTION_PROMPT_TASK)
-      : [];
-  const bilibiliPrompts =
+      ? listEnabledAdminPromptsForTask(RELATED_SUGGESTION_PROMPT_TASK)
+      : [],
     step === "bilibili"
-      ? await listEnabledAdminPromptsForTask(BILIBILI_COPY_PROMPT_TASK)
-      : [];
-  const vkPrompts =
-    step === "vk"
-      ? await listEnabledAdminPromptsForTask(VK_COPY_PROMPT_TASK)
-      : [];
-  const pixivPrompts =
+      ? listEnabledAdminPromptsForTask(BILIBILI_COPY_PROMPT_TASK)
+      : [],
+    step === "vk" ? listEnabledAdminPromptsForTask(VK_COPY_PROMPT_TASK) : [],
     step === "pixiv"
-      ? await listEnabledAdminPromptsForTask(PIXIV_COPY_PROMPT_TASK)
-      : [];
-  const subtitleBatchPrompts =
+      ? listEnabledAdminPromptsForTask(PIXIV_COPY_PROMPT_TASK)
+      : [],
     step === "subtitles"
-      ? await listEnabledAdminPromptsForTask(
-          SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
-        )
-      : [];
-  const youtubePrompts =
+      ? listEnabledAdminPromptsForTask(SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK)
+      : [],
     step === "youtube"
-      ? await listEnabledAdminPromptsForTask(YOUTUBE_LOCALIZATION_PROMPT_TASK)
-      : [];
-  const youtubeBatchPrompts =
+      ? listEnabledAdminPromptsForTask(YOUTUBE_LOCALIZATION_PROMPT_TASK)
+      : [],
     step === "youtube"
-      ? await listEnabledAdminPromptsForTask(
-          YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
-        )
-      : [];
-  const youtubeLocaleConfig = await listEnabledAdminYoutubeLocales();
+      ? listEnabledAdminPromptsForTask(YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK)
+      : [],
+    listEnabledAdminYoutubeLocales(),
+  ]);
   const relatedWorkIds = getRelatedWorkIds(work?.relatedWorkUids);
-  const relatedWorks = relatedWorkIds.length
-    ? (await listAdminMusicWorks()).filter((item) =>
-        relatedWorkIds.includes(item.contentId),
-      )
-    : [];
-  const youtubePublicationStatus = await checkYouTubeVideoPublished(
-    work?.u2bId,
-  );
+  const [relatedWorks, youtubePublicationStatus] = await Promise.all([
+    relatedWorkIds.length
+      ? listAdminMusicWorks().then((items) =>
+          items.filter((item) => relatedWorkIds.includes(item.contentId)),
+        )
+      : [],
+    checkYouTubeVideoPublished(work?.u2bId),
+  ]);
 
   return (
     <section className="space-y-5">
       <AdminActionToast message={message} status={status} />
-
-      {!databaseStatus.ok ? (
-        <DatabaseError
-          message={`${databaseStatus.message}\n\nThe editor cannot load database-backed content until the connection and schema are available.`}
-          summary="Database is not fully available. The editor may not be able to load this content record."
-          title="database warning"
-        />
-      ) : null}
 
       <Card className={CARD_CLASS}>
         <CardHeader className="space-y-5">

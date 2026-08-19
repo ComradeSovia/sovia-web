@@ -3,6 +3,7 @@ export function getAdminActionFormContext(
     | "subtitle-translation"
     | "youtube-captions"
     | "youtube-sync"
+    | "youtube-translation"
     | undefined,
   input: Record<string, unknown>,
 ): Record<string, unknown> {
@@ -11,6 +12,9 @@ export function getAdminActionFormContext(
   }
   if (context === "youtube-captions") {
     return getYoutubeCaptionFormContext(input);
+  }
+  if (context === "youtube-translation") {
+    return getYoutubeTranslationFormContext();
   }
   if (context !== "youtube-sync") return {};
 
@@ -48,6 +52,38 @@ export function getAdminActionFormContext(
     primaryLocale,
     title: getFormValue(form, `youtubeLocalization.${primaryLocale}.title`),
   };
+}
+
+function getYoutubeTranslationFormContext() {
+  const form = Array.from(document.forms).find((candidate) =>
+    Boolean(candidate.elements.namedItem("youtubePrimaryLocale")),
+  );
+  if (!form) return {};
+
+  const youtubeLocalization: Record<
+    string,
+    { description?: string; title?: string }
+  > = {};
+  for (const element of Array.from(form.elements)) {
+    if (
+      !(
+        element instanceof HTMLInputElement ||
+        element instanceof HTMLTextAreaElement
+      )
+    ) {
+      continue;
+    }
+    const match = /^youtubeLocalization\.([^.]+)\.(title|description)$/.exec(
+      element.name,
+    );
+    const locale = match?.[1];
+    const field = match?.[2] as "description" | "title" | undefined;
+    if (!locale || !field) continue;
+    youtubeLocalization[locale] ??= {};
+    youtubeLocalization[locale][field] = element.value;
+  }
+
+  return { youtubeLocalization };
 }
 
 function getSubtitleTranslationFormContext() {

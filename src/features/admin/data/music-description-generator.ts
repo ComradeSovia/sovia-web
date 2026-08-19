@@ -461,7 +461,10 @@ export async function generateYouTubeLocalizationBatch({
   const response = await client.responses.create({
     ...getResponseOptimizationOptions({
       contentId,
-      maxOutputTokens: getLocalizationOutputLimit(uniqueTargetLocales.length),
+      maxOutputTokens: getLocalizationOutputLimit(
+        sourceYoutubeLocalization.description,
+        uniqueTargetLocales.length,
+      ),
       model: prompt.model,
       task: YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
     }),
@@ -491,8 +494,10 @@ export async function generateYouTubeLocalizationBatch({
             youtubeId: work.u2bId,
           },
           relatedWorks,
-          requiredOutputLocales: uniqueTargetLocales,
           sourceYoutubeLocalization,
+          // Keep per-batch fields last so the shared source context remains a
+          // stable prompt-cache prefix across progressive translation calls.
+          requiredOutputLocales: uniqueTargetLocales,
           targetLanguages: uniqueTargetLocales.map((locale) => ({
             existingYoutubeLocalization: youtubeLocalization[locale],
             label: getLanguageLabel(locale),
@@ -966,8 +971,17 @@ function getPromptCacheKey(task: string, contentId: string) {
   return `sovia:${task.slice(0, 16)}:${contentId}`;
 }
 
-function getLocalizationOutputLimit(targetLocaleCount: number) {
-  return Math.min(8_000, Math.max(2_000, 800 + targetLocaleCount * 1_000));
+function getLocalizationOutputLimit(
+  sourceDescription: string,
+  targetLocaleCount: number,
+) {
+  // A near-limit YouTube description translated into CJK can approach one
+  // output token per character. Size the budget from the actual source text so
+  // a one-locale safety batch is not still truncated by the old 2k minimum.
+  const estimatedOutputTokens =
+    sourceDescription.length * targetLocaleCount + 800;
+
+  return Math.min(20_000, Math.max(2_000, estimatedOutputTokens));
 }
 
 function getSubtitleOutputLimit(sourceSrt: string, targetLocaleCount: number) {
