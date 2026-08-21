@@ -118,6 +118,7 @@ import {
 import { AdminLocalePanels } from "./admin-locale-panels";
 import {
   AdminPromptContractForTask,
+  AdminPromptCopyButton,
   AdminPromptList,
   AdminPromptTaskProvider,
   AdminPromptTaskSelect,
@@ -160,7 +161,15 @@ const WORK_TYPE_OPTIONS = [
   { label: "[LC] Lyric Rework Cover", value: "LC" },
   { label: "[C] Faithful Cover", value: "C" },
 ] as const;
-const FROM_TYPE_OPTIONS = ["Original", "Anime", "Game", "Pop", "Meme"] as const;
+const FROM_TYPE_OPTIONS = [
+  "Original",
+  "Anime",
+  "Cartoon",
+  "Game",
+  "Movie",
+  "Pop",
+  "Meme",
+] as const;
 const CONTENT_PAGE_SIZE = 50;
 const CONTENT_SORT_OPTIONS = ["publishedAt", "cid"] as const;
 const CONTENT_SORT_ORDERS = ["asc", "desc"] as const;
@@ -1062,16 +1071,21 @@ function PromptContractBlock({
       </summary>
       <div className="grid gap-3 border-t border-zinc-800 p-3">
         <div>
-          <div className="mb-1 text-xs font-medium text-zinc-300">
-            Input JSON
+          <div className="mb-1 flex items-center justify-between gap-2 text-xs font-medium text-zinc-300">
+            <span>Input JSON</span>
+            <AdminPromptCopyButton label="Input JSON" value={inputExample} />
           </div>
           <pre className="max-h-80 overflow-auto rounded-md border border-zinc-800 bg-zinc-950 p-3 text-xs leading-5 text-zinc-300">
             {inputExample}
           </pre>
         </div>
         <div>
-          <div className="mb-1 text-xs font-medium text-zinc-300">
-            Required output JSON
+          <div className="mb-1 flex items-center justify-between gap-2 text-xs font-medium text-zinc-300">
+            <span>Required output JSON</span>
+            <AdminPromptCopyButton
+              label="Required output JSON"
+              value={outputExample}
+            />
           </div>
           <pre className="overflow-auto rounded-md border border-zinc-800 bg-zinc-950 p-3 text-xs leading-5 text-zinc-300">
             {outputExample}

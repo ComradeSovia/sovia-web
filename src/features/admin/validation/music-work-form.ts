@@ -17,7 +17,15 @@ export const MUSIC_WORK_STEPS = [
 export type MusicWorkStep = (typeof MUSIC_WORK_STEPS)[number];
 
 export const WORK_TYPES = ["O", "CO", "R", "LC", "C"] as const;
-export const FROM_TYPES = ["Original", "Anime", "Game", "Pop", "Meme"] as const;
+export const FROM_TYPES = [
+  "Original",
+  "Anime",
+  "Cartoon",
+  "Game",
+  "Movie",
+  "Pop",
+  "Meme",
+] as const;
 
 const stepSchema = z.enum(MUSIC_WORK_STEPS, {
   error: "Invalid editor step. Refresh the page and try again.",
@@ -28,7 +36,8 @@ const workTypeSchema = z.enum(WORK_TYPES, {
 });
 
 const fromTypeSchema = z.enum(FROM_TYPES, {
-  error: "From type must be Original, Anime, Game, Pop, or Meme.",
+  error:
+    "From type must be Original, Anime, Cartoon, Game, Movie, Pop, or Meme.",
 });
 
 const trimmedRequired = (label: string) =>

@@ -19,7 +19,14 @@ export type MusicWorkYoutubePlatformMetadata = MusicWorkYoutubeLocalization & {
 export type MusicWorkSubtitleTracks = Partial<Record<string, string>>;
 
 export type MusicWorkType = "C" | "CO" | "LC" | "O" | "R";
-export type MusicWorkFromType = "Anime" | "Game" | "Meme" | "Original" | "Pop";
+export type MusicWorkFromType =
+  | "Anime"
+  | "Cartoon"
+  | "Game"
+  | "Meme"
+  | "Movie"
+  | "Original"
+  | "Pop";
 
 export interface MusicWork {
   path: string;

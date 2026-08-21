@@ -1,6 +1,6 @@
 "use client";
 
-import { Pencil } from "lucide-react";
+import { Check, Copy, Pencil } from "lucide-react";
 import Link from "next/link";
 import {
   createContext,
@@ -31,6 +31,44 @@ type PromptListItem = {
   title: string;
   variant: string;
 };
+
+export function AdminPromptCopyButton({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  const [status, setStatus] = useState<"copied" | "error" | "idle">("idle");
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setStatus("copied");
+    } catch {
+      setStatus("error");
+    }
+    window.setTimeout(() => setStatus("idle"), 1400);
+  }
+
+  const copied = status === "copied";
+  const Icon = copied ? Check : Copy;
+
+  return (
+    <button
+      aria-label={`Copy ${label}`}
+      className="inline-flex h-6 items-center gap-1.5 rounded-sm border border-zinc-700 bg-zinc-950 px-2 text-[11px] font-medium text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+      onClick={handleCopy}
+      title={
+        status === "error" ? "Copy failed" : copied ? "Copied" : `Copy ${label}`
+      }
+      type="button"
+    >
+      <Icon className="h-3 w-3" />
+      {status === "error" ? "Failed" : copied ? "Copied" : "Copy"}
+    </button>
+  );
+}
 
 export function AdminPromptList({
   options,
