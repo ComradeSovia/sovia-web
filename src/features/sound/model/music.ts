@@ -19,6 +19,7 @@ export type MusicWorkYoutubePlatformMetadata = MusicWorkYoutubeLocalization & {
 export type MusicWorkSubtitleTracks = Partial<Record<string, string>>;
 
 export type MusicWorkType = "C" | "CO" | "LC" | "O" | "R";
+export type MusicWorkContentType = "Event" | "Music";
 export type MusicWorkFromType =
   | "Anime"
   | "Cartoon"
@@ -33,6 +34,7 @@ export type MusicWorkFromType =
 export interface MusicWork {
   path: string;
   contentId: string;
+  contentType: MusicWorkContentType | string;
   storageSource?: "db" | "db+file" | "file";
   workType: MusicWorkType | string;
   visible?: boolean | null;

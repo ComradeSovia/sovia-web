@@ -161,6 +161,10 @@ const WORK_TYPE_OPTIONS = [
   { label: "[LC] Lyric Rework Cover", value: "LC" },
   { label: "[C] Faithful Cover", value: "C" },
 ] as const;
+const CONTENT_TYPE_OPTIONS = [
+  { label: "Music", value: "Music" },
+  { label: "Event", value: "Event" },
+] as const;
 const FROM_TYPE_OPTIONS = [
   "Original",
   "Anime",
@@ -3086,6 +3090,13 @@ function MusicWorkForm({
                 warning="id"
               />
               <Field label="Path" name="path" value={work?.path} />
+              <SelectField
+                label="Content type"
+                name="contentType"
+                options={CONTENT_TYPE_OPTIONS}
+                required
+                value={work?.contentType ?? "Music"}
+              />
               <SelectField
                 label="Work type"
                 name="workType"

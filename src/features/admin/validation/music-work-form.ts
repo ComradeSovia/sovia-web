@@ -16,6 +16,7 @@ export const MUSIC_WORK_STEPS = [
 
 export type MusicWorkStep = (typeof MUSIC_WORK_STEPS)[number];
 
+export const CONTENT_TYPES = ["Music", "Event"] as const;
 export const WORK_TYPES = ["O", "CO", "R", "LC", "C"] as const;
 export const FROM_TYPES = [
   "Original",
@@ -35,6 +36,10 @@ const stepSchema = z.enum(MUSIC_WORK_STEPS, {
 
 const workTypeSchema = z.enum(WORK_TYPES, {
   error: "Work type must be O, CO, R, LC, or C.",
+});
+
+const contentTypeSchema = z.enum(CONTENT_TYPES, {
+  error: "Content type must be Music or Event.",
 });
 
 const fromTypeSchema = z.enum(FROM_TYPES, {
@@ -64,6 +69,7 @@ const dateOptional = trimmedOptional.refine(
 
 const metadataSchema = z.object({
   contentId: trimmedRequired("Content ID"),
+  contentType: contentTypeSchema,
   path: trimmedOptional,
   songTitle: trimmedOptional,
   workType: workTypeSchema,

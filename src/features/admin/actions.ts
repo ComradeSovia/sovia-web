@@ -38,6 +38,7 @@ import {
 import {
   assertValidFullMusicWorkForm,
   assertValidMusicWorkStepForm,
+  CONTENT_TYPES,
   FROM_TYPES,
   type MusicWorkStep,
   parseMusicWorkStep,
@@ -249,6 +250,7 @@ function getValidationValue(formData: FormData) {
     bilibiliId: getString(formData, "bilibiliId"),
     bilibiliTitle: getString(formData, "bilibiliTitle"),
     contentId: getString(formData, "contentId") || getString(formData, "vid"),
+    contentType: getString(formData, "contentType") || "Music",
     fromArtists: getString(formData, "fromArtists"),
     fromDetails: getString(formData, "fromDetails"),
     fromIp: getString(formData, "fromIp"),
@@ -287,6 +289,7 @@ function toDraft(
   return {
     path: work.path,
     contentId: work.contentId,
+    contentType: work.contentType,
     workType: work.workType,
     visible: work.visible,
     publishedAt: work.publishedAt,
@@ -356,6 +359,7 @@ function getDefaultDraft(formData: FormData): MusicWorkDraft {
   return {
     path,
     contentId,
+    contentType: "Music",
     workType,
     visible: false,
     songTitle: getOptionalString(formData, "songTitle"),
@@ -393,6 +397,10 @@ function applyStepDraft(
       draft.path = getString(formData, "path");
       draft.contentId =
         getString(formData, "contentId") || getString(formData, "vid");
+      draft.contentType = matchOption(
+        getString(formData, "contentType") || "Music",
+        CONTENT_TYPES,
+      );
       draft.workType = matchOption(
         getString(formData, "workType") || "O",
         WORK_TYPES,
@@ -530,6 +538,10 @@ export async function saveMusicWorkAction(formData: FormData) {
       (getBoolean(formData, "isOriginal") ? "O" : "R"),
     WORK_TYPES,
   );
+  const contentType = matchOption(
+    getString(formData, "contentType") || "Music",
+    CONTENT_TYPES,
+  );
   const songTitle =
     getOptionalString(formData, "songTitle") ??
     getOptionalString(formData, "title");
@@ -566,6 +578,7 @@ export async function saveMusicWorkAction(formData: FormData) {
       work: {
         path,
         contentId,
+        contentType,
         workType,
         visible: getBoolean(formData, "visible"),
         publishedAt: getOptionalString(formData, "publishedAt"),

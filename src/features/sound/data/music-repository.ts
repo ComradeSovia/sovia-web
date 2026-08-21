@@ -72,6 +72,7 @@ type MusicWorkSubtitlesSection = {
 type MusicWorkRecordSource = {
   path?: string | null;
   contentId: string;
+  contentType?: string | null;
   storageSource?: "db" | "db+file" | "file";
   workType: string;
   content?: MusicWorkContentSection | null;
@@ -102,6 +103,7 @@ function toWorkRecord(value: MusicWorkRecordSource): MusicWorkRecord {
   return {
     path: value.path ?? "",
     contentId,
+    contentType: value.contentType ?? "Music",
     storageSource: value.storageSource,
     workType: value.workType,
     visible: status?.visible ?? false,
@@ -330,6 +332,7 @@ function toWorkWithContent(work: MusicWorkRecord): MusicWorkWithContent {
   return {
     path: work.path,
     contentId: work.contentId,
+    contentType: work.contentType,
     storageSource: work.storageSource,
     workType: work.workType,
     visible: work.visible,
@@ -424,7 +427,10 @@ async function listDatabaseMusicWorks() {
   if (!prisma) return [];
 
   return (
-    await prisma.musicWork.findMany({ include: MUSIC_WORK_LIST_INCLUDE })
+    await prisma.musicWork.findMany({
+      include: MUSIC_WORK_LIST_INCLUDE,
+      where: { contentType: "Music" },
+    })
   ).map((work) =>
     toWorkRecord({
       ...work,
@@ -594,6 +600,7 @@ export async function upsertMusicWork(
       create: {
         content: { create: content },
         contentId,
+        contentType: work.contentType || "Music",
         path: normalizeOptional(work.path),
         platforms: { create: platforms },
         source: { create: source },
@@ -609,6 +616,7 @@ export async function upsertMusicWork(
           },
         },
         path: normalizeOptional(work.path),
+        contentType: work.contentType || "Music",
         platforms: { upsert: platformUpserts },
         source: {
           upsert: {

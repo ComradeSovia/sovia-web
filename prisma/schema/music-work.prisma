@@ -1,6 +1,7 @@
 model MusicWork {
   contentId String                 @id
   path      String?                @unique
+  contentType String               @default("Music")
   workType  String
   createdAt DateTime               @default(now())
   updatedAt DateTime               @updatedAt
