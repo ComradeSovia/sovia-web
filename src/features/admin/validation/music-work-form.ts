@@ -23,6 +23,8 @@ export const FROM_TYPES = [
   "Cartoon",
   "Game",
   "Movie",
+  "TV Series",
+  "Traditional",
   "Pop",
   "Meme",
 ] as const;
@@ -37,7 +39,7 @@ const workTypeSchema = z.enum(WORK_TYPES, {
 
 const fromTypeSchema = z.enum(FROM_TYPES, {
   error:
-    "From type must be Original, Anime, Cartoon, Game, Movie, Pop, or Meme.",
+    "From type must be Original, Anime, Cartoon, Game, Movie, TV Series, Traditional, Pop, or Meme.",
 });
 
 const trimmedRequired = (label: string) =>

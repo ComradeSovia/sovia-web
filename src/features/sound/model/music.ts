@@ -26,7 +26,9 @@ export type MusicWorkFromType =
   | "Meme"
   | "Movie"
   | "Original"
-  | "Pop";
+  | "Pop"
+  | "Traditional"
+  | "TV Series";
 
 export interface MusicWork {
   path: string;

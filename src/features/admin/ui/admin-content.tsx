@@ -167,6 +167,8 @@ const FROM_TYPE_OPTIONS = [
   "Cartoon",
   "Game",
   "Movie",
+  "TV Series",
+  "Traditional",
   "Pop",
   "Meme",
 ] as const;
