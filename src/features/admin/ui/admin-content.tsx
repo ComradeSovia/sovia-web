@@ -117,6 +117,12 @@ import {
 } from "./admin-editor-steps";
 import { AdminLocalePanels } from "./admin-locale-panels";
 import {
+  AdminPromptContractForTask,
+  AdminPromptList,
+  AdminPromptTaskProvider,
+  AdminPromptTaskSelect,
+} from "./admin-prompt-task";
+import {
   AdminConfirmForm,
   AdminCopyFieldButton,
   AdminDirtyForm,
@@ -397,80 +403,19 @@ async function PromptManager({
         </CardHeader>
         <CardContent>
           {prompts.length ? (
-            <div>
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-zinc-800">
-                    <TableHead className="text-zinc-400">Task</TableHead>
-                    <TableHead className="text-zinc-400">Variant</TableHead>
-                    <TableHead className="text-zinc-400">Title</TableHead>
-                    <TableHead className="text-zinc-400">Model</TableHead>
-                    <TableHead className="text-zinc-400">Status</TableHead>
-                    <TableHead className="text-right text-zinc-400">
-                      Edit
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {prompts.map((prompt) => (
-                    <TableRow className="border-zinc-800" key={prompt.id}>
-                      <TableCell className="font-mono text-zinc-200">
-                        {prompt.task}
-                      </TableCell>
-                      <TableCell className="font-mono text-zinc-400">
-                        {prompt.variant}
-                      </TableCell>
-                      <TableCell className="text-zinc-100">
-                        {prompt.title}
-                      </TableCell>
-                      <TableCell className="font-mono text-zinc-400">
-                        {prompt.model}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          className={
-                            prompt.isDefault
-                              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-100"
-                              : prompt.enabled
-                                ? "border-sky-500/40 bg-sky-500/10 text-sky-100"
-                                : "border-zinc-700 bg-zinc-900 text-zinc-400"
-                          }
-                          variant="outline"
-                        >
-                          {prompt.isDefault
-                            ? "default"
-                            : prompt.enabled
-                              ? "enabled"
-                              : "disabled"}
-                        </Badge>
-                        {prompt.isDefault && !prompt.enabled ? (
-                          <Badge
-                            className="ml-2 border-zinc-700 bg-zinc-900 text-zinc-400"
-                            variant="outline"
-                          >
-                            disabled
-                          </Badge>
-                        ) : null}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          asChild
-                          className={SECONDARY_BUTTON_CLASS}
-                          size="sm"
-                        >
-                          <Link
-                            href={`/admin/prompts/${encodeURIComponent(prompt.key)}`}
-                          >
-                            <Pencil className="mr-2 h-4 w-4" />
-                            Edit
-                          </Link>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <AdminPromptList
+              options={ADMIN_PROMPT_TASK_OPTIONS}
+              prompts={prompts.map((prompt) => ({
+                enabled: prompt.enabled,
+                id: prompt.id,
+                isDefault: prompt.isDefault,
+                key: prompt.key,
+                model: prompt.model,
+                task: prompt.task,
+                title: prompt.title,
+                variant: prompt.variant,
+              }))}
+            />
           ) : (
             <div className="rounded-md border border-zinc-800 bg-zinc-950 p-4 text-sm text-zinc-400">
               No prompts yet. Create one with the button above.
@@ -667,24 +612,29 @@ async function PromptEditor({
           summary="Prompt was not found."
         />
       ) : (
-        <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
-          <PromptForm
-            mode={isNew ? "new" : "edit"}
-            prompt={{
-              content: prompt?.content ?? "",
-              description: prompt?.description ?? "",
-              enabled: prompt?.enabled ?? true,
-              isDefault: prompt?.isDefault ?? true,
-              key:
-                prompt?.key ?? `${DESCRIPTION_GENERATOR_PROMPT_TASK}.default`,
-              model: prompt?.model ?? "gpt-5",
-              task: prompt?.task ?? DESCRIPTION_GENERATOR_PROMPT_TASK,
-              title: prompt?.title ?? "Music description generator",
-              variant: prompt?.variant ?? DEFAULT_PROMPT_VARIANT,
-            }}
-          />
-          <PromptContractPanel />
-        </div>
+        <AdminPromptTaskProvider
+          initialTask={prompt?.task ?? DESCRIPTION_GENERATOR_PROMPT_TASK}
+          key={prompt?.key ?? "new"}
+        >
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+            <PromptForm
+              mode={isNew ? "new" : "edit"}
+              prompt={{
+                content: prompt?.content ?? "",
+                description: prompt?.description ?? "",
+                enabled: prompt?.enabled ?? true,
+                isDefault: prompt?.isDefault ?? true,
+                key:
+                  prompt?.key ?? `${DESCRIPTION_GENERATOR_PROMPT_TASK}.default`,
+                model: prompt?.model ?? "gpt-5",
+                task: prompt?.task ?? DESCRIPTION_GENERATOR_PROMPT_TASK,
+                title: prompt?.title ?? "Music description generator",
+                variant: prompt?.variant ?? DEFAULT_PROMPT_VARIANT,
+              }}
+            />
+            <PromptContractPanel />
+          </div>
+        </AdminPromptTaskProvider>
       )}
     </section>
   );
@@ -806,6 +756,43 @@ function PromptContractPanel() {
   const youtubeOutputExample = `{
   "title": "Localized YouTube title",
   "description": "Full localized YouTube description, including final hashtags at the end."
+}`;
+  const youtubeBatchInputExample = `{
+  "contentId": "123",
+  "language": {
+    "locale": "en",
+    "label": "English"
+  },
+  "sourceYoutubeLocalization": {
+    "title": "Primary YouTube title",
+    "description": "Primary YouTube description"
+  },
+  "targetLanguages": [
+    {
+      "locale": "zh-CN",
+      "label": "Simplified Chinese",
+      "existingYoutubeLocalization": {
+        "title": "Current title",
+        "description": "Current description"
+      }
+    }
+  ],
+  "requiredOutputLocales": ["zh-CN"],
+  "metadata": {},
+  "from": {},
+  "description": {},
+  "relatedWorks": [],
+  "lyrics": "Full lyrics text",
+  "extraInstructions": "Manual instructions for this generation only."
+}`;
+  const youtubeBatchOutputExample = `{
+  "localizations": [
+    {
+      "locale": "zh-CN",
+      "title": "Localized YouTube title",
+      "description": "Full localized YouTube description"
+    }
+  ]
 }`;
   const subtitleBatchInputExample = `{
   "contentId": "123",
@@ -937,78 +924,106 @@ function PromptContractPanel() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 text-sm text-zinc-400">
-          <PromptContractBlock
-            inputExample={todoProposalInputExample}
-            notes="Song title is the song to adapt; From is the work it comes from; Source artists identifies the original creator; Source URL is a music reference; Notes contains the adaptation concept and direction. Return 1–20 proposals."
-            outputExample={todoProposalOutputExample}
-            task={TODO_PROPOSAL_ANALYSIS_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={descriptionInputExample}
-            notes="Return concise copy for the Description step."
-            outputExample={descriptionOutputExample}
-            task={DESCRIPTION_GENERATOR_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={relatedInputExample}
-            notes="Return exactly 3 existing content UIDs from candidates. Do not return the current work or already related UIDs."
-            outputExample={relatedOutputExample}
-            task={RELATED_SUGGESTION_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={youtubeInputExample}
-            notes="Return YouTube title and the complete description in the target language.locale. Put all final hashtags at the end of description; do not output a separate hashtags field."
-            outputExample={youtubeOutputExample}
-            task={YOUTUBE_LOCALIZATION_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={subtitleBatchInputExample}
-            notes="Return complete translated SRT tracks. Preserve cue numbers, timestamps, and SRT structure exactly; translate only subtitle text."
-            outputExample={subtitleBatchOutputExample}
+          <AdminPromptContractForTask task={TODO_PROPOSAL_ANALYSIS_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={todoProposalInputExample}
+              notes="Song title is the song to adapt; From is the work it comes from; Source artists identifies the original creator; Source URL is a music reference; Notes contains the adaptation concept and direction. Return 1–20 proposals."
+              outputExample={todoProposalOutputExample}
+              task={TODO_PROPOSAL_ANALYSIS_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask task={DESCRIPTION_GENERATOR_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={descriptionInputExample}
+              notes="Return concise copy for the Description step."
+              outputExample={descriptionOutputExample}
+              task={DESCRIPTION_GENERATOR_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask task={RELATED_SUGGESTION_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={relatedInputExample}
+              notes="Return exactly 3 existing content UIDs from candidates. Do not return the current work or already related UIDs."
+              outputExample={relatedOutputExample}
+              task={RELATED_SUGGESTION_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask task={YOUTUBE_LOCALIZATION_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={youtubeInputExample}
+              notes="Return YouTube title and the complete description in the target language.locale. Put all final hashtags at the end of description; do not output a separate hashtags field."
+              outputExample={youtubeOutputExample}
+              task={YOUTUBE_LOCALIZATION_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask
+            task={YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK}
+          >
+            <PromptContractBlock
+              inputExample={youtubeBatchInputExample}
+              notes="Translate the primary YouTube localization into every required output locale. Return one complete title and description for each requested locale."
+              outputExample={youtubeBatchOutputExample}
+              task={YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask
             task={SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={platformInputExample}
-            notes="Return platform-native title and description. BiliBili targets Chinese; VK targets Russian. Use referenceYoutubeLocalization when available."
-            outputExample={platformOutputExample}
-            task={BILIBILI_COPY_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={platformInputExample
-              .replace(
-                '"name": "bilibili",\n    "id": "BV1xx411c7mD"',
-                '"name": "vk",\n    "id": "video-123_456"',
-              )
-              .replace(
-                '"locale": "zh",\n    "label": "Chinese"',
-                '"locale": "ru",\n    "label": "Russian"',
-              )}
-            notes="Return platform-native title and description for VK in Russian. Use referenceYoutubeLocalization when available."
-            outputExample={platformOutputExample}
-            task={VK_COPY_PROMPT_TASK}
-          />
-          <PromptContractBlock
-            inputExample={platformInputExample
-              .replace(
-                '"name": "bilibili",\n    "id": "BV1xx411c7mD"',
-                '"name": "pixiv",\n    "id": "123456789"',
-              )
-              .replace(
-                '"locale": "zh",\n    "label": "Chinese"',
-                '"locale": "en",\n    "label": "English"',
-              )
-              .replace(
-                '"locale": "zh",\n    "title": "Reference YouTube title"',
-                '"locale": "en",\n    "title": "Reference YouTube title"',
-              )
-              .replace(
-                '"description": "Current platform description"',
-                '"description": "Current platform description",\n    "tags": "#ComradeSovia, #anime, #song"',
-              )}
-            notes="Return Pixiv title, description, and tags. Tags must be an array of strings such as #ComradeSovia."
-            outputExample={pixivOutputExample}
-            task={PIXIV_COPY_PROMPT_TASK}
-          />
+          >
+            <PromptContractBlock
+              inputExample={subtitleBatchInputExample}
+              notes="Return complete translated SRT tracks. Preserve cue numbers, timestamps, and SRT structure exactly; translate only subtitle text."
+              outputExample={subtitleBatchOutputExample}
+              task={SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask task={BILIBILI_COPY_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={platformInputExample}
+              notes="Return platform-native title and description. BiliBili targets Chinese; VK targets Russian. Use referenceYoutubeLocalization when available."
+              outputExample={platformOutputExample}
+              task={BILIBILI_COPY_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask task={VK_COPY_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={platformInputExample
+                .replace(
+                  '"name": "bilibili",\n    "id": "BV1xx411c7mD"',
+                  '"name": "vk",\n    "id": "video-123_456"',
+                )
+                .replace(
+                  '"locale": "zh",\n    "label": "Chinese"',
+                  '"locale": "ru",\n    "label": "Russian"',
+                )}
+              notes="Return platform-native title and description for VK in Russian. Use referenceYoutubeLocalization when available."
+              outputExample={platformOutputExample}
+              task={VK_COPY_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
+          <AdminPromptContractForTask task={PIXIV_COPY_PROMPT_TASK}>
+            <PromptContractBlock
+              inputExample={platformInputExample
+                .replace(
+                  '"name": "bilibili",\n    "id": "BV1xx411c7mD"',
+                  '"name": "pixiv",\n    "id": "123456789"',
+                )
+                .replace(
+                  '"locale": "zh",\n    "label": "Chinese"',
+                  '"locale": "en",\n    "label": "English"',
+                )
+                .replace(
+                  '"locale": "zh",\n    "title": "Reference YouTube title"',
+                  '"locale": "en",\n    "title": "Reference YouTube title"',
+                )
+                .replace(
+                  '"description": "Current platform description"',
+                  '"description": "Current platform description",\n    "tags": "#ComradeSovia, #anime, #song"',
+                )}
+              notes="Return Pixiv title, description, and tags. Tags must be an array of strings such as #ComradeSovia."
+              outputExample={pixivOutputExample}
+              task={PIXIV_COPY_PROMPT_TASK}
+            />
+          </AdminPromptContractForTask>
         </CardContent>
       </Card>
       <Card className={CARD_CLASS}>
@@ -1037,10 +1052,7 @@ function PromptContractBlock({
   task: string;
 }) {
   return (
-    <details
-      className="rounded-md border border-zinc-800 bg-zinc-950/40"
-      open={task === DESCRIPTION_GENERATOR_PROMPT_TASK}
-    >
+    <details className="rounded-md border border-zinc-800 bg-zinc-950/40" open>
       <summary className="cursor-pointer select-none p-3">
         <span className="block text-xs font-medium text-zinc-300">Task</span>
         <code className="mt-1 block text-xs text-zinc-100">{task}</code>
@@ -1137,12 +1149,8 @@ function PromptForm({
           ) : null}
           <FieldStateGuide />
           <div className="grid gap-4 md:grid-cols-2">
-            <SelectField
-              label="Task"
-              name="task"
+            <AdminPromptTaskSelect
               options={ADMIN_PROMPT_TASK_OPTIONS}
-              placeholder="Select prompt task"
-              required
               value={prompt.task}
             />
             <Field
