@@ -797,7 +797,6 @@ function PromptContractPanel() {
   "from": {},
   "description": {},
   "relatedWorks": [],
-  "lyrics": "Full lyrics text",
   "extraInstructions": "Manual instructions for this generation only."
 }`;
   const youtubeBatchOutputExample = `{

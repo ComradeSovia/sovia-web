@@ -483,7 +483,6 @@ export async function generateYouTubeLocalizationBatch({
             label: getLanguageLabel(sourceLocale),
             locale: sourceLocale,
           },
-          lyrics: compactLyrics(work.lyrics),
           metadata: {
             contentId: work.contentId,
             path: work.path,
