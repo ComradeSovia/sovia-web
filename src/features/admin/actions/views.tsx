@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentType, ReactNode } from "react";
+import { AdminDownloadSubtitlesActionView } from "../ui/admin-step-panels";
 import {
   AdminTodoEditActionView,
   AdminTodoProposalActionView,
@@ -30,6 +31,7 @@ const ADMIN_ACTION_VIEWS: Record<
   string,
   ComponentType<AdminActionViewProps>
 > = {
+  "download-subtitles": AdminDownloadSubtitlesActionView,
   "todo-edit": AdminTodoEditActionView,
   "todo-proposal-analysis": AdminTodoProposalActionView,
 };

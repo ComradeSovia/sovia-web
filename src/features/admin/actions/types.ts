@@ -104,7 +104,7 @@ export type AdminActionDefinition = {
       | "youtube-sync"
       | "youtube-translation";
     method: "POST";
-    type: "form" | "http";
+    type: "client" | "form" | "http";
   };
   executeLabel?: string;
   id: string;

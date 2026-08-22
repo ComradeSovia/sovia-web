@@ -500,6 +500,23 @@ export const ADMIN_ACTIONS = [
     type: "ai",
   },
   {
+    availability: { pageSteps: ["subtitles"] },
+    description:
+      "Download one current SRT track or package every non-empty track into a ZIP file.",
+    execution: {
+      endpoint: "",
+      method: "POST",
+      type: "client",
+    },
+    id: "content.download-subtitles",
+    inputs: [CONTENT_ID_INPUT],
+    output: noOutput,
+    presentation: { type: "custom", view: "download-subtitles" },
+    scope: "content",
+    title: "Download subtitle files",
+    type: "default",
+  },
+  {
     availability: { pageSteps: ["youtube"] },
     description:
       "Sync the saved primary YouTube metadata and selected localizations to YouTube.",

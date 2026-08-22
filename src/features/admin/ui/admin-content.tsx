@@ -3321,25 +3321,6 @@ function MusicWorkForm({
                 </div>
               </div>
             ) : null}
-            {work ? (
-              <div className="grid gap-3 rounded-md border border-zinc-800 bg-zinc-900/50 p-4">
-                <div>
-                  <h3 className="text-sm font-semibold text-zinc-100">
-                    Download subtitle files
-                  </h3>
-                  <p className="mt-1 text-xs leading-5 text-zinc-500">
-                    Download one current SRT track or package every non-empty
-                    track into a ZIP file.
-                  </p>
-                </div>
-                <AdminDownloadSubtitlesButton
-                  className={`${SECONDARY_BUTTON_CLASS} inline-flex h-10 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60`}
-                  contentId={work.contentId}
-                  labels={subtitleLocaleLabels}
-                  locales={[...enabledSubtitleLocales, ...otherSubtitleLocales]}
-                />
-              </div>
-            ) : null}
             <StepSaveButton label="Save subtitles" />
           </Section>
         </StepForm>

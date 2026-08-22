@@ -209,6 +209,15 @@ export function AdminActionLauncher({
       return;
     }
 
+    if (action.execution.type === "client") {
+      setRun((current) => ({
+        ...current,
+        error: "Use the controls in this action to complete the download.",
+        status: "failed",
+      }));
+      return;
+    }
+
     const contentId = run.input.contentId;
     if (
       action.scope === "content" &&

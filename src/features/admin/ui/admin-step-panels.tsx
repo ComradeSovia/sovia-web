@@ -1276,7 +1276,7 @@ export function AdminDownloadSubtitlesButton({
   const [selectedLocale, setSelectedLocale] = useState("");
 
   function handleDownloadAll(event: MouseEvent<HTMLButtonElement>) {
-    const form = event.currentTarget.form;
+    const form = event.currentTarget.form ?? getSubtitleEditorForm();
     if (!form) return;
 
     const safeContentId = sanitizeFilenamePart(contentId);
@@ -1310,7 +1310,7 @@ export function AdminDownloadSubtitlesButton({
   }
 
   function handleDownloadSelected(event: MouseEvent<HTMLButtonElement>) {
-    const form = event.currentTarget.form;
+    const form = event.currentTarget.form ?? getSubtitleEditorForm();
     if (!form || !selectedLocale) return;
 
     const srt = getFormControlValue(
@@ -1375,6 +1375,63 @@ export function AdminDownloadSubtitlesButton({
         </p>
       ) : null}
     </div>
+  );
+}
+
+export function AdminDownloadSubtitlesActionView() {
+  const [context, setContext] = useState<{
+    contentId: string;
+    labels: Record<string, string>;
+    locales: string[];
+  } | null>(null);
+
+  useEffect(() => {
+    const form = getSubtitleEditorForm();
+    if (!form) return;
+
+    const contentId =
+      getFormControlValue(form, "currentContentId") ??
+      getFormControlValue(form, "contentId") ??
+      "";
+    const locales = getSubtitleLocales(form);
+    const primaryLocaleControl = form.elements.namedItem(
+      "subtitlePrimaryLocale",
+    );
+    const labels =
+      primaryLocaleControl instanceof HTMLSelectElement
+        ? Object.fromEntries(
+            Array.from(primaryLocaleControl.options).flatMap((option) =>
+              option.value
+                ? [[option.value, option.textContent?.trim() || option.value]]
+                : [],
+            ),
+          )
+        : {};
+
+    setContext({ contentId, labels, locales });
+  }, []);
+
+  if (!context) {
+    return (
+      <p className="text-sm text-red-300">
+        Open this action from the Subtitles editor.
+      </p>
+    );
+  }
+
+  return (
+    <AdminDownloadSubtitlesButton
+      className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-100 shadow-none hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
+      contentId={context.contentId}
+      labels={context.labels}
+      locales={context.locales}
+    />
+  );
+}
+
+function getSubtitleEditorForm() {
+  return Array.from(document.forms).find((candidate) =>
+    Boolean(candidate.elements.namedItem("subtitlePrimaryLocale")),
   );
 }
 
