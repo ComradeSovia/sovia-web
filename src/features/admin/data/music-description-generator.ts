@@ -707,17 +707,39 @@ export async function generateSubtitleLocalizationBatch({
     task: SUBTITLE_LOCALIZATION_BATCH_PROMPT_TASK,
   });
   const parsed = parseSubtitleLocalizationBatch(response.output_text);
-  const localizations = parsed.localizations.filter(
-    (item) =>
-      uniqueTargetLocales.includes(item.locale) && Boolean(item.srt.trim()),
-  );
+  const invalidTimelineMessages: string[] = [];
+  const localizations = parsed.localizations.flatMap((item) => {
+    if (!uniqueTargetLocales.includes(item.locale) || !item.srt.trim()) {
+      return [];
+    }
+
+    try {
+      return [
+        {
+          ...item,
+          srt: restoreSourceSrtTimeline(sourceSrt, item.srt),
+        },
+      ];
+    } catch (error) {
+      invalidTimelineMessages.push(
+        `${item.locale}: ${
+          error instanceof Error ? error.message : "invalid SRT structure"
+        }`,
+      );
+      return [];
+    }
+  });
   if (!localizations.length) {
     const returnedLocales = parsed.localizations
       .map((item) => item.locale)
       .filter(Boolean)
       .join(", ");
     throw new Error(
-      `The model returned no subtitles for the requested locales. Requested: ${uniqueTargetLocales.join(", ")}. Returned: ${returnedLocales || "none"}.`,
+      `The model returned no valid subtitles for the requested locales. Requested: ${uniqueTargetLocales.join(", ")}. Returned: ${returnedLocales || "none"}.${
+        invalidTimelineMessages.length
+          ? ` Timeline validation failed: ${invalidTimelineMessages.join("; ")}.`
+          : ""
+      }`,
     );
   }
 
@@ -1277,6 +1299,69 @@ function parseSubtitleLocalizationBatch(outputText: string) {
     }
     throw error;
   }
+}
+
+type SrtTimelineCue = {
+  index: string;
+  timing: string;
+};
+
+function restoreSourceSrtTimeline(sourceSrt: string, translatedSrt: string) {
+  const sourceCues = parseSourceSrtTimeline(sourceSrt);
+  const translatedTextBlocks = parseTranslatedSrtTextBlocks(translatedSrt);
+
+  if (translatedTextBlocks.length !== sourceCues.length) {
+    throw new Error(
+      `expected ${sourceCues.length} cues but received ${translatedTextBlocks.length}`,
+    );
+  }
+
+  return sourceCues
+    .map(
+      (cue, index) =>
+        `${cue.index}\n${cue.timing}\n${translatedTextBlocks[index]}`,
+    )
+    .join("\n\n");
+}
+
+function parseSourceSrtTimeline(value: string): SrtTimelineCue[] {
+  const blocks = getSrtBlocks(value);
+  const timingPattern =
+    /^\d{2,3}:\d{2}:\d{2},\d{3}\s+-->\s+\d{2,3}:\d{2}:\d{2},\d{3}(?:\s+.*)?$/;
+
+  return blocks.map((block, blockIndex) => {
+    const lines = block.split("\n");
+    const index = lines[0]?.trim() ?? "";
+    const timing = lines[1]?.trim() ?? "";
+    if (!/^\d+$/.test(index) || !timingPattern.test(timing)) {
+      throw new Error(`source cue ${blockIndex + 1} is not valid SRT`);
+    }
+    return { index, timing };
+  });
+}
+
+function parseTranslatedSrtTextBlocks(value: string) {
+  return getSrtBlocks(value).map((block, blockIndex) => {
+    const lines = block.split("\n");
+    const timingIndex = lines.findIndex((line) => line.includes("-->"));
+    const textStart = timingIndex >= 0 ? timingIndex + 1 : 2;
+    const text = lines.slice(textStart).join("\n").trim();
+    if (!text) {
+      throw new Error(`translated cue ${blockIndex + 1} has no text`);
+    }
+    return text;
+  });
+}
+
+function getSrtBlocks(value: string) {
+  const normalized = value
+    .replace(/^\uFEFF/, "")
+    .replace(/^```(?:srt)?\s*/i, "")
+    .replace(/\s*```$/, "")
+    .replace(/\r\n?/g, "\n")
+    .trim();
+  if (!normalized) throw new Error("SRT is empty");
+  return normalized.split(/\n\s*\n(?=\s*\d+\s*\n)/);
 }
 
 function parsePlatformCopy(outputText: string) {
