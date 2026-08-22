@@ -4,6 +4,8 @@ import { generateYouTubeLocalizationBatch } from "@sovia/admin/data/music-descri
 import { listEnabledAdminYoutubeLocales } from "@sovia/admin/data/youtube-locales";
 import { NextResponse } from "next/server";
 
+export const maxDuration = 300;
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },

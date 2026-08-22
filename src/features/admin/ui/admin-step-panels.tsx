@@ -629,6 +629,10 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
     done: number;
     total: number;
   } | null>(null);
+  const [retryState, setRetryState] = useState<{
+    locales: string[];
+    sourceLocale: string;
+  } | null>(null);
   const [translatedCount, setTranslatedCount] = useState<number | null>(null);
 
   async function handleClick(event: MouseEvent<HTMLButtonElement>) {
@@ -642,7 +646,19 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
     }
 
     const locales = getYoutubeLocalizationLocales(form);
-    const targetLocales = locales.filter((locale) => locale !== sourceLocale);
+    const allTargetLocales = locales.filter(
+      (locale) => locale !== sourceLocale,
+    );
+    const retryLocaleSet =
+      retryState?.sourceLocale === sourceLocale
+        ? new Set(retryState.locales)
+        : null;
+    const retryTargetLocales = retryLocaleSet
+      ? allTargetLocales.filter((locale) => retryLocaleSet.has(locale))
+      : [];
+    const targetLocales = retryTargetLocales.length
+      ? retryTargetLocales
+      : allTargetLocales;
     const sourceContent = getYoutubeLocalizationValues(form, [sourceLocale])[
       sourceLocale
     ];
@@ -652,7 +668,7 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
       );
       return;
     }
-    if (!targetLocales.length) {
+    if (!allTargetLocales.length) {
       setError("No other YouTube languages are available to translate.");
       return;
     }
@@ -671,7 +687,6 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
     const localesPerRequest = getYoutubeLocalesPerRequest(
       sourceContent.description.length,
     );
-    const requestConcurrency = localesPerRequest === 1 ? 1 : 2;
     // Preserve the validation narrowing inside the async batch closure.
     const activeForm = form;
     const activeSourceLocale = sourceLocale;
@@ -687,105 +702,134 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
     let processed = 0;
     let translated = 0;
     const failedLocales = new Set<string>();
+    const failureReasons = new Map<string, string>();
 
     async function runBatch(batch: string[]) {
-      try {
-        const response = await fetch(
-          `/admin/api/content/${encodeURIComponent(contentId)}/generate-youtube-localization-batch`,
-          {
-            body: JSON.stringify({
-              generationNotes,
-              promptKey,
-              sourceLocale: activeSourceLocale,
-              targetLocales: batch,
-              youtubeLocalization: {
-                [activeSourceLocale]: sourceContent,
-                ...Object.fromEntries(
-                  batch.map((locale) => [locale, youtubeLocalization[locale]]),
-                ),
-              },
-            }),
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-          },
-        );
-        const payload = (await response.json()) as {
-          localizations?: {
-            description: string;
-            locale: string;
-            title: string;
-          }[];
-          message?: string;
-        };
+      let remainingLocales = [...batch];
+      let lastError = "The model response omitted one or more locales.";
 
-        if (!response.ok) {
-          throw new Error(
-            response.status === 504
-              ? "This batch timed out."
-              : payload.message ||
-                  "YouTube localization batch generation failed.",
-          );
+      for (
+        let attempt = 1;
+        attempt <= 3 && remainingLocales.length;
+        attempt += 1
+      ) {
+        if (attempt > 1) {
+          await new Promise<void>((resolve) => {
+            window.setTimeout(resolve, 750 * (attempt - 1));
+          });
         }
 
-        const localizations = payload.localizations ?? [];
-        for (const locale of batch) {
-          const item = localizations.find(
-            (candidate) =>
-              candidate.locale === locale &&
-              candidate.title.trim() &&
-              candidate.description.trim(),
+        try {
+          const response = await fetch(
+            `/admin/api/content/${encodeURIComponent(contentId)}/generate-youtube-localization-batch`,
+            {
+              body: JSON.stringify({
+                generationNotes,
+                promptKey,
+                sourceLocale: activeSourceLocale,
+                targetLocales: remainingLocales,
+                youtubeLocalization: {
+                  [activeSourceLocale]: sourceContent,
+                  ...Object.fromEntries(
+                    remainingLocales.map((locale) => [
+                      locale,
+                      youtubeLocalization[locale],
+                    ]),
+                  ),
+                },
+              }),
+              headers: { "Content-Type": "application/json" },
+              method: "POST",
+            },
           );
-          if (!item) {
-            failedLocales.add(locale);
-            continue;
+          const responseText = await response.text();
+          let payload: {
+            localizations?: {
+              description: string;
+              locale: string;
+              title: string;
+            }[];
+            message?: string;
+          } = {};
+          try {
+            payload = JSON.parse(responseText) as typeof payload;
+          } catch {
+            // Deployment timeouts can return an HTML or empty response.
           }
-          setFormControlValue(
-            activeForm,
-            `youtubeLocalization.${locale}.title`,
-            item.title,
+
+          if (!response.ok) {
+            throw new Error(
+              response.status === 504
+                ? "The translation request timed out."
+                : payload.message ||
+                    `Translation request failed with HTTP ${response.status}.`,
+            );
+          }
+
+          const localizations = payload.localizations ?? [];
+          const completedLocales = new Set<string>();
+          for (const locale of remainingLocales) {
+            const item = localizations.find(
+              (candidate) =>
+                candidate.locale === locale &&
+                candidate.title.trim() &&
+                candidate.description.trim(),
+            );
+            if (!item) continue;
+
+            setFormControlValue(
+              activeForm,
+              `youtubeLocalization.${locale}.title`,
+              item.title,
+            );
+            setFormControlValue(
+              activeForm,
+              `youtubeLocalization.${locale}.description`,
+              item.description,
+            );
+            completedLocales.add(locale);
+            translated += 1;
+          }
+          remainingLocales = remainingLocales.filter(
+            (locale) => !completedLocales.has(locale),
           );
-          setFormControlValue(
-            activeForm,
-            `youtubeLocalization.${locale}.description`,
-            item.description,
-          );
-          translated += 1;
+          if (remainingLocales.length) {
+            lastError = `The model response omitted: ${remainingLocales.join(", ")}.`;
+          }
+        } catch (batchError) {
+          lastError =
+            batchError instanceof Error
+              ? batchError.message
+              : "YouTube localization batch generation failed.";
         }
-      } catch {
-        for (const locale of batch) failedLocales.add(locale);
-      } finally {
-        processed += batch.length;
-        setProgress({ done: processed, total: targetLocales.length });
       }
+
+      for (const locale of remainingLocales) {
+        failedLocales.add(locale);
+        failureReasons.set(locale, lastError);
+      }
+      processed += batch.length;
+      setProgress({ done: processed, total: targetLocales.length });
     }
 
     try {
-      // Warm the shared prompt cache before starting the small worker pool.
-      if (batches.length) await runBatch(batches[0]);
-      let cursor = 1;
-      async function worker() {
-        while (cursor < batches.length) {
-          const index = cursor;
-          cursor += 1;
-          await runBatch(batches[index]);
-        }
+      for (const batch of batches) {
+        await runBatch(batch);
       }
-      await Promise.all(
-        Array.from(
-          { length: Math.min(requestConcurrency, batches.length - 1) },
-          () => worker(),
-        ),
-      );
+
+      const failed = Array.from(failedLocales);
+      setRetryState(failed.length ? { locales: failed, sourceLocale } : null);
+      const reasons = Array.from(new Set(failureReasons.values())).join(" ");
 
       if (!translated) {
         setError(
-          `YouTube translation failed for: ${Array.from(failedLocales).join(", ") || targetLocales.join(", ")}.`,
+          `YouTube translation failed for: ${failed.join(", ") || targetLocales.join(", ")}. ${reasons}`,
         );
       } else {
         setTranslatedCount(translated);
-        if (failedLocales.size) {
+        if (failed.length) {
           setError(
-            `Translated ${translated} of ${targetLocales.length} locales. Failed: ${Array.from(failedLocales).join(", ")}. Retry to translate the remaining locales.`,
+            `Translated ${translated} of ${targetLocales.length} locales. Failed after 3 attempts: ${failed.join(", ")}. ${reasons} Click retry to translate only the failed locales.`,
           );
         }
       }
@@ -795,6 +839,7 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
           ? generationError.message
           : "YouTube localization batch generation failed.",
       );
+      setRetryState({ locales: targetLocales, sourceLocale });
     } finally {
       setProgress(null);
       setPending(false);
@@ -809,7 +854,11 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
         onClick={handleClick}
         type="button"
       >
-        {pending ? "Translating..." : "Translate all locales"}
+        {pending
+          ? "Translating..."
+          : retryState
+            ? "Retry failed locales"
+            : "Translate all locales"}
       </button>
       {pending ? (
         <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
