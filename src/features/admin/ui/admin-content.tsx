@@ -785,11 +785,7 @@ function PromptContractPanel() {
   "targetLanguages": [
     {
       "locale": "zh-CN",
-      "label": "Simplified Chinese",
-      "existingYoutubeLocalization": {
-        "title": "Current title",
-        "description": "Current description"
-      }
+      "label": "Simplified Chinese"
     }
   ],
   "requiredOutputLocales": ["zh-CN"],

@@ -474,6 +474,11 @@ export async function generateYouTubeLocalizationBatch({
         role: "developer",
       },
       {
+        content:
+          "Translate every requested locale only from sourceYoutubeLocalization in the current request. Regenerate each translation completely; do not preserve, infer from, or refer to any previously translated target-language content.",
+        role: "developer",
+      },
+      {
         content: JSON.stringify({
           contentId: work.contentId,
           description: toDescriptionInput(work),
@@ -498,7 +503,6 @@ export async function generateYouTubeLocalizationBatch({
           // stable prompt-cache prefix across progressive translation calls.
           requiredOutputLocales: uniqueTargetLocales,
           targetLanguages: uniqueTargetLocales.map((locale) => ({
-            existingYoutubeLocalization: youtubeLocalization[locale],
             label: getLanguageLabel(locale),
             locale,
           })),

@@ -60,30 +60,20 @@ function getYoutubeTranslationFormContext() {
   );
   if (!form) return {};
 
-  const youtubeLocalization: Record<
-    string,
-    { description?: string; title?: string }
-  > = {};
-  for (const element of Array.from(form.elements)) {
-    if (
-      !(
-        element instanceof HTMLInputElement ||
-        element instanceof HTMLTextAreaElement
-      )
-    ) {
-      continue;
-    }
-    const match = /^youtubeLocalization\.([^.]+)\.(title|description)$/.exec(
-      element.name,
-    );
-    const locale = match?.[1];
-    const field = match?.[2] as "description" | "title" | undefined;
-    if (!locale || !field) continue;
-    youtubeLocalization[locale] ??= {};
-    youtubeLocalization[locale][field] = element.value;
-  }
+  const primaryLocale = getFormValue(form, "youtubePrimaryLocale");
+  if (!primaryLocale) return {};
 
-  return { youtubeLocalization };
+  return {
+    youtubeLocalization: {
+      [primaryLocale]: {
+        description: getFormValue(
+          form,
+          `youtubeLocalization.${primaryLocale}.description`,
+        ),
+        title: getFormValue(form, `youtubeLocalization.${primaryLocale}.title`),
+      },
+    },
+  };
 }
 
 function getSubtitleTranslationFormContext() {

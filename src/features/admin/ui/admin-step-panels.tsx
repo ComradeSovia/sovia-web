@@ -683,7 +683,6 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
       form,
       "youtubeLocalizationBatchPromptKey",
     );
-    const youtubeLocalization = getYoutubeLocalizationValues(form, locales);
     const localesPerRequest = getYoutubeLocalesPerRequest(
       sourceContent.description.length,
     );
@@ -730,12 +729,6 @@ export function AdminGenerateYoutubeLocalizationBatchButton({
                 targetLocales: remainingLocales,
                 youtubeLocalization: {
                   [activeSourceLocale]: sourceContent,
-                  ...Object.fromEntries(
-                    remainingLocales.map((locale) => [
-                      locale,
-                      youtubeLocalization[locale],
-                    ]),
-                  ),
                 },
               }),
               headers: { "Content-Type": "application/json" },
