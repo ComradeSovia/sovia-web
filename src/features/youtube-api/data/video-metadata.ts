@@ -47,6 +47,8 @@ type SyncYouTubeVideoMetadataInput = {
 
 const YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3";
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
+export const YOUTUBE_TITLE_MAX_CHARACTERS = 100;
+export const YOUTUBE_DESCRIPTION_MAX_BYTES = 5000;
 
 export async function syncYouTubeVideoMetadata({
   credentials,
@@ -55,6 +57,8 @@ export async function syncYouTubeVideoMetadata({
   title,
   videoId,
 }: SyncYouTubeVideoMetadataInput) {
+  assertValidYouTubeVideoMetadata({ description, localizations, title });
+
   const accessToken = await getYouTubeAccessToken(credentials);
   const current = await getYouTubeVideo(videoId, accessToken);
 
@@ -105,6 +109,60 @@ export async function syncYouTubeVideoMetadata({
     title,
     videoId,
   };
+}
+
+function assertValidYouTubeVideoMetadata({
+  description,
+  localizations,
+  title,
+}: Pick<
+  SyncYouTubeVideoMetadataInput,
+  "description" | "localizations" | "title"
+>) {
+  const errors = getYouTubeTextErrors("Primary", title, description);
+
+  for (const [locale, localization] of Object.entries(localizations ?? {})) {
+    errors.push(
+      ...getYouTubeTextErrors(
+        `Localization ${locale}`,
+        localization.title,
+        localization.description,
+      ),
+    );
+  }
+
+  if (errors.length) {
+    throw new Error(`YouTube metadata is invalid: ${errors.join("; ")}`);
+  }
+}
+
+function getYouTubeTextErrors(
+  label: string,
+  title: string,
+  description: string,
+) {
+  const errors: string[] = [];
+  const titleLength = Array.from(title).length;
+  const descriptionBytes = new TextEncoder().encode(description).length;
+
+  if (titleLength > YOUTUBE_TITLE_MAX_CHARACTERS) {
+    errors.push(
+      `${label} title is ${titleLength} characters; the limit is ${YOUTUBE_TITLE_MAX_CHARACTERS}`,
+    );
+  }
+  if (descriptionBytes > YOUTUBE_DESCRIPTION_MAX_BYTES) {
+    errors.push(
+      `${label} description is ${descriptionBytes} bytes; the limit is ${YOUTUBE_DESCRIPTION_MAX_BYTES}`,
+    );
+  }
+  if (title.includes("<") || title.includes(">")) {
+    errors.push(`${label} title cannot contain < or >`);
+  }
+  if (description.includes("<") || description.includes(">")) {
+    errors.push(`${label} description cannot contain < or >`);
+  }
+
+  return errors;
 }
 
 async function getYouTubeVideo(videoId: string, accessToken: string) {

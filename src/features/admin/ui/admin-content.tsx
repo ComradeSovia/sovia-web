@@ -3540,6 +3540,7 @@ function YoutubeEditor({
       <div className="grid gap-4">
         <Field
           label="YouTube title"
+          maxLength={100}
           name={titleFieldName}
           value={content.title}
         />
@@ -3785,6 +3786,7 @@ function getYoutubeLocaleLabel(locale: string) {
 
 export function Field({
   label,
+  maxLength,
   name,
   placeholder,
   readOnly,
@@ -3794,6 +3796,7 @@ export function Field({
   warning,
 }: {
   label: string;
+  maxLength?: number;
   name: string;
   placeholder?: string;
   readOnly?: boolean;
@@ -3810,6 +3813,7 @@ export function Field({
         data-admin-warning={warning}
         defaultValue={value ?? ""}
         key={name}
+        maxLength={maxLength}
         name={name}
         placeholder={placeholder}
         readOnly={readOnly}
