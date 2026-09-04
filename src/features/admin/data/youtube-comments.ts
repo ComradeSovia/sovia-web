@@ -11,6 +11,7 @@ const SYNC_ID = "primary";
 const PAGE_SIZE = 100;
 const INITIAL_SYNC_PAGES = 10;
 const INCREMENTAL_SYNC_PAGES = 3;
+const OWN_CHANNEL_HANDLE = "comradesovia";
 
 type CommentThreadResponse = {
   error?: { error_description?: string; message?: string };
@@ -59,8 +60,28 @@ export async function listAdminYoutubeComments({
   const prisma = getPrismaClient();
   if (!prisma) return { items: [], total: 0 };
   const query = q?.trim();
+  const connection = await getAdminYoutubeConnection();
   const where = {
     ...(contentId ? { contentId } : {}),
+    NOT: {
+      OR: [
+        {
+          authorDisplayName: {
+            equals: "@ComradeSovia",
+            mode: "insensitive" as const,
+          },
+        },
+        {
+          authorDisplayName: {
+            equals: "ComradeSovia",
+            mode: "insensitive" as const,
+          },
+        },
+        ...(connection?.channelId
+          ? [{ authorChannelId: connection.channelId }]
+          : []),
+      ],
+    },
     ...(query
       ? {
           OR: [
@@ -177,6 +198,7 @@ export async function syncAdminYoutubeComments({
         if (previousBoundary && parsed.publishedAt <= previousBoundary) {
           reachedPreviousBoundary = true;
         }
+        if (isOwnChannelComment(parsed, connection.channelId)) continue;
         const contentId = contentIdByVideoId.get(parsed.videoId);
         if (!contentId) continue;
 
@@ -314,4 +336,18 @@ function parseDate(value: string | undefined) {
   if (!value) return null;
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function isOwnChannelComment(
+  comment: NonNullable<ReturnType<typeof parseCommentThread>>,
+  channelId: string,
+) {
+  return (
+    comment.authorChannelId === channelId ||
+    normalizeYoutubeHandle(comment.authorDisplayName) === OWN_CHANNEL_HANDLE
+  );
+}
+
+function normalizeYoutubeHandle(value: string) {
+  return value.trim().replace(/^@/, "").toLocaleLowerCase("en-US");
 }
