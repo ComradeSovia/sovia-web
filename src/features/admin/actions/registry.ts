@@ -601,13 +601,13 @@ export const ADMIN_ACTIONS = [
   {
     availability: {},
     description:
-      "Incrementally sync top-level audience comments channel-wide. Each page costs 1 YouTube quota unit; incremental runs stop at the previous newest comment and use at most 3 pages.",
+      "Incrementally sync top-level audience comments channel-wide and refresh whether the connected channel has replied.",
     execution: {
-      endpoint: "/admin/analytics/comments/sync",
+      endpoint: "/admin/comments/sync",
       method: "POST",
       type: "form",
     },
-    id: "analytics.sync-youtube-comments",
+    id: "comments.sync-youtube",
     inputs: [],
     output: noOutput,
     presentation: standard,

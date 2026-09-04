@@ -34,10 +34,6 @@ import {
   listYoutubeTrafficSourceSnapshotsByPeriods,
 } from "../data/youtube-analytics";
 import {
-  getAdminYoutubeCommentSyncStatus,
-  listAdminYoutubeComments,
-} from "../data/youtube-comments";
-import {
   getAdminYoutubeConnection,
   getYoutubeOAuthConfig,
 } from "../data/youtube-connection";
@@ -82,9 +78,6 @@ type TrafficSnapshot = Awaited<
 type RealtimeSnapshot = Awaited<
   ReturnType<typeof listYoutubeRealtimeSnapshots>
 >[number];
-type YoutubeComment = Awaited<
-  ReturnType<typeof listAdminYoutubeComments>
->["items"][number];
 type AnalyticsRow = {
   snapshot: Snapshot;
   verdict: ReturnType<typeof getVerdict>;
@@ -282,109 +275,6 @@ export async function AdminAnalyticsWorksPage({
   );
 }
 
-export async function AdminAnalyticsCommentsPage({
-  message,
-  page,
-  q,
-  status,
-}: {
-  message?: string;
-  page?: string;
-  q?: string;
-  status?: string;
-}) {
-  return (
-    <AdminAnalyticsFrame message={message} status={status}>
-      {async ({ works }) => {
-        const currentPage = Math.max(1, Number.parseInt(page ?? "1", 10) || 1);
-        const query = q?.trim() ?? "";
-        const offset = (currentPage - 1) * ANALYTICS_PAGE_SIZE;
-        const [{ items, total }, syncStatus] = await Promise.all([
-          listAdminYoutubeComments({
-            limit: ANALYTICS_PAGE_SIZE,
-            offset,
-            q: query,
-          }),
-          getAdminYoutubeCommentSyncStatus(),
-        ]);
-        const totalPages = Math.max(1, Math.ceil(total / ANALYTICS_PAGE_SIZE));
-        const workByContentId = new Map(
-          works.map((work) => [work.contentId, work]),
-        );
-
-        return (
-          <Card className={CARD_CLASS}>
-            <CardHeader className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
-              <div>
-                <CardTitle className={CARD_TITLE_CLASS}>
-                  Audience Comments
-                </CardTitle>
-                <CardDescription className={CARD_DESCRIPTION_CLASS}>
-                  {total} stored top-level comments. Latest sync:{" "}
-                  {syncStatus?.syncedAt
-                    ? syncStatus.syncedAt.toLocaleString("en-US")
-                    : "not synced yet"}
-                  {syncStatus?.message ? ` · ${syncStatus.message}` : ""}
-                </CardDescription>
-              </div>
-              <form action="/admin/analytics/comments/sync" method="post">
-                <Button className={PRIMARY_BUTTON_CLASS} type="submit">
-                  <RefreshCw className="mr-2 h-4 w-4" />
-                  Sync comments
-                </Button>
-              </form>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-md border border-sky-500/20 bg-sky-500/10 p-3 text-xs leading-5 text-sky-100">
-                Quota policy: 1 unit per 100-comment page; incremental syncs
-                stop after reaching the previous newest comment and process up
-                to 3 pages per run. Initial backfill processes up to 10 pages
-                per run. Unfinished syncs resume from their saved page cursor on
-                the next run. Replies are counted but not fetched individually.
-              </div>
-              <form
-                action="/admin/analytics/comments"
-                className="flex flex-col gap-2 sm:flex-row"
-                method="get"
-              >
-                <Input
-                  aria-label="Search audience comments"
-                  className="h-10 border-zinc-700 bg-zinc-950 text-zinc-100 placeholder:text-zinc-600"
-                  defaultValue={query}
-                  name="q"
-                  placeholder="Search comment, viewer, or YouTube video ID"
-                  type="search"
-                />
-                <Button className={PRIMARY_BUTTON_CLASS} type="submit">
-                  Search
-                </Button>
-                {query ? (
-                  <Button
-                    asChild
-                    className={SECONDARY_BUTTON_CLASS}
-                    variant="outline"
-                  >
-                    <Link href="/admin/analytics/comments">Clear</Link>
-                  </Button>
-                ) : null}
-              </form>
-              <CommentsTable
-                comments={items}
-                workByContentId={workByContentId}
-              />
-              <CommentsPagination
-                page={Math.min(currentPage, totalPages)}
-                q={query}
-                totalPages={totalPages}
-              />
-            </CardContent>
-          </Card>
-        );
-      }}
-    </AdminAnalyticsFrame>
-  );
-}
-
 export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
   return (
     <AdminAnalyticsFrame>
@@ -415,11 +305,6 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
             </Card>
           );
         }
-
-        const comments = await listAdminYoutubeComments({
-          contentId: row.snapshot.contentId,
-          limit: 10,
-        });
 
         return (
           <Card className={CARD_CLASS}>
@@ -470,25 +355,6 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
                     ),
                     row.snapshot,
                   ]}
-                />
-              </div>
-              <div className="border-t border-zinc-800 pt-5">
-                <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                  <div className="text-sm font-medium text-zinc-100">
-                    Latest audience comments
-                  </div>
-                  <Link
-                    className="text-xs text-zinc-400 underline-offset-4 hover:text-zinc-100 hover:underline"
-                    href={`/admin/analytics/comments?q=${encodeURIComponent(row.snapshot.videoId)}`}
-                  >
-                    View all {comments.total}
-                  </Link>
-                </div>
-                <CommentsTable
-                  comments={comments.items}
-                  workByContentId={
-                    new Map(row.work ? [[row.work.contentId, row.work]] : [])
-                  }
                 />
               </div>
               <div className="border-t border-zinc-800 pt-5">
@@ -703,7 +569,6 @@ function AnalyticsNav() {
   const items = [
     ["Overview", "/admin/analytics"],
     ["Works", "/admin/analytics/works"],
-    ["Comments", "/admin/analytics/comments"],
     ["Compare", "/admin/analytics/compare"],
   ] as const;
 
@@ -1242,138 +1107,6 @@ function TrafficSourcesTable({ snapshots }: { snapshots: TrafficSnapshot[] }) {
           ) : null}
         </TableBody>
       </Table>
-    </div>
-  );
-}
-
-function CommentsTable({
-  comments,
-  workByContentId,
-}: {
-  comments: YoutubeComment[];
-  workByContentId: Map<string, Work>;
-}) {
-  return (
-    <div className="rounded-md border border-zinc-800">
-      <Table className="min-w-[980px] table-fixed">
-        <TableHeader>
-          <TableRow className="border-zinc-800">
-            <TableHead className="w-56 text-zinc-400">Work</TableHead>
-            <TableHead className="w-44 text-zinc-400">Viewer</TableHead>
-            <TableHead className="w-[30rem] text-zinc-400">Comment</TableHead>
-            <TableHead className="w-20 text-right text-zinc-400">
-              Likes
-            </TableHead>
-            <TableHead className="w-20 text-right text-zinc-400">
-              Replies
-            </TableHead>
-            <TableHead className="w-44 text-zinc-400">Published</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {comments.map((comment) => {
-            const work = workByContentId.get(comment.contentId);
-            return (
-              <TableRow className="border-zinc-800" key={comment.id}>
-                <TableCell className="align-top">
-                  <Link
-                    className="block truncate text-zinc-100 underline-offset-4 hover:underline"
-                    href={`/admin/analytics/${encodeURIComponent(comment.contentId)}`}
-                  >
-                    {work ? getWorkDisplayTitle(work) : comment.contentId}
-                  </Link>
-                  <div className="mt-1 truncate font-mono text-xs text-zinc-600">
-                    {comment.videoId}
-                  </div>
-                </TableCell>
-                <TableCell className="align-top text-zinc-300">
-                  <div className="truncate">{comment.authorDisplayName}</div>
-                  {comment.authorChannelId ? (
-                    <div className="mt-1 truncate font-mono text-xs text-zinc-600">
-                      {comment.authorChannelId}
-                    </div>
-                  ) : null}
-                </TableCell>
-                <TableCell className="align-top whitespace-normal text-zinc-100">
-                  <p className="line-clamp-5 whitespace-pre-wrap break-words text-sm leading-6">
-                    {comment.text}
-                  </p>
-                </TableCell>
-                <TableCell className="text-right align-top text-zinc-100">
-                  {formatInteger(comment.likeCount)}
-                </TableCell>
-                <TableCell className="text-right align-top text-zinc-100">
-                  {formatInteger(comment.replyCount)}
-                </TableCell>
-                <TableCell className="align-top text-xs text-zinc-500">
-                  {comment.publishedAt.toLocaleString("en-US")}
-                  {comment.updatedAt > comment.publishedAt ? (
-                    <div className="mt-1">edited</div>
-                  ) : null}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-          {!comments.length ? (
-            <TableRow className="border-zinc-800">
-              <TableCell className="py-8 text-center text-zinc-500" colSpan={6}>
-                No synced audience comments match this view.
-              </TableCell>
-            </TableRow>
-          ) : null}
-        </TableBody>
-      </Table>
-    </div>
-  );
-}
-
-function CommentsPagination({
-  page,
-  q,
-  totalPages,
-}: {
-  page: number;
-  q: string;
-  totalPages: number;
-}) {
-  const href = (targetPage: number) => {
-    const params = new URLSearchParams();
-    if (q) params.set("q", q);
-    if (targetPage > 1) params.set("page", String(targetPage));
-    const query = params.toString();
-    return query
-      ? `/admin/analytics/comments?${query}`
-      : "/admin/analytics/comments";
-  };
-
-  return (
-    <div className="flex items-center justify-between gap-3 border-t border-zinc-800 pt-4">
-      <div className="text-sm text-zinc-500">
-        Page {page} of {totalPages}
-      </div>
-      <div className="flex gap-2">
-        <Button
-          asChild
-          className={`${SECONDARY_BUTTON_CLASS} aria-disabled:pointer-events-none aria-disabled:opacity-50`}
-          variant="outline"
-        >
-          <Link aria-disabled={page <= 1} href={href(Math.max(1, page - 1))}>
-            Previous
-          </Link>
-        </Button>
-        <Button
-          asChild
-          className={`${SECONDARY_BUTTON_CLASS} aria-disabled:pointer-events-none aria-disabled:opacity-50`}
-          variant="outline"
-        >
-          <Link
-            aria-disabled={page >= totalPages}
-            href={href(Math.min(totalPages, page + 1))}
-          >
-            Next
-          </Link>
-        </Button>
-      </div>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
   ListMusic,
   ListTodo,
   LogOut,
+  MessageSquareText,
   Plus,
   SlidersHorizontal,
   Sparkles,
@@ -281,6 +282,12 @@ export function AdminSidebar({
                       href: "/admin/analytics",
                       icon: BarChart3,
                       label: "Analytics",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/comments"),
+                      href: "/admin/comments",
+                      icon: MessageSquareText,
+                      label: "Comments",
                     },
                   ]}
                 />

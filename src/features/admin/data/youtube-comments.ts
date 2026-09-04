@@ -1,5 +1,6 @@
 import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { getYouTubeAccessToken } from "@sovia/youtube-api";
+import type { Prisma } from "@/generated/prisma/client";
 import { listAdminMusicWorks } from "./music-admin";
 import {
   getAdminYoutubeConnection,
@@ -11,7 +12,22 @@ const SYNC_ID = "primary";
 const PAGE_SIZE = 100;
 const INITIAL_SYNC_PAGES = 10;
 const INCREMENTAL_SYNC_PAGES = 3;
+const OWNER_REPLY_REFRESH_LIMIT = 20;
 const OWN_CHANNEL_HANDLE = "comradesovia";
+
+export type YoutubeCommentSort =
+  | "mostLiked"
+  | "mostReplies"
+  | "newest"
+  | "oldest";
+
+type CommentResource = {
+  id?: string;
+  snippet?: {
+    authorChannelId?: { value?: string };
+    authorDisplayName?: string;
+  };
+};
 
 type CommentThreadResponse = {
   error?: { error_description?: string; message?: string };
@@ -19,8 +35,15 @@ type CommentThreadResponse = {
   nextPageToken?: string;
 };
 
+type CommentListResponse = {
+  error?: { error_description?: string; message?: string };
+  items?: CommentResource[];
+  nextPageToken?: string;
+};
+
 type CommentThreadResource = {
   id?: string;
+  replies?: { comments?: CommentResource[] };
   snippet?: {
     topLevelComment?: {
       id?: string;
@@ -48,40 +71,56 @@ export async function getAdminYoutubeCommentSyncStatus() {
 
 export async function listAdminYoutubeComments({
   contentId,
+  hideOwn = false,
+  hideReplied = false,
   limit = 50,
   offset = 0,
+  ownerChannelId,
   q,
+  sort = "newest",
 }: {
   contentId?: string;
+  hideOwn?: boolean;
+  hideReplied?: boolean;
   limit?: number;
   offset?: number;
+  ownerChannelId?: string;
   q?: string;
+  sort?: YoutubeCommentSort;
 } = {}) {
   const prisma = getPrismaClient();
   if (!prisma) return { items: [], total: 0 };
   const query = q?.trim();
-  const connection = await getAdminYoutubeConnection();
-  const where = {
+  const where: Prisma.AdminYoutubeCommentWhereInput = {
     ...(contentId ? { contentId } : {}),
-    NOT: {
-      OR: [
-        {
-          authorDisplayName: {
-            equals: "@ComradeSovia",
-            mode: "insensitive" as const,
-          },
-        },
-        {
-          authorDisplayName: {
-            equals: "ComradeSovia",
-            mode: "insensitive" as const,
-          },
-        },
-        ...(connection?.channelId
-          ? [{ authorChannelId: connection.channelId }]
-          : []),
-      ],
-    },
+    AND: [
+      ...(hideOwn
+        ? [
+            {
+              NOT: {
+                OR: [
+                  ...(ownerChannelId
+                    ? [{ authorChannelId: ownerChannelId }]
+                    : []),
+                  {
+                    authorDisplayName: {
+                      equals: "@ComradeSovia",
+                      mode: "insensitive" as const,
+                    },
+                  },
+                  {
+                    authorDisplayName: {
+                      equals: "ComradeSovia",
+                      mode: "insensitive" as const,
+                    },
+                  },
+                ],
+              },
+            },
+          ]
+        : []),
+      ...(hideReplied ? [{ hasOwnerReply: false }] : []),
+    ],
     ...(query
       ? {
           OR: [
@@ -97,9 +136,17 @@ export async function listAdminYoutubeComments({
         }
       : {}),
   };
+  const orderBy: Prisma.AdminYoutubeCommentOrderByWithRelationInput[] =
+    sort === "oldest"
+      ? [{ publishedAt: "asc" }, { id: "asc" }]
+      : sort === "mostLiked"
+        ? [{ likeCount: "desc" }, { publishedAt: "desc" }, { id: "asc" }]
+        : sort === "mostReplies"
+          ? [{ replyCount: "desc" }, { publishedAt: "desc" }, { id: "asc" }]
+          : [{ publishedAt: "desc" }, { id: "asc" }];
   const [items, total] = await Promise.all([
     prisma.adminYoutubeComment.findMany({
-      orderBy: [{ publishedAt: "desc" }, { id: "asc" }],
+      orderBy,
       skip: Math.max(0, offset),
       take: Math.min(100, Math.max(1, limit)),
       where,
@@ -177,7 +224,9 @@ export async function syncAdminYoutubeComments({
     );
     let pageToken = continuationPageToken;
     let pagesFetched = 0;
+    let replyPagesFetched = 0;
     let commentsSynced = 0;
+    const processedCommentIds = new Set<string>();
     let newestPublishedAt = pendingNewestPublishedAt ?? previousBoundary;
     let reachedPreviousBoundary = false;
 
@@ -198,17 +247,32 @@ export async function syncAdminYoutubeComments({
         if (previousBoundary && parsed.publishedAt <= previousBoundary) {
           reachedPreviousBoundary = true;
         }
-        if (isOwnChannelComment(parsed, connection.channelId)) continue;
         const contentId = contentIdByVideoId.get(parsed.videoId);
         if (!contentId) continue;
+        const ownerReply = await getOwnerReplyStatus({
+          accessToken,
+          ownerChannelId: connection.channelId,
+          thread,
+          topLevelCommentId: parsed.id,
+          totalReplyCount: parsed.replyCount,
+        });
+        replyPagesFetched += ownerReply.pagesFetched;
+        processedCommentIds.add(parsed.id);
 
         await prisma.adminYoutubeComment.upsert({
-          create: { ...parsed, contentId },
+          create: {
+            ...parsed,
+            contentId,
+            hasOwnerReply: ownerReply.hasOwnerReply,
+            ownerReplyCheckedAt: new Date(),
+          },
           update: {
             authorChannelId: parsed.authorChannelId,
             authorDisplayName: parsed.authorDisplayName,
             authorProfileImageUrl: parsed.authorProfileImageUrl,
+            hasOwnerReply: ownerReply.hasOwnerReply,
             likeCount: parsed.likeCount,
+            ownerReplyCheckedAt: new Date(),
             replyCount: parsed.replyCount,
             text: parsed.text,
             updatedAt: parsed.updatedAt,
@@ -237,16 +301,45 @@ export async function syncAdminYoutubeComments({
       });
     } while (pageToken && pagesFetched < pageLimit && !reachedPreviousBoundary);
 
+    const replyRefreshCandidates = await prisma.adminYoutubeComment.findMany({
+      orderBy: [{ ownerReplyCheckedAt: "asc" }, { publishedAt: "desc" }],
+      select: { id: true },
+      take: OWNER_REPLY_REFRESH_LIMIT,
+      where: {
+        hasOwnerReply: false,
+        ...(processedCommentIds.size
+          ? { id: { notIn: Array.from(processedCommentIds) } }
+          : {}),
+      },
+    });
+    for (const candidate of replyRefreshCandidates) {
+      const ownerReply = await fetchOwnerReplyStatus({
+        accessToken,
+        ownerChannelId: connection.channelId,
+        parentId: candidate.id,
+      });
+      replyPagesFetched += ownerReply.pagesFetched;
+      await prisma.adminYoutubeComment.update({
+        data: {
+          hasOwnerReply: ownerReply.hasOwnerReply,
+          ownerReplyCheckedAt: new Date(),
+          replyCount: ownerReply.replyCount,
+        },
+        where: { id: candidate.id },
+      });
+    }
+
     const hasMorePages = Boolean(pageToken && !reachedPreviousBoundary);
+    const quotaUnits = pagesFetched + replyPagesFetched;
     const message = hasMorePages
-      ? `Synced ${commentsSynced} top-level comments from ${pagesFetched} page(s). More pages are queued for the next incremental run.`
-      : `Synced ${commentsSynced} top-level comments from ${pagesFetched} page(s) and reached the saved boundary.`;
+      ? `Synced ${commentsSynced} comments and checked ${replyPagesFetched} reply page(s), using ${quotaUnits} quota unit(s). More pages are queued for the next incremental run.`
+      : `Synced ${commentsSynced} comments and checked ${replyPagesFetched} reply page(s), using ${quotaUnits} quota unit(s), and reached the saved boundary.`;
     await prisma.adminYoutubeCommentSync.update({
       data: {
         commentsSynced,
         message,
         pagesFetched,
-        quotaUnits: pagesFetched,
+        quotaUnits,
         status: hasMorePages ? "catching_up" : "success",
         syncedAt: new Date(),
       },
@@ -254,7 +347,7 @@ export async function syncAdminYoutubeComments({
     });
     return {
       commentsSynced,
-      estimatedQuotaUnits: pagesFetched,
+      estimatedQuotaUnits: quotaUnits,
       message,
       pagesFetched,
     };
@@ -282,7 +375,7 @@ async function fetchCommentThreads({
     allThreadsRelatedToChannelId: channelId,
     maxResults: String(PAGE_SIZE),
     order: "time",
-    part: "snippet",
+    part: "replies,snippet",
     textFormat: "plainText",
   });
   if (pageToken) params.set("pageToken", pageToken);
@@ -338,16 +431,109 @@ function parseDate(value: string | undefined) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
-function isOwnChannelComment(
-  comment: NonNullable<ReturnType<typeof parseCommentThread>>,
-  channelId: string,
-) {
-  return (
-    comment.authorChannelId === channelId ||
-    normalizeYoutubeHandle(comment.authorDisplayName) === OWN_CHANNEL_HANDLE
-  );
-}
-
 function normalizeYoutubeHandle(value: string) {
   return value.trim().replace(/^@/, "").toLocaleLowerCase("en-US");
+}
+
+async function getOwnerReplyStatus({
+  accessToken,
+  ownerChannelId,
+  thread,
+  topLevelCommentId,
+  totalReplyCount,
+}: {
+  accessToken: string;
+  ownerChannelId: string;
+  thread: CommentThreadResource;
+  topLevelCommentId: string;
+  totalReplyCount: number;
+}) {
+  if (totalReplyCount === 0) {
+    return { hasOwnerReply: false, pagesFetched: 0 };
+  }
+
+  const inlineReplies = thread.replies?.comments ?? [];
+  if (inlineReplies.some((reply) => isOwnerAuthor(reply, ownerChannelId))) {
+    return { hasOwnerReply: true, pagesFetched: 0 };
+  }
+  if (inlineReplies.length >= totalReplyCount) {
+    return { hasOwnerReply: false, pagesFetched: 0 };
+  }
+
+  return fetchOwnerReplyStatus({
+    accessToken,
+    ownerChannelId,
+    parentId: topLevelCommentId,
+  });
+}
+
+async function fetchOwnerReplyStatus({
+  accessToken,
+  ownerChannelId,
+  parentId,
+}: {
+  accessToken: string;
+  ownerChannelId: string;
+  parentId: string;
+}) {
+  let pageToken: string | undefined;
+  let pagesFetched = 0;
+  let replyCount = 0;
+  let hasOwnerReply = false;
+  do {
+    const payload = await fetchCommentReplies({
+      accessToken,
+      pageToken,
+      parentId,
+    });
+    pagesFetched += 1;
+    const replies = payload.items ?? [];
+    replyCount += replies.length;
+    hasOwnerReply ||= replies.some((reply) =>
+      isOwnerAuthor(reply, ownerChannelId),
+    );
+    pageToken = payload.nextPageToken;
+  } while (pageToken);
+
+  return { hasOwnerReply, pagesFetched, replyCount };
+}
+
+async function fetchCommentReplies({
+  accessToken,
+  pageToken,
+  parentId,
+}: {
+  accessToken: string;
+  pageToken?: string;
+  parentId: string;
+}) {
+  const params = new URLSearchParams({
+    maxResults: String(PAGE_SIZE),
+    parentId,
+    part: "snippet",
+    textFormat: "plainText",
+  });
+  if (pageToken) params.set("pageToken", pageToken);
+  const response = await fetch(`${YOUTUBE_API_URL}/comments?${params}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const payload = (await response
+    .json()
+    .catch(() => null)) as CommentListResponse | null;
+  if (!response.ok) {
+    throw new Error(
+      payload?.error?.message ||
+        payload?.error?.error_description ||
+        "YouTube comment replies could not be loaded.",
+    );
+  }
+  return payload ?? {};
+}
+
+function isOwnerAuthor(comment: CommentResource, ownerChannelId: string) {
+  return (
+    comment.snippet?.authorChannelId?.value === ownerChannelId ||
+    normalizeYoutubeHandle(comment.snippet?.authorDisplayName ?? "") ===
+      OWN_CHANNEL_HANDLE
+  );
 }

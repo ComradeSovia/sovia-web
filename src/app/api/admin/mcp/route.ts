@@ -51,6 +51,53 @@ type ToolDefinition = {
 
 const PROTOCOL_VERSION = "2025-06-18";
 
+const commentsListInputSchema = {
+  additionalProperties: false,
+  properties: {
+    hideOwn: {
+      default: true,
+      description:
+        "Hide comments authored by the connected Sovia channel. Disable when analyzing Sovia's own top-level comments.",
+      type: "boolean",
+    },
+    hideReplied: {
+      default: true,
+      description:
+        "Hide comments that the connected Sovia channel has already replied to. Keep enabled for an actionable inbox.",
+      type: "boolean",
+    },
+    id: {
+      description: "Optional content ID, path, or YouTube video ID.",
+      type: "string",
+    },
+    limit: {
+      default: 20,
+      description:
+        "Maximum comments to return. 1-50; keep this small to control MCP context usage.",
+      maximum: 50,
+      minimum: 1,
+      type: "integer",
+    },
+    offset: {
+      default: 0,
+      description: "Pagination offset. Use hasMore and the returned limit.",
+      minimum: 0,
+      type: "integer",
+    },
+    q: {
+      description: "Optional comment text, viewer, or video ID search.",
+      type: "string",
+    },
+    sort: {
+      default: "newest",
+      description: "Order comments for review or prioritization.",
+      enum: ["newest", "oldest", "mostLiked", "mostReplies"],
+      type: "string",
+    },
+  },
+  type: "object",
+} satisfies ToolDefinition["inputSchema"];
+
 const tools: ToolDefinition[] = [
   {
     description:
@@ -366,35 +413,14 @@ const tools: ToolDefinition[] = [
   },
   {
     description:
-      "List stored top-level YouTube audience comments for one work or the whole channel. Supports text/viewer search and pagination. Replies are represented by replyCount and are not individually fetched.",
-    inputSchema: {
-      additionalProperties: false,
-      properties: {
-        id: {
-          description: "Optional content ID, path, or YouTube video ID.",
-          type: "string",
-        },
-        limit: {
-          default: 20,
-          description:
-            "Maximum comments to return. 1-50; keep this small to control MCP context usage.",
-          maximum: 50,
-          minimum: 1,
-          type: "integer",
-        },
-        offset: {
-          default: 0,
-          description: "Pagination offset.",
-          minimum: 0,
-          type: "integer",
-        },
-        q: {
-          description: "Optional comment text, viewer, or video ID search.",
-          type: "string",
-        },
-      },
-      type: "object",
-    },
+      "Get the actionable YouTube comment inbox for AI review. Defaults to unanswered audience comments, supports work/search filters and priority sorting, and includes work context plus direct YouTube URLs.",
+    inputSchema: commentsListInputSchema,
+    name: "comments_list",
+  },
+  {
+    description:
+      "Deprecated compatibility alias for comments_list. Prefer comments_list for new clients.",
+    inputSchema: commentsListInputSchema,
     name: "analytics_list_youtube_comments",
   },
   {
@@ -659,14 +685,18 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           }),
         );
 
+      case "comments_list":
       case "analytics_list_youtube_comments":
         return makeToolResult(
           id,
           await getAdminMcpYoutubeComments({
+            hideOwn: toOptionalBoolean(args.hideOwn) ?? true,
+            hideReplied: toOptionalBoolean(args.hideReplied) ?? true,
             id: toOptionalString(args.id),
             limit: toInteger(args.limit, 20),
             offset: toInteger(args.offset, 0),
             q: toOptionalString(args.q),
+            sort: getYoutubeCommentSort(args.sort),
           }),
         );
 
@@ -853,6 +883,15 @@ function getCohortArg(value: unknown) {
     value === "sameLanguage" ||
     value === "sameSourceIp" ||
     value === "sameStyle"
+    ? value
+    : undefined;
+}
+
+function getYoutubeCommentSort(value: unknown) {
+  return value === "oldest" ||
+    value === "mostLiked" ||
+    value === "mostReplies" ||
+    value === "newest"
     ? value
     : undefined;
 }

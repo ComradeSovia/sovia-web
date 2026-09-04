@@ -17,7 +17,9 @@ import {
 import {
   getAdminYoutubeCommentSyncStatus,
   listAdminYoutubeComments,
+  type YoutubeCommentSort,
 } from "./youtube-comments";
+import { getAdminYoutubeConnection } from "./youtube-connection";
 
 type Snapshot = Awaited<
   ReturnType<typeof listLatestYoutubeAnalyticsSnapshots>
@@ -490,48 +492,79 @@ export async function getAdminMcpTrafficSources({
 }
 
 export async function getAdminMcpYoutubeComments({
+  hideOwn = true,
+  hideReplied = true,
   id,
   limit = 20,
   offset = 0,
   q,
+  sort = "newest",
 }: {
+  hideOwn?: boolean;
+  hideReplied?: boolean;
   id?: string;
   limit?: number;
   offset?: number;
   q?: string;
+  sort?: YoutubeCommentSort;
 }) {
   const boundedLimit = Math.min(50, Math.max(1, limit));
-  const work = id ? await getAdminMcpContentWork(id) : null;
+  const [work, connection, works] = await Promise.all([
+    id ? getAdminMcpContentWork(id) : null,
+    getAdminYoutubeConnection(),
+    listAdminMusicWorks(),
+  ]);
+  const workByContentId = new Map(works.map((item) => [item.contentId, item]));
   const [{ items, total }, sync] = await Promise.all([
     listAdminYoutubeComments({
       contentId: work?.contentId ?? id,
+      hideOwn,
+      hideReplied,
       limit: boundedLimit,
       offset,
+      ownerChannelId: connection?.channelId,
       q,
+      sort,
     }),
     getAdminYoutubeCommentSyncStatus(),
   ]);
 
   return {
-    items: items.map((comment) => ({
-      authorChannelId: comment.authorChannelId,
-      authorDisplayName: comment.authorDisplayName,
-      contentId: comment.contentId,
-      id: comment.id,
-      likeCount: comment.likeCount,
-      publishedAt: comment.publishedAt.toISOString(),
-      replyCount: comment.replyCount,
-      text: comment.text,
-      threadId: comment.threadId,
-      updatedAt: comment.updatedAt.toISOString(),
-      videoId: comment.videoId,
-    })),
+    items: items.map((comment) => {
+      const commentWork = workByContentId.get(comment.contentId);
+      return {
+        authorChannelId: comment.authorChannelId,
+        authorDisplayName: comment.authorDisplayName,
+        contentId: comment.contentId,
+        hasOwnerReply: comment.hasOwnerReply,
+        id: comment.id,
+        likeCount: comment.likeCount,
+        publishedAt: comment.publishedAt.toISOString(),
+        replyCount: comment.replyCount,
+        text: comment.text,
+        threadId: comment.threadId,
+        updatedAt: comment.updatedAt.toISOString(),
+        videoId: comment.videoId,
+        work: {
+          contentId: comment.contentId,
+          path: commentWork?.path ?? null,
+          title:
+            commentWork?.songTitle || commentWork?.title || comment.contentId,
+        },
+        youtubeUrl: `https://www.youtube.com/watch?v=${encodeURIComponent(comment.videoId)}&lc=${encodeURIComponent(comment.id)}`,
+      };
+    }),
+    filters: { hideOwn, hideReplied, q: q ?? null, sort },
+    hasMore: offset + items.length < total,
     limit: boundedLimit,
     notes: [
-      "Only top-level audience comments are stored; replyCount is stored without fetching every reply.",
-      "Channel-wide incremental sync uses 1 YouTube quota unit per page of up to 100 comment threads.",
+      "By default, owner-authored and already-replied comments are hidden so the result is an actionable reply inbox.",
+      "Set hideOwn=false or hideReplied=false when those comments are needed for analysis.",
+      "Channel-wide incremental sync and owner-reply checks each use YouTube Data API quota.",
     ],
     offset,
+    nextOffset: offset + items.length < total ? offset + items.length : null,
+    returned: items.length,
     sync: sync
       ? {
           commentsSynced: sync.commentsSynced,

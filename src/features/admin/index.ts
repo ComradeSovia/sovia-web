@@ -1,10 +1,10 @@
 export {
-  AdminAnalyticsCommentsPage,
   AdminAnalyticsComparePage,
   AdminAnalyticsPage,
   AdminAnalyticsWorkDetailPage,
   AdminAnalyticsWorksPage,
 } from "./ui/admin-analytics";
+export { AdminCommentsPage } from "./ui/admin-comments";
 export {
   AdminActionsPage,
   AdminContentEditorPage,
