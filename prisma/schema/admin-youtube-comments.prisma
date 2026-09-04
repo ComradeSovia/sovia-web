@@ -26,6 +26,8 @@ model AdminYoutubeComment {
   text                  String
   likeCount             Int       @default(0)
   replyCount            Int       @default(0)
+  hasOwnerReply         Boolean   @default(false)
+  ownerReplyCheckedAt   DateTime?
   publishedAt           DateTime
   updatedAt             DateTime
   syncedAt              DateTime  @default(now())
@@ -33,6 +35,7 @@ model AdminYoutubeComment {
 
   @@index([contentId, publishedAt])
   @@index([videoId, publishedAt])
+  @@index([hasOwnerReply, ownerReplyCheckedAt])
   @@index([publishedAt])
   @@map("admin_youtube_comments")
 }
