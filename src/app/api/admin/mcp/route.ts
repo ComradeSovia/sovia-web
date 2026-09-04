@@ -484,7 +484,7 @@ const tools: ToolDefinition[] = [
       readOnlyHint: false,
     },
     description:
-      "Write tool: incrementally sync channel-wide top-level YouTube comments. Each page contains up to 100 threads and costs 1 YouTube quota unit. Existing syncs stop after reaching the previous newest comment.",
+      "Write tool: incrementally sync channel-wide top-level YouTube comments. Each page contains up to 100 threads and costs 1 YouTube quota unit. Existing syncs stop after reaching the previous newest comment, and unfinished runs resume from a saved page cursor.",
     inputSchema: {
       additionalProperties: false,
       properties: {

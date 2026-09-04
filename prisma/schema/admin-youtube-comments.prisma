@@ -1,14 +1,16 @@
 model AdminYoutubeCommentSync {
-  id                     String    @id @default("primary")
-  channelId              String
-  status                 String    @default("idle")
-  message                String?
-  lastCommentPublishedAt DateTime?
-  pagesFetched           Int       @default(0)
-  commentsSynced         Int       @default(0)
-  quotaUnits             Int       @default(0)
-  startedAt              DateTime?
-  syncedAt               DateTime?
+  id                       String    @id @default("primary")
+  channelId                String
+  status                   String    @default("idle")
+  message                  String?
+  lastCommentPublishedAt   DateTime?
+  nextPageToken            String?
+  pendingNewestPublishedAt DateTime?
+  pagesFetched             Int       @default(0)
+  commentsSynced           Int       @default(0)
+  quotaUnits               Int       @default(0)
+  startedAt                DateTime?
+  syncedAt                 DateTime?
 
   @@map("admin_youtube_comment_syncs")
 }

@@ -100,10 +100,16 @@ export async function syncAdminYoutubeComments({
   const credentials = await getAdminYoutubeCredentials();
   const accessToken = await getYouTubeAccessToken(credentials);
   const previous = await getAdminYoutubeCommentSyncStatus();
-  const previousBoundary =
-    previous?.channelId === connection.channelId
-      ? previous.lastCommentPublishedAt
-      : null;
+  const isSameChannel = previous?.channelId === connection.channelId;
+  const previousBoundary = isSameChannel
+    ? previous.lastCommentPublishedAt
+    : null;
+  const continuationPageToken = isSameChannel
+    ? (previous.nextPageToken ?? undefined)
+    : undefined;
+  const pendingNewestPublishedAt = isSameChannel
+    ? previous.pendingNewestPublishedAt
+    : null;
   const staleBefore = new Date(Date.now() - 15 * 60 * 1000);
 
   if (
@@ -125,6 +131,8 @@ export async function syncAdminYoutubeComments({
       channelId: connection.channelId,
       lastCommentPublishedAt: previousBoundary,
       message: null,
+      nextPageToken: continuationPageToken ?? null,
+      pendingNewestPublishedAt,
       startedAt: new Date(),
       status: "running",
     },
@@ -146,10 +154,10 @@ export async function syncAdminYoutubeComments({
           (previousBoundary ? INCREMENTAL_SYNC_PAGES : INITIAL_SYNC_PAGES),
       ),
     );
-    let pageToken: string | undefined;
+    let pageToken = continuationPageToken;
     let pagesFetched = 0;
     let commentsSynced = 0;
-    let newestPublishedAt = previousBoundary;
+    let newestPublishedAt = pendingNewestPublishedAt ?? previousBoundary;
     let reachedPreviousBoundary = false;
 
     do {
@@ -190,17 +198,34 @@ export async function syncAdminYoutubeComments({
       }
 
       pageToken = payload.nextPageToken;
+
+      const caughtUp = reachedPreviousBoundary || !pageToken;
+      await prisma.adminYoutubeCommentSync.update({
+        data: caughtUp
+          ? {
+              lastCommentPublishedAt: newestPublishedAt,
+              nextPageToken: null,
+              pendingNewestPublishedAt: null,
+            }
+          : {
+              nextPageToken: pageToken,
+              pendingNewestPublishedAt: newestPublishedAt,
+            },
+        where: { id: SYNC_ID },
+      });
     } while (pageToken && pagesFetched < pageLimit && !reachedPreviousBoundary);
 
-    const message = `Synced ${commentsSynced} top-level comments from ${pagesFetched} page(s), using ${pagesFetched} YouTube quota unit(s).`;
+    const hasMorePages = Boolean(pageToken && !reachedPreviousBoundary);
+    const message = hasMorePages
+      ? `Synced ${commentsSynced} top-level comments from ${pagesFetched} page(s). More pages are queued for the next incremental run.`
+      : `Synced ${commentsSynced} top-level comments from ${pagesFetched} page(s) and reached the saved boundary.`;
     await prisma.adminYoutubeCommentSync.update({
       data: {
         commentsSynced,
-        lastCommentPublishedAt: newestPublishedAt,
         message,
         pagesFetched,
         quotaUnits: pagesFetched,
-        status: "success",
+        status: hasMorePages ? "catching_up" : "success",
         syncedAt: new Date(),
       },
       where: { id: SYNC_ID },

@@ -337,9 +337,10 @@ export async function AdminAnalyticsCommentsPage({
             <CardContent className="space-y-4">
               <div className="rounded-md border border-sky-500/20 bg-sky-500/10 p-3 text-xs leading-5 text-sky-100">
                 Quota policy: 1 unit per 100-comment page; incremental syncs
-                stop after reaching the previous newest comment and are capped
-                at 3 pages. Initial backfill is capped at 10 pages. Replies are
-                counted but not fetched individually.
+                stop after reaching the previous newest comment and process up
+                to 3 pages per run. Initial backfill processes up to 10 pages
+                per run. Unfinished syncs resume from their saved page cursor on
+                the next run. Replies are counted but not fetched individually.
               </div>
               <form
                 action="/admin/analytics/comments"
