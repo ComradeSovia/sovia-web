@@ -1,5 +1,5 @@
 import { getRoutes, Routes } from "@sovia/shared";
-import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import { getDefaultSharedCopy, type SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import type { RouteItem } from "@sovia/shared/model/nav";
 import { getDefaultHomeCopy, type HomeCopy } from "../i18n/copy";
@@ -54,7 +54,7 @@ export function getHomeCards(
 ): ReadonlyArray<HomeCardItem> {
   const cardConfig = getCardConfig(sharedCopy, locale);
 
-  return copy.cards.map((card) => {
+  const cards = copy.cards.map((card) => {
     const config = cardConfig[card.id as keyof typeof cardConfig];
 
     return {
@@ -63,6 +63,21 @@ export function getHomeCards(
       route: config.route,
     };
   });
+  const contactCopy = (sharedCopy ?? getDefaultSharedCopy()).contact;
+  const routes = getRoutes(sharedCopy ?? getDefaultSharedCopy(), locale);
+
+  return [
+    ...cards,
+    {
+      id: "contact",
+      title: contactCopy.title,
+      subTitle: `${contactCopy.letter} / ${contactCopy.song}`,
+      description: contactCopy.intro,
+      pageIntro: contactCopy.intro,
+      route: routes.Contact,
+      links: [],
+    },
+  ];
 }
 
 export const HOME_CARDS = getHomeCards(getDefaultHomeCopy());

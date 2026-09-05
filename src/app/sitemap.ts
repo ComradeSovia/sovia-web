@@ -19,6 +19,7 @@ import type { MetadataRoute } from "next";
 const STATIC_PATHS = [
   "/",
   "/sound",
+  "/contact",
   "/lyrics-library",
   "/music-release",
   "/concept-design",

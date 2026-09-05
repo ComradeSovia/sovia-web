@@ -45,7 +45,8 @@
     "youtubeMusic": "YouTube Music",
     "request": "点歌",
     "notice": "公告",
-    "youtube": "YouTube"
+    "youtube": "YouTube",
+    "contact": "联系 Sovia"
   },
   "brand": {
     "title": "苏炼",
@@ -108,5 +109,24 @@
       "statusOn": "系统运行中",
       "statusOff": "系统待机"
     }
+  },
+  "contact": {
+    "title": "联系 Sovia",
+    "intro": "一封来信，一个想法，或一首你想听的歌。",
+    "letter": "来信",
+    "song": "歌曲建议",
+    "name": "你的名字（选填）",
+    "email": "邮箱（选填）",
+    "body": "来信内容",
+    "songTitle": "歌曲名称",
+    "artist": "歌手（选填）",
+    "url": "参考链接（选填）",
+    "notes": "推荐理由（选填）",
+    "send": "发送",
+    "sending": "正在发送…",
+    "success": "谢谢，已经收到你的提交。",
+    "error": "暂时无法发送，请稍后重试。",
+    "invalid": "请检查填写内容，参考链接须以 http(s) 开头。",
+    "another": "再写一份"
   }
 }

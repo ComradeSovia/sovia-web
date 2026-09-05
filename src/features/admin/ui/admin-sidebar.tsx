@@ -278,6 +278,12 @@ export function AdminSidebar({
                       label: "Todo",
                     },
                     {
+                      active: pathname.startsWith("/admin/mailbox"),
+                      href: "/admin/mailbox",
+                      icon: MessageSquareText,
+                      label: "Mailbox",
+                    },
+                    {
                       active: pathname.startsWith("/admin/analytics"),
                       href: "/admin/analytics",
                       icon: BarChart3,

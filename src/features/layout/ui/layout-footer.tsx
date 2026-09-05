@@ -2,9 +2,17 @@ import { getRoutes } from "@sovia/shared/constants/routes";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import type { RouteItem } from "@sovia/shared/model/nav";
+import Link from "next/link";
 
 function FooterLink({ href, label }: RouteItem) {
   const isExternal = href.startsWith("http");
+
+  if (!isExternal)
+    return (
+      <Link href={href} className="hover-text-yellow">
+        {label}
+      </Link>
+    );
 
   return (
     <a
@@ -32,6 +40,7 @@ export function LayoutFooter({
     routes.Test,
     routes.Tools,
     routes.Notice,
+    routes.Contact,
   ];
   const channelLinks = [
     routes.Youtube,

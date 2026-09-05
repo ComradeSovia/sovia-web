@@ -45,7 +45,8 @@
     "youtubeMusic": "YouTube Music",
     "request": "Request",
     "notice": "Notice",
-    "youtube": "YouTube"
+    "youtube": "YouTube",
+    "contact": "Contact"
   },
   "brand": {
     "title": "USSR",
@@ -108,5 +109,24 @@
       "statusOn": "System running",
       "statusOff": "System standby"
     }
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "A letter, a thought, or a song you would love to hear.",
+    "letter": "Write a letter",
+    "song": "Suggest a song",
+    "name": "Your name (optional)",
+    "email": "Email (optional)",
+    "body": "Your letter",
+    "songTitle": "Song title",
+    "artist": "Artist (optional)",
+    "url": "Reference link (optional)",
+    "notes": "Why this song? (optional)",
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Thank you. Your submission has been received.",
+    "error": "Unable to send right now. Please try again later.",
+    "invalid": "Please check your entries and use an http(s) reference link.",
+    "another": "Send another"
   }
 }

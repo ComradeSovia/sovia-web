@@ -45,7 +45,8 @@
     "youtubeMusic": "YouTube Music",
     "request": "リクエスト",
     "notice": "お知らせ",
-    "youtube": "YouTube"
+    "youtube": "YouTube",
+    "contact": "お問い合わせ"
   },
   "brand": {
     "title": "ソ煉",
@@ -108,5 +109,24 @@
       "statusOn": "稼働中",
       "statusOff": "待機中"
     }
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "intro": "お手紙、アイデア、聴いてみたい曲をお寄せください。",
+    "letter": "手紙を書く",
+    "song": "曲を提案",
+    "name": "お名前（任意）",
+    "email": "メール（任意）",
+    "body": "本文",
+    "songTitle": "曲名",
+    "artist": "アーティスト（任意）",
+    "url": "参考リンク（任意）",
+    "notes": "おすすめの理由（任意）",
+    "send": "送信",
+    "sending": "送信中…",
+    "success": "ありがとうございます。受け付けました。",
+    "error": "送信できませんでした。後でもう一度お試しください。",
+    "invalid": "入力内容を確認してください。リンクは http(s) を使用してください。",
+    "another": "もう一度書く"
   }
 }

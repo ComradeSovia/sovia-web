@@ -8,6 +8,7 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     locale ? getSiteLocalizedPath(path, locale) : path;
 
   return {
+    Contact: { label: copy.routes.contact, href: href("/contact") },
     Center: { label: copy.routes.center, href: href("/") },
     About: { label: copy.routes.about, href: href("/about") },
     Sound: { label: copy.routes.sound, href: href("/sound") },

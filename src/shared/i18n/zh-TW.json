@@ -45,7 +45,8 @@
     "youtubeMusic": "YouTube Music",
     "request": "點歌",
     "notice": "公告",
-    "youtube": "YouTube"
+    "youtube": "YouTube",
+    "contact": "聯絡 Sovia"
   },
   "brand": {
     "title": "蘇煉",
@@ -108,5 +109,24 @@
       "statusOn": "系統運行中",
       "statusOff": "系統待機"
     }
+  },
+  "contact": {
+    "title": "聯絡 Sovia",
+    "intro": "一封來信，一個想法，或一首你想聽的歌。",
+    "letter": "來信",
+    "song": "歌曲建議",
+    "name": "你的名字（選填）",
+    "email": "電子郵件（選填）",
+    "body": "來信內容",
+    "songTitle": "歌曲名稱",
+    "artist": "歌手（選填）",
+    "url": "參考連結（選填）",
+    "notes": "推薦理由（選填）",
+    "send": "傳送",
+    "sending": "正在傳送…",
+    "success": "謝謝，已經收到你的提交。",
+    "error": "暫時無法傳送，請稍後重試。",
+    "invalid": "請檢查填寫內容，參考連結須以 http(s) 開頭。",
+    "another": "再寫一份"
   }
 }
