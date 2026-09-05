@@ -1,0 +1,12 @@
+model MailboxMessage {
+  id String @id @default(cuid())
+  name String
+  email String?
+  subject String
+  body String
+  readAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("mailbox_messages")
+}
