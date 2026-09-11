@@ -37,19 +37,36 @@ type JsonRpcRequest = {
   params?: unknown;
 };
 
+type ObjectSchema = {
+  additionalProperties?: boolean;
+  description?: string;
+  properties?: Record<string, unknown>;
+  required?: string[];
+  type: "object";
+};
+
 type ToolDefinition = {
   annotations?: Record<string, unknown>;
   description: string;
-  inputSchema: {
-    additionalProperties?: boolean;
-    properties?: Record<string, unknown>;
-    required?: string[];
-    type: "object";
-  };
+  inputSchema: ObjectSchema;
   name: string;
+  outputSchema: ObjectSchema;
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
+
+const readOnlyToolAnnotations = {
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false,
+  readOnlyHint: true,
+};
+
+const defaultOutputSchema = {
+  additionalProperties: true,
+  description: "Structured JSON result returned by this tool.",
+  type: "object",
+} satisfies ObjectSchema;
 
 const commentsListInputSchema = {
   additionalProperties: false,
@@ -98,7 +115,7 @@ const commentsListInputSchema = {
   type: "object",
 } satisfies ToolDefinition["inputSchema"];
 
-const tools: ToolDefinition[] = [
+const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
   {
     description:
       "Get Sovia YouTube analytics overview, baselines, sync status, totals, and top works.",
@@ -534,6 +551,12 @@ const tools: ToolDefinition[] = [
   },
 ];
 
+const tools: ToolDefinition[] = toolDefinitions.map((tool) => ({
+  ...tool,
+  annotations: tool.annotations ?? readOnlyToolAnnotations,
+  outputSchema: defaultOutputSchema,
+}));
+
 export async function OPTIONS() {
   return new Response(null, {
     headers: getCorsHeaders(),
@@ -918,14 +941,25 @@ function toOptionalString(value: unknown) {
 }
 
 function makeToolResult(id: JsonRpcRequest["id"], data: unknown) {
+  const structuredContent = toStructuredContent(data);
+
   return makeJsonRpcResult(id, {
     content: [
       {
-        text: JSON.stringify(data, null, 2),
+        text: JSON.stringify(structuredContent, null, 2),
         type: "text",
       },
     ],
+    structuredContent,
   });
+}
+
+function toStructuredContent(data: unknown): Record<string, unknown> {
+  if (typeof data === "object" && data !== null && !Array.isArray(data)) {
+    return data as Record<string, unknown>;
+  }
+
+  return { value: data };
 }
 
 function makeJsonRpcResult(id: JsonRpcRequest["id"], result: unknown) {
