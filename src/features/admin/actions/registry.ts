@@ -502,6 +502,23 @@ export const ADMIN_ACTIONS = [
   {
     availability: { pageSteps: ["subtitles"] },
     description:
+      "Select multiple SRT files and apply each one to the matching subtitle language field.",
+    execution: {
+      endpoint: "",
+      method: "POST",
+      type: "client",
+    },
+    id: "content.upload-subtitles",
+    inputs: [CONTENT_ID_INPUT],
+    output: noOutput,
+    presentation: { type: "custom", view: "upload-subtitles" },
+    scope: "content",
+    title: "Upload subtitle files",
+    type: "default",
+  },
+  {
+    availability: { pageSteps: ["subtitles"] },
+    description:
       "Download one current SRT track or package every non-empty track into a ZIP file.",
     execution: {
       endpoint: "",

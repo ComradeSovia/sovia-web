@@ -2,6 +2,7 @@
 
 import type { ComponentType, ReactNode } from "react";
 import { AdminDownloadSubtitlesActionView } from "../ui/admin-step-panels";
+import { AdminSubtitleFileUploadActionView } from "../ui/admin-subtitle-file-upload";
 import {
   AdminTodoEditActionView,
   AdminTodoProposalActionView,
@@ -32,6 +33,7 @@ const ADMIN_ACTION_VIEWS: Record<
   ComponentType<AdminActionViewProps>
 > = {
   "download-subtitles": AdminDownloadSubtitlesActionView,
+  "upload-subtitles": AdminSubtitleFileUploadActionView,
   "todo-edit": AdminTodoEditActionView,
   "todo-proposal-analysis": AdminTodoProposalActionView,
 };
