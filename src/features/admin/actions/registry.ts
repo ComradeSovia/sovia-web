@@ -552,6 +552,7 @@ export const ADMIN_ACTIONS = [
         key: "locales",
         label: "Localizations to sync",
         required: true,
+        selectAllByDefault: true,
         type: "youtubeLocales",
       },
     ],
