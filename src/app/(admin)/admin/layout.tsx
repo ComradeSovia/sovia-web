@@ -3,6 +3,7 @@ import { isAdminAuthenticated } from "@sovia/admin/data/auth";
 import { getAdminDatabaseStatus } from "@sovia/admin/data/music-admin";
 import { AdminActionHost } from "@sovia/admin/ui/admin-action-host";
 import { AdminSidebar } from "@sovia/admin/ui/admin-sidebar";
+import { connection } from "next/server";
 import type { ReactNode } from "react";
 import {
   SidebarInset,
@@ -16,6 +17,9 @@ export default async function AdminLayout({
 }: {
   children: ReactNode;
 }) {
+  // Admin pages depend on runtime authentication and database availability.
+  await connection();
+
   const [databaseStatus, authenticated] = await Promise.all([
     getAdminDatabaseStatus(),
     isAdminAuthenticated(),
