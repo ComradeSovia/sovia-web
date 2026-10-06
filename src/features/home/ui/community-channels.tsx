@@ -74,38 +74,42 @@ function ChannelCard({
         </p>
       )}
       {channel.number && !banned && <p className="text-sm">{copy.qqHelp}</p>}
-      <div className="mt-auto flex flex-wrap gap-3">
-        {channel.href && (
-          <a
-            className="btn-primary"
-            href={channel.href}
-            target={channel.number ? undefined : "_blank"}
-            rel={channel.number ? undefined : "noopener noreferrer"}
+      {!banned && (
+        <div className="mt-auto flex flex-wrap gap-3">
+          {channel.href && (
+            <a
+              className="btn-primary"
+              href={channel.href}
+              target={channel.number ? undefined : "_blank"}
+              rel={channel.number ? undefined : "noopener noreferrer"}
+            >
+              {channel.number ? copy.joinQq : copy.open}
+            </a>
+          )}
+          <button
+            className="btn-outline inline-flex items-center gap-2"
+            type="button"
+            onClick={share}
           >
-            {channel.number ? copy.joinQq : copy.open}
-          </a>
-        )}
-        <button
-          className="btn-outline inline-flex items-center gap-2"
-          type="button"
-          onClick={share}
-        >
-          <Share2 size={16} />
-          {copy.share}
-        </button>
-        <button
-          className="btn-outline inline-flex items-center gap-2"
-          type="button"
-          onClick={copyInvitation}
-        >
-          <Copy size={16} />
-          {copy.copyInvitation}
-        </button>
-      </div>
-      <p aria-live="polite" className="text-sm">
-        {error ? copy.shareError : copied ? copy.copied : ""}
-      </p>
-      {error && (
+            <Share2 size={16} />
+            {copy.share}
+          </button>
+          <button
+            className="btn-outline inline-flex items-center gap-2"
+            type="button"
+            onClick={copyInvitation}
+          >
+            <Copy size={16} />
+            {copy.copyInvitation}
+          </button>
+        </div>
+      )}
+      {!banned && (
+        <p aria-live="polite" className="text-sm">
+          {error ? copy.shareError : copied ? copy.copied : ""}
+        </p>
+      )}
+      {!banned && error && (
         <textarea
           className="w-full border p-3 text-sm"
           aria-label={copy.copyInvitation}
@@ -128,21 +132,21 @@ export function CommunityChannels({
 }) {
   const channels: Channel[] = [
     {
-      title: "Reddit",
-      description: copy.redditDescription,
-      href: Routes.Reddit.href,
-    },
-    { title: "VK", description: copy.vkDescription, href: Routes.VK.href },
-    {
       title: "Discord",
       description: copy.discordDescription,
       href: Routes.Discord.href,
     },
+    { title: "VK", description: copy.vkDescription, href: Routes.VK.href },
     {
       title: copy.qqTitle,
       description: copy.qqDescription,
       number: "165715829",
       href: "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=165715829&card_type=group&source=qrcode",
+    },
+    {
+      title: "Reddit",
+      description: copy.redditDescription,
+      href: Routes.Reddit.href,
     },
     {
       title: copy.oldQqTitle,
