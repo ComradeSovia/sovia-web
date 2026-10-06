@@ -22,7 +22,7 @@ export default async function AdminLayout({
   ]);
 
   return (
-    <main className="dark min-h-screen bg-background font-sans text-foreground">
+    <main className="min-h-screen bg-background font-sans text-foreground">
       <TooltipProvider>
         <SidebarProvider>
           <AdminSidebar

@@ -1,3 +1,4 @@
+/* Frontend-only styles. The admin root loads its own stylesheet. */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";

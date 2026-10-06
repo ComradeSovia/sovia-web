@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   output: "standalone",
+  experimental: {
+    globalNotFound: true,
+  },
   outputFileTracingIncludes: {
     "/*": [
       "./node_modules/sharp/**/*",
