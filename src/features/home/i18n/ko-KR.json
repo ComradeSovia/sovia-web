@@ -191,5 +191,25 @@
     "openLink": "링크 열기",
     "enterArchive": "아카이브 입장",
     "backToCenter": "중앙으로 돌아가기"
+  },
+  "community": {
+    "eyebrow": "커뮤니티 채널",
+    "share": "공유",
+    "copyInvitation": "초대 문구 복사",
+    "copied": "복사됨",
+    "open": "커뮤니티 열기",
+    "joinQq": "QQ 그룹 참여",
+    "groupNumber": "그룹 번호",
+    "banned": "이용 정지",
+    "bannedDescription": "이 그룹은 이용이 정지되었습니다. 새 그룹 165715829에 참여해 주세요.",
+    "qqHelp": "버튼을 누르면 QQ에서 참여 신청을 시도합니다. 열리지 않으면 QQ에서 그룹 번호를 검색해 주세요.",
+    "redditDescription": "아직 멤버가 없으며 활용 방향을 찾고 있습니다. 게시물과 공유, 토론부터 시작해 보세요.",
+    "vkDescription": "러시아 사용자에게 익숙한 플랫폼으로, Sovia 소식을 나누고 소통하는 공간입니다.",
+    "discordDescription": "Sovia, 음악, 창작을 비롯한 다양한 주제로 이야기하는 공간입니다.",
+    "qqTitle": "QQ 채팅 그룹",
+    "qqDescription": "중국어 사용자를 위한 대화와 공유 공간입니다.",
+    "oldQqTitle": "이전 QQ 그룹",
+    "invitation": "{name}에서 Sovia 커뮤니티에 참여해 함께 이야기해요.",
+    "shareError": "공유하지 못했습니다. 아래 초대 문구를 복사해 주세요."
   }
 }

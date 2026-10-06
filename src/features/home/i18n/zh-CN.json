@@ -191,5 +191,25 @@
     "openLink": "打开链接",
     "enterArchive": "进入档案",
     "backToCenter": "返回中心"
+  },
+  "community": {
+    "eyebrow": "社区平台",
+    "share": "分享",
+    "copyInvitation": "复制邀请文案",
+    "copied": "已复制",
+    "open": "前往社区",
+    "joinQq": "点击加群",
+    "groupNumber": "群号",
+    "banned": "已封禁",
+    "bannedDescription": "此群已被封禁，请加入新群 165715829。",
+    "qqHelp": "点击尝试唤起 QQ 申请加群；若无法打开，请在 QQ 中搜索群号。",
+    "redditDescription": "目前还没有成员，具体用途也在探索中。欢迎来发帖、分享或开启讨论。",
+    "vkDescription": "俄罗斯用户比较熟悉的平台，可以在这里关注 Sovia、分享内容和交流。",
+    "discordDescription": "聊 Sovia、音乐、创作，也可以聊各种各样的话题。",
+    "qqTitle": "QQ 交流群",
+    "qqDescription": "面向中文用户的聊天与分享空间。",
+    "oldQqTitle": "原 QQ 交流群",
+    "invitation": "来 {name} 加入 Sovia 社区，一起聊天与分享。",
+    "shareError": "分享失败，可以复制下方邀请文案。"
   }
 }

@@ -3,6 +3,7 @@ import { Routes } from "@sovia/shared";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import type { HomeCopy } from "../i18n/copy";
+import { CommunityChannels } from "./community-channels";
 
 type HomeCardPageProps = {
   card: HomeCardItem;
@@ -37,34 +38,38 @@ export function HomeCardPage({
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {card.links.map((link) => {
-          const isExternal = link.href.startsWith("http");
+      {card.id === "community" ? (
+        <CommunityChannels copy={copy.community} locale={locale} />
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2">
+          {card.links.map((link) => {
+            const isExternal = link.href.startsWith("http");
 
-          return (
-            <a
-              className="card min-h-40"
-              href={link.href}
-              key={link.href}
-              rel={isExternal ? "noopener noreferrer" : undefined}
-              target={isExternal ? "_blank" : undefined}
-            >
-              <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red" />
-              <div className="relative z-10 flex h-full flex-col justify-between gap-6">
-                <div>
-                  <div className="meta">{copy.cardPage.openChannel}</div>
-                  <h2 className="mt-3 text-3xl">{link.label}</h2>
+            return (
+              <a
+                className="card min-h-40"
+                href={link.href}
+                key={link.href}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                target={isExternal ? "_blank" : undefined}
+              >
+                <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red" />
+                <div className="relative z-10 flex h-full flex-col justify-between gap-6">
+                  <div>
+                    <div className="meta">{copy.cardPage.openChannel}</div>
+                    <h2 className="mt-3 text-3xl">{link.label}</h2>
+                  </div>
+                  <span className="btn-primary w-fit">
+                    {isExternal
+                      ? copy.cardPage.openLink
+                      : copy.cardPage.enterArchive}
+                  </span>
                 </div>
-                <span className="btn-primary w-fit">
-                  {isExternal
-                    ? copy.cardPage.openLink
-                    : copy.cardPage.enterArchive}
-                </span>
-              </div>
-            </a>
-          );
-        })}
-      </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
 
       <a
         className="btn-outline"

@@ -196,5 +196,25 @@
     "openLink": "Open Link",
     "enterArchive": "Enter Archive",
     "backToCenter": "Back To Center"
+  },
+  "community": {
+    "eyebrow": "Community channels",
+    "share": "Share",
+    "copyInvitation": "Copy invitation",
+    "copied": "Copied",
+    "open": "Open channel",
+    "joinQq": "Join QQ group",
+    "groupNumber": "Group number",
+    "banned": "Banned",
+    "bannedDescription": "This group has been banned. Please join group 165715829 instead.",
+    "qqHelp": "Open QQ to request to join. If it does not open, search for this group number in QQ.",
+    "redditDescription": "There are no members yet, and its purpose is still taking shape. Start with posts, sharing, or discussions.",
+    "vkDescription": "A familiar platform for many Russian users to connect and discuss Sovia.",
+    "discordDescription": "Chat about Sovia, music, creative work, and all kinds of other topics.",
+    "qqTitle": "QQ Chat Group",
+    "qqDescription": "Chat and share with the Chinese-speaking community.",
+    "oldQqTitle": "Former QQ group",
+    "invitation": "Join the Sovia community on {name}.",
+    "shareError": "Share failed. You can copy the invitation below."
   }
 }

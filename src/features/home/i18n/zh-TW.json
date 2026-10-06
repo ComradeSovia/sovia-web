@@ -191,5 +191,25 @@
     "openLink": "開啟連結",
     "enterArchive": "進入檔案",
     "backToCenter": "返回中心"
+  },
+  "community": {
+    "eyebrow": "社群平台",
+    "share": "分享",
+    "copyInvitation": "複製邀請文案",
+    "copied": "已複製",
+    "open": "前往社群",
+    "joinQq": "點擊加群",
+    "groupNumber": "群號",
+    "banned": "已封禁",
+    "bannedDescription": "此群已被封禁，請加入新群 165715829。",
+    "qqHelp": "點擊嘗試開啟 QQ 申請加群；若無法開啟，請在 QQ 中搜尋群號。",
+    "redditDescription": "目前還沒有成員，具體用途也在探索中。歡迎來發文、分享或開啟討論。",
+    "vkDescription": "俄羅斯使用者較熟悉的平台，可以在這裡關注 Sovia、分享內容與交流。",
+    "discordDescription": "聊 Sovia、音樂、創作，也可以聊各式各樣的話題。",
+    "qqTitle": "QQ 聊天群",
+    "qqDescription": "供中文使用者聊天與分享的空間。",
+    "oldQqTitle": "原 QQ 聊天群",
+    "invitation": "來 {name} 加入 Sovia 社群，一起聊天與分享。",
+    "shareError": "分享失敗，可以複製下方邀請文案。"
   }
 }
