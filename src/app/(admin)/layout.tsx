@@ -4,7 +4,11 @@ import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import "./admin.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const geist = Geist({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-geist",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

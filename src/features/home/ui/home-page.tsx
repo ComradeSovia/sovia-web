@@ -20,20 +20,31 @@ export function HomePage({
   const jsonLd = createHomePageSchema(sharedCopy);
 
   return (
-    <section className="space-y-16">
+    <section className="home-page">
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is generated from local structured data.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <HomeHero copy={copy} sharedCopy={sharedCopy} />
+      <HomeHero copy={copy} sharedCopy={sharedCopy} locale={locale} />
 
-      <div className="hr" />
-
-      <HomeCards cards={cards} />
-
-      <div className="hr" />
+      <section
+        id="archive"
+        className="home-archive"
+        aria-labelledby="archive-heading"
+      >
+        <div className="section-heading">
+          <div>
+            <span className="meta">SOVIA / 02—07</span>
+            <h2 id="archive-heading">{copy.sovietAnime.linksTitle}</h2>
+          </div>
+          <span className="section-count" aria-hidden="true">
+            0{cards.length} ↗
+          </span>
+        </div>
+        <HomeCards cards={cards} />
+      </section>
 
       <HomeManifesto copy={copy} locale={locale} />
     </section>

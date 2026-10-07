@@ -4,6 +4,7 @@ import { getNavItems } from "@sovia/shared/constants/nav";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { ChevronDown, Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export function LayoutNav({
@@ -16,14 +17,11 @@ export function LayoutNav({
   const navItems = getNavItems(copy, locale);
 
   return (
-    <nav className="hidden items-center gap-2 text-sm md:flex">
+    <nav className="site-nav hidden items-center gap-1 text-sm xl:flex">
       {navItems.map((item) => (
         <div key={item.href} className="group relative">
-          <a
-            href={item.href}
-            className="-skew-x-12 border-2 border-ink bg-paper px-4 py-2 font-black uppercase tracking-[0.12em] text-ink shadow-[4px_4px_0_rgb(var(--shadow))] hover-bg-yellow hover-text-block"
-          >
-            <span className="inline-flex skew-x-12 items-center gap-1.5">
+          <Link href={item.href} className="site-nav-link">
+            <span className="inline-flex items-center gap-1.5">
               {item.label}
               {item.children ? (
                 <ChevronDown
@@ -33,19 +31,19 @@ export function LayoutNav({
                 />
               ) : null}
             </span>
-          </a>
+          </Link>
 
           {item.children ? (
             <div className="pointer-events-none absolute left-0 top-full z-30 min-w-48 pt-3 opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-              <div className="border-2 border-ink bg-paper shadow-[4px_4px_0_rgb(var(--shadow))]">
+              <div className="border border-ink bg-paper shadow-xl">
                 {item.children.map((child) => (
-                  <a
+                  <Link
                     key={child.href}
                     href={child.href}
-                    className="block border-b-2 border-ink px-4 py-3 font-black uppercase tracking-[0.12em] text-ink last:border-b-0 hover-bg-yellow hover-text-block"
+                    className="block border-b border-ink px-4 py-3 font-black uppercase tracking-[0.12em] text-ink last:border-b-0 hover-bg-yellow hover-text-block"
                   >
                     {child.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -69,12 +67,12 @@ export function LayoutNavMobile({
   const close = () => setIsOpen(false);
 
   return (
-    <div className="md:hidden">
+    <div className="xl:hidden">
       <button
         type="button"
         aria-expanded={isOpen}
         aria-label={toggleLabel}
-        className="grid size-12 place-items-center border-[3px] border-ink bg-paper text-ink shadow-[5px_5px_0_rgb(var(--shadow))] hover-bg-yellow hover-text-block"
+        className="site-menu-toggle"
         onClick={() => setIsOpen((current) => !current)}
       >
         {isOpen ? (
@@ -85,11 +83,11 @@ export function LayoutNavMobile({
       </button>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-40 md:hidden">
+        <div className="fixed inset-0 z-40 xl:hidden">
           <button
             type="button"
             aria-label="Close navigation"
-            className="absolute inset-0 cursor-default bg-ink/55"
+            className="absolute inset-0 cursor-default bg-black/60"
             onClick={close}
           />
 
@@ -116,24 +114,24 @@ export function LayoutNavMobile({
             <div className="flex flex-1 flex-col overflow-y-auto p-4">
               {navItems.map((item) => (
                 <div key={item.href} className="border-b-[3px] border-ink">
-                  <a
+                  <Link
                     href={item.href}
                     className="block px-1 py-4 text-lg font-black uppercase tracking-[0.12em] text-ink hover-text-red"
                     onClick={close}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                   {item.children ? (
                     <div className="mb-4 border-l-[3px] border-red pl-4">
                       {item.children.map((child) => (
-                        <a
+                        <Link
                           key={child.href}
                           href={child.href}
                           className="block py-2 text-sm font-black uppercase tracking-[0.12em] text-ink hover-text-red"
                           onClick={close}
                         >
                           {child.label}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   ) : null}

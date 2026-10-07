@@ -73,7 +73,7 @@ export default async function SiteLayout({
 
   return (
     <SiteDocument locale={locale}>
-      <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+      <div className="relative isolate flex min-h-screen flex-col">
         <RaysBackground />
         <LayoutHeader
           layoutCopy={layoutCopy}

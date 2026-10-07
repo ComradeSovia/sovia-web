@@ -1,6 +1,5 @@
 "use client";
 
-import "../styles/sovia-test.module.css";
 import Link from "next/link";
 import type { SoviaTestStats } from "../data/submissions";
 import {
@@ -14,6 +13,7 @@ import {
   getSoviaTypeShareCopy,
   getSoviaTypeSharePercentage,
 } from "../lib/stats";
+import styles from "../styles/sovia-test.module.css";
 import type { AxisKey } from "../types";
 import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
@@ -54,7 +54,7 @@ export function SoviaTestTypeComponent({
   }
 
   return (
-    <section className="sovia-test-ui space-y-8" lang={locale}>
+    <section className={`${styles.root} sovia-test-ui space-y-8`} lang={locale}>
       <SoviaTestLanguageSwitcher
         copy={copy}
         locale={locale}

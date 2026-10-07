@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./constructivist.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -9,15 +10,15 @@
    Global base settings (Tailwind v4, linter-safe)
    ========================= */
 :root {
-  --ink: 17 17 17;
-  --paper: 244 236 214;
+  --ink: 29 32 30;
+  --paper: 240 239 232;
   --block: 17 17 17;
-  --line: 17 17 17;
-  --relief: 244 236 214;
+  --line: 65 67 61;
+  --relief: 244 241 232;
   --shadow: 17 17 17;
-  --red: 185 28 28;
+  --red: 180 49 34;
   --deep-red: 69 10 10;
-  --yellow: 245 196 0;
+  --yellow: 225 192 125;
   --code-stroke: 17 17 17;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -55,14 +56,14 @@
 
 :root[data-theme="dark"] {
   --ink: 232 226 211;
-  --paper: 12 12 11;
-  --block: 3 3 3;
-  --line: 74 70 61;
+  --paper: 19 22 21;
+  --block: 12 15 14;
+  --line: 71 76 70;
   --relief: 232 226 211;
   --shadow: 0 0 0;
-  --red: 112 35 33;
+  --red: 190 57 42;
   --deep-red: 56 18 17;
-  --yellow: 125 99 34;
+  --yellow: 220 186 124;
   --code-stroke: 232 226 211;
   color-scheme: dark;
 }
@@ -74,14 +75,14 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ink: 232 226 211;
-    --paper: 12 12 11;
-    --block: 3 3 3;
-    --line: 74 70 61;
+    --paper: 19 22 21;
+    --block: 12 15 14;
+    --line: 71 76 70;
     --relief: 232 226 211;
     --shadow: 0 0 0;
-    --red: 112 35 33;
+    --red: 190 57 42;
     --deep-red: 56 18 17;
-    --yellow: 125 99 34;
+    --yellow: 220 186 124;
     --code-stroke: 232 226 211;
     color-scheme: dark;
   }
@@ -98,12 +99,10 @@ html {
 }
 
 body {
-  --font-sovia-site: var(--font-noto-sans);
+  --font-sovia-site: var(--font-noto-sans), "Segoe UI", Arial, sans-serif;
   background-color: rgb(var(--paper));
   color: rgb(var(--ink));
-  font-family:
-    var(--font-sovia-site), "Arial Black", Impact, Haettenschweiler,
-    "Arial Narrow Bold", Arial, sans-serif;
+  font-family: var(--font-sovia-site);
   font-feature-settings:
     "kern" 1,
     "liga" 1;
@@ -113,19 +112,24 @@ body {
 }
 
 html[lang="ja-JP"] body {
-  --font-sovia-site: var(--font-noto-sans-jp);
+  --font-sovia-site:
+    var(--font-noto-sans-jp), "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo",
+    sans-serif;
 }
 
 html[lang="ko-KR"] body {
-  --font-sovia-site: var(--font-noto-sans-kr);
+  --font-sovia-site:
+    var(--font-noto-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 
 html[lang="zh-CN"] body {
-  --font-sovia-site: var(--font-noto-sans-sc);
+  --font-sovia-site:
+    var(--font-noto-sans-sc), "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
 html[lang="zh-TW"] body {
-  --font-sovia-site: var(--font-noto-sans-tc);
+  --font-sovia-site:
+    var(--font-noto-sans-tc), "PingFang TC", "Microsoft JhengHei", sans-serif;
 }
 
 /* =========================
@@ -295,161 +299,6 @@ a:hover {
 }
 
 /* =========================
-   Buttons propaganda style
-   ========================= */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.8rem;
-  border: 2px solid rgb(var(--line));
-  border-radius: 0;
-  background-color: rgb(var(--red));
-  padding: 0.65rem 1rem;
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgb(var(--relief));
-  box-shadow: 6px 6px 0 rgb(var(--shadow));
-  transition:
-    background-color 150ms ease,
-    color 150ms ease,
-    transform 150ms ease,
-    box-shadow 150ms ease;
-  clip-path: polygon(0 0, 100% 0, calc(100% - 0.8rem) 100%, 0 100%);
-}
-
-.btn-primary:hover {
-  background-color: rgb(var(--yellow));
-  color: rgb(var(--block));
-  transform: translate(3px, 3px);
-  box-shadow: 3px 3px 0 rgb(var(--shadow));
-}
-
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.8rem;
-  border-radius: 0;
-  border: 2px solid rgb(var(--line));
-  background-color: rgb(var(--paper));
-  padding: 0.65rem 1rem;
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgb(var(--ink));
-  box-shadow: 6px 6px 0 rgb(var(--red));
-  transition:
-    background-color 150ms ease,
-    color 150ms ease,
-    transform 150ms ease,
-    box-shadow 150ms ease;
-  clip-path: polygon(0.8rem 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.btn-outline:hover {
-  background-color: rgb(var(--block));
-  color: rgb(var(--relief));
-  transform: translate(3px, 3px);
-  box-shadow: 3px 3px 0 rgb(var(--red));
-}
-
-/* =========================
-   Decorative divider
-   ========================= */
-.hr {
-  height: 0.8rem;
-  background: repeating-linear-gradient(
-    135deg,
-    rgb(var(--line)) 0 0.6rem,
-    rgb(var(--paper)) 0.6rem 1.2rem,
-    rgb(var(--red)) 1.2rem 1.8rem
-  );
-}
-
-/* =========================
-   Manifesto / slogan block
-   ========================= */
-.manifesto {
-  position: relative;
-  overflow: hidden;
-  border: 3px solid rgb(var(--line));
-  border-radius: 0;
-  background:
-    linear-gradient(104deg, rgb(var(--red)) 0 22%, transparent 22%),
-    rgb(var(--paper));
-  padding: clamp(1.25rem, 4vw, 3rem);
-  font-size: 1.125rem;
-  letter-spacing: 0;
-  box-shadow: 12px 12px 0 rgb(var(--shadow));
-}
-
-/* =========================
-   Cards for projects / plans
-   ========================= */
-.card {
-  position: relative;
-  overflow: hidden;
-  border: 3px solid rgb(var(--line));
-  border-radius: 0;
-  background-color: rgb(var(--paper));
-  padding: 1.25rem;
-  box-shadow: 10px 10px 0 rgb(var(--shadow));
-  transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
-    background-color 150ms ease;
-}
-
-.card:hover {
-  background-color: color-mix(
-    in srgb,
-    rgb(var(--yellow)) 20%,
-    rgb(var(--paper))
-  );
-  transform: translate(4px, 4px);
-  box-shadow: 6px 6px 0 rgb(var(--red));
-}
-
-.card h2,
-.card h3 {
-  font-size: clamp(1.25rem, 2vw, 1.7rem);
-  line-height: 1.08;
-  text-wrap: balance;
-}
-
-.card p {
-  font-size: 0.95rem;
-  line-height: 1.55;
-}
-
-/* =========================
-   Small meta text industrial feel
-   ========================= */
-.meta {
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgb(var(--red));
-}
-
-.card .meta {
-  font-size: 0.68rem;
-  line-height: 1.25;
-  letter-spacing: 0.12em;
-}
-
-.card .btn-primary,
-.card .btn-outline {
-  font-size: 0.72rem;
-  letter-spacing: 0.09em;
-}
-
-/* =========================
    Scrollbar styling
    ========================= */
 ::-webkit-scrollbar {
@@ -470,8 +319,8 @@ a:hover {
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-geist), var(--font-sovia-site);
+  --font-sans: var(--font-geist), var(--font-sovia-site);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

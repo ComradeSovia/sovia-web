@@ -1,5 +1,6 @@
 export { LayoutFooter } from "./ui/layout-footer";
 export { LayoutHeader } from "./ui/layout-header";
 export { LayoutMain } from "./ui/layout-main";
+export { PageTransition } from "./ui/page-transition";
 export { RaysBackground } from "./ui/rays-background";
 export { SiteNotFound } from "./ui/site-not-found";

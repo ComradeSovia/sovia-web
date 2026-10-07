@@ -5,6 +5,11 @@ export {
   getHomeCardPageMetadata,
   getSovietAnimePageMetadata,
 } from "./lib/metadata";
+export {
+  ConstructivistArt,
+  type ConstructivistArtProps,
+  type ConstructivistArtVariant,
+} from "./ui/constructivist-art";
 export { HomeCardPage } from "./ui/home-card-page";
 export { HomeCards } from "./ui/home-cards";
 export { HomeHero } from "./ui/home-hero";

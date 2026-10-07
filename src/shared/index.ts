@@ -1,4 +1,4 @@
-export { DATA_CACHE_DIR } from "./config/data";
+// Keep this entry safe for client components. Import filesystem config directly on the server.
 export { ORGANIZATION_SAME_AS } from "./config/external-links";
 export {
   SITE_DESCRIPTION,

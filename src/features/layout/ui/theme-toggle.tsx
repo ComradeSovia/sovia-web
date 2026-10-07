@@ -93,7 +93,7 @@ export function ThemeToggle() {
     <button
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       aria-pressed={isDark}
-      className="grid h-10 w-20 shrink-0 grid-cols-2 border-2 border-ink bg-paper p-1 text-[10px] font-black uppercase tracking-[0.08em] text-ink shadow-ink transition-colors hover-bg-yellow hover-text-block"
+      className="site-theme-toggle"
       onClick={updateMode}
       type="button"
     >

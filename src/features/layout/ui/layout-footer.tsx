@@ -52,28 +52,28 @@ export function LayoutFooter({
   ];
 
   return (
-    <footer className="border-t-[3px] border-ink bg-block">
-      <div className="mx-auto box-border flex w-full max-w-6xl flex-col gap-2 px-4 py-3 text-[10px] font-black uppercase tracking-[0.06em] text-relief sm:px-6 md:flex-row md:items-center md:justify-between">
+    <footer className="site-footer">
+      <div className="site-footer-inner">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span>{sharedCopy.brand.title}</span>
+            <span className="footer-wordmark">SOVIA</span>
             <span aria-hidden="true">/</span>
             <span>{sharedCopy.site.name}</span>
             <span aria-hidden="true">/</span>
             <span>© 2026</span>
           </div>
-          <div className="mt-1 max-w-72 normal-case leading-snug tracking-[0.04em]">
+          <div className="mt-3 max-w-72 text-xs font-normal normal-case leading-relaxed tracking-[0.04em]">
             {sharedCopy.brand.subtitle}
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
           {archiveLinks.map((link) => (
             <FooterLink key={link.href} {...link} />
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
           {channelLinks.map((link) => (
             <FooterLink key={link.href} {...link} />
           ))}

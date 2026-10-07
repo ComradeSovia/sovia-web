@@ -1,6 +1,6 @@
 "use client";
 
-import { Routes } from "@sovia/shared";
+import { Routes } from "@sovia/shared/constants/routes";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { Copy, Share2 } from "lucide-react";
 import { useState } from "react";

@@ -127,7 +127,7 @@ export function SiteLanguageSwitcher({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label={copy.siteLanguage.label}
-        className="grid h-10 min-w-32 grid-cols-[auto_1fr_auto] items-center gap-2 border-2 border-ink bg-paper px-2 text-[10px] font-black uppercase tracking-[0.08em] text-ink shadow-ink transition-colors hover-bg-yellow hover-text-block"
+        className="site-language-toggle"
         onClick={() => setIsOpen((current) => !current)}
         type="button"
       >

@@ -11,7 +11,11 @@ import {
 import Script from "next/script";
 import type { ReactNode } from "react";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const geist = Geist({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-geist",
+});
 
 const notoSans = Noto_Sans({
   display: "swap",

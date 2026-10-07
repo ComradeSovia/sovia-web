@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import "../styles/sovia-test.module.css";
 import { Routes } from "@sovia/shared";
 import {
   matchSiteLocale,
@@ -31,6 +30,7 @@ import {
   getSoviaTypeShareCopy,
   getSoviaTypeSharePercentage,
 } from "../lib/stats";
+import styles from "../styles/sovia-test.module.css";
 import type {
   ArchetypeCopy,
   AxisKey,
@@ -2267,7 +2267,7 @@ export function SoviaTestComponent({
 
   if (screen === "intro") {
     return (
-      <section className="sovia-test-ui space-y-8" lang={locale}>
+      <section className={`${styles.root} sovia-test-ui space-y-8`} lang={locale}>
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2327,7 +2327,7 @@ export function SoviaTestComponent({
 
   if (screen === "demographics") {
     return (
-      <section className="sovia-test-ui space-y-6" lang={locale}>
+      <section className={`${styles.root} sovia-test-ui space-y-6`} lang={locale}>
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2411,7 +2411,7 @@ export function SoviaTestComponent({
 
   if (screen === "result") {
     return (
-      <section className="sovia-test-ui space-y-8" lang={locale}>
+      <section className={`${styles.root} sovia-test-ui space-y-8`} lang={locale}>
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2700,7 +2700,7 @@ export function SoviaTestComponent({
   }
 
   return (
-    <section className="sovia-test-ui space-y-6" lang={locale}>
+    <section className={`${styles.root} sovia-test-ui space-y-6`} lang={locale}>
       <SoviaTestLanguageSwitcher
         copy={copy}
         locale={locale}

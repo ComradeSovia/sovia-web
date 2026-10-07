@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type { RouteItem } from "../model/nav";
 
@@ -8,6 +9,7 @@ export type CardProps = {
   route?: RouteItem;
   disabled?: boolean;
   children?: React.ReactNode;
+  visual?: React.ReactNode;
 };
 
 export function Card({
@@ -17,39 +19,32 @@ export function Card({
   children,
   route,
   disabled,
+  visual,
 }: CardProps) {
-  const subTitleComponent = subTitle ? (
-    <div className="meta">{subTitle}</div>
-  ) : null;
-
-  const buttonComponent = route ? (
-    <Link href={route.href} className="btn-primary">
-      {route.label}
-    </Link>
-  ) : null;
-
-  const disabledButtonComponent = route ? (
-    <span className="btn-primary cursor-not-allowed opacity-60">
-      (Coming Soon)
-    </span>
-  ) : null;
-
   return (
-    <div className="card flex min-h-80 flex-col gap-4">
-      <div className="absolute right-0 top-0 h-14 w-20 -skew-x-12 bg-red" />
-      <div className="relative z-10 flex items-start justify-between gap-4">
-        {subTitleComponent}
-        {serial ? (
-          <div className="border-ink bg-red text-relief min-w-12 border-3 px-2 py-1 text-center text-2xl font-black leading-none [font-variant-numeric:tabular-nums]">
-            {serial}
-          </div>
-        ) : null}
+    <div className={visual ? "card card-with-visual" : "card"}>
+      {visual}
+      <div className="card-topline">
+        <span className="card-serial">{serial ?? "↗"}</span>
+        <span className="card-motif" aria-hidden="true" />
       </div>
-      <h3 className="relative z-10">{title}</h3>
-      <div className="relative z-10 flex-1">{children}</div>
-      <div className="relative z-10">
-        {disabled ? disabledButtonComponent : buttonComponent}
-      </div>
+      {subTitle ? <div className="meta">{subTitle}</div> : null}
+      <h3>{title}</h3>
+      <div className="card-description">{children}</div>
+      {route ? (
+        <div className="card-action">
+          {disabled ? (
+            <span aria-disabled="true" className="opacity-50">
+              {route.label}
+            </span>
+          ) : (
+            <Link href={route.href} className="card-link">
+              <span>{route.label}</span>
+              <ArrowUpRight aria-hidden="true" size={20} />
+            </Link>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
