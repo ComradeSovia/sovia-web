@@ -5,6 +5,7 @@ import {
   getYoutubeOAuthConfig,
   saveAdminYoutubeConnection,
 } from "@sovia/admin/data/youtube-connection";
+import { createYouTubeAuthorizedFetch } from "@sovia/youtube-api";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -13,12 +14,17 @@ const YOUTUBE_OAUTH_STATE_COOKIE = "sovia-youtube-oauth-state";
 
 type TokenResponse = {
   access_token?: string;
+  error?: string;
   error_description?: string;
   refresh_token?: string;
   scope?: string;
 };
 
 type ChannelResponse = {
+  error?: {
+    message?: string;
+    errors?: { reason?: string }[];
+  };
   items?: { id?: string; snippet?: { title?: string } }[];
 };
 
@@ -59,6 +65,7 @@ export async function GET(request: NextRequest) {
       throw new Error("YouTube OAuth configuration is incomplete.");
     const callbackUrl = getAdminUrl("/admin/youtube/callback", request);
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+      cache: "no-store",
       body: new URLSearchParams({
         client_id: config.clientId,
         client_secret: config.clientSecret,
@@ -69,22 +76,52 @@ export async function GET(request: NextRequest) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       method: "POST",
     });
-    const tokens = (await tokenResponse.json()) as TokenResponse;
-    if (!tokenResponse.ok || !tokens.access_token || !tokens.refresh_token) {
+    const tokens = (await tokenResponse
+      .json()
+      .catch(() => null)) as TokenResponse | null;
+    if (!tokenResponse.ok || !tokens?.access_token) {
       throw new Error(
-        tokens.error_description || "Google did not return a refresh token.",
+        `YouTube OAuth code exchange failed (HTTP ${tokenResponse.status}${tokens?.error ? `, ${tokens.error}` : ""}): ${tokens?.error_description || "Google did not return an access token."}`,
+      );
+    }
+    if (!tokens.refresh_token) {
+      throw new Error(
+        "Google did not return a refresh token. Reconnect YouTube and grant offline access.",
       );
     }
 
-    const channelResponse = await fetch(
-      "https://www.googleapis.com/youtube/v3/channels?part=id,snippet&mine=true",
-      { headers: { Authorization: `Bearer ${tokens.access_token}` } },
+    const authorizedFetch = createYouTubeAuthorizedFetch(
+      {
+        clientId: config.clientId,
+        clientSecret: config.clientSecret,
+        refreshToken: tokens.refresh_token,
+      },
+      tokens.access_token,
     );
-    const channels = (await channelResponse.json()) as ChannelResponse;
-    const channel = channels.items?.[0];
-    if (!channelResponse.ok || !channel?.id || !channel.snippet?.title) {
+    const channelResponse = await authorizedFetch(
+      "https://www.googleapis.com/youtube/v3/channels?part=id,snippet&mine=true",
+    );
+    const channels = (await channelResponse
+      .json()
+      .catch(() => null)) as ChannelResponse | null;
+    if (!channelResponse.ok) {
+      const reason = channels?.error?.errors?.[0]?.reason;
       throw new Error(
-        "No YouTube channel was found for the authorized account.",
+        `YouTube channel lookup failed (HTTP ${channelResponse.status}${reason ? `, ${reason}` : ""}): ${channels?.error?.message || "Google rejected the channel lookup request."}`,
+      );
+    }
+    if (!channels || !Array.isArray(channels.items)) {
+      throw new Error("YouTube channel lookup returned an invalid response.");
+    }
+    const channel = channels.items[0];
+    if (!channel) {
+      throw new Error(
+        "No YouTube channel was found for the authorized account. Reconnect and select the Google account or Brand Account that owns the intended YouTube channel.",
+      );
+    }
+    if (!channel.id || !channel.snippet?.title) {
+      throw new Error(
+        "YouTube channel lookup returned incomplete channel details.",
       );
     }
 

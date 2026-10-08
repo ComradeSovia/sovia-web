@@ -24,6 +24,7 @@ type YouTubeTokenResponse = {
 
 export type YouTubeApiError = {
   error_description?: string;
+  errors?: { reason?: string }[];
   message?: string;
 };
 
@@ -59,8 +60,8 @@ export async function syncYouTubeVideoMetadata({
 }: SyncYouTubeVideoMetadataInput) {
   assertValidYouTubeVideoMetadata({ description, localizations, title });
 
-  const accessToken = await getYouTubeAccessToken(credentials);
-  const current = await getYouTubeVideo(videoId, accessToken);
+  const authorizedFetch = createYouTubeAuthorizedFetch(credentials);
+  const current = await getYouTubeVideo(videoId, authorizedFetch);
 
   if (!current.snippet.title || !current.snippet.categoryId) {
     throw new Error(
@@ -78,28 +79,33 @@ export async function syncYouTubeVideoMetadata({
   });
 
   const parts = localizations ? "snippet,localizations" : "snippet";
-  const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?part=${parts}`, {
-    body: JSON.stringify({
-      id: videoId,
-      localizations: localizations
-        ? { ...current.localizations, ...localizations }
-        : undefined,
-      snippet,
-    }),
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
+  const response = await authorizedFetch(
+    `${YOUTUBE_API_BASE_URL}/videos?part=${parts}`,
+    {
+      body: JSON.stringify({
+        id: videoId,
+        localizations: localizations
+          ? { ...current.localizations, ...localizations }
+          : undefined,
+        snippet,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
     },
-    method: "PUT",
-  });
+  );
   const payload = (await response
     .json()
     .catch(() => null)) as YouTubeVideoListResponse | null;
 
   if (!response.ok) {
     throw new Error(
-      getYouTubeApiErrorMessage(payload?.error) ||
-        "YouTube video metadata could not be updated.",
+      formatYouTubeRequestError(
+        "YouTube video update",
+        response.status,
+        payload?.error,
+      ),
     );
   }
 
@@ -165,23 +171,31 @@ function getYouTubeTextErrors(
   return errors;
 }
 
-async function getYouTubeVideo(videoId: string, accessToken: string) {
+async function getYouTubeVideo(
+  videoId: string,
+  authorizedFetch: ReturnType<typeof createYouTubeAuthorizedFetch>,
+) {
   const params = new URLSearchParams({
     id: videoId,
     part: "snippet,localizations",
   });
-  const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?${params}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    method: "GET",
-  });
+  const response = await authorizedFetch(
+    `${YOUTUBE_API_BASE_URL}/videos?${params}`,
+    {
+      method: "GET",
+    },
+  );
   const payload = (await response
     .json()
     .catch(() => null)) as YouTubeVideoListResponse | null;
 
   if (!response.ok) {
     throw new Error(
-      getYouTubeApiErrorMessage(payload?.error) ||
-        "YouTube video metadata could not be loaded.",
+      formatYouTubeRequestError(
+        "YouTube video lookup",
+        response.status,
+        payload?.error,
+      ),
     );
   }
 
@@ -192,6 +206,33 @@ async function getYouTubeVideo(videoId: string, accessToken: string) {
   }
 
   return { localizations: video.localizations, snippet };
+}
+
+// Keep a token only for this operation. Bodies must be buffered so a request
+// explicitly rejected with 401 can be replayed once with refreshed credentials.
+export function createYouTubeAuthorizedFetch(
+  credentials: YouTubeCredentials,
+  initialAccessToken?: string,
+) {
+  let accessToken = initialAccessToken;
+  return async (
+    url: string,
+    init: Omit<RequestInit, "body"> & {
+      body?: string | Uint8Array<ArrayBuffer>;
+    } = {},
+  ) => {
+    accessToken ??= await getYouTubeAccessToken(credentials);
+    const send = (token: string) => {
+      const headers = new Headers(init.headers);
+      headers.set("Authorization", `Bearer ${token}`);
+      return fetch(url, { ...init, cache: "no-store", headers });
+    };
+    const response = await send(accessToken);
+    if (response.status !== 401) return response;
+    await response.body?.cancel();
+    accessToken = await getYouTubeAccessToken(credentials);
+    return send(accessToken);
+  };
 }
 
 export async function getYouTubeAccessToken({
@@ -207,6 +248,7 @@ export async function getYouTubeAccessToken({
   });
   const response = await fetch(GOOGLE_TOKEN_URL, {
     body,
+    cache: "no-store",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -218,9 +260,7 @@ export async function getYouTubeAccessToken({
 
   if (!response.ok || !payload?.access_token) {
     throw new Error(
-      payload?.error_description ||
-        payload?.error ||
-        "YouTube Data API OAuth token could not be refreshed.",
+      `YouTube OAuth token refresh failed (HTTP ${response.status}${payload?.error ? `, ${payload.error}` : ""}): ${payload?.error_description || "Google did not return an access token."}`,
     );
   }
 
@@ -229,6 +269,15 @@ export async function getYouTubeAccessToken({
 
 export function getYouTubeApiErrorMessage(error: YouTubeApiError | undefined) {
   return error?.message || error?.error_description;
+}
+
+export function formatYouTubeRequestError(
+  operation: string,
+  status: number,
+  error: YouTubeApiError | undefined,
+) {
+  const reason = error?.errors?.[0]?.reason;
+  return `${operation} failed (HTTP ${status}${reason ? `, ${reason}` : ""}): ${getYouTubeApiErrorMessage(error) || "Google rejected the request."}`;
 }
 
 function removeUndefinedValues<T extends Record<string, unknown>>(value: T) {

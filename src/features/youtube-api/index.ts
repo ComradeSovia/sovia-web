@@ -13,6 +13,7 @@ export {
   type YouTubeThumbnailCacheStatus,
 } from "./data/thumbnail-cache";
 export {
+  createYouTubeAuthorizedFetch,
   getYouTubeAccessToken,
   syncYouTubeVideoMetadata,
 } from "./data/video-metadata";

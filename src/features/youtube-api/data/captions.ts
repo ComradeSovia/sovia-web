@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import {
-  getYouTubeAccessToken,
-  getYouTubeApiErrorMessage,
+  createYouTubeAuthorizedFetch,
+  formatYouTubeRequestError,
   type YouTubeApiError,
   type YouTubeCredentials,
 } from "./video-metadata";
@@ -51,8 +51,8 @@ export async function syncYouTubeCaptions({
     throw new Error("At least one subtitle track is required.");
   }
 
-  const accessToken = await getYouTubeAccessToken(credentials);
-  const existingCaptions = await listYouTubeCaptions(videoId, accessToken);
+  const authorizedFetch = createYouTubeAuthorizedFetch(credentials);
+  const existingCaptions = await listYouTubeCaptions(videoId, authorizedFetch);
   const synced: SyncedYouTubeCaption[] = [];
 
   for (const track of uploadTracks) {
@@ -65,7 +65,7 @@ export async function syncYouTubeCaptions({
 
     if (existing?.id) {
       await uploadCaptionFile({
-        accessToken,
+        authorizedFetch,
         captionId: existing.id,
         srt: track.srt,
       });
@@ -76,7 +76,7 @@ export async function syncYouTubeCaptions({
       });
     } else {
       const inserted = await uploadCaptionFile({
-        accessToken,
+        authorizedFetch,
         language: track.language,
         srt: track.srt,
         videoId,
@@ -101,23 +101,31 @@ export async function syncYouTubeCaptions({
   };
 }
 
-async function listYouTubeCaptions(videoId: string, accessToken: string) {
+async function listYouTubeCaptions(
+  videoId: string,
+  authorizedFetch: ReturnType<typeof createYouTubeAuthorizedFetch>,
+) {
   const params = new URLSearchParams({
     part: "snippet",
     videoId,
   });
-  const response = await fetch(`${YOUTUBE_API_BASE_URL}/captions?${params}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    method: "GET",
-  });
+  const response = await authorizedFetch(
+    `${YOUTUBE_API_BASE_URL}/captions?${params}`,
+    {
+      method: "GET",
+    },
+  );
   const payload = (await response
     .json()
     .catch(() => null)) as YouTubeCaptionListResponse | null;
 
   if (!response.ok) {
     throw new Error(
-      getYouTubeApiErrorMessage(payload?.error) ||
-        "YouTube captions could not be loaded.",
+      formatYouTubeRequestError(
+        "YouTube caption list",
+        response.status,
+        payload?.error,
+      ),
     );
   }
 
@@ -125,13 +133,13 @@ async function listYouTubeCaptions(videoId: string, accessToken: string) {
 }
 
 async function uploadCaptionFile({
-  accessToken,
+  authorizedFetch,
   captionId,
   language,
   srt,
   videoId,
 }: {
-  accessToken: string;
+  authorizedFetch: ReturnType<typeof createYouTubeAuthorizedFetch>;
   captionId?: string;
   language?: string;
   srt: string;
@@ -156,12 +164,11 @@ async function uploadCaptionFile({
     metadata,
     `${srt}\n`,
   );
-  const response = await fetch(
+  const response = await authorizedFetch(
     `${YOUTUBE_UPLOAD_BASE_URL}/captions?${params}`,
     {
       body,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
         "Content-Type": contentType,
       },
       method: updating ? "PUT" : "POST",
@@ -175,8 +182,11 @@ async function uploadCaptionFile({
 
   if (!response.ok) {
     throw new Error(
-      getYouTubeApiErrorMessage(payload?.error) ||
-        `YouTube caption ${updating ? "update" : "insert"} failed.`,
+      formatYouTubeRequestError(
+        `YouTube caption ${updating ? "update" : "insert"}`,
+        response.status,
+        payload?.error,
+      ),
     );
   }
 
