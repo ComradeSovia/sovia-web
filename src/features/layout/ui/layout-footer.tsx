@@ -1,6 +1,8 @@
+import { getHomeCopy } from "@sovia/home/i18n/copy";
 import { getRoutes } from "@sovia/shared/constants/routes";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import type { RouteItem } from "@sovia/shared/model/nav";
 import Link from "next/link";
 
@@ -37,6 +39,12 @@ export function LayoutFooter({
   const archiveLinks = [
     routes.Center,
     routes.Sound,
+    routes.About,
+    routes.Creator,
+    {
+      label: getHomeCopy(locale).characters.title,
+      href: getSiteLocalizedPath("/characters", locale),
+    },
     routes.Test,
     routes.Tools,
     routes.Notice,

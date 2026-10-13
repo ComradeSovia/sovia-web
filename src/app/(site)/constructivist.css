@@ -714,6 +714,48 @@
   color: #c7cbbb;
   background: radial-gradient(ellipse at 60% 40%, #425141, #202c25 75%);
 }
+.home-card-art[data-kind="characters"] {
+  background: linear-gradient(135deg, #25322f, #111918);
+}
+
+.home-character-portraits {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.home-character-portraits > span {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-right: 1px solid rgb(255 255 255 / 0.16);
+}
+
+.home-character-portraits > span:last-child {
+  border-right: 0;
+}
+
+.home-character-portraits img {
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.3);
+  transform-origin: center top;
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-card-grid .card:hover .home-character-portraits img {
+    transform: scale(1.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-character-portraits img {
+    transition: none;
+  }
+}
+
 .home-card-art[data-kind="concept-design"] {
   background: linear-gradient(120deg, #a6aaa0, #d8d6c7);
 }

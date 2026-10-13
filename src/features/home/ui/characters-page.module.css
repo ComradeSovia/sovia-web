@@ -1,0 +1,646 @@
+.showcase {
+  --scene-glow: 198 68 39;
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  scroll-margin-top: 5.5rem;
+  color: rgb(var(--ink));
+  background:
+    radial-gradient(
+      ellipse at 38% 48%,
+      rgb(var(--scene-glow) / 0.14),
+      transparent 52%
+    ), rgb(var(--paper));
+}
+
+.showcase[data-character="kata"] {
+  --scene-glow: 96 153 152;
+}
+.showcase[data-character="runa"] {
+  --scene-glow: 91 147 207;
+}
+
+.showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(90deg, rgb(var(--ink) / 0.1) 1px, transparent 1px),
+    linear-gradient(rgb(var(--ink) / 0.1) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 36% 52%,
+      transparent 29%,
+      rgb(var(--ink) / 0.14) 29.1%,
+      transparent 29.3%
+    );
+  background-size:
+    90px 90px,
+    90px 90px,
+    100% 100%;
+  mask-image: linear-gradient(90deg, black, transparent 82%);
+}
+
+.showcase::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 43%,
+    rgb(var(--paper) / 0.12) 50%,
+    rgb(var(--paper) / 0.88) 65%,
+    rgb(var(--paper) / 0.98) 100%
+  );
+}
+
+.showcaseInner {
+  position: relative;
+  width: min(100%, 1500px);
+  min-height: clamp(42rem, 57vw, 53rem);
+  margin-inline: auto;
+  padding: 2.5rem clamp(1.25rem, 3vw, 3.5rem);
+}
+
+.showcaseTopline {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.showcaseTopline h1 {
+  margin-top: 0.55rem;
+  color: rgb(var(--ink));
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  letter-spacing: 0.04em;
+}
+
+.showcaseTopline .meta,
+.showcaseIndex,
+.infoKicker {
+  color: rgb(var(--ink) / 0.68);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.showcaseIndex {
+  white-space: nowrap;
+}
+
+.heroArtwork {
+  position: absolute;
+  z-index: 1;
+  inset: 3% 25% 0 8%;
+  animation: sceneReveal 750ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+
+.artworkImage {
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 2rem 2.5rem rgb(0 0 0 / 0.2));
+}
+
+.selector {
+  position: absolute;
+  z-index: 3;
+  top: 52%;
+  left: clamp(1.25rem, 3vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transform: translateY(-50%);
+}
+
+.selectorLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: 5.5rem;
+  color: rgb(var(--ink) / 0.68);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition:
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.selectorLink:hover,
+.selectorLink:focus-visible,
+.selectorActive {
+  color: rgb(var(--ink));
+  transform: translateX(4px);
+}
+
+.selectorLink:focus-visible {
+  outline: 2px solid rgb(var(--ink));
+  outline-offset: 4px;
+}
+
+.selectorPortrait {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0.2rem;
+  border: 2px solid rgb(var(--ink) / 0.34);
+  border-radius: 50%;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.selectorLink:hover .selectorPortrait,
+.selectorLink:focus-visible .selectorPortrait,
+.selectorActive .selectorPortrait {
+  border-color: rgb(var(--red));
+  box-shadow: 0 0 0 5px rgb(var(--red) / 0.18);
+}
+
+.showcaseInfo {
+  position: absolute;
+  z-index: 3;
+  top: 54%;
+  right: clamp(1.25rem, 3vw, 3.5rem);
+  width: min(34%, 29rem);
+  transform: translateY(-50%);
+  animation: infoReveal 550ms ease-out 100ms both;
+}
+
+.showcaseInfo h2 {
+  margin-top: 0.8rem;
+  color: rgb(var(--ink));
+  font-size: clamp(4rem, 7vw, 7.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+}
+
+.showcaseInfo p {
+  color: rgb(var(--ink) / 0.82);
+}
+
+.fullName {
+  margin-top: 0.7rem;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  font-weight: 700;
+}
+
+.nameType {
+  display: inline-block;
+  margin-top: 0.4rem;
+  color: rgb(var(--ink) / 0.58);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.showcaseInfo blockquote {
+  margin-block: clamp(1.4rem, 3vw, 2.5rem);
+  padding-left: 1.15rem;
+  border-left: 3px solid rgb(var(--red));
+  font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.identity {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.biography {
+  margin-top: 0.45rem;
+  font-size: 0.88rem;
+}
+
+.originalButton {
+  min-height: 44px;
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgb(var(--ink) / 0.55);
+  color: rgb(var(--ink));
+  font-size: 0.75rem;
+  font-weight: 800;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.originalButton:hover,
+.originalButton:focus-visible {
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+}
+
+.originalButton:focus-visible {
+  outline: 2px solid rgb(var(--red));
+  outline-offset: 3px;
+}
+
+.worldCoordinate {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  min-height: 21rem;
+  background: radial-gradient(
+    circle at center,
+    rgb(var(--red) / 0.08),
+    transparent 57%
+  );
+}
+
+.worldCoordinate::before,
+.worldCoordinate::after {
+  content: "";
+  position: absolute;
+  background: rgb(var(--ink) / 0.36);
+}
+
+.worldCoordinate::before {
+  top: 50%;
+  right: 7%;
+  left: 7%;
+  height: 1px;
+}
+.worldCoordinate::after {
+  top: 7%;
+  bottom: 7%;
+  left: 50%;
+  width: 1px;
+}
+
+.worldPoint {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 0.25rem;
+  text-align: center;
+}
+
+.worldPoint0 {
+  grid-area: 2 / 2;
+}
+.worldPoint1 {
+  grid-area: 2 / 3;
+}
+.worldPoint2 {
+  grid-area: 2 / 1;
+}
+.worldPoint3 {
+  grid-area: 1 / 2;
+}
+.worldPoint4 {
+  grid-area: 3 / 2;
+}
+
+.worldSymbol {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border: 1px solid rgb(var(--ink) / 0.6);
+  border-radius: 50%;
+  background: rgb(var(--paper));
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.worldPoint[data-active="true"] .worldSymbol {
+  border-color: rgb(var(--red));
+  background: rgb(var(--red));
+  color: rgb(var(--relief));
+  box-shadow: 0 0 0 5px rgb(var(--red) / 0.15);
+}
+
+.worldPointName {
+  max-width: 9rem;
+  padding: 0.1rem 0.3rem;
+  background: rgb(var(--paper) / 0.92);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.dossierSection {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  padding-block: clamp(1rem, 3vw, 3rem);
+}
+
+.dossierHeading h3 {
+  margin-top: 0.65rem;
+  font-size: clamp(3rem, 6vw, 6rem);
+}
+
+.dossierHeading p {
+  max-width: 20rem;
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgb(var(--red));
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.relatedCard {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.relatedCard:hover,
+.relatedCard:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 5px 5px 0 rgb(var(--red));
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding-block: clamp(1rem, 3vw, 3rem);
+  background: radial-gradient(
+    ellipse at 45% 36%,
+    rgb(var(--red) / 0.06),
+    transparent 58%
+  );
+}
+
+.gallerySide {
+  display: grid;
+  align-content: start;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.galleryPanel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  border-top: 1px solid rgb(var(--ink) / 0.5);
+  animation: detailArrive 480ms ease-out both;
+}
+
+.gallerySide .galleryPanel:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.galleryHeading,
+.galleryFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+
+.galleryHeading {
+  text-transform: uppercase;
+}
+.galleryFooter {
+  border-top: 1px solid rgb(var(--ink) / 0.35);
+}
+
+.portraitImage,
+.outfitImage {
+  position: relative;
+  min-width: 0;
+}
+.portraitImage {
+  flex: 1;
+  min-height: 48rem;
+}
+.outfitImage {
+  aspect-ratio: 1672 / 941;
+}
+
+.expressionImage {
+  width: 100%;
+  aspect-ratio: 3344 / 2823;
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  animation: expressionReveal 260ms ease-out both;
+}
+
+.expressionControls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.expressionControls > button {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgb(var(--ink) / 0.45);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+.expressionControls > button:hover,
+.expressionControls > button:focus-visible {
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+}
+
+.expressionDots {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.expressionDots button {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: rgb(var(--ink) / 0.35);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+.expressionDots button[aria-current="true"] {
+  background: rgb(var(--red));
+  transform: scale(1.45);
+}
+.expressionDots button:focus-visible,
+.galleryOriginal:focus-visible {
+  outline: 2px solid rgb(var(--red));
+  outline-offset: 4px;
+}
+.galleryOriginal {
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@keyframes expressionReveal {
+  from {
+    opacity: 0.45;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sceneReveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(1.035);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes infoReveal {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 18px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes detailArrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .showcase::after {
+    display: none;
+  }
+  .showcaseInner {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 1.5rem clamp(1rem, 4vw, 2rem) 3rem;
+  }
+  .heroArtwork {
+    position: relative;
+    inset: auto;
+    order: 1;
+    align-self: center;
+    width: min(100%, 42rem);
+    aspect-ratio: 1;
+    margin-top: -1.5rem;
+  }
+  .selector {
+    position: relative;
+    top: auto;
+    left: auto;
+    order: 2;
+    flex-direction: row;
+    justify-content: center;
+    gap: clamp(0.5rem, 4vw, 2rem);
+    transform: none;
+  }
+  .selectorLink:hover,
+  .selectorLink:focus-visible,
+  .selectorActive {
+    transform: translateY(-3px);
+  }
+  .showcaseInfo {
+    position: relative;
+    top: auto;
+    right: auto;
+    order: 3;
+    width: min(100%, 42rem);
+    margin: 2.5rem auto 0;
+    transform: none;
+    animation: none;
+  }
+  .showcaseInfo h2 {
+    font-size: clamp(4rem, 12vw, 6rem);
+  }
+  .dossierSection {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+  .portraitImage {
+    flex: none;
+    min-height: min(130vw, 44rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .showcaseIndex {
+    font-size: 0.58rem;
+  }
+  .heroArtwork {
+    margin-top: -0.75rem;
+  }
+  .selectorPortrait {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+  .selectorLink {
+    width: 4.5rem;
+  }
+  .showcaseInfo {
+    margin-top: 2rem;
+  }
+  .galleryFooter {
+    flex-wrap: wrap;
+    padding-block: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroArtwork,
+  .showcaseInfo,
+  .galleryPanel,
+  .expressionImage {
+    animation: none;
+  }
+  .selectorLink,
+  .selectorPortrait,
+  .originalButton,
+  .relatedCard {
+    transition: none;
+  }
+  .expressionControls > button,
+  .expressionDots button {
+    transition: none;
+  }
+  .relatedCard:hover,
+  .relatedCard:focus-visible {
+    transform: none;
+  }
+}

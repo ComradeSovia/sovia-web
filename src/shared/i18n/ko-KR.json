@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Comrade Sovia",
+    "name": "소비아 동지",
     "title": "소비아 동지 | 음악과 창작 아카이브",
     "description": "소비아 동지의 음악 편곡, 비주얼 작업, 도구, 노트, 독립 창작 프로젝트를 둘러보세요.",
     "keywords": [
@@ -20,7 +20,8 @@
   },
   "routes": {
     "center": "중앙",
-    "about": "소비아 소개",
+    "about": "프로젝트 소개",
+    "creator": "창작자",
     "sound": "노래",
     "test": "SOVIA 테스트",
     "tools": "도구",

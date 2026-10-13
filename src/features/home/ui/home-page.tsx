@@ -1,6 +1,9 @@
+import { Routes } from "@sovia/shared";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { createHomePageSchema } from "@sovia/shared/seo/schema";
+import Link from "next/link";
 import { getHomeCards } from "../data/home-cards";
 import type { HomeCopy } from "../i18n/copy";
 import { HomeCards } from "./home-cards";
@@ -47,6 +50,27 @@ export function HomePage({
       </section>
 
       <HomeManifesto copy={copy} locale={locale} />
+
+      <section
+        aria-labelledby="home-contact-heading"
+        className="mt-8 grid gap-6 border-t-[3px] border-ink py-8 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end"
+      >
+        <div className="min-w-0 space-y-3">
+          <div className="meta">
+            {sharedCopy.contact.letter} / {sharedCopy.contact.song}
+          </div>
+          <h2 id="home-contact-heading" className="text-3xl sm:text-4xl">
+            {sharedCopy.contact.title}
+          </h2>
+          <p className="max-w-2xl text-base">{sharedCopy.contact.intro}</p>
+        </div>
+        <Link
+          className="btn-outline w-fit"
+          href={getSiteLocalizedPath(Routes.Contact.href, locale)}
+        >
+          {sharedCopy.routes.contact} ↗
+        </Link>
+      </section>
     </section>
   );
 }

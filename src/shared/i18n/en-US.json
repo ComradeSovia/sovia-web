@@ -20,7 +20,8 @@
   },
   "routes": {
     "center": "Center",
-    "about": "About Sovia",
+    "about": "About the project",
+    "creator": "Creator",
     "sound": "Songs",
     "test": "SOVIA Test",
     "tools": "Tools",

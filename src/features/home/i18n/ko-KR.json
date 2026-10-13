@@ -13,100 +13,55 @@
     "titleLines": ["소비아", "소개"],
     "text": "소비아 라보체바는 익숙한 노래를 모아 다른 세계의 기계 속으로 보냅니다. 이것은 복제가 아니며, 단순한 농담도 아닙니다. 이것은 재구성입니다.",
     "strongTerms": ["익숙한 노래", "다른 세계의 기계", "재구성"],
-    "actionLabel": "소비아 소개",
+    "actionLabel": "프로젝트 소개",
+    "creatorActionLabel": "창작자 소개",
     "sovietAnimeActionLabel": "Soviet Anime 스타일"
   },
   "about": {
-    "metadataTitle": "소비아 소개 | 소비아 동지",
-    "metadataDescription": "소비아 라보체바와 익숙한 노래를 다른 세계를 통해 재구성하는 일에 대하여.",
-    "eyebrow": "우리 부서 소개",
-    "serial": "00",
-    "titleLines": ["소비아", "소개"],
-    "sections": [
-      [
-        { "text": "내 이름은 " },
-        { "text": "소비아 라보체바", "strong": true },
-        { "text": "입니다." }
-      ],
-      [
-        { "text": "나는 " },
-        { "text": "익숙한 노래", "strong": true },
-        { "text": "를 모아 " },
-        { "text": "다른 세계의 기계", "strong": true },
-        { "text": "를 통해 다시 보냅니다." }
-      ],
-      [
-        { "text": "멜로디는 " },
-        { "text": "재정리", "strong": true },
-        { "text": "됩니다." }
-      ],
-      [
-        { "text": "언어는 " },
-        { "text": "재배치", "strong": true },
-        { "text": "됩니다." }
-      ],
-      [
-        { "text": "감정은 " },
-        { "text": "기록", "strong": true },
-        { "text": "되고, " },
-        { "text": "도장", "strong": true },
-        { "text": " 찍혀 " },
-        { "text": "사람들", "strong": true },
-        { "text": "에게 돌아갑니다." }
-      ],
-      [
-        { "text": "이것은 " },
-        { "text": "복제", "strong": true },
-        { "text": "가 아닙니다." }
-      ],
-      [
-        { "text": "이것은 단순한 " },
-        { "text": "코미디", "strong": true },
-        { "text": "도 아닙니다." }
-      ],
-      [
-        { "text": "이것은 " },
-        { "text": "재구성", "strong": true },
-        { "text": "입니다." }
-      ],
-      [
-        { "text": "모든 노래는 " },
-        { "text": "노동", "strong": true },
-        { "text": ", " },
-        { "text": "질서", "strong": true },
-        { "text": ", " },
-        { "text": "집단", "strong": true },
-        { "text": ", 그리고 " },
-        { "text": "기억", "strong": true },
-        { "text": "에 관한 작은 보고서가 됩니다." }
-      ],
-      [
-        { "text": "모든 " },
-        { "text": "편곡", "strong": true },
-        { "text": "은 같은 질문을 던집니다." }
-      ],
-      [{ "text": "이 멜로디는 무엇이 되었을까," }],
-      [
-        { "text": "만약 " },
-        { "text": "다른 현실", "strong": true },
-        { "text": "에서 자랐다면?" }
-      ],
-      [
-        { "text": "익숙하게 " },
-        { "text": "들리지만", "strong": true },
-        { "text": "," }
-      ],
-      [
-        { "text": "완전히 " },
-        { "text": "이 세계", "strong": true },
-        { "text": "의 것이 아니라면," }
-      ],
-      [
-        { "text": "그 " },
-        { "text": "작전은 성공", "strong": true },
-        { "text": "입니다." }
-      ]
-    ]
+    "metadataTitle": "소비아 동지 소개｜음악·비주얼 아트·이야기",
+    "metadataDescription": "미카츠키 루나가 만든 독립 음악·비주얼 아트 프로젝트 소비아 동지와 소련풍 편곡, 가상의 라디오 세계를 소개합니다.",
+    "eyebrow": "프로젝트 / 01",
+    "title": "소비아 동지 소개",
+    "lead": "소비아 동지는 미카츠키 루나가 만든 독립 음악·비주얼 아트 프로젝트입니다. 소련풍 편곡과 시각 미학, 가상의 이야기를 통해 여러 문화와 시대의 음악을 새롭게 해석합니다.",
+    "worldTitle": "다른 세계에서 온 소리",
+    "worldParagraphs": [
+      "프로젝트의 중심에는 소련의 과학 도시 트로이츠크에서 라디오 방송원으로 일하는 오리지널 가상 인물 소비아 라보체바(Совия Ивановна Рабочева)가 있습니다.",
+      "소비아의 가상 세계에서는 특이한 현상으로 다른 세계의 음악이 방송국에 도착합니다. 소비아는 낯선 선율을 모아 자신의 세계의 음악 전통에 맞게 재편곡한 뒤 방송으로 청취자와 나눕니다."
+    ],
+    "directionTitle": "음악, 이미지, 이야기",
+    "directionParagraphs": [
+      "음악은 소련 관현악 편곡, 합창 전통, 민속 음악, 오래된 녹음과 무대 공연에서 영감을 얻습니다. 시각적 정체성은 소련 시대의 디자인 요소와 애니메이션풍 캐릭터 아트를 결합합니다.",
+      "소비아 동지는 음악적 실험, 창의적 재해석, 가상 세계관, 유머와 가끔의 풍자를 함께 담습니다. 역사 재현이나 정치 조직의 대변이 아닌 독립 예술 프로젝트입니다."
+    ],
+    "distinctionTitle": "서로 다른 세 정체성",
+    "distinction": "소비아 동지는 프로젝트, 미카츠키 루나는 현실의 창작자, 소비아 라보체바는 이야기 속 가상 인물입니다.",
+    "creatorLinkTitle": "창작자",
+    "creatorLinkText": "미카츠키 루나와 프로젝트의 창작 배경을 알아보세요.",
+    "creatorLinkAction": "창작자 소개",
+    "characterLinkTitle": "캐릭터",
+    "characterLinkText": "소비아 라보체바의 전체 가상 인물 프로필을 읽어보세요.",
+    "characterLinkAction": "소비아 프로필"
+  },
+  "creator": {
+    "metadataTitle": "미카츠키 루나｜소비아 동지 창작자",
+    "metadataDescription": "독일 기반 독립 창작자 미카츠키 루나가 소비아 동지에서 음악, 비주얼 아트, 가상의 이야기를 결합하는 방식을 소개합니다.",
+    "eyebrow": "창작자 / 02",
+    "title": "미카츠키 루나",
+    "lead": "미카츠키 루나는 독일을 기반으로 활동하는 독립 창작자의 활동명이며 소비아 동지의 창작자입니다.",
+    "storyTitle": "프로젝트 뒤의 창작자",
+    "paragraphs": [
+      "노래와 음악에 대한 개인적인 열정으로 루나는 다양한 음악 스타일과 문화, 창의적인 표현 방식을 탐색합니다.",
+      "소비아 동지를 통해 루나는 음악, 비주얼 아트, 가상 인물과 이야기에 대한 관심을 결합하고 독창적인 세계관 속에서 익숙한 노래를 새롭게 해석합니다.",
+      "루나는 프로젝트의 중심 인물 소비아 라보체바를 만들어 음악에 가상의 목소리와 독자적인 세계를 부여했습니다.",
+      "이 프로젝트는 음악적 아이디어, 디지털 제작 도구, 시각적 스토리텔링을 모으는 지속적인 개인 창작 실험입니다."
+    ],
+    "roleLabel": "역할",
+    "roleValue": "독립 창작자",
+    "locationLabel": "활동 기반",
+    "locationValue": "독일",
+    "distinction": "미카츠키 루나는 현실의 창작자이며 소비아 라보체바는 가상 인물입니다.",
+    "projectAction": "프로젝트 소개",
+    "characterAction": "소비아 프로필"
   },
   "cards": [
     {
@@ -146,12 +101,12 @@
     }
   ],
   "sovietAnime": {
-    "metadataTitle": "Soviet Anime Style | Comrade Sovia",
-    "metadataDescription": "Comrade Sovia의 Soviet anime 스타일을 소개합니다. 음악 각색, 캐릭터 디자인, 비주얼 아카이브, 가사와 창작 세계를 함께 둘러볼 수 있습니다.",
+    "metadataTitle": "Soviet Anime Style | 소비아 동지",
+    "metadataDescription": "소비아 동지의 Soviet anime 스타일을 소개합니다. 음악 각색, 캐릭터 디자인, 비주얼 아카이브, 가사와 창작 세계를 함께 둘러볼 수 있습니다.",
     "eyebrow": "스타일 파일",
     "serial": "06",
     "titleLines": ["Soviet", "Anime", "Style"],
-    "intro": "Comrade Sovia는 Soviet anime에서 영감을 받은 음악 및 비주얼 아카이브입니다. 익숙한 멜로디, 가상의 관료 체계, 캐릭터 중심의 이미지, 그리고 다른 대중문화 공화국에서 온 듯한 영상으로 구성됩니다.",
+    "intro": "소비아 동지는 Soviet anime에서 영감을 받은 음악 및 비주얼 아카이브입니다. 익숙한 멜로디, 가상의 관료 체계, 캐릭터 중심의 이미지, 그리고 다른 대중문화 공화국에서 온 듯한 영상으로 구성됩니다.",
     "sections": [
       {
         "title": "음악 재구성",
@@ -211,5 +166,114 @@
     "oldQqTitle": "이전 QQ 그룹",
     "invitation": "{name}에서 Sovia 커뮤니티에 참여해 함께 이야기해요.",
     "shareError": "공유하지 못했습니다. 아래 초대 문구를 복사해 주세요."
+  },
+  "characters": {
+    "homeCardDescription": "Sovia, Kata, Runa의 인물 자료와 세계관 설정을 만나 보세요.",
+    "title": "캐릭터 소개",
+    "eyebrow": "캐릭터 아카이브",
+    "views": {
+      "hero": "캐릭터 장면",
+      "main": "전신 일러스트",
+      "emote": "표정",
+      "outfit": "의상"
+    },
+    "openOriginal": "원본 이미지 보기",
+    "closeOriginal": "이미지 닫기",
+    "labels": {
+      "identityNumber": "신분 번호",
+      "fullName": "전체 이름",
+      "worldPolarizationRate": "세계 양극화율",
+      "worldOrigin": "출신 세계",
+      "gender": "성별",
+      "age": "나이",
+      "languages": "언어",
+      "nationality": "국적",
+      "residence": "거주지",
+      "species": "종족",
+      "identity": "역할",
+      "biography": "인물 소개",
+      "relationships": "인물 관계",
+      "signatureLines": "대표 대사",
+      "unknown": "기밀 사항",
+      "nameType": "예명",
+      "worldTypes": "세계 양극화 유형"
+    },
+    "dossiers": {
+      "sovia": {
+        "quote": "사람들 앞에서 말하는 건 좀 서툴러요…… 그래도 무전기를 사이에 두면, 할 수 있을지도 몰라요.",
+        "signature": "동지 여러분, 내일 또 만나요. 다음 주에도요.",
+        "origin": "차원 방송국이 있는 세계",
+        "gender": "여성",
+        "languages": "러시아어",
+        "nationality": "소련",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "인간",
+        "identity": "과학 도시의 차원 간 방송원",
+        "biography": "과학 도시의 차원 간 방송원. 다른 세계에서 전해진 음악을 편곡한다.",
+        "relationships": [
+          {
+            "id": "kata",
+            "description": "Kata는 언니 같은 존재이자 과학 아카데미의 지도자다."
+          },
+          {
+            "id": "runa",
+            "description": "Runa와는 서로의 존재를 감지할 수 있는 듯하다."
+          }
+        ],
+        "fullName": "Совия Ивановна Рабочева"
+      },
+      "kata": {
+        "quote": "Sovia, 설명은 흥미로워. 하지만 내게 필요한 건 보고서야.",
+        "signature": "",
+        "origin": "차원 방송국이 있는 세계",
+        "gender": "여성",
+        "languages": "러시아어",
+        "nationality": "소련",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "인간",
+        "identity": "과학 도시의 방송 업무 감찰관",
+        "biography": "차원 간 공명 전달 사건 이후 방송 업무의 이상 현상을 조사하는 감찰관.",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "Sovia를 친동생처럼 여기며, Sovia가 과학 도시에 처음 왔을 때 돌봐 주었다."
+          }
+        ],
+        "fullName": "Катя Глебовна Белгина"
+      },
+      "runa": {
+        "quote": "그러니까…… 난 지금 대체 어느 세계 사람이야?",
+        "signature": "",
+        "origin": "YouTube가 있는 차원으로 보인다",
+        "gender": "여성",
+        "languages": "영어",
+        "nationality": "기밀 사항",
+        "residence": "기밀 사항, 독일, EU",
+        "species": "인간",
+        "identity": "학생",
+        "biography": "평범하게 수업을 듣고, 아르바이트하고, 밥을 먹고, 잠을 자고, 조금 노래한다. 그리고 Sovia의 목소리가 당신이 있는 세계에 닿도록 돕는다.",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "서로의 존재를 감지할 수 있는 듯하다."
+          }
+        ],
+        "fullName": "미카츠키 루나"
+      }
+    },
+    "worldTypes": [
+      "Sovia의 원점 세계이자 차원 방송국이 있는 세계.",
+      "Sovia 세계관의 오리지널 캐릭터. 공식과 팬 창작 캐릭터를 포함한다.",
+      "다른 허구 작품을 참고한 파생 캐릭터.",
+      "현실에 존재하는 사람이 자신의 신분으로 Sovia 세계에 들어온 경우.",
+      "실존 역사 인물을 바탕으로 만든 가상의 재해석 캐릭터. 역사 인물 본인이 Sovia 세계에 온 것은 아니다."
+    ],
+    "worldTypeNames": {
+      "prime": "원점 세계",
+      "original": "오리지널 캐릭터",
+      "derivative": "파생 캐릭터",
+      "realWorldVisitor": "현실 세계 방문자",
+      "historicalInterpretation": "역사 인물 재해석"
+    }
   }
 }

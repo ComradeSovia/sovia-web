@@ -1,0 +1,266 @@
+.page {
+  padding-bottom: clamp(2rem, 6vw, 5rem);
+}
+
+.projectHero,
+.creatorHero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 34rem;
+  overflow: hidden;
+  color: rgb(var(--ink));
+  background:
+    radial-gradient(ellipse at 70% 35%, rgb(var(--red) / 0.13), transparent 52%),
+    rgb(var(--paper));
+}
+
+.projectHero,
+.creatorHero {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+}
+
+.projectHero::before,
+.creatorHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(90deg, rgb(var(--ink) / 0.1) 1px, transparent 1px),
+    linear-gradient(rgb(var(--ink) / 0.1) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(90deg, black, transparent 90%);
+}
+
+.heroText,
+.creatorHeroText {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+
+.eyebrow,
+.sectionHeading span,
+.pathEyebrow,
+.creatorFacts span {
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heroText .eyebrow,
+.creatorHeroText .eyebrow {
+  color: rgb(var(--red));
+}
+
+.heroText h1,
+.creatorHeroText h1 {
+  max-width: 11ch;
+  margin-top: 1.3rem;
+  color: rgb(var(--ink));
+  font-size: clamp(3.2rem, 5.5vw, 6.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  overflow-wrap: normal;
+}
+
+.heroLead {
+  max-width: 43rem;
+  margin-top: 2rem;
+  color: rgb(var(--ink) / 0.82);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-weight: 550;
+  line-height: 1.8;
+}
+
+.heroVisual {
+  position: relative;
+  min-height: 34rem;
+  align-self: end;
+  overflow: hidden;
+}
+
+.article {
+  margin-top: clamp(2.5rem, 6vw, 6rem);
+}
+
+.storySection {
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(2rem, 4vw, 4rem);
+  border-top: 2px solid rgb(var(--line));
+}
+
+.sectionHeading span {
+  color: rgb(var(--red));
+}
+
+.sectionHeading h2,
+.creatorStory h2 {
+  max-width: 14ch;
+  margin-top: 0.8rem;
+  font-size: clamp(2rem, 3.5vw, 3.8rem);
+  line-height: 1.05;
+}
+
+.prose {
+  display: grid;
+  gap: 1.3rem;
+  max-width: 68ch;
+}
+
+.prose p {
+  font-size: clamp(1rem, 1.15vw, 1.13rem);
+  line-height: 1.85;
+}
+
+.distinction {
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-left: 4px solid rgb(var(--red));
+  background: rgb(var(--red) / 0.08);
+  color: rgb(var(--ink));
+}
+
+.distinction .eyebrow {
+  color: rgb(var(--red));
+}
+.distinction p {
+  max-width: 70ch;
+  color: rgb(var(--ink));
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-weight: 700;
+}
+
+.paths {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pathLink {
+  display: flex;
+  flex-direction: column;
+  min-height: 13rem;
+  padding: clamp(1.4rem, 2.5vw, 2.5rem);
+  border: 1px solid rgb(var(--line));
+  color: rgb(var(--ink));
+  transition:
+    background-color 200ms ease,
+    transform 200ms ease;
+}
+
+.pathLink:hover,
+.pathLink:focus-visible {
+  color: rgb(var(--ink));
+  background: rgb(var(--yellow));
+  transform: translateY(-3px);
+}
+
+.pathLink:focus-visible {
+  outline: 2px solid rgb(var(--red));
+  outline-offset: 2px;
+}
+.pathEyebrow {
+  color: rgb(var(--red));
+}
+.pathLink strong {
+  margin-top: 1.2rem;
+  color: inherit;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  line-height: 1.1;
+}
+.pathDescription {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.pathAction {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.creatorHeroText h1 {
+  max-width: 13ch;
+}
+
+.creatorBody {
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.creatorFacts {
+  display: grid;
+  align-content: start;
+  gap: 1.5rem;
+}
+.creatorFacts > div {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid rgb(var(--line));
+}
+.creatorFacts span {
+  color: rgb(var(--red));
+}
+.creatorFacts strong {
+  color: rgb(var(--ink));
+  font-size: 1.2rem;
+}
+.creatorStory h2 {
+  margin: 0 0 2rem;
+}
+
+.creatorPaths {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 800px) {
+  .projectHero,
+  .creatorHero {
+    grid-template-columns: 1fr;
+  }
+  .heroText,
+  .creatorHeroText {
+    padding: clamp(1.5rem, 6vw, 3rem);
+  }
+  .heroVisual {
+    min-height: min(80vw, 32rem);
+    margin: -2rem 0 0;
+  }
+  .storySection,
+  .distinction,
+  .creatorBody {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .paths,
+  .creatorPaths {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pathLink {
+    transition: none;
+  }
+  .pathLink:hover,
+  .pathLink:focus-visible {
+    transform: none;
+  }
+}

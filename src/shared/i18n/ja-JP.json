@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Comrade Sovia",
+    "name": "ソヴィア同志",
     "title": "ソヴィア同志 | 音楽と創作のアーカイブ",
     "description": "ソヴィア同志の音楽アレンジ、ビジュアル作品、ツール、ノート、個人創作プロジェクトを閲覧できます。",
     "keywords": [
@@ -20,7 +20,8 @@
   },
   "routes": {
     "center": "中央",
-    "about": "ソヴィアについて",
+    "about": "プロジェクトについて",
+    "creator": "制作者",
     "sound": "楽曲",
     "test": "SOVIAテスト",
     "tools": "ツール",

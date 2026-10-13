@@ -13,100 +13,55 @@
     "titleLines": ["ソヴィア", "について"],
     "text": "ソヴィア・ラボチェワは、なじみある歌を集め、別世界の機械へ通します。これは複製ではなく、ただの冗談でもありません。これは再構成です。",
     "strongTerms": ["なじみある歌", "別世界の機械", "再構成"],
-    "actionLabel": "ソヴィアについて",
+    "actionLabel": "プロジェクトについて",
+    "creatorActionLabel": "制作者について",
     "sovietAnimeActionLabel": "Soviet Anime スタイル"
   },
   "about": {
-    "metadataTitle": "ソヴィアについて | ソヴィア同志",
-    "metadataDescription": "ソヴィア・ラボチェワと、なじみある歌を別世界で再構成することについて。",
-    "eyebrow": "私たちの部門について",
-    "serial": "00",
-    "titleLines": ["ソヴィア", "について"],
-    "sections": [
-      [
-        { "text": "私の名前は " },
-        { "text": "ソヴィア・ラボチェワ", "strong": true },
-        { "text": "です。" }
-      ],
-      [
-        { "text": "私は" },
-        { "text": "なじみある歌", "strong": true },
-        { "text": "を集め、それらを" },
-        { "text": "別世界の機械", "strong": true },
-        { "text": "へ送り返します。" }
-      ],
-      [
-        { "text": "旋律は" },
-        { "text": "再編成", "strong": true },
-        { "text": "されます。" }
-      ],
-      [
-        { "text": "言語は" },
-        { "text": "再配属", "strong": true },
-        { "text": "されます。" }
-      ],
-      [
-        { "text": "感情は" },
-        { "text": "記録", "strong": true },
-        { "text": "され、" },
-        { "text": "押印", "strong": true },
-        { "text": "され、" },
-        { "text": "人々", "strong": true },
-        { "text": "へ戻されます。" }
-      ],
-      [
-        { "text": "これは" },
-        { "text": "複製", "strong": true },
-        { "text": "ではありません。" }
-      ],
-      [
-        { "text": "これはただの" },
-        { "text": "コメディ", "strong": true },
-        { "text": "でもありません。" }
-      ],
-      [
-        { "text": "これは" },
-        { "text": "再構成", "strong": true },
-        { "text": "です。" }
-      ],
-      [
-        { "text": "すべての歌は、" },
-        { "text": "労働", "strong": true },
-        { "text": "、" },
-        { "text": "秩序", "strong": true },
-        { "text": "、" },
-        { "text": "集団", "strong": true },
-        { "text": "、そして" },
-        { "text": "記憶", "strong": true },
-        { "text": "についての小さな報告になります。" }
-      ],
-      [
-        { "text": "すべての" },
-        { "text": "編曲", "strong": true },
-        { "text": "は同じ問いを投げます。" }
-      ],
-      [{ "text": "この旋律は何になるのか、" }],
-      [
-        { "text": "もし" },
-        { "text": "別の現実", "strong": true },
-        { "text": "で育っていたなら？" }
-      ],
-      [
-        { "text": "それが" },
-        { "text": "なじみ深く", "strong": true },
-        { "text": "聞こえて、" }
-      ],
-      [
-        { "text": "それでも" },
-        { "text": "この世界", "strong": true },
-        { "text": "のものではないなら、" }
-      ],
-      [
-        { "text": "その" },
-        { "text": "作戦は成功", "strong": true },
-        { "text": "です。" }
-      ]
-    ]
+    "metadataTitle": "ソヴィア同志について｜音楽・ビジュアル・物語",
+    "metadataDescription": "三日月ルナによる独立した音楽・ビジュアルアート企画「ソヴィア同志」と、ソ連風の編曲や架空のラジオ世界を紹介します。",
+    "eyebrow": "プロジェクト / 01",
+    "title": "ソヴィア同志について",
+    "lead": "ソヴィア同志は、三日月ルナが手がける独立した音楽とビジュアルアートのプロジェクトです。ソ連風の編曲、視覚表現、架空の物語を通して、さまざまな文化や時代の音楽を新たに解釈します。",
+    "worldTitle": "別世界から届く音",
+    "worldParagraphs": [
+      "中心にいるのは、ソ連の科学都市トロイツクでラジオ放送員として働くオリジナルの架空の人物、ソヴィア・ラボチェワ（Совия Ивановна Рабочева）です。",
+      "ソヴィアの架空世界では、異常な現象によって他の世界の音楽が放送局に届きます。彼女は未知の旋律を集め、自分の世界の音楽的伝統に沿って編曲し、放送を通してリスナーに届けます。"
+    ],
+    "directionTitle": "音楽、ビジュアル、物語",
+    "directionParagraphs": [
+      "音楽にはソ連の管弦楽編曲、合唱の伝統、民謡、古い録音、舞台芸術からの影響があります。ビジュアルはソ連時代のデザインとアニメ風のキャラクターアートを組み合わせています。",
+      "ソヴィア同志は音楽的な実験、創造的な再解釈、架空世界の構築、ユーモア、時折の風刺を融合させています。歴史の再現でも、政治団体を代表するものでもない、独立した芸術プロジェクトです。"
+    ],
+    "distinctionTitle": "三つの異なる存在",
+    "distinction": "ソヴィア同志はプロジェクト名、三日月ルナは現実の制作者、ソヴィア・ラボチェワは物語の中の架空の人物です。",
+    "creatorLinkTitle": "制作者",
+    "creatorLinkText": "三日月ルナと制作の背景を紹介します。",
+    "creatorLinkAction": "制作者について",
+    "characterLinkTitle": "キャラクター",
+    "characterLinkText": "ソヴィア・ラボチェワのキャラクタープロフィールを見る。",
+    "characterLinkAction": "ソヴィアのプロフィール"
+  },
+  "creator": {
+    "metadataTitle": "三日月ルナ｜ソヴィア同志の制作者",
+    "metadataDescription": "ドイツを拠点とする独立クリエイター三日月ルナと、音楽・ビジュアル・物語を結ぶソヴィア同志の制作について。",
+    "eyebrow": "制作者 / 02",
+    "title": "三日月ルナ",
+    "lead": "三日月ルナは、ドイツを拠点とする独立クリエイターの活動名で、ソヴィア同志の制作者です。",
+    "storyTitle": "プロジェクトをつくる人",
+    "paragraphs": [
+      "歌と音楽への個人的な情熱から、ルナは多様な音楽スタイルや文化、表現の方法を探求しています。",
+      "ソヴィア同志では、音楽、ビジュアルアート、架空の人物、物語への関心を結びつけ、オリジナルの世界観の中で親しみのある曲を再解釈しています。",
+      "ルナはプロジェクトの中心人物としてソヴィア・ラボチェワを考案し、音楽に架空の声と独自の世界を与えました。",
+      "このプロジェクトは、音楽のアイデア、デジタル制作ツール、視覚的なストーリーテリングを重ねる、進行中の個人的な創作実験です。"
+    ],
+    "roleLabel": "役割",
+    "roleValue": "独立クリエイター",
+    "locationLabel": "拠点",
+    "locationValue": "ドイツ",
+    "distinction": "三日月ルナは現実の制作者であり、ソヴィア・ラボチェワは架空の人物です。",
+    "projectAction": "プロジェクトについて",
+    "characterAction": "ソヴィアのプロフィール"
   },
   "cards": [
     {
@@ -146,12 +101,12 @@
     }
   ],
   "sovietAnime": {
-    "metadataTitle": "Soviet Anime Style | Comrade Sovia",
-    "metadataDescription": "Comrade Sovia の Soviet anime スタイルを紹介する案内ページ。音楽アレンジ、キャラクターデザイン、ビジュアルアーカイブ、歌詞、創作世界をまとめています。",
+    "metadataTitle": "Soviet Anime Style |ソヴィア同志",
+    "metadataDescription": "ソヴィア同志の Soviet anime スタイルを紹介する案内ページ。音楽アレンジ、キャラクターデザイン、ビジュアルアーカイブ、歌詞、創作世界をまとめています。",
     "eyebrow": "スタイル資料",
     "serial": "06",
     "titleLines": ["Soviet", "Anime", "Style"],
-    "intro": "Comrade Sovia は Soviet anime に着想を得た音楽とビジュアルのアーカイブです。なじみのあるメロディ、架空の官僚機構、キャラクター中心のアート、そして別のポップカルチャー共和国から届いたような映像で構成されています。",
+    "intro": "ソヴィア同志は Soviet anime に着想を得た音楽とビジュアルのアーカイブです。なじみのあるメロディ、架空の官僚機構、キャラクター中心のアート、そして別のポップカルチャー共和国から届いたような映像で構成されています。",
     "sections": [
       {
         "title": "音楽の再構成",
@@ -211,5 +166,114 @@
     "oldQqTitle": "旧 QQ グループ",
     "invitation": "{name} で Sovia コミュニティに参加しませんか。",
     "shareError": "共有できませんでした。下の招待文をコピーしてください。"
+  },
+  "characters": {
+    "homeCardDescription": "Sovia、Kata、Runaの人物資料と世界設定を紹介します。",
+    "title": "キャラクター紹介",
+    "eyebrow": "キャラクター資料",
+    "views": {
+      "hero": "キャラクターシーン",
+      "main": "立ち絵",
+      "emote": "表情",
+      "outfit": "衣装"
+    },
+    "openOriginal": "原寸画像を見る",
+    "closeOriginal": "画像を閉じる",
+    "labels": {
+      "identityNumber": "識別番号",
+      "fullName": "フルネーム",
+      "worldPolarizationRate": "世界極化率",
+      "worldOrigin": "出身世界",
+      "gender": "性別",
+      "age": "年齢",
+      "languages": "言語",
+      "nationality": "国籍",
+      "residence": "居住地",
+      "species": "種族",
+      "identity": "役割",
+      "biography": "人物紹介",
+      "relationships": "関係",
+      "signatureLines": "決め台詞",
+      "unknown": "機密事項",
+      "nameType": "芸名",
+      "worldTypes": "世界極化の種類"
+    },
+    "dossiers": {
+      "sovia": {
+        "quote": "大勢の前で話すのはあまり得意じゃなくて……でも、無線越しなら、できるかもしれません。",
+        "signature": "同志のみなさん、また明日、また来週。",
+        "origin": "次元ラジオ局がある世界",
+        "gender": "女性",
+        "languages": "ロシア語",
+        "nationality": "ソビエト連邦",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "人間",
+        "identity": "科学都市の次元間放送員",
+        "biography": "科学都市の次元間放送員。異世界から届いた音楽を編曲する。",
+        "relationships": [
+          {
+            "id": "kata",
+            "description": "Kata は姉のような存在で、科学アカデミーの指導者でもある。"
+          },
+          {
+            "id": "runa",
+            "description": "Runa とは互いの存在を感じ取れるらしい。"
+          }
+        ],
+        "fullName": "Совия Ивановна Рабочева"
+      },
+      "kata": {
+        "quote": "Sovia、説明は興味深い。でも私が必要としているのは報告書よ。",
+        "signature": "",
+        "origin": "次元ラジオ局がある世界",
+        "gender": "女性",
+        "languages": "ロシア語",
+        "nationality": "ソビエト連邦",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "人間",
+        "identity": "科学都市の放送業務監察官",
+        "biography": "次元間共鳴伝達事件の後、放送業務の異常を調査する監察官。",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "Sovia を妹のように思い、彼女が科学都市に来たばかりの頃に面倒を見ていた。"
+          }
+        ],
+        "fullName": "Катя Глебовна Белгина"
+      },
+      "runa": {
+        "quote": "それで……私は今、いったいどの世界の人間なの？",
+        "signature": "",
+        "origin": "YouTube が存在する次元らしい",
+        "gender": "女性",
+        "languages": "英語",
+        "nationality": "機密事項",
+        "residence": "機密事項、ドイツ、EU",
+        "species": "人間",
+        "identity": "学生",
+        "biography": "普通に授業を受け、アルバイトをし、食べて、眠って、少しだけ歌う。そして Sovia の声をあなたのいる世界へ届ける手助けもする。",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "互いの存在を感じ取れるらしい。"
+          }
+        ],
+        "fullName": "三日月ルナ"
+      }
+    },
+    "worldTypes": [
+      "Sovia の原点となる世界。次元ラジオ局がある。",
+      "Sovia の世界観に属するオリジナルキャラクター。公式・ファン創作を含む。",
+      "ほかのフィクション作品を参考にした派生キャラクター。",
+      "実在の人物が本人として Sovia の世界に入った存在。",
+      "実在の歴史上の人物をもとにした架空の解釈であり、本人が Sovia の世界に来たわけではない。"
+    ],
+    "worldTypeNames": {
+      "prime": "原点世界",
+      "original": "オリジナルキャラクター",
+      "derivative": "派生キャラクター",
+      "realWorldVisitor": "現実世界からの訪問者",
+      "historicalInterpretation": "歴史人物の解釈"
+    }
   }
 }

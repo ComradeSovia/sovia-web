@@ -2,9 +2,12 @@ export type { HomeCardItem } from "./data/home-cards";
 export { getHomeCard, getHomeCards, HOME_CARDS } from "./data/home-cards";
 export {
   getAboutPageMetadata,
+  getCreatorPageMetadata,
   getHomeCardPageMetadata,
   getSovietAnimePageMetadata,
 } from "./lib/metadata";
+export { AboutProjectPage, CreatorPage } from "./ui/about-pages";
+export { CharactersPage } from "./ui/characters-page";
 export {
   ConstructivistArt,
   type ConstructivistArtProps,

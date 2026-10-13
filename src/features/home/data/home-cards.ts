@@ -1,6 +1,7 @@
 import { getRoutes, Routes } from "@sovia/shared";
-import { getDefaultSharedCopy, type SharedCopy } from "@sovia/shared/i18n/copy";
+import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import type { RouteItem } from "@sovia/shared/model/nav";
 import { getDefaultHomeCopy, type HomeCopy } from "../i18n/copy";
 
@@ -63,21 +64,22 @@ export function getHomeCards(
       route: config.route,
     };
   });
-  const contactCopy = (sharedCopy ?? getDefaultSharedCopy()).contact;
-  const routes = getRoutes(sharedCopy ?? getDefaultSharedCopy(), locale);
-
-  return [
-    ...cards,
-    {
-      id: "contact",
-      title: contactCopy.title,
-      subTitle: `${contactCopy.letter} / ${contactCopy.song}`,
-      description: contactCopy.intro,
-      pageIntro: contactCopy.intro,
-      route: routes.Contact,
-      links: [],
+  const characterCard: HomeCardItem = {
+    id: "characters",
+    title: copy.characters.title,
+    subTitle: copy.characters.eyebrow,
+    description: copy.characters.homeCardDescription,
+    pageIntro: copy.characters.homeCardDescription,
+    route: {
+      label: copy.characters.title,
+      href: locale
+        ? getSiteLocalizedPath("/characters/sovia", locale)
+        : "/characters/sovia",
     },
-  ];
+    links: [],
+  };
+
+  return [...cards.slice(0, 2), characterCard, ...cards.slice(2)];
 }
 
 export const HOME_CARDS = getHomeCards(getDefaultHomeCopy());

@@ -13,100 +13,55 @@
     "titleLines": ["關於", "蘇維雅"],
     "text": "蘇維雅・菈波琪娃收集熟悉的歌曲，並把它們送入另一個世界的機器。這不是複製，也不只是玩笑。這是重構。",
     "strongTerms": ["熟悉的歌曲", "另一個世界的機器", "重構"],
-    "actionLabel": "關於蘇維雅",
+    "actionLabel": "關於計畫",
+    "creatorActionLabel": "關於作者",
     "sovietAnimeActionLabel": "Soviet Anime 風格"
   },
   "about": {
-    "metadataTitle": "關於蘇維雅 | 蘇維雅同志",
-    "metadataDescription": "關於蘇維雅・菈波琪娃，以及熟悉歌曲在另一個世界中的重構。",
-    "eyebrow": "關於我們的部門",
-    "serial": "00",
-    "titleLines": ["關於", "蘇維雅"],
-    "sections": [
-      [
-        { "text": "我的名字是 " },
-        { "text": "蘇維雅・菈波琪娃", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "我收集" },
-        { "text": "熟悉的歌曲", "strong": true },
-        { "text": "，並把它們送回" },
-        { "text": "另一個世界的機器", "strong": true },
-        { "text": "之中。" }
-      ],
-      [
-        { "text": "旋律被" },
-        { "text": "重新組織", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "語言被" },
-        { "text": "重新分配", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "情緒被" },
-        { "text": "歸檔", "strong": true },
-        { "text": "、" },
-        { "text": "蓋章", "strong": true },
-        { "text": "，再送回" },
-        { "text": "人民", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "這不是" },
-        { "text": "複製", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "這也不只是" },
-        { "text": "喜劇", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "這是" },
-        { "text": "重構", "strong": true },
-        { "text": "。" }
-      ],
-      [
-        { "text": "每首歌都成為一份關於" },
-        { "text": "勞動", "strong": true },
-        { "text": "、" },
-        { "text": "秩序", "strong": true },
-        { "text": "、" },
-        { "text": "集體", "strong": true },
-        { "text": "與" },
-        { "text": "記憶", "strong": true },
-        { "text": "的小報告。" }
-      ],
-      [
-        { "text": "每一次" },
-        { "text": "編曲", "strong": true },
-        { "text": "都問同一個問題：" }
-      ],
-      [{ "text": "如果這段旋律" }],
-      [
-        { "text": "在一個" },
-        { "text": "不同的現實", "strong": true },
-        { "text": "中長大，它會變成什麼？" }
-      ],
-      [
-        { "text": "如果它聽起來" },
-        { "text": "熟悉", "strong": true },
-        { "text": "，" }
-      ],
-      [
-        { "text": "卻又不像來自" },
-        { "text": "這個世界", "strong": true },
-        { "text": "，" }
-      ],
-      [
-        { "text": "那麼這次" },
-        { "text": "行動就成功了", "strong": true },
-        { "text": "。" }
-      ]
-    ]
+    "metadataTitle": "關於蘇維雅同志｜音樂、視覺藝術與虛構世界",
+    "metadataDescription": "認識三日月月菜創作的獨立音樂與視覺藝術計畫《蘇維雅同志》，以及蘇維埃風格編曲與虛構廣播世界。",
+    "eyebrow": "計畫介紹 / 01",
+    "title": "關於蘇維雅同志",
+    "lead": "《蘇維雅同志》是三日月月菜發起的獨立音樂與視覺藝術計畫。它以蘇維埃風格的編曲、視覺美學和虛構敘事，重新詮釋來自不同文化與時代的音樂。",
+    "worldTitle": "來自另一個世界的聲音",
+    "worldParagraphs": [
+      "計畫的中心人物是蘇維雅・菈波琪娃（Совия Ивановна Рабочева）。她是原創虛構角色，在蘇聯科學城托羅伊茨克擔任廣播員。",
+      "在蘇維雅的虛構世界中，一種異常現象讓其他世界的音樂傳入她的廣播站。她收集陌生旋律，依照自己世界的音樂傳統重新編排，再透過廣播與聽眾分享。"
+    ],
+    "directionTitle": "音樂、視覺與故事",
+    "directionParagraphs": [
+      "計畫的音樂受到蘇聯管弦樂編曲、合唱傳統、民間音樂、舊錄音和戲劇表演的啟發。視覺上結合蘇維埃時期的設計元素與動漫風格的角色繪畫。",
+      "蘇維雅同志融合音樂實驗、創造性改編、虛構世界觀、幽默與偶爾的諷刺。這是獨立藝術計畫，並非歷史重現，也不代表任何政治組織。"
+    ],
+    "distinctionTitle": "三個不同的身分",
+    "distinction": "《蘇維雅同志》是計畫名稱；三日月月菜是現實中的創作者；蘇維雅・菈波琪娃是故事裡的虛構角色。",
+    "creatorLinkTitle": "創作者",
+    "creatorLinkText": "認識三日月月菜與計畫背後的創作想法。",
+    "creatorLinkAction": "關於創作者",
+    "characterLinkTitle": "角色",
+    "characterLinkText": "閱讀蘇維雅・菈波琪娃的完整虛構角色檔案。",
+    "characterLinkAction": "蘇維雅角色檔案"
+  },
+  "creator": {
+    "metadataTitle": "三日月月菜｜蘇維雅同志的創作者",
+    "metadataDescription": "認識在德國從事創作的獨立創作者三日月月菜，以及她如何在《蘇維雅同志》中結合音樂、視覺藝術與虛構敘事。",
+    "eyebrow": "創作者 / 02",
+    "title": "三日月月菜",
+    "lead": "三日月月菜是在德國從事創作的獨立創作者，也是《蘇維雅同志》的創作者；這個名字是她的藝名。",
+    "storyTitle": "計畫背後的創作者",
+    "paragraphs": [
+      "月菜熱愛歌唱與音樂，喜歡探索不同的音樂風格、文化和表達方式。",
+      "透過《蘇維雅同志》，月菜將音樂、視覺藝術、虛構角色和故事創作結合起來，在原創世界觀中重新詮釋熟悉的歌曲。",
+      "月菜設計了計畫的中心角色蘇維雅・菈波琪娃，讓音樂擁有一個虛構的聲音，也擁有屬於自己的世界。",
+      "這個計畫是一項持續進行的個人創作實驗，匯集音樂想法、數位製作工具與視覺敘事。"
+    ],
+    "roleLabel": "身分",
+    "roleValue": "獨立創作者",
+    "locationLabel": "所在地",
+    "locationValue": "德國",
+    "distinction": "三日月月菜是現實中的創作者；蘇維雅・菈波琪娃是虛構角色。",
+    "projectAction": "認識計畫",
+    "characterAction": "蘇維雅角色檔案"
   },
   "cards": [
     {
@@ -146,7 +101,7 @@
     }
   ],
   "sovietAnime": {
-    "metadataTitle": "Soviet Anime 風格 | 蘇維雅同志",
+    "metadataTitle": "Soviet Anime 風格 |蘇維雅同志",
     "metadataDescription": "了解蘇維雅同志的 Soviet anime 風格：音樂改編、角色設計、視覺檔案、歌詞與創作世界。",
     "eyebrow": "風格檔案",
     "serial": "06",
@@ -211,5 +166,114 @@
     "oldQqTitle": "原 QQ 聊天群",
     "invitation": "來 {name} 加入 Sovia 社群，一起聊天與分享。",
     "shareError": "分享失敗，可以複製下方邀請文案。"
+  },
+  "characters": {
+    "homeCardDescription": "認識 Sovia、Kata 與 Runa，閱讀角色檔案與世界設定。",
+    "title": "角色介紹",
+    "eyebrow": "角色檔案",
+    "views": {
+      "hero": "角色場景",
+      "main": "角色立繪",
+      "emote": "表情設定",
+      "outfit": "服裝設定"
+    },
+    "openOriginal": "查看原圖",
+    "closeOriginal": "關閉圖片",
+    "labels": {
+      "identityNumber": "身分編號",
+      "fullName": "全名",
+      "worldPolarizationRate": "世界極化率",
+      "worldOrigin": "來源世界",
+      "gender": "性別",
+      "age": "年齡",
+      "languages": "語言",
+      "nationality": "國籍",
+      "residence": "居住地",
+      "species": "種族",
+      "identity": "身分",
+      "biography": "人物簡介",
+      "relationships": "人物關係",
+      "signatureLines": "標誌性台詞",
+      "unknown": "機密事項",
+      "nameType": "藝名",
+      "worldTypes": "世界極化類型"
+    },
+    "dossiers": {
+      "sovia": {
+        "quote": "我不太擅長在人群面前講話……不過，隔著無線電的話，或許可以。",
+        "signature": "同志們，明天見，下週見。",
+        "origin": "次元廣播站所在的世界",
+        "gender": "女",
+        "languages": "俄語",
+        "nationality": "蘇聯",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "人類",
+        "identity": "科學城跨維度廣播員",
+        "biography": "科學城跨維度廣播員，改編異世界傳來的音樂。",
+        "relationships": [
+          {
+            "id": "kata",
+            "description": "Kata 是姐姐一樣的存在，也是科學院的領導。"
+          },
+          {
+            "id": "runa",
+            "description": "與 Runa 似乎可以互相感應。"
+          }
+        ],
+        "fullName": "Совия Ивановна Рабочева"
+      },
+      "kata": {
+        "quote": "蘇維雅，妳的解釋很有趣。但我需要的是報告。",
+        "signature": "",
+        "origin": "次元廣播站所在的世界",
+        "gender": "女",
+        "languages": "俄語",
+        "nationality": "蘇聯",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "人類",
+        "identity": "科學城廣播事務監察員",
+        "biography": "在發生跨維度共振傳遞事件後負責調查廣播事務異象的監察員。",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "將 Sovia 當成自己的乖妹妹，曾經在 Sovia 剛到科學城的時候照顧她。"
+          }
+        ],
+        "fullName": "Катя Глебовна Белгина"
+      },
+      "runa": {
+        "quote": "所以……我現在到底算哪個世界的人？",
+        "signature": "",
+        "origin": "似乎是 YouTube 所在的次元",
+        "gender": "女",
+        "languages": "英語",
+        "nationality": "機密事項",
+        "residence": "機密事項，德國，歐盟",
+        "species": "人類",
+        "identity": "學生",
+        "biography": "正常地上課、打工、吃飯、睡覺，還有一點點歌聲。也幫助 Sovia 將聲音傳遞到你所在的世界。",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "似乎彼此可以互相感應。"
+          }
+        ],
+        "fullName": "三日月月菜"
+      }
+    },
+    "worldTypes": [
+      "Sovia 原點世界，次元廣播站所在的世界。",
+      "Sovia 世界觀內的原創角色，包括官方和同人角色。",
+      "借鑑其他虛構作品的衍生角色。",
+      "現實中真實存在的人，以自身身分進入 Sovia 世界。",
+      "基於真實歷史人物創作的虛構演繹角色，並非歷史人物本人來到 Sovia 世界。"
+    ],
+    "worldTypeNames": {
+      "prime": "原點世界",
+      "original": "原創角色",
+      "derivative": "衍生角色",
+      "realWorldVisitor": "現實訪客",
+      "historicalInterpretation": "歷史人物演繹"
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Comrade Sovia",
+    "name": "苏维雅同志",
     "title": "苏维雅同志 | 音乐与创作档案",
     "description": "浏览苏维雅同志的音乐改编、视觉作品、工具、笔记和独立创作项目。",
     "keywords": [
@@ -20,7 +20,8 @@
   },
   "routes": {
     "center": "中心",
-    "about": "关于苏维雅",
+    "about": "关于项目",
+    "creator": "创作者",
     "sound": "歌曲",
     "test": "SOVIA测试",
     "tools": "工具",

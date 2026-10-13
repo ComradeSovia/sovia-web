@@ -24,6 +24,19 @@ export function getAboutPageMetadata(
   });
 }
 
+export function getCreatorPageMetadata(copy: HomeCopy, locale: SiteLocale) {
+  return createSiteMetadata({
+    locale,
+    path: "/creator",
+    title: copy.creator.metadataTitle,
+    description: copy.creator.metadataDescription,
+    openGraph: {
+      title: copy.creator.metadataTitle,
+      description: copy.creator.metadataDescription,
+    },
+  });
+}
+
 export function getHomeCardPageMetadata(
   card: HomeCardItem,
   sharedCopy: SharedCopy,

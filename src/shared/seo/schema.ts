@@ -42,7 +42,6 @@ export function createOrganizationSchema(copy: SiteSchemaCopy) {
     "@type": "Organization",
     "@id": organizationId,
     name: copy.site.name,
-    alternateName: "Sovia Rabocheva",
     url: SITE_URL,
     sameAs: ORGANIZATION_SAME_AS,
   };

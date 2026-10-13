@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   ConstructivistArt,
   type ConstructivistArtVariant,
@@ -13,6 +14,27 @@ const cardArt: Readonly<Record<string, ConstructivistArtVariant>> = {
 };
 
 export function HomeCardArt({ kind }: { kind: string }) {
+  if (kind === "characters") {
+    return (
+      <div className="home-card-art" data-kind={kind} aria-hidden="true">
+        <span className="art-registration">+</span>
+        <div className="home-character-portraits">
+          {(["sovia", "kata", "runa"] as const).map((id) => (
+            <span key={id}>
+              <Image
+                src={"/assets/characters/" + id + "_main.png"}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 12vw, 30vw"
+              />
+            </span>
+          ))}
+        </div>
+        <span className="art-perforation" />
+      </div>
+    );
+  }
+
   return (
     <div className="home-card-art" data-kind={kind} aria-hidden="true">
       <span className="art-registration">+</span>

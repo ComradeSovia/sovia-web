@@ -11,6 +11,7 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     Contact: { label: copy.routes.contact, href: href("/contact") },
     Center: { label: copy.routes.center, href: href("/") },
     About: { label: copy.routes.about, href: href("/about") },
+    Creator: { label: copy.routes.creator, href: href("/creator") },
     Sound: { label: copy.routes.sound, href: href("/sound") },
     Test: { label: copy.routes.test, href: href("/test") },
     Tools: { label: copy.routes.tools, href: href("/tools") },

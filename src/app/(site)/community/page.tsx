@@ -8,7 +8,7 @@ import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import type { Metadata } from "next";
 
-const cardIndex = 4;
+const cardIndex = 5;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getCurrentSiteLocale();
@@ -29,7 +29,7 @@ export default async function CommunityPage() {
       card={cards[cardIndex]}
       copy={copy}
       locale={locale}
-      serial="06"
+      serial="07"
     />
   );
 }

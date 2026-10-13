@@ -55,6 +55,12 @@ export function HomeManifesto({
           </Link>
           <Link
             className="btn-outline"
+            href={getSiteLocalizedPath("/creator", locale)}
+          >
+            {copy.manifesto.creatorActionLabel}
+          </Link>
+          <Link
+            className="btn-outline"
             href={getSiteLocalizedPath("/soviet-anime", locale)}
           >
             {copy.manifesto.sovietAnimeActionLabel}

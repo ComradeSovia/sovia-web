@@ -18,100 +18,55 @@
       "machinery of another world",
       "reconstruction"
     ],
-    "actionLabel": "About Sovia",
+    "actionLabel": "About the project",
+    "creatorActionLabel": "About the creator",
     "sovietAnimeActionLabel": "Soviet Anime Style"
   },
   "about": {
-    "metadataTitle": "About Sovia | Comrade Sovia",
-    "metadataDescription": "About Sovia Rabocheva and the Soviet anime-inspired reconstruction of familiar songs through another world.",
-    "eyebrow": "About Our Department",
-    "serial": "00",
-    "titleLines": ["About", "Sovia"],
-    "sections": [
-      [
-        { "text": "My name is " },
-        { "text": "Sovia Rabocheva", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "I collect " },
-        { "text": "familiar songs", "strong": true },
-        { "text": " and send them back through the " },
-        { "text": "machinery of another world", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "Melodies are " },
-        { "text": "reorganized", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "Languages are " },
-        { "text": "reassigned", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "Emotions are " },
-        { "text": "filed", "strong": true },
-        { "text": ", " },
-        { "text": "stamped", "strong": true },
-        { "text": ", and sent back to the " },
-        { "text": "people", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "This is not " },
-        { "text": "replication", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "This is not only " },
-        { "text": "comedy", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "This is " },
-        { "text": "reconstruction", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "Every song becomes a small report on " },
-        { "text": "labor", "strong": true },
-        { "text": ", " },
-        { "text": "order", "strong": true },
-        { "text": ", " },
-        { "text": "collectivity", "strong": true },
-        { "text": ", and " },
-        { "text": "memory", "strong": true },
-        { "text": "." }
-      ],
-      [
-        { "text": "Every " },
-        { "text": "arrangement", "strong": true },
-        { "text": " asks the same question:" }
-      ],
-      [{ "text": "What would this melody become," }],
-      [
-        { "text": "if it had grown up in a " },
-        { "text": "different reality", "strong": true },
-        { "text": "?" }
-      ],
-      [
-        { "text": "If it sounds " },
-        { "text": "familiar", "strong": true },
-        { "text": "," }
-      ],
-      [
-        { "text": "but not quite from " },
-        { "text": "this world", "strong": true },
-        { "text": "," }
-      ],
-      [
-        { "text": "then the " },
-        { "text": "operation was successful", "strong": true },
-        { "text": "." }
-      ]
-    ]
+    "metadataTitle": "About Comrade Sovia — Music, Art & Storytelling",
+    "metadataDescription": "Discover Comrade Sovia, an independent music and visual art project by Mikatsuki Runa, its Soviet-inspired arrangements and fictional radio world.",
+    "eyebrow": "THE PROJECT / 01",
+    "title": "About Comrade Sovia",
+    "lead": "Comrade Sovia is an independent music and visual art project created by Mikatsuki Runa. It reinterprets music from different cultures and eras through Soviet-inspired arrangements, visual aesthetics, and fictional storytelling.",
+    "worldTitle": "A voice from another world",
+    "worldParagraphs": [
+      "At the center of the project is Sovia Rabocheva (Совия Ивановна Рабочева), an original fictional character who works as a radio broadcaster in the Soviet scientific town of Troitsk.",
+      "In Sovia’s fictional universe, an unusual phenomenon allows music from other worlds to reach her radio station. She collects these unfamiliar melodies and reinterprets them through the musical traditions of her own world, sharing them with listeners through her broadcasts."
+    ],
+    "directionTitle": "Sound, image, and story",
+    "directionParagraphs": [
+      "The project’s music draws inspiration from Soviet orchestral arrangements, choral traditions, folk music, vintage recordings, and theatrical performances. Its visual identity combines Soviet-era design influences with anime-inspired character art.",
+      "Comrade Sovia blends musical experimentation, creative reinterpretation, fictional worldbuilding, humor, and occasional satire. It is an independent artistic project rather than a historical reconstruction or a representation of any political organization."
+    ],
+    "distinctionTitle": "Three different identities",
+    "distinction": "Comrade Sovia is the project. Mikatsuki Runa is its real-world creator. Sovia Rabocheva is a fictional character within its story.",
+    "creatorLinkTitle": "The creator",
+    "creatorLinkText": "Meet Mikatsuki Runa and the ideas behind the project.",
+    "creatorLinkAction": "About the creator",
+    "characterLinkTitle": "The character",
+    "characterLinkText": "Read Sovia Rabocheva’s complete fictional profile.",
+    "characterLinkAction": "Sovia character profile"
+  },
+  "creator": {
+    "metadataTitle": "Mikatsuki Runa — Creator of Comrade Sovia",
+    "metadataDescription": "Meet Mikatsuki Runa, the Germany-based independent creator of Comrade Sovia, and learn how music, visual art and fiction come together in the project.",
+    "eyebrow": "THE CREATOR / 02",
+    "title": "Mikatsuki Runa",
+    "lead": "Mikatsuki Runa is the stage name of an independent creator based in Germany and the creator of Comrade Sovia.",
+    "storyTitle": "The person behind the project",
+    "paragraphs": [
+      "With a personal passion for singing and music, Runa enjoys exploring different musical styles, cultures, and approaches to creative expression.",
+      "Through Comrade Sovia, Runa combines interests in music, visual art, fictional characters, and storytelling to create reinterpretations of familiar songs within an original fictional universe.",
+      "Runa designed Sovia Rabocheva as the project’s central character, giving the music a fictional voice and a world of its own.",
+      "The project is an ongoing personal creative experiment, bringing together musical ideas, digital production tools, and visual storytelling."
+    ],
+    "roleLabel": "Role",
+    "roleValue": "Independent creator",
+    "locationLabel": "Based in",
+    "locationValue": "Germany",
+    "distinction": "Mikatsuki Runa is the real-world creator; Sovia Rabocheva is a fictional character.",
+    "projectAction": "About the project",
+    "characterAction": "Sovia character profile"
   },
   "cards": [
     {
@@ -216,5 +171,114 @@
     "oldQqTitle": "Former QQ group",
     "invitation": "Join the Sovia community on {name}.",
     "shareError": "Share failed. You can copy the invitation below."
+  },
+  "characters": {
+    "homeCardDescription": "Meet Sovia, Kata and Runa through their stories, profiles and character art.",
+    "title": "Characters",
+    "eyebrow": "Character archive",
+    "views": {
+      "hero": "Character scene",
+      "main": "Portrait",
+      "emote": "Expressions",
+      "outfit": "Outfits"
+    },
+    "openOriginal": "View original image",
+    "closeOriginal": "Close image",
+    "labels": {
+      "identityNumber": "Identity No.",
+      "fullName": "Full name",
+      "worldPolarizationRate": "World polarization",
+      "worldOrigin": "World of origin",
+      "gender": "Gender",
+      "age": "Age",
+      "languages": "Languages",
+      "nationality": "Nationality",
+      "residence": "Residence",
+      "species": "Species",
+      "identity": "Role",
+      "biography": "Biography",
+      "relationships": "Connections",
+      "signatureLines": "Signature line",
+      "unknown": "Classified information",
+      "nameType": "Stage name",
+      "worldTypes": "World polarization types"
+    },
+    "dossiers": {
+      "sovia": {
+        "quote": "I’m not very good at speaking in front of a crowd… But over the radio, perhaps I can.",
+        "signature": "Comrades, see you tomorrow, see you next week.",
+        "origin": "The world of the interdimensional radio station",
+        "gender": "Female",
+        "languages": "Russian",
+        "nationality": "Soviet Union",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "Human",
+        "identity": "Interdimensional broadcaster in the science city",
+        "biography": "An interdimensional broadcaster in the science city who arranges music received from other worlds.",
+        "relationships": [
+          {
+            "id": "kata",
+            "description": "Kata is like an older sister to her and is also a leader at the Academy of Sciences."
+          },
+          {
+            "id": "runa",
+            "description": "She and Runa seem able to sense each other."
+          }
+        ],
+        "fullName": "Совия Ивановна Рабочева"
+      },
+      "kata": {
+        "quote": "Sovia, your explanation is interesting. But what I need is a report.",
+        "signature": "",
+        "origin": "The world of the interdimensional radio station",
+        "gender": "Female",
+        "languages": "Russian",
+        "nationality": "Soviet Union",
+        "residence": "Troitsk, Moscow Oblast, USSR",
+        "species": "Human",
+        "identity": "Broadcast affairs inspector in the science city",
+        "biography": "An inspector assigned to investigate broadcast anomalies after an interdimensional resonance transmission.",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "She treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
+          }
+        ],
+        "fullName": "Катя Глебовна Белгина"
+      },
+      "runa": {
+        "quote": "So… which world do I belong to now?",
+        "signature": "",
+        "origin": "Apparently the dimension where YouTube exists",
+        "gender": "Female",
+        "languages": "English",
+        "nationality": "Classified information",
+        "residence": "Classified information, Germany, EU",
+        "species": "Human",
+        "identity": "Student",
+        "biography": "Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "The two seem able to sense each other."
+          }
+        ],
+        "fullName": "Mikatsuki Runa"
+      }
+    },
+    "worldTypes": [
+      "Sovia’s point-of-origin world, home to the interdimensional radio station.",
+      "Original characters within Sovia’s world, both official and fan-created.",
+      "Derivative characters inspired by other fictional works.",
+      "Real people who enter Sovia’s world as themselves.",
+      "Fictional interpretations of historical figures; the historical people themselves have not entered Sovia’s world."
+    ],
+    "worldTypeNames": {
+      "prime": "Prime world",
+      "original": "Original character",
+      "derivative": "Derivative character",
+      "realWorldVisitor": "Real-world visitor",
+      "historicalInterpretation": "Historical interpretation"
+    }
   }
 }
