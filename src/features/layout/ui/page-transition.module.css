@@ -1,3 +1,20 @@
+.progressBar {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 100;
+  width: 100%;
+  height: 3px;
+  background: rgb(var(--red));
+  box-shadow: 0 0 8px rgb(var(--red) / 0.65);
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    transform 150ms ease-out,
+    opacity 180ms ease;
+}
+
 .content {
   min-width: 0;
 }
@@ -25,12 +42,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .progressBar {
+    transition: none;
+  }
   .overlay {
     display: none;
   }
 }
 
 @media print {
+  .progressBar,
   .overlay {
     display: none;
   }
