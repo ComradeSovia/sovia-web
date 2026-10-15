@@ -1,0 +1,47 @@
+{
+  "version": "1.0.3",
+  "updatedAt": "2026-10-15",
+  "language": "en-US",
+  "projectId": "https://sovia.work/#project",
+  "character": {
+    "@id": "https://sovia.work/en-US/characters/kata#character",
+    "@type": "Person",
+    "name": "Kata",
+    "displayName": "Kata",
+    "nativeName": "Катя Глебовна Белгина",
+    "url": "https://sovia.work/en-US/characters/kata",
+    "description": "Fictional broadcast affairs inspector assigned to investigate anomalies after an interdimensional resonance transmission.",
+    "quotes": [
+      "Sovia, your explanation is interesting. But what I need is a report."
+    ],
+    "signatureLines": [],
+    "biography": "An inspector assigned to investigate broadcast anomalies after an interdimensional resonance transmission.",
+    "identityNumber": "IV-МЮ № 778996",
+    "identity": "Broadcast affairs inspector in the science city",
+    "worldOrigin": "The world of the interdimensional radio station",
+    "worldPolarizationRate": "0.000000",
+    "worldPolarizationType": "prime",
+    "gender": "Female",
+    "age": 32,
+    "languages": [
+      "Russian",
+      "English",
+      "French"
+    ],
+    "nationality": "Soviet Union",
+    "residence": "Troitsk, Moscow Oblast, USSR",
+    "species": "Human",
+    "images": {
+      "hero": "/assets/characters/kata_hero.png",
+      "portrait": "/assets/characters/kata_main.png",
+      "expressions": "/assets/characters/kata_emote.png",
+      "outfits": "/assets/characters/kata_outfit.png"
+    },
+    "relationships": [
+      {
+        "characterId": "sovia",
+        "description": "Kata treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
+      }
+    ]
+  }
+}

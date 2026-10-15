@@ -8,6 +8,8 @@
     "build": "next build",
     "db:push": "prisma db push",
     "prisma:generate": "prisma generate",
+    "canon:generate": "node scripts/generate-canon.mjs",
+    "canon:check": "node scripts/generate-canon.mjs --check",
     "thumbnails:prewarm": "node scripts/prewarm-u2b-thumbnails.mjs",
     "start": "next start",
     "lint": "biome check",

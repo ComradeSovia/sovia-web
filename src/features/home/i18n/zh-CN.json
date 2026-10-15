@@ -204,7 +204,7 @@
         "signature": "同志们，明天见，下周见。",
         "origin": "次元广播站所在的世界",
         "gender": "女",
-        "languages": "俄语",
+        "languages": "俄语、日语",
         "nationality": "苏联",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "人类",
@@ -227,7 +227,7 @@
         "signature": "",
         "origin": "次元广播站所在的世界",
         "gender": "女",
-        "languages": "俄语",
+        "languages": "俄语、英语、法语",
         "nationality": "苏联",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "人类",
@@ -246,9 +246,9 @@
         "signature": "",
         "origin": "似乎是 YouTube 所在的次元",
         "gender": "女",
-        "languages": "英语",
+        "languages": "英语、德语、日语",
         "nationality": "机密事项",
-        "residence": "机密事项，德国，欧盟",
+        "residence": "机密事项",
         "species": "人类",
         "identity": "学生",
         "biography": "正常的上课，打工，吃饭，睡觉和一点点歌声。还有帮助 Sovia 将声音传递到你在的世界。",
@@ -265,14 +265,14 @@
       "Sovia 原点世界，次元广播站所在的世界。",
       "Sovia 世界观内的原创角色，包括官方和同人角色。",
       "借鉴其他虚构作品的衍生角色。",
-      "现实中真实存在的人，以自身身份进入 Sovia 世界。",
+      "来源世界与听众所在的现实相关；+i 只标记来源，不判定角色与现实人物是否为同一身份。",
       "基于真实历史人物创作的虚构演绎角色，并非历史人物本人来到 Sovia 世界。"
     ],
     "worldTypeNames": {
       "prime": "原点世界",
       "original": "原创角色",
       "derivative": "衍生角色",
-      "realWorldVisitor": "现实访客",
+      "realWorldOrigin": "现实来源世界",
       "historicalInterpretation": "历史人物演绎"
     }
   }

@@ -204,7 +204,7 @@
         "signature": "동지 여러분, 내일 또 만나요. 다음 주에도요.",
         "origin": "차원 방송국이 있는 세계",
         "gender": "여성",
-        "languages": "러시아어",
+        "languages": "러시아어, 일본어",
         "nationality": "소련",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "인간",
@@ -227,7 +227,7 @@
         "signature": "",
         "origin": "차원 방송국이 있는 세계",
         "gender": "여성",
-        "languages": "러시아어",
+        "languages": "러시아어, 영어, 프랑스어",
         "nationality": "소련",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "인간",
@@ -246,9 +246,9 @@
         "signature": "",
         "origin": "YouTube가 있는 차원으로 보인다",
         "gender": "여성",
-        "languages": "영어",
+        "languages": "영어, 독일어, 일본어",
         "nationality": "기밀 사항",
-        "residence": "기밀 사항, 독일, EU",
+        "residence": "기밀 사항",
         "species": "인간",
         "identity": "학생",
         "biography": "평범하게 수업을 듣고, 아르바이트하고, 밥을 먹고, 잠을 자고, 조금 노래한다. 그리고 Sovia의 목소리가 당신이 있는 세계에 닿도록 돕는다.",
@@ -265,14 +265,14 @@
       "Sovia의 원점 세계이자 차원 방송국이 있는 세계.",
       "Sovia 세계관의 오리지널 캐릭터. 공식과 팬 창작 캐릭터를 포함한다.",
       "다른 허구 작품을 참고한 파생 캐릭터.",
-      "현실에 존재하는 사람이 자신의 신분으로 Sovia 세계에 들어온 경우.",
+      "관객의 현실과 관련된 출신 세계. +i는 출신 세계만 나타내며 캐릭터와 실존 인물의 동일성은 뜻하지 않는다.",
       "실존 역사 인물을 바탕으로 만든 가상의 재해석 캐릭터. 역사 인물 본인이 Sovia 세계에 온 것은 아니다."
     ],
     "worldTypeNames": {
       "prime": "원점 세계",
       "original": "오리지널 캐릭터",
       "derivative": "파생 캐릭터",
-      "realWorldVisitor": "현실 세계 방문자",
+      "realWorldOrigin": "현실 세계 출신",
       "historicalInterpretation": "역사 인물 재해석"
     }
   }

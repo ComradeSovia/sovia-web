@@ -204,7 +204,7 @@
         "signature": "同志のみなさん、また明日、また来週。",
         "origin": "次元ラジオ局がある世界",
         "gender": "女性",
-        "languages": "ロシア語",
+        "languages": "ロシア語、日本語",
         "nationality": "ソビエト連邦",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "人間",
@@ -227,7 +227,7 @@
         "signature": "",
         "origin": "次元ラジオ局がある世界",
         "gender": "女性",
-        "languages": "ロシア語",
+        "languages": "ロシア語、英語、フランス語",
         "nationality": "ソビエト連邦",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "人間",
@@ -246,9 +246,9 @@
         "signature": "",
         "origin": "YouTube が存在する次元らしい",
         "gender": "女性",
-        "languages": "英語",
+        "languages": "英語、ドイツ語、日本語",
         "nationality": "機密事項",
-        "residence": "機密事項、ドイツ、EU",
+        "residence": "機密事項",
         "species": "人間",
         "identity": "学生",
         "biography": "普通に授業を受け、アルバイトをし、食べて、眠って、少しだけ歌う。そして Sovia の声をあなたのいる世界へ届ける手助けもする。",
@@ -265,14 +265,14 @@
       "Sovia の原点となる世界。次元ラジオ局がある。",
       "Sovia の世界観に属するオリジナルキャラクター。公式・ファン創作を含む。",
       "ほかのフィクション作品を参考にした派生キャラクター。",
-      "実在の人物が本人として Sovia の世界に入った存在。",
+      "観客の現実に関係する出身世界。+i は出身世界のみを示し、キャラクターと実在の人物が同一かどうかは示さない。",
       "実在の歴史上の人物をもとにした架空の解釈であり、本人が Sovia の世界に来たわけではない。"
     ],
     "worldTypeNames": {
       "prime": "原点世界",
       "original": "オリジナルキャラクター",
       "derivative": "派生キャラクター",
-      "realWorldVisitor": "現実世界からの訪問者",
+      "realWorldOrigin": "現実世界由来",
       "historicalInterpretation": "歴史人物の解釈"
     }
   }

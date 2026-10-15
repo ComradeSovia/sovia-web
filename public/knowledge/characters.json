@@ -1,0 +1,172 @@
+{
+  "version": "1.0.3",
+  "updatedAt": "2026-10-15",
+  "language": "en-US",
+  "projectId": "https://sovia.work/#project",
+  "creatorId": "https://sovia.work/en-US/creator#person",
+  "policy": {
+    "scope": "This file records the current official project and character facts. Localized pages may translate the prose but must preserve these identities and facts.",
+    "nonCanon": "Song-specific stories, satire, jokes, fan works, and derivative works are not automatically part of the official character canon.",
+    "changes": "Change the version and updatedAt date when an official fact changes."
+  },
+  "worldPolarizationTypes": [
+    {
+      "type": "prime",
+      "symbol": "0",
+      "description": "Sovia's origin world, where the interdimensional radio station exists."
+    },
+    {
+      "type": "original",
+      "symbol": "+",
+      "description": "Original characters within Sovia's world, both official and fan-created."
+    },
+    {
+      "type": "derivative",
+      "symbol": "-",
+      "description": "Derivative characters inspired by other fictional works."
+    },
+    {
+      "type": "realWorldOrigin",
+      "symbol": "+i",
+      "description": "A world of origin associated with the audience's reality. This marker classifies origin, not whether a character is identical to a real person."
+    },
+    {
+      "type": "historicalInterpretation",
+      "symbol": "-i",
+      "description": "A fictional interpretation inspired by a historical figure, not the historical person visiting Sovia's world."
+    }
+  ],
+  "characters": {
+    "sovia": {
+      "@id": "https://sovia.work/en-US/characters/sovia#character",
+      "@type": "Person",
+      "name": "Sovia Rabocheva",
+      "displayName": "Sovia",
+      "nativeName": "Совия Ивановна Рабочева",
+      "url": "https://sovia.work/en-US/characters/sovia",
+      "description": "Fictional interdimensional broadcaster in the Soviet scientific town of Troitsk who reinterprets music received from other worlds.",
+      "quotes": [
+        "I'm not very good at speaking in front of a crowd… But over the radio, perhaps I can."
+      ],
+      "signatureLines": [
+        "Comrades, see you tomorrow, see you next week."
+      ],
+      "biography": "An interdimensional broadcaster in the science city who arranges music received from other worlds.",
+      "identityNumber": "IV-ТР № 652373",
+      "identity": "Interdimensional broadcaster in the science city",
+      "worldOrigin": "The world of the interdimensional radio station",
+      "worldPolarizationRate": "0.000000",
+      "worldPolarizationType": "prime",
+      "gender": "Female",
+      "age": 20,
+      "languages": [
+        "Russian",
+        "Japanese"
+      ],
+      "nationality": "Soviet Union",
+      "residence": "Troitsk, Moscow Oblast, USSR",
+      "species": "Human",
+      "images": {
+        "hero": "/assets/characters/sovia_hero.png",
+        "portrait": "/assets/characters/sovia_main.png",
+        "expressions": "/assets/characters/sovia_emote.png",
+        "outfits": "/assets/characters/sovia_outfit.png"
+      },
+      "relationships": [
+        {
+          "characterId": "kata",
+          "description": "Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences."
+        },
+        {
+          "characterId": "runa",
+          "description": "Sovia and the in-universe Runa seem able to sense each other."
+        }
+      ]
+    },
+    "kata": {
+      "@id": "https://sovia.work/en-US/characters/kata#character",
+      "@type": "Person",
+      "name": "Kata",
+      "displayName": "Kata",
+      "nativeName": "Катя Глебовна Белгина",
+      "url": "https://sovia.work/en-US/characters/kata",
+      "description": "Fictional broadcast affairs inspector assigned to investigate anomalies after an interdimensional resonance transmission.",
+      "quotes": [
+        "Sovia, your explanation is interesting. But what I need is a report."
+      ],
+      "signatureLines": [],
+      "biography": "An inspector assigned to investigate broadcast anomalies after an interdimensional resonance transmission.",
+      "identityNumber": "IV-МЮ № 778996",
+      "identity": "Broadcast affairs inspector in the science city",
+      "worldOrigin": "The world of the interdimensional radio station",
+      "worldPolarizationRate": "0.000000",
+      "worldPolarizationType": "prime",
+      "gender": "Female",
+      "age": 32,
+      "languages": [
+        "Russian",
+        "English",
+        "French"
+      ],
+      "nationality": "Soviet Union",
+      "residence": "Troitsk, Moscow Oblast, USSR",
+      "species": "Human",
+      "images": {
+        "hero": "/assets/characters/kata_hero.png",
+        "portrait": "/assets/characters/kata_main.png",
+        "expressions": "/assets/characters/kata_emote.png",
+        "outfits": "/assets/characters/kata_outfit.png"
+      },
+      "relationships": [
+        {
+          "characterId": "sovia",
+          "description": "Kata treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
+        }
+      ]
+    },
+    "runa": {
+      "@id": "https://sovia.work/en-US/characters/runa#character",
+      "@type": "Person",
+      "name": "Mikatsuki Runa",
+      "displayName": "Runa",
+      "nativeName": "三日月ルナ",
+      "url": "https://sovia.work/en-US/characters/runa",
+      "description": "The in-universe Runa helps Sovia carry her voice into the audience's world. This profile describes her role in the story, not the real-world creator's biography.",
+      "identityNote": "The real-world creator and in-universe Runa use the same stage name. Their profile IDs separate real-world biography from story facts. The +i marker classifies world of origin only; it does not establish whether this role is an avatar, self-insert, or separate fictional person.",
+      "quotes": [
+        "So… which world do I belong to now?"
+      ],
+      "signatureLines": [],
+      "biography": "Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.",
+      "identityNumber": "0-ГР № 000026",
+      "identity": "Student",
+      "worldOrigin": "Apparently the dimension where YouTube exists",
+      "worldPolarizationRate": "0.999999i",
+      "worldPolarizationType": "realWorldOrigin",
+      "gender": "Female",
+      "age": null,
+      "ageDisplay": "Classified information",
+      "languages": [
+        "English",
+        "German",
+        "Japanese"
+      ],
+      "nationality": "Classified information",
+      "residence": "Classified information",
+      "species": "Human",
+      "realWorldCreatorId": "https://sovia.work/en-US/creator#person",
+      "images": {
+        "hero": "/assets/characters/runa_hero.png",
+        "portrait": "/assets/characters/runa_main.png",
+        "expressions": "/assets/characters/runa_emote.png",
+        "outfits": "/assets/characters/runa_outfit.png"
+      },
+      "relationships": [
+        {
+          "characterId": "sovia",
+          "description": "The in-universe Runa and Sovia seem able to sense each other."
+        }
+      ]
+    }
+  }
+}

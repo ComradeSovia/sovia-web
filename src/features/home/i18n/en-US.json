@@ -209,7 +209,7 @@
         "signature": "Comrades, see you tomorrow, see you next week.",
         "origin": "The world of the interdimensional radio station",
         "gender": "Female",
-        "languages": "Russian",
+        "languages": "Russian, Japanese",
         "nationality": "Soviet Union",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "Human",
@@ -232,7 +232,7 @@
         "signature": "",
         "origin": "The world of the interdimensional radio station",
         "gender": "Female",
-        "languages": "Russian",
+        "languages": "Russian, English, French",
         "nationality": "Soviet Union",
         "residence": "Troitsk, Moscow Oblast, USSR",
         "species": "Human",
@@ -251,9 +251,9 @@
         "signature": "",
         "origin": "Apparently the dimension where YouTube exists",
         "gender": "Female",
-        "languages": "English",
+        "languages": "English, German, Japanese",
         "nationality": "Classified information",
-        "residence": "Classified information, Germany, EU",
+        "residence": "Classified information",
         "species": "Human",
         "identity": "Student",
         "biography": "Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.",
@@ -270,14 +270,14 @@
       "Sovia’s point-of-origin world, home to the interdimensional radio station.",
       "Original characters within Sovia’s world, both official and fan-created.",
       "Derivative characters inspired by other fictional works.",
-      "Real people who enter Sovia’s world as themselves.",
+      "A world of origin associated with the audience’s reality; +i does not determine a character’s real-world identity.",
       "Fictional interpretations of historical figures; the historical people themselves have not entered Sovia’s world."
     ],
     "worldTypeNames": {
       "prime": "Prime world",
       "original": "Original character",
       "derivative": "Derivative character",
-      "realWorldVisitor": "Real-world visitor",
+      "realWorldOrigin": "Real-world origin",
       "historicalInterpretation": "Historical interpretation"
     }
   }

@@ -5,45 +5,43 @@ import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import canon from "../../../../data/canon/sovia.json";
 import type { HomeCopy } from "../i18n/copy";
 import styles from "./characters-page.module.css";
 
 const characters = [
   {
     id: "sovia",
-    name: "Sovia",
+    name: canon.entities.characters.sovia.displayName,
     number: "01",
-    identityNumber: "IV-ТР № 652373",
-    polarization: "0.000000",
-    polarizationType: "prime",
-    age: "20",
+    identityNumber: canon.entities.characters.sovia.identityNumber,
+    polarization: canon.entities.characters.sovia.worldPolarizationRate,
+    polarizationType: canon.entities.characters.sovia.worldPolarizationType,
+    age: String(canon.entities.characters.sovia.age),
   },
   {
     id: "kata",
-    name: "Kata",
+    name: canon.entities.characters.kata.displayName,
     number: "02",
-    identityNumber: "IV-МЮ № 778996",
-    polarization: "0.000000",
-    polarizationType: "prime",
-    age: "32",
+    identityNumber: canon.entities.characters.kata.identityNumber,
+    polarization: canon.entities.characters.kata.worldPolarizationRate,
+    polarizationType: canon.entities.characters.kata.worldPolarizationType,
+    age: String(canon.entities.characters.kata.age),
   },
   {
     id: "runa",
-    name: "Runa",
+    name: canon.entities.characters.runa.displayName,
     number: "03",
-    identityNumber: "0-ГР № 000026",
-    polarization: "0.999999i",
-    polarizationType: "realWorldVisitor",
+    identityNumber: canon.entities.characters.runa.identityNumber,
+    polarization: canon.entities.characters.runa.worldPolarizationRate,
+    polarizationType: canon.entities.characters.runa.worldPolarizationType,
     age: null,
   },
 ] as const;
-const polarizationTypes = [
-  { type: "prime", symbol: "0" },
-  { type: "original", symbol: "+" },
-  { type: "derivative", symbol: "-" },
-  { type: "realWorldVisitor", symbol: "+i" },
-  { type: "historicalInterpretation", symbol: "-i" },
-] as const;
+const polarizationTypes = canon.worldPolarizationTypes as Array<{
+  type: keyof HomeCopy["characters"]["worldTypeNames"];
+  symbol: string;
+}>;
 const expressionSlots = [1, 2, 3, 4, 5, 6] as const;
 
 export type CharacterId = (typeof characters)[number]["id"];

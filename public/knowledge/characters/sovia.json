@@ -1,0 +1,52 @@
+{
+  "version": "1.0.3",
+  "updatedAt": "2026-10-15",
+  "language": "en-US",
+  "projectId": "https://sovia.work/#project",
+  "character": {
+    "@id": "https://sovia.work/en-US/characters/sovia#character",
+    "@type": "Person",
+    "name": "Sovia Rabocheva",
+    "displayName": "Sovia",
+    "nativeName": "Совия Ивановна Рабочева",
+    "url": "https://sovia.work/en-US/characters/sovia",
+    "description": "Fictional interdimensional broadcaster in the Soviet scientific town of Troitsk who reinterprets music received from other worlds.",
+    "quotes": [
+      "I'm not very good at speaking in front of a crowd… But over the radio, perhaps I can."
+    ],
+    "signatureLines": [
+      "Comrades, see you tomorrow, see you next week."
+    ],
+    "biography": "An interdimensional broadcaster in the science city who arranges music received from other worlds.",
+    "identityNumber": "IV-ТР № 652373",
+    "identity": "Interdimensional broadcaster in the science city",
+    "worldOrigin": "The world of the interdimensional radio station",
+    "worldPolarizationRate": "0.000000",
+    "worldPolarizationType": "prime",
+    "gender": "Female",
+    "age": 20,
+    "languages": [
+      "Russian",
+      "Japanese"
+    ],
+    "nationality": "Soviet Union",
+    "residence": "Troitsk, Moscow Oblast, USSR",
+    "species": "Human",
+    "images": {
+      "hero": "/assets/characters/sovia_hero.png",
+      "portrait": "/assets/characters/sovia_main.png",
+      "expressions": "/assets/characters/sovia_emote.png",
+      "outfits": "/assets/characters/sovia_outfit.png"
+    },
+    "relationships": [
+      {
+        "characterId": "kata",
+        "description": "Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences."
+      },
+      {
+        "characterId": "runa",
+        "description": "Sovia and the in-universe Runa seem able to sense each other."
+      }
+    ]
+  }
+}

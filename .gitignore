@@ -43,8 +43,11 @@ next-env.d.ts
 # generated code
 /src/generated/prisma/
 
-# don't commit data
-/data
+# Keep private data out of Git, except the public Canon source.
+/data/*
+!/data/canon/
+/data/canon/*
+!/data/canon/sovia.json
 
 # example env
 !.env.example
