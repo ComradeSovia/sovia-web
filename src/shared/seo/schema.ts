@@ -1,5 +1,8 @@
+import canon from "../../../data/canon/sovia.json";
 import { ORGANIZATION_SAME_AS } from "../config/external-links";
 import { SITE_URL, siteUrl } from "../config/site";
+import type { SiteLocale } from "../i18n/site-locale";
+import { getSiteLocalizedPath } from "../i18n/site-routing";
 
 type GraphNode = Record<string, unknown>;
 
@@ -21,8 +24,10 @@ export type MusicRecordingSchemaInput = {
   u2bId?: string | null;
 };
 
-const organizationId = siteUrl("/#organization");
-const websiteId = siteUrl("/#website");
+type CanonCharacterId = keyof typeof canon.entities.characters;
+
+const { project, creator, characters } = canon.entities;
+const websiteId = `${canon.canonicalSite}/#website`;
 
 function stripUndefined<T extends GraphNode>(node: T) {
   return Object.fromEntries(
@@ -37,13 +42,51 @@ export function createJsonLd(graph: GraphNode | GraphNode[]) {
   };
 }
 
-export function createOrganizationSchema(copy: SiteSchemaCopy) {
+export function createProjectSchema() {
   return {
-    "@type": "Organization",
-    "@id": organizationId,
-    name: copy.site.name,
-    url: SITE_URL,
+    "@type": "CreativeWork",
+    "@id": project["@id"],
+    name: project.name,
+    alternateName: Object.values(project.localizedNames),
+    description: project.description,
+    url: project.url,
+    creator: { "@id": creator["@id"] },
+    character: Object.values(characters).map((character) => ({
+      "@id": character["@id"],
+    })),
     sameAs: ORGANIZATION_SAME_AS,
+  };
+}
+
+export function createCreatorSchema() {
+  return {
+    "@type": "Person",
+    "@id": creator["@id"],
+    name: creator.name,
+    alternateName: Object.values(creator.localizedNames),
+    description: creator.description,
+    disambiguatingDescription: creator.role,
+    url: creator.url,
+  };
+}
+
+export function createCharacterSchema(id: CanonCharacterId) {
+  const character = characters[id];
+  return {
+    "@type": "Person",
+    "@id": character["@id"],
+    name: character.name,
+    alternateName: [character.displayName, character.nativeName],
+    description: character.description,
+    disambiguatingDescription:
+      id === "runa"
+        ? characters.runa.identityNote
+        : `Fictional character in Comrade Sovia. ${character.identity}`,
+    url: character.url,
+    image: siteUrl(character.images.portrait),
+    identifier: character.identityNumber,
+    knowsLanguage: character.languages,
+    subjectOf: { "@id": project["@id"] },
   };
 }
 
@@ -55,9 +98,8 @@ export function createWebsiteSchema(copy: SiteSchemaCopy) {
     headline: copy.site.title,
     description: copy.site.description,
     url: SITE_URL,
-    publisher: {
-      "@id": organizationId,
-    },
+    publisher: { "@id": creator["@id"] },
+    about: { "@id": project["@id"] },
     potentialAction: {
       "@type": "SearchAction",
       target: `${siteUrl("/sound")}?q={search_term_string}`,
@@ -68,7 +110,8 @@ export function createWebsiteSchema(copy: SiteSchemaCopy) {
 
 export function createHomePageSchema(copy: SiteSchemaCopy) {
   return createJsonLd([
-    createOrganizationSchema(copy),
+    createProjectSchema(),
+    createCreatorSchema(),
     createWebsiteSchema(copy),
     {
       "@type": "WebPage",
@@ -80,9 +123,73 @@ export function createHomePageSchema(copy: SiteSchemaCopy) {
         "@id": websiteId,
       },
       about: {
-        "@id": organizationId,
+        "@id": project["@id"],
       },
     },
+  ]);
+}
+
+function createPageNode(
+  path: string,
+  locale: SiteLocale,
+  name: string,
+  description: string,
+  mainEntityId: string,
+) {
+  const url = siteUrl(getSiteLocalizedPath(path, locale));
+  return {
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: locale,
+    isPartOf: { "@id": websiteId },
+    mainEntity: { "@id": mainEntityId },
+  };
+}
+
+export function createAboutProjectPageSchema(
+  locale: SiteLocale,
+  name: string,
+  description: string,
+) {
+  return createJsonLd([
+    createProjectSchema(),
+    createCreatorSchema(),
+    createPageNode("/about", locale, name, description, project["@id"]),
+  ]);
+}
+
+export function createCreatorPageSchema(
+  locale: SiteLocale,
+  name: string,
+  description: string,
+) {
+  return createJsonLd([
+    createProjectSchema(),
+    createCreatorSchema(),
+    createPageNode("/creator", locale, name, description, creator["@id"]),
+  ]);
+}
+
+export function createCharacterPageSchema(
+  id: CanonCharacterId,
+  locale: SiteLocale,
+  name: string,
+  description: string,
+) {
+  return createJsonLd([
+    createProjectSchema(),
+    createCreatorSchema(),
+    createCharacterSchema(id),
+    createPageNode(
+      `/characters/${id}`,
+      locale,
+      name,
+      description,
+      characters[id]["@id"],
+    ),
   ]);
 }
 
@@ -99,13 +206,8 @@ export function createMusicRecordingSchema({
   const recordingId = `${url}#music-recording`;
 
   return createJsonLd([
-    createOrganizationSchema({
-      site: {
-        name: "Comrade Sovia",
-        title: "Comrade Sovia",
-        description: "Comrade Sovia official website.",
-      },
-    }),
+    createProjectSchema(),
+    createCreatorSchema(),
     stripUndefined({
       "@type": "MusicRecording",
       "@id": recordingId,
@@ -114,11 +216,12 @@ export function createMusicRecordingSchema({
       url,
       image,
       byArtist: {
-        "@id": organizationId,
+        "@id": creator["@id"],
       },
       creator: {
-        "@id": organizationId,
+        "@id": creator["@id"],
       },
+      about: { "@id": project["@id"] },
       inAlbum: series
         ? {
             "@type": "MusicAlbum",
