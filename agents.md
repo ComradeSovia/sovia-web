@@ -95,6 +95,15 @@ This file is for AI coding agents working in this repository. Its goals are to r
 
 By default, do not run a build or start the dev server for every change. The user will verify manually.
 
+Before reporting a task complete, check its **completeness** across the affected source, derived files, routes, locale variants, and public links. A passing type check or generated-file check alone does not establish content completeness. State any remaining gaps in the final response.
+
+For project, creator, or character Canon changes:
+
+- Treat `data/canon/sovia.json` as the authoritative source. Keep its version and `updatedAt` current, preserve fixed entity `@id` values, and keep the real creator's biography separate from in-universe character facts. `+i` describes world of origin only.
+- Check all six `src/features/home/i18n/*.json` character dossiers for the same character set, complete fields, relationships, languages, and localized world-type explanations. Keep the creator's Germany location on the creator profile and the in-universe Runa's residence classified.
+- Run `pnpm canon:generate` after Canon edits, then `pnpm canon:check`. This checks entity references, image paths, localized dossier coverage and key facts, and whether all seven public Canon artifacts match the source. Inspect prose translations for meaning as well; automated checks cannot prove semantic equivalence.
+- Check `/about`, `/creator`, and `/characters/{sovia,kata,runa}` routes, their metadata and JSON-LD, canonical/hreflang links, and sitemap entries when those areas change. Verify public `llms.txt` and `/knowledge/*` links when the index or output paths change.
+
 Priority:
 
 1. Small copy, style, route constant, or type-only tweaks: usually run no command; inspect the diff instead.
