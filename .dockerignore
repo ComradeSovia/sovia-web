@@ -5,4 +5,7 @@ node_modules
 src/generated/prisma
 .env
 .env.*
-data
+data/*
+!data/canon
+data/canon/*
+!data/canon/sovia.json

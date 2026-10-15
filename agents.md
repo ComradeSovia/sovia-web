@@ -103,6 +103,7 @@ For project, creator, or character Canon changes:
 - Check all six `src/features/home/i18n/*.json` character dossiers for the same character set, complete fields, relationships, languages, and localized world-type explanations. Keep the creator's Germany location on the creator profile and the in-universe Runa's residence classified.
 - Run `pnpm canon:generate` after Canon edits, then `pnpm canon:check`. This checks entity references, image paths, localized dossier coverage and key facts, and whether all seven public Canon artifacts match the source. Inspect prose translations for meaning as well; automated checks cannot prove semantic equivalence.
 - Check `/about`, `/creator`, and `/characters/{sovia,kata,runa}` routes, their metadata and JSON-LD, canonical/hreflang links, and sitemap entries when those areas change. Verify public `llms.txt` and `/knowledge/*` links when the index or output paths change.
+- When app code imports files outside `src/`, confirm they are present in the Docker build context (`.dockerignore`) and available to the production build. Keep the Docker `pnpm canon:check` step before `pnpm build` so missing Canon inputs fail clearly.
 
 Priority:
 
