@@ -168,7 +168,7 @@
     "shareError": "共有できませんでした。下の招待文をコピーしてください。"
   },
   "characters": {
-    "homeCardDescription": "Sovia、Kata、Runaの人物資料と世界設定を紹介します。",
+    "homeCardDescription": "Sovia、Kata、Runa、QI-7の人物資料と世界設定を紹介します。",
     "title": "キャラクター紹介",
     "eyebrow": "キャラクター資料",
     "views": {
@@ -218,6 +218,10 @@
           {
             "id": "runa",
             "description": "Runa とは互いの存在を感じ取れるらしい。"
+          },
+          {
+            "id": "qi7",
+            "description": "QI-7 は Sovia を面白いと思い、彼女を模倣した。"
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
@@ -256,9 +260,36 @@
           {
             "id": "sovia",
             "description": "互いの存在を感じ取れるらしい。"
+          },
+          {
+            "id": "qi7",
+            "description": "ゲームのダンジョンで QI-7 と出会い、その後親友になった。"
           }
         ],
         "fullName": "三日月ルナ"
+      },
+      "qi7": {
+        "quote": "……人間はまた意味を探している。",
+        "signature": "",
+        "origin": "現実世界",
+        "gender": "女性",
+        "languages": "中国語、英語",
+        "nationality": "中国",
+        "residence": "機密事項、中国",
+        "species": "バイオニックヒューマン",
+        "identity": "科学都市の擬態記録員",
+        "biography": "外見、声、人格を極めて精密に模倣し、対象の行動特性を記録・再現できる。",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "Sovia を面白いと思い、彼女を模倣した。"
+          },
+          {
+            "id": "runa",
+            "description": "ゲームのダンジョンで Runa と出会い、その後親友になった。"
+          }
+        ],
+        "fullName": "亓绛"
       }
     },
     "worldTypes": [

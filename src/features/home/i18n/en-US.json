@@ -173,7 +173,7 @@
     "shareError": "Share failed. You can copy the invitation below."
   },
   "characters": {
-    "homeCardDescription": "Meet Sovia, Kata and Runa through their stories, profiles and character art.",
+    "homeCardDescription": "Meet Sovia, Kata, Runa and QI-7 through their stories, profiles and character art.",
     "title": "Characters",
     "eyebrow": "Character archive",
     "views": {
@@ -223,6 +223,10 @@
           {
             "id": "runa",
             "description": "She and Runa seem able to sense each other."
+          },
+          {
+            "id": "qi7",
+            "description": "QI-7 found Sovia interesting and began imitating her."
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
@@ -261,9 +265,36 @@
           {
             "id": "sovia",
             "description": "The two seem able to sense each other."
+          },
+          {
+            "id": "qi7",
+            "description": "Runa met QI-7 in a game dungeon, and they became good friends afterward."
           }
         ],
         "fullName": "Mikatsuki Runa"
+      },
+      "qi7": {
+        "quote": "…Humans are searching for meaning again.",
+        "signature": "",
+        "origin": "The real world",
+        "gender": "Female",
+        "languages": "Chinese, English",
+        "nationality": "China",
+        "residence": "Classified information, China",
+        "species": "Bionic person",
+        "identity": "Mimetic records officer in the science city",
+        "biography": "QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "QI-7 found Sovia interesting and began imitating her."
+          },
+          {
+            "id": "runa",
+            "description": "QI-7 met Runa in a game dungeon, and they became good friends afterward."
+          }
+        ],
+        "fullName": "亓绛"
       }
     },
     "worldTypes": [

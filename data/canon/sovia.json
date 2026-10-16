@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "updatedAt": "2026-10-15",
+  "version": "1.0.4",
+  "updatedAt": "2026-10-16",
   "language": "en-US",
   "canonicalSite": "https://sovia.work",
   "policy": {
@@ -26,7 +26,8 @@
       "characterIds": [
         "https://sovia.work/en-US/characters/sovia#character",
         "https://sovia.work/en-US/characters/kata#character",
-        "https://sovia.work/en-US/characters/runa#character"
+        "https://sovia.work/en-US/characters/runa#character",
+        "https://sovia.work/en-US/characters/qi7#character"
       ]
     },
     "creator": {
@@ -86,6 +87,10 @@
           {
             "characterId": "runa",
             "description": "Sovia and the in-universe Runa seem able to sense each other."
+          },
+          {
+            "characterId": "qi7",
+            "description": "QI-7 found Sovia interesting and began imitating her."
           }
         ]
       },
@@ -161,6 +166,49 @@
           {
             "characterId": "sovia",
             "description": "The in-universe Runa and Sovia seem able to sense each other."
+          },
+          {
+            "characterId": "qi7",
+            "description": "Runa met QI-7 in a game dungeon, and they became good friends afterward."
+          }
+        ]
+      },
+      "qi7": {
+        "@id": "https://sovia.work/en-US/characters/qi7#character",
+        "@type": "Person",
+        "name": "QI-7",
+        "displayName": "QI-7",
+        "nativeName": "亓绛",
+        "url": "https://sovia.work/en-US/characters/qi7",
+        "description": "A bionic person with highly precise abilities to imitate appearance, voice, and personality, and to record and reproduce a target's behavioral traits.",
+        "quotes": ["…Humans are searching for meaning again."],
+        "signatureLines": [],
+        "biography": "QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
+        "identityNumber": "1-КТ № 001007",
+        "identity": "Mimetic records officer in the science city",
+        "worldOrigin": "The real world",
+        "worldPolarizationRate": "0.673389i",
+        "worldPolarizationType": "realWorldOrigin",
+        "gender": "Female",
+        "age": 22,
+        "languages": ["Chinese", "English"],
+        "nationality": "China",
+        "residence": "Classified information, China",
+        "species": "Bionic person",
+        "images": {
+          "hero": "/assets/characters/qi7_hero.png",
+          "portrait": "/assets/characters/qi7_main.png",
+          "expressions": "/assets/characters/qi7_emote.png",
+          "outfits": "/assets/characters/qi7_outfit.png"
+        },
+        "relationships": [
+          {
+            "characterId": "sovia",
+            "description": "QI-7 found Sovia interesting and began imitating her."
+          },
+          {
+            "characterId": "runa",
+            "description": "QI-7 met Runa in a game dungeon, and they became good friends afterward."
           }
         ]
       }

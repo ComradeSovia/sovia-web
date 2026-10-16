@@ -168,7 +168,7 @@
     "shareError": "分享失敗，可以複製下方邀請文案。"
   },
   "characters": {
-    "homeCardDescription": "認識 Sovia、Kata 與 Runa，閱讀角色檔案與世界設定。",
+    "homeCardDescription": "認識 Sovia、Kata、Runa 與 QI-7，閱讀角色檔案與世界設定。",
     "title": "角色介紹",
     "eyebrow": "角色檔案",
     "views": {
@@ -218,6 +218,10 @@
           {
             "id": "runa",
             "description": "與 Runa 似乎可以互相感應。"
+          },
+          {
+            "id": "qi7",
+            "description": "QI-7 覺得 Sovia 很有趣，於是模仿了她。"
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
@@ -256,9 +260,36 @@
           {
             "id": "sovia",
             "description": "似乎彼此可以互相感應。"
+          },
+          {
+            "id": "qi7",
+            "description": "在遊戲副本中認識 QI-7，之後成了好朋友。"
           }
         ],
         "fullName": "三日月月菜"
+      },
+      "qi7": {
+        "quote": "……人類又在尋找意義了。",
+        "signature": "",
+        "origin": "現實世界",
+        "gender": "女",
+        "languages": "中文、英語",
+        "nationality": "中國",
+        "residence": "保密事項，中國",
+        "species": "仿生人",
+        "identity": "科學城擬態記錄員",
+        "biography": "具有高度精密的形象、聲音與人格模仿能力，能夠記錄並重現目標對象的行為特徵。",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "覺得 Sovia 很有趣，於是模仿了她。"
+          },
+          {
+            "id": "runa",
+            "description": "在遊戲副本中認識 Runa，之後成了好朋友。"
+          }
+        ],
+        "fullName": "亓绛"
       }
     },
     "worldTypes": [

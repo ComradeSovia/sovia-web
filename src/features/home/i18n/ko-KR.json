@@ -168,7 +168,7 @@
     "shareError": "공유하지 못했습니다. 아래 초대 문구를 복사해 주세요."
   },
   "characters": {
-    "homeCardDescription": "Sovia, Kata, Runa의 인물 자료와 세계관 설정을 만나 보세요.",
+    "homeCardDescription": "Sovia, Kata, Runa, QI-7의 인물 자료와 세계관 설정을 만나 보세요.",
     "title": "캐릭터 소개",
     "eyebrow": "캐릭터 아카이브",
     "views": {
@@ -218,6 +218,10 @@
           {
             "id": "runa",
             "description": "Runa와는 서로의 존재를 감지할 수 있는 듯하다."
+          },
+          {
+            "id": "qi7",
+            "description": "QI-7은 Sovia가 흥미로워서 그녀를 모방했다."
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
@@ -256,9 +260,36 @@
           {
             "id": "sovia",
             "description": "서로의 존재를 감지할 수 있는 듯하다."
+          },
+          {
+            "id": "qi7",
+            "description": "게임 던전에서 QI-7을 만났고, 이후 좋은 친구가 되었다."
           }
         ],
         "fullName": "미카츠키 루나"
+      },
+      "qi7": {
+        "quote": "……인간은 또 의미를 찾고 있군.",
+        "signature": "",
+        "origin": "현실 세계",
+        "gender": "여성",
+        "languages": "중국어, 영어",
+        "nationality": "중국",
+        "residence": "기밀 사항, 중국",
+        "species": "바이오닉 인간",
+        "identity": "과학 도시의 의태 기록원",
+        "biography": "외형, 목소리, 인격을 매우 정밀하게 모방하고 대상의 행동 특성을 기록하고 재현할 수 있다.",
+        "relationships": [
+          {
+            "id": "sovia",
+            "description": "Sovia가 흥미로워서 그녀를 모방했다."
+          },
+          {
+            "id": "runa",
+            "description": "게임 던전에서 Runa를 만났고, 이후 좋은 친구가 되었다."
+          }
+        ],
+        "fullName": "亓绛"
       }
     },
     "worldTypes": [
