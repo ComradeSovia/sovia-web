@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "updatedAt": "2026-10-15",
+  "version": "1.0.4",
+  "updatedAt": "2026-10-16",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
@@ -44,6 +44,10 @@
       {
         "characterId": "sovia",
         "description": "The in-universe Runa and Sovia seem able to sense each other."
+      },
+      {
+        "characterId": "qi7",
+        "description": "Runa met QI-7 in a game dungeon, and they became good friends afterward."
       }
     ]
   }

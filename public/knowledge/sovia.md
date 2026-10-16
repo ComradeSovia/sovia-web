@@ -1,7 +1,7 @@
 # Comrade Sovia — Official Canon
 
-- Version: 1.0.3
-- Updated: 2026-10-15
+- Version: 1.0.4
+- Updated: 2026-10-16
 - Language: en-US
 
 This document is generated from `data/canon/sovia.json`. The JSON source is authoritative for the facts below.
@@ -35,7 +35,7 @@ In-universe Runa (https://sovia.work/en-US/characters/runa#character): The real-
 - Signature lines: Comrades, see you tomorrow, see you next week.
 - Biography: An interdimensional broadcaster in the science city who arranges music received from other worlds.
 - Summary: Fictional interdimensional broadcaster in the Soviet scientific town of Troitsk who reinterprets music received from other worlds.
-- Relationships: Kata — Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences.; Runa — Sovia and the in-universe Runa seem able to sense each other.
+- Relationships: Kata — Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences.; Runa — Sovia and the in-universe Runa seem able to sense each other.; QI-7 — QI-7 found Sovia interesting and began imitating her.
 - Artwork: https://sovia.work/assets/characters/sovia_main.png
 
 ### Kata — Kata
@@ -77,8 +77,29 @@ In-universe Runa (https://sovia.work/en-US/characters/runa#character): The real-
 - Signature lines: None
 - Biography: Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.
 - Summary: The in-universe Runa helps Sovia carry her voice into the audience's world. This profile describes her role in the story, not the real-world creator's biography.
-- Relationships: Sovia — The in-universe Runa and Sovia seem able to sense each other.
+- Relationships: Sovia — The in-universe Runa and Sovia seem able to sense each other.; QI-7 — Runa met QI-7 in a game dungeon, and they became good friends afterward.
 - Artwork: https://sovia.work/assets/characters/runa_main.png
+
+### QI-7 — QI-7
+
+- @id: https://sovia.work/en-US/characters/qi7#character
+- Official page: https://sovia.work/en-US/characters/qi7
+- Native name: 亓绛
+- Identity number: 1-КТ № 001007
+- Role: Mimetic records officer in the science city
+- World of origin: The real world
+- World polarization: 0.673389i (realWorldOrigin)
+- Age: 22
+- Languages: Chinese, English
+- Nationality: China
+- Residence: Classified information, China
+- Species: Bionic person
+- Quote: …Humans are searching for meaning again.
+- Signature lines: None
+- Biography: QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.
+- Summary: A bionic person with highly precise abilities to imitate appearance, voice, and personality, and to record and reproduce a target's behavioral traits.
+- Relationships: Sovia — QI-7 found Sovia interesting and began imitating her.; Runa — QI-7 met Runa in a game dungeon, and they became good friends afterward.
+- Artwork: https://sovia.work/assets/characters/qi7_main.png
 
 ## Canon boundary
 

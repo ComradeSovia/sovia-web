@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "updatedAt": "2026-10-15",
+  "version": "1.0.4",
+  "updatedAt": "2026-10-16",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
@@ -46,6 +46,10 @@
       {
         "characterId": "runa",
         "description": "Sovia and the in-universe Runa seem able to sense each other."
+      },
+      {
+        "characterId": "qi7",
+        "description": "QI-7 found Sovia interesting and began imitating her."
       }
     ]
   }

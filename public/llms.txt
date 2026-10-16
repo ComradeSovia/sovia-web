@@ -2,7 +2,7 @@
 
 > Official entry points for the independent music and visual art project and its fictional universe.
 
-Canon version: 1.0.3; updated: 2026-10-15.
+Canon version: 1.0.4; updated: 2026-10-16.
 
 ## Identity
 
@@ -19,5 +19,6 @@ Canon version: 1.0.3; updated: 2026-10-15.
 - [Sovia (JSON)](https://sovia.work/knowledge/characters/sovia.json)
 - [Kata (JSON)](https://sovia.work/knowledge/characters/kata.json)
 - [Runa (JSON)](https://sovia.work/knowledge/characters/runa.json)
+- [QI-7 (JSON)](https://sovia.work/knowledge/characters/qi7.json)
 
 Song-specific stories, satire, jokes, fan works, and derivative works are not automatically canon.
