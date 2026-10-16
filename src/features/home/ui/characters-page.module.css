@@ -21,6 +21,9 @@
 .showcase[data-character="runa"] {
   --scene-glow: 91 147 207;
 }
+.showcase[data-character="qi7"] {
+  --scene-glow: 136 106 184;
+}
 
 .showcase::before {
   content: "";
@@ -600,6 +603,11 @@
 }
 
 @media (max-width: 480px) {
+  .selector {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.25rem;
+  }
   .showcaseIndex {
     font-size: 0.58rem;
   }
@@ -607,11 +615,11 @@
     margin-top: -0.75rem;
   }
   .selectorPortrait {
-    width: 3.75rem;
-    height: 3.75rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
   .selectorLink {
-    width: 4.5rem;
+    width: 100%;
   }
   .showcaseInfo {
     margin-top: 2rem;

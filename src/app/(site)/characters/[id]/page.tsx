@@ -7,7 +7,13 @@ import { createCharacterPageSchema } from "@sovia/shared/seo/schema";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-const characterIds = ["sovia", "kata", "runa"] as const;
+const characterIds = ["sovia", "kata", "runa", "qi7"] as const;
+const characterNames: Record<CharacterId, string> = {
+  sovia: "Sovia",
+  kata: "Kata",
+  runa: "Runa",
+  qi7: "QI-7",
+};
 
 type PageProps = { params: Promise<{ id: string }> };
 
@@ -24,7 +30,7 @@ export async function generateMetadata({
   const locale = await getCurrentSiteLocale();
   const copy = getHomeCopy(locale).characters;
   return {
-    title: id[0].toUpperCase() + id.slice(1) + " | " + copy.title,
+    title: `${characterNames[id]} | ${copy.title}`,
     description: copy.dossiers[id].biography,
     alternates: getSiteMetadataAlternates("/characters/" + id, locale),
   };
@@ -46,7 +52,7 @@ export default async function Page({ params }: PageProps) {
             createCharacterPageSchema(
               id,
               locale,
-              id[0].toUpperCase() + id.slice(1) + " | " + copy.title,
+              `${characterNames[id]} | ${copy.title}`,
               copy.dossiers[id].biography,
             ),
           ),

@@ -37,6 +37,15 @@ const characters = [
     polarizationType: canon.entities.characters.runa.worldPolarizationType,
     age: null,
   },
+  {
+    id: "qi7",
+    name: canon.entities.characters.qi7.displayName,
+    number: "04",
+    identityNumber: canon.entities.characters.qi7.identityNumber,
+    polarization: canon.entities.characters.qi7.worldPolarizationRate,
+    polarizationType: canon.entities.characters.qi7.worldPolarizationType,
+    age: String(canon.entities.characters.qi7.age),
+  },
 ] as const;
 const polarizationTypes = canon.worldPolarizationTypes as Array<{
   type: keyof HomeCopy["characters"]["worldTypeNames"];
@@ -119,6 +128,10 @@ function CharacterFacts({
           </span>
         </dd>
         <p className="mt-2 text-sm leading-relaxed">{typeDescription}</p>
+        <p className="mt-2 text-sm leading-relaxed">
+          <span className="mr-2 font-bold">{labels.worldOrigin}</span>
+          {dossier.origin}
+        </p>
         <details className="mt-3 text-sm">
           <summary className="w-fit cursor-pointer font-bold underline underline-offset-4">
             {labels.worldTypes}
@@ -277,11 +290,11 @@ export function CharactersPage({
         <div className={styles.showcaseInner}>
           <header className={styles.showcaseTopline}>
             <div>
-              <span className="meta">{copy.eyebrow} / 01—03</span>
+              <span className="meta">{copy.eyebrow} / 01—04</span>
               <h1>{copy.title}</h1>
             </div>
             <span className={styles.showcaseIndex}>
-              {character.number} / 03
+              {character.number} / 04
             </span>
           </header>
 

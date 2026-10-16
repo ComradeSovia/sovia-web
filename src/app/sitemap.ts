@@ -23,6 +23,7 @@ const STATIC_PATHS = [
   "/characters/sovia",
   "/characters/kata",
   "/characters/runa",
+  "/characters/qi7",
   "/sound",
   "/contact",
   "/lyrics-library",
