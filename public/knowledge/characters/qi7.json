@@ -1,21 +1,29 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.8",
   "updatedAt": "2026-10-16",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
     "@id": "https://sovia.work/en-US/characters/qi7#character",
     "@type": "Person",
-    "name": "QI-7",
-    "displayName": "QI-7",
+    "name": "Qi-7",
+    "displayName": "Qi-7",
     "nativeName": "亓绛",
+    "localizedNames": {
+      "en-US": "Qi-7",
+      "ru-RU": "Qi-7",
+      "ja-JP": "Qi-7",
+      "ko-KR": "Qi-7",
+      "zh-CN": "亓绛",
+      "zh-TW": "亓絳"
+    },
     "url": "https://sovia.work/en-US/characters/qi7",
     "description": "A bionic person with highly precise abilities to imitate appearance, voice, and personality, and to record and reproduce a target's behavioral traits.",
     "quotes": [
       "…Humans are searching for meaning again."
     ],
     "signatureLines": [],
-    "biography": "QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
+    "biography": "Qi-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
     "identityNumber": "1-КТ № 001007",
     "identity": "Mimetic records officer in the science city",
     "worldOrigin": "The real world",
@@ -39,11 +47,11 @@
     "relationships": [
       {
         "characterId": "sovia",
-        "description": "QI-7 found Sovia interesting and began imitating her."
+        "description": "Qi-7 found Sovia interesting and began imitating her."
       },
       {
         "characterId": "runa",
-        "description": "QI-7 met Runa in a game dungeon, and they became good friends afterward."
+        "description": "Qi-7 met Runa in a game dungeon, and they became good friends afterward."
       }
     ]
   }

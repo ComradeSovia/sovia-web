@@ -1,15 +1,24 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.8",
   "updatedAt": "2026-10-16",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
     "@id": "https://sovia.work/en-US/characters/kata#character",
     "@type": "Person",
-    "name": "Kata",
-    "displayName": "Kata",
+    "name": "Katya",
+    "displayName": "Katya",
     "nativeName": "Катя Глебовна Белгина",
-    "url": "https://sovia.work/en-US/characters/kata",
+    "publicSlug": "katya",
+    "localizedNames": {
+      "en-US": "Katya",
+      "ru-RU": "Катя",
+      "ja-JP": "カーチャ",
+      "ko-KR": "카탸",
+      "zh-CN": "尕缇娅",
+      "zh-TW": "尕緹婭"
+    },
+    "url": "https://sovia.work/en-US/characters/katya",
     "description": "Fictional broadcast affairs inspector assigned to investigate anomalies after an interdimensional resonance transmission.",
     "quotes": [
       "Sovia, your explanation is interesting. But what I need is a report."
@@ -40,7 +49,7 @@
     "relationships": [
       {
         "characterId": "sovia",
-        "description": "Kata treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
+        "description": "Katya treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
       }
     ]
   }

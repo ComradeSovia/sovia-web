@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.8",
   "updatedAt": "2026-10-16",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
@@ -9,6 +9,14 @@
     "name": "Sovia Rabocheva",
     "displayName": "Sovia",
     "nativeName": "Совия Ивановна Рабочева",
+    "localizedNames": {
+      "en-US": "Sovia",
+      "ru-RU": "Совия",
+      "ja-JP": "ソヴィア",
+      "ko-KR": "소비아",
+      "zh-CN": "苏维雅",
+      "zh-TW": "蘇維雅"
+    },
     "url": "https://sovia.work/en-US/characters/sovia",
     "description": "Fictional interdimensional broadcaster in the Soviet scientific town of Troitsk who reinterprets music received from other worlds.",
     "quotes": [
@@ -41,7 +49,7 @@
     "relationships": [
       {
         "characterId": "kata",
-        "description": "Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences."
+        "description": "Katya is like an older sister to Sovia and is also a leader at the Academy of Sciences."
       },
       {
         "characterId": "runa",
@@ -49,7 +57,7 @@
       },
       {
         "characterId": "qi7",
-        "description": "QI-7 found Sovia interesting and began imitating her."
+        "description": "Qi-7 found Sovia interesting and began imitating her."
       }
     ]
   }

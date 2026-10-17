@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.8",
   "updatedAt": "2026-10-16",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
@@ -43,6 +43,14 @@
       "name": "Sovia Rabocheva",
       "displayName": "Sovia",
       "nativeName": "Совия Ивановна Рабочева",
+      "localizedNames": {
+        "en-US": "Sovia",
+        "ru-RU": "Совия",
+        "ja-JP": "ソヴィア",
+        "ko-KR": "소비아",
+        "zh-CN": "苏维雅",
+        "zh-TW": "蘇維雅"
+      },
       "url": "https://sovia.work/en-US/characters/sovia",
       "description": "Fictional interdimensional broadcaster in the Soviet scientific town of Troitsk who reinterprets music received from other worlds.",
       "quotes": [
@@ -75,7 +83,7 @@
       "relationships": [
         {
           "characterId": "kata",
-          "description": "Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences."
+          "description": "Katya is like an older sister to Sovia and is also a leader at the Academy of Sciences."
         },
         {
           "characterId": "runa",
@@ -83,17 +91,26 @@
         },
         {
           "characterId": "qi7",
-          "description": "QI-7 found Sovia interesting and began imitating her."
+          "description": "Qi-7 found Sovia interesting and began imitating her."
         }
       ]
     },
     "kata": {
       "@id": "https://sovia.work/en-US/characters/kata#character",
       "@type": "Person",
-      "name": "Kata",
-      "displayName": "Kata",
+      "name": "Katya",
+      "displayName": "Katya",
       "nativeName": "Катя Глебовна Белгина",
-      "url": "https://sovia.work/en-US/characters/kata",
+      "publicSlug": "katya",
+      "localizedNames": {
+        "en-US": "Katya",
+        "ru-RU": "Катя",
+        "ja-JP": "カーチャ",
+        "ko-KR": "카탸",
+        "zh-CN": "尕缇娅",
+        "zh-TW": "尕緹婭"
+      },
+      "url": "https://sovia.work/en-US/characters/katya",
       "description": "Fictional broadcast affairs inspector assigned to investigate anomalies after an interdimensional resonance transmission.",
       "quotes": [
         "Sovia, your explanation is interesting. But what I need is a report."
@@ -124,7 +141,7 @@
       "relationships": [
         {
           "characterId": "sovia",
-          "description": "Kata treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
+          "description": "Katya treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
         }
       ]
     },
@@ -134,6 +151,14 @@
       "name": "Mikatsuki Runa",
       "displayName": "Runa",
       "nativeName": "三日月ルナ",
+      "localizedNames": {
+        "en-US": "Runa",
+        "ru-RU": "Руна",
+        "ja-JP": "ルナ",
+        "ko-KR": "루나",
+        "zh-CN": "月菜",
+        "zh-TW": "月菜"
+      },
       "url": "https://sovia.work/en-US/characters/runa",
       "description": "The in-universe Runa helps Sovia carry her voice into the audience's world. This profile describes her role in the story, not the real-world creator's biography.",
       "identityNote": "The real-world creator and in-universe Runa use the same stage name. Their profile IDs separate real-world biography from story facts. The +i marker classifies world of origin only; it does not establish whether this role is an avatar, self-insert, or separate fictional person.",
@@ -172,23 +197,31 @@
         },
         {
           "characterId": "qi7",
-          "description": "Runa met QI-7 in a game dungeon, and they became good friends afterward."
+          "description": "Runa met Qi-7 in a game dungeon, and they became good friends afterward."
         }
       ]
     },
     "qi7": {
       "@id": "https://sovia.work/en-US/characters/qi7#character",
       "@type": "Person",
-      "name": "QI-7",
-      "displayName": "QI-7",
+      "name": "Qi-7",
+      "displayName": "Qi-7",
       "nativeName": "亓绛",
+      "localizedNames": {
+        "en-US": "Qi-7",
+        "ru-RU": "Qi-7",
+        "ja-JP": "Qi-7",
+        "ko-KR": "Qi-7",
+        "zh-CN": "亓绛",
+        "zh-TW": "亓絳"
+      },
       "url": "https://sovia.work/en-US/characters/qi7",
       "description": "A bionic person with highly precise abilities to imitate appearance, voice, and personality, and to record and reproduce a target's behavioral traits.",
       "quotes": [
         "…Humans are searching for meaning again."
       ],
       "signatureLines": [],
-      "biography": "QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
+      "biography": "Qi-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
       "identityNumber": "1-КТ № 001007",
       "identity": "Mimetic records officer in the science city",
       "worldOrigin": "The real world",
@@ -212,11 +245,11 @@
       "relationships": [
         {
           "characterId": "sovia",
-          "description": "QI-7 found Sovia interesting and began imitating her."
+          "description": "Qi-7 found Sovia interesting and began imitating her."
         },
         {
           "characterId": "runa",
-          "description": "QI-7 met Runa in a game dungeon, and they became good friends afterward."
+          "description": "Qi-7 met Runa in a game dungeon, and they became good friends afterward."
         }
       ]
     }

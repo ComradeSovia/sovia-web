@@ -1,11 +1,15 @@
 "use client";
 
+import { getCosplayPhotoPath } from "@sovia/gallery/data/cosplay";
+import type { GalleryCopy } from "@sovia/gallery/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
+import { getCharacterPath } from "@sovia/shared/seo/character-path";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import canon from "../../../../data/canon/sovia.json";
+import { getCharacterDisplayName } from "../data/character-names";
 import type { HomeCopy } from "../i18n/copy";
 import styles from "./characters-page.module.css";
 
@@ -258,17 +262,24 @@ function ExpressionCarousel({
 
 export function CharactersPage({
   copy,
+  cosplayCopy,
   locale,
   selectedId,
 }: {
   copy: CharacterCopy;
+  cosplayCopy: GalleryCopy;
   locale: SiteLocale;
   selectedId: CharacterId;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [original, setOriginal] = useState<OriginalImage | null>(null);
+  const localizedCharacters = characters.map((item) => ({
+    ...item,
+    name: getCharacterDisplayName(item.id, locale),
+  }));
   const character =
-    characters.find((item) => item.id === selectedId) ?? characters[0];
+    localizedCharacters.find((item) => item.id === selectedId) ??
+    localizedCharacters[0];
   const dossier = copy.dossiers[character.id];
   const heroPath = "/assets/characters/" + character.id + "_hero.png";
 
@@ -299,10 +310,10 @@ export function CharactersPage({
           </header>
 
           <nav aria-label={copy.eyebrow} className={styles.selector}>
-            {characters.map((item) => (
+            {localizedCharacters.map((item) => (
               <Link
                 key={item.id}
-                href={getSiteLocalizedPath("/characters/" + item.id, locale)}
+                href={getSiteLocalizedPath(getCharacterPath(item.id), locale)}
                 scroll={false}
                 aria-label={item.name}
                 aria-current={selectedId === item.id ? "page" : undefined}
@@ -340,7 +351,12 @@ export function CharactersPage({
               {copy.eyebrow} / {character.identityNumber}
             </div>
             <h2 id="active-character-heading">{character.name}</h2>
-            <p className={styles.fullName}>{dossier.fullName}</p>
+            <p className={styles.fullName}>
+              {character.id === "qi7" &&
+              (locale === "zh-CN" || locale === "zh-TW")
+                ? canon.entities.characters.qi7.displayName
+                : dossier.fullName}
+            </p>
             {character.id === "runa" && (
               <span className={styles.nameType}>{copy.labels.nameType}</span>
             )}
@@ -460,7 +476,7 @@ export function CharactersPage({
           <h3 className="text-xl">{copy.labels.relationships}</h3>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {dossier.relationships.map((relationship) => {
-              const related = characters.find(
+              const related = localizedCharacters.find(
                 (item) => item.id === relationship.id,
               );
               if (!related) return null;
@@ -468,7 +484,7 @@ export function CharactersPage({
                 <Link
                   key={relationship.id}
                   href={getSiteLocalizedPath(
-                    "/characters/" + related.id + "#character-stage",
+                    getCharacterPath(related.id) + "#character-stage",
                     locale,
                   )}
                   className={
@@ -496,6 +512,37 @@ export function CharactersPage({
             })}
           </div>
         </div>
+
+        {(character.id === "sovia" || character.id === "qi7") && (
+          <section className="border-t-[3px] border-ink pt-6">
+            <h3 className="text-xl">{copy.labels.relatedLinks}</h3>
+            <Link
+              href={getSiteLocalizedPath("/gallery/cosplay", locale)}
+              className={styles.cosplayTeaser}
+            >
+              <span className={styles.cosplayTeaserImage}>
+                <Image
+                  src={getCosplayPhotoPath(8)}
+                  alt={`${cosplayCopy.credit}. ${cosplayCopy.photoDescriptions["08"]}`}
+                  fill
+                  sizes="(min-width: 900px) 240px, 100vw"
+                  className="object-cover"
+                />
+              </span>
+              <span className={styles.cosplayTeaserText}>
+                <span className="meta">
+                  {cosplayCopy.category} /{" "}
+                  {getCharacterDisplayName("qi7", locale)}
+                </span>
+                <strong>{cosplayCopy.albumTitle}</strong>
+                <span>{cosplayCopy.teaser}</span>
+                <span className={styles.cosplayTeaserAction}>
+                  {cosplayCopy.viewCollection} ↗
+                </span>
+              </span>
+            </Link>
+          </section>
+        )}
       </section>
 
       <dialog

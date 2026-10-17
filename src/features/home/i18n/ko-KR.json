@@ -168,7 +168,7 @@
     "shareError": "공유하지 못했습니다. 아래 초대 문구를 복사해 주세요."
   },
   "characters": {
-    "homeCardDescription": "Sovia, Kata, Runa, QI-7의 인물 자료와 세계관 설정을 만나 보세요.",
+    "homeCardDescription": "소비아, 카탸, 루나, Qi-7의 인물 자료와 세계관 설정을 만나 보세요.",
     "title": "캐릭터 소개",
     "eyebrow": "캐릭터 아카이브",
     "views": {
@@ -193,6 +193,7 @@
       "identity": "역할",
       "biography": "인물 소개",
       "relationships": "인물 관계",
+      "relatedLinks": "관련 링크",
       "signatureLines": "대표 대사",
       "unknown": "기밀 사항",
       "nameType": "예명",
@@ -213,21 +214,21 @@
         "relationships": [
           {
             "id": "kata",
-            "description": "Kata는 언니 같은 존재이자 과학 아카데미의 지도자다."
+            "description": "카탸는 언니 같은 존재이자 과학 아카데미의 지도자다."
           },
           {
             "id": "runa",
-            "description": "Runa와는 서로의 존재를 감지할 수 있는 듯하다."
+            "description": "루나와는 서로의 존재를 감지할 수 있는 듯하다."
           },
           {
             "id": "qi7",
-            "description": "QI-7은 Sovia가 흥미로워서 그녀를 모방했다."
+            "description": "Qi-7은 소비아가 흥미로워서 그녀를 모방했다."
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
       },
       "kata": {
-        "quote": "Sovia, 설명은 흥미로워. 하지만 내게 필요한 건 보고서야.",
+        "quote": "소비아, 설명은 흥미로워. 하지만 내게 필요한 건 보고서야.",
         "signature": "",
         "origin": "차원 방송국이 있는 세계",
         "gender": "여성",
@@ -240,7 +241,7 @@
         "relationships": [
           {
             "id": "sovia",
-            "description": "Sovia를 친동생처럼 여기며, Sovia가 과학 도시에 처음 왔을 때 돌봐 주었다."
+            "description": "소비아를 친동생처럼 여기며, 소비아가 과학 도시에 처음 왔을 때 돌봐 주었다."
           }
         ],
         "fullName": "Катя Глебовна Белгина"
@@ -255,7 +256,7 @@
         "residence": "기밀 사항",
         "species": "인간",
         "identity": "학생",
-        "biography": "평범하게 수업을 듣고, 아르바이트하고, 밥을 먹고, 잠을 자고, 조금 노래한다. 그리고 Sovia의 목소리가 당신이 있는 세계에 닿도록 돕는다.",
+        "biography": "평범하게 수업을 듣고, 아르바이트하고, 밥을 먹고, 잠을 자고, 조금 노래한다. 그리고 소비아의 목소리가 당신이 있는 세계에 닿도록 돕는다.",
         "relationships": [
           {
             "id": "sovia",
@@ -263,7 +264,7 @@
           },
           {
             "id": "qi7",
-            "description": "게임 던전에서 QI-7을 만났고, 이후 좋은 친구가 되었다."
+            "description": "게임 던전에서 Qi-7을 만났고, 이후 좋은 친구가 되었다."
           }
         ],
         "fullName": "미카츠키 루나"
@@ -282,11 +283,11 @@
         "relationships": [
           {
             "id": "sovia",
-            "description": "Sovia가 흥미로워서 그녀를 모방했다."
+            "description": "소비아가 흥미로워서 그녀를 모방했다."
           },
           {
             "id": "runa",
-            "description": "게임 던전에서 Runa를 만났고, 이후 좋은 친구가 되었다."
+            "description": "게임 던전에서 루나를 만났고, 이후 좋은 친구가 되었다."
           }
         ],
         "fullName": "亓绛"

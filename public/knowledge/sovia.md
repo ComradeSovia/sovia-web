@@ -1,6 +1,6 @@
 # Comrade Sovia — Official Canon
 
-- Version: 1.0.4
+- Version: 1.0.8
 - Updated: 2026-10-16
 - Language: en-US
 
@@ -35,13 +35,13 @@ In-universe Runa (https://sovia.work/en-US/characters/runa#character): The real-
 - Signature lines: Comrades, see you tomorrow, see you next week.
 - Biography: An interdimensional broadcaster in the science city who arranges music received from other worlds.
 - Summary: Fictional interdimensional broadcaster in the Soviet scientific town of Troitsk who reinterprets music received from other worlds.
-- Relationships: Kata — Kata is like an older sister to Sovia and is also a leader at the Academy of Sciences.; Runa — Sovia and the in-universe Runa seem able to sense each other.; QI-7 — QI-7 found Sovia interesting and began imitating her.
+- Relationships: Katya — Katya is like an older sister to Sovia and is also a leader at the Academy of Sciences.; Runa — Sovia and the in-universe Runa seem able to sense each other.; Qi-7 — Qi-7 found Sovia interesting and began imitating her.
 - Artwork: https://sovia.work/assets/characters/sovia_main.png
 
-### Kata — Kata
+### Katya — Katya
 
 - @id: https://sovia.work/en-US/characters/kata#character
-- Official page: https://sovia.work/en-US/characters/kata
+- Official page: https://sovia.work/en-US/characters/katya
 - Native name: Катя Глебовна Белгина
 - Identity number: IV-МЮ № 778996
 - Role: Broadcast affairs inspector in the science city
@@ -56,7 +56,7 @@ In-universe Runa (https://sovia.work/en-US/characters/runa#character): The real-
 - Signature lines: None
 - Biography: An inspector assigned to investigate broadcast anomalies after an interdimensional resonance transmission.
 - Summary: Fictional broadcast affairs inspector assigned to investigate anomalies after an interdimensional resonance transmission.
-- Relationships: Sovia — Kata treats Sovia like a little sister and cared for her when Sovia first arrived in the science city.
+- Relationships: Sovia — Katya treats Sovia like a little sister and cared for her when Sovia first arrived in the science city.
 - Artwork: https://sovia.work/assets/characters/kata_main.png
 
 ### Runa — Mikatsuki Runa
@@ -77,10 +77,10 @@ In-universe Runa (https://sovia.work/en-US/characters/runa#character): The real-
 - Signature lines: None
 - Biography: Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.
 - Summary: The in-universe Runa helps Sovia carry her voice into the audience's world. This profile describes her role in the story, not the real-world creator's biography.
-- Relationships: Sovia — The in-universe Runa and Sovia seem able to sense each other.; QI-7 — Runa met QI-7 in a game dungeon, and they became good friends afterward.
+- Relationships: Sovia — The in-universe Runa and Sovia seem able to sense each other.; Qi-7 — Runa met Qi-7 in a game dungeon, and they became good friends afterward.
 - Artwork: https://sovia.work/assets/characters/runa_main.png
 
-### QI-7 — QI-7
+### Qi-7 — Qi-7
 
 - @id: https://sovia.work/en-US/characters/qi7#character
 - Official page: https://sovia.work/en-US/characters/qi7
@@ -96,9 +96,9 @@ In-universe Runa (https://sovia.work/en-US/characters/runa#character): The real-
 - Species: Bionic person
 - Quote: …Humans are searching for meaning again.
 - Signature lines: None
-- Biography: QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.
+- Biography: Qi-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.
 - Summary: A bionic person with highly precise abilities to imitate appearance, voice, and personality, and to record and reproduce a target's behavioral traits.
-- Relationships: Sovia — QI-7 found Sovia interesting and began imitating her.; Runa — QI-7 met Runa in a game dungeon, and they became good friends afterward.
+- Relationships: Sovia — Qi-7 found Sovia interesting and began imitating her.; Runa — Qi-7 met Runa in a game dungeon, and they became good friends afterward.
 - Artwork: https://sovia.work/assets/characters/qi7_main.png
 
 ## Canon boundary

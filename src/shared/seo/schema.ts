@@ -3,6 +3,7 @@ import { ORGANIZATION_SAME_AS } from "../config/external-links";
 import { SITE_URL, siteUrl } from "../config/site";
 import type { SiteLocale } from "../i18n/site-locale";
 import { getSiteLocalizedPath } from "../i18n/site-routing";
+import { getCharacterPath } from "./character-path";
 
 type GraphNode = Record<string, unknown>;
 
@@ -76,7 +77,13 @@ export function createCharacterSchema(id: CanonCharacterId) {
     "@type": "Person",
     "@id": character["@id"],
     name: character.name,
-    alternateName: [character.displayName, character.nativeName],
+    alternateName: [
+      ...new Set([
+        character.displayName,
+        character.nativeName,
+        ...Object.values(character.localizedNames),
+      ]),
+    ],
     description: character.description,
     disambiguatingDescription:
       id === "runa"
@@ -184,7 +191,7 @@ export function createCharacterPageSchema(
     createCreatorSchema(),
     createCharacterSchema(id),
     createPageNode(
-      `/characters/${id}`,
+      getCharacterPath(id),
       locale,
       name,
       description,

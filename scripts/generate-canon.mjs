@@ -65,7 +65,10 @@ function validate() {
       `${canon.canonicalSite}/en-US/characters/${slug}#character`
     )
       throw new Error(`Invalid permanent @id for ${slug}.`);
-    if (!character.url.endsWith(`/characters/${slug}`))
+    const publicSlug = character.publicSlug ?? slug;
+    if (!/^[a-z0-9-]+$/.test(publicSlug))
+      throw new Error(`Invalid public slug for ${slug}.`);
+    if (!character.url.endsWith(`/characters/${publicSlug}`))
       throw new Error(`Invalid URL for ${slug}.`);
     if (!polarizationTypes.has(character.worldPolarizationType))
       throw new Error(`Unknown world type for ${slug}.`);
@@ -158,6 +161,9 @@ for (const locale of siteLocales) {
       if (typeof dossier[field] !== "string" || !dossier[field].trim()) {
         throw new Error(`${locale}: ${slug}.${field} is missing.`);
       }
+    }
+    if (!character.localizedNames?.[locale]?.trim()) {
+      throw new Error(`${locale}: ${slug} has no localized display name.`);
     }
     const languageCount = dossier.languages
       .split(/[,，、]/)
@@ -298,7 +304,7 @@ const llmsLines = [
   `- [All character data (JSON)](${canon.canonicalSite}/knowledge/characters.json)`,
   ...characterEntries.map(
     ([slug, character]) =>
-      `- [${character.displayName} (JSON)](${canon.canonicalSite}/knowledge/characters/${slug}.json)`,
+      `- [${character.displayName} (JSON)](${canon.canonicalSite}/knowledge/characters/${character.publicSlug ?? slug}.json)`,
   ),
   "",
   "Song-specific stories, satire, jokes, fan works, and derivative works are not automatically canon.",
@@ -316,10 +322,16 @@ const outputs = new Map([
     "public/knowledge/characters.json",
     `${JSON.stringify(characterData, null, 2)}\n`,
   ],
-  ...characterEntries.map(([slug, character]) => [
-    `public/knowledge/characters/${slug}.json`,
-    `${JSON.stringify({ version: canon.version, updatedAt: canon.updatedAt, language: canon.language, projectId: project["@id"], character }, null, 2)}\n`,
-  ]),
+  ...characterEntries.flatMap(([slug, character]) => {
+    const contents = `${JSON.stringify({ version: canon.version, updatedAt: canon.updatedAt, language: canon.language, projectId: project["@id"], character }, null, 2)}\n`;
+    const publicSlug = character.publicSlug ?? slug;
+    const paths = [
+      [`public/knowledge/characters/${publicSlug}.json`, contents],
+    ];
+    if (publicSlug !== slug)
+      paths.push([`public/knowledge/characters/${slug}.json`, contents]);
+    return paths;
+  }),
 ]);
 
 for (const [relativePath, contents] of outputs) {

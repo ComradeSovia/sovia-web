@@ -173,7 +173,7 @@
     "shareError": "Share failed. You can copy the invitation below."
   },
   "characters": {
-    "homeCardDescription": "Meet Sovia, Kata, Runa and QI-7 through their stories, profiles and character art.",
+    "homeCardDescription": "Meet Sovia, Katya, Runa and Qi-7 through their stories, profiles and character art.",
     "title": "Characters",
     "eyebrow": "Character archive",
     "views": {
@@ -198,6 +198,7 @@
       "identity": "Role",
       "biography": "Biography",
       "relationships": "Connections",
+      "relatedLinks": "Related links",
       "signatureLines": "Signature line",
       "unknown": "Classified information",
       "nameType": "Stage name",
@@ -218,7 +219,7 @@
         "relationships": [
           {
             "id": "kata",
-            "description": "Kata is like an older sister to her and is also a leader at the Academy of Sciences."
+            "description": "Katya is like an older sister to her and is also a leader at the Academy of Sciences."
           },
           {
             "id": "runa",
@@ -226,7 +227,7 @@
           },
           {
             "id": "qi7",
-            "description": "QI-7 found Sovia interesting and began imitating her."
+            "description": "Qi-7 found Sovia interesting and began imitating her."
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
@@ -268,7 +269,7 @@
           },
           {
             "id": "qi7",
-            "description": "Runa met QI-7 in a game dungeon, and they became good friends afterward."
+            "description": "Runa met Qi-7 in a game dungeon, and they became good friends afterward."
           }
         ],
         "fullName": "Mikatsuki Runa"
@@ -283,15 +284,15 @@
         "residence": "Classified information, China",
         "species": "Bionic person",
         "identity": "Mimetic records officer in the science city",
-        "biography": "QI-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
+        "biography": "Qi-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
         "relationships": [
           {
             "id": "sovia",
-            "description": "QI-7 found Sovia interesting and began imitating her."
+            "description": "Qi-7 found Sovia interesting and began imitating her."
           },
           {
             "id": "runa",
-            "description": "QI-7 met Runa in a game dungeon, and they became good friends afterward."
+            "description": "Qi-7 met Runa in a game dungeon, and they became good friends afterward."
           }
         ],
         "fullName": "亓绛"

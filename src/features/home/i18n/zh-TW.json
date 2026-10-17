@@ -168,7 +168,7 @@
     "shareError": "分享失敗，可以複製下方邀請文案。"
   },
   "characters": {
-    "homeCardDescription": "認識 Sovia、Kata、Runa 與 QI-7，閱讀角色檔案與世界設定。",
+    "homeCardDescription": "認識蘇維雅、尕緹婭、月菜與亓絳，閱讀角色檔案與世界設定。",
     "title": "角色介紹",
     "eyebrow": "角色檔案",
     "views": {
@@ -193,6 +193,7 @@
       "identity": "身分",
       "biography": "人物簡介",
       "relationships": "人物關係",
+      "relatedLinks": "相關連結",
       "signatureLines": "標誌性台詞",
       "unknown": "機密事項",
       "nameType": "藝名",
@@ -213,15 +214,15 @@
         "relationships": [
           {
             "id": "kata",
-            "description": "Kata 是姐姐一樣的存在，也是科學院的領導。"
+            "description": "尕緹婭是姐姐一樣的存在，也是科學院的領導。"
           },
           {
             "id": "runa",
-            "description": "與 Runa 似乎可以互相感應。"
+            "description": "與月菜似乎可以互相感應。"
           },
           {
             "id": "qi7",
-            "description": "QI-7 覺得 Sovia 很有趣，於是模仿了她。"
+            "description": "亓絳覺得蘇維雅很有趣，於是模仿了她。"
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
@@ -240,7 +241,7 @@
         "relationships": [
           {
             "id": "sovia",
-            "description": "將 Sovia 當成自己的乖妹妹，曾經在 Sovia 剛到科學城的時候照顧她。"
+            "description": "將蘇維雅當成自己的乖妹妹，曾經在蘇維雅剛到科學城的時候照顧她。"
           }
         ],
         "fullName": "Катя Глебовна Белгина"
@@ -255,7 +256,7 @@
         "residence": "機密事項",
         "species": "人類",
         "identity": "學生",
-        "biography": "正常地上課、打工、吃飯、睡覺，還有一點點歌聲。也幫助 Sovia 將聲音傳遞到你所在的世界。",
+        "biography": "正常地上課、打工、吃飯、睡覺，還有一點點歌聲。也幫助蘇維雅將聲音傳遞到你所在的世界。",
         "relationships": [
           {
             "id": "sovia",
@@ -263,7 +264,7 @@
           },
           {
             "id": "qi7",
-            "description": "在遊戲副本中認識 QI-7，之後成了好朋友。"
+            "description": "在遊戲副本中認識亓絳，之後成了好朋友。"
           }
         ],
         "fullName": "三日月月菜"
@@ -282,14 +283,14 @@
         "relationships": [
           {
             "id": "sovia",
-            "description": "覺得 Sovia 很有趣，於是模仿了她。"
+            "description": "覺得蘇維雅很有趣，於是模仿了她。"
           },
           {
             "id": "runa",
-            "description": "在遊戲副本中認識 Runa，之後成了好朋友。"
+            "description": "在遊戲副本中認識月菜，之後成了好朋友。"
           }
         ],
-        "fullName": "亓绛"
+        "fullName": "亓絳"
       }
     },
     "worldTypes": [

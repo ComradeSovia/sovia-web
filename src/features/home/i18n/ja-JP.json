@@ -168,7 +168,7 @@
     "shareError": "共有できませんでした。下の招待文をコピーしてください。"
   },
   "characters": {
-    "homeCardDescription": "Sovia、Kata、Runa、QI-7の人物資料と世界設定を紹介します。",
+    "homeCardDescription": "ソヴィア、カーチャ、ルナ、Qi-7の人物資料と世界設定を紹介します。",
     "title": "キャラクター紹介",
     "eyebrow": "キャラクター資料",
     "views": {
@@ -193,6 +193,7 @@
       "identity": "役割",
       "biography": "人物紹介",
       "relationships": "関係",
+      "relatedLinks": "関連リンク",
       "signatureLines": "決め台詞",
       "unknown": "機密事項",
       "nameType": "芸名",
@@ -213,21 +214,21 @@
         "relationships": [
           {
             "id": "kata",
-            "description": "Kata は姉のような存在で、科学アカデミーの指導者でもある。"
+            "description": "カーチャは姉のような存在で、科学アカデミーの指導者でもある。"
           },
           {
             "id": "runa",
-            "description": "Runa とは互いの存在を感じ取れるらしい。"
+            "description": "ルナとは互いの存在を感じ取れるらしい。"
           },
           {
             "id": "qi7",
-            "description": "QI-7 は Sovia を面白いと思い、彼女を模倣した。"
+            "description": "Qi-7 はソヴィアを面白いと思い、彼女を模倣した。"
           }
         ],
         "fullName": "Совия Ивановна Рабочева"
       },
       "kata": {
-        "quote": "Sovia、説明は興味深い。でも私が必要としているのは報告書よ。",
+        "quote": "ソヴィア、説明は興味深い。でも私が必要としているのは報告書よ。",
         "signature": "",
         "origin": "次元ラジオ局がある世界",
         "gender": "女性",
@@ -240,7 +241,7 @@
         "relationships": [
           {
             "id": "sovia",
-            "description": "Sovia を妹のように思い、彼女が科学都市に来たばかりの頃に面倒を見ていた。"
+            "description": "ソヴィアを妹のように思い、彼女が科学都市に来たばかりの頃に面倒を見ていた。"
           }
         ],
         "fullName": "Катя Глебовна Белгина"
@@ -255,7 +256,7 @@
         "residence": "機密事項",
         "species": "人間",
         "identity": "学生",
-        "biography": "普通に授業を受け、アルバイトをし、食べて、眠って、少しだけ歌う。そして Sovia の声をあなたのいる世界へ届ける手助けもする。",
+        "biography": "普通に授業を受け、アルバイトをし、食べて、眠って、少しだけ歌う。そしてソヴィアの声をあなたのいる世界へ届ける手助けもする。",
         "relationships": [
           {
             "id": "sovia",
@@ -263,7 +264,7 @@
           },
           {
             "id": "qi7",
-            "description": "ゲームのダンジョンで QI-7 と出会い、その後親友になった。"
+            "description": "ゲームのダンジョンで Qi-7 と出会い、その後親友になった。"
           }
         ],
         "fullName": "三日月ルナ"
@@ -282,11 +283,11 @@
         "relationships": [
           {
             "id": "sovia",
-            "description": "Sovia を面白いと思い、彼女を模倣した。"
+            "description": "ソヴィアを面白いと思い、彼女を模倣した。"
           },
           {
             "id": "runa",
-            "description": "ゲームのダンジョンで Runa と出会い、その後親友になった。"
+            "description": "ゲームのダンジョンでルナと出会い、その後親友になった。"
           }
         ],
         "fullName": "亓绛"

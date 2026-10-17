@@ -498,6 +498,82 @@
   text-underline-offset: 4px;
 }
 
+.cosplayTeaser {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  max-width: 48rem;
+  min-height: 11rem;
+  margin-top: 1rem;
+  overflow: hidden;
+  border: 1px solid rgb(var(--ink) / 0.25);
+  background: color-mix(in srgb, rgb(var(--paper)) 92%, rgb(var(--yellow)) 8%);
+  color: rgb(var(--ink));
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.cosplayTeaser:hover,
+.cosplayTeaser:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 4px 4px 0 rgb(var(--red));
+}
+
+.cosplayTeaser:focus-visible {
+  outline: 2px solid rgb(var(--red));
+  outline-offset: 4px;
+}
+
+.cosplayTeaserImage {
+  position: relative;
+  min-height: 11rem;
+  overflow: hidden;
+}
+
+.cosplayTeaserImage img {
+  transition: transform 500ms ease;
+}
+
+.cosplayTeaser:hover .cosplayTeaserImage img,
+.cosplayTeaser:focus-visible .cosplayTeaserImage img {
+  transform: scale(1.04);
+}
+
+.cosplayTeaserText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.cosplayTeaserText :global(.meta) {
+  color: rgb(var(--ink) / 0.72);
+}
+
+.cosplayTeaserText strong {
+  color: rgb(var(--ink));
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.cosplayTeaserText > span:nth-child(3) {
+  max-width: 27rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.cosplayTeaserAction {
+  border-bottom: 1px solid currentColor;
+  margin-top: 0.25rem;
+  padding-bottom: 0.2rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
 @keyframes expressionReveal {
   from {
     opacity: 0.45;
@@ -543,6 +619,12 @@
 }
 
 @media (max-width: 900px) {
+  .cosplayTeaser {
+    grid-template-columns: 1fr;
+  }
+  .cosplayTeaserImage {
+    min-height: min(46vw, 18rem);
+  }
   .showcase::after {
     display: none;
   }
@@ -640,7 +722,8 @@
   .selectorLink,
   .selectorPortrait,
   .originalButton,
-  .relatedCard {
+  .relatedCard,
+  .cosplayTeaser {
     transition: none;
   }
   .expressionControls > button,
@@ -648,7 +731,9 @@
     transition: none;
   }
   .relatedCard:hover,
-  .relatedCard:focus-visible {
+  .relatedCard:focus-visible,
+  .cosplayTeaser:hover,
+  .cosplayTeaser:focus-visible {
     transform: none;
   }
 }
