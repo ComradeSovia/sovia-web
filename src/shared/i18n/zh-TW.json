@@ -26,6 +26,7 @@
     "test": "SOVIA測試",
     "tools": "工具",
     "airCon": "空調",
+    "modelViewer": "模型預覽",
     "lyricsLibrary": "歌詞庫",
     "musicRelease": "音樂發行",
     "conceptDesign": "概念設計",
@@ -93,6 +94,20 @@
       "intro": "可操作的機器、檔案控制台和一些奇怪小工具。",
       "airConTitle": "虛擬空調",
       "airConDescription": "開機、調溫度、調風量。"
+    },
+    "modelViewer": {
+      "title": "蘇維雅 3D 模型",
+      "description": "從不同角度查看蘇維雅的 VRM 模型。",
+      "eyebrow": "工具 / 模型預覽",
+      "intro": "拖曳旋轉、縮放模型，看看蘇維雅的設計細節。",
+      "open": "開啟預覽",
+      "load": "載入 3D 模型",
+      "loading": "正在載入模型",
+      "preparing": "正在準備 3D 場景…",
+      "error": "此裝置無法顯示模型。",
+      "retry": "重試",
+      "controls": "拖曳旋轉 · 滾輪或雙指縮放",
+      "sizeNote": "模型約 104 MB，僅在點擊後載入。"
     },
     "airCon": {
       "title": "虛擬空調",

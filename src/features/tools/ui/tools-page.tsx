@@ -1,7 +1,8 @@
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
-import { Snowflake, Wrench } from "lucide-react";
+import { Box, Snowflake, Wrench } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export function ToolsPage({
@@ -39,6 +40,32 @@ export function ToolsPage({
             className="btn-primary w-fit"
           >
             {copy.routes.airCon}
+          </Link>
+        </article>
+
+        <article className="card relative flex min-h-64 flex-col justify-between gap-8 overflow-hidden">
+          <Image
+            src="/assets/characters/sovia_hero.png"
+            alt=""
+            fill
+            sizes="(min-width: 640px) 50vw, 100vw"
+            className="pointer-events-none object-contain object-right opacity-20"
+          />
+          <div className="relative space-y-4">
+            <div className="flex h-12 w-12 items-center justify-center border-[3px] border-ink bg-yellow text-block shadow-[5px_5px_0_rgb(var(--shadow))]">
+              <Box className="h-7 w-7" aria-hidden="true" />
+            </div>
+            <div className="max-w-sm space-y-3">
+              <h2>{copy.pages.modelViewer.title}</h2>
+              <p>{copy.pages.modelViewer.description}</p>
+            </div>
+          </div>
+
+          <Link
+            href={getSiteLocalizedPath("/tools/model-viewer", locale)}
+            className="btn-primary relative w-fit"
+          >
+            {copy.pages.modelViewer.open}
           </Link>
         </article>
       </div>

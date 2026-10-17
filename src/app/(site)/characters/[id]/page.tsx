@@ -3,6 +3,7 @@ import { CharactersPage } from "@sovia/home";
 import { getCharacterDisplayName } from "@sovia/home/data/character-names";
 import { getHomeCopy } from "@sovia/home/i18n/copy";
 import type { CharacterId } from "@sovia/home/ui/characters-page";
+import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import {
   getSiteLocalizedPath,
@@ -65,6 +66,7 @@ export default async function Page({ params }: PageProps) {
       <CharactersPage
         copy={copy}
         cosplayCopy={getGalleryCopy(locale)}
+        modelViewerCopy={getSharedCopy(locale).pages.modelViewer}
         locale={locale}
         selectedId={id}
       />

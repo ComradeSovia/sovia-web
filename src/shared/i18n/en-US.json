@@ -26,6 +26,7 @@
     "test": "SOVIA Test",
     "tools": "Tools",
     "airCon": "Air-Con",
+    "modelViewer": "3D Model",
     "lyricsLibrary": "Lyrics Library",
     "musicRelease": "Music Release",
     "conceptDesign": "Concept Design",
@@ -93,6 +94,20 @@
       "intro": "A compact shelf of usable machines, archive consoles, and odd little utilities.",
       "airConTitle": "Virtual Air-Con",
       "airConDescription": "Turn on the compressor, set the temperature, and tune the fan speed."
+    },
+    "modelViewer": {
+      "title": "Sovia 3D Model",
+      "description": "Explore Sovia's VRM model from every angle.",
+      "eyebrow": "Tools / Model Viewer",
+      "intro": "Rotate the model and zoom in to see the details of Sovia's design.",
+      "open": "Open viewer",
+      "load": "Load 3D model",
+      "loading": "Loading model",
+      "preparing": "Preparing 3D scene…",
+      "error": "The model could not be displayed on this device.",
+      "retry": "Try again",
+      "controls": "Drag to rotate · Scroll or pinch to zoom",
+      "sizeNote": "The model is about 104 MB and loads only when requested."
     },
     "airCon": {
       "title": "Virtual Air-Con",

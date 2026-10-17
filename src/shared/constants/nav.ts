@@ -28,7 +28,7 @@ export function getNavItems(
     routes.Test,
     {
       ...routes.Tools,
-      children: [routes.AirCon],
+      children: [routes.AirCon, routes.ModelViewer],
     },
     // routes.Gallery,
     // routes.Report,

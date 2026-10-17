@@ -26,6 +26,7 @@
     "test": "SOVIA测试",
     "tools": "工具",
     "airCon": "空调",
+    "modelViewer": "模型预览",
     "lyricsLibrary": "歌词库",
     "musicRelease": "音乐发布",
     "conceptDesign": "概念设计",
@@ -93,6 +94,20 @@
       "intro": "可操作的机器、档案控制台和一些奇怪小工具。",
       "airConTitle": "虚拟空调",
       "airConDescription": "开机、调温度、调风量。"
+    },
+    "modelViewer": {
+      "title": "苏维雅 3D 模型",
+      "description": "从不同角度查看苏维雅的 VRM 模型。",
+      "eyebrow": "工具 / 模型预览",
+      "intro": "拖动旋转、缩放模型，看看苏维雅的设计细节。",
+      "open": "打开预览",
+      "load": "加载 3D 模型",
+      "loading": "正在加载模型",
+      "preparing": "正在准备 3D 场景…",
+      "error": "此设备无法显示模型。",
+      "retry": "重试",
+      "controls": "拖动旋转 · 滚轮或双指缩放",
+      "sizeNote": "模型约 104 MB，仅在点击后加载。"
     },
     "airCon": {
       "title": "虚拟空调",

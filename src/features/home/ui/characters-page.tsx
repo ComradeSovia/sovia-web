@@ -2,6 +2,7 @@
 
 import { getCosplayPhotoPath } from "@sovia/gallery/data/cosplay";
 import type { GalleryCopy } from "@sovia/gallery/i18n/copy";
+import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { getCharacterPath } from "@sovia/shared/seo/character-path";
@@ -263,11 +264,13 @@ function ExpressionCarousel({
 export function CharactersPage({
   copy,
   cosplayCopy,
+  modelViewerCopy,
   locale,
   selectedId,
 }: {
   copy: CharacterCopy;
   cosplayCopy: GalleryCopy;
+  modelViewerCopy: SharedCopy["pages"]["modelViewer"];
   locale: SiteLocale;
   selectedId: CharacterId;
 }) {
@@ -516,31 +519,59 @@ export function CharactersPage({
         {(character.id === "sovia" || character.id === "qi7") && (
           <section className="border-t-[3px] border-ink pt-6">
             <h3 className="text-xl">{copy.labels.relatedLinks}</h3>
-            <Link
-              href={getSiteLocalizedPath("/gallery/cosplay", locale)}
-              className={styles.cosplayTeaser}
-            >
-              <span className={styles.cosplayTeaserImage}>
-                <Image
-                  src={getCosplayPhotoPath(8)}
-                  alt={`${cosplayCopy.credit}. ${cosplayCopy.photoDescriptions["08"]}`}
-                  fill
-                  sizes="(min-width: 900px) 240px, 100vw"
-                  className="object-cover"
-                />
-              </span>
-              <span className={styles.cosplayTeaserText}>
-                <span className="meta">
-                  {cosplayCopy.category} /{" "}
-                  {getCharacterDisplayName("qi7", locale)}
+            <div className="mt-4 grid gap-4 xl:grid-cols-2">
+              <Link
+                href={getSiteLocalizedPath("/gallery/cosplay", locale)}
+                className={styles.relatedLinkCard}
+              >
+                <span className={styles.relatedLinkImage}>
+                  <Image
+                    src={getCosplayPhotoPath(8)}
+                    alt={`${cosplayCopy.credit}. ${cosplayCopy.photoDescriptions["08"]}`}
+                    fill
+                    sizes="(min-width: 900px) 240px, 100vw"
+                    className="object-cover"
+                  />
                 </span>
-                <strong>{cosplayCopy.albumTitle}</strong>
-                <span>{cosplayCopy.teaser}</span>
-                <span className={styles.cosplayTeaserAction}>
-                  {cosplayCopy.viewCollection} ↗
+                <span className={styles.relatedLinkText}>
+                  <span className="meta">
+                    {cosplayCopy.category} /{" "}
+                    {getCharacterDisplayName("qi7", locale)}
+                  </span>
+                  <strong>{cosplayCopy.albumTitle}</strong>
+                  <span>{cosplayCopy.teaser}</span>
+                  <span className={styles.relatedLinkAction}>
+                    {cosplayCopy.viewCollection} ↗
+                  </span>
                 </span>
-              </span>
-            </Link>
+              </Link>
+              {character.id === "sovia" && (
+                <Link
+                  href={getSiteLocalizedPath("/tools/model-viewer", locale)}
+                  className={styles.relatedLinkCard}
+                >
+                  <span
+                    className={`${styles.relatedLinkImage} ${styles.modelLinkImage}`}
+                  >
+                    <Image
+                      src="/assets/characters/sovia_hero.png"
+                      alt=""
+                      fill
+                      sizes="(min-width: 900px) 240px, 100vw"
+                      className="object-contain"
+                    />
+                  </span>
+                  <span className={styles.relatedLinkText}>
+                    <span className="meta">VRM / SOVIA</span>
+                    <strong>{modelViewerCopy.title}</strong>
+                    <span>{modelViewerCopy.description}</span>
+                    <span className={styles.relatedLinkAction}>
+                      {modelViewerCopy.open} ↗
+                    </span>
+                  </span>
+                </Link>
+              )}
+            </div>
           </section>
         )}
       </section>

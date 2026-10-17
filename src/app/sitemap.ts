@@ -28,6 +28,7 @@ const STATIC_PATHS = [
   "/gallery/cosplay",
   "/sound",
   "/contact",
+  "/tools/model-viewer",
   "/lyrics-library",
   "/music-release",
   "/concept-design",

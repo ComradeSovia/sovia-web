@@ -26,6 +26,7 @@
     "test": "SOVIAテスト",
     "tools": "ツール",
     "airCon": "エアコン",
+    "modelViewer": "3Dモデル",
     "lyricsLibrary": "歌詞ライブラリ",
     "musicRelease": "音楽リリース",
     "conceptDesign": "コンセプト設計",
@@ -93,6 +94,20 @@
       "intro": "操作できる機械、アーカイブ端末、少し変わった小道具の棚です。",
       "airConTitle": "仮想エアコン",
       "airConDescription": "電源、温度、風量を調整できます。"
+    },
+    "modelViewer": {
+      "title": "ソヴィアの3Dモデル",
+      "description": "ソヴィアのVRMモデルをさまざまな角度から見られます。",
+      "eyebrow": "ツール / モデルビューア",
+      "intro": "ドラッグで回転、ズームでソヴィアのデザインを詳しく見られます。",
+      "open": "ビューアを開く",
+      "load": "3Dモデルを読み込む",
+      "loading": "モデルを読み込み中",
+      "preparing": "3Dシーンを準備中…",
+      "error": "この端末ではモデルを表示できませんでした。",
+      "retry": "再試行",
+      "controls": "ドラッグで回転 · ホイールまたはピンチでズーム",
+      "sizeNote": "モデルは約104 MBです。操作を始めると読み込みます。"
     },
     "airCon": {
       "title": "仮想エアコン",
