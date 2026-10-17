@@ -24,6 +24,8 @@
       "@sovia/admin/*": ["./src/features/admin/*"],
       "@sovia/home": ["./src/features/home/index.ts"],
       "@sovia/home/*": ["./src/features/home/*"],
+      "@sovia/gallery": ["./src/features/gallery/index.ts"],
+      "@sovia/gallery/*": ["./src/features/gallery/*"],
       "@sovia/air-con": ["./src/features/air-con/index.ts"],
       "@sovia/air-con/*": ["./src/features/air-con/*"],
       "@sovia/layout": ["./src/features/layout/index.ts"],

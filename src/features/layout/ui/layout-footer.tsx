@@ -41,6 +41,7 @@ export function LayoutFooter({
     routes.Sound,
     routes.About,
     routes.Creator,
+    routes.Gallery,
     {
       label: getHomeCopy(locale).characters.title,
       href: getSiteLocalizedPath("/characters", locale),
