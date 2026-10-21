@@ -25,6 +25,7 @@
     "sound": "Songs",
     "test": "SOVIA Test",
     "tools": "Tools",
+    "usage": "Resource use",
     "airCon": "Air-Con",
     "modelViewer": "3D Model",
     "lyricsLibrary": "Lyrics Library",
@@ -83,6 +84,93 @@
     "request": {
       "title": "Request",
       "description": "Request a song or adaptation for the Comrade Sovia archive."
+    },
+    "usage": {
+      "title": "Using Sovia Resources",
+      "description": "Rules and common examples for character fan works, cosplay photos and music.",
+      "eyebrow": "Archive / Resource use",
+      "intro": "Find common uses by resource type. Character fan works and music owned by Sovia are open; works based on other songs may still involve rights in the original.",
+      "resourcesTitle": "Characters and photos",
+      "allowedLabel": "Allowed",
+      "prohibitedLabel": "Prohibited",
+      "notesLabel": "Original-song and release notes",
+      "visuals": {
+        "title": "Character fan works",
+        "description": "Create, publish and sell your own fan works freely. The only rule is not to impersonate the creator.",
+        "action": "Browse characters",
+        "allowed": [
+          "Draw fan art, write fiction or comics, and make animation or videos.",
+          "Cosplay the characters and make your own costumes, props or 3D fan works.",
+          "Make and sell your own fan merchandise without asking first.",
+          "Share your fan works on social media, in portfolios or at events."
+        ],
+        "prohibited": [
+          "Impersonating the creator of the characters or Comrade Sovia project.",
+          "Publishing through an account or identity that falsely presents you as the official creator."
+        ]
+      },
+      "cosplay": {
+        "title": "Cosplay photos",
+        "description": "These rules apply to photos in this site’s cosplay gallery.",
+        "action": "View cosplay gallery",
+        "allowed": [
+          "Download and save them for a personal collection or wallpaper.",
+          "Repost them on social platforms or share the photos and original post links.",
+          "Crop, resize or lay them out for display without distorting their original expression.",
+          "Add a short caption such as “Cute” or a character line that preserves the original meaning."
+        ],
+        "prohibited": [
+          "Changing the person’s clothing with image editing or AI.",
+          "Demeaning the person or maliciously altering their face, body or expression.",
+          "Fabricating what the person said, believed or did to misrepresent the photo.",
+          "Other misleading edits that depart from the photo’s original expression."
+        ]
+      },
+      "songs": {
+        "title": "Songs and lyrics",
+        "description": "Sovia does not require individual approval for its own recordings, arrangements and original lyrics. Rights in an underlying song still need separate consideration.",
+        "action": "Browse songs",
+        "types": [
+          {
+            "title": "Adaptations of other songs",
+            "description": "Songs covered, rearranged or reinterpreted by Sovia.",
+            "allowed": [
+              "Download, save and repost Sovia’s released version without Sovia’s permission.",
+              "Use Sovia’s recording unchanged in a video or stream without Sovia’s permission.",
+              "Record and publish your own cover of Sovia’s version without Sovia’s permission.",
+              "Remix, sample or rearrange Sovia’s recording without Sovia’s permission."
+            ],
+            "notes": [
+              "For covers or releases, check the original song’s composition, lyrics, recording rights and platform rules.",
+              "Changing the original melody or lyrics may require permission from the original rightsholders for an adaptation."
+            ]
+          },
+          {
+            "title": "Adapted lyrics written by Sovia",
+            "description": "This permission covers the lyrics Sovia wrote, not an underlying melody owned by someone else.",
+            "allowed": [
+              "Copy, quote or share lyrics written by Sovia.",
+              "Sing or record those lyrics, or use them in subtitles and videos.",
+              "Translate, revise or build on those lyrics, including in commercial works."
+            ],
+            "notes": [
+              "If you also use the original melody, original lyrics or other protected elements, check the rights in those elements.",
+              "Releasing new lyrics set to an original song’s melody may still require the original rightsholder’s permission."
+            ]
+          },
+          {
+            "title": "Original songs by Sovia",
+            "description": "Songs whose music and lyrics are original to Sovia are open for use and reinterpretation.",
+            "allowed": [
+              "Cover or rerecord them, or arrange them in a different style.",
+              "Rewrite lyrics, remix, sample or make other derivative works.",
+              "Download, repost or use them as music in videos, streams or games.",
+              "Release or sell your own version without asking Sovia."
+            ],
+            "notes": []
+          }
+        ]
+      }
     },
     "notice": {
       "title": "Notice",

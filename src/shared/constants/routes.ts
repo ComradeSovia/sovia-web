@@ -15,6 +15,7 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     Sound: { label: copy.routes.sound, href: href("/sound") },
     Test: { label: copy.routes.test, href: href("/test") },
     Tools: { label: copy.routes.tools, href: href("/tools") },
+    Usage: { label: copy.routes.usage, href: href("/usage") },
     AirCon: { label: copy.routes.airCon, href: href("/tools/air-con") },
     ModelViewer: {
       label: copy.routes.modelViewer,

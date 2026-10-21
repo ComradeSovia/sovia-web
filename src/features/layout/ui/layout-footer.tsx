@@ -48,6 +48,7 @@ export function LayoutFooter({
     },
     routes.Test,
     routes.Tools,
+    routes.Usage,
     routes.Notice,
     routes.Contact,
   ];

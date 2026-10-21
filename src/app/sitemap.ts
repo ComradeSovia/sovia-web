@@ -37,6 +37,7 @@ const STATIC_PATHS = [
   "/community",
   "/tools",
   "/tools/air-con",
+  "/usage",
 ] as const;
 
 const SOVIA_TEST_PATHS = ["/test", "/test/types"] as const;
