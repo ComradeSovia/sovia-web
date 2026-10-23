@@ -12,7 +12,8 @@ import { SITE_URL } from "@sovia/shared";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
 import { getSiteMetadataAlternates } from "@sovia/shared/i18n/site-routing";
-import type { ReactNode } from "react";
+import { ContentLoading } from "@sovia/shared/ui/content-loading";
+import { type ReactNode, Suspense } from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getCurrentSiteLocale();
@@ -80,7 +81,11 @@ export default async function SiteLayout({
           locale={locale}
           sharedCopy={sharedCopy}
         />
-        <LayoutMain copy={layoutCopy}>{children}</LayoutMain>
+        <LayoutMain copy={layoutCopy}>
+          <Suspense fallback={<ContentLoading label={sharedCopy.loading} />}>
+            {children}
+          </Suspense>
+        </LayoutMain>
         <LayoutFooter locale={locale} sharedCopy={sharedCopy} />
       </div>
     </SiteDocument>

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,6 +22,10 @@ export function AdminLogin({
   mode: Exclude<AdminAuthMode, "disabled">;
   returnTo?: string;
 }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const destination = returnTo ?? searchParams.get("next") ?? pathname;
+
   return (
     <section className="flex min-h-[calc(100vh-7rem)] items-center lg:min-h-[calc(100vh-2.5rem)]">
       <Card className="w-full">
@@ -30,8 +37,8 @@ export function AdminLogin({
         <CardContent>
           {mode === "password" ? (
             <form action={loginAdmin} className="grid gap-5">
-              {returnTo ? (
-                <input name="returnTo" type="hidden" value={returnTo} />
+              {destination ? (
+                <input name="returnTo" type="hidden" value={destination} />
               ) : null}
               <div className="grid gap-2">
                 <Label htmlFor="admin-password">Password</Label>
@@ -49,8 +56,8 @@ export function AdminLogin({
             <Button asChild className="w-full">
               <Link
                 href={
-                  returnTo
-                    ? `/admin/login/google?next=${encodeURIComponent(returnTo)}`
+                  destination
+                    ? `/admin/login/google?next=${encodeURIComponent(destination)}`
                     : "/admin/login/google"
                 }
               >

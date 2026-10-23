@@ -1,4 +1,10 @@
 {
+  "loading": "Loading content…",
+  "unavailable": {
+    "title": "Temporarily unavailable",
+    "description": "This content is temporarily unavailable. The database may be offline. Please try again later.",
+    "retry": "Try again"
+  },
   "site": {
     "name": "Comrade Sovia",
     "title": "Comrade Sovia | Soviet Anime Music & Creative Works Archive",

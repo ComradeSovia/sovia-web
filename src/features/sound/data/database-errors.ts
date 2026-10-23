@@ -6,6 +6,25 @@ export function getFriendlyDatabaseError(error: unknown) {
   }
 
   if (error instanceof Error) {
+    const code = "code" in error ? error.code : undefined;
+    if (
+      [
+        "P1000",
+        "P1001",
+        "P1002",
+        "P1008",
+        "P1017",
+        "P2024",
+        "ECONNREFUSED",
+        "ENOTFOUND",
+        "ETIMEDOUT",
+      ].includes(String(code)) ||
+      /connect|econnrefused|enotfound|timed out|timeout|recovery mode|authentication|password/i.test(
+        error.message,
+      )
+    ) {
+      return "The database is temporarily unavailable. Please check the database server, network connection, and connection settings, then try again.";
+    }
     return withDatabaseHint(error.message);
   }
 
