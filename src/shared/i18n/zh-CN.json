@@ -222,6 +222,7 @@
     }
   },
   "contact": {
+    "creatorAction": "联系 Sovia",
     "title": "联系 Sovia",
     "intro": "一封来信，一个想法，或一首你想听的歌。",
     "letter": "来信",

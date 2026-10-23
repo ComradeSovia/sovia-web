@@ -7,7 +7,6 @@ export const NAV_ITEMS = [
   Routes.Center,
   // Routes.Notice,
   Routes.Sound,
-  Routes.Contact,
   {
     ...Routes.Tools,
     children: [Routes.Test, Routes.AirCon, Routes.ModelViewer],
@@ -26,7 +25,6 @@ export function getNavItems(
     routes.Center,
     // routes.Notice,
     routes.Sound,
-    routes.Contact,
     {
       ...routes.Tools,
       children: [routes.Test, routes.AirCon, routes.ModelViewer],

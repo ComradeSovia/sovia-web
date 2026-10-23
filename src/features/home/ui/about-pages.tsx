@@ -1,3 +1,5 @@
+import { getRoutes } from "@sovia/shared/constants/routes";
+import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Image from "next/image";
@@ -119,6 +121,9 @@ export function CreatorPage({
   copy: HomeCopy["creator"];
   locale: SiteLocale;
 }) {
+  const sharedCopy = getSharedCopy(locale);
+  const routes = getRoutes(sharedCopy, locale);
+
   return (
     <div className={styles.page}>
       <header className={styles.creatorHero}>
@@ -126,6 +131,9 @@ export function CreatorPage({
           <span className={styles.eyebrow}>{copy.eyebrow}</span>
           <h1>{copy.title}</h1>
           <p className={styles.heroLead}>{copy.lead}</p>
+          <Link href={routes.Contact.href} className="btn-outline mt-4 w-fit">
+            {sharedCopy.contact.creatorAction}
+          </Link>
         </div>
         <div className={styles.heroVisual} aria-hidden="true">
           <Image

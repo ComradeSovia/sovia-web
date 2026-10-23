@@ -222,6 +222,7 @@
     }
   },
   "contact": {
+    "creatorAction": "Sovia に連絡",
     "title": "お問い合わせ",
     "intro": "お手紙、アイデア、聴いてみたい曲をお寄せください。",
     "letter": "手紙を書く",

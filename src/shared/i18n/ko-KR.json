@@ -222,6 +222,7 @@
     }
   },
   "contact": {
+    "creatorAction": "Sovia에게 연락하기",
     "title": "문의",
     "intro": "편지, 아이디어 또는 듣고 싶은 노래를 보내 주세요.",
     "letter": "편지 쓰기",

@@ -222,6 +222,7 @@
     }
   },
   "contact": {
+    "creatorAction": "Contact Sovia",
     "title": "Contact",
     "intro": "A letter, a thought, or a song you would love to hear.",
     "letter": "Write a letter",
