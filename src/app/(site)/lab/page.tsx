@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getCurrentSiteLocale();
 
-  return getSharedPageMetadata(locale, "tools", "/tools");
+  return getSharedPageMetadata(locale, "tools", "/lab");
 }
 
 export default async function ToolsRoute() {

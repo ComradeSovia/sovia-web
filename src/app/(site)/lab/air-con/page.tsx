@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getCurrentSiteLocale();
 
-  return getSharedPageMetadata(locale, "airCon", "/tools/air-con");
+  return getSharedPageMetadata(locale, "airCon", "/lab/air-con");
 }
 
 export default async function AirConRoute() {

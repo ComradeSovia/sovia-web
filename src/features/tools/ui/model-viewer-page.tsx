@@ -18,7 +18,7 @@ export function ModelViewerPage({
     <section className="space-y-8">
       <div className="space-y-5">
         <Link
-          href={getSiteLocalizedPath("/tools", locale)}
+          href={getSiteLocalizedPath("/lab", locale)}
           className="meta inline-flex items-center gap-2 underline underline-offset-4"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />

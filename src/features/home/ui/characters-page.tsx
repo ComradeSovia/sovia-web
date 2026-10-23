@@ -547,7 +547,7 @@ export function CharactersPage({
               </Link>
               {character.id === "sovia" && (
                 <Link
-                  href={getSiteLocalizedPath("/tools/model-viewer", locale)}
+                  href={getSiteLocalizedPath("/lab/model-viewer", locale)}
                   className={styles.relatedLinkCard}
                 >
                   <span

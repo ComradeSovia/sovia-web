@@ -26,7 +26,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return getSharedPageMetadata(locale, "airCon", "/tools/air-con");
+  return getSharedPageMetadata(locale, "airCon", "/lab/air-con");
 }
 
 export default async function LocalizedAirConPage({
@@ -42,7 +42,7 @@ export default async function LocalizedAirConPage({
   }
 
   if (locale === DEFAULT_SITE_LOCALE) {
-    redirect("/tools/air-con");
+    redirect("/lab/air-con");
   }
 
   return <AirConTool copy={getSharedCopy(locale)} />;

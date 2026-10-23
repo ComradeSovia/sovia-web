@@ -14,12 +14,12 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     Creator: { label: copy.routes.creator, href: href("/creator") },
     Sound: { label: copy.routes.sound, href: href("/sound") },
     Test: { label: copy.routes.test, href: href("/test") },
-    Tools: { label: copy.routes.tools, href: href("/tools") },
+    Tools: { label: copy.routes.tools, href: href("/lab") },
     Usage: { label: copy.routes.usage, href: href("/usage") },
-    AirCon: { label: copy.routes.airCon, href: href("/tools/air-con") },
+    AirCon: { label: copy.routes.airCon, href: href("/lab/air-con") },
     ModelViewer: {
       label: copy.routes.modelViewer,
-      href: href("/tools/model-viewer"),
+      href: href("/lab/model-viewer"),
     },
     LyricsLibrary: {
       label: copy.routes.lyricsLibrary,

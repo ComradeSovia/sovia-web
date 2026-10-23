@@ -28,15 +28,15 @@ const STATIC_PATHS = [
   "/gallery/cosplay",
   "/sound",
   "/contact",
-  "/tools/model-viewer",
+  "/lab/model-viewer",
   "/lyrics-library",
   "/music-release",
   "/concept-design",
   "/soviet-anime",
   "/video-images",
   "/community",
-  "/tools",
-  "/tools/air-con",
+  "/lab",
+  "/lab/air-con",
   "/usage",
 ] as const;
 

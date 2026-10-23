@@ -30,7 +30,7 @@
     "creator": "創作者",
     "sound": "歌曲",
     "test": "SOVIA測試",
-    "tools": "工具",
+    "tools": "實驗室",
     "usage": "資源使用",
     "airCon": "空調",
     "modelViewer": "模型預覽",
@@ -183,8 +183,8 @@
       "description": "蘇維雅同志網站的重要公告與資訊。"
     },
     "tools": {
-      "title": "工具",
-      "description": "蘇維雅同志檔案裡的小型互動工具和實用房間。",
+      "title": "實驗室",
+      "description": "蘇維雅同志的互動工具與創意專案實驗空間。",
       "intro": "可操作的機器、檔案控制台和一些奇怪小工具。",
       "airConTitle": "虛擬空調",
       "airConDescription": "開機、調溫度、調風量。"
@@ -192,7 +192,7 @@
     "modelViewer": {
       "title": "蘇維雅 3D 模型",
       "description": "從不同角度查看蘇維雅的 VRM 模型。",
-      "eyebrow": "工具 / 模型預覽",
+      "eyebrow": "實驗室 / 模型預覽",
       "intro": "拖曳旋轉、縮放模型，看看蘇維雅的設計細節。",
       "open": "開啟預覽",
       "load": "載入 3D 模型",
@@ -205,7 +205,7 @@
     },
     "airCon": {
       "title": "虛擬空調",
-      "eyebrow": "工具 / 氣候控制台",
+      "eyebrow": "實驗室 / 氣候控制台",
       "subtitle": "一台負責製造冷風和正式喀噠聲的辦公室小機器。",
       "powerOn": "開機",
       "powerOff": "關機",

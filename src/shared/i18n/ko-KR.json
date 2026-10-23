@@ -30,7 +30,7 @@
     "creator": "창작자",
     "sound": "노래",
     "test": "SOVIA 테스트",
-    "tools": "도구",
+    "tools": "실험실",
     "usage": "자료 이용",
     "airCon": "에어컨",
     "modelViewer": "3D 모델",
@@ -183,8 +183,8 @@
       "description": "소비아 동지 사이트의 중요 공지와 정보입니다."
     },
     "tools": {
-      "title": "도구",
-      "description": "소비아 동지 아카이브의 작은 인터랙티브 도구와 유틸리티 공간입니다.",
+      "title": "실험실",
+      "description": "소비아 동지의 인터랙티브 도구와 창작 프로젝트를 위한 실험 공간입니다.",
       "intro": "조작 가능한 기계, 아카이브 콘솔, 작은 유틸리티를 모아 둔 선반입니다.",
       "airConTitle": "가상 에어컨",
       "airConDescription": "전원을 켜고 온도와 풍량을 조절합니다."
@@ -192,7 +192,7 @@
     "modelViewer": {
       "title": "소비아 3D 모델",
       "description": "소비아의 VRM 모델을 여러 각도에서 살펴보세요.",
-      "eyebrow": "도구 / 모델 뷰어",
+      "eyebrow": "실험실 / 모델 뷰어",
       "intro": "드래그하여 회전하고 확대하여 소비아의 디자인을 살펴보세요.",
       "open": "뷰어 열기",
       "load": "3D 모델 불러오기",
@@ -205,7 +205,7 @@
     },
     "airCon": {
       "title": "가상 에어컨",
-      "eyebrow": "도구 / 기후 제어대",
+      "eyebrow": "실험실 / 기후 제어대",
       "subtitle": "시원한 바람과 공식적인 버튼 딸깍 소리를 만드는 작은 사무용 기계입니다.",
       "powerOn": "켜기",
       "powerOff": "끄기",

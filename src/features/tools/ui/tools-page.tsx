@@ -36,7 +36,7 @@ export function ToolsPage({
           </div>
 
           <Link
-            href={getSiteLocalizedPath("/tools/air-con", locale)}
+            href={getSiteLocalizedPath("/lab/air-con", locale)}
             className="btn-primary w-fit"
           >
             {copy.routes.airCon}
@@ -62,7 +62,7 @@ export function ToolsPage({
           </div>
 
           <Link
-            href={getSiteLocalizedPath("/tools/model-viewer", locale)}
+            href={getSiteLocalizedPath("/lab/model-viewer", locale)}
             className="btn-primary relative w-fit"
           >
             {copy.pages.modelViewer.open}

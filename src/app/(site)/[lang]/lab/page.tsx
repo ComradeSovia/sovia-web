@@ -26,7 +26,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return getSharedPageMetadata(locale, "tools", "/tools");
+  return getSharedPageMetadata(locale, "tools", "/lab");
 }
 
 export default async function LocalizedToolsPage({
@@ -42,7 +42,7 @@ export default async function LocalizedToolsPage({
   }
 
   if (locale === DEFAULT_SITE_LOCALE) {
-    redirect("/tools");
+    redirect("/lab");
   }
 
   return <ToolsPage copy={getSharedCopy(locale)} locale={locale} />;

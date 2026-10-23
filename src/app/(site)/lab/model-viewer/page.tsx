@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return createSiteMetadata({
     locale,
-    path: "/tools/model-viewer",
+    path: "/lab/model-viewer",
     title: copy.title,
     description: copy.description,
   });

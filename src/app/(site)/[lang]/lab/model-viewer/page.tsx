@@ -20,7 +20,7 @@ export async function generateMetadata({
 
   return createSiteMetadata({
     locale,
-    path: "/tools/model-viewer",
+    path: "/lab/model-viewer",
     title: copy.title,
     description: copy.description,
   });
@@ -30,7 +30,7 @@ export default async function LocalizedModelViewerPage({ params }: PageProps) {
   const { lang } = await params;
   const locale = matchSiteLocale(lang);
   if (!locale) notFound();
-  if (locale === DEFAULT_SITE_LOCALE) redirect("/tools/model-viewer");
+  if (locale === DEFAULT_SITE_LOCALE) redirect("/lab/model-viewer");
 
   return <ModelViewerPage copy={getSharedCopy(locale)} locale={locale} />;
 }
