@@ -94,17 +94,24 @@ export function getSoviaTestLocaleFromSearchParams(
   return matchSoviaTestLocale(lang) ?? DEFAULT_SOVIA_TEST_LOCALE;
 }
 
+export const SOVIA_TEST_PATH = "/lab/sovia-test";
+
+function getTestPathSegments(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments[0] && matchSoviaTestLocale(segments[0])) segments.shift();
+  if (segments[0] === "lab" && segments[1] === "sovia-test") {
+    return segments.slice(2);
+  }
+  return segments[0] === "test" ? segments.slice(1) : segments;
+}
+
 export function getSoviaTestLocalizedPath(
   path: string,
   locale: SoviaTestLocale,
 ) {
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  const pathWithoutLocale = stripSoviaTestLocaleFromPath(normalizedPath);
-  const pathWithoutTestPrefix = pathWithoutLocale.startsWith("/test")
-    ? pathWithoutLocale.slice("/test".length)
-    : pathWithoutLocale;
-
-  return `/test/${locale}${pathWithoutTestPrefix}`;
+  const pathWithoutLocale = stripSoviaTestLocaleFromPath(path);
+  const suffix = pathWithoutLocale.slice(SOVIA_TEST_PATH.length);
+  return `${SOVIA_TEST_PATH}/${locale}${suffix}`;
 }
 
 export function getSoviaTestLanguageAlternates(path: string) {
@@ -117,37 +124,12 @@ export function getSoviaTestLanguageAlternates(path: string) {
 }
 
 export function getSoviaTestLocaleFromPath(pathname: string) {
-  const segments = pathname.split("/").filter(Boolean);
-  const firstSegment = segments[0];
-  const secondSegment = segments[1];
-
-  if (!firstSegment) {
-    return null;
-  }
-
-  if (firstSegment === "test" && secondSegment) {
-    return matchSoviaTestLocale(secondSegment) ?? null;
-  }
-
-  return matchSoviaTestLocale(firstSegment) ?? null;
+  const segments = getTestPathSegments(pathname);
+  return segments[0] ? (matchSoviaTestLocale(segments[0]) ?? null) : null;
 }
 
 export function stripSoviaTestLocaleFromPath(pathname: string) {
-  const segments = pathname.split("/").filter(Boolean);
-  const firstSegment = segments[0];
-  const secondSegment = segments[1];
-
-  if (
-    firstSegment === "test" &&
-    secondSegment &&
-    matchSoviaTestLocale(secondSegment)
-  ) {
-    return `/test/${segments.slice(2).join("/")}`.replace(/\/$/, "");
-  }
-
-  if (firstSegment && matchSoviaTestLocale(firstSegment)) {
-    return `/${segments.slice(1).join("/")}`;
-  }
-
-  return pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const segments = getTestPathSegments(pathname);
+  if (segments[0] && matchSoviaTestLocale(segments[0])) segments.shift();
+  return SOVIA_TEST_PATH + (segments.length ? `/${segments.join("/")}` : "");
 }

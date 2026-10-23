@@ -71,7 +71,7 @@ export function SoviaTestTypesComponent({
           <p className="text-base font-medium leading-relaxed">
             {copy.typesPage.intro}
           </p>
-          <Link className="btn-primary" href={localizedPath("/test")}>
+          <Link className="btn-primary" href={localizedPath("/lab/sovia-test")}>
             {copy.typesPage.startTestLabel}
           </Link>
         </div>
@@ -84,7 +84,7 @@ export function SoviaTestTypesComponent({
           return (
             <a
               className="card flex min-h-72 flex-col gap-5"
-              href={localizedPath(`/test/types/${code.toLowerCase()}`)}
+              href={localizedPath(`/lab/sovia-test/types/${code.toLowerCase()}`)}
               key={code}
             >
               <Image

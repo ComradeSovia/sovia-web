@@ -24,6 +24,7 @@ import {
   type SoviaTestLocale,
 } from "../i18n/config";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
+import { getSoviaTestCanonicalPath } from "../i18n/seo";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
 import {
@@ -1854,13 +1855,14 @@ export function SoviaTestComponent({
     (path: string) => getSoviaTestLocalizedPath(path, locale),
     [locale],
   );
-  const shareUrl = useCallback((path: string) => {
-    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-    return `${window.location.origin}${normalizedPath}`;
-  }, []);
+  const shareUrl = useCallback(
+    (path: string) =>
+      `${window.location.origin}${getSoviaTestCanonicalPath(path, locale)}`,
+    [locale],
+  );
   const currentResultShareUrl = useCallback(() => {
     return shareUrl(
-      `/test/result/${result.code.toLowerCase()}/${encodeScores(result.scores)}`,
+      `/lab/sovia-test/result/${result.code.toLowerCase()}/${encodeScores(result.scores)}`,
     );
   }, [result, shareUrl]);
   const resultImageSignature = useMemo(() => {
@@ -1898,9 +1900,11 @@ export function SoviaTestComponent({
       const sharedType = sharedResult.code.toLowerCase();
       const sharedHash = encodeScores(sharedScores);
       const sharedPath = localizedPath(
-        `/test/result/${sharedType}/${sharedHash}`,
+        `/lab/sovia-test/result/${sharedType}/${sharedHash}`,
       );
-      const sharedUrl = shareUrl(`/test/result/${sharedType}/${sharedHash}`);
+      const sharedUrl = shareUrl(
+        `/lab/sovia-test/result/${sharedType}/${sharedHash}`,
+      );
 
       setAnswers(createEmptyAnswers());
       setSharedScores(sharedScores);
@@ -1919,7 +1923,9 @@ export function SoviaTestComponent({
     if (!sharedAnswers) {
       if (hasSharedType && normalizedType) {
         router.replace(
-          localizedPath(`/test/types/${normalizedType.toLowerCase()}`),
+          localizedPath(
+            `/lab/sovia-test/types/${normalizedType.toLowerCase()}`,
+          ),
           {
             scroll: false,
           },
@@ -1933,9 +1939,11 @@ export function SoviaTestComponent({
     const sharedType = sharedResult.code.toLowerCase();
     const sharedHash = encodeScores(sharedResult.scores);
     const sharedPath = localizedPath(
-      `/test/result/${sharedType}/${sharedHash}`,
+      `/lab/sovia-test/result/${sharedType}/${sharedHash}`,
     );
-    const sharedUrl = shareUrl(`/test/result/${sharedType}/${sharedHash}`);
+    const sharedUrl = shareUrl(
+      `/lab/sovia-test/result/${sharedType}/${sharedHash}`,
+    );
 
     setAnswers(sharedAnswers);
     setSharedScores(sharedResult.scores);
@@ -2084,10 +2092,10 @@ export function SoviaTestComponent({
     const completedResult = getResult(completedAnswers, copy);
     const hash = encodeScores(completedResult.scores);
     const nextPath = localizedPath(
-      `/test/result/${completedResult.code.toLowerCase()}/${hash}`,
+      `/lab/sovia-test/result/${completedResult.code.toLowerCase()}/${hash}`,
     );
     const nextShareUrl = shareUrl(
-      `/test/result/${completedResult.code.toLowerCase()}/${hash}`,
+      `/lab/sovia-test/result/${completedResult.code.toLowerCase()}/${hash}`,
     );
 
     setIsSubmitting(true);
@@ -2127,7 +2135,7 @@ export function SoviaTestComponent({
     setCurrentPage(0);
     setScreen("intro");
     setStatus(copy.status.ready);
-    router.push(localizedPath("/test"), { scroll: false });
+    router.push(localizedPath("/lab/sovia-test"), { scroll: false });
   }
 
   async function copyResult() {
@@ -2267,7 +2275,10 @@ export function SoviaTestComponent({
 
   if (screen === "intro") {
     return (
-      <section className={`${styles.root} sovia-test-ui space-y-8`} lang={locale}>
+      <section
+        className={`${styles.root} sovia-test-ui space-y-8`}
+        lang={locale}
+      >
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2313,7 +2324,10 @@ export function SoviaTestComponent({
               <button className="btn-primary" onClick={start} type="button">
                 {copy.actions.start}
               </button>
-              <Link className="btn-outline" href={localizedPath("/test/types")}>
+              <Link
+                className="btn-outline"
+                href={localizedPath("/lab/sovia-test/types")}
+              >
                 {copy.actions.types}
               </Link>
             </div>
@@ -2327,7 +2341,10 @@ export function SoviaTestComponent({
 
   if (screen === "demographics") {
     return (
-      <section className={`${styles.root} sovia-test-ui space-y-6`} lang={locale}>
+      <section
+        className={`${styles.root} sovia-test-ui space-y-6`}
+        lang={locale}
+      >
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}
@@ -2411,7 +2428,10 @@ export function SoviaTestComponent({
 
   if (screen === "result") {
     return (
-      <section className={`${styles.root} sovia-test-ui space-y-8`} lang={locale}>
+      <section
+        className={`${styles.root} sovia-test-ui space-y-8`}
+        lang={locale}
+      >
         <SoviaTestLanguageSwitcher
           copy={copy}
           locale={locale}

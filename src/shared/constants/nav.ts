@@ -8,8 +8,10 @@ export const NAV_ITEMS = [
   // Routes.Notice,
   Routes.Sound,
   Routes.Contact,
-  Routes.Test,
-  Routes.Tools,
+  {
+    ...Routes.Tools,
+    children: [Routes.Test, Routes.AirCon, Routes.ModelViewer],
+  },
   // Routes.Gallery,
   // Routes.Report,
 ] satisfies RouteItem[];
@@ -25,10 +27,9 @@ export function getNavItems(
     // routes.Notice,
     routes.Sound,
     routes.Contact,
-    routes.Test,
     {
       ...routes.Tools,
-      children: [routes.AirCon, routes.ModelViewer],
+      children: [routes.Test, routes.AirCon, routes.ModelViewer],
     },
     // routes.Gallery,
     // routes.Report,

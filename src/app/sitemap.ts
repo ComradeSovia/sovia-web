@@ -40,7 +40,7 @@ const STATIC_PATHS = [
   "/usage",
 ] as const;
 
-const SOVIA_TEST_PATHS = ["/test", "/test/types"] as const;
+const SOVIA_TEST_PATHS = ["/lab/sovia-test", "/lab/sovia-test/types"] as const;
 
 function absoluteUrl(path: string) {
   return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
@@ -84,7 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const testCopy = getDefaultSoviaTestCopy();
   const testTypePaths = Object.keys(testCopy.types).map(
-    (type) => `/test/type/${type.toLowerCase()}`,
+    (type) => `/lab/sovia-test/type/${type.toLowerCase()}`,
   );
   const soviaTestRoutes: MetadataRoute.Sitemap = [
     ...SOVIA_TEST_PATHS,
@@ -93,7 +93,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     SOVIA_TEST_LOCALES.map((locale) => ({
       url: absoluteUrl(getSoviaTestCanonicalPath(path, locale)),
       changeFrequency: "weekly",
-      priority: path === "/test" ? 0.8 : 0.65,
+      priority: path === "/lab/sovia-test" ? 0.8 : 0.65,
       alternates: {
         languages: getAbsoluteLanguageAlternates(path),
       },

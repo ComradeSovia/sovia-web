@@ -31,7 +31,7 @@ This file is for AI coding agents working in this repository. Its goals are to r
 - This project uses Next.js `16.1.0`. For request interception, redirects, rewrites, and locale URL normalization, Next 16 expects the `proxy.ts` file convention.
 - Because the App Router lives in `src/app`, the active proxy entry must be `src/proxy.ts`. A root-level `proxy.ts` will not be picked up for this project layout.
 - Keep shared interception logic in `middleware.ts` only when it is re-exported through `src/proxy.ts`; otherwise direct URL entry may bypass the logic in dev/runtime.
-- If locale routing changes, verify both direct browser entry and client-side navigation. In particular, `/test` should normalize to `/{siteLocale}/test/{testLocale}`.
+- If locale routing changes, verify both direct browser entry and client-side navigation. In particular, `/lab/sovia-test` should normalize to `/{siteLocale}/lab/sovia-test/{testLocale}`; legacy `/test` links must redirect to the same new URL while preserving subpages and result hashes.
 - For internal navigation, use Next.js `Link` from `next/link` instead of a raw `<a>` whenever possible. Keep raw anchors for external URLs, downloads, mail/tel links, or cases where native anchor behavior is explicitly required.
 
 ## Implementation Rules

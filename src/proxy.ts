@@ -13,8 +13,8 @@ import {
   getSoviaTestLocalizedPath,
   matchSoviaTestLocale,
   SOVIA_TEST_LOCALE_STORAGE_KEY,
+  SOVIA_TEST_PATH,
   type SoviaTestLocale,
-  stripSoviaTestLocaleFromPath,
 } from "@sovia/sovia-test/i18n/config";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -79,30 +79,6 @@ function getPreferredSiteLocale(request: NextRequest): SiteLocale {
   return "en-US";
 }
 
-function redirectToLocale(request: NextRequest, locale: SoviaTestLocale) {
-  const url = request.nextUrl.clone();
-  const pathWithoutLocale = stripSoviaTestLocaleFromPath(url.pathname);
-  const siteLocale = getPreferredSiteLocale(request);
-
-  url.pathname = getSiteLocalizedPath(
-    getSoviaTestLocalizedPath(pathWithoutLocale, locale),
-    siteLocale,
-  );
-  url.searchParams.delete("lang");
-
-  const response = NextResponse.redirect(url);
-  response.cookies.set(SITE_LOCALE_STORAGE_KEY, siteLocale, {
-    maxAge: 60 * 60 * 24 * 365,
-    sameSite: "lax",
-  });
-  response.cookies.set(SOVIA_TEST_LOCALE_STORAGE_KEY, locale, {
-    maxAge: 60 * 60 * 24 * 365,
-    sameSite: "lax",
-  });
-
-  return response;
-}
-
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -131,119 +107,63 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (firstSegment === "test") {
-    const pathLocale = secondSegment
-      ? matchSoviaTestLocale(secondSegment)
-      : null;
-    const siteLocale = getPreferredSiteLocale(request);
-    const testLocale = pathLocale ?? getPreferredLocale(request);
+  const isLegacyTest =
+    firstSegment === "test" ||
+    (secondSegment === "test" &&
+      Boolean(firstSegment && matchSoviaTestLocale(firstSegment)));
+  const isLabTest = firstSegment === "lab" && secondSegment === "sovia-test";
+  const isLocalizedLabTest =
+    Boolean(firstSegment && matchSiteLocale(firstSegment)) &&
+    secondSegment === "lab" &&
+    thirdSegment === "sovia-test";
 
-    const url = request.nextUrl.clone();
-    url.pathname = getSiteLocalizedPath(
-      getSoviaTestLocalizedPath(pathname, testLocale),
+  if (isLegacyTest || isLabTest || isLocalizedLabTest) {
+    const siteLocale =
+      isLocalizedLabTest || (isLegacyTest && secondSegment === "test")
+        ? (matchSiteLocale(firstSegment) ?? getPreferredSiteLocale(request))
+        : getPreferredSiteLocale(request);
+    const suffix = segments.slice(
+      isLocalizedLabTest ? 3 : firstSegment === "test" ? 1 : 2,
+    );
+    const explicitTestLocale = suffix[0]
+      ? matchSoviaTestLocale(suffix[0])
+      : null;
+    const legacyLocale =
+      secondSegment === "test" && firstSegment && !matchSiteLocale(firstSegment)
+        ? matchSoviaTestLocale(firstSegment)
+        : null;
+    const testLocale =
+      explicitTestLocale ?? legacyLocale ?? getPreferredLocale(request);
+    const rest = explicitTestLocale ? suffix.slice(1) : suffix;
+    const testPath =
+      SOVIA_TEST_PATH + (rest.length ? `/${rest.join("/")}` : "");
+    const canonicalPath = getSiteLocalizedPath(
+      getSoviaTestLocalizedPath(testPath, testLocale),
       siteLocale,
     );
-    url.searchParams.delete("lang");
-
-    const response = NextResponse.redirect(url);
+    const url = request.nextUrl.clone();
+    let response: NextResponse;
+    if (pathname !== canonicalPath || url.searchParams.has("lang")) {
+      url.pathname = canonicalPath;
+      url.searchParams.delete("lang");
+      response = NextResponse.redirect(url, isLegacyTest ? 308 : 307);
+    } else {
+      url.pathname = testPath;
+      url.searchParams.set("lang", testLocale);
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set(SITE_LOCALE_HEADER, siteLocale);
+      response = NextResponse.rewrite(url, {
+        request: { headers: requestHeaders },
+      });
+    }
     response.cookies.set(SITE_LOCALE_STORAGE_KEY, siteLocale, {
       maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",
     });
-
     response.cookies.set(SOVIA_TEST_LOCALE_STORAGE_KEY, testLocale, {
       maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",
     });
-
-    return response;
-  }
-
-  if (secondSegment === "test" && firstSegment) {
-    const siteLocale = matchSiteLocale(firstSegment);
-
-    if (siteLocale) {
-      const testLocale = thirdSegment
-        ? matchSoviaTestLocale(thirdSegment)
-        : getPreferredLocale(request);
-
-      if (!testLocale || !thirdSegment) {
-        const url = request.nextUrl.clone();
-        url.pathname = getSiteLocalizedPath(
-          getSoviaTestLocalizedPath(
-            "/test",
-            testLocale ?? getPreferredLocale(request),
-          ),
-          siteLocale,
-        );
-
-        const response = NextResponse.redirect(url);
-        response.cookies.set(SITE_LOCALE_STORAGE_KEY, siteLocale, {
-          maxAge: 60 * 60 * 24 * 365,
-          sameSite: "lax",
-        });
-        response.cookies.set(
-          SOVIA_TEST_LOCALE_STORAGE_KEY,
-          testLocale ?? getPreferredLocale(request),
-          {
-            maxAge: 60 * 60 * 24 * 365,
-            sameSite: "lax",
-          },
-        );
-
-        return response;
-      }
-
-      const restPath = segments.slice(3).join("/");
-      const url = request.nextUrl.clone();
-      url.pathname = restPath ? `/test/${restPath}` : "/test";
-      url.searchParams.set("lang", testLocale);
-
-      const requestHeaders = new Headers(request.headers);
-      requestHeaders.set(SITE_LOCALE_HEADER, siteLocale);
-
-      const response = NextResponse.rewrite(url, {
-        request: {
-          headers: requestHeaders,
-        },
-      });
-      response.cookies.set(SITE_LOCALE_STORAGE_KEY, siteLocale, {
-        maxAge: 60 * 60 * 24 * 365,
-        sameSite: "lax",
-      });
-      response.cookies.set(SOVIA_TEST_LOCALE_STORAGE_KEY, testLocale, {
-        maxAge: 60 * 60 * 24 * 365,
-        sameSite: "lax",
-      });
-
-      return response;
-    }
-
-    const pathLocale = matchSoviaTestLocale(firstSegment);
-
-    if (!pathLocale) {
-      return NextResponse.next();
-    }
-
-    const queryLocale = request.nextUrl.searchParams.get("lang");
-    const matchedQueryLocale = queryLocale
-      ? matchSoviaTestLocale(queryLocale)
-      : null;
-
-    if (matchedQueryLocale && matchedQueryLocale !== pathLocale) {
-      return redirectToLocale(request, matchedQueryLocale);
-    }
-
-    if (firstSegment !== pathLocale) {
-      return redirectToLocale(request, pathLocale);
-    }
-
-    const response = NextResponse.next();
-    response.cookies.set(SOVIA_TEST_LOCALE_STORAGE_KEY, pathLocale, {
-      maxAge: 60 * 60 * 24 * 365,
-      sameSite: "lax",
-    });
-
     return response;
   }
 
@@ -304,9 +224,9 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/test/:path*",
+    "/lab/sovia-test/:path*",
     "/:lang",
-    "/:lang/test/:path*",
+    "/:lang/lab/sovia-test/:path*",
     "/((?!api|_next|.*\\..*).*)",
   ],
 };

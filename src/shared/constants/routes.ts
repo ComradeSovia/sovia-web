@@ -13,7 +13,7 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     About: { label: copy.routes.about, href: href("/about") },
     Creator: { label: copy.routes.creator, href: href("/creator") },
     Sound: { label: copy.routes.sound, href: href("/sound") },
-    Test: { label: copy.routes.test, href: href("/test") },
+    Test: { label: copy.routes.test, href: href("/lab/sovia-test") },
     Tools: { label: copy.routes.tools, href: href("/lab") },
     Usage: { label: copy.routes.usage, href: href("/usage") },
     AirCon: { label: copy.routes.airCon, href: href("/lab/air-con") },

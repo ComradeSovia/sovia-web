@@ -183,6 +183,7 @@
       "description": "Notices and important information for the Comrade Sovia site."
     },
     "tools": {
+      "testDescription": "Explore your values, discover your SOVIA type, and share your results.",
       "title": "Lab",
       "description": "An experimental space for interactive tools and creative projects from Comrade Sovia.",
       "intro": "A compact shelf of usable machines, archive consoles, and odd little utilities.",

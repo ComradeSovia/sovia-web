@@ -1,7 +1,7 @@
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
-import { Box, Snowflake, Wrench } from "lucide-react";
+import { Box, ClipboardList, Snowflake, Wrench } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,6 +24,24 @@ export function ToolsPage({
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
+        <article className="card flex min-h-64 flex-col justify-between gap-8">
+          <div className="space-y-4">
+            <div className="flex h-12 w-12 items-center justify-center border-[3px] border-ink bg-yellow text-block shadow-[5px_5px_0_rgb(var(--shadow))]">
+              <ClipboardList className="h-7 w-7" aria-hidden="true" />
+            </div>
+            <div className="space-y-3">
+              <h2>{copy.routes.test}</h2>
+              <p>{copy.pages.tools.testDescription}</p>
+            </div>
+          </div>
+          <Link
+            href={getSiteLocalizedPath("/lab/sovia-test", locale)}
+            className="btn-primary w-fit"
+          >
+            {copy.routes.test}
+          </Link>
+        </article>
+
         <article className="card flex min-h-64 flex-col justify-between gap-8">
           <div className="space-y-4">
             <div className="flex h-12 w-12 items-center justify-center border-[3px] border-ink bg-yellow text-block shadow-[5px_5px_0_rgb(var(--shadow))]">
