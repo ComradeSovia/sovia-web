@@ -3,7 +3,7 @@
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { SoundCopy } from "../i18n/copy";
 import { filterMusic } from "../lib/filter-music";
 import type { MusicWork } from "../model/music";
@@ -29,9 +29,11 @@ export function SoundClient({
   const [inputValue, setInputValue] = useState(urlQuery);
   const [isComposing, setIsComposing] = useState(false);
   const [page, setPage] = useState(urlPage);
+  const searchChangedByUser = useRef(false);
 
   // Keep local search state in sync with browser back/forward navigation.
   useEffect(() => {
+    searchChangedByUser.current = false;
     setInputValue(urlQuery);
     setPage(urlPage);
   }, [urlPage, urlQuery]);
@@ -39,6 +41,7 @@ export function SoundClient({
   useEffect(() => {
     function syncFromBrowserHistory() {
       const params = new URLSearchParams(window.location.search);
+      searchChangedByUser.current = false;
       setInputValue(params.get("q") ?? "");
       setPage(Math.max(1, Number(params.get("page") ?? 1)));
     }
@@ -61,11 +64,12 @@ export function SoundClient({
   // Update the address bar without a Next.js navigation, so IME composition
   // and the controlled input stay mounted while search results update locally.
   useEffect(() => {
-    if (isComposing || typeof window === "undefined") {
+    if (!searchChangedByUser.current || isComposing) {
       return;
     }
 
     const timer = setTimeout(() => {
+      searchChangedByUser.current = false;
       const params = new URLSearchParams(window.location.search);
 
       if (inputValue) {
@@ -121,6 +125,7 @@ export function SoundClient({
           onCompositionEnd={() => setIsComposing(false)}
           onCompositionStart={() => setIsComposing(true)}
           onChange={(e) => {
+            searchChangedByUser.current = true;
             setInputValue(e.target.value);
             setPage(1);
           }}
