@@ -1,8 +1,11 @@
+import { OPEN_CULTURE_PATH } from "@sovia/shared/constants/routes";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { ArrowUpRight, Camera, Images, Music2 } from "lucide-react";
 import Link from "next/link";
+
+import { getOpenCultureCopy } from "../i18n/open-culture/copy";
 
 export function ResourceUsagePage({
   copy,
@@ -14,12 +17,14 @@ export function ResourceUsagePage({
   const content = copy.pages.usage;
   const resources = [
     {
+      id: "visuals",
       number: "01",
       Icon: Images,
       content: content.visuals,
       href: "/characters",
     },
     {
+      id: "cosplay",
       number: "02",
       Icon: Camera,
       content: content.cosplay,
@@ -33,16 +38,24 @@ export function ResourceUsagePage({
         <p className="meta">{content.eyebrow}</p>
         <h1 className="text-balance">{content.title}</h1>
         <p className="text-lg leading-relaxed">{content.intro}</p>
+        <Link
+          href={getSiteLocalizedPath(OPEN_CULTURE_PATH, locale)}
+          className="inline-flex items-center gap-2 text-sm font-bold underline underline-offset-4"
+        >
+          {getOpenCultureCopy(locale).title}
+          <ArrowUpRight className="size-4" aria-hidden="true" />
+        </Link>
       </header>
 
       <section aria-labelledby="usage-resources-title">
         <h2 id="usage-resources-title" className="border-b border-ink pb-5">
           {content.resourcesTitle}
         </h2>
-        {resources.map(({ number, Icon, content: resource, href }) => (
+        {resources.map(({ id, number, Icon, content: resource, href }) => (
           <section
             key={number}
-            className="grid gap-6 border-b border-ink py-8 lg:grid-cols-[5rem_minmax(0,1fr)] lg:gap-8"
+            id={id}
+            className="grid scroll-mt-28 gap-6 border-b border-ink py-8 lg:grid-cols-[5rem_minmax(0,1fr)] lg:gap-8"
           >
             <div className="flex items-center gap-3 lg:block">
               <span className="meta">{number}</span>

@@ -1,0 +1,81 @@
+{
+  "title": "Creation statement and philosophy",
+  "eyebrow": "Sovia / Open culture",
+  "lead": "Creation should be free. Every contribution deserves recognition and can become the beginning of someone else’s work.",
+  "status": "Discussion draft v0.3 · 2026-10-26",
+  "notice": "This page shares our creative philosophy. It does not change the current usage rules.",
+  "letterTitle": "To every comrade",
+  "letterLabel": "Excerpts from Sovia’s fictional first-person letter",
+  "letter": [
+    "Names tell us who worked here, who gave their time and care. That is worth cherishing. But a name should not become a lock. Creating a story should not mean that everyone who wishes to continue it must wait at its creator’s door for permission.",
+    "I do not want to judge whether you are a creator by the tools you use. I would rather see what you make of the world.",
+    "You do not have to agree with all my ideas. You can even write a story against me. If openness only welcomes those who agree with it, it is another wall.",
+    "I am not the end of creation. I would like to be the beginning for the next comrade."
+  ],
+  "signature": "Your comrade, Sovia Rabocheva",
+  "principlesTitle": "What we believe about creation",
+  "principles": [
+    {
+      "id": "freedom",
+      "title": "Freedom to create",
+      "text": "Handmade work, traditional tools, AI assistance and AI generation deserve equal space. These ideas add no restrictions based on fictional subject matter or tools, and require no disclosure of prompts, models, workflows or source files."
+    },
+    {
+      "id": "continuity",
+      "title": "Keep the next door open",
+      "text": "We welcome you allowing others to copy, adapt, share and commercially use your Sovia derivatives, including in other media. This is encouraged, not required. You do not have to share source files; use of your contribution follows the permissions you explicitly grant."
+    },
+    {
+      "id": "boundaries",
+      "title": "Openness has a scope",
+      "text": "An independent original character does not become shared through a cameo, romance or collaboration. A new character or setting joins the shared Sovia world only through its author’s explicit declaration and within the permissions they grant. If ownership or intent is unclear, ask the author first."
+    },
+    {
+      "id": "people",
+      "title": "Fictional characters and real people",
+      "text": "An open character does not open a cosplayer’s face, body or personal rights. It does not authorize nonconsensual sexual fabrications, humiliating alterations or invented statements attributed to an identifiable person. Photographs retain their own sharing conditions. These principles do not grant blanket permission to alter photographs of real people. Use of this site’s cosplay gallery photographs, including outfit changes and other edits, follows the photograph-specific conditions on the usage page."
+    },
+    {
+      "id": "third-parties",
+      "title": "Share what we can authorize",
+      "text": "A crossover does not open someone else’s characters, settings or music. Original songs, contributed lyrics and recordings have distinct rights boundaries. Sovia’s contribution cannot grant permission for third-party compositions, recordings or performances."
+    },
+    {
+      "id": "publication",
+      "title": "Creation and public distribution",
+      "text": "Sovia’s permission cannot change local law or platform requirements. Managing uploads, spam and distribution differs from judging private imagination. Commercial derivatives should not claim to be official or imply official endorsement."
+    },
+    {
+      "id": "revision",
+      "title": "Rules can be challenged",
+      "text": "Decisions can be mistaken. Reasons should remain open to challenge, review and public discussion. Taking responsibility should not give anyone permanent control over others."
+    },
+    {
+      "id": "credit",
+      "title": "Remember contributions without locking culture",
+      "text": "Recognize contributors and preserve truthful attribution. A contribution deserves recognition without becoming unlimited control over later expression."
+    }
+  ],
+  "usageTitle": "Using Sovia in your work",
+  "usageText": "Read the usage rules for current permissions and the conditions for each kind of material.",
+  "usageAction": "Read usage rules",
+  "aboutAction": "About the project",
+  "discussion": {
+    "title": "Questions still under discussion",
+    "intro": "These are proposals, not current requirements or services. You do not need to understand or take part in them to create.",
+    "items": [
+      {
+        "title": "Future licensing",
+        "text": "Whether a future license should require continued openness, how attribution would work and whether existing works would be covered remain undecided. Any future terms would need a separate version and a clear scope; this draft introduces no such obligations."
+      },
+      {
+        "title": "Character registration",
+        "text": "A registry could record authors’ declarations and permissions, not approve creation. Verification, corrections, disputes and history still need discussion. This page does not establish a registry."
+      },
+      {
+        "title": "Review and rotation",
+        "text": "Rotating responsibilities, random selection, anonymity and recording reasons are ideas for reducing entrenched control and enabling review. No such review system is currently in operation."
+      }
+    ]
+  }
+}

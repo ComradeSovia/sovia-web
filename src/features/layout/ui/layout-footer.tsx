@@ -1,5 +1,6 @@
 import { getHomeCopy } from "@sovia/home/i18n/copy";
-import { getRoutes } from "@sovia/shared/constants/routes";
+import { getOpenCultureCopy } from "@sovia/home/i18n/open-culture/copy";
+import { getRoutes, OPEN_CULTURE_PATH } from "@sovia/shared/constants/routes";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
@@ -49,6 +50,10 @@ export function LayoutFooter({
     routes.Test,
     routes.Tools,
     routes.Usage,
+    {
+      label: getOpenCultureCopy(locale).title,
+      href: getSiteLocalizedPath(OPEN_CULTURE_PATH, locale),
+    },
     routes.Notice,
     routes.Contact,
   ];

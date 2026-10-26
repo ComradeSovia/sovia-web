@@ -1,4 +1,5 @@
 import { SITE_URL } from "@sovia/shared";
+import { OPEN_CULTURE_PATH } from "@sovia/shared/constants/routes";
 import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
 import {
   getSiteLanguageAlternates,
@@ -20,6 +21,7 @@ const STATIC_PATHS = [
   "/",
   "/about",
   "/creator",
+  OPEN_CULTURE_PATH,
   "/characters/sovia",
   "/characters/katya",
   "/characters/runa",
