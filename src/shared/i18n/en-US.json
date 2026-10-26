@@ -1,4 +1,17 @@
 {
+  "navigation": {
+    "home": "Home",
+    "music": "Music",
+    "charactersWorld": "Characters & World",
+    "characters": "Character profiles",
+    "worldOrigin": "World & origins",
+    "about": "About",
+    "openCulture": "Creation & Philosophy",
+    "labOverview": "All tools",
+    "mainLabel": "Main navigation",
+    "openMenu": "Open navigation",
+    "closeMenu": "Close navigation"
+  },
   "loading": "Loading content…",
   "unavailable": {
     "title": "Temporarily unavailable",

@@ -1,4 +1,17 @@
 {
+  "navigation": {
+    "home": "Главная",
+    "music": "Музыка",
+    "charactersWorld": "Персонажи и мир",
+    "characters": "Досье персонажей",
+    "worldOrigin": "Мир и происхождение",
+    "about": "О проекте",
+    "openCulture": "Творчество и философия",
+    "labOverview": "Все инструменты",
+    "mainLabel": "Основная навигация",
+    "openMenu": "Открыть навигацию",
+    "closeMenu": "Закрыть навигацию"
+  },
   "loading": "Загрузка содержимого…",
   "unavailable": {
     "title": "Временно недоступно",

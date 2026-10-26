@@ -15,6 +15,18 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     Contact: { label: copy.routes.contact, href: href("/contact") },
     Center: { label: copy.routes.center, href: href("/") },
     About: { label: copy.routes.about, href: href("/about") },
+    Characters: {
+      label: copy.navigation.characters,
+      href: href("/characters"),
+    },
+    WorldOrigin: {
+      label: copy.navigation.worldOrigin,
+      href: href(WORLD_ORIGIN_PATH),
+    },
+    OpenCulture: {
+      label: copy.navigation.openCulture,
+      href: href(OPEN_CULTURE_PATH),
+    },
     Creator: { label: copy.routes.creator, href: href("/creator") },
     Sound: { label: copy.routes.sound, href: href("/sound") },
     Test: { label: copy.routes.test, href: href("/lab/sovia-test") },

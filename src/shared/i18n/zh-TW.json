@@ -1,4 +1,17 @@
 {
+  "navigation": {
+    "home": "首頁",
+    "music": "音樂",
+    "charactersWorld": "角色與世界",
+    "characters": "角色檔案",
+    "worldOrigin": "世界觀",
+    "about": "關於",
+    "openCulture": "創作理念",
+    "labOverview": "工具總覽",
+    "mainLabel": "主導覽",
+    "openMenu": "開啟導覽",
+    "closeMenu": "關閉導覽"
+  },
   "loading": "正在載入內容…",
   "unavailable": {
     "title": "暫時無法載入",

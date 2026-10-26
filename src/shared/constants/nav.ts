@@ -1,19 +1,7 @@
-import type { SharedCopy } from "../i18n/copy";
+import { getDefaultSharedCopy, type SharedCopy } from "../i18n/copy";
 import type { SiteLocale } from "../i18n/site-locale";
 import type { RouteItem } from "../model/nav";
-import { getRoutes, Routes } from "./routes";
-
-export const NAV_ITEMS = [
-  Routes.Center,
-  // Routes.Notice,
-  Routes.Sound,
-  {
-    ...Routes.Tools,
-    children: [Routes.Test, Routes.AirCon, Routes.ModelViewer],
-  },
-  // Routes.Gallery,
-  // Routes.Report,
-] satisfies RouteItem[];
+import { getRoutes } from "./routes";
 
 export function getNavItems(
   copy: SharedCopy,
@@ -22,14 +10,34 @@ export function getNavItems(
   const routes = getRoutes(copy, locale);
 
   return [
-    routes.Center,
-    // routes.Notice,
-    routes.Sound,
+    { ...routes.Center, label: copy.navigation.home },
+    { ...routes.Sound, label: copy.navigation.music },
+    {
+      ...routes.Characters,
+      label: copy.navigation.charactersWorld,
+      children: [routes.Characters, routes.WorldOrigin, routes.Gallery],
+    },
     {
       ...routes.Tools,
-      children: [routes.Test, routes.AirCon, routes.ModelViewer],
+      children: [
+        { ...routes.Tools, label: copy.navigation.labOverview },
+        routes.Test,
+        routes.ModelViewer,
+        routes.AirCon,
+      ],
     },
-    // routes.Gallery,
-    // routes.Report,
-  ] satisfies RouteItem[];
+    {
+      ...routes.About,
+      label: copy.navigation.about,
+      children: [
+        routes.About,
+        routes.Creator,
+        routes.OpenCulture,
+        routes.Usage,
+        routes.Contact,
+      ],
+    },
+  ];
 }
+
+export const NAV_ITEMS = getNavItems(getDefaultSharedCopy());

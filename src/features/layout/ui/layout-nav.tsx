@@ -5,7 +5,7 @@ import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 export function LayoutNav({
   copy,
@@ -15,39 +15,109 @@ export function LayoutNav({
   locale: SiteLocale;
 }) {
   const navItems = getNavItems(copy, locale);
+  const [openHref, setOpenHref] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const menuId = useId();
+
+  useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !navRef.current?.contains(event.target)
+      ) {
+        setOpenHref(null);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === "Escape" &&
+        event.target instanceof Element &&
+        navRef.current?.contains(event.target)
+      ) {
+        setOpenHref(null);
+        event.target
+          .closest("[data-nav-group]")
+          ?.querySelector("button")
+          ?.focus();
+      }
+    };
+    const onFocusIn = (event: FocusEvent) => {
+      const openGroup = navRef.current
+        ?.querySelector('[aria-expanded="true"]')
+        ?.closest("[data-nav-group]");
+      if (
+        event.target instanceof Node &&
+        openGroup &&
+        !openGroup.contains(event.target)
+      )
+        setOpenHref(null);
+    };
+    document.addEventListener("focusin", onFocusIn);
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("focusin", onFocusIn);
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
 
   return (
-    <nav className="site-nav hidden items-center gap-1 text-sm xl:flex">
-      {navItems.map((item) => (
-        <div key={item.href} className="group relative">
-          <Link href={item.href} className="site-nav-link">
-            <span className="inline-flex items-center gap-1.5">
-              {item.label}
-              {item.children ? (
-                <ChevronDown
-                  aria-hidden="true"
-                  className="size-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
-                  strokeWidth={3}
-                />
-              ) : null}
-            </span>
-          </Link>
-
+    <nav
+      ref={navRef}
+      aria-label={copy.navigation.mainLabel}
+      className="site-nav hidden items-center gap-1 text-sm xl:flex"
+    >
+      {navItems.map((item, index) => (
+        <div key={item.href} className="relative" data-nav-group>
           {item.children ? (
-            <div className="pointer-events-none absolute left-0 top-full z-30 min-w-48 pt-3 opacity-0 transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-              <div className="border border-ink bg-paper shadow-xl">
-                {item.children.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    className="block border-b border-ink px-4 py-3 font-black uppercase tracking-[0.12em] text-ink last:border-b-0 hover-bg-yellow hover-text-block"
-                  >
-                    {child.label}
-                  </Link>
-                ))}
+            <>
+              <button
+                type="button"
+                className="site-nav-link"
+                aria-expanded={openHref === item.href}
+                aria-controls={`${menuId}-${index}`}
+                onClick={() =>
+                  setOpenHref(openHref === item.href ? null : item.href)
+                }
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  {item.label}
+                  <ChevronDown
+                    aria-hidden="true"
+                    className={
+                      openHref === item.href
+                        ? "size-3.5 rotate-180"
+                        : "size-3.5"
+                    }
+                    strokeWidth={3}
+                  />
+                </span>
+              </button>
+              <div
+                id={`${menuId}-${index}`}
+                hidden={openHref !== item.href}
+                className="absolute right-0 top-full z-30 w-max min-w-48 max-w-72 pt-3"
+              >
+                <div className="border border-ink bg-paper shadow-xl">
+                  {item.children.map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      onClick={() => setOpenHref(null)}
+                      className="block border-b border-ink px-4 py-3 font-black uppercase tracking-[0.12em] text-ink last:border-b-0 hover-bg-yellow hover-text-block focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : null}
+            </>
+          ) : (
+            <Link href={item.href} className="site-nav-link">
+              {item.label}
+            </Link>
+          )}
         </div>
       ))}
     </nav>
@@ -63,7 +133,9 @@ export function LayoutNavMobile({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const navItems = getNavItems(copy, locale);
-  const toggleLabel = isOpen ? "Close navigation" : "Open navigation";
+  const toggleLabel = isOpen
+    ? copy.navigation.closeMenu
+    : copy.navigation.openMenu;
   const close = () => setIsOpen(false);
 
   return (
@@ -86,12 +158,15 @@ export function LayoutNavMobile({
         <div className="fixed inset-0 z-40 xl:hidden">
           <button
             type="button"
-            aria-label="Close navigation"
+            aria-label={copy.navigation.closeMenu}
             className="absolute inset-0 cursor-default bg-black/60"
             onClick={close}
           />
 
-          <nav className="absolute right-0 top-0 flex h-dvh w-[min(20rem,86vw)] flex-col border-l-[3px] border-ink bg-paper shadow-[-8px_0_0_rgb(var(--shadow))]">
+          <nav
+            aria-label={copy.navigation.mainLabel}
+            className="absolute right-0 top-0 flex h-dvh w-[min(20rem,86vw)] flex-col border-l-[3px] border-ink bg-paper shadow-[-8px_0_0_rgb(var(--shadow))]"
+          >
             <div className="flex items-center justify-between gap-4 border-b-[3px] border-ink bg-block px-4 py-4 text-relief">
               <div className="min-w-0">
                 <div className="text-sm font-black uppercase tracking-[0.16em]">
@@ -103,7 +178,7 @@ export function LayoutNavMobile({
               </div>
               <button
                 type="button"
-                aria-label="Close navigation"
+                aria-label={copy.navigation.closeMenu}
                 className="grid size-10 shrink-0 place-items-center border-[3px] border-relief text-relief hover-bg-yellow hover-text-block"
                 onClick={close}
               >

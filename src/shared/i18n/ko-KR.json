@@ -1,4 +1,17 @@
 {
+  "navigation": {
+    "home": "홈",
+    "music": "음악",
+    "charactersWorld": "캐릭터와 세계",
+    "characters": "캐릭터 소개",
+    "worldOrigin": "세계관",
+    "about": "소개",
+    "openCulture": "창작 선언과 철학",
+    "labOverview": "도구 모아보기",
+    "mainLabel": "주 메뉴",
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기"
+  },
   "loading": "콘텐츠를 불러오는 중…",
   "unavailable": {
     "title": "일시적으로 이용할 수 없습니다",

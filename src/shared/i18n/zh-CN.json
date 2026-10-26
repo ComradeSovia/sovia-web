@@ -1,4 +1,17 @@
 {
+  "navigation": {
+    "home": "首页",
+    "music": "音乐",
+    "charactersWorld": "角色与世界",
+    "characters": "角色档案",
+    "worldOrigin": "世界观",
+    "about": "关于",
+    "openCulture": "创作理念",
+    "labOverview": "工具总览",
+    "mainLabel": "主导航",
+    "openMenu": "打开导航",
+    "closeMenu": "关闭导航"
+  },
   "loading": "正在加载内容…",
   "unavailable": {
     "title": "暂时无法加载",

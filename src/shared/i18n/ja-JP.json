@@ -1,4 +1,17 @@
 {
+  "navigation": {
+    "home": "ホーム",
+    "music": "音楽",
+    "charactersWorld": "キャラクターと世界",
+    "characters": "キャラクター紹介",
+    "worldOrigin": "世界観",
+    "about": "紹介",
+    "openCulture": "創作声明と理念",
+    "labOverview": "ツール一覧",
+    "mainLabel": "メインナビゲーション",
+    "openMenu": "メニューを開く",
+    "closeMenu": "メニューを閉じる"
+  },
   "loading": "コンテンツを読み込み中…",
   "unavailable": {
     "title": "一時的に利用できません",
