@@ -96,13 +96,34 @@
       "description": "Rules and common examples for character fan works, cosplay photos and music.",
       "eyebrow": "Archive / Resource use",
       "intro": "Find common uses by resource type. Character fan works and music owned by Sovia are open; works based on other songs may still involve rights in the original.",
+      "summary": {
+        "title": "Four things to know",
+        "items": [
+          {
+            "title": "What can I make?",
+            "text": "For materials Sovia explicitly makes available for open use, you can create, publish and sell derivative works. Handmade work and AI are equally welcome."
+          },
+          {
+            "title": "Do I need permission or source files?",
+            "text": "No individual application to Sovia is needed for those materials, and you do not have to share source files."
+          },
+          {
+            "title": "What are the boundaries?",
+            "text": "Do not impersonate the creator or official project, or imply official endorsement. Photographs of real people, third-party works and independent original characters follow their own rules."
+          },
+          {
+            "title": "Must I let others reuse my derivative work?",
+            "text": "We encourage it, but it is not currently mandatory. Others may use your contribution within the permissions you explicitly grant."
+          }
+        ]
+      },
       "resourcesTitle": "Characters and photos",
       "allowedLabel": "Allowed",
       "prohibitedLabel": "Prohibited",
       "notesLabel": "Original-song and release notes",
       "visuals": {
         "title": "Character fan works",
-        "description": "Create, publish and sell your own fan works freely. The only rule is not to impersonate the creator.",
+        "description": "For character designs that the Sovia project has the right to license and explicitly makes available for open use, you may create, publish and use derivative works commercially without individual approval. Do not impersonate the original creator or the official project, or imply official endorsement. Third-party materials, independent original characters and photographs of real people follow their own rules.",
         "action": "Browse characters",
         "allowed": [
           "Draw fan art, write fiction or comics, and make animation or videos.",

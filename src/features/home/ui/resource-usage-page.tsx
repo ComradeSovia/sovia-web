@@ -47,6 +47,23 @@ export function ResourceUsagePage({
         </Link>
       </header>
 
+      <section aria-labelledby="usage-summary-title">
+        <h2 id="usage-summary-title" className="mb-6">
+          {content.summary.title}
+        </h2>
+        <ol className="grid gap-6 sm:grid-cols-2">
+          {content.summary.items.map((item, index) => (
+            <li key={item.title} className="min-w-0 border-t-2 border-ink pt-4">
+              <span className="meta text-red" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-2 text-xl leading-snug">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed">{item.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section aria-labelledby="usage-resources-title">
         <h2 id="usage-resources-title" className="border-b border-ink pb-5">
           {content.resourcesTitle}
