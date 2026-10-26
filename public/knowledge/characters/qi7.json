@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "updatedAt": "2026-10-16",
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
@@ -26,11 +26,11 @@
     "biography": "Qi-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
     "identityNumber": "1-КТ № 001007",
     "identity": "Mimetic records officer in the science city",
-    "worldOrigin": "The real world",
+    "worldOrigin": "Real world",
     "worldPolarizationRate": "0.673389i",
     "worldPolarizationType": "realWorldOrigin",
     "gender": "Female",
-    "age": 22,
+    "age": null,
     "languages": [
       "Chinese",
       "English"
@@ -52,7 +52,34 @@
       {
         "characterId": "runa",
         "description": "Qi-7 met Runa in a game dungeon, and they became good friends afterward."
+      },
+      {
+        "characterId": "kio",
+        "description": "Qi-7 and Kio are comrades-in-arms in Eorzea."
       }
-    ]
+    ],
+    "heightCm": 165,
+    "likes": [
+      "Games",
+      "Cosplay"
+    ],
+    "dislikes": [
+      "Navigating interpersonal relationships"
+    ],
+    "personality": [
+      "Observant",
+      "Precise",
+      "Adaptable"
+    ],
+    "strengths": [
+      "Mimicking appearance",
+      "Drawing"
+    ],
+    "items": [
+      "Portable voice recorder",
+      "Small camera"
+    ],
+    "draftFields": [],
+    "ageDisplay": "Classified information"
   }
 }

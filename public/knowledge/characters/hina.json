@@ -1,0 +1,79 @@
+{
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
+  "language": "en-US",
+  "projectId": "https://sovia.work/#project",
+  "character": {
+    "@id": "https://sovia.work/en-US/characters/hina#character",
+    "@type": "Person",
+    "name": "Mikazuki Hina",
+    "displayName": "Hina",
+    "nativeName": "三日月陽菜",
+    "localizedNames": {
+      "en-US": "Hina",
+      "ru-RU": "Хина",
+      "ja-JP": "ヒナ",
+      "ko-KR": "히나",
+      "zh-CN": "阳菜",
+      "zh-TW": "陽菜"
+    },
+    "url": "https://sovia.work/en-US/characters/hina",
+    "description": "Mikazuki Hina (三日月陽菜) is Runa’s energetic younger sister, a student and swimming athlete who loves sports and music.",
+    "quotes": [
+      "Don’t forget to drink water!"
+    ],
+    "signatureLines": [],
+    "biography": "An energetic younger sister who loves sports, swimming and music!",
+    "identityNumber": "0-ГР № 001121",
+    "identity": "Student",
+    "worldOrigin": "Real world",
+    "worldPolarizationRate": "0.999997i",
+    "worldPolarizationType": "realWorldOrigin",
+    "gender": "Female",
+    "age": null,
+    "ageDisplay": "Classified information",
+    "languages": [
+      "English",
+      "German"
+    ],
+    "nationality": "Germany",
+    "residence": "Classified information",
+    "species": "Human",
+    "images": {
+      "hero": "/assets/characters/hina_hero.png",
+      "portrait": "/assets/characters/hina_main.png",
+      "expressions": "/assets/characters/hina_emote.png",
+      "outfits": "/assets/characters/hina_outfit.png"
+    },
+    "relationships": [
+      {
+        "characterId": "runa",
+        "description": "Runa is Hina’s older sister."
+      }
+    ],
+    "heightCm": 175,
+    "likes": [
+      "Music",
+      "Swimming",
+      "Sunny days"
+    ],
+    "dislikes": [
+      "Tasks with too many steps",
+      "Sitting still too long"
+    ],
+    "personality": [
+      "Outgoing",
+      "Energetic",
+      "Competitive"
+    ],
+    "strengths": [
+      "Swimming",
+      "Electronic keyboard"
+    ],
+    "items": [
+      "Water bottle",
+      "Towel"
+    ],
+    "draftFields": []
+  }
+}

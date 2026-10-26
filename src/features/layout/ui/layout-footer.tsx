@@ -1,6 +1,10 @@
 import { getHomeCopy } from "@sovia/home/i18n/copy";
 import { getOpenCultureCopy } from "@sovia/home/i18n/open-culture/copy";
-import { getRoutes, OPEN_CULTURE_PATH } from "@sovia/shared/constants/routes";
+import {
+  getRoutes,
+  OPEN_CULTURE_PATH,
+  WORLD_ORIGIN_PATH,
+} from "@sovia/shared/constants/routes";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
@@ -37,6 +41,7 @@ export function LayoutFooter({
   sharedCopy: SharedCopy;
 }) {
   const routes = getRoutes(sharedCopy, locale);
+  const homeCopy = getHomeCopy(locale);
   const archiveLinks = [
     routes.Center,
     routes.Sound,
@@ -44,8 +49,12 @@ export function LayoutFooter({
     routes.Creator,
     routes.Gallery,
     {
-      label: getHomeCopy(locale).characters.title,
+      label: homeCopy.characters.title,
       href: getSiteLocalizedPath("/characters", locale),
+    },
+    {
+      label: homeCopy.worldOrigin.title,
+      href: getSiteLocalizedPath(WORLD_ORIGIN_PATH, locale),
     },
     routes.Test,
     routes.Tools,

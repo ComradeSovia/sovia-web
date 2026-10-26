@@ -14,7 +14,16 @@ import { createCharacterPageSchema } from "@sovia/shared/seo/schema";
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 
-const characterIds = ["sovia", "kata", "runa", "qi7"] as const;
+const characterIds = [
+  "sovia",
+  "kata",
+  "runa",
+  "qi7",
+  "hina",
+  "kio",
+  "lucy",
+  "lucy-m",
+] as const;
 type PageProps = { params: Promise<{ id: string }> };
 
 function getCharacterId(value: string): CharacterId | null {

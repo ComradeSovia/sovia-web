@@ -5,6 +5,8 @@ import type { RouteItem } from "../model/nav";
 
 export const OPEN_CULTURE_PATH = "/open-culture";
 
+export const WORLD_ORIGIN_PATH = "/world/origin";
+
 export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
   const href = (path: string) =>
     locale ? getSiteLocalizedPath(path, locale) : path;

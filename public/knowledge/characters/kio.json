@@ -1,0 +1,93 @@
+{
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
+  "language": "en-US",
+  "projectId": "https://sovia.work/#project",
+  "character": {
+    "@id": "https://sovia.work/en-US/characters/kio#character",
+    "@type": "Person",
+    "name": "Kio",
+    "displayName": "Kio",
+    "nativeName": "Kio",
+    "localizedNames": {
+      "en-US": "Kio",
+      "zh-CN": "球球",
+      "zh-TW": "球球",
+      "ja-JP": "キオ",
+      "ko-KR": "키오",
+      "ru-RU": "Кио"
+    },
+    "url": "https://sovia.work/en-US/characters/kio",
+    "description": "A fictional Nekot repair worker living in Germany who helps maintain the website’s servers and fights alongside Runa and Qi-7 in Eorzea.",
+    "quotes": [],
+    "signatureLines": [],
+    "biography": "A repair worker who helps maintain the website’s servers. Kio is comrades-in-arms with Runa and Qi-7 in Eorzea.",
+    "identityNumber": "1-ГР № 000222",
+    "identity": "Server maintenance repair worker",
+    "worldOrigin": "Real world",
+    "worldPolarizationRate": "0.473133i",
+    "worldPolarizationType": "realWorldOrigin",
+    "gender": "Male",
+    "age": null,
+    "languages": [
+      "German",
+      "Chinese",
+      "English",
+      "Japanese"
+    ],
+    "nationality": "Germany",
+    "residence": "Germany",
+    "species": "Nekot",
+    "images": {
+      "hero": "/assets/characters/kio_hero.png",
+      "portrait": "/assets/characters/kio_main.png",
+      "expressions": "/assets/characters/kio_emote.png",
+      "outfits": "/assets/characters/kio_outfit.png"
+    },
+    "relationships": [
+      {
+        "characterId": "runa",
+        "description": "Kio and Runa are comrades-in-arms in Eorzea."
+      },
+      {
+        "characterId": "qi7",
+        "description": "Kio and Qi-7 are comrades-in-arms in Eorzea."
+      },
+      {
+        "characterId": "lucy",
+        "description": "Kio and Lucy F are friends and comrades-in-arms in the Nexus."
+      },
+      {
+        "characterId": "lucy-m",
+        "description": "Kio and Lucy M are friends and comrades-in-arms in the Nexus."
+      }
+    ],
+    "heightCm": 172,
+    "likes": [
+      "Repairing old equipment",
+      "Cooking",
+      "Being tucked up in bed",
+      "Coffee"
+    ],
+    "dislikes": [
+      "Getting up early",
+      "Cold weather",
+      "Schedules"
+    ],
+    "personality": [
+      "Patient",
+      "Handy",
+      "Optimistic"
+    ],
+    "strengths": [
+      "Repairs",
+      "Archiving"
+    ],
+    "items": [
+      "Precision screwdriver set",
+      "Cup filled with coffee"
+    ],
+    "draftFields": [],
+    "ageDisplay": "Classified information"
+  }
+}

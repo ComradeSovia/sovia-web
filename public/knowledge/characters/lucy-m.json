@@ -1,0 +1,101 @@
+{
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
+  "language": "en-US",
+  "projectId": "https://sovia.work/#project",
+  "character": {
+    "@id": "https://sovia.work/en-US/characters/lucy-m#character",
+    "@type": "Person",
+    "name": "Lucy M",
+    "displayName": "Lucy M",
+    "nativeName": "露西 M",
+    "localizedNames": {
+      "en-US": "Lucy M",
+      "zh-CN": "露西 M",
+      "zh-TW": "露西 M",
+      "ja-JP": "ルーシー M",
+      "ko-KR": "루시 M",
+      "ru-RU": "Люси M"
+    },
+    "url": "https://sovia.work/en-US/characters/lucy-m",
+    "description": "A male android living in the Netherlands, a friend of Kio and his comrade-in-arms in the Nexus, who lent Runa a graphics card for video production. Lucy F is his twin.",
+    "quotes": [],
+    "signatureLines": [],
+    "biography": "Lucy M and Lucy F are twins. Kio’s friend and comrade-in-arms in the Nexus. Lucy M owns a high-performance computer that makes Runa very envious, and lent Runa a graphics card for video production.",
+    "identityNumber": "1-КТ № 000666",
+    "identity": "Undisclosed",
+    "worldOrigin": "Real world",
+    "worldPolarizationRate": "0.455433i",
+    "worldPolarizationType": "realWorldOrigin",
+    "gender": "Male",
+    "age": null,
+    "heightCm": 180,
+    "languages": [
+      "Chinese",
+      "English",
+      "French",
+      "Dutch"
+    ],
+    "nationality": "China",
+    "residence": "Netherlands",
+    "species": "Android",
+    "images": {
+      "hero": "/assets/characters/lucy-m_hero.png",
+      "portrait": "/assets/characters/lucy-m_main.png",
+      "expressions": "/assets/characters/lucy-m_emote.png",
+      "outfits": "/assets/characters/lucy-m_outfit.png"
+    },
+    "relationships": [
+      {
+        "characterId": "kio",
+        "description": "Lucy M and Kio are friends and comrades-in-arms in the Nexus."
+      },
+      {
+        "characterId": "runa",
+        "description": "Lucy M lent Runa a graphics card for video production. Runa envies Lucy M’s high-performance computer."
+      },
+      {
+        "characterId": "lucy",
+        "description": "Lucy M and Lucy F are twins."
+      }
+    ],
+    "imageDimensions": {
+      "hero": {
+        "width": 1254,
+        "height": 1254
+      },
+      "portrait": {
+        "width": 941,
+        "height": 1672
+      },
+      "expressions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "outfits": {
+        "width": 1774,
+        "height": 887
+      }
+    },
+    "likes": [
+      "DeepSeek"
+    ],
+    "dislikes": [
+      "Usage limits"
+    ],
+    "personality": [
+      "Quiet",
+      "Reliable",
+      "Easygoing"
+    ],
+    "strengths": [
+      "Writing papers"
+    ],
+    "items": [
+      "Computer",
+      "Spare data cable"
+    ],
+    "draftFields": [],
+    "ageDisplay": "Classified information"
+  }
+}

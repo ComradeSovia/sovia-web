@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "updatedAt": "2026-10-16",
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
@@ -27,7 +27,7 @@
     "biography": "An inspector assigned to investigate broadcast anomalies after an interdimensional resonance transmission.",
     "identityNumber": "IV-МЮ № 778996",
     "identity": "Broadcast affairs inspector in the science city",
-    "worldOrigin": "The world of the interdimensional radio station",
+    "worldOrigin": "Sovia’s world",
     "worldPolarizationRate": "0.000000",
     "worldPolarizationType": "prime",
     "gender": "Female",
@@ -51,6 +51,29 @@
         "characterId": "sovia",
         "description": "Katya treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
       }
-    ]
+    ],
+    "heightCm": 171,
+    "likes": [
+      "Orderly reports",
+      "Quiet tea breaks"
+    ],
+    "dislikes": [
+      "Missing records",
+      "Unexplained deviations"
+    ],
+    "personality": [
+      "Composed",
+      "Meticulous",
+      "Reliable"
+    ],
+    "strengths": [
+      "Spotting contradictions",
+      "Remembering what others say"
+    ],
+    "items": [
+      "Inspection notebook",
+      "Fountain pen"
+    ],
+    "draftFields": []
   }
 }

@@ -21,3 +21,4 @@ export { HomePage } from "./ui/home-page";
 export { OpenCulturePage } from "./ui/open-culture-page";
 export { ResourceUsagePage } from "./ui/resource-usage-page";
 export { SovietAnimePage } from "./ui/soviet-anime-page";
+export { WorldOriginPage } from "./ui/world-origin-page";

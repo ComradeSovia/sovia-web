@@ -24,10 +24,10 @@
   },
   "about": {
     "metadataTitle": "About Comrade Sovia — Music, Art & Storytelling",
-    "metadataDescription": "Discover Comrade Sovia, an independent music and visual art project by Mikatsuki Runa, its Soviet-inspired arrangements and fictional radio world.",
+    "metadataDescription": "Discover Comrade Sovia, an independent music and visual art project by Mikazuki Runa, its Soviet-inspired arrangements and fictional radio world.",
     "eyebrow": "THE PROJECT / 01",
     "title": "About Comrade Sovia",
-    "lead": "Comrade Sovia is an independent music and visual art project created by Mikatsuki Runa. It reinterprets music from different cultures and eras through Soviet-inspired arrangements, visual aesthetics, and fictional storytelling.",
+    "lead": "Comrade Sovia is an independent music and visual art project created by Mikazuki Runa. It reinterprets music from different cultures and eras through Soviet-inspired arrangements, visual aesthetics, and fictional storytelling.",
     "worldTitle": "A voice from another world",
     "worldParagraphs": [
       "At the center of the project is Sovia Rabocheva (Совия Ивановна Рабочева), an original fictional character who works as a radio broadcaster in the Soviet scientific town of Troitsk.",
@@ -39,20 +39,20 @@
       "Comrade Sovia blends musical experimentation, creative reinterpretation, fictional worldbuilding, humor, and occasional satire. It is an independent artistic project rather than a historical reconstruction or a representation of any political organization."
     ],
     "distinctionTitle": "Three different identities",
-    "distinction": "Comrade Sovia is the project. Mikatsuki Runa is its real-world creator. Sovia Rabocheva is a fictional character within its story.",
+    "distinction": "Comrade Sovia is the project. Mikazuki Runa is its real-world creator. Sovia Rabocheva is a fictional character within its story.",
     "creatorLinkTitle": "The creator",
-    "creatorLinkText": "Meet Mikatsuki Runa and the ideas behind the project.",
+    "creatorLinkText": "Meet Mikazuki Runa and the ideas behind the project.",
     "creatorLinkAction": "About the creator",
     "characterLinkTitle": "The character",
     "characterLinkText": "Read Sovia Rabocheva’s complete fictional profile.",
     "characterLinkAction": "Sovia character profile"
   },
   "creator": {
-    "metadataTitle": "Mikatsuki Runa — Creator of Comrade Sovia",
-    "metadataDescription": "Meet Mikatsuki Runa, the Germany-based independent creator of Comrade Sovia, and learn how music, visual art and fiction come together in the project.",
+    "metadataTitle": "Mikazuki Runa — Creator of Comrade Sovia",
+    "metadataDescription": "Meet Mikazuki Runa, the Germany-based independent creator of Comrade Sovia, and learn how music, visual art and fiction come together in the project.",
     "eyebrow": "THE CREATOR / 02",
-    "title": "Mikatsuki Runa",
-    "lead": "Mikatsuki Runa is the stage name of an independent creator based in Germany and the creator of Comrade Sovia.",
+    "title": "Mikazuki Runa",
+    "lead": "Mikazuki Runa is the stage name of an independent creator based in Germany and the creator of Comrade Sovia.",
     "storyTitle": "The person behind the project",
     "paragraphs": [
       "With a personal passion for singing and music, Runa enjoys exploring different musical styles, cultures, and approaches to creative expression.",
@@ -64,7 +64,7 @@
     "roleValue": "Independent creator",
     "locationLabel": "Based in",
     "locationValue": "Germany",
-    "distinction": "Mikatsuki Runa is the real-world creator; Sovia Rabocheva is a fictional character.",
+    "distinction": "Mikazuki Runa is the real-world creator; Sovia Rabocheva is a fictional character.",
     "projectAction": "About the project",
     "characterAction": "Sovia character profile"
   },
@@ -171,7 +171,7 @@
     "shareError": "Share failed. You can copy the invitation below."
   },
   "characters": {
-    "homeCardDescription": "Meet Sovia, Katya, Runa and Qi-7 through their stories, profiles and character art.",
+    "homeCardDescription": "Meet Sovia, Katya, Runa, Qi-7, Hina, Kio, Lucy F and Lucy M through their stories, profiles and character art.",
     "title": "Characters",
     "eyebrow": "Character archive",
     "views": {
@@ -200,13 +200,20 @@
       "signatureLines": "Signature line",
       "unknown": "Classified information",
       "nameType": "Stage name",
-      "worldTypes": "World polarization types"
+      "worldTypes": "World polarization types",
+      "undisclosed": "Undisclosed",
+      "height": "Height",
+      "likes": "Likes",
+      "dislikes": "Dislikes",
+      "personality": "Personality",
+      "strengths": "Strengths",
+      "items": "Everyday items"
     },
     "dossiers": {
       "sovia": {
         "quote": "I’m not very good at speaking in front of a crowd… But over the radio, perhaps I can.",
         "signature": "Comrades, see you tomorrow, see you next week.",
-        "origin": "The world of the interdimensional radio station",
+        "origin": "Sovia’s world",
         "gender": "Female",
         "languages": "Russian, Japanese",
         "nationality": "Soviet Union",
@@ -228,12 +235,18 @@
             "description": "Qi-7 found Sovia interesting and began imitating her."
           }
         ],
-        "fullName": "Совия Ивановна Рабочева"
+        "fullName": "Совия Ивановна Рабочева",
+        "height": "153 cm",
+        "likes": "Old records, Cookies, Rain",
+        "dislikes": "Signal interference, Deadlines, Computer crashes",
+        "personality": ["Curious", "Earnest", "Attentive"],
+        "strengths": ["Organizing things"],
+        "items": ["Portable radio", "Notebook"]
       },
       "kata": {
         "quote": "Sovia, your explanation is interesting. But what I need is a report.",
         "signature": "",
-        "origin": "The world of the interdimensional radio station",
+        "origin": "Sovia’s world",
         "gender": "Female",
         "languages": "Russian, English, French",
         "nationality": "Soviet Union",
@@ -247,12 +260,18 @@
             "description": "She treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
           }
         ],
-        "fullName": "Катя Глебовна Белгина"
+        "fullName": "Катя Глебовна Белгина",
+        "height": "171 cm",
+        "likes": "Orderly reports, Quiet tea breaks",
+        "dislikes": "Missing records, Unexplained deviations",
+        "personality": ["Composed", "Meticulous", "Reliable"],
+        "strengths": ["Spotting contradictions", "Remembering what others say"],
+        "items": ["Inspection notebook", "Fountain pen"]
       },
       "runa": {
         "quote": "So… which world do I belong to now?",
         "signature": "",
-        "origin": "Apparently the dimension where YouTube exists",
+        "origin": "Real world",
         "gender": "Female",
         "languages": "English, German, Japanese",
         "nationality": "Classified information",
@@ -268,14 +287,36 @@
           {
             "id": "qi7",
             "description": "Runa met Qi-7 in a game dungeon, and they became good friends afterward."
+          },
+          {
+            "id": "hina",
+            "description": "Hina is Runa’s younger sister."
+          },
+          {
+            "id": "kio",
+            "description": "Runa and Kio are comrades-in-arms in Eorzea."
+          },
+          {
+            "id": "lucy",
+            "description": "Runa borrowed a graphics card from Lucy F for video production and envies Lucy F’s high-performance computer."
+          },
+          {
+            "id": "lucy-m",
+            "description": "Runa borrowed a graphics card from Lucy M for video production and envies Lucy M’s high-performance computer."
           }
         ],
-        "fullName": "Mikatsuki Runa"
+        "fullName": "Mikazuki Runa",
+        "height": "153 cm",
+        "likes": "Listening to music, Barbecue, Rain",
+        "dislikes": "Unpleasant smells, Noise, Harsh sunlight",
+        "personality": ["Gentle", "Pragmatic", "Persistent"],
+        "strengths": ["Planning"],
+        "items": ["Headphones", "Sunglasses"]
       },
       "qi7": {
         "quote": "…Humans are searching for meaning again.",
         "signature": "",
-        "origin": "The real world",
+        "origin": "Real world",
         "gender": "Female",
         "languages": "Chinese, English",
         "nationality": "China",
@@ -291,24 +332,200 @@
           {
             "id": "runa",
             "description": "Qi-7 met Runa in a game dungeon, and they became good friends afterward."
+          },
+          {
+            "id": "kio",
+            "description": "Qi-7 and Kio are comrades-in-arms in Eorzea."
           }
         ],
-        "fullName": "亓绛"
+        "fullName": "亓绛",
+        "height": "165 cm",
+        "likes": "Games, Cosplay",
+        "dislikes": "Navigating interpersonal relationships",
+        "personality": ["Observant", "Precise", "Adaptable"],
+        "strengths": ["Mimicking appearance", "Drawing"],
+        "items": ["Portable voice recorder", "Small camera"]
+      },
+      "hina": {
+        "quote": "Don’t forget to drink water!",
+        "signature": "",
+        "origin": "Real world",
+        "gender": "Female",
+        "languages": "English, German",
+        "nationality": "Germany",
+        "residence": "Classified information",
+        "species": "Human",
+        "identity": "Student",
+        "biography": "An energetic younger sister who loves sports, swimming and music!",
+        "relationships": [
+          {
+            "id": "runa",
+            "description": "Runa is Hina’s older sister."
+          }
+        ],
+        "fullName": "Mikazuki Hina",
+        "height": "175 cm",
+        "likes": "Music, Swimming, Sunny days",
+        "dislikes": "Tasks with too many steps, Sitting still too long",
+        "personality": ["Outgoing", "Energetic", "Competitive"],
+        "strengths": ["Swimming", "Electronic keyboard"],
+        "items": ["Water bottle", "Towel"]
+      },
+      "kio": {
+        "quote": "Undisclosed",
+        "signature": "",
+        "origin": "Real world",
+        "gender": "Male",
+        "languages": "German, Chinese, English, Japanese",
+        "nationality": "Germany",
+        "residence": "Germany",
+        "species": "Nekot",
+        "identity": "Server maintenance repair worker",
+        "biography": "A repair worker who helps maintain the website’s servers. Kio is comrades-in-arms with Runa and Qi-7 in Eorzea.",
+        "relationships": [
+          {
+            "id": "runa",
+            "description": "Kio and Runa are comrades-in-arms in Eorzea."
+          },
+          {
+            "id": "qi7",
+            "description": "Kio and Qi-7 are comrades-in-arms in Eorzea."
+          },
+          {
+            "id": "lucy",
+            "description": "Kio and Lucy F are friends and comrades-in-arms in the Nexus."
+          },
+          {
+            "id": "lucy-m",
+            "description": "Kio and Lucy M are friends and comrades-in-arms in the Nexus."
+          }
+        ],
+        "fullName": "Kio",
+        "height": "172 cm",
+        "likes": "Repairing old equipment, Cooking, Being tucked up in bed, Coffee",
+        "dislikes": "Getting up early, Cold weather, Schedules",
+        "personality": ["Patient", "Handy", "Optimistic"],
+        "strengths": ["Repairs", "Archiving"],
+        "items": ["Precision screwdriver set", "Cup filled with coffee"]
+      },
+      "lucy": {
+        "quote": "Undisclosed",
+        "signature": "",
+        "origin": "Real world",
+        "gender": "Female",
+        "languages": "Chinese, English, French, Dutch",
+        "nationality": "China",
+        "residence": "Netherlands",
+        "species": "Android",
+        "identity": "Undisclosed",
+        "biography": "Kio’s friend and comrade-in-arms in the Nexus. Lucy F owns a high-performance computer that makes Runa very envious, and lent Runa a graphics card for video production. Lucy F and Lucy M are twins.",
+        "relationships": [
+          {
+            "id": "kio",
+            "description": "Lucy F and Kio are friends and comrades-in-arms in the Nexus."
+          },
+          {
+            "id": "runa",
+            "description": "Lucy F lent Runa a graphics card for video production. Runa envies Lucy F’s high-performance computer."
+          },
+          {
+            "id": "lucy-m",
+            "description": "Lucy F and Lucy M are twins."
+          }
+        ],
+        "fullName": "Lucy F",
+        "height": "170 cm",
+        "likes": "DeepSeek",
+        "dislikes": "Usage limits",
+        "personality": ["Calm", "Observant", "Playful"],
+        "strengths": ["Writing papers"],
+        "items": ["Computer", "Spare data cable"]
+      },
+      "lucy-m": {
+        "quote": "Undisclosed",
+        "signature": "",
+        "origin": "Real world",
+        "gender": "Male",
+        "languages": "Chinese, English, French, Dutch",
+        "nationality": "China",
+        "residence": "Netherlands",
+        "species": "Android",
+        "identity": "Undisclosed",
+        "biography": "Kio’s friend and comrade-in-arms in the Nexus. Lucy M owns a high-performance computer that makes Runa very envious, and lent Runa a graphics card for video production. Lucy M and Lucy F are twins.",
+        "relationships": [
+          {
+            "id": "kio",
+            "description": "Lucy M and Kio are friends and comrades-in-arms in the Nexus."
+          },
+          {
+            "id": "runa",
+            "description": "Lucy M lent Runa a graphics card for video production. Runa envies Lucy M’s high-performance computer."
+          },
+          {
+            "id": "lucy",
+            "description": "Lucy M and Lucy F are twins."
+          }
+        ],
+        "fullName": "Lucy M",
+        "height": "180 cm",
+        "likes": "DeepSeek",
+        "dislikes": "Usage limits",
+        "personality": ["Quiet", "Reliable", "Easygoing"],
+        "strengths": ["Writing papers"],
+        "items": ["Computer", "Spare data cable"]
       }
     },
     "worldTypes": [
-      "Sovia’s point-of-origin world, home to the interdimensional radio station.",
-      "Original characters within Sovia’s world, both official and fan-created.",
-      "Derivative characters inspired by other fictional works.",
-      "A world of origin associated with the audience’s reality; +i does not determine a character’s real-world identity.",
-      "Fictional interpretations of historical figures; the historical people themselves have not entered Sovia’s world."
+      "0 is the reference point: Sovia’s original world, home to the interdimensional broadcast station. All polarization readings are taken relative to this origin.",
+      "Along the positive real axis, a larger value marks a greater departure from Sovia’s original world and its established setting. Near 1, the character is almost entirely original. This direction includes official and fan-created original characters.",
+      "The negative real axis points toward other fictional works. At -1, the character comes entirely from another work; its origin belongs to that work’s world.",
+      "Along the +i direction, a reading closer to 1i places the world of origin closer to the audience’s real world. The nearer it is to that boundary, the clearer the traces of reality in its origins. This reading describes origin; identity is recorded in the character’s profile.",
+      "The negative imaginary axis leads into the historical record. At -1i, the arrival retains a fully faithful historical portrayal: a passage from actual history into Sovia’s world, recorded as fully historical time travel."
     ],
     "worldTypeNames": {
       "prime": "Prime world",
       "original": "Original character",
       "derivative": "Derivative character",
       "realWorldOrigin": "Real-world origin",
-      "historicalInterpretation": "Historical interpretation"
+      "historicalInterpretation": "Historical passage"
+    },
+    "profileSections": {
+      "basics": "Personal details",
+      "world": "World record",
+      "daily": "Character notes",
+      "draft": "Draft",
+      "draftNote": "Only fields marked “Draft” are awaiting confirmation; the remaining details are confirmed."
+    }
+  },
+  "worldOrigin": {
+    "eyebrow": "World guide",
+    "title": "World polarization types",
+    "lead": "Read worlds of origin through their direction and polarization relative to Sovia’s original world.",
+    "mapTitle": "Origin categories",
+    "examplesLabel": "Characters",
+    "charactersLink": "Character profiles",
+    "reading": {
+      "title": "Notes from the interdimensional observatory",
+      "introduction": "The broadcast station marks Sovia’s original world as 0. Every arrival leaves a trace on this chart: its direction points toward the world it came from, while its value records how far its origins depart from the station’s own world.",
+      "note": "The +i direction describes a world of origin. A character’s identity is recorded separately in their profile.",
+      "endpoints": [
+        {
+          "value": "1",
+          "label": "Almost entirely original"
+        },
+        {
+          "value": "-1",
+          "label": "Entirely from another work"
+        },
+        {
+          "value": "1i",
+          "label": "Closest to the real world"
+        },
+        {
+          "value": "-1i",
+          "label": "Fully historical passage"
+        }
+      ]
     }
   }
 }

@@ -166,7 +166,7 @@
     "shareError": "分享失败，可以复制下方邀请文案。"
   },
   "characters": {
-    "homeCardDescription": "认识苏维雅、尕缇娅、月菜与亓绛，阅读角色档案与世界设定。",
+    "homeCardDescription": "认识苏维雅、尕缇娅、月菜、亓绛、阳菜、球球、露西 F 与露西 M，阅读角色档案与世界设定。",
     "title": "角色介绍",
     "eyebrow": "角色档案",
     "views": {
@@ -195,13 +195,20 @@
       "signatureLines": "标志性台词",
       "unknown": "机密事项",
       "nameType": "艺名",
-      "worldTypes": "世界极化类型"
+      "worldTypes": "世界极化类型",
+      "undisclosed": "未公开",
+      "height": "身高",
+      "likes": "喜欢的东西",
+      "dislikes": "讨厌的东西",
+      "personality": "性格关键词",
+      "strengths": "擅长的事",
+      "items": "随身物品"
     },
     "dossiers": {
       "sovia": {
         "quote": "我不太擅长在人群面前讲话……不过，隔着无线电的话，或许可以。",
         "signature": "同志们，明天见，下周见。",
-        "origin": "次元广播站所在的世界",
+        "origin": "苏维雅世界",
         "gender": "女",
         "languages": "俄语、日语",
         "nationality": "苏联",
@@ -223,12 +230,18 @@
             "description": "亓绛觉得苏维雅很有趣，于是模仿了她。"
           }
         ],
-        "fullName": "Совия Ивановна Рабочева"
+        "fullName": "Совия Ивановна Рабочева",
+        "height": "153 cm",
+        "likes": "旧唱片、饼干、下雨",
+        "dislikes": "信号干扰、截止时间、电脑崩溃",
+        "personality": ["好奇", "认真", "善于倾听"],
+        "strengths": ["整理东西"],
+        "items": ["便携收音机", "笔记本"]
       },
       "kata": {
         "quote": "苏维雅，你的解释很有趣。但我需要的是报告。",
         "signature": "",
-        "origin": "次元广播站所在的世界",
+        "origin": "苏维雅世界",
         "gender": "女",
         "languages": "俄语、英语、法语",
         "nationality": "苏联",
@@ -242,12 +255,18 @@
             "description": "将苏维雅当成自己的乖妹妹，曾经在苏维雅刚到科学城的时候照顾她。"
           }
         ],
-        "fullName": "Катя Глебовна Белгина"
+        "fullName": "Катя Глебовна Белгина",
+        "height": "171 cm",
+        "likes": "整齐的报告书、安静的茶歇",
+        "dislikes": "缺失的记录、没有解释的偏差",
+        "personality": ["沉稳", "细致", "可靠"],
+        "strengths": ["发现矛盾点", "记住别人说的话"],
+        "items": ["巡查记录本", "钢笔"]
       },
       "runa": {
         "quote": "所以……我现在到底算哪个世界的人？",
         "signature": "",
-        "origin": "似乎是 YouTube 所在的次元",
+        "origin": "现实世界",
         "gender": "女",
         "languages": "英语、德语、日语",
         "nationality": "机密事项",
@@ -263,9 +282,31 @@
           {
             "id": "qi7",
             "description": "在游戏副本中认识亓绛，之后成了好朋友。"
+          },
+          {
+            "id": "hina",
+            "description": "阳菜是 Runa 的妹妹。"
+          },
+          {
+            "id": "kio",
+            "description": "与球球是在艾欧泽亚并肩作战的战友。"
+          },
+          {
+            "id": "lucy",
+            "description": "曾向 Lucy F 借用显卡制作视频，非常羡慕她的高性能电脑。"
+          },
+          {
+            "id": "lucy-m",
+            "description": "曾向 Lucy M 借用显卡制作视频，非常羡慕他的高性能电脑。"
           }
         ],
-        "fullName": "三日月月菜"
+        "fullName": "三日月月菜",
+        "height": "153 cm",
+        "likes": "听歌、烤肉、下雨",
+        "dislikes": "异味、噪声、刺眼的阳光",
+        "personality": ["温和", "务实", "有韧性"],
+        "strengths": ["做计划"],
+        "items": ["耳机", "太阳镜"]
       },
       "qi7": {
         "quote": "……人类又在寻找意义了。",
@@ -286,24 +327,200 @@
           {
             "id": "runa",
             "description": "在游戏副本中认识月菜，之后成了好朋友。"
+          },
+          {
+            "id": "kio",
+            "description": "与球球是在艾欧泽亚并肩作战的战友。"
           }
         ],
-        "fullName": "亓绛"
+        "fullName": "亓绛",
+        "height": "165 cm",
+        "likes": "游戏、Cosplay",
+        "dislikes": "处理人际关系",
+        "personality": ["敏锐", "精准", "适应力强"],
+        "strengths": ["模仿外貌", "画画"],
+        "items": ["便携录音笔", "小相机"]
+      },
+      "hina": {
+        "quote": "不要忘记喝水！",
+        "signature": "",
+        "origin": "现实世界",
+        "gender": "女",
+        "languages": "英语、德语",
+        "nationality": "德国",
+        "residence": "机密事项",
+        "species": "人类",
+        "identity": "学生",
+        "biography": "喜欢运动、游泳和音乐，活力十足的妹妹！",
+        "relationships": [
+          {
+            "id": "runa",
+            "description": "Runa 是阳菜的姐姐。"
+          }
+        ],
+        "fullName": "三日月阳菜",
+        "height": "175 cm",
+        "likes": "音乐、游泳、晴天",
+        "dislikes": "步骤繁多的事情、太久坐着不动",
+        "personality": ["外向", "活力十足", "好胜"],
+        "strengths": ["游泳", "电子琴"],
+        "items": ["水瓶", "毛巾"]
+      },
+      "kio": {
+        "quote": "未公开",
+        "signature": "",
+        "origin": "现实世界",
+        "gender": "男",
+        "languages": "德语、中文、英语、日语",
+        "nationality": "德国",
+        "residence": "德国",
+        "species": "猫柯",
+        "identity": "服务器维护与修理工人",
+        "biography": "帮忙维护网站服务器的修理工人。与 Runa、Qi-7 是在艾欧泽亚并肩作战的战友。",
+        "relationships": [
+          {
+            "id": "runa",
+            "description": "与 Runa 是在艾欧泽亚并肩作战的战友。"
+          },
+          {
+            "id": "qi7",
+            "description": "与 Qi-7 是在艾欧泽亚并肩作战的战友。"
+          },
+          {
+            "id": "lucy",
+            "description": "与 Lucy F 是好友，也是在时空枢纽并肩作战的战友。"
+          },
+          {
+            "id": "lucy-m",
+            "description": "与 Lucy M 是好友，也是在时空枢纽并肩作战的战友。"
+          }
+        ],
+        "fullName": "球球",
+        "height": "172 cm",
+        "likes": "维修旧设备、做饭、被窝、咖啡",
+        "dislikes": "早起、寒冷、日程表",
+        "personality": ["耐心", "动手能力强", "乐观"],
+        "strengths": ["维修", "归档"],
+        "items": ["精密螺丝刀套装", "装着咖啡的水杯"]
+      },
+      "lucy": {
+        "quote": "未公开",
+        "signature": "",
+        "origin": "现实世界",
+        "gender": "女",
+        "languages": "中文、英语、法语、荷兰语",
+        "nationality": "中国",
+        "residence": "荷兰",
+        "species": "仿生人",
+        "identity": "未公开",
+        "biography": "Kio 的好友，也是在时空枢纽并肩作战的战友。掌握着让 Runa 羡慕坏了的高性能电脑，曾借给 Runa 显卡用于制作视频。 与 Lucy M 是双子。",
+        "relationships": [
+          {
+            "id": "kio",
+            "description": "与 Kio 是好友，也是在时空枢纽并肩作战的战友。"
+          },
+          {
+            "id": "runa",
+            "description": "曾借给 Runa 显卡用于制作视频，高性能电脑让 Runa 羡慕坏了。"
+          },
+          {
+            "id": "lucy-m",
+            "description": "与 Lucy M 是双子。"
+          }
+        ],
+        "fullName": "露西 F",
+        "height": "170 cm",
+        "likes": "DeepSeek",
+        "dislikes": "额度限制",
+        "personality": ["安静", "善于观察", "有点俏皮"],
+        "strengths": ["写论文"],
+        "items": ["电脑", "备用数据线"]
+      },
+      "lucy-m": {
+        "quote": "未公开",
+        "signature": "",
+        "origin": "现实世界",
+        "gender": "男",
+        "languages": "中文、英语、法语、荷兰语",
+        "nationality": "中国",
+        "residence": "荷兰",
+        "species": "仿生人",
+        "identity": "未公开",
+        "biography": "Kio 的好友，也是在时空枢纽并肩作战的战友。掌握着让 Runa 羡慕坏了的高性能电脑，曾借给 Runa 显卡用于制作视频。 与 Lucy F 是双子。",
+        "relationships": [
+          {
+            "id": "kio",
+            "description": "与 Kio 是好友，也是在时空枢纽并肩作战的战友。"
+          },
+          {
+            "id": "runa",
+            "description": "曾借给 Runa 显卡用于制作视频，高性能电脑让 Runa 羡慕坏了。"
+          },
+          {
+            "id": "lucy",
+            "description": "与 Lucy F 是双子。"
+          }
+        ],
+        "fullName": "露西 M",
+        "height": "180 cm",
+        "likes": "DeepSeek",
+        "dislikes": "额度限制",
+        "personality": ["寡言", "可靠", "随和"],
+        "strengths": ["写论文"],
+        "items": ["电脑", "备用数据线"]
       }
     },
     "worldTypes": [
-      "Sovia 原点世界，次元广播站所在的世界。",
-      "Sovia 世界观内的原创角色，包括官方和同人角色。",
-      "借鉴其他虚构作品的衍生角色。",
-      "来源世界与听众所在的现实相关；+i 只标记来源，不判定角色与现实人物是否为同一身份。",
-      "基于真实历史人物创作的虚构演绎角色，并非历史人物本人来到 Sovia 世界。"
+      "0 是一切观测的基准：Sovia 原本的世界，也是次元广播站所在之处。其余极化数值都以这个原点作为参照。",
+      "沿正实轴远离 0，意味着来者逐渐离开 Sovia 原本世界的既定设定，形成更独立的原创构造。正数数值越大，偏离原点世界的程度越高；接近 1 时，便可视为几乎完全原创。官方与同人原创角色都可在这一方向留下记录。",
+      "负实轴朝向其他虚构作品。当记录达到 -1，意味着来者完全来自另一部作品，其来源归属于那部作品的世界。",
+      "沿 +i 方向观测，数值越接近 1i，来者的来源便越贴近听众所处的现实世界。越靠近这一边界，来源中现实世界的痕迹就越清晰；角色的具体身份仍由档案独立记录。",
+      "负虚轴通向历史记录。到达 -1i，意味着来者以真实历史的原貌跨越至 Sovia 的世界；在广播站的档案中，这一边界被记为完全写实的历史穿越。"
     ],
     "worldTypeNames": {
       "prime": "原点世界",
       "original": "原创角色",
       "derivative": "衍生角色",
       "realWorldOrigin": "现实来源世界",
-      "historicalInterpretation": "历史人物演绎"
+      "historicalInterpretation": "历史穿越"
+    },
+    "profileSections": {
+      "basics": "基础资料",
+      "world": "世界记录",
+      "daily": "角色侧写",
+      "draft": "设定初稿",
+      "draftNote": "仅标有“设定初稿”的项目待确认，其余资料已确认。"
+    }
+  },
+  "worldOrigin": {
+    "eyebrow": "世界设定",
+    "title": "世界极化类型",
+    "lead": "以 Sovia 原本的世界为原点，记录来者的来源方向与世界极化数值。",
+    "mapTitle": "来源类型一览",
+    "examplesLabel": "相关角色",
+    "charactersLink": "角色档案",
+    "reading": {
+      "title": "次元观测札记",
+      "introduction": "次元广播站将 Sovia 原本的世界记为 0。每一位来者都会在坐标上留下痕迹：方向指向其来源，数值则记录这份来源与原点世界偏离的程度。",
+      "note": "+i 标记的是来源世界与现实的接近程度，角色的具体身份由档案另行记录。",
+      "endpoints": [
+        {
+          "value": "1",
+          "label": "几乎完全原创"
+        },
+        {
+          "value": "-1",
+          "label": "完全来自其他作品"
+        },
+        {
+          "value": "1i",
+          "label": "最接近现实世界"
+        },
+        {
+          "value": "-1i",
+          "label": "完全写实的历史穿越"
+        }
+      ]
     }
   }
 }

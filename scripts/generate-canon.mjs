@@ -70,8 +70,36 @@ function validate() {
       throw new Error(`Invalid public slug for ${slug}.`);
     if (!character.url.endsWith(`/characters/${publicSlug}`))
       throw new Error(`Invalid URL for ${slug}.`);
-    if (!polarizationTypes.has(character.worldPolarizationType))
+    if (
+      character.worldPolarizationType !== null &&
+      !polarizationTypes.has(character.worldPolarizationType)
+    )
       throw new Error(`Unknown world type for ${slug}.`);
+    if (
+      (character.worldPolarizationType === null) !==
+      (character.worldPolarizationRate === null)
+    )
+      throw new Error(`Incomplete world polarization for ${slug}.`);
+    if (
+      character.heightCm !== null &&
+      !(Number.isFinite(character.heightCm) && character.heightCm > 0)
+    )
+      throw new Error(slug + ": invalid height.");
+    for (const field of [
+      "likes",
+      "dislikes",
+      "personality",
+      "strengths",
+      "items",
+    ]) {
+      if (
+        !Array.isArray(character[field]) ||
+        character[field].some(
+          (value) => typeof value !== "string" || !value.trim(),
+        )
+      )
+        throw new Error(slug + ": invalid " + field + ".");
+    }
     for (const relation of character.relationships) {
       if (!characters[relation.characterId])
         throw new Error(`Unknown relationship for ${slug}.`);
@@ -80,6 +108,13 @@ function validate() {
       awaitImagePaths.push(
         path.join(root, "public", imagePath.replace(/^\//, "")),
       );
+    }
+    if (character.imageDimensions) {
+      for (const kind of Object.keys(character.images)) {
+        const dimensions = character.imageDimensions[kind];
+        if (!(dimensions?.width > 0 && dimensions?.height > 0))
+          throw new Error(slug + ": invalid artwork dimensions for " + kind);
+      }
     }
     const expectedImages = {
       hero: `/assets/characters/${slug}_hero.png`,
@@ -113,11 +148,30 @@ const requiredDossierFields = [
   "identity",
   "biography",
   "fullName",
+  "height",
+  "likes",
+  "dislikes",
 ];
 
 for (const locale of siteLocales) {
   const copyPath = path.join(root, `src/features/home/i18n/${locale}.json`);
   const copy = JSON.parse(await readFile(copyPath, "utf8"));
+  const reading = copy.worldOrigin?.reading;
+  if (
+    !reading?.title?.trim() ||
+    !reading.introduction?.trim() ||
+    !reading.note?.trim() ||
+    !Array.isArray(reading.endpoints) ||
+    reading.endpoints.length !== 4
+  )
+    throw new Error(locale + ": incomplete world polarization reading.");
+  for (const [index, endpoint] of reading.endpoints.entries()) {
+    if (
+      endpoint.value !== canon.worldPolarizationTypes[index + 1].boundary ||
+      !endpoint.label?.trim()
+    )
+      throw new Error(locale + ": invalid world polarization boundary.");
+  }
   const characterCopy = copy.characters;
   const dossiers = characterCopy?.dossiers;
   const expectedIds = characterEntries.map(([slug]) => slug).sort();
@@ -162,17 +216,66 @@ for (const locale of siteLocales) {
         throw new Error(`${locale}: ${slug}.${field} is missing.`);
       }
     }
+    if (
+      character.heightCm === null
+        ? dossier.height !== characterCopy.labels.undisclosed
+        : !dossier.height.includes(String(character.heightCm))
+    )
+      throw new Error(locale + ": " + slug + " height differs from Canon.");
+    for (const field of ["likes", "dislikes"]) {
+      if (
+        character[field].length === 0 &&
+        dossier[field] !== characterCopy.labels.undisclosed
+      )
+        throw new Error(
+          locale + ": " + slug + " " + field + " must remain undisclosed.",
+        );
+      if (
+        locale === "en-US" &&
+        character[field].length > 0 &&
+        dossier[field] !== character[field].join(", ")
+      )
+        throw new Error(
+          locale + ": " + slug + " " + field + " differs from Canon.",
+        );
+    }
+    for (const field of ["personality", "strengths", "items"]) {
+      if (
+        !Array.isArray(dossier[field]) ||
+        dossier[field].length !== character[field].length ||
+        dossier[field].some(
+          (value) => typeof value !== "string" || !value.trim(),
+        )
+      )
+        throw new Error(locale + ": incomplete " + slug + " " + field + ".");
+      if (
+        locale === "en-US" &&
+        JSON.stringify(dossier[field]) !== JSON.stringify(character[field])
+      )
+        throw new Error(
+          locale + ": " + slug + " " + field + " differs from Canon.",
+        );
+    }
     if (!character.localizedNames?.[locale]?.trim()) {
       throw new Error(`${locale}: ${slug} has no localized display name.`);
     }
+    if (
+      character.languages.length === 0 &&
+      dossier.languages !== characterCopy.labels.undisclosed
+    )
+      throw new Error(`${locale}: ${slug} languages must remain undisclosed.`);
     const languageCount = dossier.languages
       .split(/[,，、]/)
       .filter((part) => part.trim()).length;
-    if (languageCount !== character.languages.length) {
+    if (
+      character.languages.length > 0 &&
+      languageCount !== character.languages.length
+    ) {
       throw new Error(`${locale}: ${slug} language count differs from Canon.`);
     }
     if (
       locale === "en-US" &&
+      character.languages.length > 0 &&
       dossier.languages !== character.languages.join(", ")
     ) {
       throw new Error(`en-US: ${slug} languages differ from Canon.`);
@@ -236,6 +339,16 @@ const mdLines = [
   "",
   `In-universe Runa (${characters.runa["@id"]}): ${characters.runa.identityNote}`,
   "",
+  "## World polarization",
+  "",
+  canon.worldPolarizationReading.introduction,
+  "",
+  ...canon.worldPolarizationTypes.flatMap((type) => [
+    `- ${type.symbol} (boundary ${type.boundary}): ${type.description}`,
+    "",
+  ]),
+  canon.worldPolarizationReading.note,
+  "",
   "## Official character profiles",
   "",
 ];
@@ -247,16 +360,26 @@ for (const [, character] of characterEntries) {
     `- @id: ${character["@id"]}`,
     `- Official page: ${character.url}`,
     `- Native name: ${character.nativeName}`,
-    `- Identity number: ${character.identityNumber}`,
+    `- Identity number: ${character.identityNumber ?? "Undisclosed"}`,
     `- Role: ${character.identity}`,
     `- World of origin: ${character.worldOrigin}`,
-    `- World polarization: ${character.worldPolarizationRate} (${character.worldPolarizationType})`,
+    `- World polarization: ${character.worldPolarizationRate ?? "Undisclosed"} (${character.worldPolarizationType ?? "Undisclosed"})`,
+    `- Gender: ${character.gender}`,
     `- Age: ${character.age ?? character.ageDisplay}`,
-    `- Languages: ${character.languages.join(", ")}`,
+    `- Height: ${character.heightCm === null ? "Undisclosed" : `${character.heightApproximate ? "About " : ""}${character.heightCm} cm`}`,
+    `- Personality: ${character.personality.join(", ")}`,
+    `- Strengths: ${character.strengths.join("; ")}`,
+    `- Everyday items: ${character.items.join(", ")}`,
+    ...(character.draftFields.length > 0
+      ? [`- Draft fields pending review: ${character.draftFields.join(", ")}`]
+      : []),
+    `- Likes: ${character.likes.join(", ") || "Undisclosed"}`,
+    `- Dislikes: ${character.dislikes.join(", ") || "Undisclosed"}`,
+    `- Languages: ${character.languages.join(", ") || "Undisclosed"}`,
     `- Nationality: ${character.nationality}`,
     `- Residence: ${character.residence}`,
     `- Species: ${character.species}`,
-    `- Quote: ${character.quotes.join("; ")}`,
+    `- Quote: ${character.quotes.join("; ") || "Undisclosed"}`,
     `- Signature lines: ${character.signatureLines.join("; ") || "None"}`,
     `- Biography: ${character.biography}`,
     `- Summary: ${character.description}`,
@@ -270,6 +393,8 @@ mdLines.push(
   "## Canon boundary",
   "",
   canon.policy.scope,
+  "",
+  canon.policy.drafts,
   "",
   canon.policy.nonCanon,
   "",
@@ -299,6 +424,7 @@ const llmsLines = [
   "",
   "## Canon and data",
   "",
+  `- [World origins and polarization](${canon.canonicalSite}/en-US/world/origin)`,
   `- [Official canon](${canon.canonicalSite}/knowledge/sovia.md)`,
   `- [All entities (JSON)](${canon.canonicalSite}/knowledge/entities.json)`,
   `- [All character data (JSON)](${canon.canonicalSite}/knowledge/characters.json)`,

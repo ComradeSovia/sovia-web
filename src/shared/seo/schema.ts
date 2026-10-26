@@ -1,6 +1,7 @@
 import canon from "../../../data/canon/sovia.json";
 import { ORGANIZATION_SAME_AS } from "../config/external-links";
 import { SITE_URL, siteUrl } from "../config/site";
+import { WORLD_ORIGIN_PATH } from "../constants/routes";
 import type { SiteLocale } from "../i18n/site-locale";
 import { getSiteLocalizedPath } from "../i18n/site-routing";
 import { getCharacterPath } from "./character-path";
@@ -91,7 +92,7 @@ export function createCharacterSchema(id: CanonCharacterId) {
         : `Fictional character in Comrade Sovia. ${character.identity}`,
     url: character.url,
     image: siteUrl(character.images.portrait),
-    identifier: character.identityNumber,
+    identifier: character.identityNumber ?? undefined,
     knowsLanguage: character.languages,
     subjectOf: { "@id": project["@id"] },
   };
@@ -251,5 +252,23 @@ export function createMusicRecordingSchema({
         "@id": recordingId,
       },
     },
+  ]);
+}
+
+export function createWorldOriginPageSchema(
+  locale: SiteLocale,
+  name: string,
+  description: string,
+) {
+  return createJsonLd([
+    createProjectSchema(),
+    createCreatorSchema(),
+    createPageNode(
+      WORLD_ORIGIN_PATH,
+      locale,
+      name,
+      description,
+      project["@id"],
+    ),
   ]);
 }

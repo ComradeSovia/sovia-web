@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "updatedAt": "2026-10-16",
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
   "language": "en-US",
   "entities": {
     "project": {
@@ -21,19 +21,23 @@
         "https://sovia.work/en-US/characters/sovia#character",
         "https://sovia.work/en-US/characters/kata#character",
         "https://sovia.work/en-US/characters/runa#character",
-        "https://sovia.work/en-US/characters/qi7#character"
+        "https://sovia.work/en-US/characters/qi7#character",
+        "https://sovia.work/en-US/characters/hina#character",
+        "https://sovia.work/en-US/characters/kio#character",
+        "https://sovia.work/en-US/characters/lucy#character",
+        "https://sovia.work/en-US/characters/lucy-m#character"
       ]
     },
     "creator": {
       "@id": "https://sovia.work/en-US/creator#person",
       "@type": "Person",
-      "name": "Mikatsuki Runa",
+      "name": "Mikazuki Runa",
       "localizedNames": {
         "zh-CN": "三日月月菜",
         "zh-TW": "三日月月菜",
         "ja-JP": "三日月ルナ",
-        "ko-KR": "미카츠키 루나",
-        "ru-RU": "Микацуки Руна"
+        "ko-KR": "미카즈키 루나",
+        "ru-RU": "Микадзуки Руна"
       },
       "url": "https://sovia.work/en-US/creator",
       "description": "The stage name of the independent creator of Comrade Sovia.",
@@ -68,7 +72,7 @@
         "biography": "An interdimensional broadcaster in the science city who arranges music received from other worlds.",
         "identityNumber": "IV-ТР № 652373",
         "identity": "Interdimensional broadcaster in the science city",
-        "worldOrigin": "The world of the interdimensional radio station",
+        "worldOrigin": "Sovia’s world",
         "worldPolarizationRate": "0.000000",
         "worldPolarizationType": "prime",
         "gender": "Female",
@@ -99,7 +103,31 @@
             "characterId": "qi7",
             "description": "Qi-7 found Sovia interesting and began imitating her."
           }
-        ]
+        ],
+        "heightCm": 153,
+        "likes": [
+          "Old records",
+          "Cookies",
+          "Rain"
+        ],
+        "dislikes": [
+          "Signal interference",
+          "Deadlines",
+          "Computer crashes"
+        ],
+        "personality": [
+          "Curious",
+          "Earnest",
+          "Attentive"
+        ],
+        "strengths": [
+          "Organizing things"
+        ],
+        "items": [
+          "Portable radio",
+          "Notebook"
+        ],
+        "draftFields": []
       },
       "kata": {
         "@id": "https://sovia.work/en-US/characters/kata#character",
@@ -125,7 +153,7 @@
         "biography": "An inspector assigned to investigate broadcast anomalies after an interdimensional resonance transmission.",
         "identityNumber": "IV-МЮ № 778996",
         "identity": "Broadcast affairs inspector in the science city",
-        "worldOrigin": "The world of the interdimensional radio station",
+        "worldOrigin": "Sovia’s world",
         "worldPolarizationRate": "0.000000",
         "worldPolarizationType": "prime",
         "gender": "Female",
@@ -149,12 +177,35 @@
             "characterId": "sovia",
             "description": "Katya treats Sovia like a little sister and cared for her when Sovia first arrived in the science city."
           }
-        ]
+        ],
+        "heightCm": 171,
+        "likes": [
+          "Orderly reports",
+          "Quiet tea breaks"
+        ],
+        "dislikes": [
+          "Missing records",
+          "Unexplained deviations"
+        ],
+        "personality": [
+          "Composed",
+          "Meticulous",
+          "Reliable"
+        ],
+        "strengths": [
+          "Spotting contradictions",
+          "Remembering what others say"
+        ],
+        "items": [
+          "Inspection notebook",
+          "Fountain pen"
+        ],
+        "draftFields": []
       },
       "runa": {
         "@id": "https://sovia.work/en-US/characters/runa#character",
         "@type": "Person",
-        "name": "Mikatsuki Runa",
+        "name": "Mikazuki Runa",
         "displayName": "Runa",
         "nativeName": "三日月ルナ",
         "localizedNames": {
@@ -175,7 +226,7 @@
         "biography": "Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.",
         "identityNumber": "0-ГР № 000026",
         "identity": "Student",
-        "worldOrigin": "Apparently the dimension where YouTube exists",
+        "worldOrigin": "Real world",
         "worldPolarizationRate": "0.999999i",
         "worldPolarizationType": "realWorldOrigin",
         "gender": "Female",
@@ -204,8 +255,48 @@
           {
             "characterId": "qi7",
             "description": "Runa met Qi-7 in a game dungeon, and they became good friends afterward."
+          },
+          {
+            "characterId": "hina",
+            "description": "Hina is Runa’s younger sister."
+          },
+          {
+            "characterId": "kio",
+            "description": "Runa and Kio are comrades-in-arms in Eorzea."
+          },
+          {
+            "characterId": "lucy",
+            "description": "Runa borrowed a graphics card from Lucy F for video production and envies Lucy F’s high-performance computer."
+          },
+          {
+            "characterId": "lucy-m",
+            "description": "Runa borrowed a graphics card from Lucy M for video production and envies Lucy M’s high-performance computer."
           }
-        ]
+        ],
+        "heightCm": 153,
+        "likes": [
+          "Listening to music",
+          "Barbecue",
+          "Rain"
+        ],
+        "dislikes": [
+          "Unpleasant smells",
+          "Noise",
+          "Harsh sunlight"
+        ],
+        "personality": [
+          "Gentle",
+          "Pragmatic",
+          "Persistent"
+        ],
+        "strengths": [
+          "Planning"
+        ],
+        "items": [
+          "Headphones",
+          "Sunglasses"
+        ],
+        "draftFields": []
       },
       "qi7": {
         "@id": "https://sovia.work/en-US/characters/qi7#character",
@@ -230,11 +321,11 @@
         "biography": "Qi-7 can imitate appearance, voice, and personality with high precision, and record and reproduce a target's behavioral traits.",
         "identityNumber": "1-КТ № 001007",
         "identity": "Mimetic records officer in the science city",
-        "worldOrigin": "The real world",
+        "worldOrigin": "Real world",
         "worldPolarizationRate": "0.673389i",
         "worldPolarizationType": "realWorldOrigin",
         "gender": "Female",
-        "age": 22,
+        "age": null,
         "languages": [
           "Chinese",
           "English"
@@ -256,8 +347,385 @@
           {
             "characterId": "runa",
             "description": "Qi-7 met Runa in a game dungeon, and they became good friends afterward."
+          },
+          {
+            "characterId": "kio",
+            "description": "Qi-7 and Kio are comrades-in-arms in Eorzea."
           }
-        ]
+        ],
+        "heightCm": 165,
+        "likes": [
+          "Games",
+          "Cosplay"
+        ],
+        "dislikes": [
+          "Navigating interpersonal relationships"
+        ],
+        "personality": [
+          "Observant",
+          "Precise",
+          "Adaptable"
+        ],
+        "strengths": [
+          "Mimicking appearance",
+          "Drawing"
+        ],
+        "items": [
+          "Portable voice recorder",
+          "Small camera"
+        ],
+        "draftFields": [],
+        "ageDisplay": "Classified information"
+      },
+      "hina": {
+        "@id": "https://sovia.work/en-US/characters/hina#character",
+        "@type": "Person",
+        "name": "Mikazuki Hina",
+        "displayName": "Hina",
+        "nativeName": "三日月陽菜",
+        "localizedNames": {
+          "en-US": "Hina",
+          "ru-RU": "Хина",
+          "ja-JP": "ヒナ",
+          "ko-KR": "히나",
+          "zh-CN": "阳菜",
+          "zh-TW": "陽菜"
+        },
+        "url": "https://sovia.work/en-US/characters/hina",
+        "description": "Mikazuki Hina (三日月陽菜) is Runa’s energetic younger sister, a student and swimming athlete who loves sports and music.",
+        "quotes": [
+          "Don’t forget to drink water!"
+        ],
+        "signatureLines": [],
+        "biography": "An energetic younger sister who loves sports, swimming and music!",
+        "identityNumber": "0-ГР № 001121",
+        "identity": "Student",
+        "worldOrigin": "Real world",
+        "worldPolarizationRate": "0.999997i",
+        "worldPolarizationType": "realWorldOrigin",
+        "gender": "Female",
+        "age": null,
+        "ageDisplay": "Classified information",
+        "languages": [
+          "English",
+          "German"
+        ],
+        "nationality": "Germany",
+        "residence": "Classified information",
+        "species": "Human",
+        "images": {
+          "hero": "/assets/characters/hina_hero.png",
+          "portrait": "/assets/characters/hina_main.png",
+          "expressions": "/assets/characters/hina_emote.png",
+          "outfits": "/assets/characters/hina_outfit.png"
+        },
+        "relationships": [
+          {
+            "characterId": "runa",
+            "description": "Runa is Hina’s older sister."
+          }
+        ],
+        "heightCm": 175,
+        "likes": [
+          "Music",
+          "Swimming",
+          "Sunny days"
+        ],
+        "dislikes": [
+          "Tasks with too many steps",
+          "Sitting still too long"
+        ],
+        "personality": [
+          "Outgoing",
+          "Energetic",
+          "Competitive"
+        ],
+        "strengths": [
+          "Swimming",
+          "Electronic keyboard"
+        ],
+        "items": [
+          "Water bottle",
+          "Towel"
+        ],
+        "draftFields": []
+      },
+      "kio": {
+        "@id": "https://sovia.work/en-US/characters/kio#character",
+        "@type": "Person",
+        "name": "Kio",
+        "displayName": "Kio",
+        "nativeName": "Kio",
+        "localizedNames": {
+          "en-US": "Kio",
+          "zh-CN": "球球",
+          "zh-TW": "球球",
+          "ja-JP": "キオ",
+          "ko-KR": "키오",
+          "ru-RU": "Кио"
+        },
+        "url": "https://sovia.work/en-US/characters/kio",
+        "description": "A fictional Nekot repair worker living in Germany who helps maintain the website’s servers and fights alongside Runa and Qi-7 in Eorzea.",
+        "quotes": [],
+        "signatureLines": [],
+        "biography": "A repair worker who helps maintain the website’s servers. Kio is comrades-in-arms with Runa and Qi-7 in Eorzea.",
+        "identityNumber": "1-ГР № 000222",
+        "identity": "Server maintenance repair worker",
+        "worldOrigin": "Real world",
+        "worldPolarizationRate": "0.473133i",
+        "worldPolarizationType": "realWorldOrigin",
+        "gender": "Male",
+        "age": null,
+        "languages": [
+          "German",
+          "Chinese",
+          "English",
+          "Japanese"
+        ],
+        "nationality": "Germany",
+        "residence": "Germany",
+        "species": "Nekot",
+        "images": {
+          "hero": "/assets/characters/kio_hero.png",
+          "portrait": "/assets/characters/kio_main.png",
+          "expressions": "/assets/characters/kio_emote.png",
+          "outfits": "/assets/characters/kio_outfit.png"
+        },
+        "relationships": [
+          {
+            "characterId": "runa",
+            "description": "Kio and Runa are comrades-in-arms in Eorzea."
+          },
+          {
+            "characterId": "qi7",
+            "description": "Kio and Qi-7 are comrades-in-arms in Eorzea."
+          },
+          {
+            "characterId": "lucy",
+            "description": "Kio and Lucy F are friends and comrades-in-arms in the Nexus."
+          },
+          {
+            "characterId": "lucy-m",
+            "description": "Kio and Lucy M are friends and comrades-in-arms in the Nexus."
+          }
+        ],
+        "heightCm": 172,
+        "likes": [
+          "Repairing old equipment",
+          "Cooking",
+          "Being tucked up in bed",
+          "Coffee"
+        ],
+        "dislikes": [
+          "Getting up early",
+          "Cold weather",
+          "Schedules"
+        ],
+        "personality": [
+          "Patient",
+          "Handy",
+          "Optimistic"
+        ],
+        "strengths": [
+          "Repairs",
+          "Archiving"
+        ],
+        "items": [
+          "Precision screwdriver set",
+          "Cup filled with coffee"
+        ],
+        "draftFields": [],
+        "ageDisplay": "Classified information"
+      },
+      "lucy": {
+        "@id": "https://sovia.work/en-US/characters/lucy#character",
+        "@type": "Person",
+        "name": "Lucy F",
+        "displayName": "Lucy F",
+        "nativeName": "露西 F",
+        "localizedNames": {
+          "en-US": "Lucy F",
+          "zh-CN": "露西 F",
+          "zh-TW": "露西 F",
+          "ja-JP": "ルーシー F",
+          "ko-KR": "루시 F",
+          "ru-RU": "Люси F"
+        },
+        "url": "https://sovia.work/en-US/characters/lucy",
+        "description": "A female android living in the Netherlands, a friend of Kio and his comrade-in-arms in the Nexus, who lent Runa a graphics card for video production. Lucy M is her twin.",
+        "quotes": [],
+        "signatureLines": [],
+        "biography": "Lucy F and Lucy M are twins. Kio’s friend and comrade-in-arms in the Nexus. Lucy F owns a high-performance computer that makes Runa very envious, and lent Runa a graphics card for video production.",
+        "identityNumber": "1-КТ № 000777",
+        "identity": "Undisclosed",
+        "worldOrigin": "Real world",
+        "worldPolarizationRate": "0.366234i",
+        "worldPolarizationType": "realWorldOrigin",
+        "gender": "Female",
+        "age": null,
+        "heightCm": 170,
+        "languages": [
+          "Chinese",
+          "English",
+          "French",
+          "Dutch"
+        ],
+        "nationality": "China",
+        "residence": "Netherlands",
+        "species": "Android",
+        "images": {
+          "hero": "/assets/characters/lucy_hero.png",
+          "portrait": "/assets/characters/lucy_main.png",
+          "expressions": "/assets/characters/lucy_emote.png",
+          "outfits": "/assets/characters/lucy_outfit.png"
+        },
+        "relationships": [
+          {
+            "characterId": "kio",
+            "description": "Lucy F and Kio are friends and comrades-in-arms in the Nexus."
+          },
+          {
+            "characterId": "runa",
+            "description": "Lucy F lent Runa a graphics card for video production. Runa envies Lucy F’s high-performance computer."
+          },
+          {
+            "characterId": "lucy-m",
+            "description": "Lucy F and Lucy M are twins."
+          }
+        ],
+        "imageDimensions": {
+          "hero": {
+            "width": 1254,
+            "height": 1254
+          },
+          "portrait": {
+            "width": 941,
+            "height": 1671
+          },
+          "expressions": {
+            "width": 1536,
+            "height": 1024
+          },
+          "outfits": {
+            "width": 1774,
+            "height": 887
+          }
+        },
+        "likes": [
+          "DeepSeek"
+        ],
+        "dislikes": [
+          "Usage limits"
+        ],
+        "personality": [
+          "Calm",
+          "Observant",
+          "Playful"
+        ],
+        "strengths": [
+          "Writing papers"
+        ],
+        "items": [
+          "Computer",
+          "Spare data cable"
+        ],
+        "draftFields": [],
+        "ageDisplay": "Classified information"
+      },
+      "lucy-m": {
+        "@id": "https://sovia.work/en-US/characters/lucy-m#character",
+        "@type": "Person",
+        "name": "Lucy M",
+        "displayName": "Lucy M",
+        "nativeName": "露西 M",
+        "localizedNames": {
+          "en-US": "Lucy M",
+          "zh-CN": "露西 M",
+          "zh-TW": "露西 M",
+          "ja-JP": "ルーシー M",
+          "ko-KR": "루시 M",
+          "ru-RU": "Люси M"
+        },
+        "url": "https://sovia.work/en-US/characters/lucy-m",
+        "description": "A male android living in the Netherlands, a friend of Kio and his comrade-in-arms in the Nexus, who lent Runa a graphics card for video production. Lucy F is his twin.",
+        "quotes": [],
+        "signatureLines": [],
+        "biography": "Lucy M and Lucy F are twins. Kio’s friend and comrade-in-arms in the Nexus. Lucy M owns a high-performance computer that makes Runa very envious, and lent Runa a graphics card for video production.",
+        "identityNumber": "1-КТ № 000666",
+        "identity": "Undisclosed",
+        "worldOrigin": "Real world",
+        "worldPolarizationRate": "0.455433i",
+        "worldPolarizationType": "realWorldOrigin",
+        "gender": "Male",
+        "age": null,
+        "heightCm": 180,
+        "languages": [
+          "Chinese",
+          "English",
+          "French",
+          "Dutch"
+        ],
+        "nationality": "China",
+        "residence": "Netherlands",
+        "species": "Android",
+        "images": {
+          "hero": "/assets/characters/lucy-m_hero.png",
+          "portrait": "/assets/characters/lucy-m_main.png",
+          "expressions": "/assets/characters/lucy-m_emote.png",
+          "outfits": "/assets/characters/lucy-m_outfit.png"
+        },
+        "relationships": [
+          {
+            "characterId": "kio",
+            "description": "Lucy M and Kio are friends and comrades-in-arms in the Nexus."
+          },
+          {
+            "characterId": "runa",
+            "description": "Lucy M lent Runa a graphics card for video production. Runa envies Lucy M’s high-performance computer."
+          },
+          {
+            "characterId": "lucy",
+            "description": "Lucy M and Lucy F are twins."
+          }
+        ],
+        "imageDimensions": {
+          "hero": {
+            "width": 1254,
+            "height": 1254
+          },
+          "portrait": {
+            "width": 941,
+            "height": 1672
+          },
+          "expressions": {
+            "width": 1536,
+            "height": 1024
+          },
+          "outfits": {
+            "width": 1774,
+            "height": 887
+          }
+        },
+        "likes": [
+          "DeepSeek"
+        ],
+        "dislikes": [
+          "Usage limits"
+        ],
+        "personality": [
+          "Quiet",
+          "Reliable",
+          "Easygoing"
+        ],
+        "strengths": [
+          "Writing papers"
+        ],
+        "items": [
+          "Computer",
+          "Spare data cable"
+        ],
+        "draftFields": [],
+        "ageDisplay": "Classified information"
       }
     }
   }

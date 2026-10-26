@@ -19,7 +19,18 @@ export function HomeCardArt({ kind }: { kind: string }) {
       <div className="home-card-art" data-kind={kind} aria-hidden="true">
         <span className="art-registration">+</span>
         <div className="home-character-portraits">
-          {(["sovia", "kata", "runa", "qi7"] as const).map((id) => (
+          {(
+            [
+              "sovia",
+              "kata",
+              "runa",
+              "qi7",
+              "hina",
+              "kio",
+              "lucy",
+              "lucy-m",
+            ] as const
+          ).map((id) => (
             <span key={id}>
               <Image
                 src={"/assets/characters/" + id + "_main.png"}

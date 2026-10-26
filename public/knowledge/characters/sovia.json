@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "updatedAt": "2026-10-16",
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
@@ -28,7 +28,7 @@
     "biography": "An interdimensional broadcaster in the science city who arranges music received from other worlds.",
     "identityNumber": "IV-ТР № 652373",
     "identity": "Interdimensional broadcaster in the science city",
-    "worldOrigin": "The world of the interdimensional radio station",
+    "worldOrigin": "Sovia’s world",
     "worldPolarizationRate": "0.000000",
     "worldPolarizationType": "prime",
     "gender": "Female",
@@ -59,6 +59,30 @@
         "characterId": "qi7",
         "description": "Qi-7 found Sovia interesting and began imitating her."
       }
-    ]
+    ],
+    "heightCm": 153,
+    "likes": [
+      "Old records",
+      "Cookies",
+      "Rain"
+    ],
+    "dislikes": [
+      "Signal interference",
+      "Deadlines",
+      "Computer crashes"
+    ],
+    "personality": [
+      "Curious",
+      "Earnest",
+      "Attentive"
+    ],
+    "strengths": [
+      "Organizing things"
+    ],
+    "items": [
+      "Portable radio",
+      "Notebook"
+    ],
+    "draftFields": []
   }
 }

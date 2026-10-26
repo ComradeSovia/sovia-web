@@ -2,10 +2,12 @@
 
 import { getCosplayPhotoPath } from "@sovia/gallery/data/cosplay";
 import type { GalleryCopy } from "@sovia/gallery/i18n/copy";
+import { WORLD_ORIGIN_PATH } from "@sovia/shared/constants/routes";
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { getCharacterPath } from "@sovia/shared/seo/character-path";
+import { Backpack, Heart, Sparkles, ThumbsDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -49,7 +51,43 @@ const characters = [
     identityNumber: canon.entities.characters.qi7.identityNumber,
     polarization: canon.entities.characters.qi7.worldPolarizationRate,
     polarizationType: canon.entities.characters.qi7.worldPolarizationType,
-    age: String(canon.entities.characters.qi7.age),
+    age: null,
+  },
+  {
+    id: "hina",
+    name: canon.entities.characters.hina.displayName,
+    number: "05",
+    identityNumber: canon.entities.characters.hina.identityNumber,
+    polarization: canon.entities.characters.hina.worldPolarizationRate,
+    polarizationType: canon.entities.characters.hina.worldPolarizationType,
+    age: null,
+  },
+  {
+    id: "kio",
+    name: canon.entities.characters.kio.displayName,
+    number: "06",
+    identityNumber: canon.entities.characters.kio.identityNumber,
+    polarization: canon.entities.characters.kio.worldPolarizationRate,
+    polarizationType: canon.entities.characters.kio.worldPolarizationType,
+    age: null,
+  },
+  {
+    id: "lucy",
+    name: canon.entities.characters.lucy.displayName,
+    number: "07",
+    identityNumber: canon.entities.characters.lucy.identityNumber,
+    polarization: canon.entities.characters.lucy.worldPolarizationRate,
+    polarizationType: canon.entities.characters.lucy.worldPolarizationType,
+    age: null,
+  },
+  {
+    id: "lucy-m",
+    name: canon.entities.characters["lucy-m"].displayName,
+    number: "08",
+    identityNumber: canon.entities.characters["lucy-m"].identityNumber,
+    polarization: canon.entities.characters["lucy-m"].worldPolarizationRate,
+    polarizationType: canon.entities.characters["lucy-m"].worldPolarizationType,
+    age: null,
   },
 ] as const;
 const polarizationTypes = canon.worldPolarizationTypes as Array<{
@@ -72,7 +110,9 @@ function Portrait({
   id,
   name,
   sizes,
+  src,
 }: {
+  src?: string;
   id: CharacterId;
   name: string;
   sizes: string;
@@ -80,7 +120,7 @@ function Portrait({
   return (
     <span className="relative block h-full w-full overflow-hidden rounded-full bg-block theme-grid">
       <Image
-        src={"/assets/characters/" + id + "_main.png"}
+        src={src ?? "/assets/characters/" + id + "_main.png"}
         alt={name}
         fill
         sizes={sizes}
@@ -105,80 +145,152 @@ function CharacterFacts({
   character,
   dossier,
   copy,
+  locale,
 }: {
   character: (typeof characters)[number];
   dossier: Dossier;
   copy: CharacterCopy;
+  locale: SiteLocale;
 }) {
   const labels = copy.labels;
-  const type =
-    polarizationTypes.find(
-      (item) => item.type === character.polarizationType,
-    ) ?? polarizationTypes[0];
-  const typeDescription = copy.worldTypes[polarizationTypes.indexOf(type)];
+  const profile = canon.entities.characters[character.id];
+  const ageFallback =
+    "ageDisplay" in profile && profile.ageDisplay === "Undisclosed"
+      ? labels.undisclosed
+      : labels.unknown;
+  const type = polarizationTypes.find(
+    (item) => item.type === character.polarizationType,
+  );
 
   return (
-    <dl className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-      <Fact label={labels.identityNumber} value={character.identityNumber} />
-      <Fact label={labels.fullName} value={dossier.fullName} />
-      <div className="col-span-2 min-w-0 border-t border-ink py-3">
-        <dt className="meta text-xs">{labels.worldPolarizationRate}</dt>
-        <dd className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="text-lg font-black">{character.polarization}</span>
-          <span className="bg-red px-2 py-1 text-xs font-black text-relief">
-            {type.symbol}
-          </span>
-          <span className="text-sm font-bold">
-            {copy.worldTypeNames[type.type]}
-          </span>
-        </dd>
-        <p className="mt-2 text-sm leading-relaxed">{typeDescription}</p>
-        <p className="mt-2 text-sm leading-relaxed">
-          <span className="mr-2 font-bold">{labels.worldOrigin}</span>
-          {dossier.origin}
-        </p>
-        <details className="mt-3 text-sm">
-          <summary className="w-fit cursor-pointer font-bold underline underline-offset-4">
-            {labels.worldTypes}
-          </summary>
-          <div className="mt-3 border-t border-ink pt-4">
-            <div className={styles.worldCoordinate}>
-              {polarizationTypes.map((item, index) => (
-                <div
-                  key={item.type}
-                  className={`${styles.worldPoint} ${styles[`worldPoint${index}`]}`}
-                  data-active={item.type === character.polarizationType}
-                >
-                  <span className={styles.worldSymbol}>{item.symbol}</span>
-                  <span className={styles.worldPointName}>
-                    {copy.worldTypeNames[item.type]}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
-              {polarizationTypes.map((item, index) => (
-                <div
-                  key={item.type}
-                  className="min-w-0 text-xs leading-relaxed"
-                >
-                  <span className="font-black">
-                    {item.symbol} / {copy.worldTypeNames[item.type]}
-                  </span>
-                  <p className="mt-1">{copy.worldTypes[index]}</p>
-                </div>
-              ))}
-            </div>
+    <div className={styles.factGroups}>
+      <section className={styles.factsCard}>
+        <h4>{copy.profileSections.basics}</h4>
+        <dl className={styles.quickFacts}>
+          <Fact label={labels.gender} value={dossier.gender} />
+          <Fact label={labels.age} value={character.age ?? ageFallback} />
+          <Fact label={labels.height} value={dossier.height} />
+          <Fact label={labels.species} value={dossier.species} />
+        </dl>
+        <dl className={styles.factsGrid}>
+          <Fact label={labels.fullName} value={dossier.fullName} />
+          <Fact
+            label={labels.identityNumber}
+            value={character.identityNumber ?? labels.undisclosed}
+          />
+          <Fact label={labels.nationality} value={dossier.nationality} />
+          <Fact label={labels.residence} value={dossier.residence} />
+          <Fact label={labels.languages} value={dossier.languages} />
+        </dl>
+      </section>
+      <section className={styles.worldRecord}>
+        <h4>{copy.profileSections.world}</h4>
+        <dl>
+          <div>
+            <dt>{labels.worldOrigin}</dt>
+            <dd>{dossier.origin}</dd>
           </div>
-        </details>
+          <div>
+            <dt>{labels.worldPolarizationRate}</dt>
+            <dd>{character.polarization ?? labels.undisclosed}</dd>
+          </div>
+        </dl>
+        <Link
+          href={getSiteLocalizedPath(
+            WORLD_ORIGIN_PATH + (type ? "#" + type.type : ""),
+            locale,
+          )}
+          title={type ? copy.worldTypeNames[type.type] : labels.undisclosed}
+        >
+          <span className={styles.originSymbol}>{type?.symbol ?? "?"}</span>
+          <span>
+            {labels.worldTypes} <span aria-hidden="true">↗</span>
+          </span>
+        </Link>
+      </section>
+    </div>
+  );
+}
+
+function CharacterNotes({
+  dossier,
+  copy,
+  draftFields,
+}: {
+  dossier: Dossier;
+  copy: CharacterCopy;
+  draftFields: readonly string[];
+}) {
+  const isDraft = draftFields.some((field) => field !== "heightCm");
+  const draftBadge = (field: string) =>
+    draftFields.includes(field) ? (
+      <span className={styles.fieldDraft}>{copy.profileSections.draft}</span>
+    ) : null;
+  return (
+    <section
+      className={styles.characterNotes}
+      aria-labelledby="character-notes-heading"
+    >
+      <header className={styles.notesHeader}>
+        <h3 id="character-notes-heading">{copy.profileSections.daily}</h3>
+      </header>
+      {isDraft && (
+        <p className={styles.draftNote}>{copy.profileSections.draftNote}</p>
+      )}
+      <div className={styles.personalityRow}>
+        <h4>
+          {copy.labels.personality}
+          {draftBadge("personality")}
+        </h4>
+        <ul>
+          {dossier.personality.map((trait) => (
+            <li key={trait}>{trait}</li>
+          ))}
+        </ul>
       </div>
-      <Fact label={labels.gender} value={dossier.gender} />
-      <Fact label={labels.age} value={character.age ?? labels.unknown} />
-      <Fact label={labels.languages} value={dossier.languages} />
-      <Fact label={labels.nationality} value={dossier.nationality} />
-      <Fact label={labels.residence} value={dossier.residence} />
-      <Fact label={labels.species} value={dossier.species} />
-    </dl>
+      <div className={styles.notesGrid}>
+        <article className={styles.noteCard} data-kind="likes">
+          <h4>
+            <Heart size={18} aria-hidden="true" />
+            {copy.labels.likes}
+            {draftBadge("likes")}
+          </h4>
+          <p>{dossier.likes}</p>
+        </article>
+        <article className={styles.noteCard} data-kind="dislikes">
+          <h4>
+            <ThumbsDown size={18} aria-hidden="true" />
+            {copy.labels.dislikes}
+            {draftBadge("dislikes")}
+          </h4>
+          <p>{dossier.dislikes}</p>
+        </article>
+        <article className={styles.noteCard}>
+          <h4>
+            <Sparkles size={18} aria-hidden="true" />
+            {copy.labels.strengths}
+            {draftBadge("strengths")}
+          </h4>
+          <ul>
+            {dossier.strengths.map((strength) => (
+              <li key={strength}>{strength}</li>
+            ))}
+          </ul>
+        </article>
+        <article className={styles.noteCard}>
+          <h4>
+            <Backpack size={18} aria-hidden="true" />
+            {copy.labels.items}
+            {draftBadge("items")}
+          </h4>
+          <ul>
+            {dossier.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
   );
 }
 
@@ -186,20 +298,23 @@ function ExpressionCarousel({
   character,
   copy,
   onOpenOriginal,
+  artwork,
 }: {
+  artwork?: { src: string; width: number; height: number };
   character: (typeof characters)[number];
   copy: CharacterCopy;
   onOpenOriginal: (image: OriginalImage) => void;
 }) {
   const [active, setActive] = useState(0);
-  const imagePath = "/assets/characters/" + character.id + "_emote.png";
+  const imagePath =
+    artwork?.src ?? "/assets/characters/" + character.id + "_emote.png";
   const imageAlt = character.name + " — " + copy.views.emote;
   const showExpression = (index: number) => setActive((index + 6) % 6);
 
   return (
     <figure className={`${styles.galleryPanel} ${styles.expressionPanel}`}>
       <div className={styles.galleryHeading}>
-        <span>02 / {copy.views.emote}</span>
+        <span>03 / {copy.views.emote}</span>
         <span aria-live="polite">
           {String(active + 1).padStart(2, "0")} / 06
         </span>
@@ -210,6 +325,9 @@ function ExpressionCarousel({
         role="img"
         aria-label={`${imageAlt} ${active + 1} / 6`}
         style={{
+          aspectRatio: artwork
+            ? (artwork.width * 2) / (artwork.height * 3)
+            : undefined,
           backgroundImage: `url("${imagePath}")`,
           backgroundPosition: `${(active % 3) * 50}% ${Math.floor(active / 3) * 100}%`,
         }}
@@ -248,8 +366,8 @@ function ExpressionCarousel({
             onOpenOriginal({
               src: imagePath,
               alt: imageAlt,
-              width: 1672,
-              height: 941,
+              width: artwork?.width ?? 1672,
+              height: artwork?.height ?? (character.id === "hina" ? 940 : 941),
             })
           }
           className={styles.galleryOriginal}
@@ -275,6 +393,11 @@ export function CharactersPage({
   selectedId: CharacterId;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const selectorRef = useRef<HTMLDivElement>(null);
+  const [selectorOverflow, setSelectorOverflow] = useState({
+    start: false,
+    end: false,
+  });
   const [original, setOriginal] = useState<OriginalImage | null>(null);
   const localizedCharacters = characters.map((item) => ({
     ...item,
@@ -284,7 +407,65 @@ export function CharactersPage({
     localizedCharacters.find((item) => item.id === selectedId) ??
     localizedCharacters[0];
   const dossier = copy.dossiers[character.id];
-  const heroPath = "/assets/characters/" + character.id + "_hero.png";
+  const profile = canon.entities.characters[character.id];
+  const artwork = profile.images;
+  const imageDimensions =
+    "imageDimensions" in profile ? profile.imageDimensions : undefined;
+  const heroPath = artwork.hero;
+
+  useEffect(() => {
+    const viewport = selectorRef.current;
+    if (!viewport) return;
+
+    const isHorizontal = () =>
+      window.getComputedStyle(viewport).overflowX === "auto";
+    const updateOverflow = () => {
+      const horizontal = isHorizontal();
+      const position = horizontal ? viewport.scrollLeft : viewport.scrollTop;
+      const remaining = horizontal
+        ? viewport.scrollWidth - viewport.clientWidth - position
+        : viewport.scrollHeight - viewport.clientHeight - position;
+      const start = position > 1;
+      const end = remaining > 1;
+      setSelectorOverflow((previous) =>
+        previous.start === start && previous.end === end
+          ? previous
+          : { start, end },
+      );
+    };
+    const revealSelected = () => {
+      const selected = viewport.querySelector<HTMLAnchorElement>(
+        `[data-character-id="${selectedId}"]`,
+      );
+      if (selected) {
+        const horizontal = isHorizontal();
+        const bounds = viewport.getBoundingClientRect();
+        const item = selected.getBoundingClientRect();
+        const before = horizontal
+          ? item.left - bounds.left - 16
+          : item.top - bounds.top - 16;
+        const after = horizontal
+          ? item.right - bounds.right + 16
+          : item.bottom - bounds.bottom + 16;
+        const delta = before < 0 ? before : after > 0 ? after : 0;
+        if (delta) {
+          viewport.scrollBy(horizontal ? { left: delta } : { top: delta });
+        }
+      }
+      updateOverflow();
+    };
+
+    const observer = new ResizeObserver(revealSelected);
+    observer.observe(viewport);
+    if (viewport.firstElementChild)
+      observer.observe(viewport.firstElementChild);
+    viewport.addEventListener("scroll", updateOverflow, { passive: true });
+    revealSelected();
+    return () => {
+      observer.disconnect();
+      viewport.removeEventListener("scroll", updateOverflow);
+    };
+  }, [selectedId]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -304,33 +485,63 @@ export function CharactersPage({
         <div className={styles.showcaseInner}>
           <header className={styles.showcaseTopline}>
             <div>
-              <span className="meta">{copy.eyebrow} / 01—04</span>
+              <span className="meta">
+                {copy.eyebrow} / 01—{String(characters.length).padStart(2, "0")}
+              </span>
               <h1>{copy.title}</h1>
             </div>
             <span className={styles.showcaseIndex}>
-              {character.number} / 04
+              {character.number} / {String(characters.length).padStart(2, "0")}
             </span>
           </header>
 
           <nav aria-label={copy.eyebrow} className={styles.selector}>
-            {localizedCharacters.map((item) => (
-              <Link
-                key={item.id}
-                href={getSiteLocalizedPath(getCharacterPath(item.id), locale)}
-                scroll={false}
-                aria-label={item.name}
-                aria-current={selectedId === item.id ? "page" : undefined}
-                className={
-                  styles.selectorLink +
-                  (selectedId === item.id ? " " + styles.selectorActive : "")
-                }
-              >
-                <span className={styles.selectorPortrait}>
-                  <Portrait id={item.id} name={item.name} sizes="80px" />
-                </span>
-                <span>{item.name}</span>
-              </Link>
-            ))}
+            <div
+              ref={selectorRef}
+              className={styles.selectorScroll}
+              data-overflow-start={selectorOverflow.start}
+              data-overflow-end={selectorOverflow.end}
+            >
+              <div className={styles.selectorItems}>
+                {localizedCharacters.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={getSiteLocalizedPath(
+                      getCharacterPath(item.id),
+                      locale,
+                    )}
+                    scroll={false}
+                    aria-label={item.name}
+                    data-character-id={item.id}
+                    aria-current={selectedId === item.id ? "page" : undefined}
+                    className={
+                      styles.selectorLink +
+                      (selectedId === item.id
+                        ? " " + styles.selectorActive
+                        : "")
+                    }
+                  >
+                    <span className={styles.selectorPortrait}>
+                      <Portrait
+                        id={item.id}
+                        name={
+                          item.id === character.id ? character.name : item.name
+                        }
+                        sizes="80px"
+                        src={
+                          item.id === character.id
+                            ? artwork.portrait
+                            : undefined
+                        }
+                      />
+                    </span>
+                    <span>
+                      {item.id === character.id ? character.name : item.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
 
           <div key={character.id + "-artwork"} className={styles.heroArtwork}>
@@ -351,7 +562,8 @@ export function CharactersPage({
             aria-atomic="true"
           >
             <div className={styles.infoKicker}>
-              {copy.eyebrow} / {character.identityNumber}
+              {copy.eyebrow} /{" "}
+              {character.identityNumber ?? copy.labels.undisclosed}
             </div>
             <h2 id="active-character-heading">{character.name}</h2>
             <p className={styles.fullName}>
@@ -363,7 +575,9 @@ export function CharactersPage({
             {character.id === "runa" && (
               <span className={styles.nameType}>{copy.labels.nameType}</span>
             )}
-            <blockquote>“{dossier.quote}”</blockquote>
+            {canon.entities.characters[character.id].quotes.length > 0 && (
+              <blockquote>“{dossier.quote}”</blockquote>
+            )}
             <p className={styles.identity}>{dossier.identity}</p>
             <p className={styles.biography}>{dossier.biography}</p>
             <button
@@ -384,45 +598,103 @@ export function CharactersPage({
         </div>
       </section>
 
-      <div className={styles.dossierSection}>
-        <div className={styles.dossierHeading}>
-          <span className="meta">
-            {copy.eyebrow} / {character.number}
-          </span>
-          <h3>{character.name}</h3>
-          {dossier.signature && <p>“{dossier.signature}”</p>}
+      <section
+        className={styles.dossierSection}
+        aria-labelledby="character-dossier-heading"
+      >
+        <figure className={`${styles.galleryPanel} ${styles.portraitPanel}`}>
+          <div className={styles.galleryHeading}>
+            <span>01 / {copy.views.main}</span>
+            <span>{character.name}</span>
+          </div>
+          <div className={styles.portraitImage}>
+            <Image
+              src={artwork.portrait}
+              alt={character.name + " — " + copy.views.main}
+              fill
+              sizes="(min-width: 900px) 40vw, 100vw"
+              className="object-contain object-bottom"
+            />
+          </div>
+          <figcaption className={styles.galleryFooter}>
+            <span>
+              {character.name} / {copy.views.main}
+            </span>
+            <button
+              type="button"
+              onClick={() =>
+                setOriginal({
+                  src: artwork.portrait,
+                  alt: character.name + " — " + copy.views.main,
+                  width:
+                    imageDimensions?.portrait.width ??
+                    (character.id === "hina" || character.id === "kio"
+                      ? 1024
+                      : 941),
+                  height:
+                    imageDimensions?.portrait.height ??
+                    (character.id === "hina" || character.id === "kio"
+                      ? 1536
+                      : 1672),
+                })
+              }
+              className={styles.galleryOriginal}
+            >
+              {copy.openOriginal} ↗
+            </button>
+          </figcaption>
+        </figure>
+        <div className={styles.dossierContent}>
+          <div className={styles.dossierHeading}>
+            <span className="meta">
+              {copy.eyebrow} / {character.number}
+            </span>
+            <h3 id="character-dossier-heading">{character.name}</h3>
+            {dossier.signature && <p>“{dossier.signature}”</p>}
+          </div>
+          <CharacterFacts
+            character={character}
+            dossier={dossier}
+            copy={copy}
+            locale={locale}
+          />
         </div>
-        <CharacterFacts character={character} dossier={dossier} copy={copy} />
-      </div>
+      </section>
+
+      <CharacterNotes
+        dossier={dossier}
+        copy={copy}
+        draftFields={profile.draftFields}
+      />
 
       <section className="space-y-8">
-        <div className={styles.gallery}>
-          <figure className={`${styles.galleryPanel} ${styles.portraitPanel}`}>
+        <div className={styles.gallery} data-character={character.id}>
+          <figure className={`${styles.galleryPanel} ${styles.outfitPanel}`}>
             <div className={styles.galleryHeading}>
-              <span>01 / {copy.views.main}</span>
+              <span>02 / {copy.views.outfit}</span>
               <span>{character.name}</span>
             </div>
-            <div className={styles.portraitImage}>
+            <div className={styles.outfitImage}>
               <Image
-                src={"/assets/characters/" + character.id + "_main.png"}
-                alt={character.name + " — " + copy.views.main}
+                src={artwork.outfits}
+                alt={character.name + " — " + copy.views.outfit}
                 fill
-                sizes="(min-width: 900px) 45vw, 100vw"
+                sizes="(min-width: 900px) 60vw, 100vw"
                 className="object-contain object-bottom"
               />
             </div>
             <figcaption className={styles.galleryFooter}>
               <span>
-                {character.name} / {copy.views.main}
+                {character.name} / {copy.views.outfit}
               </span>
               <button
                 type="button"
                 onClick={() =>
                   setOriginal({
-                    src: "/assets/characters/" + character.id + "_main.png",
-                    alt: character.name + " — " + copy.views.main,
-                    width: 941,
-                    height: 1672,
+                    src: artwork.outfits,
+                    alt: character.name + " — " + copy.views.outfit,
+                    width: imageDimensions?.outfits.width ?? 1672,
+                    height: imageDimensions?.outfits.height ?? 941,
                   })
                 }
                 className={styles.galleryOriginal}
@@ -431,48 +703,17 @@ export function CharactersPage({
               </button>
             </figcaption>
           </figure>
-          <div className={styles.gallerySide}>
-            <ExpressionCarousel
-              key={character.id}
-              character={character}
-              copy={copy}
-              onOpenOriginal={setOriginal}
-            />
-            <figure className={`${styles.galleryPanel} ${styles.outfitPanel}`}>
-              <div className={styles.galleryHeading}>
-                <span>03 / {copy.views.outfit}</span>
-                <span>{character.name}</span>
-              </div>
-              <div className={styles.outfitImage}>
-                <Image
-                  src={"/assets/characters/" + character.id + "_outfit.png"}
-                  alt={character.name + " — " + copy.views.outfit}
-                  fill
-                  sizes="(min-width: 900px) 55vw, 100vw"
-                  className="object-contain object-bottom"
-                />
-              </div>
-              <figcaption className={styles.galleryFooter}>
-                <span>
-                  {character.name} / {copy.views.outfit}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setOriginal({
-                      src: "/assets/characters/" + character.id + "_outfit.png",
-                      alt: character.name + " — " + copy.views.outfit,
-                      width: 1672,
-                      height: 941,
-                    })
-                  }
-                  className={styles.galleryOriginal}
-                >
-                  {copy.openOriginal} ↗
-                </button>
-              </figcaption>
-            </figure>
-          </div>
+          <ExpressionCarousel
+            key={character.id}
+            artwork={
+              imageDimensions
+                ? { src: artwork.expressions, ...imageDimensions.expressions }
+                : undefined
+            }
+            character={character}
+            copy={copy}
+            onOpenOriginal={setOriginal}
+          />
         </div>
 
         <div className="border-t-[3px] border-ink pt-6">

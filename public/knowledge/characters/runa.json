@@ -1,12 +1,12 @@
 {
-  "version": "1.0.8",
-  "updatedAt": "2026-10-16",
+  "version": "1.0.34",
+  "updatedAt": "2026-10-26",
   "language": "en-US",
   "projectId": "https://sovia.work/#project",
   "character": {
     "@id": "https://sovia.work/en-US/characters/runa#character",
     "@type": "Person",
-    "name": "Mikatsuki Runa",
+    "name": "Mikazuki Runa",
     "displayName": "Runa",
     "nativeName": "三日月ルナ",
     "localizedNames": {
@@ -27,7 +27,7 @@
     "biography": "Ordinary classes, part-time work, meals, sleep, and a little singing. She also helps Sovia carry her voice into your world.",
     "identityNumber": "0-ГР № 000026",
     "identity": "Student",
-    "worldOrigin": "Apparently the dimension where YouTube exists",
+    "worldOrigin": "Real world",
     "worldPolarizationRate": "0.999999i",
     "worldPolarizationType": "realWorldOrigin",
     "gender": "Female",
@@ -56,7 +56,47 @@
       {
         "characterId": "qi7",
         "description": "Runa met Qi-7 in a game dungeon, and they became good friends afterward."
+      },
+      {
+        "characterId": "hina",
+        "description": "Hina is Runa’s younger sister."
+      },
+      {
+        "characterId": "kio",
+        "description": "Runa and Kio are comrades-in-arms in Eorzea."
+      },
+      {
+        "characterId": "lucy",
+        "description": "Runa borrowed a graphics card from Lucy F for video production and envies Lucy F’s high-performance computer."
+      },
+      {
+        "characterId": "lucy-m",
+        "description": "Runa borrowed a graphics card from Lucy M for video production and envies Lucy M’s high-performance computer."
       }
-    ]
+    ],
+    "heightCm": 153,
+    "likes": [
+      "Listening to music",
+      "Barbecue",
+      "Rain"
+    ],
+    "dislikes": [
+      "Unpleasant smells",
+      "Noise",
+      "Harsh sunlight"
+    ],
+    "personality": [
+      "Gentle",
+      "Pragmatic",
+      "Persistent"
+    ],
+    "strengths": [
+      "Planning"
+    ],
+    "items": [
+      "Headphones",
+      "Sunglasses"
+    ],
+    "draftFields": []
   }
 }

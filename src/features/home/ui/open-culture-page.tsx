@@ -1,4 +1,4 @@
-import { getRoutes } from "@sovia/shared/constants/routes";
+import { getRoutes, WORLD_ORIGIN_PATH } from "@sovia/shared/constants/routes";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
@@ -21,6 +21,10 @@ export function OpenCulturePage({
     {
       label: homeCopy.characters.title,
       href: getSiteLocalizedPath("/characters", locale),
+    },
+    {
+      label: homeCopy.worldOrigin.title,
+      href: getSiteLocalizedPath(WORLD_ORIGIN_PATH, locale),
     },
     routes.Contact,
   ];
