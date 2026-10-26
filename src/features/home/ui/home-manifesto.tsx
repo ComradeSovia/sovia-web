@@ -1,8 +1,10 @@
 import { Routes } from "@sovia/shared";
+import { OPEN_CULTURE_PATH } from "@sovia/shared/constants/routes";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Link from "next/link";
 import type { HomeCopy } from "../i18n/copy";
+import { getOpenCultureCopy } from "../i18n/open-culture/copy";
 
 function renderHighlightedText(text: string, strongTerms: readonly string[]) {
   const pattern = new RegExp(`(${strongTerms.join("|")})`, "g");
@@ -58,6 +60,12 @@ export function HomeManifesto({
             href={getSiteLocalizedPath("/creator", locale)}
           >
             {copy.manifesto.creatorActionLabel}
+          </Link>
+          <Link
+            className="btn-outline"
+            href={getSiteLocalizedPath(OPEN_CULTURE_PATH, locale)}
+          >
+            {getOpenCultureCopy(locale).title}
           </Link>
           <Link
             className="btn-outline"

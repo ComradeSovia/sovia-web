@@ -1,10 +1,11 @@
-import { getRoutes } from "@sovia/shared/constants/routes";
+import { getRoutes, OPEN_CULTURE_PATH } from "@sovia/shared/constants/routes";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
 import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import Image from "next/image";
 import Link from "next/link";
 import type { HomeCopy } from "../i18n/copy";
+import { getOpenCultureCopy } from "../i18n/open-culture/copy";
 import styles from "./about-pages.module.css";
 
 function PathLink({
@@ -37,6 +38,8 @@ export function AboutProjectPage({
   copy: HomeCopy["about"];
   locale: SiteLocale;
 }) {
+  const openCultureCopy = getOpenCultureCopy(locale);
+
   return (
     <div className={styles.page}>
       <header className={styles.projectHero}>
@@ -108,6 +111,13 @@ export function AboutProjectPage({
           title={copy.characterLinkTitle}
           description={copy.characterLinkText}
           action={copy.characterLinkAction}
+        />
+        <PathLink
+          href={getSiteLocalizedPath(OPEN_CULTURE_PATH, locale)}
+          eyebrow="04"
+          title={openCultureCopy.title}
+          description={openCultureCopy.lead}
+          action={openCultureCopy.title}
         />
       </nav>
     </div>
