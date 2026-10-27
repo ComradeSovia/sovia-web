@@ -60,7 +60,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.2.2";
+const SERVER_VERSION = "0.2.3";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
