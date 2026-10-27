@@ -60,7 +60,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.2.1";
+const SERVER_VERSION = "0.2.2";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -602,6 +602,12 @@ const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
     inputSchema: {
       additionalProperties: false,
       properties: {
+        geographyOnly: {
+          type: "boolean",
+          default: false,
+          description:
+            "Recover missing geography only, skipping fresh cached periods. Requires a fresh channel cutoff; at most ONE Analytics request. Cannot be combined with resumeAfterDaily.",
+        },
         resumeAfterDaily: {
           type: "boolean",
           default: false,
@@ -936,6 +942,7 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           id,
           await syncAdminYoutubeAnalytics({
             resumeAfterDaily: args.resumeAfterDaily === true,
+            geographyOnly: args.geographyOnly === true,
           }),
         );
 

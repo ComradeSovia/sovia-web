@@ -242,20 +242,25 @@ export async function getYoutubeAnalyticsSyncStatus() {
 export async function syncAdminYoutubeAnalytics({
   dueOnly = false,
   resumeAfterDaily = false,
+  geographyOnly = false,
 }: {
   dueOnly?: boolean;
   resumeAfterDaily?: boolean;
+  geographyOnly?: boolean;
 } = {}) {
   const prisma = getPrismaClient();
   if (!prisma) throw new Error("Database is unavailable.");
 
   const allWorks = (await listAdminMusicWorks()).filter((work) => work.u2bId);
   const works = dueOnly ? await listDueAnalyticsWorks(allWorks) : allWorks;
-  const checkpoint = resumeAfterDaily
-    ? await prisma.adminYoutubeChannelDaily.findFirst({
-        orderBy: { date: "desc" },
-      })
-    : null;
+  if (resumeAfterDaily && geographyOnly)
+    throw new Error("Choose only one recovery mode.");
+  const checkpoint =
+    resumeAfterDaily || geographyOnly
+      ? await prisma.adminYoutubeChannelDaily.findFirst({
+          orderBy: { date: "desc" },
+        })
+      : null;
   const previousSync = resumeAfterDaily
     ? await prisma.adminYoutubeAnalyticsSync.findUnique({
         where: { id: SYNC_ID },
@@ -264,6 +269,14 @@ export async function syncAdminYoutubeAnalytics({
   if (resumeAfterDaily && !canResumeAfterDaily(previousSync, checkpoint))
     throw new Error(
       "No fresh failed-run daily checkpoint; refusing to replay a sync.",
+    );
+  if (
+    geographyOnly &&
+    (!checkpoint ||
+      Date.now() - checkpoint.syncedAt.getTime() > 24 * 60 * 60 * 1000)
+  )
+    throw new Error(
+      "A fresh daily cutoff is required for geography-only recovery.",
     );
   let endDate = getAnalyticsEndDate();
   const startDate = shiftDate(endDate, -89);
@@ -334,6 +347,24 @@ export async function syncAdminYoutubeAnalytics({
   try {
     const credentials = await getAdminYoutubeCredentials();
     const accessToken = await getYouTubeAccessToken(credentials);
+    if (geographyOnly && checkpoint) {
+      await syncYoutubeGeography(accessToken, checkpoint.date, 1);
+      const message =
+        "Geography-only recovery completed with at most one API request; fresh cached periods, public observations and other analytics were not refetched. Ambiguous city labels are preserved as non-comparable period-scoped rows.";
+      await prisma.adminYoutubeAnalyticsSync.update({
+        where: { id: SYNC_ID },
+        data: {
+          status: checkpoint.videoCoverageComplete ? "success" : "partial",
+          startDate: shiftDate(checkpoint.date, -55),
+          endDate: checkpoint.date,
+          videoCount: 0,
+          syncedAt: new Date(),
+          message,
+        },
+      });
+      await archiveRun();
+      return { synced: 0, message };
+    }
     const videoIds = works
       .map((work) => work.u2bId)
       .filter((id): id is string => Boolean(id));

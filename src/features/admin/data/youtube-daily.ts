@@ -1,6 +1,7 @@
 import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { videoCatalogKey } from "./analytics-catalog";
 import { analyticsDate, dateRange, shiftAnalyticsDate } from "./analytics-math";
+import { preserveGeographyRows } from "./geography-rows";
 
 import {
   createAnalyticsReportReader,
@@ -210,6 +211,7 @@ export async function syncYoutubeDailyAnalytics({
 export async function syncYoutubeGeography(
   accessToken: string,
   endDate: string,
+  requestBudget = 10,
 ) {
   const prisma = getPrismaClient();
   if (!prisma) return;
@@ -229,11 +231,23 @@ export async function syncYoutubeGeography(
     Date.now() - existing.syncedAt.getTime() < 20 * 60 * 60 * 1000
   )
     return;
-  const read: Reader = createAnalyticsReportReader(accessToken, 10);
+  const read: Reader = createAnalyticsReportReader(
+    accessToken,
+    Math.max(0, Math.min(10, requestBudget)),
+  );
   for (const dimension of ["country", "city"] as const) {
     for (const offset of [0, 28]) {
       const end = shiftAnalyticsDate(endDate, -offset);
       const start = shiftAnalyticsDate(end, -27);
+      const cached = await prisma.adminYoutubeGeographySnapshot.findFirst({
+        where: { dimension, startDate: start, endDate: end },
+        orderBy: { syncedAt: "desc" },
+      });
+      if (
+        cached &&
+        Date.now() - cached.syncedAt.getTime() < 20 * 60 * 60 * 1000
+      )
+        continue;
       const rows = await read(
         {
           dimensions: dimension === "city" ? "city,country" : "country",
@@ -277,7 +291,9 @@ export async function syncYoutubeGeography(
           where: { dimension, startDate: start, endDate: end },
         });
         if (data.length)
-          await tx.adminYoutubeGeographySnapshot.createMany({ data });
+          await tx.adminYoutubeGeographySnapshot.createMany({
+            data: preserveGeographyRows(data, start, end),
+          });
       });
     }
   }

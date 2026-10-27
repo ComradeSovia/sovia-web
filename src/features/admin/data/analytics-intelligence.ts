@@ -605,6 +605,6 @@ export async function getAudienceIntelligence() {
           growth: metricChange(row.views, prior?.views ?? null),
         };
       }),
-    note: "Geography is subject to privacy thresholds. Cities are the API top 250 only; an absent location is unknown, not zero. City subscriber counts are unavailable. No user-level cross-video paths or new/returning viewer counts are inferred.",
+    note: "Geography is subject to privacy thresholds. Cities are the API top 250 only; an absent location is unknown, not zero. City subscriber counts are unavailable. Ambiguous city labels are preserved as separate period-scoped source rows and are not compared across periods. No user-level cross-video paths or new/returning viewer counts are inferred.",
   };
 }

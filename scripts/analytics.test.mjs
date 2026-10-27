@@ -546,3 +546,40 @@ test("sync recovery requires a fresh failed-run checkpoint and refuses unrelated
   );
   assert.equal(canResumeAfterDaily(previous, null, now), false);
 });
+
+test("ambiguous city rows retain all raw metrics without summing or silently dropping records", async () => {
+  const { preserveGeographyRows } = await import(
+    "../src/features/admin/data/geography-rows.ts"
+  );
+  const rows = [
+    { location: "Same city (US)", views: 10, duration: null },
+    { location: "Same city (US)", views: 20, duration: 50 },
+    { location: "Other (JP)", views: 30, duration: 60 },
+  ];
+  const stored = preserveGeographyRows(rows, "2026-09-27", "2026-10-24");
+  assert.equal(stored.length, 3);
+  assert.equal(new Set(stored.map((row) => row.location)).size, 3);
+  assert.deepEqual(
+    stored.map((row) => row.views),
+    [10, 20, 30],
+  );
+  assert.equal(stored[0].duration, null);
+  assert.equal(stored[2].location, "Other (JP)");
+  assert.deepEqual(
+    rows.map((row) => row.location),
+    ["Same city (US)", "Same city (US)", "Other (JP)"],
+  );
+});
+test("ambiguous estimated city labels never invent cross-period growth identities", async () => {
+  const { preserveGeographyRows } = await import(
+    "../src/features/admin/data/geography-rows.ts"
+  );
+  const rows = [{ location: "Same city (US)" }, { location: "Same city (US)" }];
+  const current = preserveGeographyRows(rows, "2026-09-27", "2026-10-24");
+  const prior = preserveGeographyRows(rows, "2026-08-30", "2026-09-26");
+  assert.ok(
+    current.every(
+      (row) => !prior.some((previous) => previous.location === row.location),
+    ),
+  );
+});
