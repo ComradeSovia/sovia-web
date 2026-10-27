@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -39,6 +43,9 @@ jobs:
         env:
           DATABASE_URL: postgresql://user:password@localhost:5432/sovia
 
+      - name: Test analytics rules and data boundaries
+        run: pnpm test:analytics
+
       - uses: docker/setup-buildx-action@v3
 
       - uses: docker/login-action@v3
@@ -46,6 +53,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish migration image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: migrator
+          push: true
+          tags: ghcr.io/comradesovia/sovia-web:prod-migrate
 
       - uses: docker/build-push-action@v6
         with:

@@ -1,3 +1,4 @@
+import { performanceMetadataUpdate } from "../model/content-performance-metadata";
 import type {
   MusicWorkDraft,
   MusicWorkRecord,
@@ -44,6 +45,8 @@ type MusicWorkSourceSection = {
 };
 
 type MusicWorkContentSection = {
+  vocalLanguages?: string[] | null;
+  durationSeconds?: number | null;
   songTitle?: string | null;
   lyrics?: string | null;
   shortDescription?: string | null;
@@ -109,6 +112,8 @@ function toWorkRecord(value: MusicWorkRecordSource): MusicWorkRecord {
     visible: status?.visible ?? false,
     publishedAt: status?.publishedAt,
     songTitle,
+    vocalLanguages: content?.vocalLanguages ?? [],
+    durationSeconds: content?.durationSeconds ?? null,
     fromTitle,
     fromArtists,
     fromSource: source?.sourceUrl,
@@ -338,6 +343,8 @@ function toWorkWithContent(work: MusicWorkRecord): MusicWorkWithContent {
     visible: work.visible,
     publishedAt: work.publishedAt,
     songTitle: work.songTitle,
+    vocalLanguages: work.vocalLanguages,
+    durationSeconds: work.durationSeconds,
     fromTitle: work.fromTitle,
     fromArtists: work.fromArtists,
     fromSource: work.fromSource,
@@ -539,6 +546,7 @@ export async function upsertMusicWork(
     relatedWorkUids: normalizeOptional(work.relatedWorkUids),
     shortDescription: normalizeOptional(work.shortDescription),
     songTitle: normalizeOptional(work.songTitle ?? work.title),
+    ...performanceMetadataUpdate(work),
   };
   const platforms = [
     {
@@ -581,7 +589,10 @@ export async function upsertMusicWork(
   const subtitles = {
     tracks: work.subtitleTracks ?? {},
   };
-  const contentUpdate = withoutEmptyValues(content);
+  const contentUpdate = {
+    ...withoutEmptyValues(content),
+    ...performanceMetadataUpdate(work),
+  };
   const sourceUpdate = withoutEmptyValues(source);
   const platformUpserts = platforms.map((platform) => ({
     create: platform,
@@ -689,7 +700,11 @@ export async function clearMusicWorkStepData(contentId: string, step: string) {
             where: { contentId },
           }),
           prisma.musicWorkContent.updateMany({
-            data: { songTitle: null },
+            data: {
+              songTitle: null,
+              vocalLanguages: [],
+              durationSeconds: null,
+            },
             where: { contentId },
           }),
         ]);

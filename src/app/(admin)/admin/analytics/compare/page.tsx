@@ -11,6 +11,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function AdminAnalyticsCompareRoute() {
-  return <AdminAnalyticsComparePage />;
+export default async function AdminAnalyticsCompareRoute({
+  searchParams,
+}: {
+  searchParams: Promise<{ ids?: string | string[]; metric?: string }>;
+}) {
+  const query = await searchParams;
+  const ids = (
+    Array.isArray(query.ids) ? query.ids : query.ids ? [query.ids] : []
+  )
+    .filter(Boolean)
+    .slice(0, 5);
+  return <AdminAnalyticsComparePage ids={ids} metric={query.metric} />;
 }

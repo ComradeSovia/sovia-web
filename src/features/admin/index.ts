@@ -1,6 +1,8 @@
 export {
+  AdminAnalyticsAudiencePage,
   AdminAnalyticsComparePage,
   AdminAnalyticsPage,
+  AdminAnalyticsStrategyPage,
   AdminAnalyticsWorkDetailPage,
   AdminAnalyticsWorksPage,
 } from "./ui/admin-analytics";

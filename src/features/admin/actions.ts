@@ -1,5 +1,11 @@
 "use server";
 
+import {
+  durationAfterVideoChange,
+  parseDurationSeconds,
+  parseVocalLanguages,
+} from "@sovia/sound/model/content-performance-metadata";
+
 import type {
   MusicWorkDraft,
   MusicWorkSubtitleTracks,
@@ -251,6 +257,8 @@ function getValidationValue(formData: FormData) {
     bilibiliTitle: getString(formData, "bilibiliTitle"),
     contentId: getString(formData, "contentId") || getString(formData, "vid"),
     contentType: getString(formData, "contentType") || "Music",
+    vocalLanguages: getString(formData, "vocalLanguages"),
+    durationSeconds: getString(formData, "durationSeconds"),
     fromArtists: getString(formData, "fromArtists"),
     fromDetails: getString(formData, "fromDetails"),
     fromIp: getString(formData, "fromIp"),
@@ -294,6 +302,8 @@ function toDraft(
     visible: work.visible,
     publishedAt: work.publishedAt,
     songTitle: work.songTitle,
+    vocalLanguages: work.vocalLanguages,
+    durationSeconds: work.durationSeconds,
     fromTitle: work.fromTitle,
     fromArtists: work.fromArtists,
     fromSource: work.fromSource,
@@ -412,6 +422,14 @@ function applyStepDraft(
       draft.title = draft.songTitle ?? draft.contentId;
       draft.isOriginal = draft.workType === "O" || draft.workType === "CO";
       draft.musicStyle = draft.workType;
+      if (formData.has("vocalLanguages"))
+        draft.vocalLanguages = parseVocalLanguages(
+          getString(formData, "vocalLanguages"),
+        );
+      if (formData.has("durationSeconds"))
+        draft.durationSeconds = parseDurationSeconds(
+          getString(formData, "durationSeconds"),
+        );
       break;
     case "status":
       draft.visible = getBoolean(formData, "visible");
@@ -473,6 +491,11 @@ function applyStepDraft(
       draft.subtitleTracks = parseSubtitleTracks(formData);
       break;
     case "youtube":
+      draft.durationSeconds = durationAfterVideoChange(
+        draft.u2bId,
+        getOptionalString(formData, "u2bId"),
+        draft.durationSeconds,
+      );
       draft.u2bId = getOptionalString(formData, "u2bId");
       draft.youtubePrimaryLocale = getOptionalString(
         formData,
@@ -583,6 +606,12 @@ export async function saveMusicWorkAction(formData: FormData) {
         visible: getBoolean(formData, "visible"),
         publishedAt: getOptionalString(formData, "publishedAt"),
         songTitle,
+        vocalLanguages: formData.has("vocalLanguages")
+          ? parseVocalLanguages(getString(formData, "vocalLanguages"))
+          : undefined,
+        durationSeconds: formData.has("durationSeconds")
+          ? parseDurationSeconds(getString(formData, "durationSeconds"))
+          : undefined,
         fromTitle,
         fromArtists,
         fromSource,

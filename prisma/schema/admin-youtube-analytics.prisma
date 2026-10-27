@@ -15,6 +15,7 @@ model AdminYoutubeVideoAnalyticsSnapshot {
   id                         String   @id @default(cuid())
   contentId                  String
   videoId                    String
+  source                     String   @default("legacy_mixed")
   periodDays                 Int
   startDate                  String
   endDate                    String
@@ -105,8 +106,8 @@ model AdminYoutubeVideoRealtimeSnapshot {
   contentId       String
   videoId         String
   views           Int
-  likes           Int       @default(0)
-  comments        Int       @default(0)
+  likes           Int?
+  comments        Int?
   observedAt      DateTime  @default(now())
   work            MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
 

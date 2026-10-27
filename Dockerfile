@@ -6,6 +6,14 @@ RUN corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
+FROM deps AS migrator
+RUN apk add --no-cache openssl
+WORKDIR /app
+COPY prisma ./prisma
+COPY prisma.config.ts ./prisma.config.ts
+ENTRYPOINT ["node", "/app/node_modules/prisma/build/index.js"]
+CMD ["migrate", "deploy"]
+
 FROM base AS builder
 WORKDIR /app
 RUN corepack enable
@@ -35,6 +43,7 @@ ENV SITE_URL=$SITE_URL
 
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
+COPY --from=builder /app/scripts/verify-analytics-mcp.mjs ./scripts/verify-analytics-mcp.mjs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static

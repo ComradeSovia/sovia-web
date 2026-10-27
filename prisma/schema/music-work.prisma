@@ -15,6 +15,7 @@ model MusicWork {
   youtubeEarlyPerformanceSnapshots AdminYoutubeVideoEarlyPerformanceSnapshot[]
   youtubeTrafficSourceSnapshots    AdminYoutubeVideoTrafficSourceSnapshot[]
   youtubeRetentionSnapshots        AdminYoutubeVideoRetentionSnapshot[]
+  youtubeDaily                     AdminYoutubeVideoDaily[]
   youtubeReachDaily                AdminYoutubeVideoReachDaily[]
   youtubeRealtimeSnapshots         AdminYoutubeVideoRealtimeSnapshot[]
   youtubeComments                  AdminYoutubeComment[]
@@ -34,6 +35,8 @@ model MusicWorkStatus {
 
 model MusicWorkContent {
   contentId        String    @id
+  vocalLanguages   String[] @default([])
+  durationSeconds  Int?
   songTitle        String?
   lyrics           String?
   shortDescription String?

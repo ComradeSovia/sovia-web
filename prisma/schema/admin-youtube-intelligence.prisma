@@ -1,0 +1,56 @@
+model AdminYoutubeChannelDaily {
+  date                    String   @id
+  views                   Int
+  estimatedMinutesWatched Float?
+  averageViewDuration     Float?
+  averageViewPercentage   Float?
+  subscribersGained       Int
+  subscribersLost         Int
+  videoCatalogKey         String?
+  videoCoverageComplete   Boolean  @default(false)
+  syncedAt                DateTime @default(now())
+
+  @@map("admin_youtube_channel_daily")
+}
+
+model AdminYoutubeVideoDaily {
+  id                      String   @id @default(cuid())
+  contentId               String
+  videoId                 String
+  date                    String
+  views                   Int
+  estimatedMinutesWatched Float?
+  averageViewDuration     Float?
+  averageViewPercentage   Float?
+  subscribersGained       Int
+  subscribersLost         Int
+  likes                   Int
+  comments                Int
+  shares                  Int
+  syncedAt                DateTime @default(now())
+
+  work MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+
+  @@unique([videoId, date])
+  @@index([date, contentId])
+  @@map("admin_youtube_video_daily")
+}
+
+model AdminYoutubeGeographySnapshot {
+  id                      String   @id @default(cuid())
+  dimension               String
+  location                String
+  startDate               String
+  endDate                 String
+  views                   Int
+  estimatedMinutesWatched Float?
+  averageViewDuration     Float?
+  averageViewPercentage   Float?
+  subscribersGained       Int?
+  subscribersLost         Int?
+  syncedAt                DateTime @default(now())
+
+  @@unique([dimension, location, startDate, endDate], map: "youtube_geo_window_location_key")
+  @@index([dimension, endDate])
+  @@map("admin_youtube_geography_snapshots")
+}

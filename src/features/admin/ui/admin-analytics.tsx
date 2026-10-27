@@ -19,11 +19,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { CohortKind } from "../data/analytics-intelligence";
+import { analyticsDate, isCompletePublishWindow } from "../data/analytics-math";
 import { getAdminAuthStatus, isAdminAuthenticated } from "../data/auth";
 import {
   getAdminDatabaseStatus,
   listAdminMusicWorks,
 } from "../data/music-admin";
+import type { SongCandidateInput } from "../data/song-candidate-intelligence";
 import {
   getYoutubeAnalyticsSyncStatus,
   listLatestYoutubeAnalyticsSnapshots,
@@ -38,6 +41,13 @@ import {
   getYoutubeOAuthConfig,
 } from "../data/youtube-connection";
 import { AdminActionToast } from "./admin-action-toast";
+import {
+  AudiencePanel,
+  ChannelTrends,
+  GrowthCurves,
+  PublishAgePanel,
+  StrategyPanel,
+} from "./analytics-intelligence";
 import { AdminLogin } from "./login-form";
 
 const CARD_CLASS = "border-zinc-800 bg-zinc-900 text-zinc-100 shadow-none";
@@ -111,6 +121,9 @@ function matchSortOrder(value?: string): SortOrder {
 }
 
 export async function AdminAnalyticsPage({
+  days,
+  start,
+  end,
   message,
   order,
   page,
@@ -118,6 +131,9 @@ export async function AdminAnalyticsPage({
   sort,
   status,
 }: {
+  days?: number;
+  start?: string;
+  end?: string;
   message?: string;
   order?: string;
   page?: string;
@@ -129,6 +145,7 @@ export async function AdminAnalyticsPage({
     <AdminAnalyticsFrame message={message} status={status}>
       {async ({ releaseRows, rows, syncStatus, youtubeConfig }) => (
         <>
+          <ChannelTrends days={days} start={start} end={end} />
           <div className="grid gap-4 md:grid-cols-4">
             <MetricCard
               label="Recent releases"
@@ -209,7 +226,7 @@ export async function AdminAnalyticsPage({
             </CardHeader>
             <CardContent className="grid gap-3 md:grid-cols-3">
               <DiagnosisCard
-                description="CTR comes from the daily Reach report and is weighted by impressions. Missing means the report is not generated yet."
+                description="CTR is impression-weighted and requires full window coverage. Missing or partial reports remain unknown."
                 title="Packaging"
               />
               <DiagnosisCard
@@ -275,7 +292,19 @@ export async function AdminAnalyticsWorksPage({
   );
 }
 
-export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
+export async function AdminAnalyticsWorkDetailPage({
+  id,
+  hours,
+  limit,
+  cohort,
+  matchDuration,
+}: {
+  id: string;
+  hours?: number;
+  limit?: number;
+  cohort?: CohortKind;
+  matchDuration?: boolean;
+}) {
   return (
     <AdminAnalyticsFrame>
       {async ({
@@ -326,6 +355,13 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
               </Button>
             </CardHeader>
             <CardContent className="space-y-5">
+              <PublishAgePanel
+                id={id}
+                hours={hours}
+                limit={limit}
+                cohort={cohort}
+                matchDuration={matchDuration}
+              />
               <div>
                 <div className="mb-3 text-sm font-medium text-zinc-100">
                   Publish-window performance
@@ -415,60 +451,39 @@ export async function AdminAnalyticsWorkDetailPage({ id }: { id: string }) {
   );
 }
 
-export async function AdminAnalyticsComparePage() {
+export async function AdminAnalyticsComparePage({
+  ids,
+  metric,
+}: {
+  ids?: string[];
+  metric?: string;
+} = {}) {
   return (
     <AdminAnalyticsFrame>
-      {async ({ rows }) => {
-        const groups = getVerdictGroups(rows);
-
-        return (
-          <div className="grid gap-5">
-            <Card className={CARD_CLASS}>
-              <CardHeader>
-                <CardTitle className={CARD_TITLE_CLASS}>Compare</CardTitle>
-                <CardDescription className={CARD_DESCRIPTION_CLASS}>
-                  First-pass matrix for packaging and retention diagnosis.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-3 md:grid-cols-4">
-                {groups.map((group) => (
-                  <div
-                    className="rounded-md border border-zinc-800 bg-zinc-950 p-4"
-                    key={group.label}
-                  >
-                    <div className="text-sm font-medium text-zinc-100">
-                      {group.label}
-                    </div>
-                    <div className="mt-2 text-3xl font-semibold text-zinc-100">
-                      {group.rows.length}
-                    </div>
-                    <p className="mt-2 text-xs leading-5 text-zinc-500">
-                      {group.description}
-                    </p>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-            <Card className={CARD_CLASS}>
-              <CardHeader>
-                <CardTitle className={CARD_TITLE_CLASS}>
-                  Top Comparison Rows
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <WorksTable
-                  activeSort="views"
-                  basePath="/admin/analytics/works"
-                  order="desc"
-                  query=""
-                  rows={rows.slice(0, 10)}
-                />
-              </CardContent>
-            </Card>
-          </div>
-        );
-      }}
+      {async () => <GrowthCurves ids={ids} metric={metric} />}
     </AdminAnalyticsFrame>
+  );
+}
+export async function AdminAnalyticsStrategyPage({
+  hours,
+  query,
+  candidate,
+}: {
+  hours?: number;
+  query?: string;
+  candidate?: SongCandidateInput;
+}) {
+  return (
+    <AdminAnalyticsFrame>
+      {async () => (
+        <StrategyPanel hours={hours} query={query} candidate={candidate} />
+      )}
+    </AdminAnalyticsFrame>
+  );
+}
+export async function AdminAnalyticsAudiencePage() {
+  return (
+    <AdminAnalyticsFrame>{async () => <AudiencePanel />}</AdminAnalyticsFrame>
   );
 }
 
@@ -570,6 +585,8 @@ function AnalyticsNav() {
     ["Overview", "/admin/analytics"],
     ["Works", "/admin/analytics/works"],
     ["Compare", "/admin/analytics/compare"],
+    ["Audience", "/admin/analytics/audience"],
+    ["Content Strategy", "/admin/analytics/strategy"],
   ] as const;
 
   return (
@@ -595,7 +612,7 @@ async function loadAnalyticsData() {
     works,
     snapshots,
     periodSnapshots,
-    earlySnapshots,
+    storedEarlySnapshots,
     retentionSnapshots,
     trafficSnapshots,
     realtimeSnapshots,
@@ -611,7 +628,9 @@ async function loadAnalyticsData() {
             listLatestYoutubeAnalyticsSnapshots(periodDays),
           ),
         ).then((periods) => periods.flat()),
-        listLatestYoutubeEarlyPerformanceSnapshots(),
+        listLatestYoutubeEarlyPerformanceSnapshots().then((rows) =>
+          rows.filter(isCompletePublishWindow),
+        ),
         listYoutubeRetentionSnapshots(),
         listYoutubeTrafficSourceSnapshotsByPeriods([1, 3, 7, 28, 90]),
         listYoutubeRealtimeSnapshots({
@@ -623,6 +642,9 @@ async function loadAnalyticsData() {
       ])
     : [[], [], [], [], [], [], [], [], null, null];
   const workByContentId = new Map(works.map((work) => [work.contentId, work]));
+  const earlySnapshots = storedEarlySnapshots.filter(
+    (row) => row.videoId === workByContentId.get(row.contentId)?.u2bId,
+  );
   const baseline = getBaseline(snapshots);
   const rows = snapshots.map((snapshot) => ({
     snapshot,
@@ -646,7 +668,7 @@ async function loadAnalyticsData() {
   const trafficByContentId = groupByContentId(trafficSnapshots);
   const realtimeByContentId = groupByContentId(realtimeSnapshots);
   const availableReachDates = new Set(
-    reportingImports.map((item) => item.startTime.toISOString().slice(0, 10)),
+    reportingImports.map((item) => analyticsDate(item.startTime)),
   );
   const releaseInputs = recentWorks.map((work) => {
     const completed = (earlyByContentId.get(work.contentId) ?? []).sort(
@@ -654,10 +676,18 @@ async function loadAnalyticsData() {
     );
     const early = completed[0];
     const retention = (retentionByContentId.get(work.contentId) ?? []).filter(
-      (item) => item.elapsedHours === early?.elapsedHours,
+      (item) =>
+        item.elapsedHours === early?.elapsedHours &&
+        item.startDate === early?.startDate &&
+        item.endDate === early?.endDate,
     );
     const topTraffic = (trafficByContentId.get(work.contentId) ?? [])
-      .filter((item) => item.periodDays === (early?.elapsedHours ?? 0) / 24)
+      .filter(
+        (item) =>
+          item.periodDays === (early?.elapsedHours ?? 0) / 24 &&
+          item.startDate === early?.startDate &&
+          item.endDate === early?.endDate,
+      )
       .sort((left, right) => right.views - left.views)[0];
     return {
       availableWindows: completed.map((item) => item.elapsedHours),
@@ -671,30 +701,34 @@ async function loadAnalyticsData() {
       work,
     };
   });
-  const releaseBaselines = new Map(
-    [24, 72, 168, 672].map((elapsedHours) => [
-      elapsedHours,
-      getReleaseBaseline(
-        earlySnapshots
-          .filter((early) => early.elapsedHours === elapsedHours)
-          .map((early) => ({
-            early,
-            reachCoverage: getReachCoverage(early, availableReachDates),
-            retention: (retentionByContentId.get(early.contentId) ?? []).filter(
-              (item) => item.elapsedHours === elapsedHours,
-            ),
-          })),
-      ),
-    ]),
-  );
-  const releaseRows: ReleaseRow[] = releaseInputs.map((row) => ({
-    ...row,
-    verdict: getReleaseVerdict(
-      row,
-      releaseBaselines.get(row.early?.elapsedHours ?? 0) ??
-        getReleaseBaseline([]),
-    ),
-  }));
+  const releaseRows: ReleaseRow[] = releaseInputs.map((row) => {
+    const baseline = getReleaseBaseline(
+      earlySnapshots
+        .filter(
+          (early) =>
+            early.contentId !== row.work.contentId &&
+            early.elapsedHours === row.early?.elapsedHours,
+        )
+        .map((early) => ({
+          early,
+          reachCoverage: getReachCoverage(early, availableReachDates),
+          retention: (retentionByContentId.get(early.contentId) ?? []).filter(
+            (point) =>
+              point.elapsedHours === early.elapsedHours &&
+              point.startDate === early.startDate &&
+              point.endDate === early.endDate,
+          ),
+        })),
+    );
+    const verdict = getReleaseVerdict(row, baseline);
+    return {
+      ...row,
+      verdict: {
+        ...verdict,
+        description: `${verdict.description} Baseline: other completed same-window works; CTR n=${baseline.ctr.count}, viewed percentage n=${baseline.averageViewPercentage.count}.`,
+      },
+    };
+  });
 
   return {
     baseline,
@@ -1590,39 +1624,6 @@ function MetricCard({ label, value }: { label: string; value: string }) {
   );
 }
 
-function getVerdictGroups(rows: AnalyticsRow[]) {
-  const groups = [
-    {
-      description: "Topic, packaging, and content are all working.",
-      label: "scale",
-      rows: [] as AnalyticsRow[],
-    },
-    {
-      description:
-        "Packaging gets reach; intro or song structure needs review.",
-      label: "retention issue",
-      rows: [] as AnalyticsRow[],
-    },
-    {
-      description: "Content keeps viewers; packaging or topic reach is weak.",
-      label: "reach issue",
-      rows: [] as AnalyticsRow[],
-    },
-    {
-      description: "Direction needs review before repeating.",
-      label: "review",
-      rows: [] as AnalyticsRow[],
-    },
-  ];
-
-  for (const row of rows) {
-    const group = groups.find((item) => item.label === row.verdict.label);
-    group?.rows.push(row);
-  }
-
-  return groups;
-}
-
 function getTotals(snapshots: Snapshot[]) {
   return snapshots.reduce(
     (total, snapshot) => ({
@@ -1671,48 +1672,22 @@ function getBaseline(snapshots: Snapshot[]) {
 }
 
 function getVerdict(
-  snapshot: Snapshot,
-  baseline: ReturnType<typeof getBaseline>,
+  _snapshot: Snapshot,
+  _baseline: ReturnType<typeof getBaseline>,
 ) {
-  const highReach = baseline.views > 0 && snapshot.views >= baseline.views;
-  const highRetention =
-    snapshot.averageViewPercentage !== null &&
-    baseline.averageViewPercentage > 0 &&
-    snapshot.averageViewPercentage >= baseline.averageViewPercentage;
-
-  if (highReach && highRetention) {
-    return {
-      className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-100",
-      description: "Reach and retention are both above the current baseline.",
-      label: "scale",
-    };
-  }
-  if (highReach && !highRetention) {
-    return {
-      className: "border-amber-500/30 bg-amber-500/10 text-amber-100",
-      description:
-        "The video is getting reach; check intro, promise, and pacing.",
-      label: "retention issue",
-    };
-  }
-  if (!highReach && highRetention) {
-    return {
-      className: "border-sky-500/30 bg-sky-500/10 text-sky-100",
-      description:
-        "Audience stays after clicking; packaging, topic, or timing may limit reach.",
-      label: "reach issue",
-    };
-  }
   return {
     className: "border-zinc-700 bg-zinc-950 text-zinc-300",
-    description: "Below current baseline; compare topic, language, and timing.",
-    label: "review",
+    description:
+      "Lifetime historical context. Use the same-age panel for performance diagnosis.",
+    label: "historical context",
   };
 }
 
 function getSubscribersPer1000Views(snapshot: Snapshot) {
   return snapshot.views > 0
-    ? (snapshot.subscribersGained / snapshot.views) * 1000
+    ? ((snapshot.subscribersGained - snapshot.subscribersLost) /
+        snapshot.views) *
+        1000
     : null;
 }
 
@@ -1807,10 +1782,10 @@ function getReleaseVerdict(
       label: "insufficient sample",
     };
   }
-  if (baseline.ctr.count < 4 || baseline.averageViewPercentage.count < 4) {
+  if (baseline.ctr.count < 5 || baseline.averageViewPercentage.count < 5) {
     return {
       className: "border-violet-500/30 bg-violet-500/10 text-violet-100",
-      description: "Fewer than four comparable works in this publish window.",
+      description: "Fewer than five comparable works in this publish window.",
       label: "baseline limited",
     };
   }
@@ -1838,7 +1813,7 @@ function getReleaseVerdict(
     return {
       className: "border-sky-500/30 bg-sky-500/10 text-sky-100",
       description:
-        "Viewers stay; improve thumbnail, title, topic, or release timing.",
+        "CTR is below the peer quartile while viewed percentage is high; test audience fit, title, or thumbnail as a hypothesis.",
       label: "packaging issue",
     };
   }
@@ -1985,10 +1960,10 @@ function getRetentionCheckpoint(rows: RetentionSnapshot[], percent: number) {
 
 function formatWindow(hours: number | undefined) {
   if (!hours) return "waiting";
-  if (hours === 24) return "24h";
-  if (hours === 72) return "72h";
-  if (hours === 168) return "7d";
-  if (hours === 672) return "28d";
+  if (hours === 24) return "Publish day";
+  if (hours === 72) return "Publish-date 3d";
+  if (hours === 168) return "Publish-date 7d";
+  if (hours === 672) return "Publish-date 28d";
   return `${hours}h`;
 }
 

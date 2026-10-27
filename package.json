@@ -13,6 +13,8 @@
     "thumbnails:prewarm": "node scripts/prewarm-u2b-thumbnails.mjs",
     "start": "next start",
     "lint": "biome check",
+    "test:analytics": "node --test scripts/analytics.test.mjs",
+    "typecheck": "tsc --noEmit",
     "lint:fix": "biome check --fix",
     "format": "biome format --write"
   },

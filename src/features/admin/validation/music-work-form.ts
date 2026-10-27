@@ -1,3 +1,7 @@
+import {
+  parseDurationSeconds,
+  parseVocalLanguages,
+} from "@sovia/sound/model/content-performance-metadata";
 import { z } from "zod";
 
 export const MUSIC_WORK_STEPS = [
@@ -72,6 +76,33 @@ const metadataSchema = z.object({
   contentType: contentTypeSchema,
   path: trimmedOptional,
   songTitle: trimmedOptional,
+  vocalLanguages: z
+    .string()
+    .optional()
+    .superRefine((value, context) => {
+      try {
+        parseVocalLanguages(value);
+      } catch (error) {
+        context.addIssue({
+          code: "custom",
+          message:
+            error instanceof Error ? error.message : "Invalid vocal languages.",
+        });
+      }
+    }),
+  durationSeconds: z
+    .string()
+    .optional()
+    .superRefine((value, context) => {
+      try {
+        parseDurationSeconds(value);
+      } catch (error) {
+        context.addIssue({
+          code: "custom",
+          message: error instanceof Error ? error.message : "Invalid duration.",
+        });
+      }
+    }),
   workType: workTypeSchema,
 });
 

@@ -1,3 +1,9 @@
+import {
+  getChannelIntelligence,
+  getContentStrategy,
+  getPublishAgeIntelligence,
+} from "./analytics-intelligence";
+import { ANALYTICS_TIMEZONE, isCompletePublishWindow } from "./analytics-math";
 import { listAdminMusicWorks } from "./music-admin";
 import {
   getMusicSearchCosineSimilarity,
@@ -65,8 +71,17 @@ type DuplicateCheckInput = {
 };
 
 type CohortCompareInput = {
-  cohort?: "recent" | "sameLanguage" | "sameSourceIp" | "sameStyle";
+  cohort?:
+    | "recent"
+    | "sameLanguage"
+    | "sameSourceIp"
+    | "sameSourceType"
+    | "sameStyle"
+    | "sameVocalLanguage"
+    | "similarDuration";
   id: string;
+  hours?: number;
+  matchDuration?: boolean;
   limit?: number;
 };
 
@@ -114,6 +129,8 @@ export async function getAdminMcpAnalyticsOverview() {
   const data = await getAdminMcpAnalyticsData();
   const hasReach = data.rows.some((row) => row.analytics.impressions !== null);
   return {
+    dailyTrends: await getChannelIntelligence({ days: 28 }),
+    lifetimeContextOnly: true,
     availableMetrics: hasReach ? ["impressions", "ctr"] : [],
     baseline: data.baseline,
     coreQuestions: [
@@ -177,12 +194,14 @@ export async function getAdminMcpAnalyticsCompare() {
       rows: rows.slice(0, 20),
       total: rows.length,
     })),
+    sameAgeContentGroups: await getContentStrategy(),
     matrix: {
-      highClickHighRetention: "Topic, packaging, and content are working.",
+      highClickHighRetention:
+        "Requires observed impressions, CTR and retention in a completed same-age window.",
       highClickLowRetention:
-        "Packaging gets the click, but the song/opening does not fulfill the promise.",
+        "Hypothesis only, requiring observed CTR and retention.",
       lowClickHighRetention:
-        "Song works after the click; title or thumbnail should be tested.",
+        "Inspect actual impressions and traffic sources; missing CTR cannot support a packaging conclusion.",
       lowClickLowRetention: "Topic or overall direction needs review.",
     },
   };
@@ -310,86 +329,30 @@ export async function checkAdminMcpContentDuplicate(
 }
 
 export async function getAdminMcpWorkInsight(id: string) {
-  const data = await getAdminMcpAnalyticsData();
-  const row =
-    data.rows.find(
-      (item) =>
-        item.work.contentId === id ||
-        item.work.path === id ||
-        item.work.youtube?.id === id,
-    ) ?? null;
-  const work = row?.work ?? (await getAdminMcpContentWork(id));
+  const work = await getAdminMcpContentWork(id);
   if (!work) return null;
-
-  const comparableWorks = data.rows
-    .filter((item) => item.work.contentId !== work.contentId)
-    .map((item) => ({
-      reasons: getComparableReasons(work, item.work),
-      row: item,
-    }))
-    .filter((item) => item.reasons.length)
-    .sort((a, b) => b.reasons.length - a.reasons.length)
-    .slice(0, 5)
-    .map((item) => ({
-      analytics: item.row.analytics,
-      contentId: item.row.work.contentId,
-      diagnosis: item.row.diagnosis,
-      reasons: item.reasons,
-      title: item.row.work.title,
-      youtube: item.row.work.youtube,
-    }));
-
-  const missingData = getMissingFields(work, row?.analytics ?? null);
-  const strengths = getInsightStrengths(row, data.baseline, work);
-  const risks = getInsightRisks(row, data.baseline, work, missingData);
-
+  const sameAge = await getPublishAgeIntelligence({ id });
   return {
-    analytics: row?.analytics ?? null,
-    comparableWorks,
-    diagnosis: row?.diagnosis ?? {
-      label: "no_analytics",
-      summary: "No stored YouTube Analytics snapshot is available.",
-    },
-    missingData,
-    recommendedQuestionsForAI: [
-      "Does the title and thumbnail promise match the opening of the song?",
-      "Does the first 30 seconds make the Sovia concept clear quickly enough?",
-      "Is this work mostly riding source-IP demand, or does it build Sovia audience identity?",
-      "Which comparable work suggests the next title, thumbnail, or arrangement test?",
-    ],
-    risks,
-    strengths,
-    summary: getInsightSummary(row, data.baseline, work, missingData),
     work,
+    sameAge,
+    diagnosis: sameAge?.diagnosis ?? { status: "unknown" },
+    lifetimeContext: await getAdminMcpAnalyticsWork(id),
+    summary:
+      sameAge?.diagnosis?.limitation ??
+      "No verified completed same-age window; diagnosis unknown.",
   };
 }
 
 export async function compareAdminMcpAnalyticsCohort(
   input: CohortCompareInput,
 ) {
-  const data = await getAdminMcpAnalyticsData();
-  const target = findRow(data.rows, input.id);
-  if (!target) return null;
-
-  const safeLimit = getSafeLimit(input.limit ?? 10);
-  const cohortType = input.cohort ?? "recent";
-  const candidates = getCohortRows(data.rows, target, cohortType)
-    .filter((row) => row.work.contentId !== target.work.contentId)
-    .slice(0, safeLimit);
-  const cohortRows = candidates.length ? candidates : data.rows;
-  const baseline = getRowBaseline(cohortRows);
-
-  return {
-    baseline,
-    cohort: cohortType,
-    comparisons: getMetricComparisons(target, baseline),
-    comparableWorks: candidates.map(toOutlierSummary),
-    notes: [
-      "This compares stored lifetime snapshots, not same-age first-day curves.",
-      "Use sameStyle, sameLanguage, sameSourceIp, or recent to avoid comparing totally unrelated works.",
-    ],
-    target,
-  };
+  return getPublishAgeIntelligence({
+    id: input.id,
+    cohort: input.cohort,
+    limit: input.limit,
+    hours: input.hours,
+    matchDuration: input.matchDuration,
+  });
 }
 
 export async function compareAdminMcpVersions(input: VersionCompareInput) {
@@ -415,6 +378,7 @@ export async function compareAdminMcpVersions(input: VersionCompareInput) {
         .filter((item) => item.match.score > 0)
         .sort((a, b) => b.match.score - a.match.score)
         .map((item) => item.work);
+  const early = await listLatestYoutubeEarlyPerformanceSnapshots();
   const versions = selectedWorks
     .sort((a, b) => getPublishedTime(a) - getPublishedTime(b))
     .slice(0, safeLimit)
@@ -423,6 +387,14 @@ export async function compareAdminMcpVersions(input: VersionCompareInput) {
       contentId: work.contentId,
       diagnosis: rowsByContentId.get(work.contentId)?.diagnosis ?? null,
       differences: null,
+      sameAgeWindows: early
+        .filter(
+          (row) =>
+            row.contentId === work.contentId &&
+            row.videoId === work.youtube?.id &&
+            isCompletePublishWindow(row),
+        )
+        .map(serializeEarlyPerformanceSnapshot),
       publishedAt: work.publishedAt,
       title: work.title,
       work,
@@ -458,7 +430,9 @@ export async function getAdminMcpEarlyPerformance({ id }: { id?: string }) {
   );
 
   return {
-    granularity: "calendar_day",
+    granularity: "publish_date_window",
+    timezone: ANALYTICS_TIMEZONE,
+    preciseHourly: { status: "not_available" },
     items: snapshots.map(serializeEarlyPerformanceSnapshot),
     notes: [
       "YouTube Analytics API data is date-window based here, not exact clock-hour data.",
@@ -766,6 +740,8 @@ function serializeWork(work: Work | undefined, contentId: string) {
         : null,
     },
     publishedAt: work?.publishedAt ?? null,
+    vocalLanguages: work?.vocalLanguages ?? [],
+    durationSeconds: work?.durationSeconds ?? null,
     source: {
       artists: work?.fromArtists ?? null,
       details: work?.fromDetails ?? null,
@@ -801,7 +777,9 @@ function serializeWork(work: Work | undefined, contentId: string) {
 function serializeSnapshot(snapshot: Snapshot) {
   const subscribersPer1000Views =
     snapshot.views > 0
-      ? (snapshot.subscribersGained / snapshot.views) * 1000
+      ? ((snapshot.subscribersGained - snapshot.subscribersLost) /
+          snapshot.views) *
+        1000
       : null;
 
   return {
@@ -820,6 +798,10 @@ function serializeSnapshot(snapshot: Snapshot) {
       "retention30s",
       "retention60s",
     ],
+    source: snapshot.source,
+    timezone: ANALYTICS_TIMEZONE,
+    granularity:
+      snapshot.periodDays === 0 ? "lifetime_analytics" : "rolling_window",
     periodDays: snapshot.periodDays,
     shares: snapshot.shares,
     startDate: snapshot.startDate,
@@ -839,6 +821,12 @@ function serializeSnapshot(snapshot: Snapshot) {
 
 function serializeEarlyPerformanceSnapshot(snapshot: EarlyPerformanceSnapshot) {
   return {
+    completeness: isCompletePublishWindow(snapshot)
+      ? "complete"
+      : "partial_or_unverified",
+    windowLabel: `Publish-date ${snapshot.elapsedHours / 24}-day window`,
+    timezone: ANALYTICS_TIMEZONE,
+    source: "YouTube Analytics API",
     averageViewDurationSeconds: snapshot.averageViewDuration,
     averageViewPercentage: snapshot.averageViewPercentage,
     comments: snapshot.comments,
@@ -1472,110 +1460,6 @@ function normalizeText(value: string | null | undefined) {
     .trim();
 }
 
-function findRow(rows: McpWorkRow[], id: string) {
-  return (
-    rows.find(
-      (row) =>
-        row.work.contentId === id ||
-        row.work.path === id ||
-        row.work.youtube?.id === id,
-    ) ?? null
-  );
-}
-
-function getCohortRows(
-  rows: McpWorkRow[],
-  target: McpWorkRow,
-  cohort: NonNullable<CohortCompareInput["cohort"]>,
-) {
-  if (cohort === "recent") {
-    return rows
-      .filter((row) => row.work.publishedAt)
-      .sort((a, b) => getPublishedTime(b.work) - getPublishedTime(a.work));
-  }
-  if (cohort === "sameStyle") {
-    return rows.filter(
-      (row) =>
-        row.work.style.musicStyle &&
-        row.work.style.musicStyle === target.work.style.musicStyle,
-    );
-  }
-  if (cohort === "sameSourceIp") {
-    return rows.filter(
-      (row) =>
-        row.work.source.ip && row.work.source.ip === target.work.source.ip,
-    );
-  }
-  const targetLanguages = new Set(getWorkLanguages(target.work));
-  return rows.filter((row) =>
-    getWorkLanguages(row.work).some((locale) => targetLanguages.has(locale)),
-  );
-}
-
-function getRowBaseline(rows: McpWorkRow[]) {
-  return {
-    averageViewDurationSeconds: median(
-      rows.flatMap((row) =>
-        row.analytics.averageViewDurationSeconds === null
-          ? []
-          : [row.analytics.averageViewDurationSeconds],
-      ),
-    ),
-    averageViewPercentage: median(
-      rows.flatMap((row) =>
-        row.analytics.averageViewPercentage === null
-          ? []
-          : [row.analytics.averageViewPercentage],
-      ),
-    ),
-    subscribersPer1000Views: median(
-      rows.flatMap((row) =>
-        row.analytics.subscribersPer1000Views === null
-          ? []
-          : [row.analytics.subscribersPer1000Views],
-      ),
-    ),
-    views: median(rows.map((row) => row.analytics.views)),
-  };
-}
-
-function getMetricComparisons(
-  target: McpWorkRow,
-  baseline: ReturnType<typeof getRowBaseline>,
-) {
-  return {
-    averageViewDurationSeconds: compareMetric(
-      target.analytics.averageViewDurationSeconds,
-      baseline.averageViewDurationSeconds,
-    ),
-    averageViewPercentage: compareMetric(
-      target.analytics.averageViewPercentage,
-      baseline.averageViewPercentage,
-    ),
-    subscribersPer1000Views: compareMetric(
-      target.analytics.subscribersPer1000Views,
-      baseline.subscribersPer1000Views,
-    ),
-    views: compareMetric(target.analytics.views, baseline.views),
-  };
-}
-
-function compareMetric(value: number | null, baseline: number) {
-  if (value === null || baseline === 0) {
-    return {
-      baseline,
-      deltaPercent: null,
-      value,
-    };
-  }
-
-  return {
-    baseline,
-    deltaPercent: ((value - baseline) / baseline) * 100,
-    value,
-  };
-}
-
 function getVersionDifferences(
   baseline: ReturnType<typeof serializeWork>,
   version: ReturnType<typeof serializeWork>,
@@ -1622,127 +1506,6 @@ function getVersionComparisonSummary(
   return `${versions.length} possible version(s) found. Earliest is ${first.title} (${first.contentId}, ${first.publishedAt ?? "unknown date"}); latest is ${latest.title} (${latest.contentId}, ${latest.publishedAt ?? "unknown date"}).`;
 }
 
-function getComparableReasons(
-  work: ReturnType<typeof serializeWork>,
-  other: ReturnType<typeof serializeWork>,
-) {
-  const reasons: string[] = [];
-  if (work.style.workType && work.style.workType === other.style.workType) {
-    reasons.push("same work type");
-  }
-  if (
-    work.style.musicStyle &&
-    work.style.musicStyle === other.style.musicStyle
-  ) {
-    reasons.push("same music style");
-  }
-  if (work.source.ip && work.source.ip === other.source.ip) {
-    reasons.push("same source IP");
-  }
-  if (work.source.type && work.source.type === other.source.type) {
-    reasons.push("same source type");
-  }
-  const languages = new Set(getWorkLanguages(work));
-  if (getWorkLanguages(other).some((locale) => languages.has(locale))) {
-    reasons.push("shared language");
-  }
-  return reasons;
-}
-
-function getInsightStrengths(
-  row: McpWorkRow | null,
-  baseline: ReturnType<typeof getBaseline>,
-  work: ReturnType<typeof serializeWork>,
-) {
-  const strengths: string[] = [];
-  if (!row) return strengths;
-  if (row.analytics.views >= baseline.views) {
-    strengths.push("Reach is at or above the current median baseline.");
-  }
-  if (
-    row.analytics.averageViewPercentage !== null &&
-    row.analytics.averageViewPercentage >= baseline.averageViewPercentage
-  ) {
-    strengths.push("Average viewed percentage is at or above baseline.");
-  }
-  if (
-    row.analytics.subscribersPer1000Views !== null &&
-    row.analytics.subscribersPer1000Views > 0
-  ) {
-    strengths.push("The work converts some viewers into subscribers.");
-  }
-  if (
-    work.youtube?.localizations &&
-    Object.keys(work.youtube.localizations).length
-  ) {
-    strengths.push("YouTube localization data exists for multiple languages.");
-  }
-  return strengths;
-}
-
-function getInsightRisks(
-  row: McpWorkRow | null,
-  baseline: ReturnType<typeof getBaseline>,
-  work: ReturnType<typeof serializeWork>,
-  missingData: string[],
-) {
-  const risks: string[] = [];
-  if (!row) {
-    risks.push(
-      "No analytics snapshot is available, so performance diagnosis is limited.",
-    );
-  } else {
-    if (
-      row.analytics.views >= baseline.views &&
-      row.analytics.averageViewPercentage !== null &&
-      row.analytics.averageViewPercentage < baseline.averageViewPercentage
-    ) {
-      risks.push("Reach is decent, but retention is below baseline.");
-    }
-    if (
-      row.analytics.views < baseline.views &&
-      row.analytics.averageViewPercentage !== null &&
-      row.analytics.averageViewPercentage >= baseline.averageViewPercentage
-    ) {
-      risks.push("Retention looks healthy, but reach is below baseline.");
-    }
-  }
-  if (!work.youtube) risks.push("No YouTube ID is attached.");
-  if (!work.subtitles.languages.length)
-    risks.push("No subtitle tracks are stored.");
-  if (missingData.length) {
-    risks.push(`Missing data may limit analysis: ${missingData.join(", ")}.`);
-  }
-  return risks;
-}
-
-function getInsightSummary(
-  row: McpWorkRow | null,
-  baseline: ReturnType<typeof getBaseline>,
-  work: ReturnType<typeof serializeWork>,
-  missingData: string[],
-) {
-  if (!row) {
-    return `${work.title} has content metadata, but no stored YouTube Analytics snapshot yet. Fill missing fields and sync analytics before judging performance.`;
-  }
-
-  const retention =
-    row.analytics.averageViewPercentage === null
-      ? "unknown retention"
-      : row.analytics.averageViewPercentage >= baseline.averageViewPercentage
-        ? "above-baseline retention"
-        : "below-baseline retention";
-  const reach =
-    row.analytics.views >= baseline.views
-      ? "above-baseline reach"
-      : "below-baseline reach";
-  const caveat = missingData.length
-    ? ` Missing data: ${missingData.join(", ")}.`
-    : "";
-
-  return `${work.title} currently shows ${reach} and ${retention}. ${row.diagnosis.summary}${caveat}`;
-}
-
 function getMissingFields(
   work: ReturnType<typeof serializeWork>,
   analytics:
@@ -1757,6 +1520,8 @@ function getMissingFields(
   if (!work.publishedAt) missing.push("publishedAt");
   if (!work.source.title) missing.push("source.title");
   if (!work.source.type) missing.push("source.type");
+  if (!work.vocalLanguages.length) missing.push("metadata.vocalLanguages");
+  if (work.durationSeconds === null) missing.push("metadata.durationSeconds");
   if (!work.style.workType) missing.push("style.workType");
   if (!work.style.musicStyle) missing.push("style.musicStyle");
   if (!work.youtube) {
@@ -1817,38 +1582,13 @@ function getBaseline(snapshots: Snapshot[]) {
 }
 
 function getDiagnosis(
-  snapshot: Snapshot,
-  baseline: ReturnType<typeof getBaseline>,
+  _snapshot: Snapshot,
+  _baseline: ReturnType<typeof getBaseline>,
 ) {
-  const highReach = baseline.views > 0 && snapshot.views >= baseline.views;
-  const highRetention =
-    snapshot.averageViewPercentage !== null &&
-    baseline.averageViewPercentage > 0 &&
-    snapshot.averageViewPercentage >= baseline.averageViewPercentage;
-
-  if (highReach && highRetention) {
-    return {
-      label: "scale",
-      summary: "Reach and retention are both above baseline.",
-    };
-  }
-  if (highReach && !highRetention) {
-    return {
-      label: "retention_issue",
-      summary:
-        "The work gets reach, but the opening/song may not retain viewers.",
-    };
-  }
-  if (!highReach && highRetention) {
-    return {
-      label: "reach_issue",
-      summary:
-        "Viewers stay after clicking; packaging, topic, or timing may limit reach.",
-    };
-  }
   return {
-    label: "review",
-    summary: "Below current baseline; compare topic, language, and timing.",
+    label: "historical_context",
+    summary:
+      "Lifetime context only. Use analysis_get_work_insight or analytics_compare_cohort for verified same-age diagnosis.",
   };
 }
 

@@ -15,6 +15,9 @@ export default async function AdminAnalyticsRoute({
   searchParams,
 }: {
   searchParams: Promise<{
+    days?: string;
+    start?: string;
+    end?: string;
     message?: string;
     order?: string;
     page?: string;
@@ -23,9 +26,13 @@ export default async function AdminAnalyticsRoute({
     status?: string;
   }>;
 }) {
-  const { message, order, page, q, sort, status } = await searchParams;
+  const { days, start, end, message, order, page, q, sort, status } =
+    await searchParams;
   return (
     <AdminAnalyticsPage
+      days={Number(days) || 28}
+      start={start}
+      end={end}
       message={message}
       order={order}
       page={page}

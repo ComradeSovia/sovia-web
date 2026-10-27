@@ -40,6 +40,8 @@ export interface MusicWork {
   visible?: boolean | null;
   publishedAt?: string | null;
   songTitle?: string | null;
+  vocalLanguages?: string[] | null;
+  durationSeconds?: number | null;
   fromTitle?: string | null;
   fromArtists?: string[] | null;
   fromSource?: string | null;

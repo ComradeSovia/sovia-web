@@ -6,12 +6,15 @@ APP_DIR="/opt/sovia-web"
 SERVICE_NAME="sovia-web"
 CONTAINER_NAME="sovia-web"
 IMAGE_NAME="ghcr.io/comradesovia/sovia-web:prod"
+MIGRATION_IMAGE_NAME="ghcr.io/comradesovia/sovia-web:prod-migrate"
+MIGRATION_OVERRIDE=""
 ROLLBACK_IMAGE_NAME="ghcr.io/comradesovia/sovia-web:rollback"
 HEALTH_URL="http://127.0.0.1:4091/"
 HEALTH_ATTEMPTS="${HEALTH_ATTEMPTS:-30}"
 HEALTH_SLEEP_SECONDS="${HEALTH_SLEEP_SECONDS:-2}"
 
 trap 'echo "Deployment failed on line ${LINENO}."' ERR
+trap 'if [ -n "$MIGRATION_OVERRIDE" ]; then rm -f -- "$MIGRATION_OVERRIDE"; fi' EXIT
 
 cd "$APP_DIR"
 
@@ -53,6 +56,15 @@ fi
 echo "Pulling $IMAGE_NAME..."
 compose pull "$SERVICE_NAME"
 
+echo "Pulling migration image..."
+docker pull "$MIGRATION_IMAGE_NAME"
+MIGRATION_OVERRIDE="$(mktemp "$APP_DIR/.migration-compose.XXXXXX.yml")"
+printf 'services:\n  %s:\n    image: %s\n' "$SERVICE_NAME" "$MIGRATION_IMAGE_NAME" > "$MIGRATION_OVERRIDE"
+echo "Applying checked-in database migrations before replacing the running app..."
+docker compose "${COMPOSE_FILES[@]}" -f "$MIGRATION_OVERRIDE" run --rm --no-deps --entrypoint "node /app/node_modules/prisma/build/index.js" "$SERVICE_NAME" migrate deploy
+rm -f -- "$MIGRATION_OVERRIDE"
+MIGRATION_OVERRIDE=""
+
 echo "Updating $SERVICE_NAME..."
 compose up -d --remove-orphans "$SERVICE_NAME"
 
@@ -74,6 +86,9 @@ if [ "$SUCCESS" != "true" ]; then
   compose logs --tail=100 "$SERVICE_NAME"
   exit 1
 fi
+
+echo "Verifying authenticated MCP tools with read-only calls..."
+docker exec -e MCP_VERIFY_URL=http://127.0.0.1:3000/api/admin/mcp "$CONTAINER_NAME" node scripts/verify-analytics-mcp.mjs
 
 echo "Pruning dangling Docker images..."
 docker image prune -f

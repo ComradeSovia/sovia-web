@@ -1,4 +1,6 @@
 import { getPrismaClient } from "@sovia/sound/data/prisma";
+import { analyticsDate, dateRange, weightedMean } from "./analytics-math";
+import { parseReachCsv } from "./youtube-reach-csv";
 
 const REPORTING_API_URL = "https://youtubereporting.googleapis.com/v1";
 const REACH_REPORT_TYPE_ID = "channel_reach_basic_a1";
@@ -48,7 +50,15 @@ export async function syncYoutubeReachReports({
   const { created, job } = await ensureReachJob(accessToken);
   if (!job.id) throw new Error("YouTube Reporting reach job has no ID.");
 
-  const reports = await listReachReports(accessToken, job.id);
+  const allReports = await listReachReports(accessToken, job.id);
+  const latestByPeriod = new Map<string, (typeof allReports)[number]>();
+  for (const report of allReports) {
+    const key = `${report.startTime}:${report.endTime}`;
+    const previous = latestByPeriod.get(key);
+    if (!previous || String(report.createTime) > String(previous.createTime))
+      latestByPeriod.set(key, report);
+  }
+  const reports = [...latestByPeriod.values()];
   const importedIds = new Set(
     (
       await prisma.adminYoutubeReportingImport.findMany({
@@ -82,9 +92,15 @@ export async function syncYoutubeReachReports({
     }
     const csv = await downloadReport(accessToken, report.downloadUrl);
     const rows = parseReachCsv(csv);
+    const reportDate = analyticsDate(report.startTime);
+    if (rows.some((row) => row.date !== reportDate))
+      throw new Error("Reach report date does not match its source period.");
     let reportRows = 0;
 
     await prisma.$transaction(async (transaction) => {
+      await transaction.adminYoutubeVideoReachDaily.deleteMany({
+        where: { date: reportDate },
+      });
       for (const row of rows) {
         const contentId = videoIdToContentId.get(row.videoId);
         if (!contentId) continue;
@@ -125,8 +141,7 @@ export async function syncYoutubeReachReports({
     importedRows += reportRows;
   }
 
-  const updatedSnapshots =
-    importedReports > 0 ? await updateAnalyticsReachSnapshots() : 0;
+  const updatedSnapshots = await updateAnalyticsReachSnapshots();
   return {
     importedReports,
     importedRows,
@@ -232,65 +247,6 @@ async function downloadReport(accessToken: string, downloadUrl: string) {
   return response.text();
 }
 
-function parseReachCsv(csv: string) {
-  const lines = csv.split(/\r?\n/).filter(Boolean);
-  if (lines.length < 2) return [];
-  const headers = parseCsvLine(lines[0]);
-  const index = Object.fromEntries(
-    headers.map((header, column) => [header, column]),
-  );
-  const required = [
-    "date",
-    "video_id",
-    "video_thumbnail_impressions",
-    "video_thumbnail_impressions_ctr",
-  ];
-  if (required.some((header) => index[header] === undefined)) {
-    throw new Error("YouTube Reach CSV is missing required columns.");
-  }
-
-  return lines.slice(1).flatMap((line) => {
-    const columns = parseCsvLine(line);
-    const date = columns[index.date]?.trim();
-    const videoId = columns[index.video_id]?.trim();
-    const impressions = Number(columns[index.video_thumbnail_impressions]);
-    const ctr = Number(columns[index.video_thumbnail_impressions_ctr]);
-    if (
-      !date ||
-      !videoId ||
-      !Number.isFinite(impressions) ||
-      !Number.isFinite(ctr)
-    ) {
-      return [];
-    }
-    return [{ ctr, date, impressions: Math.trunc(impressions), videoId }];
-  });
-}
-
-function parseCsvLine(line: string) {
-  const values: string[] = [];
-  let current = "";
-  let quoted = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const character = line[index];
-    if (character === '"') {
-      if (quoted && line[index + 1] === '"') {
-        current += '"';
-        index += 1;
-      } else {
-        quoted = !quoted;
-      }
-    } else if (character === "," && !quoted) {
-      values.push(current);
-      current = "";
-    } else {
-      current += character;
-    }
-  }
-  values.push(current);
-  return values;
-}
-
 async function updateAnalyticsReachSnapshots() {
   const prisma = getPrismaClient();
   if (!prisma) return 0;
@@ -314,16 +270,29 @@ async function updateAnalyticsReachSnapshots() {
     const rows = (byVideo.get(snapshot.videoId) ?? []).filter(
       (row) => row.date >= snapshot.startDate && row.date <= snapshot.endDate,
     );
-    if (!rows.length) continue;
-    const impressions = rows.reduce((sum, row) => sum + row.impressions, 0);
-    const ctr =
-      impressions > 0
-        ? rows.reduce(
-            (sum, row) =>
-              sum + (row.impressionClickThroughRate ?? 0) * row.impressions,
-            0,
-          ) / impressions
-        : null;
+    // Never attach a partial Reach total to a full Analytics window.
+    const complete =
+      snapshot.startDate >= "2020-01-01" &&
+      (() => {
+        try {
+          return dateRange(snapshot.startDate, snapshot.endDate).every((date) =>
+            rows.some((row) => row.date === date),
+          );
+        } catch {
+          return false;
+        }
+      })();
+    const impressions = complete
+      ? rows.reduce((sum, row) => sum + row.impressions, 0)
+      : null;
+    const ctr = complete
+      ? weightedMean(
+          rows.map((row) => ({
+            value: row.impressionClickThroughRate,
+            weight: row.impressions,
+          })),
+        )
+      : null;
     await prisma.adminYoutubeVideoAnalyticsSnapshot.update({
       data: {
         impressionClickThroughRate: ctr,
@@ -337,16 +306,29 @@ async function updateAnalyticsReachSnapshots() {
     const rows = (byVideo.get(snapshot.videoId) ?? []).filter(
       (row) => row.date >= snapshot.startDate && row.date <= snapshot.endDate,
     );
-    if (!rows.length) continue;
-    const impressions = rows.reduce((sum, row) => sum + row.impressions, 0);
-    const ctr =
-      impressions > 0
-        ? rows.reduce(
-            (sum, row) =>
-              sum + (row.impressionClickThroughRate ?? 0) * row.impressions,
-            0,
-          ) / impressions
-        : null;
+    // Never attach a partial Reach total to a full Analytics window.
+    const complete =
+      snapshot.startDate >= "2020-01-01" &&
+      (() => {
+        try {
+          return dateRange(snapshot.startDate, snapshot.endDate).every((date) =>
+            rows.some((row) => row.date === date),
+          );
+        } catch {
+          return false;
+        }
+      })();
+    const impressions = complete
+      ? rows.reduce((sum, row) => sum + row.impressions, 0)
+      : null;
+    const ctr = complete
+      ? weightedMean(
+          rows.map((row) => ({
+            value: row.impressionClickThroughRate,
+            weight: row.impressions,
+          })),
+        )
+      : null;
     await prisma.adminYoutubeVideoEarlyPerformanceSnapshot.update({
       data: { impressionClickThroughRate: ctr, impressions },
       where: { id: snapshot.id },

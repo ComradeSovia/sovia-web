@@ -19,11 +19,17 @@ import {
   searchAdminMcpContentWorks,
 } from "@sovia/admin/data/admin-mcp-data";
 import {
+  getAudienceIntelligence,
+  getChannelIntelligence,
+  getContentStrategy,
+} from "@sovia/admin/data/analytics-intelligence";
+import {
   getMcpOAuthServerInfo,
   getMcpUnauthorizedHeaders,
   isMcpOAuthConfigured,
   isValidMcpOAuthAccessToken,
 } from "@sovia/admin/data/mcp-oauth";
+import { getSongCandidateIntelligence } from "@sovia/admin/data/song-candidate-intelligence";
 import { syncAdminYoutubeAnalytics } from "@sovia/admin/data/youtube-analytics";
 import { syncAdminYoutubeComments } from "@sovia/admin/data/youtube-comments";
 
@@ -54,6 +60,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
+const SERVER_VERSION = "0.2.0";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -116,6 +123,73 @@ const commentsListInputSchema = {
 } satisfies ToolDefinition["inputSchema"];
 
 const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
+  {
+    name: "analysis_score_song_candidate",
+    description:
+      "Transparent historical catalog-fit score with duplicate exclusion, same-age evidence, weights, sample sizes, coverage and uncertainty. No trend data is fabricated; no catalog writes or YouTube requests.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      required: ["title"],
+      properties: {
+        title: { type: "string", maxLength: 200 },
+        sourceTitle: { type: "string", maxLength: 200 },
+        artist: { type: "string", maxLength: 200 },
+        ip: { type: "string", maxLength: 200 },
+        series: { type: "string", maxLength: 200 },
+        workType: { type: "string", enum: ["O", "CO", "C", "LC", "R"] },
+        vocalLanguages: {
+          type: "string",
+          description:
+            "Explicit vocal ISO language codes separated by commas; never metadata/subtitle languages.",
+        },
+        durationSeconds: {
+          type: "string",
+          description: "Positive integer seconds; omitted means unknown.",
+        },
+        hours: { type: "integer", enum: [24, 72, 168, 672], default: 168 },
+        allowRemake: { type: "boolean", default: false },
+      },
+    },
+  },
+  {
+    name: "analytics_channel_trends",
+    description:
+      "Cached daily channel metrics, adjacent equal-period comparison, contribution decomposition, and completeness. No YouTube requests.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        days: { type: "integer", enum: [7, 28, 90, 365] },
+        start: {
+          type: "string",
+          description: "YYYY-MM-DD Pacific calendar date",
+        },
+        end: {
+          type: "string",
+          description: "YYYY-MM-DD; must be a completed Pacific day",
+        },
+      },
+    },
+  },
+  {
+    name: "analytics_content_strategy",
+    description:
+      "IP/series, source type, work type, metadata-language medians and distributions from verified completed same-age windows; recent views and evergreen eligibility.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        hours: { type: "integer", enum: [24, 72, 168, 672], default: 168 },
+      },
+    },
+  },
+  {
+    name: "analytics_audience_geography",
+    description:
+      "Cached country and top-250 city metrics with privacy limitations and previous 28-day comparison. No inferred unique/returning viewers.",
+    inputSchema: { type: "object", additionalProperties: false },
+  },
   {
     description:
       "Get Sovia YouTube analytics overview, baselines, sync status, totals, and top works.",
@@ -364,14 +438,34 @@ const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
   },
   {
     description:
-      "Compare one work against a cohort using existing lifetime analytics snapshots. Cohorts: recent, sameLanguage, sameStyle, sameSourceIp.",
+      "Compare verified completed same-age publish-date windows. Includes peer ranking, median, diagnostic evidence and missing-data coverage; no lifetime fallback.",
     inputSchema: {
       additionalProperties: false,
       properties: {
+        matchDuration: {
+          type: "boolean",
+          default: false,
+          description:
+            "Also require the target video duration band. Unknown durations never match.",
+        },
+        hours: {
+          type: "integer",
+          enum: [24, 72, 168, 672],
+          default: 168,
+          description: "Completed publish-date window; not clock hours.",
+        },
         cohort: {
           description:
-            "Cohort strategy: recent, sameLanguage, sameStyle, or sameSourceIp.",
-          enum: ["recent", "sameLanguage", "sameStyle", "sameSourceIp"],
+            "Cohort strategy: recent, sameLanguage (metadata), sameStyle (work type), sameSourceIp, or sameSourceType.",
+          enum: [
+            "recent",
+            "sameLanguage",
+            "sameStyle",
+            "sameSourceIp",
+            "sameSourceType",
+            "sameVocalLanguage",
+            "similarDuration",
+          ],
           type: "string",
         },
         id: {
@@ -380,7 +474,7 @@ const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
         },
         limit: {
           default: 10,
-          description: "Maximum number of comparable works to return. 1-100.",
+          description: "Recent peer count: 10, 20, or 50; other values use 20.",
           maximum: 100,
           minimum: 1,
           type: "integer",
@@ -567,6 +661,7 @@ export async function OPTIONS() {
 export async function GET() {
   return jsonResponse({
     endpoint: "/api/admin/mcp",
+    version: SERVER_VERSION,
     message:
       "Sovia Admin MCP is a JSON-RPC MCP endpoint. Send POST requests with MCP methods such as initialize, tools/list, and tools/call.",
     oauth: getMcpOAuthServerInfo(),
@@ -629,7 +724,7 @@ async function handleRequest(body: unknown) {
         serverInfo: {
           name: "sovia-admin-mcp",
           title: "Sovia Admin MCP",
-          version: "0.1.0",
+          version: SERVER_VERSION,
         },
       });
 
@@ -657,6 +752,42 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
 
   try {
     switch (call?.name) {
+      case "analysis_score_song_candidate":
+        return makeToolResult(
+          id,
+          await getSongCandidateIntelligence({
+            title: getRequiredString(args, "title"),
+            sourceTitle: toOptionalString(args.sourceTitle),
+            artist: toOptionalString(args.artist),
+            ip: toOptionalString(args.ip),
+            series: toOptionalString(args.series),
+            workType: toOptionalString(args.workType),
+            vocalLanguages: toOptionalString(args.vocalLanguages),
+            durationSeconds: toOptionalString(args.durationSeconds),
+            hours: toInteger(args.hours, 168),
+            allowRemake: args.allowRemake === true,
+          }),
+        );
+      case "analytics_channel_trends":
+        return makeToolResult(
+          id,
+          await getChannelIntelligence({
+            days: toInteger(args.days, 28),
+            start: toOptionalString(args.start),
+            end: toOptionalString(args.end),
+          }),
+        );
+      case "analytics_content_strategy":
+        return makeToolResult(
+          id,
+          await getContentStrategy(
+            [24, 72, 168, 672].includes(toInteger(args.hours, 168))
+              ? toInteger(args.hours, 168)
+              : 168,
+          ),
+        );
+      case "analytics_audience_geography":
+        return makeToolResult(id, await getAudienceIntelligence());
       case "analytics_overview":
         return makeToolResult(id, await getAdminMcpAnalyticsOverview());
 
@@ -681,7 +812,11 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
 
       case "analytics_compare_cohort": {
         const comparison = await compareAdminMcpAnalyticsCohort({
+          hours: [24, 72, 168, 672].includes(toInteger(args.hours, 168))
+            ? toInteger(args.hours, 168)
+            : 168,
           cohort: getCohortArg(args.cohort),
+          matchDuration: args.matchDuration === true,
           id: getRequiredString(args, "id"),
           limit: toInteger(args.limit, 10),
         });
@@ -905,7 +1040,10 @@ function getCohortArg(value: unknown) {
   return value === "recent" ||
     value === "sameLanguage" ||
     value === "sameSourceIp" ||
-    value === "sameStyle"
+    value === "sameSourceType" ||
+    value === "sameStyle" ||
+    value === "sameVocalLanguage" ||
+    value === "similarDuration"
     ? value
     : undefined;
 }

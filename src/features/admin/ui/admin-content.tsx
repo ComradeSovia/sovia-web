@@ -3105,6 +3105,25 @@ function MusicWorkForm({
                 placeholder="Optional station title"
                 value={work?.songTitle ?? todo?.title}
               />
+              <Field
+                label="Vocal languages (ISO codes)"
+                name="vocalLanguages"
+                placeholder="ru, ja; mul = unspecified multilingual; zxx = no vocals"
+                value={work?.vocalLanguages?.join(", ") ?? ""}
+              />
+              <Field
+                label="Video duration (whole seconds)"
+                name="durationSeconds"
+                type="number"
+                placeholder="Unknown until entered or synced"
+                value={work?.durationSeconds?.toString() ?? ""}
+              />
+              <p className="text-xs text-zinc-400 md:col-span-2">
+                Vocal language describes the performed audio, independently of
+                metadata/subtitles. Multiple codes represent multilingual
+                vocals. Blank means unknown. Duration is the linked video
+                length; changing its YouTube ID clears it.
+              </p>
             </div>
             <StepSaveButton label="Save metadata" />
           </Section>
