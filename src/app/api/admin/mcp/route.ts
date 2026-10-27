@@ -60,7 +60,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.2.0";
+const SERVER_VERSION = "0.2.1";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -602,6 +602,12 @@ const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
     inputSchema: {
       additionalProperties: false,
       properties: {
+        resumeAfterDaily: {
+          type: "boolean",
+          default: false,
+          description:
+            "Resume only remaining stages after a fresh failed-run daily checkpoint. Skips Data API statistics and all daily report requests; other existing stage limits remain unchanged.",
+        },
         confirmQuotaUse: {
           description:
             "Must be true to confirm the caller understands this consumes YouTube API quota.",
@@ -926,7 +932,12 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
             "analytics_sync_youtube requires confirmQuotaUse=true because it consumes YouTube API quota.",
           );
         }
-        return makeToolResult(id, await syncAdminYoutubeAnalytics());
+        return makeToolResult(
+          id,
+          await syncAdminYoutubeAnalytics({
+            resumeAfterDaily: args.resumeAfterDaily === true,
+          }),
+        );
 
       case "analytics_sync_youtube_comments":
         if (args.confirmQuotaUse !== true) {

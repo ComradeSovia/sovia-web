@@ -74,7 +74,11 @@ export async function syncYoutubeDailyAnalytics({
     latest.videoCatalogKey === keyAtDate(latest.date) &&
     Date.now() - latest.syncedAt.getTime() < 20 * 60 * 60 * 1000
   )
-    return { availableEnd: latest.date, days: 0 };
+    return {
+      availableEnd: latest.date,
+      days: 0,
+      videoWarnings: [] as string[],
+    };
   // Initial channel history supports 365 vs previous 365; subsequent syncs refresh 14 days.
   const startDate = shiftAnalyticsDate(requestedEnd, latest ? -13 : -729);
   const channel = await read({
@@ -124,76 +128,83 @@ export async function syncYoutubeDailyAnalytics({
     ranges.push({ start: start < oldest ? oldest : start, end });
   }
   const videoWorks = works.filter((work) => work.u2bId);
-  for (const range of ranges) {
-    if (!videoWorks.length) break;
-    const all: {
-      contentId: string;
-      videoId: string;
-      date: string;
-      views: number;
-      estimatedMinutesWatched: number | null;
-      averageViewDuration: number | null;
-      averageViewPercentage: number | null;
-      subscribersGained: number;
-      subscribersLost: number;
-      likes: number;
-      comments: number;
-      shares: number;
-    }[] = [];
-    for (let index = 0; index < videoWorks.length; index += 500) {
-      const batch = videoWorks.slice(index, index + 500);
-      const byVideo = new Map(
-        batch.map((work) => [work.u2bId, work.contentId]),
-      );
-      const rows = await read({
-        dimensions: "day,video",
-        metrics: CORE,
-        filters: `video==${batch.map((work) => work.u2bId).join(",")}`,
-        startDate: range.start,
-        endDate: range.end,
-        sort: "day,video",
-      });
-      for (const row of rows) {
-        if (typeof row.video !== "string" || typeof row.day !== "string")
-          continue;
-        const contentId = byVideo.get(row.video);
-        if (!contentId) continue;
-        all.push({
-          contentId,
-          videoId: row.video,
-          date: row.day,
-          ...metrics(row),
-          likes: required(row, "likes"),
-          comments: required(row, "comments"),
-          shares: required(row, "shares"),
+  const videoWarnings: string[] = [];
+  try {
+    for (const range of ranges) {
+      if (!videoWorks.length) break;
+      const all: {
+        contentId: string;
+        videoId: string;
+        date: string;
+        views: number;
+        estimatedMinutesWatched: number | null;
+        averageViewDuration: number | null;
+        averageViewPercentage: number | null;
+        subscribersGained: number;
+        subscribersLost: number;
+        likes: number;
+        comments: number;
+        shares: number;
+      }[] = [];
+      for (let index = 0; index < videoWorks.length; index += 500) {
+        const batch = videoWorks.slice(index, index + 500);
+        const byVideo = new Map(
+          batch.map((work) => [work.u2bId, work.contentId]),
+        );
+        const rows = await read({
+          dimensions: "day,video",
+          metrics: CORE,
+          filters: `video==${batch.map((work) => work.u2bId).join(",")}`,
+          startDate: range.start,
+          endDate: range.end,
+          sort: "day,video",
         });
-      }
-    }
-    // Replace only after every page/batch succeeds. Removed API rows cannot linger as stale positives.
-    await prisma.$transaction(
-      async (tx) => {
-        await tx.adminYoutubeVideoDaily.deleteMany({
-          where: { date: { gte: range.start, lte: range.end } },
-        });
-        if (all.length)
-          await tx.adminYoutubeVideoDaily.createMany({ data: all });
-        const datesByCatalog = new Map<string, string[]>();
-        for (const date of dateRange(range.start, range.end)) {
-          const key = keyAtDate(date);
-          const dates = datesByCatalog.get(key) ?? [];
-          dates.push(date);
-          datesByCatalog.set(key, dates);
-        }
-        for (const [key, dates] of datesByCatalog)
-          await tx.adminYoutubeChannelDaily.updateMany({
-            where: { date: { in: dates } },
-            data: { videoCoverageComplete: true, videoCatalogKey: key },
+        for (const row of rows) {
+          if (typeof row.video !== "string" || typeof row.day !== "string")
+            continue;
+          const contentId = byVideo.get(row.video);
+          if (!contentId) continue;
+          all.push({
+            contentId,
+            videoId: row.video,
+            date: row.day,
+            ...metrics(row),
+            likes: required(row, "likes"),
+            comments: required(row, "comments"),
+            shares: required(row, "shares"),
           });
-      },
-      { timeout: 30_000 },
+        }
+      }
+      // Replace only after every page/batch succeeds. Removed API rows cannot linger as stale positives.
+      await prisma.$transaction(
+        async (tx) => {
+          await tx.adminYoutubeVideoDaily.deleteMany({
+            where: { date: { gte: range.start, lte: range.end } },
+          });
+          if (all.length)
+            await tx.adminYoutubeVideoDaily.createMany({ data: all });
+          const datesByCatalog = new Map<string, string[]>();
+          for (const date of dateRange(range.start, range.end)) {
+            const key = keyAtDate(date);
+            const dates = datesByCatalog.get(key) ?? [];
+            dates.push(date);
+            datesByCatalog.set(key, dates);
+          }
+          for (const [key, dates] of datesByCatalog)
+            await tx.adminYoutubeChannelDaily.updateMany({
+              where: { date: { in: dates } },
+              data: { videoCoverageComplete: true, videoCatalogKey: key },
+            });
+        },
+        { timeout: 30_000 },
+      );
+    }
+  } catch (error) {
+    videoWarnings.push(
+      `Video daily cache incomplete: ${error instanceof Error ? error.message : "unknown error"}. Channel days are retained; independent stages may continue.`,
     );
   }
-  return { availableEnd, days: channel.length };
+  return { availableEnd, days: channel.length, videoWarnings };
 }
 
 export async function syncYoutubeGeography(

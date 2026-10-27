@@ -3,6 +3,7 @@ import { parseYoutubeDuration } from "@sovia/sound/model/content-performance-met
 import { getYouTubeAccessToken } from "@sovia/youtube-api";
 import {
   analyticsDate,
+  canResumeAfterDaily,
   shiftAnalyticsDate,
   VERIFIED_CALENDAR_GRANULARITY,
 } from "./analytics-math";
@@ -240,14 +241,30 @@ export async function getYoutubeAnalyticsSyncStatus() {
 
 export async function syncAdminYoutubeAnalytics({
   dueOnly = false,
+  resumeAfterDaily = false,
 }: {
   dueOnly?: boolean;
+  resumeAfterDaily?: boolean;
 } = {}) {
   const prisma = getPrismaClient();
   if (!prisma) throw new Error("Database is unavailable.");
 
   const allWorks = (await listAdminMusicWorks()).filter((work) => work.u2bId);
   const works = dueOnly ? await listDueAnalyticsWorks(allWorks) : allWorks;
+  const checkpoint = resumeAfterDaily
+    ? await prisma.adminYoutubeChannelDaily.findFirst({
+        orderBy: { date: "desc" },
+      })
+    : null;
+  const previousSync = resumeAfterDaily
+    ? await prisma.adminYoutubeAnalyticsSync.findUnique({
+        where: { id: SYNC_ID },
+      })
+    : null;
+  if (resumeAfterDaily && !canResumeAfterDaily(previousSync, checkpoint))
+    throw new Error(
+      "No fresh failed-run daily checkpoint; refusing to replay a sync.",
+    );
   let endDate = getAnalyticsEndDate();
   const startDate = shiftDate(endDate, -89);
   const staleBefore = new Date(Date.now() - 20 * 60 * 1000);
@@ -320,35 +337,46 @@ export async function syncAdminYoutubeAnalytics({
     const videoIds = works
       .map((work) => work.u2bId)
       .filter((id): id is string => Boolean(id));
-    const publicStats = await queryYouTubeVideoPublicStats({
-      accessToken,
-      videoIds,
-    });
-    // Reuse the same Data API batch; fill only unknown durations and preserve manual edits.
-    for (const work of works) {
-      const durationSeconds = work.u2bId
-        ? publicStats.get(work.u2bId)?.durationSeconds
-        : null;
-      if (!durationSeconds || work.durationSeconds != null) continue;
-      const updated = await prisma.musicWorkContent.updateMany({
-        where: { contentId: work.contentId, durationSeconds: null },
-        data: { durationSeconds },
-      });
-      if (!updated.count)
-        await prisma.musicWorkContent.upsert({
-          where: { contentId: work.contentId },
-          create: { contentId: work.contentId, durationSeconds },
-          update: {},
-        });
-    }
-    await recordRealtimeSnapshots({ publicStats, works });
     const warnings = new Set<string>();
+    let publicStats = new Map<string, VideoPublicStats>();
+    if (!resumeAfterDaily) {
+      publicStats = await queryYouTubeVideoPublicStats({
+        accessToken,
+        videoIds,
+      });
+      // Reuse the same Data API batch; fill only unknown durations and preserve manual edits.
+      for (const work of works) {
+        const durationSeconds = work.u2bId
+          ? publicStats.get(work.u2bId)?.durationSeconds
+          : null;
+        if (!durationSeconds || work.durationSeconds != null) continue;
+        const updated = await prisma.musicWorkContent.updateMany({
+          where: { contentId: work.contentId, durationSeconds: null },
+          data: { durationSeconds },
+        });
+        if (!updated.count)
+          await prisma.musicWorkContent.upsert({
+            where: { contentId: work.contentId },
+            create: { contentId: work.contentId, durationSeconds },
+            update: {},
+          });
+      }
+      await recordRealtimeSnapshots({ publicStats, works });
+    }
     // Channel day rows establish the actual processed end date, not the requested date.
-    const daily = await syncYoutubeDailyAnalytics({
-      accessToken,
-      works: allWorks,
-    });
-    endDate = daily.availableEnd;
+    if (resumeAfterDaily && checkpoint) {
+      endDate = checkpoint.date;
+      warnings.add(
+        "Resumed after the persisted daily checkpoint; public statistics and daily Analytics requests were not repeated. The failed video-daily report remains unavailable.",
+      );
+    } else {
+      const daily = await syncYoutubeDailyAnalytics({
+        accessToken,
+        works: allWorks,
+      });
+      endDate = daily.availableEnd;
+      for (const warning of daily.videoWarnings) warnings.add(warning);
+    }
     await syncYoutubeGeography(accessToken, endDate).catch((error) => {
       warnings.add(
         `Geography sync skipped: ${error instanceof Error ? error.message : "unknown error"}`,
@@ -1201,7 +1229,7 @@ function getSyncMessage(
       ? " Reach job is ready; YouTube has not generated its first daily CSV yet."
       : ` Imported ${reach.importedReports} Reach report(s), ${reach.importedRows} daily row(s), and updated ${reach.updatedSnapshots} snapshot(s).`
     : "";
-  const base = `Synced quota-conscious YouTube stats for ${publicStatsCount} videos: Data API totals plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), ${trafficSourceRows} rolling traffic row(s), ${earlyTrafficSourceRows} publish-window traffic row(s), and ${retentionRows} retention point(s).${reachMessage}`;
+  const base = `Synced quota-conscious YouTube reports: ${publicStatsCount} Data API observation(s), plus ${lifetimeAnalyticsRows} lifetime Analytics depth row(s), ${earlyPerformanceRows} early performance row(s), ${trafficSourceRows} rolling traffic row(s), ${earlyTrafficSourceRows} publish-window traffic row(s), and ${retentionRows} retention point(s).${reachMessage}`;
   return warnings.size ? `${base} ${Array.from(warnings).join(" ")}` : base;
 }
 

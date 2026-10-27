@@ -36,8 +36,7 @@ export function createAnalyticsReportReader(
         .catch(() => null)) as Report | null;
       if (!response.ok || !payload?.columnHeaders)
         throw new Error(
-          payload?.error?.message ||
-            `Analytics report failed (${response.status}).`,
+          `Analytics ${parameters.dimensions ?? "unknown"} report failed (${response.status}): ${payload?.error?.message || "invalid response"}`,
         );
       const headers = payload.columnHeaders.map((column) => column.name);
       const rows = payload.rows ?? [];

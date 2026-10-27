@@ -268,3 +268,18 @@ export function completePeriodSum<T extends { date: string }>(
     ? null
     : values.reduce<number>((sum, item) => sum + (item ?? 0), 0);
 }
+
+export function canResumeAfterDaily(
+  previous: { status: string; startedAt: Date } | null,
+  checkpoint: { syncedAt: Date; videoCoverageComplete: boolean } | null,
+  now = Date.now(),
+): boolean {
+  return (
+    previous?.status === "error" &&
+    checkpoint !== null &&
+    !checkpoint.videoCoverageComplete &&
+    checkpoint.syncedAt.getTime() >= previous.startedAt.getTime() &&
+    now >= checkpoint.syncedAt.getTime() &&
+    now - checkpoint.syncedAt.getTime() <= 60 * 60 * 1000
+  );
+}

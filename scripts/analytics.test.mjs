@@ -489,3 +489,60 @@ test("partial catalog matches require review and never assert that the song is u
     result.limitations.some((note) => note.includes("does not guarantee")),
   );
 });
+
+test("failed daily API requests preserve their HTTP/dimension error and are not blindly retried", async (t) => {
+  let calls = 0;
+  t.mock.method(globalThis, "fetch", async () => {
+    calls++;
+    return Response.json(
+      { error: { message: "An internal error has occurred." } },
+      { status: 500 },
+    );
+  });
+  await assert.rejects(
+    createAnalyticsReportReader("test-token", 50)({ dimensions: "day,video" }),
+    /day,video report failed \(500\)/,
+  );
+  assert.equal(calls, 1);
+});
+test("sync recovery requires a fresh failed-run checkpoint and refuses unrelated or completed runs", async () => {
+  const { canResumeAfterDaily } = await import(
+    "../src/features/admin/data/analytics-math.ts"
+  );
+  const now = Date.parse("2026-10-27T15:00:00Z");
+  const previous = { status: "error", startedAt: new Date(now - 60000) };
+  const checkpoint = {
+    syncedAt: new Date(now - 50000),
+    videoCoverageComplete: false,
+  };
+  assert.equal(canResumeAfterDaily(previous, checkpoint, now), true);
+  assert.equal(
+    canResumeAfterDaily({ ...previous, status: "success" }, checkpoint, now),
+    false,
+  );
+  assert.equal(
+    canResumeAfterDaily(
+      previous,
+      { ...checkpoint, videoCoverageComplete: true },
+      now,
+    ),
+    false,
+  );
+  assert.equal(
+    canResumeAfterDaily(
+      previous,
+      { ...checkpoint, syncedAt: new Date(now - 120000) },
+      now,
+    ),
+    false,
+  );
+  assert.equal(
+    canResumeAfterDaily(
+      previous,
+      { ...checkpoint, syncedAt: new Date(now - 7200000) },
+      now,
+    ),
+    false,
+  );
+  assert.equal(canResumeAfterDaily(previous, null, now), false);
+});
