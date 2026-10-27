@@ -1,5 +1,8 @@
 import { getPrismaClient } from "@sovia/sound/data/prisma";
-import { parseYoutubeDuration } from "@sovia/sound/model/content-performance-metadata";
+import {
+  parseYoutubeDuration,
+  youtubeVocalLanguages,
+} from "@sovia/sound/model/content-performance-metadata";
 import { getYouTubeAccessToken } from "@sovia/youtube-api";
 import {
   analyticsDate,
@@ -28,6 +31,7 @@ type YouTubeVideoListResponse = {
   items?: {
     id?: string;
     contentDetails?: { duration?: string };
+    snippet?: { defaultAudioLanguage?: string };
     statistics?: {
       commentCount?: string;
       likeCount?: string;
@@ -64,6 +68,7 @@ type VideoTrafficSourceRow = {
 };
 
 type VideoPublicStats = {
+  vocalLanguages: string[];
   durationSeconds: number | null;
   comments: number | null;
   likes: number | null;
@@ -243,17 +248,21 @@ export async function syncAdminYoutubeAnalytics({
   dueOnly = false,
   resumeAfterDaily = false,
   geographyOnly = false,
+  metadataOnly = false,
 }: {
   dueOnly?: boolean;
   resumeAfterDaily?: boolean;
   geographyOnly?: boolean;
+  metadataOnly?: boolean;
 } = {}) {
   const prisma = getPrismaClient();
   if (!prisma) throw new Error("Database is unavailable.");
 
   const allWorks = (await listAdminMusicWorks()).filter((work) => work.u2bId);
   const works = dueOnly ? await listDueAnalyticsWorks(allWorks) : allWorks;
-  if (resumeAfterDaily && geographyOnly)
+  if (
+    [resumeAfterDaily, geographyOnly, metadataOnly].filter(Boolean).length > 1
+  )
     throw new Error("Choose only one recovery mode.");
   const checkpoint =
     resumeAfterDaily || geographyOnly
@@ -375,22 +384,58 @@ export async function syncAdminYoutubeAnalytics({
         accessToken,
         videoIds,
       });
-      // Reuse the same Data API batch; fill only unknown durations and preserve manual edits.
+      // Reuse the same Data API batch; fill unknown metadata with database guards.
+      let metadataUpdated = 0;
       for (const work of works) {
-        const durationSeconds = work.u2bId
-          ? publicStats.get(work.u2bId)?.durationSeconds
-          : null;
-        if (!durationSeconds || work.durationSeconds != null) continue;
-        const updated = await prisma.musicWorkContent.updateMany({
-          where: { contentId: work.contentId, durationSeconds: null },
-          data: { durationSeconds },
-        });
-        if (!updated.count)
-          await prisma.musicWorkContent.upsert({
-            where: { contentId: work.contentId },
-            create: { contentId: work.contentId, durationSeconds },
-            update: {},
+        const metadata = work.u2bId ? publicStats.get(work.u2bId) : undefined;
+        if (!metadata) continue;
+        const durationSeconds = metadata.durationSeconds;
+        const vocalLanguages = metadata.vocalLanguages;
+        if (durationSeconds && work.durationSeconds == null) {
+          const result = await prisma.musicWorkContent.updateMany({
+            where: { contentId: work.contentId, durationSeconds: null },
+            data: { durationSeconds },
           });
+          metadataUpdated += result.count;
+        }
+        if (vocalLanguages.length && !work.vocalLanguages?.length) {
+          const result = await prisma.musicWorkContent.updateMany({
+            where: {
+              contentId: work.contentId,
+              vocalLanguages: { isEmpty: true },
+            },
+            data: { vocalLanguages },
+          });
+          metadataUpdated += result.count;
+        }
+        await prisma.musicWorkContent.upsert({
+          where: { contentId: work.contentId },
+          create: {
+            contentId: work.contentId,
+            durationSeconds,
+            vocalLanguages,
+          },
+          update: {},
+        });
+      }
+      if (metadataOnly) {
+        const message =
+          "Metadata-only sync: " +
+          publicStats.size +
+          " videos read, " +
+          metadataUpdated +
+          " unknown field(s) filled from YouTube duration/defaultAudioLanguage. Existing values preserved; Analytics reports and realtime observations not requested/written.";
+        await prisma.adminYoutubeAnalyticsSync.update({
+          where: { id: SYNC_ID },
+          data: {
+            status: "partial",
+            syncedAt: new Date(),
+            message,
+            videoCount: publicStats.size,
+          },
+        });
+        await archiveRun();
+        return { synced: metadataUpdated, message };
       }
       await recordRealtimeSnapshots({ publicStats, works });
     }
@@ -966,9 +1011,9 @@ async function queryYouTubeVideoPublicStats({
   for (const chunk of chunkItems(videoIds, 50)) {
     const params = new URLSearchParams({
       fields:
-        "items(id,contentDetails(duration),statistics(viewCount,likeCount,commentCount))",
+        "items(id,snippet(defaultAudioLanguage),contentDetails(duration),statistics(viewCount,likeCount,commentCount))",
       id: chunk.join(","),
-      part: "statistics,contentDetails",
+      part: "statistics,contentDetails,snippet",
     });
     const response = await fetch(`${YOUTUBE_API_URL}/videos?${params}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -993,6 +1038,7 @@ async function queryYouTubeVideoPublicStats({
       )
         continue;
       rows.set(item.id, {
+        vocalLanguages: youtubeVocalLanguages(item.snippet),
         durationSeconds: parseYoutubeDuration(item.contentDetails?.duration),
         comments: toOptionalNumber(item.statistics?.commentCount) ?? null,
         likes: toOptionalNumber(item.statistics?.likeCount) ?? null,

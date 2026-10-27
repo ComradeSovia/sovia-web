@@ -18,7 +18,7 @@ export const VOCAL_LANGUAGE_CODES = [
 export const VOCAL_LANGUAGE_SUGGESTIONS =
   "ru, ja, zh, en, de, fr, ko, vi, uk, es, it, pl, pt; mul = multilingual with unspecified languages; zxx = no vocals";
 
-// These are editor-supplied vocal language codes, never inferred from subtitles.
+// Explicit editor or default-audio-track language codes, never inferred from titles/subtitles.
 export function parseVocalLanguages(
   value: string | readonly string[] | null | undefined,
 ): string[] {
@@ -140,4 +140,18 @@ export function durationAfterVideoChange(
   seconds: number | null | undefined,
 ): number | null | undefined {
   return (previous || null) === (next || null) ? seconds : null;
+}
+
+export function youtubeVocalLanguages(
+  snippet:
+    | { defaultAudioLanguage?: string; defaultLanguage?: string }
+    | undefined,
+): string[] {
+  const value = snippet?.defaultAudioLanguage?.trim();
+  if (!value || !/^[a-z]{2,3}(?:-[a-z0-9]{2,8})*$/i.test(value)) return [];
+  try {
+    return parseVocalLanguages(value);
+  } catch {
+    return [];
+  }
 }

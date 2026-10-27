@@ -60,7 +60,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.2.3";
+const SERVER_VERSION = "0.2.4";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -602,6 +602,11 @@ const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
     inputSchema: {
       additionalProperties: false,
       properties: {
+        metadataOnly: {
+          type: "boolean",
+          description:
+            "Fill only unknown duration and vocal language from YouTube defaultAudioLanguage; no Analytics reports or realtime writes. Cannot combine with recovery modes.",
+        },
         geographyOnly: {
           type: "boolean",
           default: false,
@@ -943,6 +948,7 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
           await syncAdminYoutubeAnalytics({
             resumeAfterDaily: args.resumeAfterDaily === true,
             geographyOnly: args.geographyOnly === true,
+            metadataOnly: args.metadataOnly === true,
           }),
         );
 

@@ -287,6 +287,7 @@ import {
   parseYoutubeDuration,
   performanceMetadataUpdate,
   vocalLanguageGroup,
+  youtubeVocalLanguages,
 } from "../src/features/sound/model/content-performance-metadata.ts";
 
 test("vocal language is explicit, normalized and independent of metadata language", () => {
@@ -582,4 +583,26 @@ test("ambiguous estimated city labels never invent cross-period growth identitie
       (row) => !prior.some((previous) => previous.location === row.location),
     ),
   );
+});
+
+test("YouTube vocal language uses explicit audio language, never metadata fallback", () => {
+  assert.deepEqual(
+    youtubeVocalLanguages({
+      defaultAudioLanguage: " RU-ru ",
+      defaultLanguage: "en",
+    }),
+    ["ru"],
+  );
+  assert.deepEqual(youtubeVocalLanguages({ defaultAudioLanguage: "zh-Hans" }), [
+    "zh",
+  ]);
+  assert.deepEqual(youtubeVocalLanguages({ defaultLanguage: "ja" }), []);
+  for (const value of [undefined, "", "und", "xx", "English", "ru,ja", "ru-!"])
+    assert.deepEqual(
+      youtubeVocalLanguages({ defaultAudioLanguage: value }),
+      [],
+    );
+  assert.deepEqual(youtubeVocalLanguages({ defaultAudioLanguage: "zxx" }), [
+    "zxx",
+  ]);
 });
