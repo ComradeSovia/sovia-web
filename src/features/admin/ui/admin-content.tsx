@@ -8,6 +8,7 @@ import { getYouTubeThumbnailApiUrl } from "@sovia/youtube-api/lib/thumbnail-url"
 import {
   AlertCircle,
   ArrowDown,
+  ArrowRight,
   ArrowUp,
   CheckCircle2,
   Circle,
@@ -260,20 +261,24 @@ export async function AdminDashboardPage({
   return (
     <AdminGate returnTo={returnTo}>
       <section className="space-y-5">
-        <Card className={CARD_CLASS}>
-          <CardHeader>
-            <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-              <LayoutDashboard className="h-4 w-4" />
-              overview
+        <header className="flex flex-col gap-4 py-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="mb-2 flex items-center gap-2 text-xs text-zinc-400">
+              <LayoutDashboard className="h-4 w-4" /> Workspace overview
             </div>
-            <CardTitle className={`text-3xl ${CARD_TITLE_CLASS}`}>
+            <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">
               Dashboard
-            </CardTitle>
-            <CardDescription className={CARD_DESCRIPTION_CLASS}>
-              Content operations overview
-            </CardDescription>
-          </CardHeader>
-        </Card>
+            </h1>
+            <p className="mt-2 text-sm text-zinc-400">
+              Your content, publishing tools, and connections in one place.
+            </p>
+          </div>
+          <Button asChild className={SECONDARY_BUTTON_CLASS}>
+            <Link href="/admin/content/new">
+              <Plus className="h-4 w-4" /> New content
+            </Link>
+          </Button>
+        </header>
         <AdminActionToast
           message={youtubeMessage}
           status={matchActionStatus(youtubeStatus)}
@@ -1280,90 +1285,274 @@ function PromptSelect({
 
 async function DashboardStatus() {
   const databaseStatus = await getAdminDatabaseStatus();
-  const works = await listAdminMusicWorks();
   const youtubeConfig = getYoutubeOAuthConfig();
-  const youtubeConnection = databaseStatus.ok
-    ? await getAdminYoutubeConnection()
-    : null;
+  const [works, youtubeConnection] = await Promise.all([
+    databaseStatus.ok ? listAdminMusicWorks() : Promise.resolve([]),
+    databaseStatus.ok ? getAdminYoutubeConnection() : Promise.resolve(null),
+  ]);
+  const visibleCount = works.filter((work) => work.visible).length;
+  const now = Date.now();
+  const recentWorks = works
+    .filter((work) => {
+      const date = Date.parse(work.publishedAt ?? "");
+      return Number.isFinite(date) && date <= now;
+    })
+    .sort((a, b) => compareContentWorks(a, b, "publishedAt", "desc"))
+    .slice(0, 5);
+  const metrics = [
+    {
+      label: "Total content",
+      value: works.length,
+      detail: "Records in your library",
+      icon: ListMusic,
+    },
+    {
+      label: "Visible on site",
+      value: visibleCount,
+      detail: "Public visibility enabled",
+      icon: Eye,
+    },
+    {
+      label: "Hidden content",
+      value: works.length - visibleCount,
+      detail: "Public visibility disabled",
+      icon: EyeOff,
+    },
+    {
+      label: "YouTube linked",
+      value: works.filter((work) => work.u2bId?.trim()).length,
+      detail: "Records with a YouTube video ID",
+      icon: Video,
+    },
+  ];
+  const shortcuts = [
+    {
+      title: "Content library",
+      description: "Find and edit your works",
+      href: "/admin/content",
+      icon: ListMusic,
+    },
+    {
+      title: "Todo",
+      description: "Review ideas and planned work",
+      href: "/admin/todo",
+      icon: CheckCircle2,
+    },
+    {
+      title: "Analytics",
+      description: "Explore channel performance",
+      href: "/admin/analytics",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Actions",
+      description: "Browse content operations",
+      href: "/admin/actions",
+      icon: SlidersHorizontal,
+    },
+    {
+      title: "Prompts",
+      description: "Manage your AI prompt library",
+      href: "/admin/prompts",
+      icon: Sparkles,
+    },
+    {
+      title: "YouTube i18n",
+      description: "Manage publishing languages",
+      href: "/admin/yt-i18n",
+      icon: Globe2,
+    },
+  ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <Card className={CARD_CLASS}>
-        <CardHeader>
-          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-            <Database className="h-4 w-4" />
-            database
-          </div>
-          <CardTitle className={CARD_TITLE_CLASS}>
-            {databaseStatus.ok ? "Ready" : "Offline"}
-          </CardTitle>
-          <CardDescription className={CARD_DESCRIPTION_CLASS}>
-            {databaseStatus.message}
-          </CardDescription>
-        </CardHeader>
-      </Card>
-      <Card className={CARD_CLASS}>
-        <CardHeader>
-          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-            <Video className="h-4 w-4" />
-            YouTube content management
-          </div>
-          <CardTitle className={CARD_TITLE_CLASS}>
-            {youtubeConnection
-              ? youtubeConnection.channelTitle
-              : "Not connected"}
-          </CardTitle>
-          <CardDescription className={CARD_DESCRIPTION_CLASS}>
-            {youtubeConnection
-              ? `Channel ${youtubeConnection.channelId} · connected ${youtubeConnection.connectedAt.toLocaleDateString("en-US")}`
-              : youtubeConfig.ok
-                ? "Authorize a YouTube channel to sync video metadata."
-                : `Missing configuration: ${youtubeConfig.missing.join(", ")}`}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-2">
-          {youtubeConfig.ok ? (
-            <Button asChild className={PRIMARY_BUTTON_CLASS}>
-              <Link href="/admin/youtube/connect">
-                {youtubeConnection ? "Reconnect YouTube" : "Connect YouTube"}
-              </Link>
-            </Button>
-          ) : null}
-          {youtubeConnection ? (
-            <form action="/admin/youtube/disconnect" method="post">
-              <Button className={SECONDARY_BUTTON_CLASS} type="submit">
-                Disconnect
+    <div className="space-y-5">
+      {!databaseStatus.ok ? (
+        <DatabaseError message={databaseStatus.message} />
+      ) : null}
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {metrics.map(({ label, value, detail, icon: Icon }) => (
+          <Card className={CARD_CLASS} key={label}>
+            <CardHeader>
+              <div className="flex items-center justify-between gap-3 text-sm text-zinc-400">
+                {label}
+                <Icon className="h-4 w-4 shrink-0 text-zinc-500" />
+              </div>
+              <div className="mt-3 text-3xl font-semibold tabular-nums tracking-tight text-zinc-100">
+                {databaseStatus.ok ? value.toLocaleString("en-US") : "—"}
+              </div>
+              <CardDescription className="mt-1 text-xs text-zinc-500">
+                {detail}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+        <div className="min-w-0 space-y-5">
+          <Card className={CARD_CLASS}>
+            <CardHeader className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="font-medium text-zinc-100">
+                  Recently published
+                </h2>
+                <CardDescription className="mt-1 text-zinc-400">
+                  Latest publication dates in your library.
+                </CardDescription>
+              </div>
+              <Button asChild size="sm" variant="ghost">
+                <Link href="/admin/content?sort=publishedAt&order=desc">
+                  View all <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
-            </form>
-          ) : null}
-        </CardContent>
-      </Card>
-      <Card className={CARD_CLASS}>
-        <CardHeader>
-          <CardTitle className={CARD_TITLE_CLASS}>{works.length}</CardTitle>
-          <CardDescription className={CARD_DESCRIPTION_CLASS}>
-            content records
-          </CardDescription>
-        </CardHeader>
-      </Card>
-      <Card className={CARD_CLASS}>
-        <CardHeader>
-          <CardTitle className={CARD_TITLE_CLASS}>Music</CardTitle>
-          <CardDescription className={CARD_DESCRIPTION_CLASS}>
-            primary content type
-          </CardDescription>
-        </CardHeader>
-      </Card>
-      <Card className={CARD_CLASS}>
-        <CardHeader>
-          <CardTitle className={CARD_TITLE_CLASS}>Prompts</CardTitle>
-          <CardDescription className={CARD_DESCRIPTION_CLASS}>
-            <Link className="text-zinc-100 underline" href="/admin/prompts">
-              Manage prompt library
-            </Link>
-          </CardDescription>
-        </CardHeader>
-      </Card>
+            </CardHeader>
+            <CardContent>
+              {recentWorks.length ? (
+                <ul className="divide-y divide-zinc-800">
+                  {recentWorks.map((work) => (
+                    <li key={work.contentId}>
+                      <Link
+                        className="group flex min-w-0 items-center gap-3 rounded-md px-2 py-4 transition-colors hover:bg-zinc-800/60 focus-visible:outline-2 focus-visible:outline-zinc-400"
+                        href={`/admin/content/${encodeURIComponent(work.contentId)}`}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate font-medium text-zinc-100">
+                            {work.songTitle || work.title || work.contentId}
+                          </p>
+                          <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-400">
+                            <span className="font-mono">{work.contentId}</span>
+                            <span>{work.publishedAt}</span>
+                          </div>
+                        </div>
+                        <WorkVisibilityBadge visible={Boolean(work.visible)} />
+                        <ArrowRight className="hidden h-4 w-4 shrink-0 text-zinc-500 group-hover:text-zinc-100 sm:block" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="rounded-lg border border-dashed border-zinc-700 px-4 py-10 text-center">
+                  <ListMusic className="mx-auto mb-3 h-6 w-6 text-zinc-500" />
+                  <p className="font-medium text-zinc-200">
+                    No published content yet
+                  </p>
+                  <p className="mt-1 text-sm text-zinc-400">
+                    Add a publication date to see your works here.
+                  </p>
+                  <Button
+                    asChild
+                    className={`mt-4 ${SECONDARY_BUTTON_CLASS}`}
+                    size="sm"
+                  >
+                    <Link href="/admin/content">Open content library</Link>
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+          <section aria-labelledby="dashboard-shortcuts">
+            <h2
+              className="mb-3 text-sm font-medium text-zinc-300"
+              id="dashboard-shortcuts"
+            >
+              Quick access
+            </h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {shortcuts.map(({ title, description, href, icon: Icon }) => (
+                <Link
+                  className="group flex min-w-0 items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 transition-colors hover:border-zinc-600 hover:bg-zinc-900 focus-visible:outline-2 focus-visible:outline-zinc-400"
+                  href={href}
+                  key={href}
+                >
+                  <Icon className="h-5 w-5 shrink-0 text-zinc-400" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-zinc-100">{title}</p>
+                    <p className="mt-1 text-xs text-zinc-400">{description}</p>
+                  </div>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 group-hover:text-zinc-300" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        </div>
+        <Card className={`${CARD_CLASS} min-w-0`}>
+          <CardHeader>
+            <h2 className="font-medium text-zinc-100">Connections</h2>
+            <CardDescription className={CARD_DESCRIPTION_CLASS}>
+              Services that power your workspace.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <div className="border-b border-zinc-800 pb-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="flex items-center gap-2 text-sm text-zinc-200">
+                  <Database className="h-4 w-4 text-zinc-400" /> Database
+                </span>
+                <Badge
+                  variant="outline"
+                  className={
+                    databaseStatus.ok
+                      ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-400"
+                      : "border-amber-500/25 text-amber-400"
+                  }
+                >
+                  {databaseStatus.ok ? "Ready" : "Offline"}
+                </Badge>
+              </div>
+              <p className="mt-2 break-words text-xs leading-relaxed text-zinc-400">
+                {databaseStatus.message}
+              </p>
+            </div>
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="flex items-center gap-2 text-sm text-zinc-200">
+                  <Video className="h-4 w-4 text-zinc-400" /> YouTube
+                </span>
+                <Badge
+                  variant="outline"
+                  className="border-zinc-700 text-zinc-300"
+                >
+                  {youtubeConnection ? "Connected" : "Not connected"}
+                </Badge>
+              </div>
+              {youtubeConnection ? (
+                <p className="break-words font-medium text-zinc-100">
+                  {youtubeConnection.channelTitle}
+                </p>
+              ) : null}
+              <p className="break-words text-xs leading-relaxed text-zinc-400">
+                {youtubeConnection
+                  ? `Channel ${youtubeConnection.channelId} · connected ${youtubeConnection.connectedAt.toLocaleDateString("en-US", { timeZone: "UTC" })}`
+                  : youtubeConfig.ok
+                    ? "Authorize a YouTube channel to sync video metadata."
+                    : `Missing configuration: ${youtubeConfig.missing.join(", ")}`}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {youtubeConfig.ok ? (
+                  <Button asChild className={SECONDARY_BUTTON_CLASS} size="sm">
+                    <Link href="/admin/youtube/connect">
+                      {youtubeConnection
+                        ? "Reconnect YouTube"
+                        : "Connect YouTube"}
+                    </Link>
+                  </Button>
+                ) : null}
+                {youtubeConnection ? (
+                  <form action="/admin/youtube/disconnect" method="post">
+                    <Button
+                      className="text-zinc-400"
+                      size="sm"
+                      type="submit"
+                      variant="ghost"
+                    >
+                      Disconnect
+                    </Button>
+                  </form>
+                ) : null}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
