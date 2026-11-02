@@ -17,7 +17,8 @@
     "typecheck": "tsc --noEmit",
     "lint:fix": "biome check --fix",
     "format": "biome format --write",
-    "test:content": "node --test scripts/content-policy.test.mjs"
+    "test:content": "node --test scripts/content-policy.test.mjs",
+    "test:mcp": "node --test scripts/mcp.test.mjs"
   },
   "dependencies": {
     "@pixiv/three-vrm": "3.5.5",

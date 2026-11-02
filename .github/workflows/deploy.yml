@@ -47,6 +47,7 @@ jobs:
         run: |
           pnpm test:analytics
           pnpm test:content
+          pnpm test:mcp
 
       - uses: docker/setup-buildx-action@v3
 

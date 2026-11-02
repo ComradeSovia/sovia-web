@@ -311,6 +311,12 @@ export function AdminSidebar({
                       label: "Prompts",
                     },
                     {
+                      href: "/admin/mcp",
+                      icon: SlidersHorizontal,
+                      label: "MCP access",
+                      active: pathname === "/admin/mcp",
+                    },
+                    {
                       active: pathname.startsWith("/admin/yt-i18n"),
                       href: "/admin/yt-i18n",
                       icon: Globe2,

@@ -4,10 +4,12 @@ import {
   randomUUID,
   timingSafeEqual,
 } from "node:crypto";
-import { claimSecurityState } from "@/shared/lib/security-state";
 import { SITE_NAME } from "@sovia/shared";
 import type { NextRequest } from "next/server";
+import { claimSecurityState } from "@/shared/lib/security-state";
 import { getAdminRequestOrigin } from "./admin-url";
+import type { McpPermission } from "./mcp-policy";
+import { getMcpSettings } from "./mcp-settings";
 
 const AUTHORIZATION_CODE_TTL_SECONDS = 60 * 10;
 const ACCESS_TOKEN_TTL_SECONDS = 60 * 60;
@@ -48,14 +50,11 @@ function getOptionalEnv(name: string) {
 function getOAuthConfig(): OAuthConfig {
   const secret =
     getOptionalEnv("SOVIA_ADMIN_MCP_OAUTH_SECRET") ||
-    getOptionalEnv("SOVIA_ADMIN_SESSION_SECRET") ||
-    getOptionalEnv("SOVIA_ADMIN_MCP_API_KEY");
+    getOptionalEnv("SOVIA_ADMIN_SESSION_SECRET");
 
   if (!secret) {
     return {
-      missing: [
-        "SOVIA_ADMIN_MCP_OAUTH_SECRET, SOVIA_ADMIN_SESSION_SECRET, or SOVIA_ADMIN_MCP_API_KEY",
-      ],
+      missing: ["SOVIA_ADMIN_MCP_OAUTH_SECRET or SOVIA_ADMIN_SESSION_SECRET"],
       ok: false,
     };
   }
@@ -150,7 +149,9 @@ function normalizeScope(scope: string | null) {
     (scope || MCP_OAUTH_SCOPE)
       .split(/\s+/)
       .map((item) => item.trim())
-      .filter(Boolean),
+      .filter((scope) =>
+        ["mcp:read", "mcp:write", "mcp:sync", "offline_access"].includes(scope),
+      ),
   );
   scopes.add(MCP_OAUTH_SCOPE);
   return Array.from(scopes).join(" ");
@@ -212,7 +213,12 @@ export function getMcpOAuthMetadata(request: NextRequest) {
     grant_types_supported: ["authorization_code", "refresh_token"],
     issuer,
     response_types_supported: ["code"],
-    scopes_supported: [MCP_OAUTH_SCOPE, "offline_access"],
+    scopes_supported: [
+      MCP_OAUTH_SCOPE,
+      "mcp:write",
+      "mcp:sync",
+      "offline_access",
+    ],
     service_documentation: issuer,
     token_endpoint: `${issuer}/api/admin/mcp/oauth/token`,
     token_endpoint_auth_methods_supported: ["none"],
@@ -225,7 +231,12 @@ export function getMcpProtectedResourceMetadata(request: NextRequest) {
   return {
     authorization_servers: [issuer],
     resource: `${issuer}/api/admin/mcp`,
-    scopes_supported: [MCP_OAUTH_SCOPE, "offline_access"],
+    scopes_supported: [
+      MCP_OAUTH_SCOPE,
+      "mcp:write",
+      "mcp:sync",
+      "offline_access",
+    ],
   };
 }
 
@@ -236,7 +247,29 @@ export function getMcpUnauthorizedHeaders(request: Request) {
   };
 }
 
-export function authorizeMcpOAuthRequest(request: NextRequest) {
+export async function authorizeMcpOAuthRequest(request: NextRequest) {
+  try {
+    const settings = await getMcpSettings();
+    if (!settings.enabled || !settings.allowOAuth)
+      return jsonResponse({ error: "access_denied" }, { status: 403 });
+    const requested = normalizeScope(
+      request.nextUrl.searchParams.get("scope"),
+    ).split(" ");
+    if (
+      (requested.includes("mcp:write") && !settings.allowWrite) ||
+      (requested.includes("mcp:sync") && !settings.allowSync)
+    )
+      return jsonResponse(
+        {
+          error: "access_denied",
+          error_description:
+            "Enable the requested permission in Admin MCP settings first.",
+        },
+        { status: 403 },
+      );
+  } catch {
+    return jsonResponse({ error: "temporarily_unavailable" }, { status: 503 });
+  }
   const config = getOAuthConfig();
   if (!config.ok) {
     return jsonResponse(
@@ -332,6 +365,13 @@ function redirectWithOAuthError(
 }
 
 export async function handleMcpOAuthTokenRequest(request: NextRequest) {
+  try {
+    const settings = await getMcpSettings();
+    if (!settings.enabled || !settings.allowOAuth)
+      return jsonResponse({ error: "access_denied" }, { status: 403 });
+  } catch {
+    return jsonResponse({ error: "temporarily_unavailable" }, { status: 503 });
+  }
   const config = getOAuthConfig();
   if (!config.ok) {
     return jsonResponse(
@@ -471,14 +511,29 @@ function createTokenResponse(clientId: string, scope: string, secret: string) {
 }
 
 export function isValidMcpOAuthAccessToken(token: string) {
+  return Boolean(getMcpOAuthAccess(token));
+}
+
+export function getMcpOAuthAccess(
+  token: string,
+): { actor: string; permissions: McpPermission[] } | undefined {
   const config = getOAuthConfig();
-  if (!config.ok) return false;
+  if (!config.ok) return undefined;
 
   const payload = readSignedPayload(token, "access", config.secret);
-  return (
-    payload?.scope.split(/\s+/).includes(MCP_OAUTH_SCOPE) === true &&
-    isAllowedClientId(payload.clientId)
-  );
+  if (
+    !payload ||
+    !payload.scope.split(/\s+/).includes(MCP_OAUTH_SCOPE) ||
+    !isAllowedClientId(payload.clientId)
+  )
+    return undefined;
+  const scopes = payload.scope.split(/\s+/);
+  return {
+    actor: `oauth:${payload.clientId}`,
+    permissions: (["read", "write", "sync"] as const).filter((permission) =>
+      scopes.includes(`mcp:${permission}`),
+    ),
+  };
 }
 
 export function isMcpOAuthConfigured() {
@@ -489,6 +544,6 @@ export function getMcpOAuthServerInfo() {
   return {
     clientId: getMcpOAuthClientId(),
     name: SITE_NAME,
-    scopes: [MCP_OAUTH_SCOPE, "offline_access"],
+    scopes: [MCP_OAUTH_SCOPE, "mcp:write", "mcp:sync", "offline_access"],
   };
 }

@@ -23,15 +23,27 @@ import {
   getChannelIntelligence,
   getContentStrategy,
 } from "@sovia/admin/data/analytics-intelligence";
+import { authenticateMcp, type McpAccess } from "@sovia/admin/data/mcp-auth";
+import {
+  getMcpEditableMusic,
+  writeMcpMusic,
+} from "@sovia/admin/data/mcp-music";
 import {
   getMcpOAuthServerInfo,
   getMcpUnauthorizedHeaders,
-  isMcpOAuthConfigured,
-  isValidMcpOAuthAccessToken,
 } from "@sovia/admin/data/mcp-oauth";
+import { canUseMcpTool } from "@sovia/admin/data/mcp-policy";
+import { readMcpRequestJson } from "@sovia/admin/data/mcp-request";
+import { getMcpSettings } from "@sovia/admin/data/mcp-settings";
 import { getSongCandidateIntelligence } from "@sovia/admin/data/song-candidate-intelligence";
 import { syncAdminYoutubeAnalytics } from "@sovia/admin/data/youtube-analytics";
 import { syncAdminYoutubeComments } from "@sovia/admin/data/youtube-comments";
+import {
+  mcpCreateMusicSchema,
+  mcpUpdateMusicSchema,
+} from "@sovia/admin/validation/mcp-music";
+import { z } from "zod";
+import { allowRequest } from "@/shared/lib/security-state";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -60,7 +72,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.2.4";
+const SERVER_VERSION = "0.3.0";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -123,6 +135,41 @@ const commentsListInputSchema = {
 } satisfies ToolDefinition["inputSchema"];
 
 const toolDefinitions: Array<Omit<ToolDefinition, "outputSchema">> = [
+  {
+    name: "content_get_editable_work",
+    description:
+      "Read editable song fields and revision. Use the exact contentId from content_search_works. Read this before proposing changes and calling content_update_work; never infer or change content IDs.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      required: ["contentId"],
+      properties: { contentId: { type: "string" } },
+    },
+  },
+  {
+    name: "content_update_work",
+    description:
+      "Save song edits to PostgreSQL only after showing the intended field changes and receiving the user's instruction to save. Read content_get_editable_work and pass expectedRevision. patch contains only changed fields; null clears values; locale maps merge per locale (null removes a locale). Supply confirmWrite=true, reason and UUID requestId; reuse the SAME requestId only for retries of the SAME operation. A conflict requires rereading and reviewing changes. Does not delete records or publish to external platforms.",
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: true,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+    inputSchema: z.toJSONSchema(mcpUpdateMusicSchema) as ObjectSchema,
+  },
+  {
+    name: "content_create_work",
+    description:
+      "Create a song only when the user explicitly asks to save a new song. Check content_check_duplicate first. patch.songTitle and patch.workType are required. Supply confirmWrite=true, reason and UUID requestId; reuse it on retries. New songs default to hidden; visible=true requires publishing permission. Does not publish to external platforms.",
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+    inputSchema: z.toJSONSchema(mcpCreateMusicSchema) as ObjectSchema,
+  },
   {
     name: "analysis_score_song_candidate",
     description:
@@ -676,35 +723,71 @@ export async function OPTIONS() {
 }
 
 export async function GET() {
+  let policy: Awaited<ReturnType<typeof getMcpSettings>>;
+  try {
+    policy = await getMcpSettings();
+  } catch {
+    return jsonResponse(
+      { message: "MCP configuration unavailable." },
+      { status: 503 },
+    );
+  }
+  const available = tools.filter((tool) =>
+    canUseMcpTool(policy, ["read", "write", "sync"], tool.name),
+  );
   return jsonResponse({
+    enabled: policy.enabled,
+    oauthEnabled: policy.allowOAuth,
     endpoint: "/api/admin/mcp",
     version: SERVER_VERSION,
     message:
       "Sovia Admin MCP is a JSON-RPC MCP endpoint. Send POST requests with MCP methods such as initialize, tools/list, and tools/call.",
     oauth: getMcpOAuthServerInfo(),
-    readonlyTools: tools
+    readonlyTools: available
       .filter((tool) => tool.annotations?.readOnlyHint !== false)
       .map((tool) => tool.name),
-    tools: tools.map((tool) => tool.name),
-    writableTools: tools
+    tools: available.map((tool) => tool.name),
+    writableTools: available
       .filter((tool) => tool.annotations?.readOnlyHint === false)
       .map((tool) => tool.name),
   });
 }
 
 export async function POST(request: Request) {
-  const authError = getAuthError(request);
-  if (authError) return authError;
+  let access: McpAccess | null;
+  try {
+    access = await authenticateMcp(request);
+    if (access && !(await allowRequest("mcp-request", access.actor, 120, 60)))
+      return jsonResponse({ message: "Too many requests." }, { status: 429 });
+  } catch {
+    return jsonResponse(
+      { message: "MCP configuration unavailable." },
+      { status: 503 },
+    );
+  }
+  if (!access)
+    return jsonResponse(
+      { message: "Unauthorized or MCP disabled." },
+      { status: 401, headers: getMcpUnauthorizedHeaders(request) },
+    );
 
   let body: unknown;
   try {
-    body = await request.json();
-  } catch {
+    body = await readMcpRequestJson(request);
+  } catch (error) {
+    if (error instanceof RangeError)
+      return jsonResponse(
+        { message: "Request exceeds 4 MiB." },
+        { status: 413 },
+      );
     return jsonRpcError(null, -32700, "Parse error");
   }
 
   if (Array.isArray(body)) {
-    const results = await Promise.all(body.map(handleRequest));
+    if (!body.length || body.length > 20)
+      return jsonRpcError(null, -32600, "Batch size must be 1–20.");
+    const results = [];
+    for (const entry of body) results.push(await handleRequest(entry, access));
     const visibleResults = results.filter(Boolean);
     if (!visibleResults.length) {
       return new Response(null, { headers: getCorsHeaders(), status: 202 });
@@ -712,14 +795,14 @@ export async function POST(request: Request) {
     return jsonResponse(visibleResults);
   }
 
-  const result = await handleRequest(body);
+  const result = await handleRequest(body, access);
   if (!result) {
     return new Response(null, { headers: getCorsHeaders(), status: 202 });
   }
   return jsonResponse(result);
 }
 
-async function handleRequest(body: unknown) {
+async function handleRequest(body: unknown, access: McpAccess) {
   const request = body as JsonRpcRequest;
   const id = request?.id ?? null;
 
@@ -749,10 +832,14 @@ async function handleRequest(body: unknown) {
       return makeJsonRpcResult(id, {});
 
     case "tools/list":
-      return makeJsonRpcResult(id, { tools });
+      return makeJsonRpcResult(id, {
+        tools: tools.filter((tool) =>
+          canUseMcpTool(access.policy, access.permissions, tool.name),
+        ),
+      });
 
     case "tools/call":
-      return handleToolCall(id, request.params);
+      return handleToolCall(id, request.params, access);
 
     default:
       return makeJsonRpcError(
@@ -763,12 +850,39 @@ async function handleRequest(body: unknown) {
   }
 }
 
-async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
+async function handleToolCall(
+  id: JsonRpcRequest["id"],
+  params: unknown,
+  access: McpAccess,
+) {
   const call = params as { arguments?: unknown; name?: string };
   const args = (call?.arguments ?? {}) as Record<string, unknown>;
 
+  if (!call?.name || !tools.some((tool) => tool.name === call.name))
+    return makeJsonRpcError(id, -32602, "Unknown tool.");
+  if (!canUseMcpTool(access.policy, access.permissions, call.name))
+    return makeJsonRpcError(
+      id,
+      -32003,
+      "Tool permission denied. Check Admin MCP permissions and OAuth scopes.",
+    );
   try {
     switch (call?.name) {
+      case "content_get_editable_work":
+        return makeToolResult(
+          id,
+          await getMcpEditableMusic(getRequiredString(args, "contentId")),
+        );
+      case "content_update_work":
+      case "content_create_work":
+        return makeToolResult(
+          id,
+          await writeMcpMusic(
+            args,
+            access.actor,
+            call.name === "content_create_work",
+          ),
+        );
       case "analysis_score_song_candidate":
         return makeToolResult(
           id,
@@ -973,41 +1087,18 @@ async function handleToolCall(id: JsonRpcRequest["id"], params: unknown) {
         );
     }
   } catch (error) {
-    return makeJsonRpcError(
-      id,
-      -32603,
-      error instanceof Error ? error.message : "Tool call failed.",
-    );
+    const message =
+      error && typeof error === "object" && "code" in error
+        ? "Database conflict or operation unavailable. Reread the work before retrying."
+        : error instanceof Error
+          ? error.message
+          : "Tool call failed.";
+    return makeJsonRpcResult(id, {
+      isError: true,
+      content: [{ type: "text", text: message }],
+      structuredContent: { error: message },
+    });
   }
-}
-
-function getAuthError(request: Request) {
-  const configuredKey = process.env.SOVIA_ADMIN_MCP_API_KEY?.trim();
-  const authorization = request.headers.get("authorization") ?? "";
-  const token = authorization.replace(/^Bearer\s+/i, "").trim();
-
-  if (token && isValidMcpOAuthAccessToken(token)) {
-    return null;
-  }
-
-  if (configuredKey && token === configuredKey) {
-    return null;
-  }
-
-  if (!configuredKey && !isMcpOAuthConfigured()) {
-    return jsonResponse(
-      {
-        message:
-          "Unauthorized. Configure OAuth or set SOVIA_ADMIN_MCP_API_KEY for static Bearer access.",
-      },
-      { status: 503 },
-    );
-  }
-
-  return jsonResponse(
-    { message: "Unauthorized." },
-    { headers: getMcpUnauthorizedHeaders(request), status: 401 },
-  );
 }
 
 function getPaginationArgs(args: Record<string, unknown>) {

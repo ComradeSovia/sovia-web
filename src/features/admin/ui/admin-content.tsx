@@ -4029,7 +4029,7 @@ export function Field({
   );
 }
 
-function CheckboxField({
+export function CheckboxField({
   checked,
   description,
   label,

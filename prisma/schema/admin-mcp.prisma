@@ -1,0 +1,31 @@
+model AdminMcpSettings {
+  id                String   @id @default("default")
+  enabled           Boolean  @default(true)
+  allowWrite        Boolean  @default(false)
+  allowPublish      Boolean  @default(false)
+  allowSync         Boolean  @default(true)
+  allowOAuth        Boolean  @default(true)
+  allowLegacyEnvKey Boolean  @default(true)
+  apiKeyHash        String?
+  apiKeyPrefix      String?
+  updatedAt         DateTime @updatedAt
+
+  @@map("admin_mcp_settings")
+}
+
+model AdminMcpWriteLog {
+  id          String   @id @default(cuid())
+  actor       String
+  requestId   String
+  requestHash String
+  operation   String
+  contentId   String
+  reason      String
+  before      Json
+  after       Json
+  createdAt   DateTime @default(now())
+
+  @@unique([actor, requestId])
+  @@index([createdAt])
+  @@map("admin_mcp_write_logs")
+}

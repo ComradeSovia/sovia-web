@@ -6,10 +6,35 @@ import { createHmac, randomUUID } from "node:crypto";
 const url =
   process.env.MCP_VERIFY_URL ||
   new URL("/api/admin/mcp", process.env.SITE_URL || "https://sovia.work").href;
+const configurationResponse = await fetch(url, {
+  signal: AbortSignal.timeout(30_000),
+});
+assert.equal(
+  configurationResponse.status,
+  200,
+  "MCP configuration must be available after migration",
+);
+const configuration = await configurationResponse.json();
+if (configuration.enabled === false || configuration.oauthEnabled === false) {
+  const rejected = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
+    signal: AbortSignal.timeout(30_000),
+  });
+  assert.equal(
+    rejected.status,
+    401,
+    "Unauthenticated access must still be rejected",
+  );
+  console.log(
+    "Authenticated OAuth smoke test skipped: MCP or OAuth is disabled by the administrator.",
+  );
+  process.exit(0);
+}
 const secret =
   process.env.SOVIA_ADMIN_MCP_OAUTH_SECRET?.trim() ||
-  process.env.SOVIA_ADMIN_SESSION_SECRET?.trim() ||
-  process.env.SOVIA_ADMIN_MCP_API_KEY?.trim();
+  process.env.SOVIA_ADMIN_SESSION_SECRET?.trim();
 assert.ok(secret, "MCP authentication is not configured");
 const now = Math.floor(Date.now() / 1000);
 const encoded = Buffer.from(
@@ -65,6 +90,7 @@ const initialized = await rpc("initialize", {
 const listed = await rpc("tools/list", {});
 const names = listed.tools.map((tool) => tool.name);
 const required = [
+  "content_get_editable_work",
   "analytics_channel_trends",
   "analytics_content_strategy",
   "analytics_audience_geography",
@@ -72,6 +98,16 @@ const required = [
 ];
 for (const name of required)
   assert.ok(names.includes(name), `Missing deployed tool ${name}`);
+for (const name of [
+  "content_create_work",
+  "content_update_work",
+  "analytics_sync_youtube",
+  "analytics_sync_youtube_comments",
+])
+  assert.ok(
+    !names.includes(name),
+    `Read-only OAuth token must not advertise ${name}`,
+  );
 const cohortSchema = listed.tools.find(
   (tool) => tool.name === "analytics_compare_cohort",
 ).inputSchema;
@@ -102,6 +138,11 @@ assert.ok(
   "No existing work to verify duplicate exclusion",
 );
 const work = recent.items[0];
+const editable = await call("content_get_editable_work", {
+  contentId: work.contentId,
+});
+assert.equal(editable.contentId, work.contentId);
+assert.match(editable.revision, /^[a-f0-9]{64}$/);
 assert.ok(Array.isArray(work.vocalLanguages));
 assert.ok(Object.hasOwn(work, "durationSeconds"));
 const candidate = {
