@@ -11,6 +11,7 @@ import type {
 } from "../model/music";
 import { getFriendlyDatabaseError } from "./database-errors";
 import { getPrismaClient } from "./prisma";
+import { assertStableContentId, definedFields } from "./write-policy";
 
 const YOUTUBE_LOCALIZATION_FIELDS = [
   "title",
@@ -104,7 +105,7 @@ function toWorkRecord(value: MusicWorkRecordSource): MusicWorkRecord {
   const fromArtists = normalizeStringArray(source?.artists);
 
   return {
-    path: value.path ?? "",
+    path: value.path || contentId,
     contentId,
     contentType: value.contentType ?? "Music",
     storageSource: value.storageSource,
@@ -429,14 +430,17 @@ export async function countMusicWorks() {
   return prisma.musicWork.count();
 }
 
-async function listDatabaseMusicWorks() {
+async function listDatabaseMusicWorks(publicOnly = false) {
   const prisma = getPrismaClient();
   if (!prisma) return [];
 
   return (
     await prisma.musicWork.findMany({
       include: MUSIC_WORK_LIST_INCLUDE,
-      where: { contentType: "Music" },
+      where: {
+        contentType: "Music",
+        ...(publicOnly ? { status: { is: { visible: true } } } : {}),
+      },
     })
   ).map((work) =>
     toWorkRecord({
@@ -446,8 +450,8 @@ async function listDatabaseMusicWorks() {
   );
 }
 
-export async function listMusicWorks() {
-  return (await listDatabaseMusicWorks()).sort((a, b) =>
+export async function listMusicWorks(publicOnly = false) {
+  return (await listDatabaseMusicWorks(publicOnly)).sort((a, b) =>
     a.contentId.localeCompare(b.contentId, undefined, { numeric: true }),
   );
 }
@@ -489,7 +493,7 @@ export async function listMusicWorkOptions() {
     );
 }
 
-export async function getMusicWorkByPath(workPath: string) {
+export async function getMusicWorkByPath(workPath: string, publicOnly = false) {
   let row: MusicWorkRecordSource | null = null;
 
   const prisma = getPrismaClient();
@@ -498,6 +502,9 @@ export async function getMusicWorkByPath(workPath: string) {
     row = await prisma.musicWork.findFirst({
       include: MUSIC_WORK_INCLUDE,
       where: {
+        ...(publicOnly
+          ? { contentType: "Music", status: { is: { visible: true } } }
+          : {}),
         OR: [{ path: workPath }, { contentId: workPath }],
       },
     });
@@ -519,6 +526,10 @@ export async function upsertMusicWork(
   work: MusicWorkDraft,
   currentContentId?: string,
 ) {
+  assertStableContentId(
+    work.contentId || work.vid || work.path,
+    currentContentId,
+  );
   const prisma = getPrismaClient();
   if (!prisma) {
     throw new Error(getFriendlyDatabaseError(null));
@@ -529,11 +540,19 @@ export async function upsertMusicWork(
     artists: work.fromArtists ?? [],
     details: normalizeOptional(work.fromDetails),
     ip: normalizeOptional(work.fromIp),
-    series: normalizeOptional(work.fromSeries ?? work.series),
+    series: normalizeOptional(
+      work.fromSeries !== undefined ? work.fromSeries : work.series,
+    ),
     session: normalizeOptional(work.fromSession),
-    sourceType: normalizeOptional(work.fromType ?? work.musicType),
-    sourceUrl: normalizeOptional(work.fromSource ?? work.inspiredByDetail),
-    title: normalizeOptional(work.fromTitle ?? work.original),
+    sourceType: normalizeOptional(
+      work.fromType !== undefined ? work.fromType : work.musicType,
+    ),
+    sourceUrl: normalizeOptional(
+      work.fromSource !== undefined ? work.fromSource : work.inspiredByDetail,
+    ),
+    title: normalizeOptional(
+      work.fromTitle !== undefined ? work.fromTitle : work.original,
+    ),
   };
   const status = {
     publishedAt: normalizeOptional(work.publishedAt),
@@ -545,7 +564,9 @@ export async function upsertMusicWork(
     productionNotes: work.productionNotes ?? "",
     relatedWorkUids: normalizeOptional(work.relatedWorkUids),
     shortDescription: normalizeOptional(work.shortDescription),
-    songTitle: normalizeOptional(work.songTitle ?? work.title),
+    songTitle: normalizeOptional(
+      work.songTitle !== undefined ? work.songTitle : work.title,
+    ),
     ...performanceMetadataUpdate(work),
   };
   const platforms = [
@@ -590,10 +611,10 @@ export async function upsertMusicWork(
     tracks: work.subtitleTracks ?? {},
   };
   const contentUpdate = {
-    ...withoutEmptyValues(content),
+    ...definedFields(content),
     ...performanceMetadataUpdate(work),
   };
-  const sourceUpdate = withoutEmptyValues(source);
+  const sourceUpdate = definedFields(source);
   const platformUpserts = platforms.map((platform) => ({
     create: platform,
     update: withoutUndefinedValues(platform),
@@ -651,16 +672,7 @@ export async function upsertMusicWork(
       },
     });
 
-    if (currentContentId && currentContentId !== contentId) {
-      await prisma.$transaction([
-        prisma.musicWork.deleteMany({
-          where: { contentId: currentContentId },
-        }),
-        upsert,
-      ]);
-    } else {
-      await upsert;
-    }
+    await upsert;
   } catch (error) {
     throw new Error(getFriendlyDatabaseError(error));
   }

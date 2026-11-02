@@ -1,5 +1,7 @@
 "use server";
 
+import { allowRequest } from "@/shared/lib/security-state";
+
 import {
   durationAfterVideoChange,
   parseDurationSeconds,
@@ -540,6 +542,7 @@ function applyStepDraft(
 export async function loginAdmin(formData: FormData) {
   const password = getString(formData, "password");
   const returnTo = getSafeAdminReturnPath(getString(formData, "returnTo"));
+  if (!(await allowRequest("admin-login", "global", 10, 60))) throw new Error("Too many login attempts. Try again later.");
   await createPasswordAdminSession(password);
   redirect(returnTo);
 }

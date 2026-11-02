@@ -1,0 +1,8 @@
+model SecurityState {
+  key       String   @id
+  count     Int      @default(1)
+  expiresAt DateTime
+
+  @@index([expiresAt])
+  @@map("security_states")
+}

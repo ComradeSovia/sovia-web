@@ -118,7 +118,6 @@ async function claimAvailabilityCheck(videoId: string, now: Date) {
         availabilityFailureReason: null,
         availabilityLeaseToken,
         availabilityLeaseUntil,
-        availabilityStatus: "checking",
       },
       where: {
         AND: [
@@ -213,7 +212,7 @@ async function recordAvailabilityFailure(
         availabilityLeaseToken: null,
         availabilityLeaseUntil: null,
         availabilityNextCheckAt: new Date(checkedAt.getTime() + retryMs),
-        availabilityStatus: "failed",
+
       },
       where: { availabilityLeaseToken: leaseToken, videoId },
     });

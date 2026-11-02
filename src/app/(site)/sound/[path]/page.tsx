@@ -25,11 +25,7 @@ export async function generateMetadata({
   const sharedCopy = getSharedCopy(locale);
   const work = await loadMusicWorkWithContent(path);
 
-  if (!work) {
-    return {
-      title: "Sound Work Not Found",
-    };
-  }
+  if (!work) notFound();
 
   const description = getWorkDescription(work, locale);
   const basePath = `/sound/${work.path}`;

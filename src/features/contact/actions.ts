@@ -1,5 +1,7 @@
 "use server";
 
+import { allowRequest } from "@/shared/lib/security-state";
+
 import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -45,6 +47,7 @@ export async function submitContact(
   const parsed = schema.safeParse(values);
   if (!parsed.success) return { status: "invalid" };
   try {
+    if (!(await allowRequest("contact", "global", 100, 3600))) return { status: "error" };
     const prisma = getPrismaClient();
     if (!prisma) return { status: "error" };
     const data = parsed.data;
@@ -70,7 +73,8 @@ export async function submitContact(
         },
       });
     }
-  } catch {
+  } catch (error) {
+    console.error("Contact submission failed", error);
     return { status: "error" };
   }
   revalidatePath("/admin/todo");

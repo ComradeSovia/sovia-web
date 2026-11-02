@@ -77,7 +77,8 @@ export async function saveSoviaTestSubmission(input: SoviaTestSubmissionInput) {
         id: true,
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("Sovia test submission failed", error);
     return null;
   }
 }

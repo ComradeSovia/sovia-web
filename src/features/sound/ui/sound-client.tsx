@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SoundCopy } from "../i18n/copy";
 import { filterMusic } from "../lib/filter-music";
+import { parseMusicPage } from "../lib/pagination";
 import type { MusicWork } from "../model/music";
 import { SoundCard } from "./sound-card";
 
@@ -24,7 +25,7 @@ export function SoundClient({
   const searchParams = useSearchParams();
 
   const urlQuery = searchParams.get("q") ?? "";
-  const urlPage = Math.max(1, Number(searchParams.get("page") ?? 1));
+  const urlPage = parseMusicPage(searchParams.get("page"));
 
   const [inputValue, setInputValue] = useState(urlQuery);
   const [isComposing, setIsComposing] = useState(false);
@@ -43,7 +44,7 @@ export function SoundClient({
       const params = new URLSearchParams(window.location.search);
       searchChangedByUser.current = false;
       setInputValue(params.get("q") ?? "");
-      setPage(Math.max(1, Number(params.get("page") ?? 1)));
+      setPage(parseMusicPage(params.get("page")));
     }
 
     window.addEventListener("popstate", syncFromBrowserHistory);
@@ -58,8 +59,12 @@ export function SoundClient({
   }, [inputValue, musicWorks]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
 
-  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const pageItems = filtered.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
 
   // Update the address bar without a Next.js navigation, so IME composition
   // and the controlled input stay mounted while search results update locally.
@@ -140,26 +145,26 @@ export function SoundClient({
 
       {totalPages > 1 && (
         <div className="flex flex-wrap items-center justify-center gap-4">
-          {page <= 1 ? (
+          {currentPage <= 1 ? (
             <span aria-disabled="true" className="btn-outline opacity-50">
               {copy.pagination.previous}
             </span>
           ) : (
-            <Link className="btn-outline" href={getPageHref(page - 1)}>
+            <Link className="btn-outline" href={getPageHref(currentPage - 1)}>
               {copy.pagination.previous}
             </Link>
           )}
 
           <div className="meta">
-            {page} / {totalPages}
+            {currentPage} / {totalPages}
           </div>
 
-          {page >= totalPages ? (
+          {currentPage >= totalPages ? (
             <span aria-disabled="true" className="btn-outline opacity-50">
               {copy.pagination.next}
             </span>
           ) : (
-            <Link className="btn-outline" href={getPageHref(page + 1)}>
+            <Link className="btn-outline" href={getPageHref(currentPage + 1)}>
               {copy.pagination.next}
             </Link>
           )}

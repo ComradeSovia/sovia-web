@@ -3269,6 +3269,7 @@ function MusicWorkForm({
               <Field
                 label="Content ID / UID"
                 name="contentId"
+                  readOnly={Boolean(work)}
                 required
                 value={work?.contentId}
                 warning="id"

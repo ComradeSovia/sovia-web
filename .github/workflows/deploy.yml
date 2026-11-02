@@ -43,8 +43,10 @@ jobs:
         env:
           DATABASE_URL: postgresql://user:password@localhost:5432/sovia
 
-      - name: Test analytics rules and data boundaries
-        run: pnpm test:analytics
+      - name: Test analytics rules and content boundaries
+        run: |
+          pnpm test:analytics
+          pnpm test:content
 
       - uses: docker/setup-buildx-action@v3
 
@@ -60,13 +62,17 @@ jobs:
           context: .
           target: migrator
           push: true
-          tags: ghcr.io/comradesovia/sovia-web:prod-migrate
+          tags: |
+            ghcr.io/comradesovia/sovia-web:prod-migrate
+            ghcr.io/comradesovia/sovia-web:prod-migrate-${{ github.sha }}
 
       - uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ghcr.io/comradesovia/sovia-web:prod
+          tags: |
+            ghcr.io/comradesovia/sovia-web:prod
+            ghcr.io/comradesovia/sovia-web:prod-${{ github.sha }}
           build-args: |
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}
             SITE_URL=${{ vars.SITE_URL }}
@@ -96,4 +102,4 @@ jobs:
           script: |
             set -e
             chmod +x /opt/sovia-web/deploy.sh
-            /opt/sovia-web/deploy.sh
+            RELEASE_SHA=${{ github.sha }} /opt/sovia-web/deploy.sh

@@ -21,15 +21,17 @@ import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 
 type SoviaTestTypesComponentProps = {
+  initialCopy?: import("../types").SoviaTestCopy;
   initialLocale?: SoviaTestLocale;
   stats?: SoviaTestStats | null;
 };
 
 export function SoviaTestTypesComponent({
+  initialCopy,
   initialLocale,
   stats,
 }: SoviaTestTypesComponentProps = {}) {
-  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
+  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale, initialCopy);
   const entries = Object.entries(copy.types);
   const typeShareCopy = getSoviaTypeShareCopy(locale);
   const localizedPath = (path: string) =>

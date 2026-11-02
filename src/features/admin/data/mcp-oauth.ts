@@ -1,4 +1,10 @@
-import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+import {
+  createHash,
+  createHmac,
+  randomUUID,
+  timingSafeEqual,
+} from "node:crypto";
+import { claimSecurityState } from "@/shared/lib/security-state";
 import { SITE_NAME } from "@sovia/shared";
 import type { NextRequest } from "next/server";
 import { getAdminRequestOrigin } from "./admin-url";
@@ -12,6 +18,7 @@ const MCP_OAUTH_SCOPE = "mcp:read";
 type OAuthTokenKind = "access" | "code" | "refresh";
 
 type SignedOAuthPayload = {
+  nonce?: string;
   clientId: string;
   codeChallenge?: string;
   codeChallengeMethod?: string;
@@ -32,8 +39,6 @@ type OAuthConfig =
       missing: string[];
       ok: false;
     };
-
-const usedAuthorizationCodes = new Set<string>();
 
 function getOptionalEnv(name: string) {
   const value = process.env[name]?.trim();
@@ -97,6 +102,7 @@ function createSignedPayload(
   const encodedPayload = Buffer.from(
     JSON.stringify({
       ...payload,
+      nonce: randomUUID(),
       expiresAt: issuedAt + ttlSeconds,
       issuedAt,
     } satisfies SignedOAuthPayload),
@@ -202,7 +208,7 @@ export function getMcpOAuthMetadata(request: NextRequest) {
 
   return {
     authorization_endpoint: `${issuer}/api/admin/mcp/oauth/authorize`,
-    code_challenge_methods_supported: ["S256", "plain"],
+    code_challenge_methods_supported: ["S256"],
     grant_types_supported: ["authorization_code", "refresh_token"],
     issuer,
     response_types_supported: ["code"],
@@ -278,9 +284,9 @@ export function authorizeMcpOAuthRequest(request: NextRequest) {
   const codeChallengeMethod =
     request.nextUrl.searchParams.get("code_challenge_method") ?? undefined;
   if (
-    codeChallengeMethod &&
-    codeChallengeMethod !== "S256" &&
-    codeChallengeMethod !== "plain"
+    !codeChallenge ||
+    !/^[A-Za-z0-9_-]{43}$/.test(codeChallenge) ||
+    codeChallengeMethod !== "S256"
   ) {
     return redirectWithOAuthError(request, redirectUri, "invalid_request");
   }
@@ -360,10 +366,10 @@ function getFormString(formData: FormData, key: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function exchangeAuthorizationCode(formData: FormData, secret: string) {
+async function exchangeAuthorizationCode(formData: FormData, secret: string) {
   const code = getFormString(formData, "code");
   const payload = readSignedPayload(code, "code", secret);
-  if (!payload || usedAuthorizationCodes.has(code)) {
+  if (!payload) {
     return jsonResponse({ error: "invalid_grant" }, { status: 400 });
   }
 
@@ -378,22 +384,54 @@ function exchangeAuthorizationCode(formData: FormData, secret: string) {
   }
 
   const codeVerifier = getFormString(formData, "code_verifier");
-  if (payload.codeChallenge && !isValidCodeVerifier(payload, codeVerifier)) {
+  if (
+    !payload.codeChallenge ||
+    payload.codeChallengeMethod !== "S256" ||
+    !/^[A-Za-z0-9._~-]{43,128}$/.test(codeVerifier) ||
+    !isValidCodeVerifier(payload, codeVerifier)
+  ) {
     return jsonResponse({ error: "invalid_grant" }, { status: 400 });
   }
 
-  usedAuthorizationCodes.add(code);
+  try {
+    if (
+      !(await claimSecurityState(
+        `oauth-code:${code}`,
+        new Date(payload.expiresAt * 1000),
+      ))
+    ) {
+      return jsonResponse({ error: "invalid_grant" }, { status: 400 });
+    }
+  } catch {
+    return jsonResponse({ error: "temporarily_unavailable" }, { status: 503 });
+  }
 
   return jsonResponse(
     createTokenResponse(payload.clientId, payload.scope, secret),
   );
 }
 
-function exchangeRefreshToken(formData: FormData, secret: string) {
+async function exchangeRefreshToken(formData: FormData, secret: string) {
   const refreshToken = getFormString(formData, "refresh_token");
   const payload = readSignedPayload(refreshToken, "refresh", secret);
   if (!payload || !isAllowedClientId(payload.clientId)) {
     return jsonResponse({ error: "invalid_grant" }, { status: 400 });
+  }
+
+  if (getFormString(formData, "client_id") !== payload.clientId) {
+    return jsonResponse({ error: "invalid_grant" }, { status: 400 });
+  }
+  try {
+    if (
+      !(await claimSecurityState(
+        `oauth-refresh:${refreshToken}`,
+        new Date(payload.expiresAt * 1000),
+      ))
+    ) {
+      return jsonResponse({ error: "invalid_grant" }, { status: 400 });
+    }
+  } catch {
+    return jsonResponse({ error: "temporarily_unavailable" }, { status: 503 });
   }
 
   return jsonResponse(

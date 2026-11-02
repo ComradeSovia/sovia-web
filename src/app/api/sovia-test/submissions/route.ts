@@ -5,6 +5,8 @@ import {
 } from "@sovia/sovia-test/data/submissions";
 import { SOVIA_TEST_LOCALES } from "@sovia/sovia-test/i18n/config";
 import type { AxisKey } from "@sovia/sovia-test/types";
+import { allowRequest } from "@/shared/lib/security-state";
+import baseline from "@sovia/sovia-test/i18n/en-US.json";
 import { NextResponse } from "next/server";
 
 const AXIS_KEYS: AxisKey[] = [
@@ -41,6 +43,15 @@ function parseScores(value: unknown) {
       return null;
     }
 
+    const maximum = baseline.questions.reduce(
+      (sum, question) =>
+        sum +
+        question.scores
+          .filter((item) => item.axis === axis)
+          .reduce((sum, item) => sum + Math.abs(item.weight), 0),
+      0,
+    );
+    if (Math.abs(score) > maximum + 1e-8) return null;
     scores[axis] = score;
   }
 
@@ -67,7 +78,7 @@ export async function POST(request: Request) {
 
   if (
     typeof resultCode !== "string" ||
-    !/^[A-Z]{5}$/.test(resultCode) ||
+    !/^[SF][OE][VQ][IM][AL]$/.test(resultCode) ||
     typeof resultHash !== "string" ||
     !/^[a-z0-9]{8,64}$/.test(resultHash) ||
     typeof visitorId !== "string" ||
@@ -86,6 +97,21 @@ export async function POST(request: Request) {
     );
   }
 
+  try {
+    if (
+      !(await allowRequest("test-submission", "global", 1000, 3600)) ||
+      !(await allowRequest("test-visitor", visitorId, 10, 3600))
+    )
+      return NextResponse.json(
+        { error: "Too many requests." },
+        { status: 429 },
+      );
+  } catch {
+    return NextResponse.json(
+      { error: "Service unavailable." },
+      { status: 503 },
+    );
+  }
   const saved = await saveSoviaTestSubmission({
     visitorId,
     resultCode,
@@ -96,5 +122,8 @@ export async function POST(request: Request) {
     scores,
   });
 
-  return NextResponse.json({ saved: Boolean(saved) });
+  return NextResponse.json(
+    { saved: Boolean(saved) },
+    { status: saved ? 200 : 503 },
+  );
 }

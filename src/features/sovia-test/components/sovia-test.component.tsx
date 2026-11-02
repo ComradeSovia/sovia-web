@@ -23,7 +23,7 @@ import {
   getSoviaTestLocalizedPath,
   type SoviaTestLocale,
 } from "../i18n/config";
-import { getDefaultSoviaTestCopy } from "../i18n/copy";
+import baseline from "../i18n/en-US.json";
 import { getSoviaTestCanonicalPath } from "../i18n/seo";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
@@ -45,7 +45,7 @@ import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 import { SoviaTestResultImage } from "./sovia-test-result-image.component";
 
-const defaultCopy = getDefaultSoviaTestCopy();
+const defaultCopy = baseline as import("../types").SoviaTestCopy;
 
 const AXIS_ORDER: AxisKey[] = [
   "structure",
@@ -122,6 +122,7 @@ const SCORE_HASH_CHUNK_SIZE = 2;
 
 type SoviaTestComponentProps = {
   initialHash?: string;
+  initialCopy?: import("../types").SoviaTestCopy;
   initialLocale?: SoviaTestLocale;
   initialResultType?: string;
   recommendedMusicWorks?: MusicWork[];
@@ -1743,6 +1744,7 @@ function SoviaAxisStar({ copy, scores }: SoviaAxisStarProps) {
 }
 
 export function SoviaTestComponent({
+  initialCopy,
   initialHash,
   initialLocale,
   initialResultType,
@@ -1750,7 +1752,7 @@ export function SoviaTestComponent({
   stats,
 }: SoviaTestComponentProps = {}) {
   const router = useRouter();
-  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
+  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale, initialCopy);
   const initialStateRef = useRef<InitialTestState | null>(null);
 
   if (!initialStateRef.current) {

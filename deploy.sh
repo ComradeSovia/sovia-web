@@ -5,16 +5,17 @@ set -Eeuo pipefail
 APP_DIR="/opt/sovia-web"
 SERVICE_NAME="sovia-web"
 CONTAINER_NAME="sovia-web"
-IMAGE_NAME="ghcr.io/comradesovia/sovia-web:prod"
-MIGRATION_IMAGE_NAME="ghcr.io/comradesovia/sovia-web:prod-migrate"
+IMAGE_NAME="ghcr.io/comradesovia/sovia-web:prod${RELEASE_SHA:+-$RELEASE_SHA}"
+MIGRATION_IMAGE_NAME="ghcr.io/comradesovia/sovia-web:prod-migrate${RELEASE_SHA:+-$RELEASE_SHA}"
+APP_OVERRIDE=""
 MIGRATION_OVERRIDE=""
 ROLLBACK_IMAGE_NAME="ghcr.io/comradesovia/sovia-web:rollback"
-HEALTH_URL="http://127.0.0.1:4091/"
+HEALTH_URL="http://127.0.0.1:4091/api/health/ready"
 HEALTH_ATTEMPTS="${HEALTH_ATTEMPTS:-30}"
 HEALTH_SLEEP_SECONDS="${HEALTH_SLEEP_SECONDS:-2}"
 
 trap 'echo "Deployment failed on line ${LINENO}."' ERR
-trap 'if [ -n "$MIGRATION_OVERRIDE" ]; then rm -f -- "$MIGRATION_OVERRIDE"; fi' EXIT
+trap 'if [ -n "$MIGRATION_OVERRIDE" ]; then rm -f -- "$MIGRATION_OVERRIDE"; fi; if [ -n "$APP_OVERRIDE" ]; then rm -f -- "$APP_OVERRIDE"; fi' EXIT
 
 cd "$APP_DIR"
 
@@ -34,6 +35,10 @@ fi
 if [ -f compose.logging.yml ]; then
   COMPOSE_FILES+=(-f compose.logging.yml)
 fi
+
+APP_OVERRIDE="$(mktemp "$APP_DIR/.app-compose.XXXXXX.yml")"
+printf 'services:\n  %s:\n    image: %s\n' "$SERVICE_NAME" "$IMAGE_NAME" > "$APP_OVERRIDE"
+COMPOSE_FILES+=(-f "$APP_OVERRIDE")
 
 compose() {
   docker compose "${COMPOSE_FILES[@]}" "$@"
@@ -71,7 +76,7 @@ compose up -d --remove-orphans "$SERVICE_NAME"
 echo "Waiting for health check: $HEALTH_URL"
 SUCCESS=false
 for attempt in $(seq 1 "$HEALTH_ATTEMPTS"); do
-  if curl --fail --silent --max-time 10 "$HEALTH_URL" >/dev/null; then
+  if [ "$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 10 "$HEALTH_URL" || true)" = "200" ]; then
     SUCCESS=true
     echo "Health check passed on attempt $attempt."
     break

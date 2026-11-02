@@ -8,7 +8,7 @@ import {
   getSiteLocalizedPath,
   stripSiteLocaleFromPath,
 } from "@sovia/shared/i18n/site-routing";
-import { useMemo, useState } from "react";
+import { useRef, useState } from "react";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
   getSoviaTestLocaleFromPath,
@@ -19,7 +19,9 @@ import {
   type SoviaTestLocale,
   stripSoviaTestLocaleFromPath,
 } from "./config";
-import { getSoviaTestCopy } from "./copy";
+import { loadSoviaTestCopy } from "./client-copy";
+import baseline from "./en-US.json";
+import type { SoviaTestCopy } from "../types";
 
 function getSiteLocaleFromPath(pathname: string) {
   const firstSegment = pathname.split("/").filter(Boolean)[0];
@@ -115,14 +117,28 @@ export function getSoviaTestLocales() {
   return SOVIA_TEST_LOCALES;
 }
 
-export function useSoviaTestI18n(initialLocale?: SoviaTestLocale) {
+export function useSoviaTestI18n(
+  initialLocale?: SoviaTestLocale,
+  initialCopy?: SoviaTestCopy,
+) {
   const [locale, setLocaleState] = useState<SoviaTestLocale>(() =>
     detectBrowserLocale(initialLocale),
   );
 
-  const copy = useMemo(() => getSoviaTestCopy(locale), [locale]);
+  const [copy, setCopy] = useState<SoviaTestCopy>(
+    initialCopy ?? (baseline as SoviaTestCopy),
+  );
+  const latestRequest = useRef(0);
 
-  function setLocale(nextLocale: SoviaTestLocale) {
+  async function setLocale(nextLocale: SoviaTestLocale) {
+    const request = ++latestRequest.current;
+    let nextCopy: SoviaTestCopy;
+    try {
+      nextCopy = await loadSoviaTestCopy(nextLocale);
+    } catch {
+      return;
+    }
+    if (request !== latestRequest.current) return;
     window.localStorage.setItem(SOVIA_TEST_LOCALE_STORAGE_KEY, nextLocale);
     // biome-ignore lint/suspicious/noDocumentCookie: Middleware reads this lightweight test-language preference cookie.
     document.cookie = `${SOVIA_TEST_LOCALE_STORAGE_KEY}=${encodeURIComponent(nextLocale)}; path=/; max-age=31536000; samesite=lax`;
@@ -132,6 +148,7 @@ export function useSoviaTestI18n(initialLocale?: SoviaTestLocale) {
     url.searchParams.delete("lang");
 
     window.history.replaceState(null, "", url);
+    setCopy(nextCopy);
     setLocaleState(nextLocale);
   }
 

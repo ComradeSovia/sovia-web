@@ -118,7 +118,7 @@ function isSameValue(left: string, right: string) {
 
 function getSessionSecret(mode: EnabledAdminAuthMode) {
   if (mode === "password") {
-    return getAdminPassword();
+    return getOptionalEnv("SOVIA_ADMIN_SESSION_SECRET") ?? getAdminPassword();
   }
 
   const googleConfig = getGoogleAdminConfig();
@@ -282,7 +282,7 @@ export async function createPasswordAdminSession(password: string) {
         issuedAt: getCurrentTimestamp(),
         mode: "password",
       },
-      adminPassword,
+      getSessionSecret("password") ?? adminPassword,
     ),
     getAdminSessionCookieOptions(),
   );

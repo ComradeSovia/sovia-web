@@ -16,7 +16,8 @@
     "test:analytics": "node --test scripts/analytics.test.mjs",
     "typecheck": "tsc --noEmit",
     "lint:fix": "biome check --fix",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "test:content": "node --test scripts/content-policy.test.mjs"
   },
   "dependencies": {
     "@pixiv/three-vrm": "3.5.5",

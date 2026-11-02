@@ -6,7 +6,7 @@ import {
   getSoviaTestLocalizedPath,
   type SoviaTestLocale,
 } from "../i18n/config";
-import { getDefaultSoviaTestCopy } from "../i18n/copy";
+import baseline from "../i18n/en-US.json";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
 import {
@@ -19,7 +19,7 @@ import { SoviaCode } from "./sovia-code.component";
 import { SoviaTestLanguageSwitcher } from "./sovia-test-language-switcher.component";
 import { SoviaTestResultImage } from "./sovia-test-result-image.component";
 
-const defaultCopy = getDefaultSoviaTestCopy();
+const defaultCopy = baseline as import("../types").SoviaTestCopy;
 
 const AXIS_ORDER: AxisKey[] = [
   "structure",
@@ -30,17 +30,19 @@ const AXIS_ORDER: AxisKey[] = [
 ];
 
 type SoviaTestTypeComponentProps = {
+  initialCopy?: import("../types").SoviaTestCopy;
   initialLocale?: SoviaTestLocale;
   stats?: SoviaTestStats | null;
   type: string;
 };
 
 export function SoviaTestTypeComponent({
+  initialCopy,
   initialLocale,
   stats,
   type,
 }: SoviaTestTypeComponentProps) {
-  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale);
+  const { copy, locale, locales, setLocale } = useSoviaTestI18n(initialLocale, initialCopy);
   const code = type.toUpperCase();
   const archetype = copy.types[code] ?? defaultCopy.types[code];
   const essay = copy.typeEssays[code] ?? defaultCopy.typeEssays[code];
