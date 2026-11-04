@@ -1,25 +1,28 @@
-import { requireAdminSession } from "@sovia/admin/data/auth";
+import { requireAuditActor } from "@sovia/admin/data/auth";
 import { createAdminMusicTodo } from "@sovia/admin/data/music-todos";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    await requireAdminSession();
+    const actor = await requireAuditActor();
     const body = (await request.json()) as Record<string, unknown>;
     const sourceUrl = getString(body.sourceUrl, 2_000);
     if (sourceUrl && !/^https?:\/\/\S+$/i.test(sourceUrl)) {
       throw new Error("Source URL must be a valid http(s) URL.");
     }
 
-    const todo = await createAdminMusicTodo({
-      from: getString(body.from, 500) || undefined,
-      notes: getString(body.notes, 4_000) || undefined,
-      sourceArtists: getString(body.sourceArtists, 1_000) || undefined,
-      sourceUrl: sourceUrl || undefined,
-      status: "PROPOSED",
-      title: getString(body.title, 300),
-      visible: body.visible === true,
-    });
+    const todo = await createAdminMusicTodo(
+      {
+        from: getString(body.from, 500) || undefined,
+        notes: getString(body.notes, 4_000) || undefined,
+        sourceArtists: getString(body.sourceArtists, 1_000) || undefined,
+        sourceUrl: sourceUrl || undefined,
+        status: "PROPOSED",
+        title: getString(body.title, 300),
+        visible: body.visible === true,
+      },
+      actor,
+    );
 
     return NextResponse.json({ id: todo.id });
   } catch (error) {

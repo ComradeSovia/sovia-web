@@ -299,3 +299,11 @@ export async function requireAdminSession() {
     throw new Error("Admin session required.");
   }
 }
+
+export async function requireAuditActor() {
+  await requireAdminSession();
+  const status = getAdminAuthStatus();
+  return status.enabled && status.mode === "google"
+    ? `google:${status.email || status.subject || "admin"}`
+    : "password:admin";
+}

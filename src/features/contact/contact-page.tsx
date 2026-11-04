@@ -1,16 +1,36 @@
 "use client";
 
 import type { SharedCopy } from "@sovia/shared/i18n/copy";
+import type { SiteLocale } from "@sovia/shared/i18n/site-locale";
 import { Check, Mail, Music2, Send } from "lucide-react";
-import { useActionState, useState } from "react";
+import Link from "next/link";
+import { useActionState, useEffect, useState } from "react";
 import { type ContactState, submitContact } from "./actions";
+import styles from "./contact.module.css";
+import { SongSuggestionMatches } from "./song-suggestions";
 
 type Copy = SharedCopy["contact"];
-export function ContactPage({ copy }: { copy: Copy }) {
-  const [kind, setKind] = useState<"letter" | "song">("letter");
+export function ContactPage({
+  copy,
+  initialKind = "letter",
+  plansHref,
+  plansLabel,
+  locale,
+  plansCopy,
+}: {
+  copy: Copy;
+  initialKind?: "letter" | "song";
+  plansHref: string;
+  plansLabel: string;
+  locale: SiteLocale;
+  plansCopy: SharedCopy["songPlans"];
+}) {
+  const [kind, setKind] = useState<"letter" | "song">(initialKind);
   const [revision, setRevision] = useState(0);
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
+    <main
+      className={`${styles.page} mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 sm:py-20`}
+    >
       <p className="mb-4 text-xs font-black tracking-[0.25em] text-relief">
         SOVIA / CONTACT
       </p>
@@ -18,7 +38,13 @@ export function ContactPage({ copy }: { copy: Copy }) {
         {copy.title}
       </h1>
       <p className="mt-4 max-w-xl text-relief">{copy.intro}</p>
-      <div className="mt-10 grid grid-cols-2 gap-3">
+      <Link
+        href={plansHref}
+        className="mt-4 inline-flex min-h-11 items-center font-bold underline underline-offset-4"
+      >
+        {plansLabel} →
+      </Link>
+      <div className={`${styles.tabs} mt-10 grid grid-cols-2 gap-3`}>
         {(["letter", "song"] as const).map((value) => {
           const Icon = value === "letter" ? Mail : Music2;
           return (
@@ -42,6 +68,8 @@ export function ContactPage({ copy }: { copy: Copy }) {
         key={`${kind}-${revision}`}
         kind={kind}
         copy={copy}
+        locale={locale}
+        plansCopy={plansCopy}
         reset={() => setRevision((value) => value + 1)}
       />
     </main>
@@ -51,11 +79,19 @@ function ContactForm({
   kind,
   copy,
   reset,
+  locale,
+  plansCopy,
 }: {
   kind: "letter" | "song";
   copy: Copy;
   reset: () => void;
+  locale: SiteLocale;
+  plansCopy: SharedCopy["songPlans"];
 }) {
+  const [songTitle, setSongTitle] = useState("");
+  const [artist, setArtist] = useState("");
+  const [submissionId, setSubmissionId] = useState("");
+  useEffect(() => setSubmissionId(crypto.randomUUID()), []);
   const [state, action, pending] = useActionState<ContactState, FormData>(
     submitContact,
     {
@@ -64,11 +100,16 @@ function ContactForm({
   );
   if (state.status === "success")
     return (
-      <div className="mt-4 border-2 border-ink bg-block p-8">
+      <div className={`${styles.panel} mt-4 p-8`}>
         <Check aria-hidden="true" className="mb-4 size-8" />
         <output className="block" aria-live="polite">
           {copy.success}
         </output>
+        {state.receipt ? (
+          <p className="mt-3 break-all text-sm">
+            {copy.receipt}: {state.receipt}
+          </p>
+        ) : null}
         <button type="button" className="mt-6 underline" onClick={reset}>
           {copy.another}
         </button>
@@ -77,9 +118,10 @@ function ContactForm({
   return (
     <form
       action={action}
-      className="mt-4 space-y-5 border-2 border-ink bg-block p-5 sm:p-8"
+      className={`${styles.panel} mt-4 space-y-5 p-5 sm:p-8`}
     >
       <input type="hidden" name="kind" value={kind} />
+      <input type="hidden" name="submissionId" value={submissionId} />
       <div hidden>
         <label>
           Website
@@ -115,17 +157,31 @@ function ContactForm({
             <Input
               label={copy.songTitle}
               name="songTitle"
+              onValueChange={setSongTitle}
               required
               maxLength={200}
             />
-            <Input label={copy.artist} name="artist" maxLength={200} />
+            <Input
+              label={copy.artist}
+              name="artist"
+              maxLength={200}
+              onValueChange={setArtist}
+            />
+            <SongSuggestionMatches
+              title={songTitle}
+              artist={artist}
+              locale={locale}
+              copy={copy.suggestions}
+              plansCopy={plansCopy}
+            />
+            <Input label={copy.origin} name="origin" maxLength={500} />
             <Input label={copy.url} name="url" type="url" maxLength={2000} />
             <Input label={copy.notes} name="notes" maxLength={3000} multiline />
           </>
         )}
         <button
           type="submit"
-          className="flex items-center gap-3 border-2 border-ink bg-ink px-6 py-3 font-bold text-block motion-safe:transition-transform motion-safe:hover:translate-x-1 disabled:cursor-wait"
+          className={`${styles.submit} flex items-center gap-3 px-6 py-3 font-bold motion-safe:transition-transform motion-safe:hover:translate-x-1 disabled:cursor-wait`}
         >
           <Send
             aria-hidden="true"
@@ -145,10 +201,12 @@ function ContactForm({
 function Input({
   label,
   multiline,
+  onValueChange,
   ...props
 }: {
   label: string;
   multiline?: boolean;
+  onValueChange?: (value: string) => void;
   name: string;
   required?: boolean;
   maxLength: number;
@@ -168,7 +226,10 @@ function Input({
         <textarea
           {...props}
           value={value}
-          onChange={(event) => setValue(event.target.value)}
+          onChange={(event) => {
+            setValue(event.target.value);
+            onValueChange?.(event.target.value);
+          }}
           id={`contact-${props.name}`}
           rows={6}
           className={className}
@@ -177,7 +238,10 @@ function Input({
         <input
           {...props}
           value={value}
-          onChange={(event) => setValue(event.target.value)}
+          onChange={(event) => {
+            setValue(event.target.value);
+            onValueChange?.(event.target.value);
+          }}
           id={`contact-${props.name}`}
           className={className}
         />

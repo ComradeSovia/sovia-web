@@ -4,6 +4,7 @@ import { getSiteLocalizedPath } from "../i18n/site-routing";
 import type { RouteItem } from "../model/nav";
 
 export const OPEN_CULTURE_PATH = "/open-culture";
+export const SONG_PLANS_PATH = "/song-plans";
 
 export const WORLD_ORIGIN_PATH = "/world/origin";
 
@@ -12,6 +13,7 @@ export function getRoutes(copy: SharedCopy, locale?: SiteLocale) {
     locale ? getSiteLocalizedPath(path, locale) : path;
 
   return {
+    SongPlans: { label: copy.routes.songPlans, href: href(SONG_PLANS_PATH) },
     Contact: { label: copy.routes.contact, href: href("/contact") },
     Center: { label: copy.routes.center, href: href("/") },
     About: { label: copy.routes.about, href: href("/about") },

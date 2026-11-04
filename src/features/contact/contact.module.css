@@ -1,0 +1,82 @@
+.page {
+  color: rgb(var(--ink));
+}
+.page :global(.text-relief) {
+  color: rgb(var(--ink) / 0.65);
+}
+.tabs button {
+  background: rgb(var(--paper));
+  color: rgb(var(--ink));
+  border: 1px solid rgb(var(--ink) / 0.4);
+}
+.tabs button[aria-pressed="true"] {
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+  border-color: rgb(var(--ink));
+}
+.panel {
+  background: rgb(var(--paper));
+  border: 1px solid rgb(var(--ink) / 0.4);
+}
+.panel input,
+.panel textarea {
+  border: 1px solid rgb(var(--ink) / 0.3);
+}
+.panel input:focus,
+.panel textarea:focus {
+  border-color: rgb(var(--ink));
+}
+.submit {
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+}
+.hint {
+  display: flex;
+  align-items: start;
+  gap: 0.5rem;
+  color: rgb(var(--ink) / 0.65);
+  font-size: 0.75rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.hint svg {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+.suggestions {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid rgb(var(--ink) / 0.25);
+  background: rgb(var(--ink) / 0.025);
+}
+.suggestions .heading {
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.match {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+  border-top: 1px solid rgb(var(--ink) / 0.15);
+  padding-top: 0.8rem;
+}
+.groupTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: none;
+}
+.status {
+  flex-shrink: 0;
+  padding: 0.2rem 0.5rem;
+  background: rgb(var(--ink) / 0.08);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+@media (max-width: 480px) {
+  .suggestions {
+    padding: 0.85rem;
+  }
+}

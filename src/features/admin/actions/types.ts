@@ -48,7 +48,8 @@ export type AdminActionFormOutputTarget =
   | "subtitles"
   | "vk"
   | "youtube"
-  | "youtubeBatch";
+  | "youtubeBatch"
+  | "planning-request";
 
 export type AdminActionOutput = {
   applyToForm?: AdminActionFormOutputTarget;
@@ -60,7 +61,9 @@ export type AdminActionOutput = {
       | "pixiv"
       | "related"
       | "subtitles"
-      | "vk";
+      | "vk"
+      | "planning-draft"
+      | "comment-reviews";
   };
 };
 

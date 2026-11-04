@@ -30,10 +30,12 @@ export function AdminDirtyForm({
   action,
   children,
   className,
+  id,
 }: {
   action: (formData: FormData) => void | Promise<void>;
   children: ReactNode;
   className?: string;
+  id?: string;
 }) {
   const [dirty, setDirty] = useState(false);
   const [pendingHref, setPendingHref] = useState<string | null>(null);
@@ -71,6 +73,13 @@ export function AdminDirtyForm({
         }>
       ).detail;
       if (!detail?.target) return;
+      const requestControl = getNamedControl(form, "requestId");
+      if (
+        detail.target === "planning-request" &&
+        (!isFieldControl(requestControl) ||
+          requestControl.value !== detail.input?.requestId)
+      )
+        return;
       const values =
         detail.formOutput ??
         getAdminActionFormOutput({
@@ -122,6 +131,14 @@ export function AdminDirtyForm({
 
       const anchor = target.closest("a");
       if (!anchor) return;
+      const destination = new URL(anchor.href, window.location.href);
+      if (
+        destination.origin === window.location.origin &&
+        destination.pathname === window.location.pathname &&
+        destination.search === window.location.search &&
+        destination.hash
+      )
+        return;
 
       event.preventDefault();
       event.stopPropagation();
@@ -144,9 +161,11 @@ export function AdminDirtyForm({
   return (
     <>
       <form
+        id={id}
         action={action}
         className={className}
         data-admin-dirty-form="true"
+        data-admin-dirty={dirty ? "true" : "false"}
         onChange={() => setDirty(true)}
         onSubmit={handleSubmit}
         ref={formRef}

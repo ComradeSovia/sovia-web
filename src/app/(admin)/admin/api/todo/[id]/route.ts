@@ -1,4 +1,4 @@
-import { requireAdminSession } from "@sovia/admin/data/auth";
+import { requireAdminSession, requireAuditActor } from "@sovia/admin/data/auth";
 import {
   getAdminMusicTodo,
   updateAdminMusicTodo,
@@ -25,7 +25,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await requireAdminSession();
+    const actor = await requireAuditActor();
     const { id } = await params;
     const current = await getAdminMusicTodo(id);
     if (!current) throw new Error("Todo could not be found.");
@@ -35,15 +35,19 @@ export async function POST(
       throw new Error("Source URL must be a valid http(s) URL.");
     }
 
-    await updateAdminMusicTodo(id, {
-      from: getString(body.from, 500) || undefined,
-      notes: getString(body.notes, 4_000) || undefined,
-      sourceArtists: getString(body.sourceArtists, 1_000) || undefined,
-      sourceUrl: sourceUrl || undefined,
-      status: current.status,
-      title: getString(body.title, 300),
-      visible: body.visible === true,
-    });
+    await updateAdminMusicTodo(
+      id,
+      {
+        from: getString(body.from, 500) || undefined,
+        notes: getString(body.notes, 4_000) || undefined,
+        sourceArtists: getString(body.sourceArtists, 1_000) || undefined,
+        sourceUrl: sourceUrl || undefined,
+        status: current.status,
+        title: getString(body.title, 300),
+        visible: body.visible === true,
+      },
+      actor,
+    );
     return NextResponse.json({ id });
   } catch (error) {
     return errorResponse(error, "Todo could not be saved.");

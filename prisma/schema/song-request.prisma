@@ -1,0 +1,68 @@
+enum SongRequestStatus {
+  PENDING
+  NEEDS_INFO
+  ACCEPTED
+  REJECTED
+  ARCHIVED
+}
+
+enum MusicPlanWorkMatch {
+  FULL
+  PARTIAL
+  RELATED
+}
+
+// Original submissions are immutable; reviewed/normalized data belongs to a plan.
+model SongRequest {
+  id            String @id @default(cuid())
+  title         String
+  artist        String?
+  origin        String?
+  sourceUrl     String?
+  ideas         String?
+  channel       String @default("WEBSITE")
+  legacyTodoId  String? @unique
+  status        SongRequestStatus @default(PENDING)
+  reviewNotes   String?
+  reviewedAt    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  plans         SongRequestPlan[]
+  planningDrafts MusicPlanningDraft[] @relation("RequestPlanningDrafts")
+  sourceDraftId String?
+  sourceProposalKey String?
+  sourceDraft MusicPlanningDraft? @relation("ImportedRequests", fields: [sourceDraftId], references: [id], onDelete: Restrict)
+  commentSources CommentReviewRequest[]
+
+  @@unique([sourceDraftId, sourceProposalKey])
+
+  @@index([status, createdAt])
+  @@map("song_requests")
+}
+
+model SongRequestPlan {
+  requestId String
+  planId    String
+  createdAt DateTime @default(now())
+  request   SongRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  plan      AdminMusicTodo @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@id([requestId, planId])
+  @@index([planId])
+  @@map("song_request_plans")
+}
+
+model MusicPlanWork {
+  planId    String
+  contentId String
+  match     MusicPlanWorkMatch @default(FULL)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  plan      AdminMusicTodo @relation(fields: [planId], references: [id], onDelete: Restrict)
+  work      MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Restrict, onUpdate: Cascade)
+
+  @@id([planId, contentId])
+  @@index([contentId])
+  @@map("music_plan_works")
+}

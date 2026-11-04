@@ -235,11 +235,10 @@ export function createYouTubeAuthorizedFetch(
   };
 }
 
-export async function getYouTubeAccessToken({
-  clientId,
-  clientSecret,
-  refreshToken,
-}: YouTubeCredentials) {
+export async function getYouTubeAccessToken(
+  { clientId, clientSecret, refreshToken }: YouTubeCredentials,
+  signal?: AbortSignal,
+) {
   const body = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
@@ -247,6 +246,7 @@ export async function getYouTubeAccessToken({
     refresh_token: refreshToken,
   });
   const response = await fetch(GOOGLE_TOKEN_URL, {
+    signal,
     body,
     cache: "no-store",
     headers: {

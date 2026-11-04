@@ -1,12 +1,11 @@
 "use client";
 
 import type { ComponentType, ReactNode } from "react";
+import { AdminCommentReviewPreview } from "../ui/admin-comment-review-preview";
+import { AdminPlanningProposalActionView } from "../ui/admin-planning-proposal-preview";
 import { AdminDownloadSubtitlesActionView } from "../ui/admin-step-panels";
 import { AdminSubtitleFileUploadActionView } from "../ui/admin-subtitle-file-upload";
-import {
-  AdminTodoEditActionView,
-  AdminTodoProposalActionView,
-} from "../ui/admin-todo-proposal-panel";
+import { AdminTodoEditActionView } from "../ui/admin-todo-proposal-panel";
 import type { AdminActionFormOutput } from "./form-output";
 import type {
   AdminActionDefinition,
@@ -35,7 +34,8 @@ const ADMIN_ACTION_VIEWS: Record<
   "download-subtitles": AdminDownloadSubtitlesActionView,
   "upload-subtitles": AdminSubtitleFileUploadActionView,
   "todo-edit": AdminTodoEditActionView,
-  "todo-proposal-analysis": AdminTodoProposalActionView,
+  "todo-proposal-analysis": AdminPlanningProposalActionView,
+  "comment-review": AdminCommentReviewPreview,
 };
 
 export function getAdminActionView(action: AdminActionDefinition) {

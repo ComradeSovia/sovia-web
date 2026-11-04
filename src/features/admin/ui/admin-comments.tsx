@@ -95,6 +95,17 @@ export async function AdminCommentsPage({
 
   return (
     <section className="space-y-5">
+      <div className="flex flex-wrap gap-5 text-sm">
+        <Link
+          className="text-sky-300 underline"
+          href="/admin/comments?action=comments.analyze"
+        >
+          Analyze unanswered comments
+        </Link>
+        <Link className="text-sky-300 underline" href="/admin/comment-reviews">
+          Saved comment reviews / reply drafts
+        </Link>
+      </div>
       <Card className={CARD_CLASS}>
         <CardHeader className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
           <div>
@@ -202,6 +213,19 @@ export async function AdminCommentsPage({
               authorProfileImageUrl: comment.authorProfileImageUrl,
               contentId: comment.contentId,
               hasOwnerReply: comment.hasOwnerReply,
+              ownerReplyCheckedAt:
+                comment.ownerReplyCheckedAt?.toISOString() ?? null,
+              reviewId: comment.reviews[0]?.id ?? null,
+              reviewLabel: comment.reviews[0]
+                ? comment.reviews[0].sourceVersion.getTime() !==
+                  comment.updatedAt.getTime()
+                  ? "Source edited"
+                  : comment.reviews[0].dismissedAt
+                    ? "Dismissed"
+                    : comment.reviews[0].reviewedAt
+                      ? "Reviewed"
+                      : "Draft saved"
+                : null,
               id: comment.id,
               likeCount: comment.likeCount,
               publishedAt: comment.publishedAt.toISOString(),

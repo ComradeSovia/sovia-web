@@ -23,6 +23,7 @@ import {
   clearAdminSession,
   createPasswordAdminSession,
   requireAdminSession,
+  requireAuditActor,
 } from "./data/auth";
 import {
   clearMusicWorkStep,
@@ -550,7 +551,7 @@ export async function logoutAdmin() {
 }
 
 export async function saveMusicWorkAction(formData: FormData) {
-  await requireAdminSession();
+  const auditActor=await requireAuditActor();
 
   const currentContentId = getOptionalString(formData, "currentContentId");
   const path = getString(formData, "path");
@@ -665,6 +666,7 @@ export async function saveMusicWorkAction(formData: FormData) {
     await syncAdminMusicTodoPublicationStatus(
       contentId,
       Boolean(getOptionalString(formData, "publishedAt")),
+      auditActor,
     );
   } catch (error) {
     console.error("Failed to save music work.", error);
@@ -689,7 +691,7 @@ export async function saveMusicWorkAction(formData: FormData) {
 }
 
 export async function saveMusicWorkStepAction(formData: FormData) {
-  await requireAdminSession();
+  const auditActor=await requireAuditActor();
 
   const stepValue = getString(formData, "adminStep");
   const currentContentId = getOptionalString(formData, "currentContentId");
@@ -739,10 +741,11 @@ export async function saveMusicWorkStepAction(formData: FormData) {
       currentContentId,
       work: draft,
     });
-    if (todoId) await completeAdminMusicTodo(todoId, draft.contentId);
+    if (todoId) await completeAdminMusicTodo(todoId, draft.contentId, auditActor);
     await syncAdminMusicTodoPublicationStatus(
       draft.contentId,
       Boolean(draft.publishedAt),
+      auditActor,
     );
   } catch (error) {
     console.error("Failed to save music work step.", error);

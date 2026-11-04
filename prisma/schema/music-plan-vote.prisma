@@ -1,0 +1,24 @@
+model MusicPlanVote {
+  planId    String
+  voterId   String
+  active    Boolean @default(true)
+  // Keep the original timestamp on reactivation to prevent heat refresh abuse.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  plan      AdminMusicTodo @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@id([planId, voterId])
+  @@index([planId, active, createdAt])
+  @@map("music_plan_votes")
+}
+
+// Shared database buckets work across server processes. Never store raw IPs.
+model MusicPlanVoteLimit {
+  key       String
+  window    DateTime
+  count     Int @default(0)
+
+  @@id([key, window])
+  @@index([window])
+  @@map("music_plan_vote_limits")
+}

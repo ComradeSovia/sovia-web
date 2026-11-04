@@ -32,10 +32,51 @@ model AdminYoutubeComment {
   updatedAt             DateTime
   syncedAt              DateTime  @default(now())
   work                  MusicWork @relation(fields: [contentId], references: [contentId], onDelete: Cascade)
+  reviews               CommentReview[]
 
   @@index([contentId, publishedAt])
   @@index([videoId, publishedAt])
   @@index([hasOwnerReply, ownerReplyCheckedAt])
   @@index([publishedAt])
   @@map("admin_youtube_comments")
+}
+
+// Immutable source snapshots; generated/editable fields stay private until reviewed.
+model CommentReview {
+  id             String @id @default(cuid())
+  commentId      String
+  sourceHash     String
+  sourceText     String
+  sourceUrl      String
+  sourceVersion  DateTime
+  ownerChannelId String
+  proposals      Json
+  replyText      String
+  rationale      String
+  model          String
+  promptKey      String
+  version        Int @default(1)
+  reviewedAt     DateTime?
+  dismissedAt    DateTime?
+  replyApprovedAt DateTime?
+  copiedAt       DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  comment        AdminYoutubeComment @relation(fields: [commentId], references: [id], onDelete: Restrict)
+  requests       CommentReviewRequest[]
+
+  @@unique([commentId, sourceHash])
+  @@index([reviewedAt, createdAt])
+  @@map("comment_reviews")
+}
+
+model CommentReviewRequest {
+  reviewId String
+  proposalKey String
+  requestId String
+  review CommentReview @relation(fields: [reviewId], references: [id], onDelete: Restrict)
+  request SongRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  @@id([reviewId, proposalKey])
+  @@index([requestId])
+  @@map("comment_review_requests")
 }

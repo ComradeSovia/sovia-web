@@ -18,6 +18,9 @@ export type AdminCommentTableRow = {
   authorProfileImageUrl: string | null;
   contentId: string;
   hasOwnerReply: boolean;
+  ownerReplyCheckedAt: string | null;
+  reviewId: string | null;
+  reviewLabel: string | null;
   id: string;
   likeCount: number;
   publishedAt: string;
@@ -157,6 +160,25 @@ export function AdminCommentsTable({
                     Replied
                   </Badge>
                 ) : null}
+                <Link
+                  className="px-2 text-sky-300 hover:underline"
+                  href={
+                    comment.reviewId
+                      ? `/admin/comment-reviews/${encodeURIComponent(comment.reviewId)}`
+                      : `/admin/comments?action=comments.analyze&comment=${encodeURIComponent(comment.id)}`
+                  }
+                >
+                  {comment.reviewLabel || "AI review / draft reply"}
+                </Link>
+                <span
+                  className="text-[10px] text-zinc-600"
+                  title={comment.ownerReplyCheckedAt || "Never checked"}
+                >
+                  Reply check:{" "}
+                  {comment.ownerReplyCheckedAt
+                    ? "cached; rechecked before processing"
+                    : "unknown"}
+                </span>
                 <a
                   aria-label={`Open comment by ${comment.authorDisplayName} on YouTube`}
                   className="inline-flex h-7 items-center gap-1 rounded-full px-2 font-medium text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100"

@@ -1,0 +1,25 @@
+// Append-only application history. String references intentionally survive record deletion.
+model ReviewAuditEvent {
+  id          String   @id @default(cuid())
+  actor       String
+  action      String
+  entityType  String
+  entityId    String
+  relatedType String?
+  relatedId   String?
+  sourceType  String?
+  sourceId    String?
+  title       String
+  before      Json
+  after       Json
+  undo        Json
+  undoOfId    String?  @unique
+  reason      String?
+  createdAt   DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+  @@index([relatedType, relatedId, createdAt])
+  @@index([sourceType, sourceId, createdAt])
+  @@index([createdAt])
+  @@map("review_audit_events")
+}

@@ -136,6 +136,7 @@ import {
   AdminSyncYoutubeVideoButton,
 } from "./admin-step-panels";
 import { AdminLogin } from "./login-form";
+import { ReviewOverview } from "./review-overview";
 
 type AdminMusicWork = Awaited<ReturnType<typeof listAdminMusicWorks>>[number];
 type AdminMusicTodo = NonNullable<
@@ -283,6 +284,7 @@ export async function AdminDashboardPage({
           message={youtubeMessage}
           status={matchActionStatus(youtubeStatus)}
         />
+        <ReviewOverview />
         <DashboardStatus />
       </section>
     </AdminGate>
@@ -1333,10 +1335,16 @@ async function DashboardStatus() {
       icon: ListMusic,
     },
     {
-      title: "Todo",
+      title: "Music plans",
       description: "Review ideas and planned work",
       href: "/admin/todo",
       icon: CheckCircle2,
+    },
+    {
+      title: "Song requests",
+      description: "Review audience recommendations",
+      href: "/admin/requests",
+      icon: ListMusic,
     },
     {
       title: "Analytics",
@@ -4157,13 +4165,17 @@ export function SelectField({
 }
 
 export function TextArea({
+  hideCopy = false,
   label,
+  maxLength,
   name,
   placeholder,
   rows = 8,
   value,
 }: {
+  hideCopy?: boolean;
   label: string;
+  maxLength?: number;
   name: string;
   placeholder?: string;
   rows?: number;
@@ -4171,7 +4183,7 @@ export function TextArea({
 }) {
   return (
     <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
-      <FieldLabel copyName={name} label={label} />
+      <FieldLabel copyName={hideCopy ? undefined : name} label={label} />
       <Textarea
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
@@ -4179,6 +4191,7 @@ export function TextArea({
         name={name}
         placeholder={placeholder}
         rows={rows}
+        maxLength={maxLength}
       />
     </div>
   );

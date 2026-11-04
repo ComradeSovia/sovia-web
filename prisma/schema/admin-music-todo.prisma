@@ -2,6 +2,9 @@ enum AdminMusicTodoStatus {
   PROPOSED
   PLANNING
   COMPLETED
+  IN_PRODUCTION
+  PAUSED
+  CANCELLED
 }
 
 model AdminMusicTodo {
@@ -13,6 +16,7 @@ model AdminMusicTodo {
   sourceArtists String?
   sourceUrl     String?
   notes         String?
+  publicSummary String?
   heatScore     Float                @default(0)
   voteCount     Int                  @default(0)
   lastVotedAt   DateTime?
@@ -21,6 +25,10 @@ model AdminMusicTodo {
   createdAt     DateTime             @default(now())
   updatedAt     DateTime             @updatedAt
   content       MusicWork?           @relation(fields: [contentId], references: [contentId], onDelete: Restrict)
+  requests      SongRequestPlan[]
+  works         MusicPlanWork[]
+  votes         MusicPlanVote[]
+  planningDrafts MusicPlanningDraftPlan[]
 
   @@index([status, heatScore])
   @@map("admin_music_todos")

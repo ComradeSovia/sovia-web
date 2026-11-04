@@ -1,5 +1,5 @@
 import { getPrismaClient } from "@sovia/sound/data/prisma";
-import { getYouTubeAccessToken } from "@sovia/youtube-api";
+import { getYouTubeAccessToken } from "@sovia/youtube-api/data/video-metadata";
 import type { Prisma } from "@/generated/prisma/client";
 import { listAdminMusicWorks } from "./music-admin";
 import {
@@ -13,7 +13,6 @@ const PAGE_SIZE = 100;
 const INITIAL_SYNC_PAGES = 10;
 const INCREMENTAL_SYNC_PAGES = 3;
 const OWNER_REPLY_REFRESH_LIMIT = 20;
-const OWN_CHANNEL_HANDLE = "comradesovia";
 
 export type YoutubeCommentSort =
   | "mostLiked"
@@ -45,6 +44,7 @@ type CommentThreadResource = {
   id?: string;
   replies?: { comments?: CommentResource[] };
   snippet?: {
+    channelId?: string;
     topLevelComment?: {
       id?: string;
       snippet?: {
@@ -146,6 +146,18 @@ export async function listAdminYoutubeComments({
           : [{ publishedAt: "desc" }, { id: "asc" }];
   const [items, total] = await Promise.all([
     prisma.adminYoutubeComment.findMany({
+      include: {
+        reviews: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          select: {
+            id: true,
+            reviewedAt: true,
+            dismissedAt: true,
+            sourceVersion: true,
+          },
+        },
+      },
       orderBy,
       skip: Math.max(0, offset),
       take: Math.min(100, Math.max(1, limit)),
@@ -431,10 +443,6 @@ function parseDate(value: string | undefined) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
-function normalizeYoutubeHandle(value: string) {
-  return value.trim().replace(/^@/, "").toLocaleLowerCase("en-US");
-}
-
 async function getOwnerReplyStatus({
   accessToken,
   ownerChannelId,
@@ -471,16 +479,22 @@ async function fetchOwnerReplyStatus({
   accessToken,
   ownerChannelId,
   parentId,
+  maxPages = 1000,
 }: {
   accessToken: string;
   ownerChannelId: string;
   parentId: string;
+  maxPages?: number;
 }) {
   let pageToken: string | undefined;
   let pagesFetched = 0;
   let replyCount = 0;
   let hasOwnerReply = false;
   do {
+    if (pagesFetched >= maxPages)
+      throw new Error(
+        "Reply status is unknown: reply pagination limit reached. Nothing is assumed unanswered.",
+      );
     const payload = await fetchCommentReplies({
       accessToken,
       pageToken,
@@ -488,6 +502,10 @@ async function fetchOwnerReplyStatus({
     });
     pagesFetched += 1;
     const replies = payload.items ?? [];
+    if (replies.some((reply) => !reply.snippet?.authorChannelId?.value))
+      throw new Error(
+        "Reply status is unknown: a reply author could not be verified.",
+      );
     replyCount += replies.length;
     hasOwnerReply ||= replies.some((reply) =>
       isOwnerAuthor(reply, ownerChannelId),
@@ -516,11 +534,12 @@ async function fetchCommentReplies({
   if (pageToken) params.set("pageToken", pageToken);
   const response = await fetch(`${YOUTUBE_API_URL}/comments?${params}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
+    signal: AbortSignal.timeout(15_000),
   });
   const payload = (await response
     .json()
     .catch(() => null)) as CommentListResponse | null;
-  if (!response.ok) {
+  if (!response.ok || !Array.isArray(payload?.items)) {
     throw new Error(
       payload?.error?.message ||
         payload?.error?.error_description ||
@@ -530,10 +549,87 @@ async function fetchCommentReplies({
   return payload ?? {};
 }
 
-function isOwnerAuthor(comment: CommentResource, ownerChannelId: string) {
-  return (
-    comment.snippet?.authorChannelId?.value === ownerChannelId ||
-    normalizeYoutubeHandle(comment.snippet?.authorDisplayName ?? "") ===
-      OWN_CHANNEL_HANDLE
+export function isOwnerAuthor(
+  comment: CommentResource,
+  ownerChannelId: string,
+) {
+  return comment.snippet?.authorChannelId?.value === ownerChannelId;
+}
+
+// Always refresh before AI generation/review/copy. A failed check is never an unanswered result.
+export async function refreshAdminYoutubeComment(id: string) {
+  const prisma = getPrismaClient();
+  if (!prisma) throw new Error("Database is unavailable.");
+  const stored = await prisma.adminYoutubeComment.findUniqueOrThrow({
+    where: { id },
+  });
+  const connection = await getAdminYoutubeConnection();
+  if (!connection)
+    throw new Error("Connect your YouTube channel before checking replies.");
+  const accessToken = await getYouTubeAccessToken(
+    await getAdminYoutubeCredentials(),
+    AbortSignal.timeout(15_000),
   );
+  const params = new URLSearchParams({
+    id: stored.threadId,
+    part: "snippet",
+    textFormat: "plainText",
+  });
+  const response = await fetch(`${YOUTUBE_API_URL}/commentThreads?${params}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: "no-store",
+    signal: AbortSignal.timeout(15_000),
+  });
+  const payload = (await response.json()) as CommentThreadResponse;
+  if (!response.ok)
+    throw new Error(
+      payload.error?.message ||
+        "Reply status is unknown: YouTube lookup failed.",
+    );
+  const thread = payload.items?.find(
+    (item) => item.snippet?.topLevelComment?.id === id,
+  );
+  const current = thread && parseCommentThread(thread);
+  if (
+    !current ||
+    thread?.snippet?.channelId !== connection.channelId ||
+    current.videoId !== stored.videoId
+  )
+    throw new Error(
+      "Reply status is unknown: comment missing, moved or not on the connected channel.",
+    );
+  if (
+    !current.authorChannelId ||
+    typeof thread?.snippet?.totalReplyCount !== "number"
+  )
+    throw new Error(
+      "Reply status is unknown: comment author or reply count unavailable.",
+    );
+  const reply =
+    current.replyCount === 0
+      ? { hasOwnerReply: false, replyCount: 0 }
+      : await fetchOwnerReplyStatus({
+          accessToken,
+          ownerChannelId: connection.channelId,
+          parentId: id,
+          maxPages: 3,
+        });
+  const comment = await prisma.adminYoutubeComment.update({
+    where: { id },
+    data: {
+      text: current.text,
+      updatedAt: current.updatedAt,
+      authorChannelId: current.authorChannelId,
+      authorDisplayName: current.authorDisplayName,
+      hasOwnerReply: reply.hasOwnerReply,
+      replyCount: reply.replyCount,
+      ownerReplyCheckedAt: new Date(),
+      syncedAt: new Date(),
+    },
+  });
+  return {
+    comment,
+    ownerChannelId: connection.channelId,
+    isOwn: comment.authorChannelId === connection.channelId,
+  };
 }

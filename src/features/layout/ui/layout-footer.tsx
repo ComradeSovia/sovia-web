@@ -45,6 +45,7 @@ export function LayoutFooter({
   const archiveLinks = [
     routes.Center,
     routes.Sound,
+    routes.SongPlans,
     routes.About,
     routes.Creator,
     routes.Gallery,

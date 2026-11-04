@@ -1,4 +1,4 @@
-import { requireAdminSession } from "@sovia/admin/data/auth";
+import { requireAuditActor } from "@sovia/admin/data/auth";
 import { startAdminMusicTodo } from "@sovia/admin/data/music-todos";
 import { WORK_TYPES } from "@sovia/admin/validation/music-work-form";
 import { NextResponse } from "next/server";
@@ -8,7 +8,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await requireAdminSession();
+    const actor = await requireAuditActor();
     const { id } = await params;
     const body = (await request.json()) as Record<string, unknown>;
     const contentId = getString(body.contentId, 300);
@@ -18,7 +18,7 @@ export async function POST(
       throw new Error("Work type must be O, CO, R, LC, or C.");
     }
 
-    await startAdminMusicTodo({ contentId, id, workType });
+    await startAdminMusicTodo({ contentId, id, workType }, actor);
     return NextResponse.json({ contentId });
   } catch (error) {
     const message =

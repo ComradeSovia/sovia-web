@@ -21,6 +21,7 @@ import {
 } from "../data/music-todos";
 import { AdminActionToast } from "./admin-action-toast";
 import { AdminGate } from "./admin-content";
+import { PlanningNavigation } from "./planning-workspace";
 
 const CARD_CLASS = "border-zinc-800 bg-zinc-900 text-zinc-100 shadow-none";
 const PRIMARY_BUTTON_CLASS =
@@ -28,15 +29,18 @@ const PRIMARY_BUTTON_CLASS =
 const STATUS_OPTIONS = [
   { label: "Proposed", value: "PROPOSED" },
   { label: "Planning", value: "PLANNING" },
+  { label: "In production", value: "IN_PRODUCTION" },
+  { label: "Paused", value: "PAUSED" },
   { label: "Completed", value: "COMPLETED" },
+  { label: "Cancelled", value: "CANCELLED" },
 ] as const;
 
 type TodoFilter = AdminMusicTodoStatus | "ALL";
 type AdminMusicTodo = Awaited<ReturnType<typeof listAdminMusicTodos>>[number];
 
 function matchFilter(value?: string): TodoFilter {
-  return value === "PROPOSED" || value === "PLANNING" || value === "COMPLETED"
-    ? value
+  return STATUS_OPTIONS.some((option) => option.value === value)
+    ? (value as TodoFilter)
     : "ALL";
 }
 
@@ -97,6 +101,7 @@ async function TodoList({
   ) as Record<AdminMusicTodoStatus, number>;
   return (
     <section className="space-y-5">
+      <PlanningNavigation active="todo" />
       <AdminActionToast message={message} status={status} />
 
       <Card className={CARD_CLASS}>
@@ -105,12 +110,23 @@ async function TodoList({
             <ListTodo className="h-4 w-4" />
             music planning
           </div>
-          <CardTitle className="text-3xl text-zinc-100">Todo</CardTitle>
+          <CardTitle className="text-3xl text-zinc-100">Music plans</CardTitle>
           <CardDescription className="text-zinc-400">
-            Add ideas from Actions, move them into planning, then create Content
-            when they are ready. AI can analyze audience feedback into multiple
-            proposals.
+            Review production ideas, track source requests and link completed
+            Works. Existing Todo records are preserved.
           </CardDescription>
+          <Link
+            className="text-sm text-sky-300 underline"
+            href="/admin/requests"
+          >
+            Review song requests
+          </Link>
+          <Link
+            className="text-sm text-sky-300 underline"
+            href="/admin/planning-drafts"
+          >
+            Planning drafts and conversation import
+          </Link>
         </CardHeader>
       </Card>
 
@@ -134,7 +150,7 @@ async function TodoList({
         <Button asChild className={PRIMARY_BUTTON_CLASS}>
           <Link href={getActionHref(filter, "todo.create")}>
             <Plus className="size-4" />
-            Add Todo
+            Add plan
           </Link>
         </Button>
       </div>
@@ -174,7 +190,7 @@ function TodoRow({
   filter: TodoFilter;
   todo: AdminMusicTodo;
 }) {
-  const hasContent = Boolean(todo.contentId);
+  const linkedContentId = todo.works[0]?.contentId ?? todo.contentId;
   const songAndArtist = todo.sourceArtists
     ? `${todo.title} - ${todo.sourceArtists}`
     : todo.title;
@@ -184,8 +200,17 @@ function TodoRow({
       <TableCell className="min-w-0 whitespace-normal py-3 align-top">
         <div className="min-w-0 space-y-1">
           <div className="break-words text-sm font-medium text-zinc-100">
-            {songAndArtist}
+            <Link
+              href={`/admin/todo/${encodeURIComponent(todo.id)}`}
+              className="hover:underline"
+            >
+              {songAndArtist}
+            </Link>
           </div>
+          <p className="text-xs text-zinc-400">
+            {todo.status} · {todo._count.requests} requests ·{" "}
+            {todo._count.works} Works
+          </p>
           {todo.from || todo.sourceUrl ? (
             <div className="break-words text-xs text-zinc-400">
               {todo.sourceUrl ? (
@@ -225,20 +250,20 @@ function TodoRow({
       <TableCell className="py-3 text-right align-top">
         <div className="inline-flex items-center gap-1 text-sm">
           <Button asChild size="sm" variant="ghost">
-            <Link href={getActionHref(filter, "todo.edit", { todo: todo.id })}>
-              Edit
+            <Link href={`/admin/todo/${encodeURIComponent(todo.id)}`}>
+              Manage
             </Link>
           </Button>
           <span className="text-zinc-700">|</span>
           <Button asChild size="sm" variant="ghost">
             <Link
               href={
-                hasContent && todo.contentId
-                  ? `/admin/content/${encodeURIComponent(todo.contentId)}`
+                linkedContentId
+                  ? `/admin/content/${encodeURIComponent(linkedContentId)}`
                   : getActionHref(filter, "todo.start", { todo: todo.id })
               }
             >
-              {hasContent ? "Open" : "Start"}
+              {linkedContentId ? "Open Work" : "Start"}
             </Link>
           </Button>
         </div>

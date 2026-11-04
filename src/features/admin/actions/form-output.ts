@@ -21,6 +21,30 @@ export function getAdminActionFormOutput({
   const value = output as Record<string, unknown>;
 
   switch (target) {
+    case "planning-request": {
+      const proposal = Array.isArray(value.proposals)
+        ? value.proposals[0]
+        : null;
+      if (!proposal || typeof proposal !== "object") return [];
+      const p = proposal as Record<string, unknown>;
+      const notes = [
+        ["Audience request", p.requestedChanges],
+        ["Production direction", p.notes],
+        ["Needs confirmation", p.missingInfo],
+      ]
+        .filter((entry) => typeof entry[1] === "string" && entry[1])
+        .map(([label, text]) => `${label}:\n${text}`)
+        .join("\n\n");
+      return [
+        ...pickOutputStrings(p, [
+          ["title", "Song title"],
+          ["from", "Original work"],
+          ["sourceArtists", "Source artists"],
+          ["sourceUrl", "Reference URL"],
+        ]),
+        { label: "Production notes", name: "notes", value: notes },
+      ];
+    }
     case "description":
       return pickOutputStrings(value, [
         ["shortDescription", "Short description"],

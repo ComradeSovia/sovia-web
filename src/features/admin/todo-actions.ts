@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { requireAdminSession } from "./data/auth";
+import { requireAuditActor } from "./data/auth";
 import {
   ADMIN_MUSIC_TODO_STATUSES,
   type AdminMusicTodoStatus,
@@ -75,7 +75,7 @@ function getErrorMessage(error: unknown) {
 }
 
 export async function createAdminMusicTodoBatchAction(formData: FormData) {
-  await requireAdminSession();
+  const actor = await requireAuditActor();
   const returnTo = getTodoReturnPath(formData);
   let proposalCount = 0;
 
@@ -87,6 +87,7 @@ export async function createAdminMusicTodoBatchAction(formData: FormData) {
         ...proposal,
         status: "PROPOSED",
       })),
+      actor,
     );
   } catch (error) {
     redirectWithMessage(returnTo, getErrorMessage(error), "error");
@@ -101,13 +102,14 @@ export async function createAdminMusicTodoBatchAction(formData: FormData) {
 }
 
 export async function updateAdminMusicTodoAction(formData: FormData) {
-  await requireAdminSession();
+  const actor = await requireAuditActor();
   const returnTo = getTodoReturnPath(formData);
 
   try {
     await updateAdminMusicTodo(
       getString(formData, "todoId"),
       getTodoInput(formData),
+      actor,
     );
   } catch (error) {
     redirectWithMessage(returnTo, getErrorMessage(error), "error");
@@ -118,25 +120,29 @@ export async function updateAdminMusicTodoAction(formData: FormData) {
 }
 
 export async function returnAdminMusicTodoToPlanningAction(formData: FormData) {
-  await requireAdminSession();
+  const actor = await requireAuditActor();
   const returnTo = getTodoReturnPath(formData);
 
   try {
-    await returnAdminMusicTodoToPlanning(getString(formData, "todoId"));
+    await returnAdminMusicTodoToPlanning(getString(formData, "todoId"), actor);
   } catch (error) {
     redirectWithMessage(returnTo, getErrorMessage(error), "error");
   }
 
   revalidatePath("/admin/todo");
-  redirectWithMessage(returnTo, "Todo returned to proposed.", "success");
+  redirectWithMessage(
+    returnTo,
+    "Plan returned to planning. Work links were preserved.",
+    "success",
+  );
 }
 
 export async function deleteAdminMusicTodoAction(formData: FormData) {
-  await requireAdminSession();
+  const actor = await requireAuditActor();
   const returnTo = getTodoReturnPath(formData);
 
   try {
-    await deleteAdminMusicTodo(getString(formData, "todoId"));
+    await deleteAdminMusicTodo(getString(formData, "todoId"), actor);
   } catch (error) {
     redirectWithMessage(returnTo, getErrorMessage(error), "error");
   }

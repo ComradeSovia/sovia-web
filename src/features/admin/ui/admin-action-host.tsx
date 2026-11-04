@@ -4,7 +4,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   getAdminAction,
+  getAdminCommentPageActions,
   getAdminPageActions,
+  getAdminRequestPageActions,
   getAdminTodoPageActions,
 } from "../actions/registry";
 import type {
@@ -43,14 +45,23 @@ export function AdminActionHost({ enabled }: { enabled: boolean }) {
   );
 
   const contentMatch = /^\/admin\/content\/([^/]+)$/.exec(pathname);
+  const requestMatch = /^\/admin\/requests\/([^/]+)$/.exec(pathname);
+  const requestId = requestMatch?.[1]
+    ? decodeURIComponent(requestMatch[1])
+    : undefined;
   const contentId = contentMatch?.[1]
     ? decodeURIComponent(contentMatch[1])
     : undefined;
   const pageActions = contentId
     ? getAdminPageActions(searchParams.get("step"))
-    : pathname === "/admin/todo"
-      ? getAdminTodoPageActions()
-      : [];
+    : requestId
+      ? getAdminRequestPageActions()
+      : pathname === "/admin/todo" || pathname === "/admin/planning-drafts"
+        ? getAdminTodoPageActions()
+        : pathname === "/admin/comments" ||
+            pathname.startsWith("/admin/comment-reviews")
+          ? getAdminCommentPageActions()
+          : [];
   const selectedAction = getAdminAction(searchParams.get("action") ?? "");
   const activeAction =
     pendingAction ??
@@ -69,11 +80,16 @@ export function AdminActionHost({ enabled }: { enabled: boolean }) {
   const initialValues = activeAction
     ? getActionInputValues(activeAction, new URLSearchParams(searchParams), {
         ...(contentId ? { contentId } : {}),
+        ...(requestId ? { requestId } : {}),
       })
     : {};
 
   function selectAction(action: AdminActionDefinition) {
-    const defaults: AdminActionInputValues = contentId ? { contentId } : {};
+    const defaults: AdminActionInputValues = contentId
+      ? { contentId }
+      : requestId
+        ? { requestId }
+        : {};
     const next = getActionSearchParams(
       new URLSearchParams(searchParams),
       action,

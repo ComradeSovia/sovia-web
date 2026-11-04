@@ -258,7 +258,7 @@ export function AdminActionLauncher({
       }));
       applyEffects("onCompleted", payload);
       if (action.output.mode === "preview") {
-        setResultOpen(true);
+        if (!CustomActionView) setResultOpen(true);
       } else {
         onActionComplete?.(`${action.title} completed.`);
         if (shouldCloseAction(action, "completed")) onOpenChange(false);
@@ -278,27 +278,42 @@ export function AdminActionLauncher({
 
   async function saveOutput() {
     if (!action.output.save || run.output === undefined) return;
+    const planningDraft = action.output.save.target === "planning-draft";
+    const commentReviews = action.output.save.target === "comment-reviews";
+    const privateReview = planningDraft || commentReviews;
     const contentId = run.input.contentId;
-    if (typeof contentId !== "string" || !contentId.trim()) return;
+    if (!privateReview && (typeof contentId !== "string" || !contentId.trim()))
+      return;
 
     setRun((current) => ({ ...current, error: undefined, status: "saving" }));
     try {
       const response = await fetch(
-        `/admin/api/content/${encodeURIComponent(contentId.trim())}/apply-action-output`,
+        commentReviews
+          ? "/admin/api/comment-reviews"
+          : planningDraft
+            ? "/admin/api/planning-drafts"
+            : `/admin/api/content/${encodeURIComponent(String(contentId).trim())}/apply-action-output`,
         {
-          body: JSON.stringify({
-            action: action.output.save.target,
-            output: run.output,
-          }),
+          body: JSON.stringify(
+            privateReview
+              ? run.output
+              : {
+                  action: action.output.save.target,
+                  output: run.output,
+                },
+          ),
           headers: { "Content-Type": "application/json" },
           method: "POST",
         },
       );
-      const payload = (await response.json()) as { message?: string };
+      const payload = (await response.json()) as {
+        message?: string;
+        draftId?: string;
+      };
       if (!response.ok)
         throw new Error(payload.message || "Saving action output failed.");
       setRun((current) => ({ ...current, status: "saved" }));
-      applyEffects("onSaved", run.output);
+      applyEffects("onSaved", privateReview ? payload : run.output);
       if (shouldCloseAction(action, "saved")) onOpenChange(false);
     } catch (saveError) {
       setRun((current) => ({

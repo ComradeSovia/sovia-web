@@ -251,6 +251,18 @@ export function AdminSidebar({
                       label: "Dashboard",
                     },
                     {
+                      active: pathname === "/admin/review",
+                      href: "/admin/review",
+                      icon: ListTodo,
+                      label: "Review inbox",
+                    },
+                    {
+                      active: pathname === "/admin/review/history",
+                      href: "/admin/review/history",
+                      icon: GitBranch,
+                      label: "Review history",
+                    },
+                    {
                       active: pathname.startsWith("/admin/actions"),
                       href: "/admin/actions",
                       icon: SlidersHorizontal,
@@ -275,7 +287,19 @@ export function AdminSidebar({
                       active: pathname.startsWith("/admin/todo"),
                       href: "/admin/todo",
                       icon: ListTodo,
-                      label: "Todo",
+                      label: "Music plans",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/requests"),
+                      href: "/admin/requests",
+                      icon: MessageSquareText,
+                      label: "Song requests",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/planning-drafts"),
+                      href: "/admin/planning-drafts",
+                      icon: ListTodo,
+                      label: "Planning drafts",
                     },
                     {
                       active: pathname.startsWith("/admin/mailbox"),
@@ -294,6 +318,12 @@ export function AdminSidebar({
                       href: "/admin/comments",
                       icon: MessageSquareText,
                       label: "Comments",
+                    },
+                    {
+                      active: pathname.startsWith("/admin/comment-reviews"),
+                      href: "/admin/comment-reviews",
+                      icon: MessageSquareText,
+                      label: "Comment reviews",
                     },
                   ]}
                 />

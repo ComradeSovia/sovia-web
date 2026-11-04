@@ -20,6 +20,7 @@ model MusicWork {
   youtubeRealtimeSnapshots         AdminYoutubeVideoRealtimeSnapshot[]
   youtubeComments                  AdminYoutubeComment[]
   todo                            AdminMusicTodo?
+  musicPlans                      MusicPlanWork[]
 
   @@map("music_works")
 }

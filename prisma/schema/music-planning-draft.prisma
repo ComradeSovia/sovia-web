@@ -1,0 +1,41 @@
+enum MusicPlanningDraftStatus {
+  DRAFT
+  APPLIED
+}
+
+model MusicPlanningDraft {
+  id                String @id @default(cuid())
+  sourceHash        String @unique
+  sourceName        String
+  sourceUrl         String?
+  sourceText        String
+  originalRequestId String?
+  requestVersion    DateTime?
+  originalRequest   SongRequest? @relation("RequestPlanningDrafts", fields: [originalRequestId], references: [id], onDelete: Restrict)
+  proposals         Json
+  model             String?
+  promptKey         String?
+  status            MusicPlanningDraftStatus @default(DRAFT)
+  version           Int @default(1)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  importedRequests  SongRequest[] @relation("ImportedRequests")
+  plans             MusicPlanningDraftPlan[]
+
+  @@index([originalRequestId])
+  @@index([status, updatedAt])
+  @@map("music_planning_drafts")
+}
+
+model MusicPlanningDraftPlan {
+  draftId     String
+  proposalKey String
+  planId      String
+  createdAt   DateTime @default(now())
+  draft       MusicPlanningDraft @relation(fields: [draftId], references: [id], onDelete: Restrict)
+  plan        AdminMusicTodo @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@id([draftId, proposalKey])
+  @@index([planId])
+  @@map("music_planning_draft_plans")
+}

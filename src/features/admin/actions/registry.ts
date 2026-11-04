@@ -56,6 +56,51 @@ const WORK_TYPE_OPTIONS = [
 
 export const ADMIN_ACTIONS = [
   {
+    availability: {},
+    id: "comments.analyze",
+    title: "Organize comments and draft replies",
+    description:
+      "Check current YouTube replies, extract song recommendations and draft replies for private review. Nothing is accepted or sent automatically.",
+    type: "ai",
+    scope: "global",
+    execution: {
+      type: "http",
+      method: "POST",
+      endpoint: "/admin/api/comment-reviews/analyze",
+    },
+    inputs: [
+      {
+        key: "commentId",
+        label: "Comment ID (empty for next eligible batch)",
+        type: "text",
+        url: "sync",
+        urlKey: "comment",
+      },
+      {
+        key: "q",
+        label: "Comment text filter (batch only)",
+        type: "text",
+        url: "omit",
+      },
+      {
+        key: "limit",
+        label: "Maximum comments",
+        type: "select",
+        url: "omit",
+        options: [
+          { value: "1", label: "1" },
+          { value: "3", label: "3" },
+          { value: "5", label: "5" },
+        ],
+      },
+      promptInput(PROMPT_TASK.todoProposals),
+    ],
+    output: { mode: "preview", save: { target: "comment-reviews" } },
+    presentation: { type: "custom", view: "comment-review" },
+    after: { onSaved: [{ type: "navigate", href: "/admin/comment-reviews" }] },
+    closeOn: [],
+  },
+  {
     after: { onCompleted: [{ type: "refresh-context" as const }] },
     availability: {},
     description: "Add one music adaptation idea to the Todo list.",
@@ -106,7 +151,7 @@ export const ADMIN_ACTIONS = [
       },
       {
         description:
-          "Allow this Todo to be considered for future public display.",
+          "Publish this plan on the public song plans page. Internal notes stay private.",
         key: "visible",
         label: "Visible",
         type: "checkbox",
@@ -177,7 +222,7 @@ export const ADMIN_ACTIONS = [
       },
       {
         description:
-          "Allow this Todo to be considered for future public display.",
+          "Publish this plan on the public song plans page. Internal notes stay private.",
         key: "visible",
         label: "Visible",
         type: "checkbox",
@@ -203,7 +248,7 @@ export const ADMIN_ACTIONS = [
     availability: { contextualOnly: true },
     closeOn: [],
     description:
-      "Create a Content record from this Todo, mark it completed, and open the new Content editor.",
+      "Create and link a draft Work from this plan, move it into production, and open the editor.",
     execution: {
       endpoint: "/admin/api/todo/:todoId/start",
       method: "POST",
@@ -241,7 +286,7 @@ export const ADMIN_ACTIONS = [
     output: noOutput,
     presentation: {
       confirmation:
-        "Starting creates and links a new Content record, then marks this Todo completed.",
+        "Starting creates and links a private draft Work. Completion requires a fully matching, visible and published Work.",
       type: "confirm",
     },
     scope: "todo",
@@ -261,8 +306,22 @@ export const ADMIN_ACTIONS = [
     id: "todo.analyze-proposals",
     inputs: [
       {
+        key: "sourceName",
+        label: "Conversation / source name",
+        type: "text",
+        url: "omit",
         description:
-          "Paste audience comments, messages, notes, or any other source text. This input is not saved.",
+          "Private label saved only when you explicitly save a draft.",
+      },
+      {
+        key: "sourceUrl",
+        label: "Original conversation link (optional)",
+        type: "text",
+        url: "omit",
+      },
+      {
+        description:
+          "Paste comments, messages or notes. The original text is saved only when you explicitly save a private draft.",
         key: "sourceText",
         label: "Source text",
         required: true,
@@ -271,11 +330,61 @@ export const ADMIN_ACTIONS = [
       },
       promptInput(PROMPT_TASK.todoProposals),
     ],
-    output: noOutput,
+    output: { mode: "preview", save: { target: "planning-draft" } },
+    after: {
+      onSaved: [
+        {
+          type: "navigate-output",
+          valueKey: "draftId",
+          path: "/admin/planning-drafts/:draftId",
+        },
+      ],
+    },
     presentation: { type: "custom", view: "todo-proposal-analysis" },
     scope: "todo",
-    title: "Analysis Proposal",
+    title: "Analyze conversation into plans",
     type: "ai",
+  },
+  {
+    id: "todo.organize-request",
+    title: "Organize song request",
+    description:
+      "Read one original recommendation, separate audience requirements from AI suggestions, and preview a production plan. Nothing is saved automatically.",
+    type: "ai",
+    scope: "todo",
+    availability: { contextualOnly: true },
+    closeOn: [],
+    execution: {
+      type: "http",
+      method: "POST",
+      endpoint: "/admin/api/todo/analyze-proposals",
+    },
+    inputs: [
+      {
+        key: "requestId",
+        label: "Request ID",
+        type: "text",
+        required: true,
+        url: "sync",
+        urlKey: "request",
+      },
+      promptInput(PROMPT_TASK.todoProposals),
+    ],
+    output: {
+      mode: "preview",
+      applyToForm: "planning-request",
+      save: { target: "planning-draft" },
+    },
+    presentation: { type: "custom", view: "todo-proposal-analysis" },
+    after: {
+      onSaved: [
+        {
+          type: "navigate-output",
+          valueKey: "draftId",
+          path: "/admin/planning-drafts/:draftId",
+        },
+      ],
+    },
   },
   {
     availability: { pageSteps: ["description"] },
@@ -652,6 +761,15 @@ export function getAdminTodoPageActions() {
     (action) =>
       action.scope === "todo" && !("contextualOnly" in action.availability),
   );
+}
+export function getAdminRequestPageActions() {
+  return ADMIN_ACTIONS.filter(
+    (action) => action.id === "todo.organize-request",
+  );
+}
+
+export function getAdminCommentPageActions() {
+  return ADMIN_ACTIONS.filter((action) => action.id === "comments.analyze");
 }
 
 function hasPageStep(

@@ -1,6 +1,7 @@
 import { SITE_URL } from "@sovia/shared";
 import {
   OPEN_CULTURE_PATH,
+  SONG_PLANS_PATH,
   WORLD_ORIGIN_PATH,
 } from "@sovia/shared/constants/routes";
 import { SITE_LOCALES } from "@sovia/shared/i18n/site-locale";
@@ -19,6 +20,8 @@ import {
   getSoviaTestCanonicalPath,
 } from "@sovia/sovia-test/i18n/seo";
 import type { MetadataRoute } from "next";
+import { getPublicPlanSitemapEntries } from "@/features/song-plans/data";
+export const dynamic = "force-dynamic";
 
 const STATIC_PATHS = [
   "/",
@@ -38,6 +41,7 @@ const STATIC_PATHS = [
   "/gallery/cosplay",
   "/sound",
   "/contact",
+  SONG_PLANS_PATH,
   "/lab/model-viewer",
   "/lyrics-library",
   "/music-release",
@@ -125,5 +129,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }));
     });
 
-  return [...staticRoutes, ...soviaTestRoutes, ...workRoutes];
+  const plans = await getPublicPlanSitemapEntries();
+  const planRoutes: MetadataRoute.Sitemap = plans.flatMap((plan) => {
+    const path = `${SONG_PLANS_PATH}/${encodeURIComponent(plan.id)}`;
+    return SITE_LOCALES.map((locale) => ({
+      url: absoluteUrl(getSiteLocalizedPath(path, locale)),
+      lastModified: plan.updatedAt,
+      changeFrequency: "weekly",
+      priority: 0.5,
+      alternates: { languages: getAbsoluteSiteLanguageAlternates(path) },
+    }));
+  });
+  return [...staticRoutes, ...soviaTestRoutes, ...workRoutes, ...planRoutes];
 }

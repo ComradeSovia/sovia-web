@@ -25,12 +25,17 @@ const schema = z.discriminatedUnion("kind", [
   z.object({
     kind: z.literal("song"),
     songTitle: z.string().min(1).max(200),
+    submissionId: z.uuid(),
     artist: z.string().max(200),
+    origin: z.string().max(500),
     url: reference,
     notes: z.string().max(3000),
   }),
 ]);
-export type ContactState = { status: "idle" | "success" | "error" | "invalid" };
+export type ContactState = {
+  status: "idle" | "success" | "error" | "invalid";
+  receipt?: string;
+};
 export async function submitContact(
   _previous: ContactState,
   form: FormData,
@@ -49,17 +54,22 @@ export async function submitContact(
     if (!prisma) return { status: "error" };
     const data = parsed.data;
     if (data.kind === "song") {
-      await prisma.adminMusicTodo.create({
-        data: {
+      const id = `web-${data.submissionId}`;
+      await prisma.songRequest.upsert({
+        where: { id },
+        update: {},
+        create: {
+          id,
           title: data.songTitle,
-          sourceArtists: data.artist || null,
+          artist: data.artist || null,
+          origin: data.origin || null,
           sourceUrl: data.url || null,
-          notes: data.notes || null,
-          from: "Contact page",
-          status: "PROPOSED",
-          visible: false,
+          ideas: data.notes || null,
+          channel: "WEBSITE",
         },
       });
+      revalidatePath("/admin/requests");
+      return { status: "success", receipt: id };
     } else {
       await prisma.mailboxMessage.create({
         data: {

@@ -653,8 +653,9 @@ export async function upsertMusicWork(
 
     if (currentContentId && currentContentId !== contentId) {
       await prisma.$transaction([
-        prisma.musicWork.deleteMany({
+        prisma.musicWork.update({
           where: { contentId: currentContentId },
+          data: { contentId },
         }),
         upsert,
       ]);
@@ -673,6 +674,13 @@ export async function deleteMusicWorkByContentId(contentId: string) {
   }
 
   try {
+    const linkedPlans = await prisma.musicPlanWork.count({
+      where: { contentId },
+    });
+    if (linkedPlans)
+      throw new Error(
+        "This Work is linked to music plans. Detach its plan links before deleting it, or hide the Work to preserve completion history.",
+      );
     await prisma.$transaction([
       prisma.adminMusicTodo.updateMany({
         data: { completedAt: null, contentId: null, status: "PROPOSED" },
