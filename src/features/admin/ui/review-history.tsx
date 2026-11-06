@@ -10,6 +10,7 @@ import { undoReviewMergeAction } from "../review-audit-actions";
 import { PlanningAdoptForm } from "./planning-adopt-form";
 
 export function auditRecordHref(type: string, id: string) {
+  if (type === "MCP") return "/admin/mcp";
   const area = {
     REQUEST: "requests",
     PLAN: "todo",
@@ -117,6 +118,13 @@ export async function ReviewHistory({
               By {event.actor}
             </p>
             <div className="flex flex-wrap gap-4 text-xs text-sky-300">
+              {event.operationId ? (
+                <Link
+                  href={`/admin/mcp/operations/${encodeURIComponent(event.operationId)}`}
+                >
+                  MCP operation receipt
+                </Link>
+              ) : null}
               {href ? <Link href={href}>Open record</Link> : null}
               {related ? (
                 <Link href={related}>

@@ -1,4 +1,3 @@
-import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { z } from "zod";
 import type { Prisma } from "@/generated/prisma/client";
 import {
@@ -7,6 +6,7 @@ import {
   requestSnapshot,
   writeAudit,
 } from "./review-audit";
+import { getReviewClient } from "./review-transaction";
 
 export const REQUEST_STATUSES = [
   "PENDING",
@@ -56,9 +56,7 @@ export const planFields = z.object({
 });
 
 export function planningPrisma() {
-  const prisma = getPrismaClient();
-  if (!prisma) throw new Error("Database is unavailable.");
-  return prisma;
+  return getReviewClient();
 }
 
 export function listSongRequests(status?: string, q?: string, page = 1) {
@@ -309,6 +307,7 @@ export async function linkPlanWork(
     contentId: string;
     match: (typeof WORK_MATCHES)[number];
     notes: string | null;
+    updatedAt?: string;
   },
   actor = "system",
 ) {
@@ -318,6 +317,11 @@ export async function linkPlanWork(
     const planBefore = await tx.adminMusicTodo.findUniqueOrThrow({
       where: { id: input.planId },
     });
+    if (
+      input.updatedAt &&
+      planBefore.updatedAt.toISOString() !== input.updatedAt
+    )
+      throw new Error("This plan changed. Reload before linking a Work.");
     const previous = await tx.musicPlanWork.findUnique({
       where: {
         planId_contentId: { planId: input.planId, contentId: input.contentId },
@@ -330,7 +334,12 @@ export async function linkPlanWork(
       where: {
         planId_contentId: { planId: input.planId, contentId: input.contentId },
       },
-      create: input,
+      create: {
+        planId: input.planId,
+        contentId: input.contentId,
+        match: input.match,
+        notes: input.notes,
+      },
       update: { match: input.match, notes: input.notes },
     });
     await tx.adminMusicTodo.update({
@@ -365,5 +374,105 @@ export async function linkPlanWork(
         link: { match: input.match, notes: input.notes },
       },
     });
+  });
+}
+
+// Shared by MCP and the editor; all persisted changes keep the same audit rules.
+export async function updateReviewedPlan(
+  input: z.infer<typeof planFields> & {
+    id: string;
+    updatedAt: string;
+    publicSummary: string | null;
+    status: (typeof PLAN_STATUSES)[number];
+    visible: boolean;
+  },
+  actor = "system",
+) {
+  return planningPrisma().$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT id FROM admin_music_todos WHERE id = ${input.id} FOR UPDATE`;
+    const current = await tx.adminMusicTodo.findUniqueOrThrow({
+      where: { id: input.id },
+      include: { works: { include: { work: { include: { status: true } } } } },
+    });
+    if (current.updatedAt.toISOString() !== input.updatedAt)
+      throw new Error("This plan changed. Reload before saving.");
+    if (
+      input.status === "COMPLETED" &&
+      current.status !== "COMPLETED" &&
+      !current.works.some(
+        (link) =>
+          link.match === "FULL" &&
+          link.work.status?.visible &&
+          link.work.status.publishedAt?.trim(),
+      )
+    )
+      throw new Error(
+        "Completion requires a fully matching, visible and published Work.",
+      );
+    await tx.adminMusicTodo.update({
+      where: { id: input.id },
+      data: {
+        ...planFields.parse(input),
+        publicSummary: input.publicSummary,
+        status: input.status,
+        visible: input.visible,
+        completedAt:
+          input.status === "COMPLETED"
+            ? (current.completedAt ?? new Date())
+            : null,
+      },
+    });
+    await auditPlanChange(tx, input.id, current, actor);
+    return tx.adminMusicTodo.findUniqueOrThrow({ where: { id: input.id } });
+  });
+}
+
+export async function unlinkReviewedPlanWork(
+  input: { planId: string; contentId: string; updatedAt: string },
+  actor = "system",
+) {
+  return planningPrisma().$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT id FROM admin_music_todos WHERE id = ${input.planId} FOR UPDATE`;
+    const before = await tx.adminMusicTodo.findUniqueOrThrow({
+      where: { id: input.planId },
+    });
+    if (before.updatedAt.toISOString() !== input.updatedAt)
+      throw new Error("This plan changed. Reload before unlinking a Work.");
+    const link = await tx.musicPlanWork.findUniqueOrThrow({
+      where: {
+        planId_contentId: { planId: input.planId, contentId: input.contentId },
+      },
+    });
+    await tx.musicPlanWork.delete({
+      where: {
+        planId_contentId: { planId: input.planId, contentId: input.contentId },
+      },
+    });
+    await tx.adminMusicTodo.update({
+      where: { id: input.planId },
+      data: {
+        updatedAt: new Date(),
+        ...(before.contentId === input.contentId ? { contentId: null } : {}),
+      },
+    });
+    await refreshPlanCompletion(tx, input.planId, true, actor);
+    const after = await tx.adminMusicTodo.findUniqueOrThrow({
+      where: { id: input.planId },
+    });
+    await writeAudit(tx, {
+      actor,
+      action: "WORK_DETACHED",
+      entityType: "PLAN",
+      entityId: input.planId,
+      relatedType: "WORK",
+      relatedId: input.contentId,
+      title: after.title,
+      before: {
+        plan: planSnapshot(before),
+        link: { match: link.match, notes: link.notes },
+      },
+      after: { plan: planSnapshot(after), link: null },
+    });
+    return after;
   });
 }

@@ -11,7 +11,7 @@ import {
 import { auditPlanChange, requestSnapshot, writeAudit } from "./review-audit";
 import { planningPrisma } from "./song-requests";
 
-export async function saveNewPlanningDraft(value: unknown) {
+export async function saveNewPlanningDraft(value: unknown, actor = "system") {
   const input = planningPreviewSchema.parse(value);
   input.sourceText = input.sourceText.replace(/\r\n/g, "\n").trim();
   validateProposalSources(input.sourceText, input.proposals);
@@ -33,24 +33,44 @@ export async function saveNewPlanningDraft(value: unknown) {
   const sourceHash = createHash("sha256")
     .update(`${input.requestId || "chat"}\0${input.sourceText}`)
     .digest("hex");
-  const draft = await prisma.musicPlanningDraft.upsert({
-    where: { sourceHash },
-    update: {},
-    create: {
-      sourceHash,
-      sourceName: input.sourceName,
-      sourceUrl: input.sourceUrl || null,
-      sourceText: input.sourceText,
-      originalRequestId: input.requestId,
-      requestVersion: input.requestVersion
-        ? new Date(input.requestVersion)
-        : null,
-      proposals: input.proposals,
-      model: input.model,
-      promptKey: input.promptKey,
-    },
+  return prisma.$transaction(async (tx) => {
+    const existing = await tx.musicPlanningDraft.findUnique({
+      where: { sourceHash },
+    });
+    const draft = await tx.musicPlanningDraft.upsert({
+      where: { sourceHash },
+      update: {},
+      create: {
+        sourceHash,
+        sourceName: input.sourceName,
+        sourceUrl: input.sourceUrl || null,
+        sourceText: input.sourceText,
+        originalRequestId: input.requestId,
+        requestVersion: input.requestVersion
+          ? new Date(input.requestVersion)
+          : null,
+        proposals: input.proposals,
+        model: input.model,
+        promptKey: input.promptKey,
+      },
+    });
+    if (!existing)
+      await writeAudit(tx, {
+        actor,
+        action: "DRAFT_CREATED",
+        entityType: "DRAFT",
+        entityId: draft.id,
+        title: draft.sourceName,
+        after: {
+          sourceName: draft.sourceName,
+          sourceHash: draft.sourceHash,
+          proposals: draft.proposals,
+          version: draft.version,
+          status: draft.status,
+        },
+      });
+    return { draftId: draft.id };
   });
-  return { draftId: draft.id };
 }
 
 export async function updatePlanningDraft(

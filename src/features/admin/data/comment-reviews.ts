@@ -281,10 +281,16 @@ export async function generateCommentBatch(input: {
   return { items, skipped };
 }
 
-export async function saveCommentBatch(value: unknown) {
+export async function saveCommentBatch(value: unknown, actor = "system") {
   const batch = commentBatchSchema.parse(value);
   const db = planningPrisma();
-  const connection = await getAdminYoutubeConnection();
+  // Use the active review transaction when called by MCP. Opening a global
+  // connection here would escape its snapshot and can exhaust the pool when
+  // several outer review transactions are waiting on this lookup.
+  const connection = await db.adminYoutubeConnection.findUnique({
+    where: { id: "primary" },
+    select: { channelId: true },
+  });
   const reviewIds: string[] = [];
   // All previews must still match; no recommendations or messages are created here.
   await db.$transaction(async (tx) => {
@@ -313,6 +319,14 @@ export async function saveCommentBatch(value: unknown) {
           "Comment is yours or already replied to; no draft was saved.",
         );
       verifyEvidence(item.sourceText, item.proposals);
+      const existing = await tx.commentReview.findUnique({
+        where: {
+          commentId_sourceHash: {
+            commentId: item.commentId,
+            sourceHash: item.sourceHash,
+          },
+        },
+      });
       const review = await tx.commentReview.upsert({
         where: {
           commentId_sourceHash: {
@@ -335,6 +349,20 @@ export async function saveCommentBatch(value: unknown) {
           promptKey: item.promptKey,
         },
       });
+      if (!existing)
+        await writeAudit(tx, {
+          actor,
+          action: "COMMENT_DRAFT_CREATED",
+          entityType: "COMMENT",
+          entityId: review.id,
+          title: `Comment review ${review.id}`,
+          after: {
+            sourceHash: review.sourceHash,
+            proposals: review.proposals,
+            replyText: review.replyText,
+            version: review.version,
+          },
+        });
       reviewIds.push(review.id);
     }
   });

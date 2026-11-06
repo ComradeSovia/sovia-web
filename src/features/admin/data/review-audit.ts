@@ -1,7 +1,7 @@
-import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { z } from "zod";
 import type { Prisma } from "@/generated/prisma/client";
 import { commentProposalsSchema } from "../model/comment-review";
+import { currentReviewOperationId, getReviewClient } from "./review-transaction";
 
 export const AUDIT_TYPES = [
   "REQUEST",
@@ -9,12 +9,11 @@ export const AUDIT_TYPES = [
   "DRAFT",
   "COMMENT",
   "WORK",
+  "MCP",
 ] as const;
 export type AuditType = (typeof AUDIT_TYPES)[number];
 export function auditDb() {
-  const db = getPrismaClient();
-  if (!db) throw new Error("Database unavailable.");
-  return db;
+  return getReviewClient();
 }
 function json(value: unknown): Prisma.InputJsonValue {
   return JSON.parse(JSON.stringify(value ?? {})) as Prisma.InputJsonValue;
@@ -78,6 +77,7 @@ export async function writeAudit(
     data: {
       ...input,
       actor: input.actor || "system",
+      operationId: currentReviewOperationId() ?? null,
       before: json(input.before),
       after: json(input.after),
       undo: json(input.undo),

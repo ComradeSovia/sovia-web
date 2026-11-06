@@ -1,0 +1,20 @@
+// A prepared change is scoped to one authenticated connection, immutable and
+// short-lived. Its result is persisted atomically with the domain mutation.
+model McpReviewOperation {
+  id            String   @id @default(cuid())
+  principalId   String
+  actor         String
+  operation     String
+  requiredScope String
+  input         Json
+  snapshot      Json
+  preview       Json
+  result        Json?
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+  committedAt   DateTime?
+
+  @@index([principalId, createdAt])
+  @@index([expiresAt])
+  @@map("mcp_review_operations")
+}

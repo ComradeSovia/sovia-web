@@ -21,6 +21,7 @@ const insideOutput = (value) => value.startsWith(`${output}${path.sep}`);
 // Explicit sharp tracing can flatten its pnpm directory. Keep its runtime
 // dependency closure resolvable in standalone on both Windows and Linux.
 const packages = [
+  { name: "pg", from: path.join(root, "package.json"), optional: false },
   { name: "sharp", from: path.join(root, "package.json"), optional: false },
 ];
 const copiedPackages = new Set();

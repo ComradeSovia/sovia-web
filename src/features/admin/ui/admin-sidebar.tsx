@@ -263,6 +263,12 @@ export function AdminSidebar({
                       label: "Review history",
                     },
                     {
+                      active: pathname.startsWith("/admin/mcp"),
+                      href: "/admin/mcp",
+                      icon: Link2,
+                      label: "MCP connections",
+                    },
+                    {
                       active: pathname.startsWith("/admin/actions"),
                       href: "/admin/actions",
                       icon: SlidersHorizontal,

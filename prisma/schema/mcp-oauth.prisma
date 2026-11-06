@@ -1,0 +1,53 @@
+// Independent OAuth records. Existing recommendations/plans are never rewritten.
+model McpOAuthClient {
+  id           String   @id
+  name         String
+  redirectUris String[]
+  createdAt    DateTime @default(now())
+
+  @@map("mcp_oauth_clients")
+}
+
+model McpOAuthConnection {
+  id          String   @id @default(cuid())
+  actor       String
+  clientId    String
+  clientName  String
+  redirectUri String
+  resource    String
+  scopes      String[]
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  codes       McpOAuthCode[]
+  tokens      McpOAuthToken[]
+
+  @@index([actor, createdAt])
+  @@map("mcp_oauth_connections")
+}
+
+model McpOAuthCode {
+  hash         String   @id
+  connectionId String
+  challenge    String
+  expiresAt    DateTime
+  usedAt       DateTime?
+  connection   McpOAuthConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+  @@map("mcp_oauth_codes")
+}
+
+model McpOAuthToken {
+  hash         String   @id
+  connectionId String
+  kind         String
+  expiresAt    DateTime
+  consumedAt   DateTime?
+  createdAt    DateTime @default(now())
+  connection   McpOAuthConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@index([connectionId, kind])
+  @@index([expiresAt])
+  @@map("mcp_oauth_tokens")
+}

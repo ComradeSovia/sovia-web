@@ -134,23 +134,46 @@ export async function reviewItems(
 
 export async function nextReviewPath(kind: ReviewKind, currentId: string) {
   const db = planningPrisma();
+  const current =
+    kind === "requests"
+      ? await db.songRequest.findUnique({
+          where: { id: currentId },
+          select: { createdAt: true },
+        })
+      : kind === "drafts"
+        ? await db.musicPlanningDraft.findUnique({
+            where: { id: currentId },
+            select: { createdAt: true },
+          })
+        : await db.commentReview.findUnique({
+            where: { id: currentId },
+            select: { createdAt: true },
+          });
+  if (!current) return "/admin/review";
+  // Continue after this item even when saving leaves it in the pending queue.
+  const afterCurrent = {
+    OR: [
+      { createdAt: { gt: current.createdAt } },
+      { createdAt: current.createdAt, id: { gt: currentId } },
+    ],
+  };
   const row =
     kind === "requests"
       ? await db.songRequest.findFirst({
-          where: { ...requestWhere, id: { not: currentId } },
+          where: { ...requestWhere, ...afterCurrent },
           orderBy: order,
           select: { id: true },
         })
       : kind === "drafts"
         ? await db.musicPlanningDraft.findFirst({
-            where: { ...draftWhere, id: { not: currentId } },
+            where: { ...draftWhere, ...afterCurrent },
             orderBy: order,
             select: { id: true },
           })
         : await db.commentReview.findFirst({
             where: {
               ...(kind === "comments" ? commentWhere : replyWhere),
-              id: { not: currentId },
+              ...afterCurrent,
             },
             orderBy: order,
             select: { id: true },

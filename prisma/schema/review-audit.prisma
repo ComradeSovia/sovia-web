@@ -15,11 +15,13 @@ model ReviewAuditEvent {
   undo        Json
   undoOfId    String?  @unique
   reason      String?
+  operationId String?
   createdAt   DateTime @default(now())
 
   @@index([entityType, entityId, createdAt])
   @@index([relatedType, relatedId, createdAt])
   @@index([sourceType, sourceId, createdAt])
   @@index([createdAt])
+  @@index([operationId])
   @@map("review_audit_events")
 }

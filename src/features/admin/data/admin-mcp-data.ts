@@ -6,14 +6,6 @@ import {
 import { ANALYTICS_TIMEZONE, isCompletePublishWindow } from "./analytics-math";
 import { listAdminMusicWorks } from "./music-admin";
 import {
-  getMusicSearchCosineSimilarity,
-  getMusicSearchEmbeddingText,
-} from "./music-search-documents";
-import {
-  getSearchEmbeddings,
-  getSearchQueryEmbedding,
-} from "./music-search-embeddings";
-import {
   getYoutubeAnalyticsSyncStatus,
   listLatestYoutubeAnalyticsSnapshots,
   listLatestYoutubeEarlyPerformanceSnapshots,
@@ -240,6 +232,12 @@ export async function getAdminMcpContentWork(id: string) {
 export async function searchAdminMcpContentWorks(
   filters: ContentSearchFilters,
 ) {
+  // MCP read credentials must not trigger embedding API costs or index writes.
+  if (filters.matchMode && filters.matchMode !== "lexical") {
+    throw new Error(
+      "MCP search supports matchMode=lexical only. Semantic indexing requires a separately authorized operation.",
+    );
+  }
   const works = await listAdminMusicWorks();
   const safeLimit = getSafeLimit(filters.limit);
   const safeOffset = getSafeOffset(filters.offset);
@@ -247,11 +245,11 @@ export async function searchAdminMcpContentWorks(
     .map((work) => serializeWork(work, work.contentId))
     .filter((work) => matchesContentFilters(work, filters, false));
   const search = filters.q?.trim()
-    ? await rankContentSearchWorks(candidates, filters.q, filters.matchMode)
+    ? rankContentSearchWorks(candidates, filters.q)
     : {
         generatedEmbeddingCount: 0,
         items: candidates,
-        mode: filters.matchMode ?? "hybrid",
+        mode: "lexical",
         semanticAvailable: false,
       };
 
@@ -1004,7 +1002,7 @@ function normalizeContentSearchFilters(filters: ContentSearchFilters) {
     hasSubtitles: filters.hasSubtitles,
     hasYoutube: filters.hasYoutube,
     language: filters.language?.trim() || undefined,
-    matchMode: filters.matchMode ?? "hybrid",
+    matchMode: "lexical",
     musicStyle: filters.musicStyle?.trim() || undefined,
     q: filters.q?.trim() || undefined,
     visible: filters.visible,
@@ -1070,91 +1068,35 @@ function matchesContentFilters(
   return true;
 }
 
-async function rankContentSearchWorks(
+function rankContentSearchWorks(
   works: ReturnType<typeof serializeWork>[],
   query: string,
-  requestedMode: ContentSearchFilters["matchMode"],
 ) {
-  const mode = requestedMode ?? "hybrid";
-  const lexicalMatches = new Map(
-    works.map((work) => [work.contentId, getLexicalSearchMatch(work, query)]),
-  );
-  let generatedEmbeddingCount = 0;
-  let semanticAvailable = false;
-  let semanticScores = new Map<string, number>();
-
-  if (mode !== "lexical") {
-    try {
-      const documents = works.map((work) => ({
-        contentId: work.contentId,
-        text: getSearchEmbeddingText(work),
-      }));
-      const [storedEmbeddings, queryEmbedding] = await Promise.all([
-        getSearchEmbeddings(documents),
-        getSearchQueryEmbedding(query),
-      ]);
-      generatedEmbeddingCount = storedEmbeddings.generatedCount;
-      semanticAvailable =
-        storedEmbeddings.available && Boolean(queryEmbedding?.length);
-
-      if (queryEmbedding) {
-        semanticScores = new Map(
-          works.map((work) => [
-            work.contentId,
-            getMusicSearchCosineSimilarity(
-              queryEmbedding,
-              storedEmbeddings.vectors.get(work.contentId),
-            ),
-          ]),
-        );
-      }
-    } catch (error) {
-      console.warn(
-        "OpenAI semantic search unavailable; using lexical search.",
-        {
-          message: error instanceof Error ? error.message : String(error),
-        },
-      );
-    }
-  }
-
   return {
-    generatedEmbeddingCount,
+    generatedEmbeddingCount: 0,
     items: works
       .map((work) => {
-        const lexical =
-          lexicalMatches.get(work.contentId) ?? EMPTY_SEARCH_MATCH;
-        const semanticScore = semanticScores.get(work.contentId) ?? 0;
-        const score = getCombinedSearchScore(
-          mode,
-          lexical.score,
-          semanticScore,
-        );
-
+        const lexical = getLexicalSearchMatch(work, query);
         return {
           ...work,
           searchMatch: {
-            confidence: getSearchConfidence(lexical.score, semanticScore),
+            confidence: getSearchConfidence(lexical.score),
             lexicalScore: toSearchScore(lexical.score),
             matchedFields: lexical.matchedFields,
             requiresConfirmation: !lexical.isExactIdentifier,
-            score: toSearchScore(score),
-            semanticScore: semanticAvailable
-              ? toSearchScore(semanticScore)
-              : null,
+            score: toSearchScore(lexical.score),
+            semanticScore: null,
           },
         };
       })
-      .filter((work) =>
-        isSearchMatch(mode, work.searchMatch, semanticAvailable),
-      )
+      .filter((work) => work.searchMatch.lexicalScore > 0)
       .sort(
         (left, right) =>
           right.searchMatch.score - left.searchMatch.score ||
           left.title.localeCompare(right.title),
       ),
-    mode,
-    semanticAvailable,
+    mode: "lexical",
+    semanticAvailable: false,
   };
 }
 
@@ -1288,50 +1230,9 @@ function serializeContentSearchResult(
   };
 }
 
-function getSearchEmbeddingText(work: ReturnType<typeof serializeWork>) {
-  return getMusicSearchEmbeddingText({
-    artists: work.source.artists,
-    introText: work.description.introText,
-    musicStyle: work.style.musicStyle,
-    musicType: work.style.musicType,
-    productionNotes: work.description.productionNotes,
-    series: work.source.series,
-    shortDescription: work.description.shortDescription,
-    sourceIp: work.source.ip,
-    sourceTitle: work.source.title,
-    title: work.title,
-    workType: work.style.workType,
-  });
-}
-
-function getCombinedSearchScore(
-  mode: NonNullable<ContentSearchFilters["matchMode"]>,
-  lexicalScore: number,
-  semanticScore: number,
-) {
-  if (mode === "lexical") return lexicalScore;
-  if (mode === "semantic") return semanticScore;
-  return Math.max(lexicalScore, semanticScore * 0.8);
-}
-
-function isSearchMatch(
-  mode: NonNullable<ContentSearchFilters["matchMode"]>,
-  match: {
-    lexicalScore: number;
-    semanticScore: number | null;
-  },
-  semanticAvailable: boolean,
-) {
-  if (mode === "lexical" || !semanticAvailable) {
-    return match.lexicalScore > 0;
-  }
-  if (mode === "semantic") return (match.semanticScore ?? 0) >= 35;
-  return match.lexicalScore > 0 || (match.semanticScore ?? 0) >= 45;
-}
-
-function getSearchConfidence(lexicalScore: number, semanticScore: number) {
+function getSearchConfidence(lexicalScore: number) {
   if (lexicalScore >= 0.95) return "high";
-  if (lexicalScore >= 0.5 || semanticScore >= 0.7) return "medium";
+  if (lexicalScore >= 0.5) return "medium";
   return "low";
 }
 
