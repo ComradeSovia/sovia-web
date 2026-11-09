@@ -516,18 +516,34 @@ async function requestAction(
     headers: { "Content-Type": "application/json" },
     method: "POST",
   });
-  const payload = (await response.json()) as Record<string, unknown> & {
-    message?: string;
-  };
-  if (!response.ok) {
-    if (response.status === 504) {
-      throw new Error(
-        "This batch timed out. The remaining languages can be retried.",
-      );
-    }
-    throw new Error(payload.message || `${actionTitle} failed.`);
+  if (response.status === 504) {
+    throw new Error(
+      `${actionTitle} timed out. Please retry; for language batches, retry the remaining languages.`,
+    );
   }
-  return payload;
+  let payload: unknown;
+  try {
+    payload = await response.json();
+  } catch {
+    throw new Error(
+      `${actionTitle} received a non-JSON server response (HTTP ${response.status}). The server or gateway may be unavailable; please retry.`,
+    );
+  }
+  if (!response.ok) {
+    const message =
+      payload && typeof payload === "object" && "message" in payload
+        ? payload.message
+        : undefined;
+    throw new Error(
+      typeof message === "string" && message
+        ? message
+        : `${actionTitle} failed (HTTP ${response.status}).`,
+    );
+  }
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error(`${actionTitle} returned an unexpected response format.`);
+  }
+  return payload as Record<string, unknown>;
 }
 
 async function executeBatchedHttpAction({

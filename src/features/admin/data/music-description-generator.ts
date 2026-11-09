@@ -16,6 +16,7 @@ import {
   YOUTUBE_LOCALIZATION_BATCH_PROMPT_TASK,
   YOUTUBE_LOCALIZATION_PROMPT_TASK,
 } from "./admin-prompts";
+import { createAdminAiResponse } from "./ai-response";
 import { getAdminMusicWork, listAdminMusicWorks } from "./music-admin";
 
 const MAX_LYRICS_CONTEXT_CHARS = 8_000;
@@ -116,7 +117,7 @@ export async function generateMusicWorkDescription({
   }
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await client.responses.create({
+  const response = await createAdminAiResponse(client, {
     ...getResponseOptimizationOptions({
       contentId,
       maxOutputTokens: 1_200,
@@ -210,10 +211,10 @@ export async function generateRelatedSuggestions({
   const candidates = selectRelatedCandidates(work, works, existingRelated);
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await client.responses.create({
+  const response = await createAdminAiResponse(client, {
     ...getResponseOptimizationOptions({
       contentId,
-      maxOutputTokens: 600,
+      maxOutputTokens: 1_200,
       model: prompt.model,
       task: RELATED_SUGGESTION_PROMPT_TASK,
     }),
@@ -314,7 +315,7 @@ export async function generateYouTubeLocalization({
     .map(toRelatedCandidateInput);
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await client.responses.create({
+  const response = await createAdminAiResponse(client, {
     ...getResponseOptimizationOptions({
       contentId,
       maxOutputTokens: 1_800,
@@ -458,7 +459,7 @@ export async function generateYouTubeLocalizationBatch({
     .map(toRelatedCandidateInput);
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await client.responses.create({
+  const response = await createAdminAiResponse(client, {
     ...getResponseOptimizationOptions({
       contentId,
       maxOutputTokens: getLocalizationOutputLimit(
@@ -623,7 +624,7 @@ export async function generateSubtitleLocalizationBatch({
   }
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await client.responses.create({
+  const response = await createAdminAiResponse(client, {
     ...getResponseOptimizationOptions({
       contentId,
       maxOutputTokens: getSubtitleOutputLimit(
@@ -887,7 +888,7 @@ async function generatePlatformCopy({
       : ["title", "description"];
 
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await client.responses.create({
+  const response = await createAdminAiResponse(client, {
     ...getResponseOptimizationOptions({
       contentId,
       maxOutputTokens: platform.name === "pixiv" ? 1_600 : 1_200,
@@ -984,7 +985,9 @@ function getResponseOptimizationOptions({
   const supportsReasoningEffort = model.startsWith("gpt-5");
 
   return {
-    max_output_tokens: maxOutputTokens,
+    // Prompts select models dynamically. Reserve reasoning space independently
+    // of the model-specific effort option so newer models also have JSON room.
+    max_output_tokens: maxOutputTokens + 4_000,
     prompt_cache_key: getPromptCacheKey(task, contentId),
     ...(supportsReasoningEffort
       ? { reasoning: { effort: "low" as const } }
