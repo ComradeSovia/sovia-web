@@ -81,7 +81,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.4.0";
+const SERVER_VERSION = "0.4.1";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -711,19 +711,22 @@ const tools = [
   ...toolDefinitions,
   ...reviewReadToolDefinitions,
   ...operationToolDefinitions,
-].map((tool) => ({
-  ...tool,
-  annotations: tool.annotations ?? readOnlyToolAnnotations,
-  outputSchema: defaultOutputSchema,
-  securitySchemes: [
-    {
-      type: "oauth2",
-      scopes: [
-        tool.name.startsWith("analytics_sync_") ? "mcp:sync" : "mcp:read",
-      ],
-    },
-  ],
-}));
+].map((tool) => {
+  // Draft and review cover the interactive editorial workflow. The selected
+  // operation still checks its own permissions and challenges for any extra scope.
+  const scopes = ["mcp:read"];
+  if (tool.name === "review_prepare" || tool.name === "review_commit")
+    scopes.push("mcp:draft", "mcp:review");
+  if (tool.name.startsWith("analytics_sync_")) scopes.push("mcp:sync");
+  const securitySchemes = [{ type: "oauth2", scopes }];
+  return {
+    ...tool,
+    annotations: tool.annotations ?? readOnlyToolAnnotations,
+    outputSchema: defaultOutputSchema,
+    securitySchemes,
+    _meta: { securitySchemes },
+  };
+});
 
 export async function OPTIONS() {
   return new Response(null, {

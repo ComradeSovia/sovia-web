@@ -11,6 +11,15 @@ import ts from "typescript";
 const root = fileURLToPath(new URL("../", import.meta.url));
 registerHooks({
   resolve(specifier, context, next) {
+    if (
+      specifier === "@sovia/admin/data/auth" &&
+      context.parentURL?.endsWith("/mcp/oauth/authorize/route.ts")
+    ) {
+      return {
+        url: "data:text/javascript,export const isAdminAuthenticated=async()=>false;export const requireAuditActor=()=>{throw Error('Unexpected authenticated call')}",
+        shortCircuit: true,
+      };
+    }
     if (specifier === "@sovia/shared") specifier = "@/shared/config/site";
     if (["next/server", "next/headers"].includes(specifier))
       return next(`${specifier}.js`, context);
@@ -64,14 +73,15 @@ registerHooks({
 if (existsSync(`${root}.env`)) loadEnvFile(`${root}.env`);
 process.env.SOVIA_ADMIN_MCP_OAUTH_SECRET = randomBytes(32).toString("hex");
 process.env.SOVIA_ADMIN_MCP_OAUTH_REDIRECT_URIS = "";
-process.env.SITE_URL = "http://localhost:3000";
+const siteOrigin = "https://sovia.example.test";
+process.env.SITE_URL = siteOrigin;
 const { NextRequest } = await import("next/server");
 const oauth = await import("../src/features/admin/data/mcp-oauth.ts");
 const { getPrismaClient } = await import(
   "../src/features/sound/data/prisma.ts"
 );
-const endpoint = "http://localhost:3000/api/admin/mcp";
-const callback = "http://127.0.0.1:17551/callback";
+const endpoint = `${siteOrigin}/api/admin/mcp`;
+const callback = "http://127.0.0.1:17551/callback/desktop";
 const verifier = randomBytes(32).toString("base64url");
 const challenge = createHash("sha256").update(verifier).digest("base64url");
 function post(path, data, headers = {}) {
@@ -81,6 +91,23 @@ function post(path, data, headers = {}) {
     body: new URLSearchParams(data),
   });
 }
+
+test("signed-out OAuth login retains the verbatim loopback return address", async () => {
+  const { GET } = await import(
+    "../src/app/api/admin/mcp/oauth/authorize/route.ts"
+  );
+  const original = new URL(`${endpoint}/oauth/authorize`);
+  original.searchParams.set("redirect_uri", callback);
+  original.searchParams.set("state", "fixture-state");
+  const redirect = await GET(new NextRequest(original));
+  const login = new URL(redirect.headers.get("location"));
+  assert.equal(login.origin, siteOrigin);
+  assert.equal(login.pathname, "/admin");
+  assert.equal(
+    login.searchParams.get("next"),
+    original.pathname + original.search,
+  );
+});
 
 test("OAuth callback and PKCE validation reject malicious redirects and weak requests", async () => {
   for (const value of [
@@ -173,14 +200,15 @@ test(
         state: "preserved-state",
         resource: endpoint,
       };
-      await assert.rejects(
-        oauth.parseMcpAuthorization(
-          new NextRequest(
-            `${endpoint}/oauth/authorize?${new URLSearchParams({ ...params, redirect_uri: "http://localhost:17551/callback" })}`,
-          ),
-        ),
-        /exact callback/,
+      const wrongHost = new URL(callback);
+      wrongHost.hostname = "localhost";
+      const wrongRequest = new NextRequest(
+        `${endpoint}/oauth/authorize?${new URLSearchParams({ ...params, redirect_uri: wrongHost.href })}`,
       );
+      const rejected = await oauth.renderMcpOAuthConsent(wrongRequest, actor);
+      assert.equal(rejected.status, 400);
+      assert.equal(rejected.headers.get("set-cookie"), null);
+      assert.match((await rejected.json()).error_description, /exact callback/);
       async function approve() {
         const session = randomBytes(24).toString("hex");
         const request = new NextRequest(
@@ -201,7 +229,7 @@ test(
         const consent = /name="consent" value="([^"]+)"/.exec(html)[1];
         const nonceCookie = rendered.headers.get("set-cookie").split(";")[0];
         const headers = {
-          origin: "http://localhost:3000",
+          origin: siteOrigin,
           cookie: `sovia-admin=${session}; ${nonceCookie}`,
         };
         const data = new URLSearchParams({ consent, decision: "approve" });
@@ -233,7 +261,8 @@ test(
         assert.equal(approved.status, 303);
         const location = new URL(approved.headers.get("location"));
         assert.equal(location.searchParams.get("state"), "preserved-state");
-        assert.equal(location.searchParams.get("iss"), "http://localhost:3000");
+        assert.equal(location.searchParams.get("iss"), siteOrigin);
+        assert.equal(location.origin + location.pathname, callback);
         assert.equal(
           (
             await oauth.approveMcpOAuthConsent(
@@ -385,3 +414,28 @@ test(
     }
   },
 );
+
+test("Google sign-in preserves a nested MCP loopback callback through a local return path", async () => {
+  const { getGoogleAdminLoginReturnPath, getSafeGoogleAdminReturnPath } =
+    await import("../src/features/admin/data/google-oauth.ts");
+  const site = "https://sovia.work";
+  const params = new URLSearchParams({ redirect_uri: callback });
+  const authorizePath = `/api/admin/mcp/oauth/authorize?${params}`;
+  const loginLink = new URL("/admin/login/google", site);
+  loginLink.searchParams.set("next", authorizePath);
+  const saved = getGoogleAdminLoginReturnPath(new NextRequest(loginLink));
+  assert.equal(saved, authorizePath);
+  const destination = new URL(getSafeGoogleAdminReturnPath(saved), site);
+  assert.equal(destination.origin, site);
+  assert.equal(destination.pathname, "/api/admin/mcp/oauth/authorize");
+  assert.equal(destination.searchParams.get("redirect_uri"), callback);
+  assert.equal(getSafeGoogleAdminReturnPath("/admin/review"), "/admin/review");
+  for (const external of ["https://outside.example", "//outside.example"]) {
+    loginLink.searchParams.set("next", external);
+    assert.equal(
+      getGoogleAdminLoginReturnPath(new NextRequest(loginLink)),
+      undefined,
+    );
+    assert.equal(getSafeGoogleAdminReturnPath(external), undefined);
+  }
+});

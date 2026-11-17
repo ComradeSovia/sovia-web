@@ -9,7 +9,10 @@ import {
   getGoogleOAuthStateCookieOptions,
   isMatchingGoogleOAuthState,
 } from "@sovia/admin/data/auth";
-import { getGoogleAdminRedirectUri } from "@sovia/admin/data/google-oauth";
+import {
+  getGoogleAdminRedirectUri,
+  getSafeGoogleAdminReturnPath,
+} from "@sovia/admin/data/google-oauth";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -57,10 +60,6 @@ function redirectToAdmin(request: NextRequest, reason?: string) {
   });
 
   return response;
-}
-
-function getSafeAdminReturnPath(value: string | undefined) {
-  return value?.startsWith("/") && !value.startsWith("//") ? value : "/admin";
 }
 
 async function exchangeCodeForIdToken(
@@ -175,7 +174,7 @@ export async function GET(request: NextRequest) {
     }
 
     const sessionCookie = createGoogleAdminSessionCookieValue(identity);
-    const returnTo = getSafeAdminReturnPath(
+    const returnTo = getSafeGoogleAdminReturnPath(
       request.cookies.get(ADMIN_GOOGLE_NEXT_COOKIE_NAME)?.value,
     );
     const response = NextResponse.redirect(getAdminUrl(returnTo, request));

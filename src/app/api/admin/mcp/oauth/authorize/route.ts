@@ -1,4 +1,7 @@
-import { getAdminUrl } from "@sovia/admin/data/admin-url";
+import {
+  getAdminUrl,
+  getOriginalRequestUrl,
+} from "@sovia/admin/data/admin-url";
 import {
   isAdminAuthenticated,
   requireAuditActor,
@@ -15,10 +18,8 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   if (!(await isAdminAuthenticated())) {
     const url = getAdminUrl("/admin", request);
-    url.searchParams.set(
-      "next",
-      `${request.nextUrl.pathname}${request.nextUrl.search}`,
-    );
+    const original = getOriginalRequestUrl(request);
+    url.searchParams.set("next", `${original.pathname}${original.search}`);
     return Response.redirect(url);
   }
 

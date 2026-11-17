@@ -6,16 +6,15 @@ import {
   getGoogleAdminConfig,
   getGoogleOAuthStateCookieOptions,
 } from "@sovia/admin/data/auth";
-import { getGoogleAdminRedirectUri } from "@sovia/admin/data/google-oauth";
+import {
+  getGoogleAdminLoginReturnPath,
+  getGoogleAdminRedirectUri,
+} from "@sovia/admin/data/google-oauth";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 const ADMIN_GOOGLE_NEXT_COOKIE_NAME = "sovia-admin-google-next";
-
-function getSafeAdminReturnPath(value: string | null) {
-  return value?.startsWith("/") && !value.startsWith("//") ? value : undefined;
-}
 
 export async function GET(request: NextRequest) {
   const authStatus = getAdminAuthStatus();
@@ -29,9 +28,7 @@ export async function GET(request: NextRequest) {
   }
 
   const state = createGoogleOAuthState();
-  const returnTo = getSafeAdminReturnPath(
-    request.nextUrl.searchParams.get("next"),
-  );
+  const returnTo = getGoogleAdminLoginReturnPath(request);
   const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
 
   authUrl.searchParams.set("client_id", googleConfig.clientId);

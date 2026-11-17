@@ -1,5 +1,10 @@
 import { siteUrl } from "@sovia/shared";
 
+/** Read a GET URL through Fetch. NextURL also rewrites loopback hosts inside OAuth query values. */
+export function getOriginalRequestUrl(request: Request) {
+  return new URL(new Request(request).url);
+}
+
 function firstHeaderValue(value: string | null) {
   return value?.split(",")[0]?.trim() || undefined;
 }

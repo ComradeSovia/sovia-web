@@ -146,6 +146,15 @@ test("HTTP MCP review preserves preview/confirmation, permissions, idempotency, 
     assert.equal(initialized.protocolVersion, "2025-06-18");
     assert.ok(initialized.capabilities.tools);
     const listed = await rpc("tools/list", {}, writer);
+    for (const name of ["review_get", "review_prepare", "review_commit"]) {
+      const entry = listed.tools.find((item) => item.name === name);
+      const scopes =
+        name === "review_get"
+          ? ["mcp:read"]
+          : ["mcp:read", "mcp:draft", "mcp:review"];
+      assert.deepEqual(entry.securitySchemes, [{ type: "oauth2", scopes }]);
+      assert.deepEqual(entry._meta.securitySchemes, entry.securitySchemes);
+    }
     for (const name of [
       "review_get",
       "review_prepare",

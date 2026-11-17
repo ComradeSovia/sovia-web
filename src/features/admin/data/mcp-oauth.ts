@@ -9,7 +9,7 @@ import { getPrismaClient } from "@sovia/sound/data/prisma";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { Prisma } from "@/generated/prisma/client";
-import { getAdminRequestOrigin } from "./admin-url";
+import { getAdminRequestOrigin, getOriginalRequestUrl } from "./admin-url";
 import { ADMIN_SESSION_COOKIE_NAME } from "./auth";
 
 const ACCESS_TTL = 3600;
@@ -216,7 +216,7 @@ async function resolveClient(id: string, redirectUri: string) {
 export async function parseMcpAuthorization(
   request: NextRequest,
 ): Promise<Authorization> {
-  const params = request.nextUrl.searchParams;
+  const params = getOriginalRequestUrl(request).searchParams;
   if (!secret()) throw new Error("OAuth is not configured.");
   const redirectUri = params.get("redirect_uri") || "";
   const id = params.get("client_id") || "";

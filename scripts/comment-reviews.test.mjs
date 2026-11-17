@@ -78,6 +78,37 @@ const { undoReviewMerge } = await import(
 const { isOwnerAuthor } = await import(
   "../src/features/admin/data/youtube-comments.ts"
 );
+const { songRequestCueSql } = await import(
+  "../src/features/admin/data/comment-request-cues.ts"
+);
+
+test("English and Russian song request cues distinguish adaptation requests from feedback and metadata questions", async () => {
+  const cases = [
+    ['Can i request the song "99 Luftbaloon" by Nena. In Russian.', true],
+    ["Could I please request this song?", true],
+    ["Can I request the song lyrics?", false],
+    ["Can I request permission to use this song?", false],
+    ["Хотелось бы советскую версию Song of Wings", true],
+    ["Как же нам нужна советизированная версия Song of Wings", true],
+    ["Мне нравится советизированная версия этой песни.", false],
+    ["Нам нужна ссылка на советскую версию песни.", false],
+    ["Хотелось бы узнать, кто записал советскую версию.", false],
+  ];
+  const db = planningPrisma();
+  try {
+    const samples = JSON.stringify(cases.map(([text]) => text));
+    const rows = await db.$queryRaw`
+      SELECT c.text, ${songRequestCueSql} AS matched
+      FROM jsonb_array_elements_text(${samples}::jsonb) WITH ORDINALITY AS c(text, ord)
+      ORDER BY c.ord`;
+    assert.deepEqual(
+      rows.map(({ text, matched }) => [text, matched]),
+      cases,
+    );
+  } finally {
+    await db.$disconnect();
+  }
+});
 
 test("comment reviews preserve source, deduplicate, require human approval and block replied/unknown/changed sources", async () => {
   const db = planningPrisma();

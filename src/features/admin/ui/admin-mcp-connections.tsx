@@ -21,9 +21,9 @@ export async function AdminMcpConnections() {
       <section className="space-y-3 rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
         <h2 className="font-semibold">Connect or reconnect</h2>
         <p className="text-sm text-amber-200">
-          Security upgrade: older MCP credentials no longer work. Reconnect with
-          OAuth, review the callback and select permissions. Static API keys now
-          allow reading only.
+          To edit comment drafts and link song requests, connect using OAuth and
+          select read, draft and review permissions. Static API keys and
+          read-only connections can browse the inbox.
         </p>
         <p className="text-sm text-zinc-400">Server URL</p>
         <code className="block break-all rounded bg-zinc-950 p-3 text-sm">
@@ -31,13 +31,13 @@ export async function AdminMcpConnections() {
         </code>
         <p className="text-sm text-zinc-400">Codex CLI</p>
         <pre className="overflow-x-auto rounded bg-zinc-950 p-3 text-xs">
-          <code>{`codex mcp add sovia --url ${endpoint}\ncodex mcp login sovia --scopes mcp:read,mcp:sync,mcp:draft,mcp:review,mcp:publish,offline_access`}</code>
+          <code>{`codex mcp add sovia --url ${endpoint}\ncodex mcp login sovia --scopes mcp:read,mcp:draft,mcp:review,offline_access`}</code>
         </pre>
         <p className="text-sm text-zinc-400">
-          Use OAuth / automatic client registration in your application. For
-          full review access request mcp:read, mcp:sync, mcp:draft, mcp:review
-          and mcp:publish. Request offline_access to stay signed in. You can
-          deselect permissions on the consent screen.
+          If Sovia is already registered in Codex, run just the login command.
+          In ChatGPT, refresh the Sovia Web tools and reconnect with the review
+          permissions. Check the draft and its source before confirming a save.
+          Sync and publication have separate permissions.
         </p>
         <p className="text-sm text-zinc-400">
           After reconnecting, refresh the application tool list. Private
