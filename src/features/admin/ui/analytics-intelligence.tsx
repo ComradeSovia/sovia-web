@@ -692,7 +692,7 @@ export async function StrategyPanel({
           <Note>No eligible works with a complete measured period.</Note>
         )}
       </section>
-      <section className={`${PANEL} space-y-3`}>
+      <section id="song-candidate" className={`${PANEL} scroll-mt-4 space-y-3`}>
         <SongCandidatePanel
           input={candidate ?? { title: query ?? "" }}
           hours={hours}

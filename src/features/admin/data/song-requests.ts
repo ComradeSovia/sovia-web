@@ -151,6 +151,7 @@ export async function reviewSongRequest(
     decision: (typeof REQUEST_STATUSES)[number];
     reviewNotes: string | null;
     planId: string;
+    planUpdatedAt?: string;
     draft: z.infer<typeof planFields>;
   },
   actor = "system",
@@ -190,24 +191,28 @@ export async function reviewSongRequest(
       });
       return null;
     }
-    const current = await tx.songRequest.findUniqueOrThrow({
-      where: { id: input.id },
-      include: { plans: true },
-    });
     let planId = input.planId;
     let planBefore: Awaited<ReturnType<typeof tx.adminMusicTodo.findUnique>> =
       null;
-    if (!planId && current.plans.length)
+    if (!planId && previous.plans.length)
       throw new Error(
         "This request already has a plan. Select an existing plan or reload.",
       );
     if (planId) {
+      await tx.$queryRaw`SELECT id FROM admin_music_todos WHERE id = ${planId} FOR UPDATE`;
       const plan = await tx.adminMusicTodo.findUnique({
         where: { id: planId },
       });
-      planBefore = plan;
       if (!plan || plan.status === "CANCELLED")
         throw new Error("Select an existing, non-cancelled plan.");
+      if (
+        input.planUpdatedAt &&
+        plan.updatedAt.toISOString() !== input.planUpdatedAt
+      )
+        throw new Error(
+          "The selected plan changed. Reload and preview the decision again.",
+        );
+      planBefore = plan;
     } else {
       const plan = await tx.adminMusicTodo.create({
         data: {

@@ -68,7 +68,11 @@ export async function reviewRequestAction(form: FormData) {
   let planId: string | null = null;
   try {
     const decision = z.enum(REQUEST_STATUSES).parse(text(form, "decision"));
-    const selectedPlan = text(form, "planId");
+    if (text(form, "confirmedDecision") !== decision)
+      throw new Error(
+        "Preview and confirm this review decision before saving.",
+      );
+    const selectedPlan = decision === "ACCEPTED" ? text(form, "planId") : "";
     planId = await reviewSongRequest(
       {
         id: requestId,
@@ -77,6 +81,9 @@ export async function reviewRequestAction(form: FormData) {
         reviewNotes:
           z.string().max(4000).parse(text(form, "reviewNotes")) || null,
         planId: selectedPlan,
+        planUpdatedAt: selectedPlan
+          ? z.iso.datetime().parse(text(form, "planUpdatedAt"))
+          : undefined,
         draft:
           decision === "ACCEPTED" && !selectedPlan
             ? draft(form)
@@ -230,14 +237,19 @@ export async function detachRequestAction(form: FormData) {
   const requestId = id(form, "requestId");
   const path = `/admin/requests/${encodeURIComponent(requestId)}`;
   try {
+    const expectedVersion = version(form);
+    const planId = id(form, "planId");
     await planningPrisma().$transaction(async (tx) => {
       await tx.$queryRaw`SELECT id FROM song_requests WHERE id = ${requestId} FOR UPDATE`;
       const beforeRequest = await tx.songRequest.findUniqueOrThrow({
         where: { id: requestId },
       });
-      const planId = id(form, "planId");
+      if (beforeRequest.updatedAt.toISOString() !== expectedVersion)
+        throw new Error(
+          "This request changed. Reload before detaching its plan.",
+        );
       await tx.songRequestPlan.delete({
-        where: { requestId_planId: { requestId, planId: id(form, "planId") } },
+        where: { requestId_planId: { requestId, planId } },
       });
       const remaining = await tx.songRequestPlan.count({
         where: { requestId },

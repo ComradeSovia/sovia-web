@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdminSession } from "../data/auth";
+import { nextReviewPath } from "../data/review-inbox";
 import {
   findRequestMatches,
   getSongRequest,
@@ -10,7 +11,7 @@ import {
 } from "../data/song-requests";
 import { reviewedProposalsSchema } from "../model/planning-proposals";
 import { planComparison, workComparison } from "../model/review-comparison";
-import { detachRequestAction, reviewRequestAction } from "../planning-actions";
+import { detachRequestAction } from "../planning-actions";
 import { AdminActionToast } from "./admin-action-toast";
 import {
   AdminGate,
@@ -19,9 +20,8 @@ import {
   SelectField,
   TextArea,
 } from "./admin-content";
-import { AdminDirtyForm } from "./admin-step-panels";
+import { AdminConfirmForm } from "./admin-step-panels";
 import { DuplicateComparison } from "./duplicate-comparison";
-import { PlanningSubmit } from "./planning-submit";
 import {
   PlanningNavigation,
   PlanningWorkspace,
@@ -29,6 +29,8 @@ import {
   ReviewDetails,
 } from "./planning-workspace";
 import workspace from "./planning-workspace.module.css";
+import { CompareRequestToggle, RequestComparison } from "./request-comparison";
+import { RequestDecision, RequestPlanSearch } from "./request-decision";
 import { ReviewHistory } from "./review-history";
 
 const panel = "space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-5";
@@ -67,12 +69,17 @@ async function RequestList({
       <div className={panel}>
         <h1 className="text-3xl font-semibold">Song requests</h1>
         <p className="text-sm text-zinc-400">
-          Private original recommendations. Review, check duplicates and attach
-          them to music plans.
+          Choose the next song to produce. Compare the original suggestions,
+          then open a request to preview and confirm your decision.
         </p>
-        <Link className={link} href="/admin/todo">
-          Open music plans
-        </Link>
+        <div className="flex flex-wrap gap-4 text-sm">
+          <Link className={link} href="/admin/review?kind=requests">
+            Open decision queue
+          </Link>
+          <Link className={link} href="/admin/todo">
+            Open production plans
+          </Link>
+        </div>
       </div>
       <form className="flex flex-wrap gap-3" method="get">
         <input
@@ -111,47 +118,89 @@ async function RequestList({
           </Link>
         </div>
       </div>
-      {requests.map((request) => (
-        <article className={workspace.queueRow} key={request.id}>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <Link
-              className={`${link} break-words font-medium`}
-              href={`/admin/requests/${encodeURIComponent(request.id)}`}
-            >
-              {request.title}
-            </Link>
-            <ReviewBadge value={request.status} />
-          </div>
-          <p className="break-words text-sm text-zinc-400">
-            {request.artist || "Unknown artist"} ·{" "}
-            {request.origin || "Original work not supplied"}
-          </p>
-          {request.ideas ? (
-            <p className="line-clamp-2 break-words text-sm leading-6 text-zinc-300">
-              {request.ideas}
-            </p>
-          ) : null}
-          <p className="text-xs text-zinc-500">
-            {request.channel} · {request.createdAt.toISOString().slice(0, 10)} ·{" "}
-            {request.plans.length} linked plans
-          </p>
-          {request.plans.map(({ plan }) => (
-            <p key={plan.id} className="text-sm">
-              <Link
-                className={link}
-                href={`/admin/todo/${encodeURIComponent(plan.id)}`}
-              >
-                {plan.title} · {plan.status}
-                {plan.completedAt
-                  ? ` · completed ${plan.completedAt.toISOString().slice(0, 10)}`
-                  : ""}
-              </Link>
-            </p>
+      {requests.length > 0 && (
+        <RequestComparison
+          key={url(page)}
+          candidates={requests.map(
+            ({ id, title, artist, origin, ideas, channel, status, plans }) => ({
+              id,
+              title,
+              artist,
+              origin,
+              ideas,
+              channel,
+              status,
+              plans: plans.map(({ plan }) => ({
+                id: plan.id,
+                title: plan.title,
+                status: plan.status,
+              })),
+            }),
+          )}
+        >
+          {requests.map((request) => (
+            <article className={workspace.queueRow} key={request.id}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <Link
+                  className={`${link} break-words font-medium`}
+                  href={`/admin/requests/${encodeURIComponent(request.id)}`}
+                >
+                  {request.title}
+                </Link>
+                <ReviewBadge value={request.status} />
+              </div>
+              <p className="break-words text-sm text-zinc-400">
+                {request.artist || "Unknown artist"} ·{" "}
+                {request.origin || "Original work not supplied"}
+              </p>
+              {request.ideas ? (
+                <p className="line-clamp-2 break-words text-sm leading-6 text-zinc-300">
+                  {request.ideas}
+                </p>
+              ) : null}
+              <p className="text-xs text-zinc-500">
+                {request.channel} ·{" "}
+                {request.createdAt.toISOString().slice(0, 10)} ·{" "}
+                {request.plans.length} linked plans
+              </p>
+              {request.plans.map(({ plan }) => (
+                <p key={plan.id} className="text-sm">
+                  <Link
+                    className={link}
+                    href={`/admin/todo/${encodeURIComponent(plan.id)}`}
+                  >
+                    {plan.title} · {plan.status}
+                    {plan.completedAt
+                      ? ` · completed ${plan.completedAt.toISOString().slice(0, 10)}`
+                      : ""}
+                  </Link>
+                </p>
+              ))}
+              <CompareRequestToggle id={request.id} title={request.title} />
+            </article>
           ))}
-        </article>
-      ))}
+        </RequestComparison>
+      )}
       {!requests.length ? (
-        <p className="text-zinc-400">No song requests match this view.</p>
+        <div className={panel}>
+          <p className="text-zinc-400">No song requests match this view.</p>
+          <div className="flex flex-wrap gap-4 text-sm">
+            {q || status ? (
+              <Link className={link} href="/admin/requests">
+                Clear filters
+              </Link>
+            ) : null}
+            <Link
+              className={link}
+              href="/admin/planning-drafts?action=todo.analyze-proposals"
+            >
+              Review a pasted conversation
+            </Link>
+            <Link className={link} href="/admin/comment-reviews">
+              Review comment suggestions
+            </Link>
+          </div>
+        </div>
       ) : null}
       <nav className="flex gap-5" aria-label="Request pages">
         {page > 1 ? (
@@ -172,6 +221,7 @@ async function RequestList({
 export function AdminRequestDetailPage(props: {
   id: string;
   q?: string;
+  selectedPlan?: string;
   status?: string;
   message?: string;
 }) {
@@ -184,40 +234,58 @@ export function AdminRequestDetailPage(props: {
 async function RequestDetail({
   id,
   q,
+  selectedPlan,
   status,
   message,
 }: {
   id: string;
   q?: string;
+  selectedPlan?: string;
   status?: string;
   message?: string;
 }) {
   await requireAdminSession();
   const request = await getSongRequest(id);
   if (!request) notFound();
-  const sourceProposal = request.sourceDraft
-    ? reviewedProposalsSchema
-        .parse(request.sourceDraft.proposals)
-        .find((proposal) => proposal.key === request.sourceProposalKey)
+  const savedProposals = reviewedProposalsSchema.safeParse(
+    request.sourceDraft?.proposals,
+  );
+  const sourceProposal = savedProposals.success
+    ? savedProposals.data.find(
+        (proposal) => proposal.key === request.sourceProposalKey,
+      )
     : null;
-  const [[matches, works], choices] = await Promise.all([
+  const query = typeof q === "string" ? q.trim().slice(0, 200) : "";
+  const pinnedId =
+    typeof selectedPlan === "string" && selectedPlan.length <= 300
+      ? selectedPlan
+      : "";
+  const [[matches, works], choices, skipHref, pinned] = await Promise.all([
     findRequestMatches(request),
     planningPrisma().adminMusicTodo.findMany({
       where: {
         status: { not: "CANCELLED" },
-        ...(q ? { title: { contains: q, mode: "insensitive" } } : {}),
+        ...(query ? { title: { contains: query, mode: "insensitive" } } : {}),
       },
       take: 50,
       orderBy: { updatedAt: "desc" },
     }),
+    nextReviewPath("requests", id),
+    pinnedId
+      ? planningPrisma().adminMusicTodo.findUnique({ where: { id: pinnedId } })
+      : null,
   ]);
   const plans = [
     ...new Map(
-      [...request.plans.map(({ plan }) => plan), ...matches, ...choices].map(
-        (plan) => [plan.id, plan],
-      ),
+      [
+        ...request.plans.map(({ plan }) => plan),
+        ...matches,
+        ...(pinned ? [pinned] : []),
+        ...choices,
+      ].map((plan) => [plan.id, plan]),
     ).values(),
-  ];
+  ].filter((plan) => plan.status !== "CANCELLED");
+  const linkedIds = request.plans.map(({ planId }) => planId);
   return (
     <PlanningWorkspace active="requests" currentId={id}>
       <section className="space-y-5">
@@ -360,21 +428,7 @@ async function RequestDetail({
                 formId="request-review"
                 mode="request"
               />
-              <form className="flex flex-wrap gap-3" method="get">
-                <input
-                  aria-label="Find existing plan"
-                  name="q"
-                  defaultValue={q}
-                  placeholder="Find another plan by title"
-                  className="min-w-0 rounded border border-zinc-700 bg-zinc-950 p-2"
-                />
-                <button
-                  type="submit"
-                  className="rounded border border-zinc-700 px-3"
-                >
-                  Find plans
-                </button>
-              </form>
+              <RequestPlanSearch id={id} query={query} count={choices.length} />
             </div>
             {request.plans.length ? (
               <div className={panel}>
@@ -390,16 +444,26 @@ async function RequestDetail({
                     >
                       {plan.title} · {plan.status}
                     </Link>
-                    <form action={detachRequestAction}>
+                    <AdminConfirmForm
+                      action={detachRequestAction}
+                      title="Detach this plan?"
+                      confirmLabel="Detach plan"
+                      message={`Remove the link to “${plan.title}” from this recommendation?${request.plans.length === 1 ? " The recommendation will return to pending review." : ""}`}
+                    >
                       <input type="hidden" name="requestId" value={id} />
                       <input type="hidden" name="planId" value={plan.id} />
+                      <input
+                        type="hidden"
+                        name="updatedAt"
+                        value={request.updatedAt.toISOString()}
+                      />
                       <button
                         type="submit"
                         className="text-xs text-zinc-400 underline"
                       >
                         Detach incorrect link
                       </button>
-                    </form>
+                    </AdminConfirmForm>
                   </div>
                 ))}
                 <p className="text-xs text-zinc-500">
@@ -410,97 +474,100 @@ async function RequestDetail({
             ) : null}
           </div>
           <div className={workspace.editor}>
-            <AdminDirtyForm
-              action={reviewRequestAction}
-              id="request-review"
-              className={panel}
-              key={request.updatedAt.toISOString()}
-            >
-              <h2 className="font-semibold">Review request</h2>
-              <ReviewDetails title="Field state guide">
-                <FieldStateGuide />
-              </ReviewDetails>
-              <input name="requestId" type="hidden" value={id} />
-              <input
-                name="updatedAt"
-                type="hidden"
-                value={request.updatedAt.toISOString()}
-              />
-              <SelectField
-                label="Review decision"
-                name="decision"
-                value={request.status}
-                options={REQUEST_STATUSES.map((value) => ({
-                  label: value,
-                  value,
-                }))}
-              />
-              <ReviewDetails title="Private review notes">
-                <TextArea
-                  name="reviewNotes"
-                  label="Private review notes"
-                  value={request.reviewNotes}
-                  rows={3}
-                />
-              </ReviewDetails>
-              <SelectField
-                label="Plan association (used when accepting)"
-                name="planId"
-                value={request.plans[0]?.planId ?? ""}
-                options={[
-                  { label: "Create a new private plan", value: "" },
-                  ...plans.map((plan) => ({
+            <RequestDecision
+              key={`${id}-${request.updatedAt.toISOString()}`}
+              id={id}
+              title={request.title}
+              status={request.status}
+              updatedAt={request.updatedAt.toISOString()}
+              plans={plans.map((plan) => ({
+                id: plan.id,
+                title: plan.title,
+                artist: plan.sourceArtists,
+                status: plan.status,
+                visible: plan.visible,
+                updatedAt: plan.updatedAt.toISOString(),
+              }))}
+              linkedIds={linkedIds}
+              skipHref={skipHref}
+              notesField={
+                <ReviewDetails title="Private review notes">
+                  <TextArea
+                    controlId="request-review-notes"
+                    name="reviewNotes"
+                    label="Private review notes"
+                    value={request.reviewNotes}
+                    rows={3}
+                    maxLength={4000}
+                  />
+                </ReviewDetails>
+              }
+              targetField={
+                <SelectField
+                  controlId="request-plan-target"
+                  label="Existing production plan"
+                  name="planId"
+                  value={
+                    linkedIds.find((planId) =>
+                      plans.some((plan) => plan.id === planId),
+                    ) ?? ""
+                  }
+                  placeholder="Choose a plan"
+                  required
+                  options={plans.map((plan) => ({
                     label: `${plan.title} · ${plan.sourceArtists || "Unknown artist"} · ${plan.id}`,
                     value: plan.id,
-                  })),
-                ]}
-              />
-              <p className="text-xs text-zinc-400">
-                Accept to create or attach a plan. Existing plans keep their
-                current fields. The fields below are used only for a new plan;
-                original submissions stay unchanged.
-              </p>
-              <ReviewDetails title="New plan details · title, artist and direction">
-                <Field
-                  label="Plan song title"
-                  name="title"
-                  value={request.title}
-                  maxLength={300}
-                  required
+                  }))}
                 />
-                <Field
-                  label="Original work / album / game"
-                  name="from"
-                  value={request.origin}
-                  maxLength={500}
-                />
-                <Field
-                  label="Source artists"
-                  name="sourceArtists"
-                  value={request.artist}
-                  maxLength={1000}
-                />
-                <Field
-                  label="Reference URL"
-                  name="sourceUrl"
-                  value={request.sourceUrl}
-                  maxLength={2000}
-                  type="url"
-                />
-                <TextArea
-                  label="Production direction / notes"
-                  name="notes"
-                  value={request.ideas}
-                  rows={5}
-                />
-              </ReviewDetails>
-              <div className="flex flex-wrap gap-3">
-                <PlanningSubmit>Save review</PlanningSubmit>
-                <PlanningSubmit next>
-                  Save and view next recommendation
-                </PlanningSubmit>
-              </div>
-            </AdminDirtyForm>
+              }
+              planFields={
+                <div className="space-y-3">
+                  <Field
+                    controlId="request-plan-title"
+                    label="Plan song title"
+                    name="title"
+                    value={request.title}
+                    maxLength={300}
+                    required
+                  />
+                  <ReviewDetails title="Artist, source and production direction">
+                    <Field
+                      controlId="request-plan-origin"
+                      label="Original work / album / game"
+                      name="from"
+                      value={request.origin}
+                      maxLength={500}
+                    />
+                    <Field
+                      controlId="request-plan-artists"
+                      label="Source artists"
+                      name="sourceArtists"
+                      value={request.artist}
+                      maxLength={1000}
+                    />
+                    <Field
+                      controlId="request-plan-url"
+                      label="Reference URL"
+                      name="sourceUrl"
+                      value={request.sourceUrl}
+                      maxLength={2000}
+                      type="url"
+                    />
+                    <TextArea
+                      controlId="request-plan-notes"
+                      label="Production direction / notes"
+                      name="notes"
+                      value={request.ideas}
+                      rows={5}
+                      maxLength={4000}
+                    />
+                  </ReviewDetails>
+                  <ReviewDetails title="Field state guide">
+                    <FieldStateGuide />
+                  </ReviewDetails>
+                </div>
+              }
+            />
             <aside className={panel}>
               <details open>
                 <summary className="cursor-pointer font-semibold">

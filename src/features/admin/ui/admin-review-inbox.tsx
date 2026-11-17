@@ -59,6 +59,7 @@ async function ReviewInbox({
         a.id.localeCompare(b.id),
     );
   const visible = selected ? items.slice(0, 20) : items;
+  const nextSong = visible.find((item) => item.kind === "requests");
   return (
     <section className="space-y-6">
       <Link
@@ -76,6 +77,21 @@ async function ReviewInbox({
           follow-ups until YouTube confirms an owner reply.
         </p>
       </header>
+      {(!selected || selected === "requests") && (
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+          {nextSong && (
+            <Link
+              className="inline-flex items-center gap-2 rounded-md bg-zinc-100 px-4 py-2 font-medium text-zinc-950 hover:bg-white"
+              href={nextSong.href}
+            >
+              Review next song <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          )}
+          <Link className="text-sky-300 hover:underline" href="/admin/requests">
+            Compare song recommendations
+          </Link>
+        </div>
+      )}
       {message ? (
         <output
           className={status === "error" ? "text-amber-300" : "text-emerald-300"}

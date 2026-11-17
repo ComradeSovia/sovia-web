@@ -3997,6 +3997,7 @@ function getYoutubeLocaleLabel(locale: string) {
 }
 
 export function Field({
+  controlId,
   label,
   maxLength,
   name,
@@ -4007,6 +4008,7 @@ export function Field({
   value,
   warning,
 }: {
+  controlId?: string;
   label: string;
   maxLength?: number;
   name: string;
@@ -4019,8 +4021,10 @@ export function Field({
 }) {
   return (
     <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
-      <FieldLabel copyName={name} label={label} />
+      <FieldLabel controlId={controlId} copyName={name} label={label} />
       <Input
+        id={controlId}
+        aria-labelledby={controlId && `${controlId}-label`}
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         data-admin-warning={warning}
         defaultValue={value ?? ""}
@@ -4120,6 +4124,7 @@ function getYouTubePublicationDescription(status: YouTubePublicationStatus) {
 }
 
 export function SelectField({
+  controlId,
   label,
   name,
   options,
@@ -4127,6 +4132,7 @@ export function SelectField({
   required,
   value,
 }: {
+  controlId?: string;
   label: string;
   name: string;
   options: readonly { label: string; value: string }[];
@@ -4140,8 +4146,10 @@ export function SelectField({
       data-admin-db-field-name={name}
       data-admin-initial-value={value ?? ""}
     >
-      <FieldLabel copyName={name} label={label} />
+      <FieldLabel controlId={controlId} copyName={name} label={label} />
       <select
+        id={controlId}
+        aria-labelledby={controlId && `${controlId}-label`}
         className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
         key={name}
@@ -4165,6 +4173,7 @@ export function SelectField({
 }
 
 export function TextArea({
+  controlId,
   hideCopy = false,
   label,
   maxLength,
@@ -4173,6 +4182,7 @@ export function TextArea({
   rows = 8,
   value,
 }: {
+  controlId?: string;
   hideCopy?: boolean;
   label: string;
   maxLength?: number;
@@ -4183,8 +4193,14 @@ export function TextArea({
 }) {
   return (
     <div className={FIELD_STATE_CLASS} data-admin-db-field-name={name}>
-      <FieldLabel copyName={hideCopy ? undefined : name} label={label} />
+      <FieldLabel
+        controlId={controlId}
+        copyName={hideCopy ? undefined : name}
+        label={label}
+      />
       <Textarea
+        id={controlId}
+        aria-labelledby={controlId && `${controlId}-label`}
         className="border-zinc-700 bg-zinc-950 text-zinc-100 shadow-none placeholder:text-zinc-500 focus-visible:ring-zinc-500"
         defaultValue={value ?? ""}
         key={name}
@@ -4197,10 +4213,21 @@ export function TextArea({
   );
 }
 
-function FieldLabel({ copyName, label }: { copyName?: string; label: string }) {
+function FieldLabel({
+  controlId,
+  copyName,
+  label,
+}: {
+  controlId?: string;
+  copyName?: string;
+  label: string;
+}) {
   return (
-    <Label className="flex items-center justify-between gap-2 text-xs font-medium normal-case tracking-normal text-zinc-300">
-      <span>{label}</span>
+    <Label
+      htmlFor={controlId}
+      className="flex items-center justify-between gap-2 text-xs font-medium normal-case tracking-normal text-zinc-300"
+    >
+      <span id={controlId && `${controlId}-label`}>{label}</span>
       <span className="flex items-center gap-1.5">
         {copyName ? <AdminCopyFieldButton name={copyName} /> : null}
         <FieldStatus />

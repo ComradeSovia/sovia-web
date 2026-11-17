@@ -56,13 +56,11 @@ export function DuplicateComparison({
       return;
     }
     const targetName = mode === "request" ? "planId" : `target-${proposalKey}`;
-    const decisionName =
-      mode === "request" ? "decision" : `decision-${proposalKey}`;
-    const target = form.elements.namedItem(targetName),
-      decision = form.elements.namedItem(decisionName);
+    const target = form.elements.namedItem(targetName);
+    const decision = form.elements.namedItem(`decision-${proposalKey}`);
     if (
       !(target instanceof HTMLSelectElement) ||
-      !(decision instanceof HTMLSelectElement) ||
+      (mode !== "request" && !(decision instanceof HTMLSelectElement)) ||
       !Array.from(target.options).some((o) => o.value === candidate.id)
     ) {
       setMessage(
@@ -71,15 +69,17 @@ export function DuplicateComparison({
       return;
     }
     target.value = candidate.id;
-    decision.value =
-      mode === "request"
-        ? "ACCEPTED"
-        : mode === "comment"
+    const fields = [target];
+    if (mode !== "request" && decision instanceof HTMLSelectElement) {
+      decision.value =
+        mode === "comment"
           ? "attach"
           : candidate.kind === "batch"
             ? "same"
             : "merge";
-    for (const field of [target, decision]) {
+      fields.push(decision);
+    }
+    for (const field of fields) {
       field.dispatchEvent(new Event("input", { bubbles: true }));
       field.dispatchEvent(new Event("change", { bubbles: true }));
     }

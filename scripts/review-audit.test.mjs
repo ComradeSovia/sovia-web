@@ -183,7 +183,32 @@ test("audit records are transactional; request merge undo is idempotent and pres
         notes: "",
       }),
     };
-    await reviewSongRequest(input, actor);
+    const editedPlan = await db.adminMusicTodo.update({
+      where: { id: plan.id },
+      data: { notes: "Revised production direction" },
+    });
+    await assert.rejects(
+      reviewSongRequest(
+        { ...input, planUpdatedAt: plan.updatedAt.toISOString() },
+        actor,
+      ),
+      /selected plan changed/i,
+    );
+    const unchanged = await db.songRequest.findUniqueOrThrow({
+      where: { id: request.id },
+      include: { plans: true },
+    });
+    assert.equal(unchanged.status, "PENDING");
+    assert.equal(unchanged.updatedAt.toISOString(), input.updatedAt);
+    assert.equal(unchanged.plans.length, 0);
+    assert.equal(
+      await db.reviewAuditEvent.count({ where: { entityId: request.id } }),
+      0,
+    );
+    await reviewSongRequest(
+      { ...input, planUpdatedAt: editedPlan.updatedAt.toISOString() },
+      actor,
+    );
     const event = await db.reviewAuditEvent.findFirstOrThrow({
       where: { entityId: request.id, action: "REQUEST_MERGED" },
     });

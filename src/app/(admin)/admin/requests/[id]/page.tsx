@@ -10,7 +10,12 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ q?: string; status?: string; message?: string }>;
+  searchParams: Promise<{
+    q?: string;
+    selectedPlan?: string;
+    status?: string;
+    message?: string;
+  }>;
 }) {
   return (
     <AdminRequestDetailPage {...(await params)} {...(await searchParams)} />
