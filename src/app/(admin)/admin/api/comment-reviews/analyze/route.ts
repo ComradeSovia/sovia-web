@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     const input = z
       .object({
         commentId: z.string().trim().max(300).optional(),
+        candidate: z.boolean().optional(),
         q: z.string().trim().max(300).optional(),
         limit: z.preprocess(
           (v) => (v === "" || v == null ? 1 : v),

@@ -9,6 +9,7 @@ import {
   reviewItems,
 } from "../data/review-inbox";
 import { AdminGate } from "./admin-content";
+import { CommentInboxShortcuts } from "./comment-inbox-shortcuts";
 import styles from "./planning-workspace.module.css";
 
 export function AdminReviewInboxPage({
@@ -77,6 +78,9 @@ async function ReviewInbox({
           follow-ups until YouTube confirms an owner reply.
         </p>
       </header>
+      {(!selected || selected === "comments" || selected === "replies") && (
+        <CommentInboxShortcuts />
+      )}
       {(!selected || selected === "requests") && (
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
           {nextSong && (

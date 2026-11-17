@@ -85,6 +85,9 @@ const unavailable = (names) =>
     )
     .join("\n");
 const dependencies = {
+  "../model/comment-review":
+    'export const MANUAL_SOURCE_MODEL = "manual-source-link";',
+  "./admin-url": unavailable(["getAdminUrl"]),
   "./analytics-intelligence": unavailable([
     "getChannelIntelligence",
     "getContentStrategy",
@@ -113,7 +116,7 @@ registerHooks({
   resolve(specifier, context, next) {
     if (
       [dataUrl, inboxUrl].includes(context.parentURL) &&
-      specifier.startsWith("./")
+      (specifier.startsWith("./") || specifier === "../model/comment-review")
     ) {
       assert.ok(
         Object.hasOwn(dependencies, specifier),

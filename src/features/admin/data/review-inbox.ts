@@ -1,3 +1,4 @@
+import { MANUAL_SOURCE_MODEL } from "../model/comment-review";
 import { commentHash } from "./comment-source";
 import { planningPrisma } from "./song-requests";
 
@@ -18,13 +19,17 @@ const requestWhere = {
   status: { in: ["PENDING", "NEEDS_INFO"] as ("PENDING" | "NEEDS_INFO")[] },
 };
 const draftWhere = { status: "DRAFT" as const };
-const commentWhere = { reviewedAt: null, dismissedAt: null };
+const commentWhere = {
+  reviewedAt: null,
+  dismissedAt: null,
+  model: { not: MANUAL_SOURCE_MODEL },
+};
 // A copy is not a published reply. Keep follow-ups until an owner reply is detected.
 const replyWhere = {
   reviewedAt: { not: null },
   dismissedAt: null,
   replyText: { not: "" },
-  comment: { hasOwnerReply: false },
+  comment: { hasOwnerReply: false, noReplyAt: null },
 };
 const order = [{ createdAt: "asc" as const }, { id: "asc" as const }];
 export type ReviewItem = {
@@ -113,7 +118,7 @@ export async function reviewItems(
     excerpt: kind === "replies" ? r.replyText : r.sourceText,
     state:
       kind === "comments"
-        ? "Recommendations need review"
+        ? "Classification and suggestions need review"
         : !r.replyApprovedAt
           ? "Reply needs approval"
           : !r.copiedAt

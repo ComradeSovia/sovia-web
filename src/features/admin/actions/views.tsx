@@ -22,6 +22,7 @@ export type AdminActionViewProps = {
   formOutput: readonly AdminActionFormOutput[];
   renderInput: (input: AdminActionInput) => ReactNode;
   run: AdminActionRun;
+  editOutput: (output: unknown) => void;
   saveOutput: () => void;
   setInputValue: (key: string, value: string | boolean) => void;
   togglePreview: () => void;

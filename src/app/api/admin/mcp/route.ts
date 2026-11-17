@@ -48,6 +48,10 @@ import { auditDb, writeAudit } from "@sovia/admin/data/review-audit";
 import { getSongCandidateIntelligence } from "@sovia/admin/data/song-candidate-intelligence";
 import { syncAdminYoutubeAnalytics } from "@sovia/admin/data/youtube-analytics";
 import { syncAdminYoutubeComments } from "@sovia/admin/data/youtube-comments";
+import {
+  COMMENT_CATEGORIES,
+  COMMENT_REPLY_STATES,
+} from "@sovia/admin/model/comment-review";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -77,7 +81,7 @@ type ToolDefinition = {
 };
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_VERSION = "0.3.0";
+const SERVER_VERSION = "0.4.0";
 
 const readOnlyToolAnnotations = {
   destructiveHint: false,
@@ -95,6 +99,31 @@ const defaultOutputSchema = {
 const commentsListInputSchema = {
   additionalProperties: false,
   properties: {
+    category: {
+      type: "string",
+      enum: COMMENT_CATEGORIES,
+      description:
+        "Filter by the effective comment category, including human corrections.",
+    },
+    replyStatus: {
+      type: "string",
+      enum: COMMENT_REPLY_STATES,
+      description:
+        "Filter by reply workflow status. REPLIED requires a synced owner reply.",
+    },
+    candidate: {
+      type: "boolean",
+      description:
+        "Find unclassified, unlinked comments containing possible song-request phrases.",
+    },
+    unlinked: {
+      type: "boolean",
+      description: "Only comments without a linked song request.",
+    },
+    commentId: {
+      type: "string",
+      description: "Look up one original YouTube comment by exact ID.",
+    },
     hideOwn: {
       default: true,
       description:
@@ -102,9 +131,8 @@ const commentsListInputSchema = {
       type: "boolean",
     },
     hideReplied: {
-      default: true,
       description:
-        "Hide comments that the connected Sovia channel has already replied to. Keep enabled for an actionable inbox.",
+        "Defaults to true for ordinary browsing. Triage filters include replied comments by default. An explicit replyStatus takes precedence.",
       type: "boolean",
     },
     id: {
@@ -964,8 +992,19 @@ async function handleToolCall(
         return makeToolResult(
           id,
           await getAdminMcpYoutubeComments({
+            category: z
+              .enum(COMMENT_CATEGORIES)
+              .optional()
+              .parse(args.category),
+            replyStatus: z
+              .enum(COMMENT_REPLY_STATES)
+              .optional()
+              .parse(args.replyStatus),
+            candidate: toOptionalBoolean(args.candidate),
+            unlinked: toOptionalBoolean(args.unlinked),
+            commentId: toOptionalString(args.commentId),
             hideOwn: toOptionalBoolean(args.hideOwn) ?? true,
-            hideReplied: toOptionalBoolean(args.hideReplied) ?? true,
+            hideReplied: toOptionalBoolean(args.hideReplied),
             id: toOptionalString(args.id),
             limit: toInteger(args.limit, 20),
             offset: toInteger(args.offset, 0),

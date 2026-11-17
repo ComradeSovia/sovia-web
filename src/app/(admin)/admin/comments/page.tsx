@@ -15,6 +15,11 @@ export default async function AdminCommentsRoute({
     message?: string;
     hideOwn?: string;
     hideReplied?: string;
+    category?: string;
+    replyStatus?: string;
+    candidate?: string;
+    unlinked?: string;
+    commentId?: string;
     page?: string;
     q?: string;
     status?: string;

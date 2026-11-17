@@ -1,13 +1,17 @@
 import { z } from "zod";
 import type { Prisma } from "@/generated/prisma/client";
 import { commentProposalsSchema } from "../model/comment-review";
-import { currentReviewOperationId, getReviewClient } from "./review-transaction";
+import {
+  currentReviewOperationId,
+  getReviewClient,
+} from "./review-transaction";
 
 export const AUDIT_TYPES = [
   "REQUEST",
   "PLAN",
   "DRAFT",
   "COMMENT",
+  "YOUTUBE_COMMENT",
   "WORK",
   "MCP",
 ] as const;
@@ -129,6 +133,12 @@ export const undoMergeSchema = z.discriminatedUnion("kind", [
     kind: z.literal("comment-request"),
     reviewId: z.string(),
     proposalKey: z.string(),
+    requestId: z.string(),
+  }),
+  z.object({
+    kind: z.literal("manual-comment-link"),
+    reviewId: z.string(),
+    proposalKey: z.string().startsWith("manual-"),
     requestId: z.string(),
   }),
 ]);
@@ -270,6 +280,8 @@ export async function undoReviewMerge(
           reason: explanation,
         });
       }
+      await tx.$queryRaw`SELECT id FROM admin_youtube_comments WHERE id =
+        (SELECT "commentId" FROM comment_reviews WHERE id = ${payload.reviewId}) FOR UPDATE`;
       await tx.$queryRaw`SELECT id FROM comment_reviews WHERE id = ${payload.reviewId} FOR UPDATE`;
       const review = await tx.commentReview.findUniqueOrThrow({
         where: { id: payload.reviewId },
@@ -286,6 +298,39 @@ export async function undoReviewMerge(
         throw new Error(
           "The comment source has already been reassigned. Reload its current record.",
         );
+      if (payload.kind === "manual-comment-link") {
+        await tx.commentReviewRequest.delete({
+          where: {
+            reviewId_proposalKey: {
+              reviewId: review.id,
+              proposalKey: edge.proposalKey,
+            },
+          },
+        });
+        await tx.adminYoutubeComment.update({
+          where: { id: review.commentId },
+          data: { triageVersion: { increment: 1 } },
+        });
+        return writeAudit(tx, {
+          actor,
+          action: "MERGE_UNDONE",
+          entityType: "COMMENT",
+          entityId: review.id,
+          relatedType: "REQUEST",
+          relatedId: edge.requestId,
+          sourceType: "YOUTUBE_COMMENT",
+          sourceId: review.commentId,
+          title: event.title,
+          before: { linked: true, requestId: edge.requestId },
+          after: {
+            linked: false,
+            sourceUrl: review.sourceUrl,
+            sourceHash: review.sourceHash,
+          },
+          undoOfId: event.id,
+          reason: explanation,
+        });
+      }
       const proposal = commentProposalsSchema
         .parse(review.proposals)
         .find((p) => p.key === payload.proposalKey);

@@ -410,6 +410,9 @@ export function AdminActionLauncher({
             renderInput={renderInput}
             run={run}
             saveOutput={saveOutput}
+            editOutput={(output) =>
+              setRun((current) => ({ ...current, output }))
+            }
             setInputValue={updateValue}
             togglePreview={() => setResultOpen((current) => !current)}
           />

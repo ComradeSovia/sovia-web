@@ -22,7 +22,7 @@ registerHooks({
       /\/(mcp-review|comment-reviews)\.ts$/.test(context.parentURL || "")
     ) {
       return {
-        url: "data:text/javascript,export const refreshAdminYoutubeComment = (id) => globalThis.__mcpCommentRefresh(id);",
+        url: `data:text/javascript,${encodeURIComponent(`export { listAdminYoutubeComments } from "${new URL("./youtube-comments.ts", context.parentURL).href}"; export const refreshAdminYoutubeComment = (id) => globalThis.__mcpCommentRefresh(id);`)}`,
         shortCircuit: true,
       };
     }
@@ -386,6 +386,348 @@ test("MCP comments require reviewed saves and preserve source through approval, 
     assert.ok(
       copied.receipt.audit.some((event) => event.action === "REPLY_RETRIEVED"),
     );
+  }));
+
+test("triage filters, opt-out, reopening and source links survive reply and recommendation reviews", async () =>
+  fixture(async (prefix, actor) => {
+    const comment = await makeComment(prefix);
+    const read = () =>
+      handleReviewReadTool("review_get", {
+        kind: "youtube_comment",
+        id: comment.id,
+      });
+    const list = (filters) =>
+      handleReviewReadTool("review_list", {
+        kind: "youtube_comments",
+        q: prefix,
+        ...filters,
+      });
+    const original = await read();
+    assert.equal(original.category, "UNCLASSIFIED");
+    assert.equal(original.replyStatus, "UNREPLIED");
+    assert.equal((await list({ candidate: true })).total, 1);
+    const intoCategory = {
+      commentId: comment.id,
+      sourceHash: original.sourceHash,
+      triageVersion: original.triageVersion,
+      categoryOverride: "SONG_REQUEST",
+      noReply: true,
+    };
+    const ticket = await prepareMcpOperation(
+      { operation: "comment.triage", input: intoCategory },
+      actor,
+    );
+    assert.equal((await read()).replyStatus, "UNREPLIED");
+    const decision = await commitMcpOperation(confirm(ticket), actor);
+    assert.ok(
+      decision.receipt.audit.some(
+        (event) => event.action === "YOUTUBE_COMMENT_TRIAGED",
+      ),
+    );
+    assert.equal(
+      (
+        await list({
+          category: "SONG_REQUEST",
+          replyStatus: "NO_REPLY",
+          unlinked: true,
+        })
+      ).total,
+      1,
+    );
+    assert.equal((await list({})).total, 0);
+    await assert.rejects(
+      prepareMcpOperation(
+        { operation: "comment.triage", input: intoCategory },
+        actor,
+      ),
+      /changed/i,
+    );
+    const input = await saveInput(prefix, comment);
+    await assert.rejects(
+      prepareMcpOperation({ operation: "comment.save", input }, actor),
+      /no reply/i,
+    );
+    const noReplyInput = {
+      ...input,
+      replyText: "",
+      category: "SONG_REQUEST",
+      replyAdvice: "SKIP",
+      rationale: "A repeated request can be captured without a reply.",
+    };
+    await apply("comment.save", noReplyInput, actor);
+    const review = await reviewFor(comment.id);
+    await apply(
+      "comment.approve",
+      { id: review.id, version: review.version, approveReply: false },
+      actor,
+    );
+    const optedOut = await read();
+    assert.equal(optedOut.replyAdvice, "SKIP");
+    assert.equal(optedOut.links.recommendations.length, 1);
+    assert.equal(optedOut.links.currentReview.id, review.id);
+    assert.ok(optedOut.links.inbox.includes(encodeURIComponent(comment.id)));
+    assert.equal(
+      (await list({ category: "SONG_REQUEST", unlinked: true })).total,
+      0,
+    );
+    const request = await handleReviewReadTool("review_get", {
+      kind: "request",
+      id: optedOut.links.recommendations[0].id,
+    });
+    assert.equal(
+      request.links.commentSources[0].originalUrl,
+      original.sourceUrl,
+    );
+    await apply(
+      "comment.triage",
+      {
+        ...intoCategory,
+        triageVersion: optedOut.triageVersion,
+        categoryOverride: null,
+        noReply: false,
+      },
+      actor,
+    );
+    assert.equal((await read()).replyStatus, "UNREPLIED");
+    const approved = await reviewFor(comment.id);
+    await apply(
+      "reply.update",
+      {
+        id: review.id,
+        version: approved.version,
+        replyText: "Thanks for sharing!",
+      },
+      actor,
+    );
+    assert.equal((await list({ replyStatus: "DRAFTED" })).total, 1);
+    await db.adminYoutubeComment.update({
+      where: { id: comment.id },
+      data: { hasOwnerReply: true, ownerReplyCheckedAt: new Date() },
+    });
+    assert.equal((await list({ replyStatus: "DRAFTED" })).total, 0);
+    assert.equal((await list({ replyStatus: "REPLIED" })).total, 1);
+    assert.equal((await list({ replyStatus: "REPLIED", offset: 5 })).total, 1);
+  }));
+
+test("link a raw comment to an existing request only after reviewing the current target and original source", async () =>
+  fixture(async (prefix, actor) => {
+    const schema = await handleReviewReadTool("review_operation_schema", {
+      operation: "comment.link_request",
+    });
+    assert.deepEqual(schema.inputSchema.required.toSorted(), [
+      "commentId",
+      "requestId",
+      "sourceHash",
+      "triageVersion",
+    ]);
+    const comment = await makeComment(prefix);
+    const request = await db.songRequest.create({
+      data: { title: `${prefix} Existing`, channel: "WEBSITE" },
+    });
+    const read = () =>
+      handleReviewReadTool("review_get", {
+        kind: "youtube_comment",
+        id: comment.id,
+      });
+    const source = await read();
+    const input = {
+      commentId: comment.id,
+      requestId: request.id,
+      sourceHash: source.sourceHash,
+      triageVersion: source.triageVersion,
+    };
+    const prepared = await prepareMcpOperation(
+      { operation: "comment.link_request", input },
+      actor,
+    );
+    assert.equal(prepared.preview.before.request.title, request.title);
+    assert.equal((await read()).links.recommendations.length, 0);
+    await db.songRequest.update({
+      where: { id: request.id },
+      data: { status: "ARCHIVED" },
+    });
+    await assert.rejects(
+      commitMcpOperation(confirm(prepared), actor),
+      /active|changed/i,
+    );
+    assert.equal((await read()).links.recommendations.length, 0);
+    await db.songRequest.update({
+      where: { id: request.id },
+      data: { status: "PENDING" },
+    });
+    const result = await apply("comment.link_request", input, actor);
+    assert.ok(result.receipt.audit.length > 0);
+    const linked = await read();
+    assert.equal(linked.category, "SONG_REQUEST");
+    assert.equal(linked.replyStatus, "UNREPLIED");
+    assert.deepEqual(
+      linked.links.recommendations.map((item) => item.id),
+      [request.id],
+    );
+    const linkedRequest = await handleReviewReadTool("review_get", {
+      kind: "request",
+      id: request.id,
+    });
+    assert.equal(
+      linkedRequest.links.commentSources[0].originalUrl,
+      source.sourceUrl,
+    );
+    assert.equal(
+      linkedRequest.commentSources[0].review.sourceText,
+      comment.text,
+    );
+    await apply(
+      "comment.link_request",
+      { ...input, triageVersion: linked.triageVersion },
+      actor,
+    );
+    assert.equal(
+      await db.commentReviewRequest.count({ where: { requestId: request.id } }),
+      1,
+    );
+    assert.equal(
+      await db.songRequest.count({ where: { title: { startsWith: prefix } } }),
+      1,
+    );
+    const draft = {
+      ...(await saveInput(prefix, comment)),
+      proposals: [],
+      replyAdvice: "REPLY",
+    };
+    await apply("comment.save", draft, actor);
+    const afterDraft = await read();
+    assert.equal(afterDraft.replyStatus, "DRAFTED");
+    assert.equal(
+      afterDraft.links.currentReview.id,
+      linked.links.currentReview.id,
+    );
+    assert.deepEqual(
+      afterDraft.links.recommendations.map((item) => item.id),
+      [request.id],
+    );
+    const edited = await reviewFor(comment.id);
+    await apply(
+      "comment.approve",
+      { id: edited.id, version: edited.version, approveReply: false },
+      actor,
+    );
+    const approved = await reviewFor(comment.id);
+    assert.equal(approved.replyApprovedAt, null);
+    await apply(
+      "reply.approve",
+      { id: approved.id, version: approved.version },
+      actor,
+    );
+    assert.ok((await reviewFor(comment.id)).replyApprovedAt);
+    assert.equal((await read()).replyStatus, "DRAFTED");
+  }));
+
+test("manual source snapshots can be classified after opt-out or an owner reply without reopening the reply", async () =>
+  fixture(async (prefix, actor) => {
+    const request = await db.songRequest.create({
+      data: { title: `${prefix} Existing` },
+    });
+    for (const state of ["NO_REPLY", "REPLIED"]) {
+      const comment = await makeComment(prefix, state);
+      await db.adminYoutubeComment.update({
+        where: { id: comment.id },
+        data:
+          state === "REPLIED"
+            ? { hasOwnerReply: true, ownerReplyCheckedAt: new Date() }
+            : { noReplyAt: new Date() },
+      });
+      const read = () =>
+        handleReviewReadTool("review_get", {
+          kind: "youtube_comment",
+          id: comment.id,
+        });
+      const source = await read();
+      await apply(
+        "comment.link_request",
+        {
+          commentId: comment.id,
+          requestId: request.id,
+          sourceHash: source.sourceHash,
+          triageVersion: source.triageVersion,
+        },
+        actor,
+      );
+      const linked = await read();
+      const withReply = await saveInput(prefix, comment);
+      await assert.rejects(
+        prepareMcpOperation(
+          { operation: "comment.save", input: withReply },
+          actor,
+        ),
+        /no reply|already replied/i,
+      );
+      await apply(
+        "comment.save",
+        {
+          ...withReply,
+          replyText: "",
+          proposals: [],
+          replyAdvice: "SKIP",
+          category: "SONG_REQUEST",
+        },
+        actor,
+      );
+      const draft = await reviewFor(comment.id);
+      await apply(
+        "comment.approve",
+        { id: draft.id, version: draft.version, approveReply: false },
+        actor,
+      );
+      const reviewed = await reviewFor(comment.id);
+      await assert.rejects(
+        prepareMcpOperation(
+          {
+            operation: "reply.approve",
+            input: { id: reviewed.id, version: reviewed.version },
+          },
+          actor,
+        ),
+        /no reply|already replied/i,
+      );
+      assert.equal(reviewed.id, linked.links.currentReview.id);
+      assert.equal(reviewed.replyAdvice, "SKIP");
+      assert.equal(reviewed.replyText, "");
+      const final = await read();
+      assert.equal(final.replyStatus, state);
+      assert.deepEqual(
+        final.links.recommendations.map((item) => item.id),
+        [request.id],
+      );
+    }
+  }));
+
+test("an already answered comment can still become a linked song request without a second reply", async () =>
+  fixture(async (prefix, actor) => {
+    const comment = await makeComment(prefix);
+    await db.adminYoutubeComment.update({
+      where: { id: comment.id },
+      data: { hasOwnerReply: true, ownerReplyCheckedAt: new Date() },
+    });
+    const input = {
+      ...(await saveInput(prefix, comment)),
+      replyText: "",
+      category: "SONG_REQUEST",
+      replyAdvice: "SKIP",
+    };
+    await apply("comment.save", input, actor);
+    const review = await reviewFor(comment.id);
+    await apply(
+      "comment.approve",
+      { id: review.id, version: review.version, approveReply: false },
+      actor,
+    );
+    const source = await handleReviewReadTool("review_get", {
+      kind: "youtube_comment",
+      id: comment.id,
+    });
+    assert.equal(source.replyStatus, "REPLIED");
+    assert.equal(source.links.recommendations.length, 1);
+    assert.equal((await reviewFor(comment.id)).replyApprovedAt, null);
   }));
 
 test("an owner reply discovered after preview blocks recommendation approval and leaves the ticket unconsumed", async () =>

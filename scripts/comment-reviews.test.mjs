@@ -69,7 +69,12 @@ const {
   listUnprocessedCommentIds,
   updateReviewedReply,
   approveSavedReply,
+  linkCommentRequest,
+  updateCommentTriage,
 } = await import("../src/features/admin/data/comment-reviews.ts");
+const { undoReviewMerge } = await import(
+  "../src/features/admin/data/review-audit.ts"
+);
 const { isOwnerAuthor } = await import(
   "../src/features/admin/data/youtube-comments.ts"
 );
@@ -165,6 +170,11 @@ test("comment reviews preserve source, deduplicate, require human approval and b
       };
     };
     const a = await make("a");
+    assert.equal(
+      a.preview.category,
+      "SONG_REQUEST",
+      "older generated output still identifies concrete songs",
+    );
     assert.throws(
       () =>
         parseCommentOutput(
@@ -288,6 +298,36 @@ test("comment reviews preserve source, deduplicate, require human approval and b
       "batch queue advances past saved/reviewed source versions",
     );
     const bId = await save(b.preview);
+    await db.adminYoutubeComment.update({
+      where: { id: b.comment.id },
+      data: {
+        authorChannelId: `${prefix}-updated-viewer`,
+        authorDisplayName: `${prefix}-name-only`,
+      },
+    });
+    assert.deepEqual(
+      (await listUnprocessedCommentIds(connection.channelId, 5, prefix)).map(
+        (row) => row.id,
+      ),
+      [b.comment.id],
+      "an updated source identity reopens an otherwise identical cached comment",
+    );
+    assert.deepEqual(
+      await listUnprocessedCommentIds(
+        connection.channelId,
+        5,
+        `${prefix}-name-only`,
+      ),
+      [],
+      "the AI batch search is restricted to comment text",
+    );
+    await db.adminYoutubeComment.update({
+      where: { id: b.comment.id },
+      data: {
+        authorChannelId: b.comment.authorChannelId,
+        authorDisplayName: b.comment.authorDisplayName,
+      },
+    });
     await assert.rejects(
       approveCommentReview(bId, 1, false, live),
       /matching recommendation/,
@@ -361,6 +401,190 @@ test("comment reviews preserve source, deduplicate, require human approval and b
       0,
       "non-song comments can be reviewed without manufacturing recommendations",
     );
+
+    const suppress = {
+      commentId: d.comment.id,
+      sourceHash: d.meta.sourceHash,
+      triageVersion: 0,
+      noReply: true,
+      categoryOverride: "FEEDBACK",
+    };
+    await approveSavedReply(dId, 2, live);
+    const muted = await updateCommentTriage(suppress, prefix);
+    assert.ok(muted.noReplyAt);
+    assert.equal(muted.categoryOverride, "FEEDBACK");
+    const mutedReview = await db.commentReview.findUniqueOrThrow({
+      where: { id: dId },
+    });
+    assert.equal(mutedReview.replyApprovedAt, null);
+    assert.equal(
+      mutedReview.replyText,
+      d.preview.replyText,
+      "opting out keeps prior wording",
+    );
+    await assert.rejects(
+      updateCommentTriage({ ...suppress, noReply: false }, prefix),
+      /changed/,
+    );
+    await assert.rejects(
+      approveSavedReply(dId, mutedReview.version, live),
+      /blocked/,
+    );
+    await assert.rejects(
+      updateReviewedReply(dId, mutedReview.version, "new draft"),
+      /blocked/,
+    );
+    await assert.rejects(getApprovedReplyForCopy(dId, live), /approve/);
+    const reopened = await updateCommentTriage(
+      {
+        ...suppress,
+        categoryOverride: null,
+        triageVersion: muted.triageVersion,
+        noReply: false,
+      },
+      prefix,
+    );
+    assert.equal(reopened.noReplyAt, null);
+    await assert.rejects(
+      getApprovedReplyForCopy(dId, live),
+      /approve/,
+      "reopening never reapproves old wording",
+    );
+
+    const e = await make("already-answered");
+    await db.adminYoutubeComment.update({
+      where: { id: e.comment.id },
+      data: { hasOwnerReply: true },
+    });
+    assert.ok(
+      (
+        await listUnprocessedCommentIds(connection.channelId, 5, prefix, true)
+      ).some((row) => row.id === e.comment.id),
+      "answered potential song still discoverable",
+    );
+    await assert.rejects(save(e.preview), /Already replied/);
+    const songOnly = parseCommentOutput(
+      JSON.stringify({
+        ...e.generated,
+        category: "SONG_REQUEST",
+        replyAdvice: "REPLY",
+      }),
+      e.meta,
+      false,
+    );
+    assert.equal(songOnly.replyText, "");
+    assert.equal(songOnly.replyAdvice, "SKIP");
+    const eId = await save(songOnly);
+    await updateCommentReview(
+      eId,
+      1,
+      songOnly.proposals.map((p) => ({
+        ...p,
+        decision: "attach",
+        target: request.id,
+      })),
+      "",
+    );
+    await approveCommentReview(eId, 2, false, live);
+    assert.equal(
+      await db.commentReviewRequest.count({
+        where: { reviewId: eId, requestId: request.id },
+      }),
+      1,
+      "can finish associating a song after already replying",
+    );
+    const manual = await make("direct-source", false);
+    const link = {
+      commentId: manual.comment.id,
+      sourceHash: manual.meta.sourceHash,
+      triageVersion: 0,
+      requestId: request.id,
+    };
+    const [first, repeated] = await Promise.all([
+      linkCommentRequest(link, prefix),
+      linkCommentRequest(link, prefix),
+    ]);
+    reviewIds.push(first.reviewId);
+    assert.deepEqual(
+      first,
+      repeated,
+      "concurrent manual links create one snapshot and association",
+    );
+    const source = await db.commentReview.findUniqueOrThrow({
+      where: { id: first.reviewId },
+    });
+    assert.equal(source.sourceText, manual.comment.text);
+    assert.deepEqual(
+      source.proposals,
+      [],
+      "manual source links do not invent song details",
+    );
+    assert.equal(source.reviewedAt, null);
+    assert.equal(source.replyText, "");
+    assert.equal(
+      await save(manual.preview),
+      first.reviewId,
+      "can draft a reply after manually linking the song",
+    );
+    const draft = await db.commentReview.findUniqueOrThrow({
+      where: { id: first.reviewId },
+    });
+    assert.equal(draft.replyText, manual.preview.replyText);
+    assert.equal(draft.model, manual.meta.model);
+    assert.equal(
+      await db.commentReviewRequest.count({
+        where: { reviewId: first.reviewId },
+      }),
+      1,
+    );
+    const event = await db.reviewAuditEvent.findFirstOrThrow({
+      where: { entityId: first.reviewId, action: "COMMENT_MERGED" },
+    });
+    const undone = await undoReviewMerge(event.id, "Wrong song", prefix);
+    assert.equal(
+      undone.id,
+      (await undoReviewMerge(event.id, "Retry", prefix)).id,
+    );
+    assert.equal(
+      await db.commentReviewRequest.count({
+        where: { reviewId: first.reviewId },
+      }),
+      0,
+    );
+    assert.equal(
+      (
+        await db.commentReview.findUniqueOrThrow({
+          where: { id: first.reviewId },
+        })
+      ).sourceText,
+      manual.comment.text,
+    );
+    assert.equal(
+      await db.songRequest.count({ where: { title: { startsWith: prefix } } }),
+      1,
+      "undoing direct link keeps request without manufacturing a new one",
+    );
+    await assert.rejects(linkCommentRequest(link, prefix), /changed/);
+    const afterDismissal = await make("dismissed-link", false);
+    const dismissed = await save(afterDismissal.preview);
+    await dismissCommentReview(dismissed, 1);
+    assert.equal(
+      (
+        await linkCommentRequest(
+          {
+            ...link,
+            commentId: afterDismissal.comment.id,
+            sourceHash: afterDismissal.meta.sourceHash,
+          },
+          prefix,
+        )
+      ).reviewId,
+      dismissed,
+    );
+    assert.ok(
+      (await db.commentReview.findUniqueOrThrow({ where: { id: dismissed } }))
+        .dismissedAt,
+    );
   } finally {
     await db.commentReviewRequest.deleteMany({
       where: { reviewId: { in: reviewIds } },
@@ -377,6 +601,7 @@ test("comment reviews preserve source, deduplicate, require human approval and b
         OR: [
           { title: { contains: prefix } },
           { entityId: { in: reviewIds } },
+          { entityId: { in: commentIds } },
           { sourceId: { in: reviewIds } },
         ],
       },

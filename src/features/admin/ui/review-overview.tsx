@@ -6,6 +6,7 @@ import {
   REVIEW_LABELS,
   reviewCounts,
 } from "../data/review-inbox";
+import { CommentInboxShortcuts } from "./comment-inbox-shortcuts";
 export async function ReviewOverview() {
   await requireAdminSession();
   const counts = await reviewCounts();
@@ -40,6 +41,7 @@ export async function ReviewOverview() {
           </Link>
         ))}
       </div>
+      <CommentInboxShortcuts />
     </section>
   );
 }

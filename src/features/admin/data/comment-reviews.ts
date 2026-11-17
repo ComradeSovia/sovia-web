@@ -1,11 +1,17 @@
 import { randomUUID } from "node:crypto";
 import OpenAI from "openai";
 import { z } from "zod";
+import type { Prisma } from "@/generated/prisma/client";
 import {
+  COMMENT_CATEGORIES,
   type CommentPreview,
   commentBatchSchema,
   commentPreviewSchema,
   commentProposalsSchema,
+  commentTriageSchema,
+  linkCommentRequestSchema,
+  MANUAL_SOURCE_MODEL,
+  REPLY_ADVICE,
   youtubeCommentUrl,
 } from "../model/comment-review";
 import {
@@ -18,6 +24,7 @@ import {
   getEnabledAdminPromptByKey,
   TODO_PROPOSAL_ANALYSIS_PROMPT_TASK,
 } from "./admin-prompts";
+import { commentInboxFilter, commentInboxIndex } from "./comment-inbox-query";
 import { commentHash } from "./comment-source";
 import { writeAudit } from "./review-audit";
 import { planningPrisma } from "./song-requests";
@@ -28,7 +35,20 @@ const resultSchema = z.object({
   proposals: z.array(generatedProposalSchema).max(5),
   replyText: z.string().max(4000),
   rationale: z.string().max(2000),
+  category: z.enum(COMMENT_CATEGORIES).default("UNCLASSIFIED"),
+  replyAdvice: z.enum(REPLY_ADVICE).default("UNDECIDED"),
 });
+function awaitsAnalysis(review: {
+  model: string;
+  reviewedAt: Date | null;
+  dismissedAt: Date | null;
+}) {
+  return (
+    review.model === MANUAL_SOURCE_MODEL &&
+    !review.reviewedAt &&
+    !review.dismissedAt
+  );
+}
 function verifyEvidence(
   source: string,
   proposals: z.infer<typeof commentProposalsSchema>,
@@ -45,18 +65,28 @@ function verifyEvidence(
 }
 export function parseCommentOutput(
   text: string,
-  source: Omit<CommentPreview, "proposals" | "replyText" | "rationale">,
+  source: Omit<
+    CommentPreview,
+    "proposals" | "replyText" | "rationale" | "category" | "replyAdvice"
+  >,
+  allowReply = true,
 ) {
   const result = resultSchema.parse(JSON.parse(text));
   if (result.proposals.some((p) => !p.notes.trim()))
     throw new Error("AI omitted a production direction. Nothing was saved.");
-  if (/https?:\/\/|www\./i.test(result.replyText))
+  if (allowReply && /https?:\/\/|www\./i.test(result.replyText))
     throw new Error(
       "AI included an unverified reply link. Nothing was saved; use the verified record links beside the draft.",
     );
   const preview = commentPreviewSchema.parse({
     ...source,
     ...result,
+    category: result.proposals.length ? "SONG_REQUEST" : result.category,
+    replyAdvice: allowReply ? result.replyAdvice : "SKIP",
+    replyText:
+      allowReply && result.replyAdvice !== "SKIP"
+        ? result.replyText.trim()
+        : "",
     proposals: result.proposals.map((p) => ({
       ...p,
       key: randomUUID(),
@@ -73,8 +103,7 @@ async function analyzeComment(commentId: string, promptKey?: string) {
   const { comment, ownerChannelId, isOwn } =
     await refreshAdminYoutubeComment(commentId);
   if (isOwn) throw new Error("Skipped your own comment.");
-  if (comment.hasOwnerReply)
-    throw new Error("Skipped: you have already replied on YouTube.");
+  const allowReply = !comment.hasOwnerReply && !comment.noReplyAt;
   const sourceHash = commentHash(comment);
   const checkedAt = comment.ownerReplyCheckedAt;
   if (!checkedAt)
@@ -82,7 +111,7 @@ async function analyzeComment(commentId: string, promptKey?: string) {
   const existing = await planningPrisma().commentReview.findUnique({
     where: { commentId_sourceHash: { commentId, sourceHash } },
   });
-  if (existing) return { existing: existing.id };
+  if (existing && !awaitsAnalysis(existing)) return { existing: existing.id };
   if (!comment.text.trim() || comment.text.length > 20000)
     throw new Error(
       "Comment is empty or over 20,000 characters; review it manually.",
@@ -142,8 +171,17 @@ async function analyzeComment(commentId: string, promptKey?: string) {
           "The supplied workContext is a database snapshot of the video this comment belongs to. If a viewer clearly requests a new language or arrangement of 'this song', you may use its videoSongTitle to identify the request, explaining that contextual inference in missingInfo. Never treat requests for permission, praise for existing covers, or questions as new song requests. Do not infer an original artist or origin from the creator's video title alone. Include relevant uncertainty; do not claim other versions exist from language codes alone.",
       },
       {
+        role: "developer",
+        content:
+          "Classify the comment as SONG_REQUEST (asks for a song/adaptation, even if details are missing), QUESTION, FEEDBACK (including praise or critique), OTHER, or UNCLASSIFIED when uncertain. Set replyAdvice to REPLY if a helpful specific response is appropriate, SKIP for spam/abuse or when a response adds no value, or UNDECIDED when the creator should decide. Explain both choices briefly in rationale. For REPLY write a short draft in the viewer's language. For SKIP leave replyText empty. If allowReply is false, return SKIP and no draft; still classify and extract any songs using the same evidence rules.",
+      },
+      {
         role: "user",
-        content: JSON.stringify({ commentText: comment.text, workContext }),
+        content: JSON.stringify({
+          commentText: comment.text,
+          workContext,
+          allowReply,
+        }),
       },
     ],
     text: {
@@ -154,7 +192,13 @@ async function analyzeComment(commentId: string, promptKey?: string) {
         schema: {
           type: "object",
           additionalProperties: false,
-          required: ["proposals", "replyText", "rationale"],
+          required: [
+            "proposals",
+            "replyText",
+            "rationale",
+            "category",
+            "replyAdvice",
+          ],
           properties: {
             proposals: {
               type: "array",
@@ -172,6 +216,8 @@ async function analyzeComment(commentId: string, promptKey?: string) {
             },
             replyText: { type: "string" },
             rationale: { type: "string" },
+            category: { type: "string", enum: [...COMMENT_CATEGORIES] },
+            replyAdvice: { type: "string", enum: [...REPLY_ADVICE] },
           },
         },
       },
@@ -179,17 +225,26 @@ async function analyzeComment(commentId: string, promptKey?: string) {
   });
   if (response.status !== "completed" || !response.output_text.trim())
     throw new Error("AI output was incomplete. Nothing was saved.");
-  const preview = parseCommentOutput(response.output_text, {
-    commentId,
-    sourceHash,
-    sourceText: comment.text,
-    sourceUrl: youtubeCommentUrl(comment),
-    sourceVersion: comment.updatedAt.toISOString(),
-    ownerChannelId,
-    ownerReplyCheckedAt: checkedAt.toISOString(),
-    model: prompt.model,
-    promptKey: prompt.key,
-  });
+  const preview = parseCommentOutput(
+    response.output_text,
+    {
+      commentId,
+      sourceHash,
+      sourceText: comment.text,
+      sourceUrl: youtubeCommentUrl(comment),
+      sourceVersion: comment.updatedAt.toISOString(),
+      ownerChannelId,
+      ownerReplyCheckedAt: checkedAt.toISOString(),
+      replyBlockedReason: comment.hasOwnerReply
+        ? "REPLIED"
+        : comment.noReplyAt
+          ? "NO_REPLY"
+          : null,
+      model: prompt.model,
+      promptKey: prompt.key,
+    },
+    allowReply,
+  );
   preview.rationale = `Video at generation: ${workContext.videoSongTitle || "Unknown title"} · Work ${workContext.contentId} · Vocal languages: ${workContext.vocalLanguages.join(", ") || "Unknown"}\n\n${preview.rationale}`;
   return { preview: commentPreviewSchema.parse(preview) };
 }
@@ -198,18 +253,19 @@ export async function listUnprocessedCommentIds(
   ownerChannelId: string,
   limit: number,
   q = "",
+  candidate = false,
 ) {
+  const filters = {
+    hideOwn: true,
+    ownerChannelId,
+    unprocessedForChannel: ownerChannelId,
+    candidate,
+    q,
+  };
   return planningPrisma().$queryRaw<{ id: string }[]>`
-    SELECT c.id FROM admin_youtube_comments c
-    WHERE c."hasOwnerReply" = false
-      AND c."authorChannelId" IS DISTINCT FROM ${ownerChannelId}
-      AND (${q} = '' OR strpos(lower(c.text), lower(${q})) > 0)
-      AND NOT EXISTS (
-        SELECT 1 FROM comment_reviews r WHERE r."commentId" = c.id
-          AND r."sourceVersion" = c."updatedAt" AND r."sourceText" = c.text
-          AND r."ownerChannelId" = ${ownerChannelId}
-      )
-    ORDER BY c."publishedAt" DESC, c.id ASC LIMIT ${Math.min(5, Math.max(1, limit))}`;
+    ${commentInboxIndex(filters, "text")}
+    SELECT id FROM inbox ${commentInboxFilter(filters)}
+    ORDER BY "publishedAt" DESC, id ASC LIMIT ${Math.min(5, Math.max(1, limit))}`;
 }
 
 export async function generateCommentBatch(input: {
@@ -217,6 +273,7 @@ export async function generateCommentBatch(input: {
   limit: number;
   promptKey?: string;
   q?: string;
+  candidate?: boolean;
 }) {
   const db = planningPrisma();
   const connection = await getAdminYoutubeConnection();
@@ -228,13 +285,24 @@ export async function generateCommentBatch(input: {
           connection.channelId,
           input.limit,
           input.q,
+          input.candidate,
         )
       ).map((c) => c.id);
   const candidates = await db.adminYoutubeComment.findMany({
     where: { id: { in: eligibleIds } },
     orderBy: [{ publishedAt: "desc" }, { id: "asc" }],
     take: input.limit,
-    include: { reviews: { select: { id: true, sourceHash: true } } },
+    include: {
+      reviews: {
+        select: {
+          id: true,
+          sourceHash: true,
+          model: true,
+          reviewedAt: true,
+          dismissedAt: true,
+        },
+      },
+    },
   });
   const items: CommentPreview[] = [];
   const skipped: { commentId: string; reason: string; reviewId?: string }[] =
@@ -242,7 +310,7 @@ export async function generateCommentBatch(input: {
   const queued: typeof candidates = [];
   for (const comment of candidates) {
     const existing = comment.reviews.find(
-      (r) => r.sourceHash === commentHash(comment),
+      (r) => r.sourceHash === commentHash(comment) && !awaitsAnalysis(r),
     );
     if (existing) {
       skipped.push({
@@ -312,13 +380,19 @@ export async function saveCommentBatch(value: unknown, actor = "system") {
           "Comment changed or channel switched. Generate a fresh preview.",
         );
       if (
-        comment.hasOwnerReply ||
+        !comment.ownerReplyCheckedAt ||
         comment.authorChannelId === item.ownerChannelId
       )
         throw new Error(
-          "Comment is yours or already replied to; no draft was saved.",
+          "Comment is yours or reply status is unknown. Refresh before saving.",
+        );
+      if (item.replyText.trim() && (comment.hasOwnerReply || comment.noReplyAt))
+        throw new Error(
+          "Already replied or marked no reply. Save the classification and songs with an empty reply.",
         );
       verifyEvidence(item.sourceText, item.proposals);
+      if (item.model === MANUAL_SOURCE_MODEL)
+        throw new Error("The source-only record marker is reserved.");
       const existing = await tx.commentReview.findUnique({
         where: {
           commentId_sourceHash: {
@@ -327,6 +401,20 @@ export async function saveCommentBatch(value: unknown, actor = "system") {
           },
         },
       });
+      const analysis = {
+        proposals: item.proposals,
+        replyText: item.replyText.trim(),
+        rationale: item.rationale,
+        category: item.proposals.length
+          ? ("SONG_REQUEST" as const)
+          : item.category,
+        replyAdvice: item.replyAdvice,
+        model: item.model,
+        promptKey: item.promptKey,
+      };
+      const fillingSource = existing && awaitsAnalysis(existing);
+      if (fillingSource && existing.ownerChannelId !== item.ownerChannelId)
+        throw new Error("This source snapshot belongs to another channel.");
       const review = await tx.commentReview.upsert({
         where: {
           commentId_sourceHash: {
@@ -334,7 +422,7 @@ export async function saveCommentBatch(value: unknown, actor = "system") {
             sourceHash: item.sourceHash,
           },
         },
-        update: {},
+        update: fillingSource ? { ...analysis, version: { increment: 1 } } : {},
         create: {
           commentId: item.commentId,
           sourceHash: item.sourceHash,
@@ -342,14 +430,10 @@ export async function saveCommentBatch(value: unknown, actor = "system") {
           sourceUrl: item.sourceUrl,
           sourceVersion: new Date(item.sourceVersion),
           ownerChannelId: item.ownerChannelId,
-          proposals: item.proposals,
-          replyText: item.replyText,
-          rationale: item.rationale,
-          model: item.model,
-          promptKey: item.promptKey,
+          ...analysis,
         },
       });
-      if (!existing)
+      if (!existing || fillingSource)
         await writeAudit(tx, {
           actor,
           action: "COMMENT_DRAFT_CREATED",
@@ -360,6 +444,8 @@ export async function saveCommentBatch(value: unknown, actor = "system") {
             sourceHash: review.sourceHash,
             proposals: review.proposals,
             replyText: review.replyText,
+            category: review.category,
+            replyAdvice: review.replyAdvice,
             version: review.version,
           },
         });
@@ -367,6 +453,233 @@ export async function saveCommentBatch(value: unknown, actor = "system") {
     }
   });
   return { reviewIds };
+}
+
+export async function updateCommentTriage(
+  value: z.input<typeof commentTriageSchema>,
+  actor = "system",
+) {
+  const input = commentTriageSchema.parse(value);
+  return planningPrisma().$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT id FROM admin_youtube_comments WHERE id = ${input.commentId} FOR UPDATE`;
+    const before = await tx.adminYoutubeComment.findUniqueOrThrow({
+      where: { id: input.commentId },
+    });
+    if (
+      input.triageVersion !== before.triageVersion ||
+      input.sourceHash !== commentHash(before)
+    )
+      throw new Error(
+        "Comment or triage decision changed. Reload before saving.",
+      );
+    if (input.noReply === true && before.hasOwnerReply)
+      throw new Error("You have already replied on YouTube.");
+    const categoryOverride =
+      input.categoryOverride === undefined
+        ? before.categoryOverride
+        : input.categoryOverride;
+    const noReplyAt =
+      input.noReply === undefined
+        ? before.noReplyAt
+        : input.noReply
+          ? (before.noReplyAt ?? new Date())
+          : null;
+    const select = {
+      id: true,
+      categoryOverride: true,
+      noReplyAt: true,
+      triageVersion: true,
+    } as const;
+    if (
+      categoryOverride === before.categoryOverride &&
+      Boolean(noReplyAt) === Boolean(before.noReplyAt)
+    )
+      return {
+        id: before.id,
+        categoryOverride,
+        noReplyAt,
+        triageVersion: before.triageVersion,
+      };
+    const after = await tx.adminYoutubeComment.update({
+      where: { id: input.commentId },
+      data: { categoryOverride, noReplyAt, triageVersion: { increment: 1 } },
+      select,
+    });
+    // Opting back in can recover the draft text, but needs fresh approval to copy.
+    if (noReplyAt && !before.noReplyAt) {
+      const approved = await tx.commentReview.findMany({
+        where: { commentId: before.id, replyApprovedAt: { not: null } },
+        select: { id: true, replyApprovedAt: true, version: true },
+      });
+      await tx.commentReview.updateMany({
+        where: { commentId: before.id, replyApprovedAt: { not: null } },
+        data: { replyApprovedAt: null, version: { increment: 1 } },
+      });
+      for (const review of approved) {
+        await writeAudit(tx, {
+          actor,
+          action: "REPLY_APPROVAL_REVOKED",
+          entityType: "COMMENT",
+          entityId: review.id,
+          relatedType: "YOUTUBE_COMMENT",
+          relatedId: before.id,
+          title: `Comment review ${review.id}`,
+          before: {
+            replyApprovedAt: review.replyApprovedAt,
+            version: review.version,
+          },
+          after: { replyApprovedAt: null, version: review.version + 1 },
+          reason: "The creator chose not to reply.",
+        });
+      }
+    }
+    await writeAudit(tx, {
+      actor,
+      action: "YOUTUBE_COMMENT_TRIAGED",
+      entityType: "YOUTUBE_COMMENT",
+      entityId: before.id,
+      sourceType: "WORK",
+      sourceId: before.contentId,
+      title: `YouTube comment by ${before.authorDisplayName}`,
+      before: {
+        categoryOverride: before.categoryOverride,
+        noReplyAt: before.noReplyAt,
+        triageVersion: before.triageVersion,
+      },
+      after: {
+        ...after,
+        sourceHash: input.sourceHash,
+        sourceUrl: youtubeCommentUrl(before),
+      },
+    });
+    return after;
+  });
+}
+
+export async function linkCommentRequest(
+  value: z.input<typeof linkCommentRequestSchema>,
+  actor = "system",
+) {
+  const input = linkCommentRequestSchema.parse(value);
+  return planningPrisma().$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT id FROM admin_youtube_comments WHERE id = ${input.commentId} FOR UPDATE`;
+    const comment = await tx.adminYoutubeComment.findUniqueOrThrow({
+      where: { id: input.commentId },
+    });
+    if (commentHash(comment) !== input.sourceHash)
+      throw new Error(
+        "The source comment changed. Reload before linking the request.",
+      );
+    const identity = {
+      commentId: input.commentId,
+      sourceHash: input.sourceHash,
+    };
+    const existing = await tx.commentReview.findUnique({
+      where: { commentId_sourceHash: identity },
+      include: { requests: { where: { requestId: input.requestId }, take: 1 } },
+    });
+    // A retried association must not override a more recent category or reply decision.
+    if (existing?.requests.length)
+      return {
+        reviewId: existing.id,
+        requestId: input.requestId,
+        triageVersion: comment.triageVersion,
+      };
+    if (input.triageVersion !== comment.triageVersion)
+      throw new Error(
+        "Comment triage changed. Reload before linking the request.",
+      );
+    const connection = await tx.adminYoutubeConnection.findUniqueOrThrow({
+      where: { id: "primary" },
+      select: { channelId: true },
+    });
+    if (
+      comment.authorChannelId === connection.channelId ||
+      (existing && existing.ownerChannelId !== connection.channelId)
+    )
+      throw new Error(
+        "The selected source must be a viewer comment from the connected channel.",
+      );
+    await tx.$queryRaw`SELECT id FROM song_requests WHERE id = ${input.requestId} FOR SHARE`;
+    const request = await tx.songRequest.findUniqueOrThrow({
+      where: { id: input.requestId },
+      select: { id: true, title: true, status: true },
+    });
+    if (request.status === "ARCHIVED" || request.status === "REJECTED")
+      throw new Error("Select an active song request.");
+    const review =
+      existing ??
+      (await tx.commentReview.create({
+        data: {
+          ...identity,
+          sourceVersion: comment.updatedAt,
+          sourceText: comment.text,
+          sourceUrl: youtubeCommentUrl(comment),
+          ownerChannelId: connection.channelId,
+          proposals: [],
+          replyText: "",
+          rationale: "",
+          model: MANUAL_SOURCE_MODEL,
+          promptKey: "",
+        },
+      }));
+    const proposalKey = `manual-${randomUUID()}`;
+    await tx.commentReviewRequest.create({
+      data: { reviewId: review.id, proposalKey, requestId: request.id },
+    });
+    const updated = await tx.adminYoutubeComment.update({
+      where: { id: comment.id },
+      data: {
+        categoryOverride: "SONG_REQUEST",
+        triageVersion: { increment: 1 },
+      },
+      select: { triageVersion: true },
+    });
+    await writeAudit(tx, {
+      actor,
+      action: "COMMENT_MERGED",
+      entityType: "COMMENT",
+      entityId: review.id,
+      relatedType: "REQUEST",
+      relatedId: request.id,
+      sourceType: "YOUTUBE_COMMENT",
+      sourceId: comment.id,
+      title: request.title,
+      before: {
+        requestId: null,
+        categoryOverride: comment.categoryOverride,
+        triageVersion: comment.triageVersion,
+      },
+      after: {
+        requestId: request.id,
+        sourceUrl: review.sourceUrl,
+        sourceHash: review.sourceHash,
+        categoryOverride: "SONG_REQUEST",
+        triageVersion: updated.triageVersion,
+      },
+      undo: {
+        kind: "manual-comment-link",
+        reviewId: review.id,
+        proposalKey,
+        requestId: request.id,
+      },
+    });
+    return {
+      reviewId: review.id,
+      requestId: request.id,
+      triageVersion: updated.triageVersion,
+    };
+  });
+}
+
+// Lock the source before editing a review, in the same order as triage and AI
+// preview saves. A concurrent opt-out cannot leave an approved reply behind.
+async function lockReviewSource(
+  tx: Prisma.TransactionClient,
+  reviewId: string,
+) {
+  await tx.$queryRaw`SELECT id FROM admin_youtube_comments WHERE id =
+    (SELECT "commentId" FROM comment_reviews WHERE id = ${reviewId}) FOR UPDATE`;
 }
 
 export async function updateCommentReview(
@@ -379,10 +692,25 @@ export async function updateCommentReview(
   const proposals = commentProposalsSchema.parse(value);
   const reply = z.string().max(4000).parse(replyText);
   return planningPrisma().$transaction(async (tx) => {
+    await lockReviewSource(tx, id);
     await tx.$queryRaw`SELECT id FROM comment_reviews WHERE id = ${id} FOR UPDATE`;
-    const review = await tx.commentReview.findUniqueOrThrow({ where: { id } });
+    const review = await tx.commentReview.findUniqueOrThrow({
+      where: { id },
+      include: { comment: true },
+    });
     if (review.version !== version || review.reviewedAt || review.dismissedAt)
       throw new Error("This review changed or is read-only. Reload first.");
+    if (
+      reply.trim() &&
+      reply !== review.replyText &&
+      (review.comment.hasOwnerReply ||
+        review.comment.noReplyAt ||
+        !review.comment.ownerReplyCheckedAt ||
+        commentHash(review.comment) !== review.sourceHash)
+    )
+      throw new Error(
+        "Refresh this comment and check the reply decision before editing the reply.",
+      );
     const old = commentProposalsSchema.parse(review.proposals);
     if (
       old.length !== proposals.length ||
@@ -407,6 +735,9 @@ export async function updateCommentReview(
       data: {
         proposals,
         replyText: reply,
+        ...(review.model === MANUAL_SOURCE_MODEL
+          ? { model: "manual-edit" }
+          : {}),
         replyApprovedAt: null,
         version: { increment: 1 },
       },
@@ -446,10 +777,11 @@ export async function approveCommentReview(
   if (
     live.ownerChannelId !== snapshot.ownerChannelId ||
     live.isOwn ||
-    live.comment.hasOwnerReply
+    !live.comment.ownerReplyCheckedAt ||
+    (approveReply && (live.comment.hasOwnerReply || live.comment.noReplyAt))
   )
     throw new Error(
-      "Already replied, your own comment, or channel changed. Dismiss this review; no recommendations or replies were approved.",
+      "Already replied, marked no reply, or the comment/channel cannot be verified. Review recommendations separately from reply approval.",
     );
   if (commentHash(live.comment) !== snapshot.sourceHash)
     throw new Error(
@@ -458,6 +790,7 @@ export async function approveCommentReview(
   return db.$transaction(
     async (tx) => {
       await tx.$queryRaw`SELECT 1 AS locked FROM pg_advisory_xact_lock(2938138)`;
+      await lockReviewSource(tx, id);
       await tx.$queryRaw`SELECT id FROM comment_reviews WHERE id = ${id} FOR UPDATE`;
       const review = await tx.commentReview.findUniqueOrThrow({
         where: { id },
@@ -470,7 +803,13 @@ export async function approveCommentReview(
       const current = await tx.adminYoutubeComment.findUniqueOrThrow({
         where: { id: review.commentId },
       });
-      if (current.hasOwnerReply || commentHash(current) !== review.sourceHash)
+      if (
+        (approveReply &&
+          (current.hasOwnerReply ||
+            current.noReplyAt ||
+            !current.ownerReplyCheckedAt)) ||
+        commentHash(current) !== review.sourceHash
+      )
         throw new Error("Comment/reply status changed. Review again.");
       const proposals = commentProposalsSchema.parse(review.proposals);
       for (const p of proposals.filter((p) => p.decision !== "skip")) {
@@ -584,6 +923,7 @@ export async function dismissCommentReview(
   actor = "system",
 ) {
   return planningPrisma().$transaction(async (tx) => {
+    await lockReviewSource(tx, id);
     const before = await tx.commentReview.findUniqueOrThrow({ where: { id } });
     const result = await tx.commentReview.updateMany({
       where: { id, version, reviewedAt: null, dismissedAt: null },
@@ -615,10 +955,12 @@ export async function getApprovedReplyForCopy(
   if (
     live.ownerChannelId !== review.ownerChannelId ||
     live.isOwn ||
-    live.comment.hasOwnerReply
+    live.comment.hasOwnerReply ||
+    live.comment.noReplyAt ||
+    !live.comment.ownerReplyCheckedAt
   )
     throw new Error(
-      "Copy blocked: you have already replied, or the channel changed.",
+      "Copy blocked: you have already replied, opted out, or the channel/reply status cannot be verified.",
     );
   if (commentHash(live.comment) !== review.sourceHash)
     throw new Error("Copy blocked: the comment changed after review.");
@@ -630,6 +972,8 @@ export async function getApprovedReplyForCopy(
       dismissedAt: null,
       comment: {
         hasOwnerReply: false,
+        ownerReplyCheckedAt: { not: null },
+        noReplyAt: null,
         text: review.sourceText,
         updatedAt: review.sourceVersion,
       },
@@ -651,7 +995,21 @@ export async function updateReviewedReply(
 ) {
   const text = z.string().max(4000).parse(replyText);
   return planningPrisma().$transaction(async (tx) => {
-    const before = await tx.commentReview.findUniqueOrThrow({ where: { id } });
+    await lockReviewSource(tx, id);
+    const before = await tx.commentReview.findUniqueOrThrow({
+      where: { id },
+      include: { comment: true },
+    });
+    if (
+      text.trim() &&
+      (before.comment.hasOwnerReply ||
+        before.comment.noReplyAt ||
+        !before.comment.ownerReplyCheckedAt ||
+        commentHash(before.comment) !== before.sourceHash)
+    )
+      throw new Error(
+        "Reply editing blocked: already replied, opted out, or source/reply status changed.",
+      );
     const result = await tx.commentReview.updateMany({
       where: { id, version, reviewedAt: { not: null }, dismissedAt: null },
       data: {
@@ -695,15 +1053,30 @@ export async function approveSavedReply(
     live.ownerChannelId !== review.ownerChannelId ||
     live.isOwn ||
     live.comment.hasOwnerReply ||
+    live.comment.noReplyAt ||
+    !live.comment.ownerReplyCheckedAt ||
     commentHash(live.comment) !== review.sourceHash
   )
     throw new Error(
       "Reply approval blocked: already replied, source changed or channel switched.",
     );
   return db.$transaction(async (tx) => {
+    await lockReviewSource(tx, id);
     const before = await tx.commentReview.findUniqueOrThrow({ where: { id } });
     const result = await tx.commentReview.updateMany({
-      where: { id, version, reviewedAt: { not: null }, dismissedAt: null },
+      where: {
+        id,
+        version,
+        reviewedAt: { not: null },
+        dismissedAt: null,
+        comment: {
+          hasOwnerReply: false,
+          ownerReplyCheckedAt: { not: null },
+          noReplyAt: null,
+          text: review.sourceText,
+          updatedAt: review.sourceVersion,
+        },
+      },
       data: { replyApprovedAt: new Date(), version: { increment: 1 } },
     });
     if (!result.count)

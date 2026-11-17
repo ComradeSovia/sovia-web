@@ -2,7 +2,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { AdminActionViewProps } from "../actions/views";
-import { commentBatchSchema } from "../model/comment-review";
+import {
+  COMMENT_CATEGORIES,
+  commentBatchSchema,
+} from "../model/comment-review";
+import { adviceLabel, categoryLabel } from "../model/comment-triage-labels";
 export function AdminCommentReviewPreview({
   action,
   busy,
@@ -10,6 +14,7 @@ export function AdminCommentReviewPreview({
   renderInput,
   run,
   saveOutput,
+  editOutput,
 }: AdminActionViewProps) {
   const parsed = commentBatchSchema.safeParse(run.output);
   const batch = parsed.success ? parsed.data : null;
@@ -17,11 +22,9 @@ export function AdminCommentReviewPreview({
     <div className="space-y-4">
       {action.inputs.map(renderInput)}
       <p className="text-xs leading-6 text-zinc-400">
-        Checks YouTube replies live. Already replied, own comments, and saved
-        source versions are skipped. Failed checks remain unknown. Up to 5
-        comments per run; batch mode selects the next unprocessed cached
-        comments. Sync comments first for newer data. Generation and draft
-        saving do not create recommendations or send replies.
+        Each preview checks up to five synced comments against YouTube. You can
+        review song requests even after replying. A failed live check stays in
+        the skipped list with its reason.
       </p>
       {run.error ? (
         <p role="alert" className="text-sm text-red-300">
@@ -57,14 +60,78 @@ export function AdminCommentReviewPreview({
                 {item.sourceText}
               </blockquote>
               <p className="text-xs text-zinc-400">
-                No owner reply found · checked {item.ownerReplyCheckedAt}
+                YouTube checked{" "}
+                {new Date(item.ownerReplyCheckedAt).toLocaleString()} ·{" "}
+                <Link
+                  className="text-sky-300 underline"
+                  href={`/admin/comments?commentId=${encodeURIComponent(item.commentId)}`}
+                >
+                  Inbox record
+                </Link>
               </p>
+              {item.proposals.length ? (
+                <p className="text-xs text-sky-300">
+                  {categoryLabel.SONG_REQUEST}
+                </p>
+              ) : (
+                <label className="grid gap-1">
+                  Category
+                  <select
+                    className="rounded border border-zinc-700 bg-zinc-950 p-2"
+                    disabled={busy}
+                    value={item.category}
+                    onChange={(event) => {
+                      const category = COMMENT_CATEGORIES.find(
+                        (value) => value === event.target.value,
+                      );
+                      if (category)
+                        editOutput({
+                          ...batch,
+                          items: batch.items.map((other) =>
+                            other.commentId === item.commentId
+                              ? { ...other, category }
+                              : other,
+                          ),
+                        });
+                    }}
+                  >
+                    {COMMENT_CATEGORIES.map((category) => (
+                      <option key={category} value={category}>
+                        {categoryLabel[category]}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              <p className="font-semibold">{adviceLabel[item.replyAdvice]}</p>
               <p>{item.rationale}</p>
               {item.proposals.map((p) => (
                 <div key={p.key} className="space-y-1">
                   <h3 className="font-semibold">
                     {p.title} · {p.sourceArtists || "Unknown artist"}
                   </h3>
+                  <button
+                    type="button"
+                    disabled={busy}
+                    className="text-xs text-zinc-400 underline hover:text-white"
+                    onClick={() =>
+                      editOutput({
+                        ...batch,
+                        items: batch.items.map((other) =>
+                          other.commentId === item.commentId
+                            ? {
+                                ...other,
+                                proposals: other.proposals.filter(
+                                  (proposal) => proposal.key !== p.key,
+                                ),
+                              }
+                            : other,
+                        ),
+                      })
+                    }
+                  >
+                    Remove this song suggestion
+                  </button>
                   <p>
                     Audience request: {p.requestedChanges || "None specified"}
                   </p>
@@ -89,10 +156,50 @@ export function AdminCommentReviewPreview({
                   No concrete song recommendation found.
                 </p>
               ) : null}
-              <p className="whitespace-pre-wrap">
-                <strong>Reply draft:</strong>{" "}
-                {item.replyText || "No reply suggested."}
-              </p>
+              {item.replyBlockedReason ? (
+                <p className="text-xs text-amber-300">
+                  {item.replyBlockedReason === "REPLIED"
+                    ? "You have already replied on YouTube."
+                    : "You marked this comment as not planning to reply."}
+                </p>
+              ) : (
+                <label className="grid gap-1">
+                  Reply draft
+                  <textarea
+                    className="w-full rounded border border-zinc-700 bg-zinc-950 p-2 text-sm"
+                    disabled={busy}
+                    rows={3}
+                    maxLength={4000}
+                    value={item.replyText}
+                    placeholder="Leave empty to save without a reply draft"
+                    onChange={(event) =>
+                      editOutput({
+                        ...batch,
+                        items: batch.items.map((other) =>
+                          other.commentId === item.commentId
+                            ? { ...other, replyText: event.target.value }
+                            : other,
+                        ),
+                      })
+                    }
+                  />
+                </label>
+              )}
+              <button
+                type="button"
+                disabled={busy}
+                className="text-xs text-zinc-400 underline hover:text-white"
+                onClick={() =>
+                  editOutput({
+                    ...batch,
+                    items: batch.items.filter(
+                      (other) => other.commentId !== item.commentId,
+                    ),
+                  })
+                }
+              >
+                Exclude comment from this batch
+              </button>
             </article>
           ))}
           {batch.skipped.length ? (
@@ -115,7 +222,7 @@ export function AdminCommentReviewPreview({
           ) : null}
           {batch.items.length ? (
             <Button type="button" disabled={busy} onClick={saveOutput}>
-              Save private reviews — no recommendations or replies sent
+              Save reviewed drafts privately
             </Button>
           ) : null}
         </div>

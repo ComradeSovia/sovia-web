@@ -58,9 +58,9 @@ export const ADMIN_ACTIONS = [
   {
     availability: {},
     id: "comments.analyze",
-    title: "Organize comments and draft replies",
+    title: "Classify comments and draft replies",
     description:
-      "Check current YouTube replies, extract song recommendations and draft replies for private review. Nothing is accepted or sent automatically.",
+      "Identify song requests, suggest whether to reply and preview a draft with the original comment.",
     type: "ai",
     scope: "global",
     execution: {
@@ -75,6 +75,12 @@ export const ADMIN_ACTIONS = [
         type: "text",
         url: "sync",
         urlKey: "comment",
+      },
+      {
+        key: "candidate",
+        label: "Look for possible song requests in unclassified comments",
+        type: "checkbox",
+        url: "sync",
       },
       {
         key: "q",

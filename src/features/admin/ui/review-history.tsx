@@ -10,6 +10,8 @@ import { undoReviewMergeAction } from "../review-audit-actions";
 import { PlanningAdoptForm } from "./planning-adopt-form";
 
 export function auditRecordHref(type: string, id: string) {
+  if (type === "YOUTUBE_COMMENT")
+    return `/admin/comments?commentId=${encodeURIComponent(id)}`;
   if (type === "MCP") return "/admin/mcp";
   const area = {
     REQUEST: "requests",
@@ -208,7 +210,9 @@ export async function ReviewHistory({
                   <p className="text-xs leading-6 text-zinc-400">
                     {undo.data.kind === "request-plan"
                       ? "Remove only the association introduced by this merge. The plan, its later edits, Works and original source text are kept. A request with no remaining plan returns to pending review if it is still accepted."
-                      : "Move this comment source to a new pending recommendation. Keep the existing recommendation and original comment unchanged. Reply approval is revoked for review; no reply is posted."}
+                      : undo.data.kind === "manual-comment-link"
+                        ? "Remove this manually added link. Keep the original comment snapshot, its review and the selected song request."
+                        : "Move this comment source to a new pending recommendation. Keep the existing recommendation and original comment unchanged. Reply approval is revoked for review; no reply is posted."}
                   </p>
                   <PlanningAdoptForm
                     action={undoReviewMergeAction}

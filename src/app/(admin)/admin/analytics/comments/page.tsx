@@ -14,23 +14,28 @@ export const metadata: Metadata = {
 export default async function AdminAnalyticsCommentsRoute({
   searchParams,
 }: {
-  searchParams: Promise<{
-    message?: string;
-    hideOwn?: string;
-    hideReplied?: string;
-    page?: string;
-    q?: string;
-    status?: string;
-  }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { hideOwn, hideReplied, message, page, q, status } = await searchParams;
+  const search = await searchParams;
   const params = new URLSearchParams();
-  if (hideOwn) params.set("hideOwn", hideOwn);
-  if (hideReplied) params.set("hideReplied", hideReplied);
-  if (message) params.set("message", message);
-  if (page) params.set("page", page);
-  if (q) params.set("q", q);
-  if (status) params.set("status", status);
+  for (const name of [
+    "hideOwn",
+    "hideReplied",
+    "message",
+    "page",
+    "q",
+    "status",
+    "category",
+    "replyStatus",
+    "unlinked",
+    "candidate",
+    "commentId",
+    "comment",
+    "action",
+  ]) {
+    const value = search[name];
+    if (typeof value === "string" && value) params.set(name, value);
+  }
   const query = params.toString();
   redirect(query ? `/admin/comments?${query}` : "/admin/comments");
 }

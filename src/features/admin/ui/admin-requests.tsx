@@ -353,7 +353,7 @@ async function RequestDetail({
                   >
                     <Link
                       className={link}
-                      href={`/admin/comment-reviews/${encodeURIComponent(review.id)}#quote-${proposalKey}-0`}
+                      href={`/admin/comment-reviews/${encodeURIComponent(review.id)}${proposalKey.startsWith("manual-") ? "" : `#quote-${proposalKey}-0`}`}
                     >
                       Comment review · source evidence and reply record
                     </Link>

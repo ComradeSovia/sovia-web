@@ -12,6 +12,7 @@ import { requireAdminSession } from "../data/auth";
 import { commentHash } from "../data/comment-source";
 import { findRequestMatches, planningPrisma } from "../data/song-requests";
 import { commentProposalsSchema } from "../model/comment-review";
+import { adviceLabel, categoryLabel } from "../model/comment-triage-labels";
 import { normalizeSongKey, sourceEvidence } from "../model/planning-proposals";
 import { planComparison, workComparison } from "../model/review-comparison";
 import {
@@ -23,6 +24,7 @@ import {
 } from "./admin-content";
 import { AdminDirtyForm } from "./admin-step-panels";
 import { CommentReplyCopy } from "./comment-reply-copy";
+import { CommentTriageEditor } from "./comment-triage";
 import { DuplicateComparison } from "./duplicate-comparison";
 import { PlanningAdoptForm } from "./planning-adopt-form";
 import { PlanningSource } from "./planning-source";
@@ -75,6 +77,12 @@ async function ReviewList({ page }: { page: number }) {
           <Link className={link} href="/admin/comments">
             Comment inbox
           </Link>
+          <Link
+            className={link}
+            href="/admin/comments?category=SONG_REQUEST&unlinked=true"
+          >
+            Song requests to link
+          </Link>
           <Link className={link} href="/admin/requests">
             Song recommendations
           </Link>
@@ -94,14 +102,19 @@ async function ReviewList({ page }: { page: number }) {
               : item.reviewedAt
                 ? "Reviewed"
                 : "Draft"}{" "}
-            · {item._count.requests} linked recommendations ·{" "}
+            · {categoryLabel[item.comment.categoryOverride ?? item.category]} ·{" "}
+            {item._count.requests} linked recommendations ·{" "}
             {item.replyApprovedAt
               ? "Reply approved for copy"
               : "Reply not approved"}{" "}
             ·{" "}
             {item.comment.hasOwnerReply
               ? "Owner reply detected on YouTube"
-              : "Last check: no owner reply"}
+              : item.comment.noReplyAt
+                ? "Not planning to reply"
+                : item.comment.ownerReplyCheckedAt
+                  ? "Last check found no owner reply"
+                  : "Owner reply status unknown"}
             {commentHash(item.comment) !== item.sourceHash
               ? " · Source edited — re-analysis required"
               : ""}
@@ -199,6 +212,12 @@ async function ReviewDetail({
     ),
   );
   const stale = commentHash(review.comment) !== review.sourceHash;
+  const replyBlocked =
+    review.comment.hasOwnerReply ||
+    Boolean(review.comment.noReplyAt) ||
+    stale ||
+    !review.comment.ownerReplyCheckedAt;
+  const inboxHref = `/admin/comments?commentId=${encodeURIComponent(review.commentId)}`;
   const editable = !review.reviewedAt && !review.dismissedAt;
   return (
     <PlanningWorkspace active="comment-reviews" currentId={id}>
@@ -231,6 +250,9 @@ async function ReviewDetail({
                 {review.createdAt.toISOString()}
               </p>
               <div className="flex flex-wrap gap-5">
+                <Link className={link} href={inboxHref}>
+                  Comment inbox record
+                </Link>
                 <a
                   className={link}
                   href={review.sourceUrl}
@@ -254,8 +276,12 @@ async function ReviewDetail({
               </div>
               <p className="text-sm text-zinc-400">
                 {review.comment.hasOwnerReply
-                  ? "Owner reply detected — do not reply again."
-                  : "Last successful check found no owner reply."}{" "}
+                  ? "Owner reply detected on YouTube."
+                  : review.comment.noReplyAt
+                    ? "You marked this comment as not planning to reply."
+                    : review.comment.ownerReplyCheckedAt
+                      ? "Last successful check found no owner reply."
+                      : "Owner reply status is unknown."}{" "}
                 Checked:{" "}
                 {review.comment.ownerReplyCheckedAt?.toISOString() || "Unknown"}
                 . Approval and copy always check live again. Copying never marks
@@ -272,6 +298,11 @@ async function ReviewDetail({
                 <input type="hidden" name="reviewId" value={id} />
                 <PlanningSubmit>Refresh live reply status</PlanningSubmit>
               </form>
+              <CommentTriageEditor
+                comment={review.comment}
+                sourceHash={commentHash(review.comment)}
+                returnTo={`/admin/comment-reviews/${encodeURIComponent(id)}`}
+              />
             </div>
             <div className={panel}>
               <h2 className="font-semibold">
@@ -282,11 +313,29 @@ async function ReviewDetail({
                 proposals={proposals}
               />
               <p className="whitespace-pre-wrap text-sm text-zinc-400">
+                <strong className="mb-1 block text-zinc-200">
+                  {categoryLabel[review.category]} ·{" "}
+                  {adviceLabel[review.replyAdvice]}
+                </strong>
                 {review.rationale}
               </p>
             </div>
           </div>
           <div className={workspace.editor}>
+            {editable && review.requests.length > 0 && (
+              <div className={panel}>
+                <h2 className="font-semibold">Linked song requests</h2>
+                {review.requests.map(({ request, proposalKey }) => (
+                  <Link
+                    className={`block ${link}`}
+                    key={proposalKey}
+                    href={`/admin/requests/${encodeURIComponent(request.id)}`}
+                  >
+                    {request.title} · {request.status}
+                  </Link>
+                ))}
+              </div>
+            )}
             {editable ? (
               <>
                 <AdminDirtyForm
@@ -504,14 +553,27 @@ async function ReviewDetail({
                     <h2 id="reply-review" className="scroll-mt-8 font-semibold">
                       Reply draft — not sent
                     </h2>
-                    <TextArea
-                      label="Your reply text"
-                      hideCopy
-                      name="replyText"
-                      value={review.replyText}
-                      maxLength={4000}
-                      rows={5}
-                    />
+                    {replyBlocked ? (
+                      <>
+                        <input
+                          type="hidden"
+                          name="replyText"
+                          value={review.replyText}
+                        />
+                        <p className="whitespace-pre-wrap text-zinc-400">
+                          {review.replyText || "No reply drafted."}
+                        </p>
+                      </>
+                    ) : (
+                      <TextArea
+                        label="Your reply text"
+                        hideCopy
+                        name="replyText"
+                        value={review.replyText}
+                        maxLength={4000}
+                        rows={5}
+                      />
+                    )}
                     <p className="text-xs text-zinc-400">
                       Check language, tone, factual claims and any manually
                       added links. Avoid promises you do not intend to make.
@@ -540,15 +602,17 @@ async function ReviewDetail({
                       name="version"
                       value={review.version}
                     />
-                    <label className="flex items-start gap-3 text-sm">
-                      <input
-                        type="checkbox"
-                        name="approveReply"
-                        className="mt-1 size-4"
-                      />
-                      Also approve this reply draft for copying (nothing will be
-                      posted).
-                    </label>
+                    {!replyBlocked && review.replyText.trim() && (
+                      <label className="flex items-start gap-3 text-sm">
+                        <input
+                          type="checkbox"
+                          name="approveReply"
+                          className="mt-1 size-4"
+                        />
+                        Also approve this reply draft for copying (nothing will
+                        be posted).
+                      </label>
+                    )}
                   </PlanningAdoptForm>
                 </div>
                 <div className={panel}>
@@ -621,8 +685,12 @@ async function ReviewDetail({
                   <p className="whitespace-pre-wrap break-words text-sm">
                     {review.replyText || "No reply suggested."}
                   </p>
-                  {review.replyApprovedAt ? <CommentReplyCopy id={id} /> : null}
-                  {!review.dismissedAt ? (
+                  {review.replyApprovedAt &&
+                  !replyBlocked &&
+                  !review.dismissedAt ? (
+                    <CommentReplyCopy id={id} />
+                  ) : null}
+                  {!review.dismissedAt && !replyBlocked ? (
                     <>
                       <AdminDirtyForm
                         action={saveReviewedReplyAction}
@@ -650,7 +718,7 @@ async function ReviewDetail({
                           Save and view next reply
                         </PlanningSubmit>
                       </AdminDirtyForm>
-                      {!review.replyApprovedAt ? (
+                      {!review.replyApprovedAt && review.replyText.trim() ? (
                         <PlanningAdoptForm
                           action={approveSavedReplyAction}
                           nextLabel="Approve and view next reply"

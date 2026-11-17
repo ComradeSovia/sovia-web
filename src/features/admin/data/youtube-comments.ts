@@ -1,6 +1,13 @@
 import { getPrismaClient } from "@sovia/sound/data/prisma";
 import { getYouTubeAccessToken } from "@sovia/youtube-api/data/video-metadata";
-import type { Prisma } from "@/generated/prisma/client";
+import { Prisma } from "@/generated/prisma/client";
+import {
+  commentInboxFilter,
+  commentInboxIndex,
+  type InboxFilters,
+  type InboxIndexRow,
+  possibleRequest,
+} from "./comment-inbox-query";
 import { listAdminMusicWorks } from "./music-admin";
 import {
   getAdminYoutubeConnection,
@@ -69,103 +76,84 @@ export async function getAdminYoutubeCommentSyncStatus() {
   return prisma.adminYoutubeCommentSync.findUnique({ where: { id: SYNC_ID } });
 }
 
-export async function listAdminYoutubeComments({
-  contentId,
-  hideOwn = false,
-  hideReplied = false,
-  limit = 50,
-  offset = 0,
-  ownerChannelId,
-  q,
-  sort = "newest",
-}: {
-  contentId?: string;
-  hideOwn?: boolean;
-  hideReplied?: boolean;
-  limit?: number;
-  offset?: number;
-  ownerChannelId?: string;
-  q?: string;
-  sort?: YoutubeCommentSort;
-} = {}) {
-  const prisma = getPrismaClient();
-  if (!prisma) return { items: [], total: 0 };
-  const query = q?.trim();
-  const where: Prisma.AdminYoutubeCommentWhereInput = {
-    ...(contentId ? { contentId } : {}),
-    AND: [
-      ...(hideOwn
-        ? [
-            {
-              NOT: {
-                OR: [
-                  ...(ownerChannelId
-                    ? [{ authorChannelId: ownerChannelId }]
-                    : []),
-                  {
-                    authorDisplayName: {
-                      equals: "@ComradeSovia",
-                      mode: "insensitive" as const,
-                    },
-                  },
-                  {
-                    authorDisplayName: {
-                      equals: "ComradeSovia",
-                      mode: "insensitive" as const,
-                    },
-                  },
-                ],
+export async function getCommentTriageSummary(ownerChannelId?: string | null) {
+  const db = getPrismaClient();
+  const empty = { unclassified: 0, possibleRequests: 0, unlinkedRequests: 0 };
+  if (!db) return empty;
+  const [row] = await db.$queryRaw<(typeof empty)[]>`
+    ${commentInboxIndex({ hideOwn: true, ownerChannelId })}
+    SELECT count(*) FILTER(WHERE "effectiveCategory"='UNCLASSIFIED')::int AS unclassified,
+      count(*) FILTER(WHERE ${possibleRequest})::int AS "possibleRequests",
+      count(*) FILTER(WHERE "effectiveCategory"='SONG_REQUEST' AND NOT linked)::int AS "unlinkedRequests"
+    FROM inbox`;
+  return row ?? empty;
+}
+
+export async function listAdminYoutubeComments(
+  filters: InboxFilters & {
+    limit?: number;
+    offset?: number;
+    sort?: YoutubeCommentSort;
+  } = {},
+) {
+  const db = getPrismaClient();
+  if (!db) return { items: [], total: 0 };
+  const { limit = 50, offset = 0, sort = "newest" } = filters;
+  const index = commentInboxIndex(filters);
+  const where = commentInboxFilter(filters);
+  const order = {
+    oldest: Prisma.sql`"publishedAt" ASC, id ASC`,
+    mostLiked: Prisma.sql`"likeCount" DESC, "publishedAt" DESC, id ASC`,
+    mostReplies: Prisma.sql`"replyCount" DESC, "publishedAt" DESC, id ASC`,
+    newest: Prisma.sql`"publishedAt" DESC, id ASC`,
+  }[sort];
+  const [rows, count] = await Promise.all([
+    db.$queryRaw<
+      InboxIndexRow[]
+    >`${index} SELECT id, "currentReviewId", "effectiveCategory", "replyStatus" FROM inbox ${where} ORDER BY ${order} LIMIT ${Math.min(100, Math.max(1, limit))} OFFSET ${Math.max(0, offset)}`,
+    db.$queryRaw<
+      { total: number }[]
+    >`${index} SELECT count(*)::int AS total FROM inbox ${where}`,
+  ]);
+  const comments = rows.length
+    ? await db.adminYoutubeComment.findMany({
+        where: { id: { in: rows.map((row) => row.id) } },
+        include: {
+          work: {
+            select: { path: true, content: { select: { songTitle: true } } },
+          },
+          reviews: {
+            orderBy: [{ createdAt: "desc" }, { id: "asc" }],
+            select: {
+              id: true,
+              model: true,
+              category: true,
+              replyAdvice: true,
+              rationale: true,
+              sourceVersion: true,
+              sourceHash: true,
+              reviewedAt: true,
+              dismissedAt: true,
+              replyApprovedAt: true,
+              copiedAt: true,
+              requests: {
+                select: {
+                  request: { select: { id: true, title: true, status: true } },
+                },
               },
             },
-          ]
-        : []),
-      ...(hideReplied ? [{ hasOwnerReply: false }] : []),
-    ],
-    ...(query
-      ? {
-          OR: [
-            { text: { contains: query, mode: "insensitive" as const } },
-            {
-              authorDisplayName: {
-                contains: query,
-                mode: "insensitive" as const,
-              },
-            },
-            { videoId: { contains: query, mode: "insensitive" as const } },
-          ],
-        }
-      : {}),
-  };
-  const orderBy: Prisma.AdminYoutubeCommentOrderByWithRelationInput[] =
-    sort === "oldest"
-      ? [{ publishedAt: "asc" }, { id: "asc" }]
-      : sort === "mostLiked"
-        ? [{ likeCount: "desc" }, { publishedAt: "desc" }, { id: "asc" }]
-        : sort === "mostReplies"
-          ? [{ replyCount: "desc" }, { publishedAt: "desc" }, { id: "asc" }]
-          : [{ publishedAt: "desc" }, { id: "asc" }];
-  const [items, total] = await Promise.all([
-    prisma.adminYoutubeComment.findMany({
-      include: {
-        reviews: {
-          orderBy: { createdAt: "desc" },
-          take: 1,
-          select: {
-            id: true,
-            reviewedAt: true,
-            dismissedAt: true,
-            sourceVersion: true,
           },
         },
-      },
-      orderBy,
-      skip: Math.max(0, offset),
-      take: Math.min(100, Math.max(1, limit)),
-      where,
+      })
+    : [];
+  const byId = new Map(comments.map((comment) => [comment.id, comment]));
+  return {
+    items: rows.flatMap((row) => {
+      const comment = byId.get(row.id);
+      return comment ? [{ ...comment, ...row }] : [];
     }),
-    prisma.adminYoutubeComment.count({ where }),
-  ]);
-  return { items, total };
+    total: count[0]?.total ?? 0,
+  };
 }
 
 export async function syncAdminYoutubeComments({

@@ -1,9 +1,11 @@
+import { getAdminUrl } from "./admin-url";
 import {
   getChannelIntelligence,
   getContentStrategy,
   getPublishAgeIntelligence,
 } from "./analytics-intelligence";
 import { ANALYTICS_TIMEZONE, isCompletePublishWindow } from "./analytics-math";
+import type { InboxFilters } from "./comment-inbox-query";
 import { listAdminMusicWorks } from "./music-admin";
 import {
   getYoutubeAnalyticsSyncStatus,
@@ -464,34 +466,52 @@ export async function getAdminMcpTrafficSources({
 }
 
 export async function getAdminMcpYoutubeComments({
+  category,
+  replyStatus,
+  candidate,
+  unlinked,
+  commentId,
   hideOwn = true,
-  hideReplied = true,
+  hideReplied,
   id,
   limit = 20,
   offset = 0,
   q,
   sort = "newest",
-}: {
-  hideOwn?: boolean;
-  hideReplied?: boolean;
+}: Pick<
+  InboxFilters,
+  | "category"
+  | "replyStatus"
+  | "candidate"
+  | "unlinked"
+  | "commentId"
+  | "hideOwn"
+  | "hideReplied"
+  | "q"
+> & {
   id?: string;
   limit?: number;
   offset?: number;
-  q?: string;
   sort?: YoutubeCommentSort;
 }) {
   const boundedLimit = Math.min(50, Math.max(1, limit));
-  const [work, connection, works] = await Promise.all([
+  const excludeReplied = replyStatus
+    ? false
+    : (hideReplied ?? !(category || candidate || unlinked || commentId));
+  const [work, connection] = await Promise.all([
     id ? getAdminMcpContentWork(id) : null,
     getAdminYoutubeConnection(),
-    listAdminMusicWorks(),
   ]);
-  const workByContentId = new Map(works.map((item) => [item.contentId, item]));
   const [{ items, total }, sync] = await Promise.all([
     listAdminYoutubeComments({
+      category,
+      replyStatus,
+      candidate,
+      unlinked,
+      commentId,
       contentId: work?.contentId ?? id,
       hideOwn,
-      hideReplied,
+      hideReplied: excludeReplied,
       limit: boundedLimit,
       offset,
       ownerChannelId: connection?.channelId,
@@ -503,8 +523,36 @@ export async function getAdminMcpYoutubeComments({
 
   return {
     items: items.map((comment) => {
-      const commentWork = workByContentId.get(comment.contentId);
+      const currentReview = comment.reviews.find(
+        (review) => review.id === comment.currentReviewId,
+      );
+      const requests = new Map(
+        comment.reviews.flatMap((review) =>
+          review.requests.map(({ request }) => [request.id, request] as const),
+        ),
+      );
       return {
+        category: comment.effectiveCategory,
+        replyStatus: comment.replyStatus,
+        replyAdvice: currentReview?.replyAdvice ?? null,
+        rationale: currentReview?.rationale ?? null,
+        triageVersion: comment.triageVersion,
+        ownerReplyCheckedAt: comment.ownerReplyCheckedAt?.toISOString() ?? null,
+        currentReviewId: comment.currentReviewId,
+        adminUrl: getAdminUrl(
+          `/admin/comments?commentId=${encodeURIComponent(comment.id)}`,
+        ).href,
+        reviewUrl: currentReview
+          ? getAdminUrl(
+              `/admin/comment-reviews/${encodeURIComponent(currentReview.id)}`,
+            ).href
+          : null,
+        requests: Array.from(requests.values(), (request) => ({
+          ...request,
+          adminUrl: getAdminUrl(
+            `/admin/requests/${encodeURIComponent(request.id)}`,
+          ).href,
+        })),
         authorChannelId: comment.authorChannelId,
         authorDisplayName: comment.authorDisplayName,
         contentId: comment.contentId,
@@ -519,19 +567,28 @@ export async function getAdminMcpYoutubeComments({
         videoId: comment.videoId,
         work: {
           contentId: comment.contentId,
-          path: commentWork?.path ?? null,
-          title:
-            commentWork?.songTitle || commentWork?.title || comment.contentId,
+          path: comment.work.path ?? "",
+          title: comment.work.content?.songTitle || comment.contentId,
         },
         youtubeUrl: `https://www.youtube.com/watch?v=${encodeURIComponent(comment.videoId)}&lc=${encodeURIComponent(comment.id)}`,
       };
     }),
-    filters: { hideOwn, hideReplied, q: q ?? null, sort },
+    filters: {
+      category: category ?? null,
+      replyStatus: replyStatus ?? null,
+      candidate: !!candidate,
+      unlinked: !!unlinked,
+      commentId: commentId ?? null,
+      hideOwn,
+      hideReplied: excludeReplied,
+      q: q ?? null,
+      sort,
+    },
     hasMore: offset + items.length < total,
     limit: boundedLimit,
     notes: [
-      "By default, owner-authored and already-replied comments are hidden so the result is an actionable reply inbox.",
-      "Set hideOwn=false or hideReplied=false when those comments are needed for analysis.",
+      "Ordinary browsing hides owner-authored and already-replied comments. Category and candidate filters include requests on replied threads.",
+      "Candidate matches are discovery hints. An AI reply recommendation and a saved or copied draft do not confirm a YouTube reply.",
       "Channel-wide incremental sync and owner-reply checks each use YouTube Data API quota.",
     ],
     offset,

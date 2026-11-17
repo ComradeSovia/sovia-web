@@ -163,6 +163,7 @@ try {
     "analytics_content_strategy",
     "analytics_audience_geography",
     "analysis_score_song_candidate",
+    "comments_list",
     "review_list",
     "review_get",
     "review_find_duplicates",
@@ -184,6 +185,39 @@ try {
   });
   assert.equal(reviewSchema.operation, "request.review");
   assert.equal(reviewSchema.inputSchema.type, "object");
+  const triageSchema = await call("review_operation_schema", {
+    operation: "comment.triage",
+  });
+  assert.equal(triageSchema.operation, "comment.triage");
+  const linkSchema = await call("review_operation_schema", {
+    operation: "comment.link_request",
+  });
+  assert.equal(linkSchema.operation, "comment.link_request");
+  assert.ok(linkSchema.inputSchema.required.includes("requestId"));
+  const commentList = listed.tools.find(
+    (tool) => tool.name === "comments_list",
+  );
+  assert.deepEqual(commentList.inputSchema.properties.replyStatus.enum, [
+    "UNREPLIED",
+    "DRAFTED",
+    "REPLIED",
+    "NO_REPLY",
+  ]);
+  const candidates = await call("comments_list", { candidate: true, limit: 1 });
+  assert.ok(Array.isArray(candidates.items));
+  for (const comment of candidates.items) {
+    assert.equal(comment.category, "UNCLASSIFIED");
+    assert.equal(comment.requests.length, 0);
+    assert.ok(comment.adminUrl.includes("/admin/comments?commentId="));
+  }
+  const replied = await call("comments_list", {
+    replyStatus: "REPLIED",
+    limit: 1,
+  });
+  for (const comment of replied.items) {
+    assert.equal(comment.replyStatus, "REPLIED");
+    assert.equal(comment.hasOwnerReply, true);
+  }
   const commitTool = listed.tools.find((tool) => tool.name === "review_commit");
   assert.equal(commitTool.annotations.readOnlyHint, false);
   const searchTool = listed.tools.find(
@@ -263,6 +297,8 @@ try {
       invalidCredentialStatus: 401,
       readCredentialWriteDenied: true,
       reviewQueueReadable: true,
+      possibleSongRequests: candidates.total,
+      commentReplyStatesVerified: true,
       duplicateExclusion: existing.status,
       remakeOverride: true,
       vocalAndDurationCohorts: true,
