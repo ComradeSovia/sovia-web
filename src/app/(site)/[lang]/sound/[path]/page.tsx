@@ -1,8 +1,5 @@
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
-import {
-  DEFAULT_SITE_LOCALE,
-  matchSiteLocale,
-} from "@sovia/shared/i18n/site-locale";
+import { matchSiteLocale } from "@sovia/shared/i18n/site-locale";
 import {
   getSiteLocalizedPath,
   getSiteMetadataAlternates,
@@ -14,7 +11,7 @@ import {
   SoundDetail,
 } from "@sovia/sound";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 type LocalizedSoundDetailParams = Promise<{ lang: string; path: string }>;
 
@@ -37,11 +34,7 @@ export async function generateMetadata({
   const sharedCopy = getSharedCopy(locale);
   const work = await loadMusicWorkWithContent(path);
 
-  if (!work) {
-    return {
-      title: "Sound Work Not Found",
-    };
-  }
+  if (!work || !work.u2bId) notFound();
 
   const basePath = `/sound/${work.path}`;
   const description = getWorkDescription(work, locale);
@@ -90,14 +83,14 @@ export default async function LocalizedSoundDetailPage({
     notFound();
   }
 
-  if (locale === DEFAULT_SITE_LOCALE) {
-    redirect(`/sound/${path}`);
-  }
-
   const work = await loadMusicWorkWithContent(path);
 
   if (!work || !work.u2bId) {
     notFound();
+  }
+
+  if (path !== work.path) {
+    permanentRedirect(getSiteLocalizedPath(`/sound/${work.path}`, locale));
   }
 
   return <SoundDetail locale={locale} work={work} />;

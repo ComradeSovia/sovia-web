@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 import type { SoviaTestStats } from "../data/submissions";
-import {
-  getSoviaTestLocalizedPath,
-  type SoviaTestLocale,
-} from "../i18n/config";
+import type { SoviaTestLocale } from "../i18n/config";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
+import { getSoviaTestCanonicalPath } from "../i18n/routing";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
 import {
@@ -47,7 +45,7 @@ export function SoviaTestTypeComponent({
   const typeShareCopy = getSoviaTypeShareCopy(locale);
   const typeShare = getSoviaTypeSharePercentage(stats, code);
   const localizedPath = (path: string) =>
-    getSoviaTestLocalizedPath(path, locale);
+    getSoviaTestCanonicalPath(path, locale);
 
   if (!archetype) {
     return null;
@@ -81,10 +79,16 @@ export function SoviaTestTypeComponent({
               {archetype.description}
             </p>
             <div className="flex flex-wrap gap-5">
-              <Link className="btn-primary" href={localizedPath("/lab/sovia-test")}>
+              <Link
+                className="btn-primary"
+                href={localizedPath("/lab/sovia-test")}
+              >
                 {copy.typesPage.startTestLabel}
               </Link>
-              <Link className="btn-outline" href={localizedPath("/lab/sovia-test/types")}>
+              <Link
+                className="btn-outline"
+                href={localizedPath("/lab/sovia-test/types")}
+              >
                 {copy.actions.types}
               </Link>
             </div>

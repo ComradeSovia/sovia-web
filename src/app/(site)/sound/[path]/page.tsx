@@ -11,7 +11,7 @@ import {
   SoundDetail,
 } from "@sovia/sound";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -25,11 +25,7 @@ export async function generateMetadata({
   const sharedCopy = getSharedCopy(locale);
   const work = await loadMusicWorkWithContent(path);
 
-  if (!work) {
-    return {
-      title: "Sound Work Not Found",
-    };
-  }
+  if (!work || !work.u2bId) notFound();
 
   const description = getWorkDescription(work, locale);
   const basePath = `/sound/${work.path}`;
@@ -79,6 +75,10 @@ export default async function SoundDetailPage({
 
   if (!work || !work.u2bId) {
     notFound();
+  }
+
+  if (path !== work.path) {
+    permanentRedirect(getSiteLocalizedPath(`/sound/${work.path}`, locale));
   }
 
   return <SoundDetail locale={locale} work={work} />;

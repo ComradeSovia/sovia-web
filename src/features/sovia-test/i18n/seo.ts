@@ -1,16 +1,17 @@
 import { SITE_NAME, SITE_URL } from "@sovia/shared";
-import {
-  DEFAULT_SITE_LOCALE,
-  matchSiteLocale,
-} from "@sovia/shared/i18n/site-locale";
-import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import type { Metadata } from "next";
+import { DEFAULT_SOVIA_TEST_LOCALE, type SoviaTestLocale } from "./config";
+
 import {
-  DEFAULT_SOVIA_TEST_LOCALE,
-  getSoviaTestLanguageAlternates,
-  getSoviaTestLocalizedPath,
-  type SoviaTestLocale,
-} from "./config";
+  getSoviaTestCanonicalLanguageAlternates,
+  getSoviaTestCanonicalPath,
+} from "./routing";
+
+export {
+  getSoviaTestCanonicalLanguageAlternates,
+  getSoviaTestCanonicalPath,
+  getSoviaTestCanonicalSiteLocale,
+} from "./routing";
 
 type SoviaTestPageMetadataInput = {
   description: string;
@@ -18,38 +19,6 @@ type SoviaTestPageMetadataInput = {
   path: string;
   title: string;
 };
-
-export function getSoviaTestCanonicalSiteLocale(locale: SoviaTestLocale) {
-  return matchSiteLocale(locale) ?? DEFAULT_SITE_LOCALE;
-}
-
-export function getSoviaTestCanonicalPath(
-  path: string,
-  locale: SoviaTestLocale,
-) {
-  return getSiteLocalizedPath(
-    getSoviaTestLocalizedPath(path, locale),
-    getSoviaTestCanonicalSiteLocale(locale),
-  );
-}
-
-export function getSoviaTestCanonicalLanguageAlternates(path: string) {
-  const alternates = getSoviaTestLanguageAlternates(path);
-
-  return Object.fromEntries(
-    Object.entries(alternates).map(([locale, localizedPath]) => {
-      const testLocale = locale as SoviaTestLocale;
-
-      return [
-        testLocale,
-        getSiteLocalizedPath(
-          localizedPath,
-          getSoviaTestCanonicalSiteLocale(testLocale),
-        ),
-      ];
-    }),
-  ) as Record<SoviaTestLocale, string>;
-}
 
 export function getSoviaTestAlternates(path: string, locale: SoviaTestLocale) {
   return {

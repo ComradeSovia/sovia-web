@@ -7,10 +7,8 @@ import {
   SOVIA_TEST_ALL_TYPES_IMAGE,
 } from "../assets/images";
 import type { SoviaTestStats } from "../data/submissions";
-import {
-  getSoviaTestLocalizedPath,
-  type SoviaTestLocale,
-} from "../i18n/config";
+import type { SoviaTestLocale } from "../i18n/config";
+import { getSoviaTestCanonicalPath } from "../i18n/routing";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import {
   getSoviaTypeShareCopy,
@@ -33,10 +31,13 @@ export function SoviaTestTypesComponent({
   const entries = Object.entries(copy.types);
   const typeShareCopy = getSoviaTypeShareCopy(locale);
   const localizedPath = (path: string) =>
-    getSoviaTestLocalizedPath(path, locale);
+    getSoviaTestCanonicalPath(path, locale);
 
   return (
-    <section className={`${styles.root} sovia-test-ui space-y-10`} lang={locale}>
+    <section
+      className={`${styles.root} sovia-test-ui space-y-10`}
+      lang={locale}
+    >
       <SoviaTestLanguageSwitcher
         copy={copy}
         locale={locale}
@@ -84,7 +85,9 @@ export function SoviaTestTypesComponent({
           return (
             <a
               className="card flex min-h-72 flex-col gap-5"
-              href={localizedPath(`/lab/sovia-test/types/${code.toLowerCase()}`)}
+              href={localizedPath(
+                `/lab/sovia-test/types/${code.toLowerCase()}`,
+              )}
               key={code}
             >
               <Image

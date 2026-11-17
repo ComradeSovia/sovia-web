@@ -23,6 +23,7 @@ export function SoundDetail({
   const title = getWorkTitle(work);
   const hasDescription = Boolean(work.introText || work.productionNotes);
   const jsonLd = createMusicRecordingSchema({
+    locale,
     description: getWorkDescription(work, locale),
     image: work.u2bId
       ? `https://img.youtube.com/vi/${work.u2bId}/maxresdefault.jpg`

@@ -10,12 +10,15 @@ import {
 } from "@sovia/shared/i18n/site-routing";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
-  getSoviaTestLocalizedPath,
   matchSoviaTestLocale,
   SOVIA_TEST_LOCALE_STORAGE_KEY,
   SOVIA_TEST_PATH,
   type SoviaTestLocale,
 } from "@sovia/sovia-test/i18n/config";
+import {
+  getSoviaTestCanonicalPath,
+  getSoviaTestCanonicalSiteLocale,
+} from "@sovia/sovia-test/i18n/routing";
 import { type NextRequest, NextResponse } from "next/server";
 
 const PUBLIC_FILE_PATTERN = /\.[^/]+$/;
@@ -118,10 +121,6 @@ export function proxy(request: NextRequest) {
     thirdSegment === "sovia-test";
 
   if (isLegacyTest || isLabTest || isLocalizedLabTest) {
-    const siteLocale =
-      isLocalizedLabTest || (isLegacyTest && secondSegment === "test")
-        ? (matchSiteLocale(firstSegment) ?? getPreferredSiteLocale(request))
-        : getPreferredSiteLocale(request);
     const suffix = segments.slice(
       isLocalizedLabTest ? 3 : firstSegment === "test" ? 1 : 2,
     );
@@ -134,19 +133,23 @@ export function proxy(request: NextRequest) {
         : null;
     const testLocale =
       explicitTestLocale ?? legacyLocale ?? getPreferredLocale(request);
+    const siteLocale = getSoviaTestCanonicalSiteLocale(testLocale);
     const rest = explicitTestLocale ? suffix.slice(1) : suffix;
+    // The plural detail route is a legacy alias of /type/:code.
+    if (rest[0] === "types" && rest.length === 2) rest[0] = "type";
+    if (rest[0] === "type" && rest[1]) rest[1] = rest[1].toLowerCase();
     const testPath =
       SOVIA_TEST_PATH + (rest.length ? `/${rest.join("/")}` : "");
-    const canonicalPath = getSiteLocalizedPath(
-      getSoviaTestLocalizedPath(testPath, testLocale),
-      siteLocale,
-    );
+    const canonicalPath = getSoviaTestCanonicalPath(testPath, testLocale);
     const url = request.nextUrl.clone();
     let response: NextResponse;
     if (pathname !== canonicalPath || url.searchParams.has("lang")) {
       url.pathname = canonicalPath;
       url.searchParams.delete("lang");
-      response = NextResponse.redirect(url, isLegacyTest ? 308 : 307);
+      response = NextResponse.redirect(
+        url,
+        explicitTestLocale || legacyLocale ? 308 : 307,
+      );
     } else {
       url.pathname = testPath;
       url.searchParams.set("lang", testLocale);

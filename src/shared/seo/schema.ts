@@ -17,6 +17,7 @@ export type SiteSchemaCopy = {
 };
 
 export type MusicRecordingSchemaInput = {
+  locale: SiteLocale;
   description?: string;
   image?: string;
   original?: string | null;
@@ -202,6 +203,7 @@ export function createCharacterPageSchema(
 }
 
 export function createMusicRecordingSchema({
+  locale,
   description,
   image,
   original,
@@ -210,7 +212,7 @@ export function createMusicRecordingSchema({
   title,
   u2bId,
 }: MusicRecordingSchemaInput) {
-  const url = siteUrl(`/sound/${path}`);
+  const url = siteUrl(getSiteLocalizedPath(`/sound/${path}`, locale));
   const recordingId = `${url}#music-recording`;
 
   return createJsonLd([

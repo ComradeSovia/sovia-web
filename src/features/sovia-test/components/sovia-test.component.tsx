@@ -19,12 +19,9 @@ import {
 } from "../assets/images";
 import songRecommendations from "../data/song-recommendations.json";
 import type { SoviaTestStats } from "../data/submissions";
-import {
-  getSoviaTestLocalizedPath,
-  type SoviaTestLocale,
-} from "../i18n/config";
+import type { SoviaTestLocale } from "../i18n/config";
 import { getDefaultSoviaTestCopy } from "../i18n/copy";
-import { getSoviaTestCanonicalPath } from "../i18n/seo";
+import { getSoviaTestCanonicalPath } from "../i18n/routing";
 import { useSoviaTestI18n } from "../i18n/use-sovia-test-i18n";
 import { getSoviaLetterColor } from "../lib/letter-colors";
 import {
@@ -1852,7 +1849,7 @@ export function SoviaTestComponent({
     [copy, result, resultEssay, resultUrl],
   );
   const localizedPath = useCallback(
-    (path: string) => getSoviaTestLocalizedPath(path, locale),
+    (path: string) => getSoviaTestCanonicalPath(path, locale),
     [locale],
   );
   const shareUrl = useCallback(

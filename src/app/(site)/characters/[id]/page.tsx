@@ -4,11 +4,9 @@ import { getCharacterDisplayName } from "@sovia/home/data/character-names";
 import { getHomeCopy } from "@sovia/home/i18n/copy";
 import type { CharacterId } from "@sovia/home/ui/characters-page";
 import { getSharedCopy } from "@sovia/shared/i18n/copy";
+import { createSiteMetadata } from "@sovia/shared/i18n/metadata";
 import { getCurrentSiteLocale } from "@sovia/shared/i18n/server";
-import {
-  getSiteLocalizedPath,
-  getSiteMetadataAlternates,
-} from "@sovia/shared/i18n/site-routing";
+import { getSiteLocalizedPath } from "@sovia/shared/i18n/site-routing";
 import { getCharacterPath } from "@sovia/shared/seo/character-path";
 import { createCharacterPageSchema } from "@sovia/shared/seo/schema";
 import type { Metadata } from "next";
@@ -40,11 +38,12 @@ export async function generateMetadata({
 
   const locale = await getCurrentSiteLocale();
   const copy = getHomeCopy(locale).characters;
-  return {
+  return createSiteMetadata({
+    locale,
+    path: getCharacterPath(id),
     title: `${getCharacterDisplayName(id, locale)} | ${copy.title}`,
     description: copy.dossiers[id].biography,
-    alternates: getSiteMetadataAlternates(getCharacterPath(id), locale),
-  };
+  });
 }
 
 export default async function Page({ params }: PageProps) {

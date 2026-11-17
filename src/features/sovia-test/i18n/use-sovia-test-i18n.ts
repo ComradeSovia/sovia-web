@@ -1,76 +1,22 @@
 "use client";
 
-import {
-  matchSiteLocale,
-  SITE_LOCALE_STORAGE_KEY,
-} from "@sovia/shared/i18n/site-locale";
-import {
-  getSiteLocalizedPath,
-  stripSiteLocaleFromPath,
-} from "@sovia/shared/i18n/site-routing";
 import { useMemo, useState } from "react";
 import {
   DEFAULT_SOVIA_TEST_LOCALE,
   getSoviaTestLocaleFromPath,
-  getSoviaTestLocalizedPath,
   matchSoviaTestLocale,
   SOVIA_TEST_LOCALE_STORAGE_KEY,
   SOVIA_TEST_LOCALES,
   type SoviaTestLocale,
-  stripSoviaTestLocaleFromPath,
 } from "./config";
 import { getSoviaTestCopy } from "./copy";
-
-function getSiteLocaleFromPath(pathname: string) {
-  const firstSegment = pathname.split("/").filter(Boolean)[0];
-  return firstSegment ? matchSiteLocale(firstSegment) : null;
-}
-
-function getSiteLocaleFromCookie() {
-  if (typeof document === "undefined") {
-    return null;
-  }
-
-  const cookie = document.cookie
-    .split(";")
-    .map((entry) => entry.trim())
-    .find((entry) => entry.startsWith(`${SITE_LOCALE_STORAGE_KEY}=`));
-  const value = cookie?.slice(SITE_LOCALE_STORAGE_KEY.length + 1);
-
-  return value ? matchSiteLocale(decodeURIComponent(value)) : null;
-}
-
-function getSavedSiteLocale() {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  const savedLocale = window.localStorage.getItem(SITE_LOCALE_STORAGE_KEY);
-  return (
-    (savedLocale ? matchSiteLocale(savedLocale) : null) ??
-    getSiteLocaleFromCookie()
-  );
-}
+import { getSoviaTestCanonicalPath } from "./routing";
 
 export function getSoviaTestClientLocalizedPath(
   pathname: string,
   nextLocale: SoviaTestLocale,
 ) {
-  const siteLocale = getSiteLocaleFromPath(pathname) ?? getSavedSiteLocale();
-  const pathWithoutSiteLocale = siteLocale
-    ? stripSiteLocaleFromPath(pathname)
-    : pathname;
-  const pathWithoutTestLocale = stripSoviaTestLocaleFromPath(
-    pathWithoutSiteLocale,
-  );
-  const localizedTestPath = getSoviaTestLocalizedPath(
-    pathWithoutTestLocale,
-    nextLocale,
-  );
-
-  return siteLocale
-    ? getSiteLocalizedPath(localizedTestPath, siteLocale)
-    : localizedTestPath;
+  return getSoviaTestCanonicalPath(pathname, nextLocale);
 }
 
 function detectBrowserLocale(initialLocale?: SoviaTestLocale) {
