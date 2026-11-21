@@ -176,6 +176,199 @@ async function apply(operation, input, actor) {
   const ticket = await prepareMcpOperation({ operation, input }, actor);
   return commitMcpOperation(confirm(ticket), actor);
 }
+
+test("MCP content changes require confirmation, preserve omitted fields and enforce publication scope", async () =>
+  fixture(async (prefix, actor) => {
+    const contentId = `${prefix}-work`;
+    const create = {
+      contentId,
+      workType: "R",
+      content: { songTitle: "Fixture", lyrics: "Original" },
+      source: { artists: ["Artist"] },
+    };
+    const ticket = await prepareMcpOperation(
+      { operation: "content.create", input: create },
+      actor,
+    );
+    assert.equal(await db.musicWork.findUnique({ where: { contentId } }), null);
+    await commitMcpOperation(confirm(ticket), actor);
+    const before = await handleReviewReadTool("review_get", {
+      kind: "work",
+      id: contentId,
+    });
+    assert.equal(before.status.visible, false);
+    const input = {
+      contentId,
+      updatedAt: before.updatedAt.toISOString(),
+      changes: { content: { songTitle: "Updated" } },
+    };
+    const update = await prepareMcpOperation(
+      { operation: "content.update", input },
+      actor,
+    );
+    await commitMcpOperation(confirm(update), actor);
+    const after = await handleReviewReadTool("review_get", {
+      kind: "work",
+      id: contentId,
+    });
+    assert.equal(after.content.songTitle, "Updated");
+    assert.equal(after.content.lyrics, "Original");
+    assert.deepEqual(after.source.artists, ["Artist"]);
+    await assert.rejects(
+      () => prepareMcpOperation({ operation: "content.update", input }, actor),
+      /changed/i,
+    );
+    const limited = await principal(prefix, "limited", [
+      "mcp:read",
+      "mcp:review",
+    ]);
+    await assert.rejects(
+      () =>
+        prepareMcpOperation(
+          {
+            operation: "content.update",
+            input: {
+              contentId,
+              updatedAt: after.updatedAt.toISOString(),
+              changes: { status: { visible: true } },
+            },
+          },
+          limited,
+        ),
+      /mcp:publish/,
+    );
+    const audit = await db.reviewAuditEvent.findMany({
+      where: { actor: actor.actor, entityId: contentId },
+    });
+    assert.deepEqual(
+      new Set(audit.map((event) => event.action)),
+      new Set(["WORK_CREATED", "WORK_UPDATED"]),
+    );
+  }));
+
+test("MCP content patches subtitle tracks and YouTube localizations without losing unrelated metadata", async () =>
+  fixture(async (prefix, actor) => {
+    const contentId = `${prefix}-localized`;
+    await apply(
+      "content.create",
+      {
+        contentId,
+        workType: "R",
+        subtitleTracks: { en: "English captions", ja: "Japanese captions" },
+        platforms: [
+          {
+            platform: "youtube",
+            localizations: {
+              en: {
+                title: "English title",
+                description: "English description",
+              },
+              ja: { title: "Japanese title" },
+            },
+            youtubePrimaryLocale: "en",
+            subtitlePrimaryLocale: "ja",
+          },
+          { platform: "pixiv", pixivTags: ["music"] },
+        ],
+      },
+      actor,
+    );
+    const before = await handleReviewReadTool("review_get", {
+      kind: "work",
+      id: contentId,
+    });
+    assert.deepEqual(before.subtitles.tracks, {
+      en: "English captions",
+      ja: "Japanese captions",
+    });
+    const input = {
+      contentId,
+      updatedAt: before.updatedAt.toISOString(),
+      changes: {
+        subtitleTracks: {
+          en: "Updated captions",
+          ja: null,
+          ko: "Korean captions",
+        },
+        platforms: [
+          {
+            platform: "youtube",
+            localizations: {
+              en: { title: "Updated title", description: null },
+              ko: { title: "Korean title" },
+            },
+            subtitlePrimaryLocale: null,
+          },
+          { platform: "pixiv", pixivTags: ["new tag"] },
+        ],
+      },
+    };
+    const ticket = await prepareMcpOperation(
+      { operation: "content.update", input },
+      actor,
+    );
+    assert.deepEqual(
+      (await db.musicWorkSubtitles.findUniqueOrThrow({ where: { contentId } }))
+        .tracks,
+      before.subtitles.tracks,
+    );
+    await commitMcpOperation(confirm(ticket), actor);
+    const after = await handleReviewReadTool("review_get", {
+      kind: "work",
+      id: contentId,
+    });
+    assert.deepEqual(after.subtitles.tracks, {
+      en: "Updated captions",
+      ko: "Korean captions",
+    });
+    const youtube = after.platforms.find((p) => p.platform === "youtube");
+    assert.deepEqual(youtube.metadata, {
+      en: { title: "Updated title" },
+      ja: { title: "Japanese title" },
+      ko: { title: "Korean title" },
+      __admin: { youtubePrimaryLocale: "en" },
+    });
+    assert.deepEqual(
+      after.platforms.find((p) => p.platform === "pixiv").metadata,
+      { tags: ["new tag"] },
+    );
+    const stale = await prepareMcpOperation(
+      {
+        operation: "content.update",
+        input: {
+          contentId,
+          updatedAt: after.updatedAt.toISOString(),
+          changes: { subtitleTracks: { en: null } },
+        },
+      },
+      actor,
+    );
+    await db.musicWorkSubtitles.update({
+      where: { contentId },
+      data: { tracks: { en: "Changed outside MCP" } },
+    });
+    await assert.rejects(
+      () => commitMcpOperation(confirm(stale), actor),
+      /changed after preview/i,
+    );
+    await assert.rejects(() =>
+      prepareMcpOperation(
+        {
+          operation: "content.update",
+          input: {
+            contentId,
+            updatedAt: after.updatedAt.toISOString(),
+            changes: {
+              platforms: [
+                { platform: "vk", localizations: { en: { title: "Invalid" } } },
+              ],
+            },
+          },
+        },
+        actor,
+      ),
+    );
+  }));
 function proposal(prefix, overrides = {}) {
   return {
     key: "one",

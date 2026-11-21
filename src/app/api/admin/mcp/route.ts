@@ -52,6 +52,7 @@ import {
   COMMENT_CATEGORIES,
   COMMENT_REPLY_STATES,
 } from "@sovia/admin/model/comment-review";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -879,12 +880,17 @@ async function handleToolCall(
           "Missing review write permission. Reconnect and authorize the required scope.",
         );
       }
-      return makeToolResult(
-        id,
-        await (call.name === "review_prepare"
-          ? prepareMcpOperation(args, principal)
-          : commitMcpOperation(args, principal)),
-      );
+      const result = await (call.name === "review_prepare"
+        ? prepareMcpOperation(args, principal)
+        : commitMcpOperation(args, principal));
+      if (
+        call.name === "review_commit" &&
+        result.operation.startsWith("content.")
+      ) {
+        revalidatePath("/admin", "layout");
+        revalidatePath("/sound", "layout");
+      }
+      return makeToolResult(id, result);
     }
     if (call.name === "review_operation") {
       return makeToolResult(

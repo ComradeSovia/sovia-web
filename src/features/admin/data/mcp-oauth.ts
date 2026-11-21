@@ -34,9 +34,9 @@ const SCOPE_DESCRIPTIONS: Record<string, string> = {
   "mcp:draft":
     "Save reviewed AI drafts and proposed edits. Generation may use AI services and quota.",
   "mcp:review":
-    "Approve recommendations, merge sources, link works, review replies and undo merges after confirmation.",
+    "Create and edit private content, approve recommendations, merge sources, link works, review replies and undo merges after confirmation.",
   "mcp:publish":
-    "Publish, hide or change publicly displayed plans and their Work links after confirmation. The operation also requires its draft or review permission.",
+    "Publish, hide or change publicly displayed content and plans and their Work links after confirmation. The operation also requires its draft or review permission.",
   offline_access:
     "Keep this connection signed in with rotating refresh tokens (up to 90 days).",
 };

@@ -30,6 +30,13 @@ import {
 } from "./comment-reviews";
 import { commentHash } from "./comment-source";
 import {
+  applyContentChange,
+  contentCreateSchema,
+  contentUpdateSchema,
+  getReviewWork,
+  prepareContentChange,
+} from "./mcp-content";
+import {
   adoptPlanningDraft,
   refreshPlanningDraftRequest,
   saveNewPlanningDraft,
@@ -66,6 +73,8 @@ const timestamp = z.iso.datetime();
 const boundedText = (max: number) => z.string().max(max);
 const idVersion = { id: identifier, version };
 const reviewOperationSchemas = {
+  "content.create": contentCreateSchema,
+  "content.update": contentUpdateSchema,
   "request.review": z
     .object({
       id: identifier,
@@ -145,6 +154,10 @@ export const reviewOperationNames = Object.keys(
 ) as (keyof typeof reviewOperationSchemas)[];
 type Operation = keyof typeof reviewOperationSchemas;
 const operationHints: Record<Operation, string> = {
+  "content.create":
+    "Create a private content record after preview and confirmation, including subtitle tracks and platform metadata. Check for duplicates first. Publishing requires a separate content.update operation.",
+  "content.update":
+    "Update only supplied content fields after preview and confirmation. Read review_get kind=work first and provide its updatedAt. Subtitle tracks and YouTube localizations are patched by locale; null removes a track, locale, or localization field. Omitted values and unrelated metadata are preserved. Editing or publishing a visible work requires mcp:publish.",
   "request.review":
     "Review an existing recommendation. ACCEPTED with planId merges into that plan; with an empty planId and a non-null draft creates a private plan. Original submission stays immutable.",
   "draft.save":
@@ -257,6 +270,7 @@ const getSchema = z
       "comment",
       "youtube_comment",
       "audit",
+      "work",
     ]),
     id: identifier,
   })
@@ -554,6 +568,16 @@ export async function handleReviewReadTool(
   }
   if (name === "review_get") {
     const { kind, id } = getSchema.parse(args);
+    if (kind === "work") {
+      const work = await getReviewWork(id);
+      if (!work) throw new Error("Content record not found.");
+      return {
+        ...work,
+        kind,
+        id,
+        url: absolute(`/admin/content/${encodeURIComponent(id)}`),
+      };
+    }
     if (kind === "request") {
       const item = await getSongRequest(id);
       if (!item) throw new Error("Recommendation not found.");
@@ -814,7 +838,11 @@ export async function prepareReviewOperation(
   const db = planningPrisma();
   let snapshot: unknown = null;
   let requiredScope: string = reviewOperationBaseScope(key);
-  if (key === "request.review") {
+  if (key === "content.create" || key === "content.update") {
+    const prepared = await prepareContentChange(key, input);
+    snapshot = { work: prepared.work };
+    requiredScope = prepared.requiredScope;
+  } else if (key === "request.review") {
     const data = reviewOperationSchemas[key].parse(input);
     const request = await getSongRequest(data.id);
     if (!request) throw new Error("Recommendation not found.");
@@ -1172,6 +1200,9 @@ export async function executeReviewOperation(
 ): Promise<unknown> {
   const key = operationName(operation);
   const db = planningPrisma();
+  if (key === "content.create" || key === "content.update") {
+    return applyContentChange(key, value, actor);
+  }
   if (key === "request.review") {
     const input = reviewOperationSchemas[key].parse(value);
     const planId = await reviewSongRequest(
