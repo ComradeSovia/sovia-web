@@ -716,8 +716,13 @@ const tools = [
   // Draft and review cover the interactive editorial workflow. The selected
   // operation still checks its own permissions and challenges for any extra scope.
   const scopes = ["mcp:read"];
-  if (tool.name === "review_prepare" || tool.name === "review_commit")
+  if (
+    tool.name === "review_prepare" ||
+    tool.name === "review_prepare_public" ||
+    tool.name === "review_commit"
+  )
     scopes.push("mcp:draft", "mcp:review");
+  if (tool.name === "review_prepare_public") scopes.push("mcp:publish");
   if (tool.name.startsWith("analytics_sync_")) scopes.push("mcp:sync");
   const securitySchemes = [{ type: "oauth2", scopes }];
   return {
@@ -868,7 +873,11 @@ async function handleToolCall(
       principal,
       call.name.startsWith("analytics_sync_") ? "mcp:sync" : "mcp:read",
     );
-    if (call.name === "review_prepare" || call.name === "review_commit") {
+    if (
+      call.name === "review_prepare" ||
+      call.name === "review_prepare_public" ||
+      call.name === "review_commit"
+    ) {
       if (
         call.name === "review_commit" &&
         !["mcp:sync", "mcp:draft", "mcp:review", "mcp:publish"].some((scope) =>
@@ -880,7 +889,9 @@ async function handleToolCall(
           "Missing review write permission. Reconnect and authorize the required scope.",
         );
       }
-      const result = await (call.name === "review_prepare"
+      if (call.name === "review_prepare_public")
+        requireMcpScope(principal, "mcp:publish");
+      const result = await (call.name !== "review_commit"
         ? prepareMcpOperation(args, principal)
         : commitMcpOperation(args, principal));
       if (
@@ -1129,6 +1140,20 @@ async function handleToolCall(
         );
     }
   } catch (error) {
+    if (
+      error instanceof McpScopeError &&
+      error.scope === "mcp:publish" &&
+      call.name === "review_prepare"
+    )
+      return makeJsonRpcResult(id, {
+        isError: true,
+        content: [
+          {
+            type: "text",
+            text: "This change requires mcp:publish. Use review_prepare_public to reconnect and authorize public-content changes, then prepare the preview again.",
+          },
+        ],
+      });
     if (error instanceof McpScopeError)
       return makeJsonRpcResult(id, {
         isError: true,

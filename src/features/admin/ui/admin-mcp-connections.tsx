@@ -37,7 +37,9 @@ export async function AdminMcpConnections() {
           If Sovia is already registered in Codex, run just the login command.
           In ChatGPT, refresh the Sovia Web tools and reconnect with the review
           permissions. Check the draft and its source before confirming a save.
-          Sync and publication have separate permissions.
+          Sync and publication have separate permissions. For public content or
+          plans, use review_prepare_public and authorize mcp:publish. In Codex,
+          add mcp:publish to the requested scopes when signing in.
         </p>
         <p className="text-sm text-zinc-400">
           After reconnecting, refresh the application tool list. Private

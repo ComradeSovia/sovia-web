@@ -155,6 +155,16 @@ test("HTTP MCP review preserves preview/confirmation, permissions, idempotency, 
       assert.deepEqual(entry.securitySchemes, [{ type: "oauth2", scopes }]);
       assert.deepEqual(entry._meta.securitySchemes, entry.securitySchemes);
     }
+    assert.deepEqual(
+      listed.tools.find((entry) => entry.name === "review_prepare_public")
+        .securitySchemes,
+      [
+        {
+          type: "oauth2",
+          scopes: ["mcp:read", "mcp:draft", "mcp:review", "mcp:publish"],
+        },
+      ],
+    );
     for (const name of [
       "review_get",
       "review_prepare",
@@ -219,8 +229,14 @@ test("HTTP MCP review preserves preview/confirmation, permissions, idempotency, 
       "UPDATE mcp_oauth_connections SET scopes = $2 WHERE id = $1",
       [writerId, ["mcp:read", "mcp:review", "offline_access"]],
     );
-    const upgrade = await denied(
+    await denied(
       "review_prepare",
+      { ...proposal, input: { ...proposal.input, visible: true } },
+      writer,
+      /review_prepare_public/,
+    );
+    const upgrade = await denied(
+      "review_prepare_public",
       { ...proposal, input: { ...proposal.input, visible: true } },
       writer,
       /mcp:publish/,
